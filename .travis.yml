@@ -1,0 +1,29 @@
+os: osx
+language: bash
+before_deploy:
+  - rm -rf ~/.nvm
+  - git clone https://github.com/creationix/nvm.git ~/.nvm
+  - source ~/.nvm/nvm.sh
+  - nvm install node
+  - brew update
+  - brew install hugo
+  - brew install imagemagick
+  - brew install wine makensis
+  - gem install fpm
+  - npm install -g nativefier
+  - npm install -g electron-builder
+  - chmod +x generate_installers.sh
+  - ./generate_installers.sh
+deploy:
+  provider: releases
+  api_key:
+    secure: HviG1CzYjVsmkPQrACk4iRrFbMjeAqpMAvKWA4sK9+k2+DV/NaagHu6JAZ7cSda6u0vxB4rXWiK9i235OSgdOEoz3W1P/etrf5c4YDSZGtHIGCh/HOvSHwNpDhXlbMrlwBxMC537I2v622bgbegprNZlmwEG1LyzBDw3DBtaEllxf/9gunoM+uR9aQW2Ef+scxx91YDyTxzRUVh3v6KgFJ9KCB3KxhHC40OrEM5uZYoEdSl1Ql0nItmRi6gV6UqACftw2FQR9gbL25LzqWRMZxtAV48jFbA2IPNiwnLM2RJQXs40JPtzFB9RIlippTK7VDmfWdfHRDFyC7ORMzHvcP+D4hQXG/FVtFXemPRADJAzdGO8aJs8D6J3oyzxKURD0/FwWSGPcTDGNcSLtv0fqB4aJqQZrwelFzBg3HWUvNt8nUEtzHFFWA4UO+mujecT/Hp0zh/ZXdEJF+EmTN/GdSlDgtgx3FF2aZgqymjv3Zihq+SxKCFoy6DX1+Z7nPt3kYwIVJumHrHveRTm9M18kekf2HByGJQpRIyctLyOzhHaIhc8TjQE9DNQPtyX5MZ8ySAT1OGZ5lxQfoKYDrijC2O93Nn8J0nH8vkz8FEltHrAedfNMTXkh34lJ3VVEK546CQzO9BMRF14ANy/DUxIztmH+3+EkBgFkVbcZrmeRP0=
+  file_glob: true
+  file: "releases/*"
+  skip_cleanup: true
+  on:
+    repo: quanglam2807/webcatalog
+    tags: true
+after_deploy:
+  - hugo
+  - surge --project ./public --domain webcatalog.xyz

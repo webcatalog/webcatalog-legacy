@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title | upper }} on WebCatalog: Use any web page natively without even thinking</title>
+    <meta name="description" content="Modern Translator is the most powerful translation app on Windows.">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/jgthms/bulma/0a5e43e49d835969bf49351e143c4b966a5512f4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <section class="hero is-info is-bold is-small">
+      <div class="hero-header">
+        <header class="header">
+          <div class="container">
+            <div class="header-left">
+              <a class="header-item" href="/">
+                <h1 class="title">WebCatalog</h1>
+              </a>
+            </div>
+            <span id="header-toggle" class="header-toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <div id="header-menu" class="header-right header-menu">
+              <span class="header-item">
+                <a class="is-active" href="/">Submit New App</a>
+              </span>
+
+                <span class="header-item">
+                  <a class="button is-info is-outlined is-inverted" href="https://github.com/quanglam2807/webcatalog">
+                    <i class="fa fa-github"></i>
+                    GitHub
+                  </a>
+                  <a class="button is-info is-outlined is-inverted"
+                  data-social-network="Twitter"
+                  data-social-action="tweet"
+                  data-social-target="http://bulma.io/"
+                  href="https://twitter.com/intent/tweet?text=WebCatalog: Use any web page natively without even thinking&url=https://webcatalog.xyz">
+                    <span class="fa fa-twitter"></span>
+                    Tweet
+                  </a>
+                </span>
+
+            </div>
+          </div>
+        </header>
+      </div>
+
+      <div class="hero-content">
+        <div class="container">
+          <p class="title">
+            WebCatalog
+          </p>
+          <p class="subtitle">
+            Use any web page natively without even thinking, across Windows, OS X, Linux, iOS & Android.
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-footer">
+        <nav class="tabs is-boxed">
+          <div class="container">
+            <ul>
+              <li class="{{ if not (eq .Title "Categories") }}is-active{{ end }}">
+                <a href="/">Apps</a>
+              </li>
+              <li class="{{ if eq .Title "Categories" }}is-active{{ end }}">
+                <a href="/categories">Categories</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </section>

@@ -1,0 +1,15 @@
+.card {
+  width: auto;
+}
+
+.card .title {
+  margin-top: 2px;
+}
+
+.card .icon {
+  vertical-align: middle;
+}
+
+.header-item .button+.button {
+  margin-left: 10px;
+}

@@ -1,0 +1,24 @@
+<div class="column is-half">
+  <div class="card app-card">
+    <div class="card-content">
+      <div class="media">
+        <figure class="media-image is-40">
+          <img src="/app/{{ .Params.id }}/osx.png" alt="{{ .Title }}">
+        </figure>
+        <div class="media-content">
+          <p class="title is-5"><a href="/app/{{ .Params.id }}">{{ .Title }}</a></p>
+          <p class="subtitle is-6">
+            Available on
+            {{ range .Params.platforms }}
+              <a href="/platforms/{{ . | urlize }}">{{ . }}</a> |
+            {{ end }}
+          </p>
+        </div>
+      </div>
+
+      <div class="content">
+        {{ .Description }}
+      </div>
+    </div>
+  </div>
+</div>

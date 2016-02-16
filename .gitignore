@@ -1,0 +1,6 @@
+/public
+/releases
+/.tmp
+
+# OS X
+.DS_Store

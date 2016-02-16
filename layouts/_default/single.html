@@ -1,0 +1,68 @@
+{{ partial "header.html" . }}
+<section class="section">
+  <div class="container">
+    <p class="image is-128x128">
+      <img src="/app/{{ .Params.id }}/osx.png" alt="{{ .Title }}">
+    </p>
+    <h1 class="title">{{ .Title }}</h1>
+    <h2 class="subtitle">{{ .Description }}</h2>
+
+    <hr>
+
+    <div class="columns">
+      <div class="column is-3">
+        <nav class="menu">
+          <p class="menu-heading">
+            Information
+          </p>
+          {{ if isset .Params "developer" }}
+            <span class="menu-block"><span class="menu-icon"><i class="fa fa-code"></i></span>Developer: <strong>{{ .Params.developer }}</strong></span>
+          {{ end }}
+          {{ if isset .Params "icon_designer" }}
+            <span class="menu-block"><span class="menu-icon"><i class="fa fa-paint-brush"></i></span>Icon Designer: <strong>{{ .Params.icon_designer }}</strong></span>
+          {{ end }}
+        </nav>
+      </div>
+      <div class="column">
+        <div class="tabs" id="platforms">
+          <ul>
+            {{ range first 1 .Params.platforms }}
+            {{ $.Scratch.Set "firstTab" . }}
+              <li class="is-active" id="platform-{{ . }}"><a>{{ . }}</a></li>
+            {{ end }}
+            {{ range after 1 .Params.platforms }}
+              <li id="platform-{{ . }}"><a>{{ . }}</a></li>
+            {{ end }}
+          </ul>
+        </div>
+        {{ $firstTab := $.Scratch.Get "firstTab" }}
+        <div class="platform-content content{{ if not (eq $firstTab "windows") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-windows">
+          <a class="button is-info is-large">Download</a>
+          <h3>Requirement for <strong>Windows</strong></h3>
+          <ul>
+            <li>Windows 7 or Server 2008 R2 or higher</li>
+          </ul>
+        </div>
+        <div class="platform-content content{{ if not (eq $firstTab "osx") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-osx">
+          <a class="button is-info is-large">Download</a>
+
+          <h3>Requirement for <strong>OS X</strong></h3>
+          <ul>
+            <li>OS X 10.8 or higher</li>
+          </ul>
+        </div>
+        <div class="platform-content content{{ if not (eq $firstTab "linux") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-linux">
+          <a class="button is-info is-large">Download</a>
+        </div>
+        <div class="platform-content content{{ if not (eq $firstTab "android") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-android">
+          <a class="button is-info is-large">Download</a>
+        </div>
+        <div class="platform-content content{{ if not (eq $firstTab "ios") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-ios">
+          <a class="button is-info is-large">Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}

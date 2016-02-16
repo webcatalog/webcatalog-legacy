@@ -1,0 +1,4 @@
+baseurl: https://webcatalog.xyz
+taxonomies:
+  category: "categories"
+  platform: "platforms"
