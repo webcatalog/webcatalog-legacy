@@ -26,7 +26,5 @@ deploy:
     repo: quanglam2807/webcatalog
     tags: true
 after_deploy:
-  - mkdir -p data
-  - echo "tag: $TRAVIS_TAG" > data/github_tag.yaml
   - hugo
   - surge --project ./public --domain webcatalog.xyz
