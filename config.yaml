@@ -2,3 +2,5 @@ baseurl: https://webcatalog.xyz
 taxonomies:
   category: "categories"
   platform: "platforms"
+disableRSS: true
+disableSitemap: true
