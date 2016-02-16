@@ -1,7 +1,7 @@
 ---
 id: whatsapp-web
 title: WhatsApp Web
-app_url: https://www.facebook.com
+app_url: https://web.whatsapp.com
 categories:
   - social
 platforms:
