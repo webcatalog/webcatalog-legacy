@@ -12,6 +12,7 @@ before_deploy:
   - gem install fpm
   - npm install -g nativefier
   - npm install -g electron-builder
+  - npm install -g surge
   - chmod +x generate_installers.sh
   - ./generate_installers.sh
 deploy:
@@ -25,5 +26,7 @@ deploy:
     repo: quanglam2807/webcatalog
     tags: true
 after_deploy:
+  - mkdir -p data
+  - echo "tag: $TRAVIS_TAG" > data/github_tag.yaml
   - hugo
   - surge --project ./public --domain webcatalog.xyz

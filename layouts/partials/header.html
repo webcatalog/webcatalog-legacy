@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      if (window.navigator.standalone || (window.matchMedia('(display-mode: standalone)').matches)) {
+        window.location.replace("{{ .Params.app_url }}");
+      }
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ .Title | upper }} on WebCatalog: Use any web page natively without even thinking</title>
     <meta name="description" content="Modern Translator is the most powerful translation app on Windows.">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/jgthms/bulma/0a5e43e49d835969bf49351e143c4b966a5512f4/css/bulma.min.css">
+    {{ if in .Params.platforms "ios" }}
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <link sizes="512x512" rel="apple-touch-icon" href="/app/{{ .Params.id }}/ios.png"/>
+      <meta name="apple-mobile-web-app-title" content="{{ .Title }}"/>
+      {{ if isset .Params "ios_status_bar_style" }}
+      <meta name="apple-mobile-web-app-status-bar-style" content="{{ .Params.ios_status_bar_style }}"/>
+      {{ end }}
+    {{ end }}
+    {{ if in .Params.platforms "android" }}
+      <meta name="mobile-web-app-capable" content="yes"/>
+      <link rel="icon" sizes="512x512" href="/app/{{ .Params.id }}/android.png">
+    {{ end }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.14/css/bulma.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/app.css">
   </head>
@@ -39,7 +56,7 @@
                   <a class="button is-info is-outlined is-inverted"
                   data-social-network="Twitter"
                   data-social-action="tweet"
-                  data-social-target="http://bulma.io/"
+                  data-social-target="http://webcatalog.xyz/"
                   href="https://twitter.com/intent/tweet?text=WebCatalog: Use any web page natively without even thinking&url=https://webcatalog.xyz">
                     <span class="fa fa-twitter"></span>
                     Tweet

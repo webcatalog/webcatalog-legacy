@@ -16,7 +16,7 @@
 </nav>
 <section class="section">
   <div class="container">
-    <h1 class="title">{{ .Title }}</h1>
+    <h1 class="title">{{ .Title | lower }}</h1>
     <div class="columns">
       {{ range .Data.Pages }}
          {{ .Render "card"}}

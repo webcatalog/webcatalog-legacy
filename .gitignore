@@ -1,6 +1,7 @@
 /public
 /releases
 /.tmp
+/data/github_tag.yaml
 
 # OS X
 .DS_Store
