@@ -56,7 +56,7 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
 
   `ios_status_bar_style`: The iOS status bar style of your app. Set to `default`, the status bar appears normal. If set to `black`, the status bar has a black background. If set to `black-translucent`, the status bar is black and translucent. If set to `default` or `black`, the web content is displayed below the status bar. If set to `black-translucent`, the web content is displayed on the entire screen, partially obscured by the status bar. If this field is not set, `default` will be used.
 
-  `description`: There is no limit on the length but only 190 characters of the description will be displayed in the list view.
+  `description`: There is no limit on the length but only 120 characters of the description will be displayed in the list view.
 
   #### SAMPLE
   `content/app/facebook.md`
@@ -80,7 +80,7 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
 
 2. Create a folder named `_APP_ID` in `static/app` and add these following required icon files in the newly created folder.
 
-  `windows.png` (if you want to support Windows desktop): 1024x1024px, should be transparent.
+  `windows.png` (if you want to support Windows desktop): 1024x102zpx, should be transparent.
 
   `linux.png` (if you want to support Linux desktop): 1024x1024px, should be transparent.
 
