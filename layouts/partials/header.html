@@ -23,6 +23,7 @@
     {{ if in .Params.platforms "android" }}
       <meta name="mobile-web-app-capable" content="yes"/>
       <link rel="icon" sizes="512x512" href="/app/{{ .Params.id }}/android.png">
+      <meta name="application-name" content="{{ .Title }}">
     {{ end }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.14/css/bulma.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
