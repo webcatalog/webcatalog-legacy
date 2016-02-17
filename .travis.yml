@@ -6,8 +6,9 @@ env:
   - BUILD_TYPE=linux
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
-install:
   - ./scripts/before_install.sh
+install:
+  - ./scripts/install.sh
 script:
   - ./scripts/build.sh
 deploy:
