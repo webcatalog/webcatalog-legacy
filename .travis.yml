@@ -1,9 +1,15 @@
-os: osx
 language: bash
-env:
-  - BUILD_TYPE=windows
-  - BUILD_TYPE=osx
-  - BUILD_TYPE=linux
+node_js: node
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      env: BUILD_TYPE=windows
+    - os: linux
+      env: BUILD_TYPE=linux
+    - os: osx
+      env: BUILD_TYPE=osx
+cache: apt
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
   - ./scripts/before_install.sh
