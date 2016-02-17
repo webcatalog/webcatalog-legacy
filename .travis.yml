@@ -7,8 +7,6 @@ env:
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
   - ./scripts/before_install.sh
-install:
-  - ./scripts/install.sh
 script:
   - ./scripts/build.sh
 deploy:

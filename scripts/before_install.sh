@@ -2,6 +2,13 @@ brew update
 
 brew install hugo
 
+brew upgrade node
+node -v
+npm install -g nativefier
+npm install -g electron-builder
+npm install -g surge
+
+
 if [ "$BUILD_TYPE" = "windows" ]
 then
   brew install makensis
