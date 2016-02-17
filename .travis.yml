@@ -8,11 +8,18 @@ matrix:
       env: BUILD_TYPE=linux
     - os: osx
       env: BUILD_TYPE=osx
+addons:
+  apt:
+    packages:
+    - wine
+    - nsis
 cache: apt
-sudo: required
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
   - ./scripts/before_install.sh
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install node; fi
+  - npm install nativefier electron-builder surge
 script:
   - ./scripts/build.sh
   - curl -Lo travis_after_all.py https://raw.github.com/dmakhno/travis_after_all/master/travis_after_all.py

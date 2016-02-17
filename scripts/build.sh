@@ -1,4 +1,19 @@
-set -e
+set -ex
+
+## It only works if I put it here! Damm
+if [ "$TRAVIS_OS_NAME" == "linux" ]
+then
+  rm -rf ~/.nvm
+  git clone https://github.com/creationix/nvm.git ~/.nvm
+  (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
+  source ~/.nvm/nvm.sh
+  nvm install node
+fi
+
+node -v
+npm install nativefier
+npm install electron-builder
+npm install surge
 
 parse_yaml() {
    local prefix=$2

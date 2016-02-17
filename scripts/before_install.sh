@@ -1,3 +1,5 @@
+set -e
+
 if [ "$TRAVIS_OS_NAME" == "osx" ]
 then
   brew update
@@ -10,31 +12,19 @@ fi
 
 if [ "$TRAVIS_OS_NAME" == "linux" ]
 then
-  if [ "$BUILD_TYPE" = "windows" ]
-  then
-    sudo add-apt-repository ppa:ubuntu-wine/ppa -y
-    sudo apt-get update
-    sudo apt-get install wine nsis -y
-  fi
-
   if [ "$BUILD_TYPE" = "linux" ]
   then
     gem install fpm
   fi
 
-  export GOPATH=$HOME/go
-  go get -v github.com/spf13/hugo
-
-  sudo apt-get install imagemagick
-
-  rm -rf ~/.nvm
-  git clone https://github.com/creationix/nvm.git ~/.nvm
-  (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
-  source ~/.nvm/nvm.sh
-  nvm install node
+  # Install Hugo
+  mkdir -p ~/opt/packages/hugo && cd $_
+  wget https://github.com/spf13/hugo/releases/download/v0.15/hugo_0.15_linux_amd64.tar.gz
+  gzip -dc hugo_0.15_linux_amd64.tar.gz | tar xf -
+  rm hugo_0.15_linux_amd64.tar.gz
+  mkdir ~/bin
+  ln -s ~/opt/packages/hugo/hugo_0.15_linux_amd64/hugo_0.15_linux_amd64 ~/bin/hugo
+  source ~/.profile
+  which hugo
+  hugo version
 fi
-
-node -v
-npm install nativefier
-npm install electron-builder
-npm install surge
