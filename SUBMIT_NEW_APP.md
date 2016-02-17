@@ -84,7 +84,7 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
 
   `linux.png` (if you want to support Linux desktop): 1024x1024px, should be transparent.
 
-  `osx.png` (if you want to support OS X): 1024x1024px, should be transparent. [Design Guidelines](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/IconsGraphics.html#//apple_ref/doc/uid/20000957-CH14-SW1)
+  `osx.png` (if you want to support OS X): 1024x1024px, should be transparent. [Design Guidelines](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/IconsGraphics.html#//apple_ref/doc/uid/20000957-CH14-SW1). OS X icon will be the icon displayed on the website.
 
   `ios.png` (if you want to support iOS): 512x512px, should be not transparent and rounded. Rounded corners of the icon will be handled by iOS. [Design Guidelines](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html)
 

@@ -100,4 +100,10 @@ EOT
 
 done
 
+# Hugo
+# Generate small pngs for web
+for entry in static/app/*
+do
+  convert "$entry/osx.png" -resize 64x64 "$entry/osx.64.png"
+done
 hugo
