@@ -6,10 +6,6 @@ then
   brew install imagemagick
 
   brew upgrade node
-  node -v
-  npm install -g nativefier
-  npm install -g electron-builder
-  npm install -g surge
 fi
 
 if [ "$TRAVIS_OS_NAME" == "linux" ]
@@ -26,12 +22,16 @@ then
     gem install fpm
   fi
 
-  sudo apt-get install imagemagick
+  export GOPATH=$HOME/go
   go get -v github.com/spf13/hugo
 
+  sudo apt-get install imagemagick
 
-  node -v
-  npm install -g nativefier
-  npm install -g electron-builder
-  npm install -g surge
+  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  sudo apt-get install -y nodejs
 fi
+
+node -v
+npm install -g nativefier
+npm install -g electron-builder
+npm install -g surge

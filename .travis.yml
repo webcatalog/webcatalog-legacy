@@ -1,5 +1,4 @@
 language: bash
-node_js: node
 matrix:
   fast_finish: true
   include:
@@ -10,6 +9,7 @@ matrix:
     - os: osx
       env: BUILD_TYPE=osx
 cache: apt
+sudo: required
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
   - ./scripts/before_install.sh
