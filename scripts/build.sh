@@ -55,11 +55,11 @@ EOT
   # OS X
   if [ "$BUILD_TYPE" = "osx" ]
   then
-    nativefier --name "$config_title" --platform darwin --icon "static/app/$config_id/osx.png" "$config_app_url" ".tmp/source/$config_id"
+    $(npm bin)/nativefier --name "$config_title" --platform darwin --icon "static/app/$config_id/osx.png" "$config_app_url" ".tmp/source/$config_id"
 
     osx_dir=$(find ".tmp/source/$config_id" -name "*darwin-x64" -type d | awk "NR==1")
 
-    electron-builder "$osx_dir/$config_title.app" --platform=osx --out=".tmp/releases/$config_id/osx" --config=".tmp/$config_id.json"
+    $(npm bin)/electron-builder "$osx_dir/$config_title.app" --platform=osx --out=".tmp/releases/$config_id/osx" --config=".tmp/$config_id.json"
     darwin_setup=$(find ".tmp/releases/$config_id/osx" -name "*.dmg" -type f | awk "NR==1")
     mv "$darwin_setup" "releases/$config_id-osx.dmg"
   fi
@@ -67,18 +67,18 @@ EOT
   # Win32
   if [ "$BUILD_TYPE" = "windows" ]
   then
-    nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
-    nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
+    $(npm bin)/nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
+    $(npm bin)/nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
 
     win_ia32_dir=$(find ".tmp/source/$config_id" -name "*win32-ia32" -type d | awk "NR==1")
 
-    electron-builder "$win_ia32_dir" --platform=win --out=".tmp/releases/$config_id/win32-ia32" --config=".tmp/$config_id.json"
+    $(npm bin)/electron-builder "$win_ia32_dir" --platform=win --out=".tmp/releases/$config_id/win32-ia32" --config=".tmp/$config_id.json"
     win_ia32_setup=$(find ".tmp/releases/$config_id/win32-ia32" -name "*.exe" -type f | awk "NR==1")
     mv "$win_ia32_setup" "releases/$config_id-win-ia32.exe"
 
     win_x64_dir=$(find ".tmp/source/$config_id" -name "*win32-x64" -type d | awk "NR==1")
 
-    electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
+    $(npm bin)/electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
     win_x64_setup=$(find ".tmp/releases/$config_id/win32-x64" -name "*.exe" -type f | awk "NR==1")
     mv "$win_x64_setup" "releases/$config_id-win-x64.exe"
   fi
@@ -86,8 +86,8 @@ EOT
   # Linux
   if [ "$BUILD_TYPE" = "linux" ]
   then
-    nativefier --name "$config_title" --platform linux --arch ia32 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
-    nativefier --name "$config_title" --platform linux --arch x64 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
+    $(npm bin)/nativefier --name "$config_title" --platform linux --arch ia32 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
+    $(npm bin)/nativefier --name "$config_title" --platform linux --arch x64 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
 
     linux_ia32_dir=$(find ".tmp/source/$config_id" -name "*linux-ia32" -type d | awk "NR==1")
 

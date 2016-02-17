@@ -27,11 +27,14 @@ then
 
   sudo apt-get install imagemagick
 
-  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+  rm -rf ~/.nvm
+  git clone https://github.com/creationix/nvm.git ~/.nvm
+  (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
+  source ~/.nvm/nvm.sh
+  nvm install node
 fi
 
 node -v
-npm install -g nativefier
-npm install -g electron-builder
-npm install -g surge
+npm install nativefier
+npm install electron-builder
+npm install surge
