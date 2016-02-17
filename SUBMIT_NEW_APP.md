@@ -90,7 +90,4 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
 
   `android.png` (if you want to support Android): 512x512px, should be transparent. [Design Guidelines](https://www.google.com/design/spec/style/icons.html)
 
-
-One app per commit; one commit per app.
-
 As soon as your pull request is merged and a release tag is set, [Travis CI](https://travis-ci.org) will automatically compile and publish the app on WebCatalog.
