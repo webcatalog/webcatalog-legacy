@@ -1,13 +1,15 @@
 {{ partial "header.html" . }}
 <section class="section">
   <div class="container">
-    <p class="image is-64x64">
-      <img src="/app/{{ .Params.id }}/osx.png" alt="{{ .Title }}">
-    </p>
-    <h1 class="title">{{ .Title }}</h1>
-    <h2 class="subtitle">{{ .Description }}</h2>
+    <div class="content">
+      <p class="image is-64x64">
+        <img src="/app/{{ .Params.id }}/osx.png" alt="{{ .Title }}">
+      </p>
+      <h1 class="title">{{ .Title }}</h1>
+      <p>{{ .Content }}</p>
 
-    <hr>
+      <hr>
+    </div>
 
     <div class="columns">
       <div class="column is-3">

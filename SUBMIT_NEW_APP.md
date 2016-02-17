@@ -4,7 +4,7 @@ Before submitting your app, please notice that while WebCatalog for Desktop (Win
 
 To submit a new app, please [open a pull request](https://help.github.com/categories/collaborating-on-projects-using-pull-requests/) for these following changes.
 
-1. Add new app entry in `/content/app/_APP_ID.md` in this following format (YAML).
+1. Add new app entry in `/content/app/_APP_ID.md` in this following format:
   ```yaml
   ---
   id: _APP_ID_,
@@ -15,17 +15,21 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
   icon_designer: _APP_ICON_DESIGNER_,
   category: _APP_CATEGORY_,
   ios_status_bar_style: _APP_IOS_STATUS_SIZE_,
-  description: _APP_DESCRIPTION_,
   ---
+  _APP_DESCRIPTION_,  
   ```
 
-  `name`, `url`, `category`, `description` are required.
+  * The content between `---` is in YAML format
 
-  `short_name`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
+  * `_APP_DESCRIPTION_` is in MARKDOWN format
 
-  `developer`: The name of the developer of the app (company or individual), not the person who submit the app.
+  * `name`, `url`, `category`, `description` are required.
 
-  `category`: The category ID of the app (based on [Windows Store](https://msdn.microsoft.com/en-us/library/windows/apps/mt148528.aspx).
+  * `short_name`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
+
+  * `developer`: The name of the developer of the app (company or individual), not the person who submit the app.
+
+  * `category`: The category ID of the app (based on [Windows Store](https://msdn.microsoft.com/en-us/library/windows/apps/mt148528.aspx).
 
   | Category Name         | Category ID     |
   |-----------------------|-----------------|
@@ -54,28 +58,40 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
   | Travel                | travel          |
   | Utilities + tools     | utilities       |
 
-  `ios_status_bar_style`: The iOS status bar style of your app. Set to `default`, the status bar appears normal. If set to `black`, the status bar has a black background. If set to `black-translucent`, the status bar is black and translucent. If set to `default` or `black`, the web content is displayed below the status bar. If set to `black-translucent`, the web content is displayed on the entire screen, partially obscured by the status bar. If this field is not set, `default` will be used.
+  * `ios_status_bar_style`: The iOS status bar style of your app. Set to `default`, the status bar appears normal. If set to `black`, the status bar has a black background. If set to `black-translucent`, the status bar is black and translucent. If set to `default` or `black`, the web content is displayed below the status bar. If set to `black-translucent`, the web content is displayed on the entire screen, partially obscured by the status bar. If this field is not set, `default` will be used.
 
-  `description`: There is no limit on the length but only 120 characters of the description will be displayed in the list view.
+  * `description`: There is no limit on the length but only 120 characters of the description will be displayed in the list view.
 
   #### SAMPLE
   `content/app/facebook.md`
   ```yaml
   ---
-  id: facebook
-  title: Facebook
-  app_url: https://www.facebook.com
+  id: google-inbox
+  title: Google Inbox
+  app_url: https://inbox.google.com
   categories:
-    - social
+    - productivity
   platforms:
     - windows
     - osx
     - linux
     - android
     - ios
-  developer: Facebook Inc.
-  description: Facebook is a popular free social networking website that allows registered users to create profiles, upload photos and video, send messages and keep in touch with friends, family and colleagues.
+  developer: Google Inc.
   ---
+  Your email inbox should help you live and work better, but instead it often buries the important stuff and creates more stress than it relieves. Inbox, built by the Gmail team, keeps things organized and helps you get back to what matters.
+
+  * HIGHLIGHTS - Get the most important information without even opening the message. Check-in for flights, see shipping information for purchases, and view photos from friends right up front.
+
+  * BUNDLES - Similar messages are bundled together so you can deal with them all at once. And get rid of them with one swipe.
+
+  * REMINDERS - More than mail, you can add Reminders so your inbox contains all the things you need to get back to.
+
+  * SNOOZE - Snooze emails and Reminders to come back when you are ready to deal with them: next week, when you get home, or whenever you choose.
+
+  * SEARCH - Inbox helps you find exactly what you’re looking for— from your upcoming flight to a friend's address— without having to dig through messages.
+
+  * WORKS WITH GMAIL - Inbox is built by the Gmail team, so all your messages from Gmail are here, along with the reliability and spam protection of Gmail. All of your messages are still in Gmail and always will be.
   ```
 
 2. Create a folder named `_APP_ID` in `static/app` and add these following required icon files in the newly created folder.
