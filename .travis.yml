@@ -22,29 +22,6 @@ install:
   - npm install nativefier electron-builder surge
 script:
   - ./scripts/build.sh
-  - curl -Lo travis_after_all.py https://raw.github.com/dmakhno/travis_after_all/master/travis_after_all.py
-after_success:
-  - python travis_after_all.py https://api.travis-ci.com
-  - export $(cat .to_export_back)
-  - |
-      if [ "$BUILD_LEADER" = "YES" ]; then
-        if [ "$BUILD_AGGREGATE_STATUS" = "others_succeeded" ]; then
-          echo "All jobs succeeded! PUBLISHING..."
-        else
-          echo "Some jobs failed"
-        fi
-      fi
-after_failure:
-  - python travis_after_all.py https://api.travis-ci.com
-  - export $(cat .to_export_back)
-  - |
-      if [ "$BUILD_LEADER" = "YES" ]; then
-        if [ "$BUILD_AGGREGATE_STATUS" = "others_failed" ]; then
-          echo "All jobs failed"
-        else
-          echo "Some jobs failed"
-        fi
-      fi
 deploy:
   provider: releases
   api_key:
