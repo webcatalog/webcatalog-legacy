@@ -1,20 +1,15 @@
 os: osx
 language: bash
-before_deploy:
-  - rm -rf ~/.nvm
-  - git clone https://github.com/creationix/nvm.git ~/.nvm
-  - source ~/.nvm/nvm.sh
-  - nvm install node
-  - brew update
-  - brew install hugo
-  - brew install imagemagick
-  - brew install wine makensis
-  - gem install fpm
-  - npm install -g nativefier
-  - npm install -g electron-builder
-  - npm install -g surge
-  - chmod +x generate_installers.sh
-  - ./generate_installers.sh
+env:
+  - BUILD_TYPE=windows
+  - BUILD_TYPE=osx
+  - BUILD_TYPE=linux
+before_install:
+  - find scripts -name "*.sh" -exec chmod +x {} \;
+install:
+  - ./scripts/before_install.sh
+script:
+  - ./scripts/build.sh
 deploy:
   provider: releases
   api_key:
@@ -26,5 +21,4 @@ deploy:
     repo: quanglam2807/webcatalog
     tags: true
 after_deploy:
-  - hugo
-  - surge --project ./public --domain webcatalog.xyz
+  - ./scripts/after_deploy.sh
