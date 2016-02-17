@@ -99,3 +99,5 @@ EOT
   fi
 
 done
+
+hugo
