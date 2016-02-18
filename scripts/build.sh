@@ -107,3 +107,8 @@ do
   convert "$entry/osx.png" -resize 64x64 "$entry/osx.64.png"
 done
 hugo
+# Minify
+$(npm bin)/uglifyjs --compress --mangle --output public/js/app.js -- public/js/app.js
+$(npm bin)/uglifyjs --compress --mangle --output public/js/search.js -- public/js/search.js
+$(npm bin)/cleancss --output public/css/app.css public/css/app.css
+find public -name "*.html" -type f -exec $(npm bin)/html-minifier {} --output {} --remove-comments --collapse-whitespace \;

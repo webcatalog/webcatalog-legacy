@@ -4,10 +4,13 @@
   "description": "Use any web page natively without even thinking, across Windows, OSX, Linux, iOS & Android.",
   "main": "index.js",
   "dependencies": {
+    "clean-css": "^3.4.9",
     "electron-builder": "^2.7.2",
+    "html-minifier": "^1.1.1",
     "nativefier": "^6.8.0",
     "request": "^2.69.0",
     "surge": "^0.17.7",
+    "uglify-js": "^2.6.1",
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {},
