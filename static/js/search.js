@@ -34,6 +34,16 @@ $(document).ready(function ($) {
       $loading.hide();
       if (content.hits.length > 0) {
         $.each(content.hits, function( index, app ) {
+          var categoriesHtml = '';
+          $.each(app.categories, function(i, category) {
+            categoriesHtml += '<a class="tag is-success" href="/categories/'+ category +'">'+ category +'</a>';
+          });
+
+          var platformsHtml = '';
+          $.each(app.platforms, function(i, platform) {
+            platformsHtml += '<a class="tag is-primary" href="/platforms/'+ platform +'">'+ platform +'</a>';
+          });
+
           $results.append('<div class="column is-half">\
             <div class="card app-card">\
               <div class="card-content">\
@@ -44,7 +54,10 @@ $(document).ready(function ($) {
                     </figure>\
                   </div>\
                   <div class="media-content">\
-                    <p class="title is-5"><a href="/app/'+ app.objectID +'">'+ app.name +'</a></p>\
+                    <p class="title is-5"><a href="/app/'+ app.objectID +'">'+ app.title +'</a></p>\
+                    <p>' +
+                      categoriesHtml + platformsHtml
+                    + '</p>\
                   </div>\
                 </div>\
                 <div class="content">\

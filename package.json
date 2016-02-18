@@ -1,0 +1,24 @@
+{
+  "name": "webcatalog",
+  "version": "0.6.0-beta",
+  "description": "Use any web page natively without even thinking, across Windows, OSX, Linux, iOS & Android.",
+  "main": "index.js",
+  "dependencies": {
+    "electron-builder": "^2.7.2",
+    "nativefier": "^6.8.0",
+    "request": "^2.69.0",
+    "surge": "^0.17.7",
+    "yaml-front-matter": "^3.4.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quanglam2807/webcatalog.git"
+  },
+  "author": "Quang Lam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quanglam2807/webcatalog/issues"
+  },
+  "homepage": "https://github.com/quanglam2807/webcatalog#readme"
+}

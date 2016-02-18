@@ -7,7 +7,10 @@ matrix:
     - os: linux
       env: BUILD_TYPE=linux
     - os: osx
-      env: BUILD_TYPE=osx
+      env:
+        - BUILD_TYPE=osx
+        - ALGOLIA_APPLICATION_ID=PFL0LPV96S
+        - secure: "R/Rz2oO+ilMda5Syenw3DcuTi/jq0rZDAZpVtU0bKJPYviIPA/VHUhBIup61+LBXZ3PdeLtA0RFOuNTSRZBvb1T2v+OX+vfdXGgZVvugqrOxL2uqmNC4SebRKZIhsBawJmfHEz8L/g3CGKlQUAN/5uVEr/jEahKSda1OsGMG0Xd8BJq9/AVXRQdBbNEMWKNMbe5LqFqSFsrbZofNH841RBJUuumdyFYdSm4RE+KuJV5QYiOKIfhVdwp88OSpMEykMzyF850DIr1q1BXwdPLzng/3GKSXttyPqrrnLFVbyLItMfDmH/e4O+OcaI8nAMZ52nFgeMqtsnHg0f4drrYUqrcbP9Cj22aSxA17Xx/+IA1ZsuwlhiVc+/gLO+kxtuzXpx9BBCpLfnd3NYtJ0HCWsZpZAtc6OFOzAwU2oBYCm6mBz/OtRz7djgAm7ql1Hg/zRYRgXINxa57h4+vobTIUikJQgZ/Pco0OhSV0rAXnJF20sBCsB3byVDJzmprRpw0ktwdKRo9sz9UwU+zdT2zuACBAoC2EEJSpaOTVGWj+9yzV3VqIqYD5FkFcORFQD3CnWf1CV8xZSR5M/VEm4UfauivFftMbUyEf1P7WRGM6fsiAgjPYtcTgPpKFdA2gUuN6JgOMZtHLoW2C6YVjADWNE+jTz3VrdkhpjlZzjJSO12s="
 addons:
   apt:
     packages:
