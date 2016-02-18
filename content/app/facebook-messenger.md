@@ -1,7 +1,7 @@
 ---
 id: facebook-messenger
 title: Facebook Messenger
-app_url: https://messenger.facebook.com
+app_url: https://www.messenger.com/login
 categories:
   - social
 platforms:
