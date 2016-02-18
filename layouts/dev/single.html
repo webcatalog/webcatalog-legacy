@@ -1,0 +1,17 @@
+{{ partial "header.html" . }}
+{{ partial "search-box.html" . }}
+
+<section class="section">
+  <div class="container">
+    <div class="content">
+      <p class="is-text-centered">
+        <a class="button" href="/dev">Get Started for Developers</a>
+        <a class="button is-primary">Submit via Google Form</a>
+        <a class="button" href="/dev/submit-via-github">Submit via GitHub (advanced)</a>
+      </p>
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
