@@ -24,7 +24,7 @@ Add new app entry in `/content/app/_APP_ID.md` in this following format:
 
     - books-reference
     - business
-    - developer
+    - developer-tool
     - education
     - entertainment
     - food  
