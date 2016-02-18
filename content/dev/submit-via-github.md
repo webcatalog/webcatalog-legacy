@@ -16,7 +16,7 @@ Add new app entry in `/content/app/_APP_ID.md` in this following format:
 
 - `id`, `title`, `app_url`, `categories`, `platforms`, `description` are required.
 
-- `short_name`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
+- `ios_title`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
 
 - `developer`: The name of the developer of the app (company or individual), not the person who submit the app.
 
