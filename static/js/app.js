@@ -33,6 +33,5 @@ $(document).ready(function ($) {
 
     $osTab = $('#platform-' + $os);
     setTab($osTab);
-
   }
 });

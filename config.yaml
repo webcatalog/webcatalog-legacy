@@ -3,4 +3,4 @@ taxonomies:
   category: "categories"
   platform: "platforms"
 disableRSS: true
-disableSitemap: true
+disableSitemap: false

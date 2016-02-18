@@ -1,6 +1,15 @@
 <section class="section">
   <div class="container">
     <div class="content">
+      <form class="control is-grouped" action="/search" method="get">
+        <input class="input" type="text" placeholder="Search..." id="search-box" name="q">
+        <button type="submit" class="button is-info">
+          <span class="icon">
+            <i class="fa fa-search"></i>
+          </span>
+        </button>
+      </form>
+      <a class="tag is-danger" href="/app">all</a>
       {{ range $name, $taxonomy := .Site.Taxonomies.platforms }}
         <a class="tag is-primary" href="/platforms/{{ $name | urlize }}">{{ $name }}</a>
       {{ end }}

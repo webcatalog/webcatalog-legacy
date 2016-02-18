@@ -4,8 +4,7 @@ if [ "$TRAVIS_OS_NAME" == "osx" ]
 then
   brew update
 
-  brew install hugo
-  brew install imagemagick
+  brew install hugo imagemagick pandoc
 
   brew upgrade node
 fi

@@ -8,7 +8,7 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
   ```yaml
   ---
   id: _APP_ID_,
-  name: _APP_NAME_,
+  title: _APP_NAME_,
   short_name: _APP_SHORTNAME_,
   url: _APP_URL,
   developer: _APP_DEVELOPER_,
@@ -23,7 +23,7 @@ To submit a new app, please [open a pull request](https://help.github.com/catego
 
   * `_APP_DESCRIPTION_` is in MARKDOWN format
 
-  * `name`, `url`, `category`, `description` are required.
+  * `title`, `url`, `category`, `description` are required.
 
   * `short_name`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
 

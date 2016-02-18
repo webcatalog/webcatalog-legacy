@@ -1,0 +1,13 @@
+{{ partial "header.html" . }}
+{{ partial "search-box.html" . }}
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">search results for <strong id="sq"></strong></h1>
+    <span class="button is-primary is-large is-loading"></span>
+    <div class="columns is-multiline" id="results">
+    </div>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
