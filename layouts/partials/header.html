@@ -55,7 +55,13 @@
             </span>
             <div id="header-menu" class="header-right header-menu">
               <span class="header-item">
-                <a class="is-active" href="/">Submit New App</a>
+                <a class="{{ if not (eq .Title "Categories") }}is-active{{ end }}" href="/">Apps</a>
+              </span>
+              <span class="header-item">
+                <a class="{{ if eq .Title "Categories" }}is-active{{ end }}" href="/categories">Categories</a>
+              </span>
+              <span class="header-item">
+                <a href="https://github.com/quanglam2807/webcatalog/blob/master/SUBMIT_NEW_APP.md">Submit New App</a>
               </span>
 
                 <span class="header-item">
@@ -81,26 +87,11 @@
       <div class="hero-content">
         <div class="container">
           <p class="title">
-            WebCatalog
+            <a href="/">WebCatalog</a>
           </p>
           <p class="subtitle">
             Use any web page natively without even thinking, across Windows, OS X, Linux, iOS & Android.
           </p>
         </div>
-      </div>
-
-      <div class="hero-footer">
-        <nav class="tabs is-boxed">
-          <div class="container">
-            <ul>
-              <li class="{{ if not (eq .Title "Categories") }}is-active{{ end }}">
-                <a href="/">Apps</a>
-              </li>
-              <li class="{{ if eq .Title "Categories" }}is-active{{ end }}">
-                <a href="/categories">Categories</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
       </div>
     </section>

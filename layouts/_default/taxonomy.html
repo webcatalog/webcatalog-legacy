@@ -1,20 +1,5 @@
 {{ partial "header.html" . }}
-
-<nav class="header">
-  <div class="container">
-    <div class="header-left">
-      {{ $lowerTitle := lower .Title }}
-      <a class="header-tab{{ if eq $lowerTitle "apps" }} is-active{{ end }}" href="/app/">
-        all
-      </a>
-      {{ range $name, $taxonomy := .Site.Taxonomies.platforms }}
-        <a class="header-tab{{ if eq $name $lowerTitle }} is-active{{ end }}" href="/platforms/{{ $name | urlize }}">
-          {{ $name }}
-        </a>
-      {{ end }}
-    </div>
-  </div>
-</nav>
+{{ partial "tags.html" . }}
 <section class="section">
   <div class="container">
     <h1 class="title">{{ .Title | lower }}</h1>

@@ -20,6 +20,7 @@
           {{ if isset .Params "developer" }}
             <span class="menu-block"><span class="menu-icon"><i class="fa fa-code"></i></span>Developer: <strong>{{ .Params.developer }}</strong></span>
           {{ end }}
+          <span class="menu-block"><span class="menu-icon"><i class="fa fa-folder"></i></span>Category: <strong>{{ delimit .Params.categories ", " }}</strong></span>
           {{ if isset .Params "icon_designer" }}
             <span class="menu-block"><span class="menu-icon"><i class="fa fa-paint-brush"></i></span>Icon Designer: <strong>{{ .Params.icon_designer }}</strong></span>
           {{ end }}

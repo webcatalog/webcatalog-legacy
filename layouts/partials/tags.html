@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="container">
+    <div class="content">
+      {{ range $name, $taxonomy := .Site.Taxonomies.platforms }}
+        <a class="tag is-primary" href="/platforms/{{ $name | urlize }}">{{ $name }}</a>
+      {{ end }}
+      {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+        <a class="tag is-success" href="/categories/{{ $name | urlize }}">{{ $name }}</a>
+      {{ end }}
+    </div>
+  </div>
+</section>

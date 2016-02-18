@@ -9,10 +9,12 @@
         </div>
         <div class="media-content">
           <p class="title is-5"><a href="/app/{{ .Params.id }}">{{ .Title }}</a></p>
-          <p class="subtitle is-6">
-            Available on
+          <p>
+            {{ range $name, $taxonomy := .Params.categories }}
+              <a class="tag is-success" href="/categories/{{ . | urlize }}">{{ . }}</a>
+            {{ end }}
             {{ range .Params.platforms }}
-              <a href="/platforms/{{ . | urlize }}">{{ . }}</a> |
+              <a class="tag is-primary" href="/platforms/{{ . | urlize }}">{{ . }}</a>
             {{ end }}
           </p>
         </div>

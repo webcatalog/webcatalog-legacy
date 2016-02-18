@@ -3,7 +3,7 @@
 }
 
 .card .title {
-  margin-top: 2px;
+  margin-bottom: 6px;
 }
 
 .card .icon {
@@ -12,4 +12,8 @@
 
 .header-item .button+.button {
   margin-left: 10px;
+}
+
+.tag {
+  margin-bottom: 4px;
 }
