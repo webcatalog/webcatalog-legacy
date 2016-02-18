@@ -4,3 +4,4 @@ taxonomies:
   platform: "platforms"
 disableRSS: true
 disableSitemap: false
+paginate: 20
