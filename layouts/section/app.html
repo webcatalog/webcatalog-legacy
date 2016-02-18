@@ -9,16 +9,8 @@
          {{ .Render "card"}}
       {{ end }}
     </div>
-    <p class="is-text-centered">
-      <a class="button is-primary is-outlined {{ if not .Paginator.HasPrev }}is-disabled{{ end }}" href="{{ if .Paginator.HasPrev }}{{ .Paginator.Prev.URL }}{{ end }}">Prev</a>
-      {{ range .Paginator.Pagers }}
-        <a class="button is-primary is-outlined" href="{{ .URL }}">{{ .PageNumber }}</a>
-      {{ end }}
-      <a class="button is-primary is-outlined {{ if not .Paginator.HasNext }}is-disabled{{ end }}" href="{{ if .Paginator.HasNext }}{{ .Paginator.Next.URL }}{{ end }}">Next</a>
-    </p>
+    {{ partial "pagination.html" . }}
   </div>
 </section>
-
-{{ template "_internal/pagination.html" . }}
 
 {{ partial "footer.html" . }}

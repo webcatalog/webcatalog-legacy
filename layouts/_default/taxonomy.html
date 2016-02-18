@@ -4,10 +4,11 @@
   <div class="container">
     <h1 class="title">{{ .Title | lower }}</h1>
     <div class="columns is-multiline">
-      {{ range .Data.Pages }}
+      {{ range .Paginator.Pages }}
          {{ .Render "card"}}
       {{ end }}
     </div>
+    {{ partial "pagination.html" . }}
   </div>
 </section>
 
