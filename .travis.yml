@@ -22,7 +22,7 @@ before_install:
   - ./scripts/before_install.sh
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install node; fi
-  - npm install nativefier electron-builder surge
+  - npm install
 script:
   - ./scripts/build.sh
 deploy:
