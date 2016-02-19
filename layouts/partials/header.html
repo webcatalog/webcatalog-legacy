@@ -57,7 +57,7 @@
               {{ $currentNode := . }}
               {{ range .Site.Menus.main }}
               <span class="header-item">
-                <a href="{{.URL}}">{{ .Name }}</a>
+                <a href="{{.URL}}" class="is-active">{{ .Name }}</a>
               </span>
               {{ end }}
 
