@@ -41,15 +41,17 @@
         </div>
         {{ $firstTab := $.Scratch.Get "firstTab" }}
         <div class="platform-content content{{ if not (eq $firstTab "windows") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-windows">
-          <a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-ia32.exe">Download (32-bit)</a>
-          <a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-x64.exe">Download (64-bit)</a>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-ia32.exe">Download (32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-x64.exe">Download (64-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-ia32-portable.zip">Download (portable, 32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-x64-portable.zip">Download (portable, 64-bit)</a></p>
           <h3>Requirement for <strong>Windows</strong></h3>
           <ul>
             <li>Windows 7 or Server 2008 R2 or higher</li>
           </ul>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "osx") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-osx">
-          <a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-osx.dmg">Download</a>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-osx.dmg">Download</a></p>
 
           <h3>Requirement for <strong>OS X</strong></h3>
           <ul>
@@ -58,8 +60,8 @@
           </ul>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "linux") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-linux">
-          <a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-ia32.zip">Download (32-bit)</a>
-          <a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-x64.zip">Download (64-bit)</a>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-ia32.zip">Download (32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-x64.zip">Download (64-bit)</a></p>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "android") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-android">
           <li>Open this page with <strong>Chrome</strong> on your <strong>Android</strong> device.</li>

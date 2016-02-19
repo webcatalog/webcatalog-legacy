@@ -72,11 +72,14 @@ EOT
 
     win_ia32_dir=$(find ".tmp/source/$config_id" -name "*win32-ia32" -type d | awk "NR==1")
 
+    zip -r "releases/$config_id-win-ia32-portable.zip" "$win_ia32_dir"
+
     $(npm bin)/electron-builder "$win_ia32_dir" --platform=win --out=".tmp/releases/$config_id/win32-ia32" --config=".tmp/$config_id.json"
     win_ia32_setup=$(find ".tmp/releases/$config_id/win32-ia32" -name "*.exe" -type f | awk "NR==1")
     mv "$win_ia32_setup" "releases/$config_id-win-ia32.exe"
 
     win_x64_dir=$(find ".tmp/source/$config_id" -name "*win32-x64" -type d | awk "NR==1")
+    zip -r "releases/$config_id-win_x64-portable.zip" "$win_x64_dir"
 
     $(npm bin)/electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
     win_x64_setup=$(find ".tmp/releases/$config_id/win32-x64" -name "*.exe" -type f | awk "NR==1")
