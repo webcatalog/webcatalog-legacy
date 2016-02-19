@@ -34,4 +34,9 @@ $(document).ready(function ($) {
     $osTab = $('#platform-' + $os);
     setTab($osTab);
   }
+
+  $('#search-form').on('submit', function(e) {
+    e.preventDefault();
+    window.location.href = "/search/#" + $('#search-input').val();
+  });
 });
