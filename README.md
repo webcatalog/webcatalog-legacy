@@ -5,6 +5,3 @@
 Use any web page natively without even thinking, across Windows, OSX, Linux, iOS &amp; Android.
 
 #### Homepage: https://webcatalog.xyz
-
-#### Links
-- [Submit New App](https://github.com/quanglam2807/webcatalog/blob/master/SUBMIT_NEW_APP.md)
