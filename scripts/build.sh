@@ -112,3 +112,4 @@ $(npm bin)/uglifyjs --compress --mangle --output public/js/app.js -- public/js/a
 $(npm bin)/uglifyjs --compress --mangle --output public/js/search.js -- public/js/search.js
 $(npm bin)/cleancss --output public/css/app.css public/css/app.css
 find public -name "*.html" -type f -exec $(npm bin)/html-minifier {} --output {} --remove-comments --collapse-whitespace \;
+zip -r "releases/website.zip" public

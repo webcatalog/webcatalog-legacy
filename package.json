@@ -9,7 +9,6 @@
     "html-minifier": "^1.1.1",
     "nativefier": "^6.8.0",
     "request": "^2.69.0",
-    "surge": "^0.17.7",
     "uglify-js": "^2.6.1",
     "yaml-front-matter": "^3.4.0"
   },
