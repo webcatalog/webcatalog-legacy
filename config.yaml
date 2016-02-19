@@ -3,5 +3,15 @@ taxonomies:
   category: "categories"
   platform: "platforms"
 disableRSS: true
-disableSitemap: false
-paginate: 20
+paginate: 16
+menu:
+  main:
+    - Name: "Apps"
+      Weight: -110
+      URL: "/app/"
+    - Name: "Categories"
+      Weight: -100
+      URL: "/categories/"
+    - Name: "Submit New App"
+      Weight: -90
+      URL: "/dev/submit-via-github/"

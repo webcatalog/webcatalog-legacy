@@ -19,6 +19,7 @@ $(document).ready(function ($) {
       }
 
       $('.is-loading').hide();
+      $('#results').addClass('columns is-multiline');
       $('#results').empty();
       if (content.hits.length > 0) {
         $.each(content.hits, function( index, app ) {

@@ -54,15 +54,12 @@
               <span></span>
             </span>
             <div id="header-menu" class="header-right header-menu">
+              {{ $currentNode := . }}
+              {{ range .Site.Menus.main }}
               <span class="header-item">
-                <a class="{{ if not (eq .Title "Categories") }}is-active{{ end }}" href="/">Apps</a>
+                <a href="{{.URL}}">{{ .Name }}</a>
               </span>
-              <span class="header-item">
-                <a class="{{ if eq .Title "Categories" }}is-active{{ end }}" href="/categories">Categories</a>
-              </span>
-              <span class="header-item">
-                <a href="/dev">Submit New App</a>
-              </span>
+              {{ end }}
 
                 <span class="header-item">
                   <a class="button is-info is-outlined is-inverted" href="https://github.com/quanglam2807/webcatalog">

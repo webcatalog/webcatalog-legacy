@@ -6,8 +6,7 @@ title: Submit New App via GitHub
 
 Before submitting your app, please notice that while WebCatalog for Desktop (Windows, OS X and Linux) supports any web apps, WebCatalog for Mobile (Android and iOS) only supports web apps that support `standalone` mode. You can check out these documents [[1](https://en.wikipedia.org/wiki/Single-page_application), [2](https://gist.github.com/irae/1042167), [3](https://developer.mozilla.org/en/docs/Mozilla/Mobile/Viewport_meta_tag), [4](https://developer.apple.com/library/iad/documentation/iPhone/Conceptual/SafariJSDatabaseGuide/OfflineApplicationCache/OfflineApplicationCache.html)] to make sure if your app does, or you can only submit your app for desktop users.
 
-To submit a new app, please [open a pull request](https://help.github.com/categories/collaborating-on-projects-using-pull-requests/) for these following changes.
-
+To submit a new app, please [open a pull request](https://help.github.com/categories/collaborating-on-projects-using-pull-requests/) with these following changes.
 
 ### STEP 1
 Add new app entry in `/content/app/_APP_ID.md` in this following format:
@@ -15,8 +14,6 @@ Add new app entry in `/content/app/_APP_ID.md` in this following format:
 <script src="https://gist.github.com/quanglam2807/a0197a93f2c96e7dc576.js"></script>
 
 - `id`, `title`, `app_url`, `categories`, `platforms`, `description` are required.
-
-- `ios_title`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
 
 - `developer`: The name of the developer of the app (company or individual), not the person who submit the app.
 
@@ -46,6 +43,9 @@ Add new app entry in `/content/app/_APP_ID.md` in this following format:
     - sports
     - travel
     - utilities
+
+- `ios_title`: Provide if you want to use an alternative name for iOS home screen. [What is the maximum length the iOS application name can be?](https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be)
+
 
 - `ios_status_bar_style`: The iOS status bar style of your app. Set to `default`, the status bar appears normal. If set to `black`, the status bar has a black background. If set to `black-translucent`, the status bar is black and translucent. If set to `default` or `black`, the web content is displayed below the status bar. If set to `black-translucent`, the web content is displayed on the entire screen, partially obscured by the status bar. If this field is not set, `default` will be used.
 
