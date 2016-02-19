@@ -4,6 +4,7 @@ title: Youtube Gaming
 app_url: https://gaming.youtube.com
 categories:
   - entertainment
+  - photo-video
 platforms:
   - windows
   - osx
