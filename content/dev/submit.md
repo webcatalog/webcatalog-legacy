@@ -1,8 +1,17 @@
 ---
 title: Submit New App via GitHub
+aliases:
+  - /dev/submit-via-github
+  - /submit
 ---
 
-## SUBMIT NEW APP VIA GITHUB
+## SUBMIT NEW APP VIA GOOGLE FORM
+Just fill in the form and the app you requested will be added as soon as possible.
+
+<a class="button is-large is-primary" href="http://goo.gl/forms/UJu41A0Nn2">Start now!</a>
+
+
+## SUBMIT NEW APP VIA GITHUB (advanced)
 
 Before submitting your app, please notice that while WebCatalog for Desktop (Windows, OS X and Linux) supports any web apps, WebCatalog for Mobile (Android and iOS) only supports web apps that support `standalone` mode. You can check out these documents [[1](https://en.wikipedia.org/wiki/Single-page_application), [2](https://gist.github.com/irae/1042167), [3](https://developer.mozilla.org/en/docs/Mozilla/Mobile/Viewport_meta_tag), [4](https://developer.apple.com/library/iad/documentation/iPhone/Conceptual/SafariJSDatabaseGuide/OfflineApplicationCache/OfflineApplicationCache.html)] to make sure if your app does, or you can only submit your app for desktop users.
 

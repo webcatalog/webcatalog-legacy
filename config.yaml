@@ -14,4 +14,4 @@ menu:
       URL: "/categories/"
     - Name: "Submit New App"
       Weight: -90
-      URL: "/dev/submit-via-github/"
+      URL: "/dev/submit/"
