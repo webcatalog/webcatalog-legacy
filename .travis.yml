@@ -42,6 +42,8 @@ addons:
     - wine
     - nsis
     - sshpass
+  ssh_known_hosts:
+    - frs.sourceforge.net
 cache: apt
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
@@ -54,6 +56,7 @@ script:
 deploy:
   provider: script
   script: scripts/deploy.sh
+  skip_cleanup: true
   on:
     repo: quanglam2807/webcatalog
     tags: true
