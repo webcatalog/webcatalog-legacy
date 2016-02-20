@@ -5,7 +5,7 @@ aliases:
 ---
 ## ABOUT
 
-Web applications like Facebook Messenger, Google Inbox, WhatsApp Web are becoming more and more like desktop applications every day. Running each of these web apps in a separate tab in your browser can be a real pain and make you work less productive.
+Web applications like Facebook Messenger, Google Inbox, WhatsApp Web are becoming more and more like desktop applications every day. But running each of these web apps in a separate tab in your browser can be a real pain and make you work less productive.
 
 WebCatalog lets you download and use thousands of web apps with the same experiences you have with native apps:
 
@@ -14,7 +14,7 @@ WebCatalog lets you download and use thousands of web apps with the same experie
 - Can be easily switched between apps on OS X's **Dock**, Windows's **Taskbar**, Android & iOS's **task switcher**.
 
 ---
-<img src="/img/about_screenshot.png" class="image">
+<img src="/img/about-screenshot.png" class="image">
 <p class="is-text-centered">
   Evernote, downloaded and installed from WebCatalog, on OS X El Captitan.
 </p>
