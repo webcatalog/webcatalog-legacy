@@ -4,7 +4,6 @@ aliases:
   - /dev/submit-via-github
   - /submit
 ---
-
 ## SUBMIT NEW APP VIA GOOGLE FORM
 Just fill in the form and the app you requested will be added as soon as possible.
 

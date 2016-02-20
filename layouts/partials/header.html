@@ -18,8 +18,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ .Title | upper }} on WebCatalog: Use any web page natively without even thinking</title>
-    <meta name="description" content="Modern Translator is the most powerful translation app on Windows.">
+    <title>{{ .Title | upper }} on WebCatalog: An app store for web apps. Works across Windows, OS X, Linux, Android & iOS.</title>
+    <meta name="description" content="WebCatalog is an app store for web apps. Works across Windows, OS X, Linux, Android & iOS.">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     {{ if in .Params.platforms "ios" }}
       <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -54,11 +54,10 @@
               <span></span>
             </span>
             <div id="header-menu" class="header-right header-menu">
-              {{ $currentNode := . }}
               {{ range .Site.Menus.main }}
-              <span class="header-item">
-                <a href="{{.URL}}" class="is-active">{{ .Name }}</a>
-              </span>
+                <span class="header-item">
+                  <a href="{{.URL}}" class="is-active">{{ .Name }}</a>
+                </span>
               {{ end }}
 
                 <span class="header-item">
@@ -70,7 +69,7 @@
                   data-social-network="Twitter"
                   data-social-action="tweet"
                   data-social-target="http://webcatalog.xyz/"
-                  href="https://twitter.com/intent/tweet?text=WebCatalog: Use any web page natively without even thinking&url=https://webcatalog.xyz">
+                  href="https://twitter.com/intent/tweet?text=WebCatalog: An app store for web apps. Works across Windows, OS X, Linux, Android & iOS.&url=https://webcatalog.xyz">
                     <span class="fa fa-twitter"></span>
                     Tweet
                   </a>
@@ -87,7 +86,10 @@
             <a href="/">WebCatalog</a>
           </p>
           <p class="subtitle">
-            Use any web page natively without even thinking, across Windows, OS X, Linux, iOS & Android.
+            An app store for web apps. Works across Windows, OS X, Linux, Android & iOS.
+          </p>
+          <p>
+            <a class="button" href="/docs/about">READ MORE</a>
           </p>
         </div>
       </div>

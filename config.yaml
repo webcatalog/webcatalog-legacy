@@ -6,6 +6,9 @@ disableRSS: true
 paginate: 16
 menu:
   main:
+    - Name: "About"
+      Weight: -120
+      URL: "/docs/about/"
     - Name: "Apps"
       Weight: -110
       URL: "/app/"
@@ -14,4 +17,4 @@ menu:
       URL: "/categories/"
     - Name: "Submit New App"
       Weight: -90
-      URL: "/dev/submit/"
+      URL: "/docs/submit/"
