@@ -68,38 +68,59 @@ EOT
   # Win32
   if [ "$BUILD_TYPE" = "windows" ]
   then
-    $(npm bin)/nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
-    $(npm bin)/nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
+    if [ "$BUILD_ARCH" = "ia32" ]
+    then
+      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
 
-    win_ia32_dir=$(find ".tmp/source/$config_id" -name "*win32-ia32" -type d | awk "NR==1")
+      win_ia32_dir=$(find ".tmp/source/$config_id" -name "*win32-ia32" -type d | awk "NR==1")
 
-    zip -r "releases/$config_id-win-ia32-portable.zip" "$win_ia32_dir"
+      if [ "$BUILD_PORTABLE" = "1" ]
+      then
+        zip -r -q "releases/$config_id-win-ia32-portable.zip" "$win_ia32_dir"
+      else
+        $(npm bin)/electron-builder "$win_ia32_dir" --platform=win --out=".tmp/releases/$config_id/win32-ia32" --config=".tmp/$config_id.json"
+        win_ia32_setup=$(find ".tmp/releases/$config_id/win32-ia32" -name "*.exe" -type f | awk "NR==1")
+        mv "$win_ia32_setup" "releases/$config_id-win-ia32.exe"
+      fi
+    fi
 
-    $(npm bin)/electron-builder "$win_ia32_dir" --platform=win --out=".tmp/releases/$config_id/win32-ia32" --config=".tmp/$config_id.json"
-    win_ia32_setup=$(find ".tmp/releases/$config_id/win32-ia32" -name "*.exe" -type f | awk "NR==1")
-    mv "$win_ia32_setup" "releases/$config_id-win-ia32.exe"
+    if [ "$BUILD_ARCH" = "x64" ]
+    then
+      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
 
-    win_x64_dir=$(find ".tmp/source/$config_id" -name "*win32-x64" -type d | awk "NR==1")
-    zip -r "releases/$config_id-win_x64-portable.zip" "$win_x64_dir"
+      win_x64_dir=$(find ".tmp/source/$config_id" -name "*win32-x64" -type d | awk "NR==1")
 
-    $(npm bin)/electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
-    win_x64_setup=$(find ".tmp/releases/$config_id/win32-x64" -name "*.exe" -type f | awk "NR==1")
-    mv "$win_x64_setup" "releases/$config_id-win-x64.exe"
+      if [ "$BUILD_PORTABLE" = "1" ]
+      then
+        zip -r -q "releases/$config_id-win_x64-portable.zip" "$win_x64_dir"
+      else
+        $(npm bin)/electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
+        win_x64_setup=$(find ".tmp/releases/$config_id/win32-x64" -name "*.exe" -type f | awk "NR==1")
+        mv "$win_x64_setup" "releases/$config_id-win-x64.exe"
+      fi
+    fi
   fi
 
   # Linux
   if [ "$BUILD_TYPE" = "linux" ]
   then
-    $(npm bin)/nativefier --name "$config_title" --platform linux --arch ia32 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
-    $(npm bin)/nativefier --name "$config_title" --platform linux --arch x64 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
+    if [ "$BUILD_ARCH" = "ia32" ]
+    then
+      $(npm bin)/nativefier --name "$config_title" --platform linux --arch ia32 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
 
-    linux_ia32_dir=$(find ".tmp/source/$config_id" -name "*linux-ia32" -type d | awk "NR==1")
+      linux_ia32_dir=$(find ".tmp/source/$config_id" -name "*linux-ia32" -type d | awk "NR==1")
 
-    zip -r "releases/$config_id-linux-ia32.zip" "$linux_ia32_dir"
+      zip -r -q "releases/$config_id-linux-ia32.zip" "$linux_ia32_dir"
+    fi
 
-    linux_x64_dir=$(find ".tmp/source/$config_id" -name "*linux-x64" -type d | awk "NR==1")
+    if [ "$BUILD_ARCH" = "x64" ]
+    then
+      $(npm bin)/nativefier --name "$config_title" --platform linux --arch x64 --icon "static/app/$config_id/linux.png" "$config_app_url" ".tmp/source/$config_id"
 
-    zip -r "releases/$config_id-linux-x64.zip" "$linux_x64_dir"
+      linux_x64_dir=$(find ".tmp/source/$config_id" -name "*linux-x64" -type d | awk "NR==1")
+
+      zip -r -q "releases/$config_id-linux-x64.zip" "$linux_x64_dir"
+    fi
   fi
 
 done
@@ -116,4 +137,4 @@ $(npm bin)/uglifyjs --compress --mangle --output public/js/app.js -- public/js/a
 $(npm bin)/uglifyjs --compress --mangle --output public/js/search.js -- public/js/search.js
 $(npm bin)/cleancss --output public/css/app.css public/css/app.css
 find public -name "*.html" -type f -exec $(npm bin)/html-minifier {} --output {} --remove-comments --collapse-whitespace \;
-zip -r "releases/website.zip" public
+zip -r -q "releases/website.zip" public

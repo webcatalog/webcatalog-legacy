@@ -3,9 +3,31 @@ matrix:
   fast_finish: true
   include:
     - os: linux
-      env: BUILD_TYPE=windows
+      env:
+        - BUILD_TYPE=windows
+        - BUILD_ARCH=ia32
     - os: linux
-      env: BUILD_TYPE=linux
+      env:
+        - BUILD_TYPE=windows
+        - BUILD_ARCH=x64
+    - os: linux
+      env:
+        - BUILD_TYPE=windows
+        - BUILD_ARCH=ia32
+        - BUILD_PORTABLE=1
+    - os: linux
+      env:
+        - BUILD_TYPE=windows
+        - BUILD_ARCH=x64
+        - BUILD_PORTABLE=1
+    - os: linux
+      env:
+        - BUILD_TYPE=linux
+        - BUILD_ARCH=ia32
+    - os: linux
+      env:
+        - BUILD_TYPE=linux
+        - BUILD_ARCH=x64
     - os: osx
       env:
         - BUILD_TYPE=osx
