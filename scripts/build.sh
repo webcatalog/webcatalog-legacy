@@ -70,7 +70,7 @@ EOT
   then
     if [ "$BUILD_ARCH" = "ia32" ]
     then
-      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
+      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
 
       win_ia32_dir=$(find ".tmp/source/$config_id" -name "*win32-ia32" -type d | awk "NR==1")
 
@@ -86,7 +86,7 @@ EOT
 
     if [ "$BUILD_ARCH" = "x64" ]
     then
-      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch ia32 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
+      $(npm bin)/nativefier --name "$config_title" --platform win32 --arch x64 --icon "static/app/$config_id/windows.png" "$config_app_url" ".tmp/source/$config_id"
 
       win_x64_dir=$(find ".tmp/source/$config_id" -name "*win32-x64" -type d | awk "NR==1")
 
