@@ -92,7 +92,7 @@ EOT
 
       if [ "$BUILD_PORTABLE" = "1" ]
       then
-        zip -r -q "releases/$config_id-win_x64-portable.zip" "$win_x64_dir"
+        zip -r -q "releases/$config_id-win-x64-portable.zip" "$win_x64_dir"
       else
         $(npm bin)/electron-builder "$win_x64_dir" --platform=win --out=".tmp/releases/$config_id/win32-x64" --config=".tmp/$config_id.json"
         win_x64_setup=$(find ".tmp/releases/$config_id/win32-x64" -name "*.exe" -type f | awk "NR==1")

@@ -5,6 +5,7 @@ then
   brew update
 
   brew install hugo imagemagick pandoc
+  brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
 
   brew upgrade node
 fi

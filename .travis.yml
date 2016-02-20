@@ -1,4 +1,7 @@
 language: bash
+env:
+  global:
+    secure: OUvXTiKEfbSBIxNG2KtoaBj3VS3oPsOCa2uJBS/0+UVxdRqtkBfsajvsop4JsbZdJEpVc399YkAkz/kMbP5UQFtup8rzDX69apVsul93gvRsevuoY4iPFl+CMoy9iFhPWtfN69bXwoGh0rJcG0tSa/UEtpAxCbijIe5XEgKrisaPtDUKHAAANw1hiDIvuL3mMFyKEydcP4EVWkJ6X2JCZBLvx2w/Q1QY0s1aKAT7EjI1lBfvP6v7sWFqwepGRO3zHOdIKgMMirAlLMi1lksqfyGN+5/p8/9g4o1CYwAeZSa0aiDVb6uUUTIG3z/fgYaECzXJuAPW5WEuDTSNSDj9tEfTBJAEzDleSVTGhbRLlX/O6eU862B84JoXrbZnpOmkCRVGuuHCMOwU/ALcyODs1+IK2KM8cFCjkfdFW0FMYRAGEs4dThnvYQBTNPiA7u+dSfrfD8RsYIJNd8aw6HypkeYL5DTFz24Mxf0RkUiiVKfznLkkdoZn+pg+vyeNeg0nF1WynO3K/b63S2uTurs+TmfrtZgC5yYZrri4u8H9TBbV5DJWgyLZC5wa/kzJ3uOB+Wnqhyf/bw53sN10rlwl/hjBHHW5Ud+f5VF1G7ExTkseTAfrOiyBl3f2grTWA4YMYhsEvYkDonQuEoOD6ZMawiOtNjWPW4HbtxPGom6ybEI=
 matrix:
   fast_finish: true
   include:
@@ -38,6 +41,7 @@ addons:
     packages:
     - wine
     - nsis
+    - sshpass
 cache: apt
 before_install:
   - find scripts -name "*.sh" -exec chmod +x {} \;
@@ -48,12 +52,8 @@ install:
 script:
   - ./scripts/build.sh
 deploy:
-  provider: releases
-  api_key:
-    secure: HviG1CzYjVsmkPQrACk4iRrFbMjeAqpMAvKWA4sK9+k2+DV/NaagHu6JAZ7cSda6u0vxB4rXWiK9i235OSgdOEoz3W1P/etrf5c4YDSZGtHIGCh/HOvSHwNpDhXlbMrlwBxMC537I2v622bgbegprNZlmwEG1LyzBDw3DBtaEllxf/9gunoM+uR9aQW2Ef+scxx91YDyTxzRUVh3v6KgFJ9KCB3KxhHC40OrEM5uZYoEdSl1Ql0nItmRi6gV6UqACftw2FQR9gbL25LzqWRMZxtAV48jFbA2IPNiwnLM2RJQXs40JPtzFB9RIlippTK7VDmfWdfHRDFyC7ORMzHvcP+D4hQXG/FVtFXemPRADJAzdGO8aJs8D6J3oyzxKURD0/FwWSGPcTDGNcSLtv0fqB4aJqQZrwelFzBg3HWUvNt8nUEtzHFFWA4UO+mujecT/Hp0zh/ZXdEJF+EmTN/GdSlDgtgx3FF2aZgqymjv3Zihq+SxKCFoy6DX1+Z7nPt3kYwIVJumHrHveRTm9M18kekf2HByGJQpRIyctLyOzhHaIhc8TjQE9DNQPtyX5MZ8ySAT1OGZ5lxQfoKYDrijC2O93Nn8J0nH8vkz8FEltHrAedfNMTXkh34lJ3VVEK546CQzO9BMRF14ANy/DUxIztmH+3+EkBgFkVbcZrmeRP0=
-  file_glob: true
-  file: "releases/*"
-  skip_cleanup: true
+  provider: script
+  script: scripts/deploy.sh
   on:
     repo: quanglam2807/webcatalog
     tags: true
