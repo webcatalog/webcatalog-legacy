@@ -41,10 +41,12 @@
         </div>
         {{ $firstTab := $.Scratch.Get "firstTab" }}
         <div class="platform-content content{{ if not (eq $firstTab "windows") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-windows">
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-ia32.exe/download">Download (32-bit)</a></p>
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-x64.exe/download">Download (64-bit)</a></p>
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-ia32-portable.zip/download">Download (portable, 32-bit)</a></p>
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-win-x64-portable.zip/download">Download (portable, 64-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-win-ia32.exe/download">Download (32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-win-x64.exe/download">Download (64-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-win-ia32-portable.zip/download">Download (portable, 32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-win-x64-portable.zip/download">Download (portable, 64-bit)</a></p>
+          <p><strong>Current Version: </strong>{{ getenv "BUILD_VERSION" }}</p>
+
           <h3>Requirement for <strong>Windows</strong></h3>
           <ul>
             <li>Windows 7 or Server 2008 R2 or higher</li>
@@ -59,7 +61,8 @@
           </ol>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "osx") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-osx">
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-osx.dmg/download">Download</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-osx.dmg/download">Download</a></p>
+          <p><strong>Current Version: </strong>{{ getenv "BUILD_VERSION" }}</p>
 
           <h3>Requirement for <strong>OS X</strong></h3>
           <ul>
@@ -78,8 +81,8 @@
           </ol>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "linux") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-linux">
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-ia32.zip/download">Download (32-bit)</a></p>
-          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-x64.zip/download">Download (64-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-linux-ia32.zip/download">Download (32-bit)</a></p>
+          <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-linux-x64.zip/download">Download (64-bit)</a></p>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "android") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-android">
           <li>Open this page with <strong>Chrome</strong> on your <strong>Android</strong> device.</li>

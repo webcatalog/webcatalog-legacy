@@ -1,4 +1,1 @@
-for entry in releases/*
-do
-  sshpass -p $SOURCEFORGE_PASSWORD rsync -avP -e ssh "$entry" quanglam2807@frs.sourceforge.net:/home/frs/project/webcatalog-r/$TRAVIS_TAG/
-done
+sshpass -p $SOURCEFORGE_PASSWORD rsync --ignore-existing -avP -e ssh releases/* quanglam2807@frs.sourceforge.net:/home/frs/project/webcatalog-r/$BUILD_VERSION/
