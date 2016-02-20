@@ -49,6 +49,14 @@
           <ul>
             <li>Windows 7 or Server 2008 R2 or higher</li>
           </ul>
+
+          <h3>How to install</h3>
+          <ol>
+            <li>Download the 32-bit installer file (<strong>{{ .Params.id }}-win-ia32.dmg</strong>) if you're running 32-bit system or you don't know what type of system you're running. Download the 64-bit installer file (<strong>{{ .Params.id }}-win-x64.dmg</strong>) if you are running 64-bit system.</li>
+            <li>Open the file you downloaded.</li>
+            <li>Drag and drop the icon of the app you wanted to install to the Application icon.
+            <li>Open <strong>Launchpad</strong> and start <strong>{{ .Title }}</strong>.</li>
+          </ol>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "osx") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-osx">
           <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-osx.dmg">Download</a></p>
@@ -57,7 +65,17 @@
           <ul>
             <li>OS X 10.8 or higher</li>
             <li>64-bit system</li>
+            <li><a href="https://support.apple.com/en-us/HT202491">GateKeeper</a> disabled</li>
           </ul>
+
+          <h3>How to install</h3>
+          <ol>
+            <li>Make sure you have disabled <a href="https://support.apple.com/en-us/HT202491">GateKeeper</a>. If not, click the <i class="fa fa-apple"></i> icon at the top-left corner of your screen, choose <strong>System Preferences...</strong>,  click the <strong>Security & Privacy</strong> icon, then click the lock icon (if it is locked), enter your password, and set the <strong>Allow apps downloaded from</strong> option to <strong>Anywhere</strong>.
+            <li>Download the .DMG installer file (<strong>{{ .Params.id }}-osx.dmg</strong>).</li>
+            <li>Open the file you downloaded.</li>
+            <li>Drag and drop the icon of the app you wanted to install to the Application icon.
+            <li>Open <strong>Launchpad</strong> and start <strong>{{ .Title }}</strong>.</li>
+          </ol>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "linux") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-linux">
           <p><a class="button is-info is-large" href="https://github.com/quanglam2807/webcatalog/releases/download/{{ getenv "TRAVIS_TAG" }}/{{ .Params.id }}-linux-ia32.zip">Download (32-bit)</a></p>

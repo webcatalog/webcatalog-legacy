@@ -19,11 +19,12 @@ parse_yaml() {
 rm -rf releases
 mkdir -p releases
 
-rm -rf .tmp
-mkdir -p .tmp
-
 for entry in content/app/*
 do
+  # Clean up
+  rm -rf .tmp
+  mkdir -p .tmp
+
   # read yaml file
   eval $(parse_yaml $entry "config_")
 
