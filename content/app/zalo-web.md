@@ -29,5 +29,3 @@ Zalo có điều gì đặc biệt?
 * Không cần đăng ký, tích hợp với mạng xã hội (Zing, Facebook, Yahoo, Google).
 
 * An toàn và riêng tư.
-
-với bạn bè trong danh bạ! Mong nhận được nhiều ý kiến góp ý để Zalo ngày càng thân thiện với bạn hơn.

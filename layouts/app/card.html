@@ -10,7 +10,7 @@
         <div class="media-content">
           <p class="title is-5"><a href="/app/{{ .Params.id }}">{{ .Title }}</a></p>
           <p>
-            {{ range .Params.categories }}
+            {{ range first 1 .Params.categories }}
               <a class="tag is-success" href="/categories/{{ . | urlize }}">{{ . }}</a>
             {{ end }}
             {{ range .Params.platforms }}

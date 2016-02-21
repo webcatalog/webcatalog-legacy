@@ -13,6 +13,7 @@ $(document).ready(function ($) {
   var $tab = $('#platforms li');
   if ($tab.length) {
     function setTab(e) {
+      if (!e) return;
       $tab.removeClass('is-active');
       e.addClass('is-active');
       $i = e.text();

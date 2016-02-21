@@ -21,7 +21,7 @@
           {{ if isset .Params "developer" }}
             <span class="menu-block"><span class="menu-icon"><i class="fa fa-code"></i></span>Developer: <strong>{{ .Params.developer }}</strong></span>
           {{ end }}
-          <span class="menu-block"><span class="menu-icon"><i class="fa fa-folder"></i></span>Category: <strong>{{ delimit .Params.categories ", " }}</strong></span>
+          <span class="menu-block"><span class="menu-icon"><i class="fa fa-folder"></i></span>Categories: <strong>{{ delimit .Params.categories ", " }}</strong></span>
           {{ if isset .Params "icon_designer" }}
             <span class="menu-block"><span class="menu-icon"><i class="fa fa-paint-brush"></i></span>Icon Designer: <strong>{{ .Params.icon_designer }}</strong></span>
           {{ end }}
@@ -83,6 +83,7 @@
         <div class="platform-content content{{ if not (eq $firstTab "linux") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-linux">
           <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-linux-ia32.zip/download">Download (32-bit)</a></p>
           <p><a class="button is-info is-large" href="https://sourceforge.net/projects/webcatalog-r/files/{{ getenv "BUILD_VERSION" }}/{{ .Params.id }}-linux-x64.zip/download">Download (64-bit)</a></p>
+          <p><strong>Current Version: </strong>{{ getenv "BUILD_VERSION" }}</p>
         </div>
         <div class="platform-content content{{ if not (eq $firstTab "android") }} is-hidden-mobile is-hidden-tablet{{ end }}" id="content-android">
           <li>Open this page with <strong>Chrome</strong> on your <strong>Android</strong> device.</li>
