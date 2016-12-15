@@ -4,8 +4,6 @@ cache:
   yarn: true
   directories:
     - node_modules
-install:
-  - yarn
 script:
   - yarn start
 after_success:
