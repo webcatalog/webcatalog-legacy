@@ -16,4 +16,4 @@ script:
   - yarn start
 after_success:
   - yarn global add surge
-  - surge --project ./www --domain backend.webcatalog.com
+  - surge --project ./www --domain backend.getwebcatalog.com
