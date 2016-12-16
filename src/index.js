@@ -43,7 +43,15 @@ jsonFiles.forEach(fileName => {
         console.log(err);
         process.exit(1);
       }
-    });
+    })
+    .resize(128, 128)
+    .toFile(`${imageTargetPath}/${id}@128px.webp`, (err) => {
+      if (err) {
+        console.log(`${imageDataPath}/${id}@128px.webp`)
+        console.log(err);
+        process.exit(1);
+      }
+    })
 
   // Add Data to chunk
   if (count === numberOfAppInChunk) {
@@ -53,6 +61,8 @@ jsonFiles.forEach(fileName => {
   }
   const dataStr = fs.readFileSync(`${jsonDataPath}/${id}.json`, 'utf8');
   const app = JSON.parse(dataStr);
+  app.id = id;
+
   chunks[chunkIndex].push(app);
   count += 1;
 });
