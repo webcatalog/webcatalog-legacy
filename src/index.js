@@ -1,6 +1,8 @@
 const fs = require('fs');
 const sharp = require('sharp');
 
+const convertToIcns = require('./convertToIcns');
+
 const imageDataPath = './data/images';
 const jsonDataPath = './data/json';
 
@@ -10,10 +12,10 @@ const imageTargetPath = `${targetPath}/images`;
 const numberOfAppInChunk = 20;
 
 // init target folders
-if (!fs.existsSync(targetPath)){
+if (!fs.existsSync(targetPath)) {
   fs.mkdirSync(targetPath);
 }
-if (!fs.existsSync(imageTargetPath)){
+if (!fs.existsSync(imageTargetPath)) {
   fs.mkdirSync(imageTargetPath);
 }
 
@@ -24,7 +26,7 @@ const chunks = [[]];
 let count = 0;
 let chunkIndex = 0;
 
-jsonFiles.forEach(fileName => {
+jsonFiles.forEach((fileName) => {
   // Remove .json from filename to get app id
   const id = fileName.replace('.json', '');
 
@@ -32,14 +34,14 @@ jsonFiles.forEach(fileName => {
   sharp(`${imageDataPath}/${id}.png`)
     .toFile(`${imageTargetPath}/${id}.png`, (err) => {
       if (err) {
-        console.log(`${imageDataPath}/${id}.png`)
+        console.log(`${imageDataPath}/${id}.png`);
         console.log(err);
         process.exit(1);
       }
     })
     .toFile(`${imageTargetPath}/${id}.webp`, (err) => {
       if (err) {
-        console.log(`${imageDataPath}/${id}.webp`)
+        console.log(`${imageDataPath}/${id}.webp`);
         console.log(err);
         process.exit(1);
       }
@@ -47,11 +49,20 @@ jsonFiles.forEach(fileName => {
     .resize(128, 128)
     .toFile(`${imageTargetPath}/${id}@128px.webp`, (err) => {
       if (err) {
-        console.log(`${imageDataPath}/${id}@128px.webp`)
+        console.log(`${imageDataPath}/${id}@128px.webp`);
         console.log(err);
         process.exit(1);
       }
-    })
+    });
+
+  // Generate ICNS
+  convertToIcns(`${imageDataPath}/${id}.png`, `${imageTargetPath}/${id}.icns`, (err) => {
+    if (err) {
+      console.log(`${imageDataPath}/${id}.icns`);
+      console.log(err);
+      process.exit(1);
+    }
+  });
 
   // Add Data to chunk
   if (count === numberOfAppInChunk) {
@@ -71,8 +82,8 @@ jsonFiles.forEach(fileName => {
 chunks.forEach((chunk, i) => {
   const data = {
     totalPage: chunks.length,
-    chunk: chunk
-  }
+    chunk,
+  };
 
   fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(data), (err) => {
     if (err) {

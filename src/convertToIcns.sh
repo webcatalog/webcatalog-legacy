@@ -1,0 +1,65 @@
+#!/bin/sh
+
+### USAGE
+
+# https://github.com/jiahaog/nativefier/blob/development/bin/convertToIcns
+
+# ./convertToIcns <input png> <outp icns>
+# Example
+# ./convertToIcns ~/sample.png ~/Desktop/converted.icns
+
+# exit the shell script on error immediately
+set -e
+
+# Exec Paths
+type convert >/dev/null 2>&1 || { echo >&2 "Cannot find required ImageMagick Convert executable"; exit 1; }
+type iconutil >/dev/null 2>&1 || { echo >&2 "Cannot find required iconutil executable"; exit 1; }
+
+# Parameters
+SOURCE=$1
+DEST=$2
+
+# Check source and destination arguments
+if [ -z "${SOURCE}" ]; then
+	echo "No source image specified"
+	exit 1
+fi
+
+if [ -z "${DEST}" ]; then
+	echo "No destination specified"
+	exit 1
+fi
+
+# File Infrastructure
+NAME=$(basename "${SOURCE}")
+EXT="${NAME##*.}"
+BASE="${NAME%.*}"
+ICONSET="${BASE}.iconset"
+
+function cleanUp() {
+    rm -rf "${ICONSET}"
+}
+
+trap cleanUp EXIT
+
+mkdir -p "${ICONSET}"
+
+PNG_PATH=$1
+
+# Resample image into iconset
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 16x16 "${ICONSET}/icon_16x16.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 32x32 "${ICONSET}/icon_16x16@2x.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 32x32 "${ICONSET}/icon_32x32.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 64x64 "${ICONSET}/icon_32x32@2x.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 128x128 "${ICONSET}/icon_128x128.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 256x256 "${ICONSET}/icon_128x128@2x.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 256x256 "${ICONSET}/icon_256x256.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 512x512 "${ICONSET}/icon_256x256@2x.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 512x512 "${ICONSET}/icon_512x512.png"
+convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 1024x1024 "${ICONSET}/icon_512x512@2x.png"
+
+# Create an icns file lefrom the iconset
+iconutil -c icns "${ICONSET}" -o "${DEST}"
+
+trap - EXIT
+cleanUp
