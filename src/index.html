@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link href="dist/blueprint.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 8px;
+        background-color: #f5f8fa;
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .grid {
+        margin-top: 6px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .col {
+        width: 24.5%;
+        padding: 6px;
+      }
+      @media screen and (min-width: 600px) and (max-width: 960px) {
+        .col {
+          width: 33%;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        .col {
+          width: 49.5%;
+        }
+      }
+
+      .logo {
+        height: 64px;
+        width: 64px;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      var shell = require('electron').shell;
+    </script>
+    <script src="bundle.js"></script>
+  </body>
+</html>
