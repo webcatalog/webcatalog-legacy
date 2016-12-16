@@ -59,7 +59,12 @@ jsonFiles.forEach(fileName => {
 
 
 chunks.forEach((chunk, i) => {
-  fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(chunk), (err) => {
+  const data = {
+    totalPage: chunks.length,
+    chunk: chunk
+  }
+
+  fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(data), (err) => {
     if (err) {
       console.log(err);
       process.exit(1);
