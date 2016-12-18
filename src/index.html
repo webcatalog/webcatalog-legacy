@@ -41,8 +41,7 @@
   <body>
     <div id="app"></div>
     <script>
-      var shell = require('electron').shell;
-      var remote = require('electron').remote;
+      var { shell, remote, ipcRenderer } = require('electron');
       var https = require('https');
       var fs= require('fs');
       var exec = require('child_process').exec;

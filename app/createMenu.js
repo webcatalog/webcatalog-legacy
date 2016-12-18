@@ -6,15 +6,12 @@ const electron = require('electron');
 const { Menu, shell, clipboard } = electron;
 
 /**
- * @param nativefierVersion
  * @param appQuit
  * @param zoomIn
  * @param zoomOut
  * @param goBack
  * @param goForward
  * @param getCurrentUrl
- * @param clearAppData
- * @param disableDevTools
  */
 function createMenu({
   webView, appName, getCurrentUrl, goBack, goForward, zoomIn, zoomOut, appQuit,

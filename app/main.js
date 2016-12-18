@@ -3,10 +3,7 @@
 const electron = require('electron');
 const argv = require('optimist').argv;
 
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow, dialog, ipcMain } = electron;
 
 const path = require('path');
 const url = require('url');
@@ -84,6 +81,23 @@ function createWindow() {
     mainWindow.webContents.goForward();
   };
 
+  const clearAppData = () => {
+    dialog.showMessageBox(mainWindow, {
+      type: 'warning',
+      buttons: ['Yes', 'Cancel'],
+      defaultId: 1,
+      title: 'Clear cache confirmation',
+      message: 'This will clear all data (cookies, local storage etc) from every app installed from WebCatalog. Are you sure you wish to proceed?',
+    }, (response) => {
+      if (response === 0) {
+        const session = mainWindow.webContents.session;
+        session.clearStorageData(() => {
+          session.clearCache();
+        });
+      }
+    });
+  };
+
   const getCurrentUrl = () => mainWindow.webContents.getURL();
 
   const menuOptions = {
@@ -98,6 +112,10 @@ function createWindow() {
   };
 
   createMenu(menuOptions);
+
+  ipcMain.on('clearAppData', () => {
+    clearAppData();
+  });
 }
 
 // This method will be called when Electron has finished

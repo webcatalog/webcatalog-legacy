@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent } from '@blueprintjs/core';
@@ -43,7 +44,12 @@ const Settings = ({ isOpen, requestToggleSettingDialog }) => (
       </label>
       <p>All settings are automatically saved.</p>
       <hr />
-      <Button text="Clear browsing data" intent={Intent.DANGER} style={{ marginBottom: 6 }} />
+      <Button
+        text="Clear browsing data"
+        intent={Intent.DANGER}
+        onClick={() => ipcRenderer.send('clearAppData')}
+        style={{ marginBottom: 6 }}
+      />
       <p>Affects all apps installed from WebCatalog.</p>
     </div>
     <div className="pt-dialog-footer">
