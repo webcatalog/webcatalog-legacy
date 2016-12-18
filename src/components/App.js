@@ -10,6 +10,7 @@ import Nav from './Nav';
 import Spinner from './Spinner';
 import NoConnection from './NoConnection';
 import Card from './Card';
+import Settings from './Settings';
 
 class App extends React.Component {
   componentDidMount() {
@@ -97,6 +98,7 @@ class App extends React.Component {
         <div style={{ height: 48 }} />
         {this.renderList()}
         {this.renderStatus()}
+        <Settings />
       </div>
     );
   }

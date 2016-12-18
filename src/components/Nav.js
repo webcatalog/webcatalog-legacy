@@ -4,9 +4,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { search, setSearchQuery } from '../actions';
+import { toggleSettingDialog } from '../actions/settings';
 import { NONE } from '../constants/actions';
 
-const Nav = ({ query, searchStatus, requestSearch, requestSetSearchQuery }) => (
+const Nav = ({
+  query, searchStatus,
+  requestSearch, requestSetSearchQuery, requestToggleSettingDialog,
+}) => (
   <nav className="pt-navbar pt-fixed-top" style={{ display: 'flex' }}>
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
       <div className="pt-navbar-heading">
@@ -51,7 +55,10 @@ const Nav = ({ query, searchStatus, requestSearch, requestSetSearchQuery }) => (
         Submit new app
       </button>
       <span className="pt-navbar-divider" />
-      <button className="pt-button pt-minimal pt-icon-cog" />
+      <button
+        className="pt-button pt-minimal pt-icon-cog"
+        onClick={() => requestToggleSettingDialog()}
+      />
     </div>
   </nav>
 );
@@ -61,6 +68,7 @@ Nav.propTypes = {
   searchStatus: React.PropTypes.string,
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
+  requestToggleSettingDialog: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -74,6 +82,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestSetSearchQuery: (query) => {
     dispatch(setSearchQuery(query));
+  },
+  requestToggleSettingDialog: () => {
+    dispatch(toggleSettingDialog());
   },
 });
 
