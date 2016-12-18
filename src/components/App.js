@@ -45,7 +45,12 @@ class App extends React.Component {
             <input className="pt-input" placeholder="Search (name, URL)..." type="text" style={{ width: '100%' }} />
           </div>
           <div className="pt-navbar-group pt-align-right">
-            <button className="pt-button pt-minimal pt-icon-edit">Request New App</button>
+            <button
+              className="pt-button pt-minimal pt-icon-edit"
+              onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
+            >
+              Submit new app
+            </button>
             <span className="pt-navbar-divider" />
             <button className="pt-button pt-minimal pt-icon-cog" />
           </div>
