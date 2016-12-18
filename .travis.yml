@@ -8,10 +8,8 @@ cache:
 before_install:
   - brew update
   - brew install imagemagick
-install:
-  - yarn
-  - node-gyp rebuild -C ./node_modules/sharp
 script:
+  - node-gyp rebuild -C ./node_modules/sharp
   - yarn start
 after_success:
   - yarn global add surge
