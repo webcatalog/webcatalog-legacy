@@ -1,5 +1,6 @@
 const fs = require('fs');
 const sharp = require('sharp');
+const algoliasearch = require('algoliasearch');
 
 const convertToIcns = require('./convertToIcns');
 
@@ -25,6 +26,8 @@ const chunks = [[]];
 
 let count = 0;
 let chunkIndex = 0;
+
+const apps = [];
 
 jsonFiles.forEach((fileName) => {
   // Remove .json from filename to get app id
@@ -76,6 +79,8 @@ jsonFiles.forEach((fileName) => {
 
   chunks[chunkIndex].push(app);
   count += 1;
+
+  apps.push(app);
 });
 
 
@@ -91,4 +96,13 @@ chunks.forEach((chunk, i) => {
       process.exit(1);
     }
   });
+});
+
+// algolia
+const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
+const index = client.initIndex('webcatalog');
+index.addObjects(apps, (err) => {
+  if (err) {
+    console.error(err);
+  }
 });
