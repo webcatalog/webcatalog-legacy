@@ -10,7 +10,7 @@ const jsonDataPath = './data/json';
 const targetPath = './www';
 const imageTargetPath = `${targetPath}/images`;
 
-const numberOfAppInChunk = 20;
+const numberOfAppInChunk = 24;
 
 // init target folders
 if (!fs.existsSync(targetPath)) {
