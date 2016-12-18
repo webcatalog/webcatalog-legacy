@@ -29,8 +29,6 @@ const app = (state = initialState, action) => {
         apps = chunk;
       }
 
-      console.log(action.currentPage);
-
       return Object.assign({}, state, {
         apps,
         currentPage: action.currentPage,

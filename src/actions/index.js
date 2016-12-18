@@ -1,6 +1,6 @@
 /* global fetch exec remote fs https */
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, INSTALLED, INPROGRESS, FAILED
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, INSTALLED, INPROGRESS, FAILED,
 } from '../constants/actions';
 
 let loading = false;
@@ -34,9 +34,7 @@ export const fetchApps = () => ((dispatch, getState) => {
 
       loading = false;
     })
-    .catch((err) => {
-      console.log(err);
-
+    .catch(() => {
       dispatch({
         type: SET_STATUS,
         status: FAILED,
