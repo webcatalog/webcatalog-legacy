@@ -1,11 +1,15 @@
 /* global fetch exec remote fs https */
+import { batchActions } from 'redux-batched-actions';
+import algoliasearch from 'algoliasearch';
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, INSTALLED, INPROGRESS, FAILED,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS,
+  SET_SEARCH_QUERY, SET_SEARCH_HITS, SET_SEARCH_STATUS,
+  INSTALLED, INPROGRESS, LOADING, FAILED, DONE, NONE,
 } from '../constants/actions';
 
 let loading = false;
 
-export const fetchApps = () => ((dispatch, getState) => {
+export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
 
   // All pages have been fetched => stop
@@ -18,19 +22,26 @@ export const fetchApps = () => ((dispatch, getState) => {
 
   const currentPage = appState.currentPage + 1;
 
+  dispatch({
+    type: SET_STATUS,
+    status: LOADING,
+  });
+
   fetch(`https://backend.getwebcatalog.com/${currentPage}.json`)
     .then(response => response.json())
     .then(({ chunk, totalPage }) => {
-      dispatch({
-        type: SET_STATUS,
-        status: 'done',
-      });
-      dispatch({
-        type: ADD_APPS,
-        chunk,
-        currentPage,
-        totalPage,
-      });
+      dispatch(batchActions([
+        {
+          type: SET_STATUS,
+          status: DONE,
+        },
+        {
+          type: ADD_APPS,
+          chunk,
+          currentPage,
+          totalPage,
+        },
+      ]));
 
       loading = false;
     })
@@ -40,12 +51,15 @@ export const fetchApps = () => ((dispatch, getState) => {
         status: FAILED,
       });
 
-      loading = false;
+      // prevent constantly retrying to connect
+      setTimeout(() => {
+        loading = false;
+      }, 1000);
     });
-});
+};
 
 
-export const installApp = app => ((dispatch) => {
+export const installApp = app => (dispatch) => {
   dispatch({
     type: ADD_APP_STATUS,
     id: app.get('id'),
@@ -72,7 +86,7 @@ export const installApp = app => ((dispatch) => {
       });
     });
   });
-});
+};
 
 const deleteFolderRecursive = (path) => {
   if (fs.existsSync(path)) {
@@ -123,3 +137,52 @@ export const scanInstalledApps = () => ((dispatch) => {
     });
   });
 });
+
+export const setSearchQuery = query => (dispatch) => {
+  dispatch({
+    type: SET_SEARCH_QUERY,
+    query,
+  });
+
+  if (!query || query.length < 1) {
+    dispatch({
+      type: SET_SEARCH_STATUS,
+      status: NONE,
+    });
+  }
+};
+
+export const search = () => (dispatch, getState) => {
+  const query = getState().search.query;
+
+  if (!query || query.length < 1) return;
+
+  dispatch({
+    type: SET_SEARCH_STATUS,
+    status: LOADING,
+  });
+
+  const client = algoliasearch('PFL0LPV96S', '2b9f5f768d387b7239ce0b21106373e9');
+  const index = client.initIndex('webcatalog');
+
+  index.search(query, (err, content) => {
+    if (err) {
+      dispatch({
+        type: SET_SEARCH_STATUS,
+        status: FAILED,
+      });
+      return;
+    }
+
+    dispatch(batchActions([
+      {
+        type: SET_SEARCH_STATUS,
+        status: DONE,
+      },
+      {
+        type: SET_SEARCH_HITS,
+        hits: content.hits,
+      },
+    ]));
+  });
+};

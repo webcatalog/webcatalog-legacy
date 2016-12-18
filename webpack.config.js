@@ -44,6 +44,7 @@ const common = {
 const config = (() => {
   const copyArr = [
     { from: 'src/index.html' },
+    { from: 'src/images', to: `${BUILD_DIR}/images` },
     { from: 'node_modules/@blueprintjs/core/dist/blueprint.css', to: `${BUILD_DIR}/dist` },
     { from: 'node_modules/@blueprintjs/core/resources', to: `${BUILD_DIR}/resources` },
   ];

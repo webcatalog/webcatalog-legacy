@@ -1,17 +1,15 @@
-/* global shell remote window document */
+/* global window document shell */
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
-import { fetchApps, installApp, uninstallApp } from '../actions';
-import { LOADING, FAILED, INSTALLED, INPROGRESS } from '../constants/actions';
+import { fetchApps, search } from '../actions';
+import { LOADING, FAILED, DONE, NONE } from '../constants/actions';
 
-
-const extractDomain = (url) => {
-  const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
-  const domain = matches && matches[1];
-  return domain.replace('www.', '');
-};
+import Nav from './Nav';
+import Spinner from './Spinner';
+import NoConnection from './NoConnection';
+import Card from './Card';
 
 class App extends React.Component {
   componentDidMount() {
@@ -29,162 +27,76 @@ class App extends React.Component {
     window.onscroll = null;
   }
 
-  render() {
+  renderList() {
     const {
-      status, apps, appStatus,
-      requestFetchApps, requestInstallApp, requestUninstallApp,
+      searchStatus, apps, hits, query,
     } = this.props;
 
+    if (searchStatus === DONE) {
+      if (hits.size < 1) {
+        return (
+          <div className="text-container">
+            <h5>Your search {`"${query}"`} did not match any apps.</h5>
+          </div>
+        );
+      }
+      return (
+        <div>
+          <div className="text-container">
+            <h5>Search result for {`"${query}"`}</h5>
+          </div>
+          <div className="grid">
+            {hits.map(app => <Card app={app} key={app.get('id')} />)}
+          </div>
+          <div className="text-container">
+            <p>powered by</p>
+            <p>
+              <a onClick={() => shell.openExternal('https://www.algolia.com')}>
+                <img
+                  src="images/Algolia_logo_bg-white.svg"
+                  role="presentation"
+                  style={{ height: 32 }}
+                />
+              </a>
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // Only show all apps if search is not running
+    if (searchStatus === NONE && apps) {
+      return (
+        <div className="grid">
+          {apps.map(app => <Card app={app} key={app.get('id')} />)}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  renderStatus() {
+    const {
+      status, searchStatus,
+      requestFetchApps, requestSearch,
+    } = this.props;
+
+    if (searchStatus === LOADING) return <Spinner />;
+    else if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
+    else if (status === LOADING) return <Spinner />;
+    else if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
+
+    return null;
+  }
+
+  render() {
     return (
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
-        <nav className="pt-navbar pt-fixed-top" style={{ display: 'flex' }}>
-          <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
-            <div className="pt-navbar-heading">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
-            <input className="pt-input" placeholder="Search (name, URL)..." type="text" style={{ width: '100%' }} />
-          </div>
-          <div className="pt-navbar-group pt-align-right">
-            <button
-              className="pt-button pt-minimal pt-icon-edit"
-              onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
-            >
-              Submit new app
-            </button>
-            <span className="pt-navbar-divider" />
-            <button className="pt-button pt-minimal pt-icon-cog" />
-          </div>
-        </nav>
+        <Nav />
         <div style={{ height: 56 }} />
-        {apps ? (
-          <div className="grid">
-            {apps.map(app => (
-              <div className="col" key={app.get('id')}>
-                <div className="pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
-                  <img
-                    src={`https://backend.getwebcatalog.com/images/${app.get('id')}@128px.webp`}
-                    role="presentation"
-                    style={{
-                      height: 64,
-                      width: 64,
-                      marginBottom: 8,
-                    }}
-                  />
-                  <h5>{app.get('name')}</h5>
-                  <p>
-                    <a onClick={() => shell.openExternal(app.get('url'))}>
-                      {extractDomain(app.get('url'))}
-                    </a>
-                  </p>
-                  {(() => {
-                    if (appStatus.get(app.get('id')) === INPROGRESS) {
-                      return (
-                        <div className="pt-progress-bar pt-intent-primary" style={{ textAlign: 'left' }}>
-                          <div className="pt-progress-meter" style={{ width: '100%' }} />
-                        </div>
-                      );
-                    }
-                    if (appStatus.get(app.get('id')) === INSTALLED) {
-                      return [
-                        <a
-                          key="open"
-                          role="button"
-                          className="pt-button"
-                          tabIndex="0"
-                          onClick={() => shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`)}
-                        >
-                          Open
-                        </a>,
-                        <a
-                          key="uninstall"
-                          role="button"
-                          className="pt-button pt-intent-danger pt-icon-trash"
-                          tabIndex="0"
-                          style={{ marginLeft: 6 }}
-                          onClick={() => requestUninstallApp(app)}
-                        >
-                          Uninstall
-                        </a>,
-                      ];
-                    }
-                    return [
-                      <a
-                        key="install"
-                        role="button"
-                        className="pt-button pt-intent-primary pt-icon-download"
-                        tabIndex="0"
-                        onClick={() => requestInstallApp(app)}
-                      >
-                        Install
-                      </a>,
-                      <a
-                        key="try"
-                        role="button"
-                        className="pt-button"
-                        tabIndex="0"
-                        style={{ marginLeft: 6 }}
-                        onClick={() => {
-                          const BrowserWindow = remote.BrowserWindow;
-                          const trialWindow = new BrowserWindow({
-                            width: 1024,
-                            height: 600,
-                          });
-                          trialWindow.loadURL(app.get('url'));
-                        }}
-                      >
-                        Try
-                      </a>,
-                    ];
-                  })()}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : null}
-        {(status === LOADING) ? (
-          <div
-            style={{
-              width: '100%',
-              height: 64,
-              alignItems: 'center',
-              justifyContent: 'center',
-              display: 'flex',
-            }}
-          >
-            <div className="pt-spinner pt-small">
-              <div className="pt-spinner-svg-container">
-                <svg viewBox="0 0 100 100">
-                  <path
-                    className="pt-spinner-track"
-                    d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
-                  />
-                  <path className="pt-spinner-head" d="M 94.5 50 A 44.5 44.5 0 0 0 50 5.5" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        ) : null}
-        {(status === FAILED) ? (
-          <div
-            style={{
-              width: '100%',
-              padding: 12,
-              textAlign: 'center',
-            }}
-          >
-            <h5>
-              WebCatalog could not connect to its server.
-              Please check your Internet connection and try again.
-            </h5>
-            <button
-              type="button"
-              className="pt-button pt-large pt-intent-primary pt-icon-repeat"
-              onClick={() => requestFetchApps()}
-            >
-              Try again
-            </button>
-          </div>
-        ) : null}
+        {this.renderList()}
+        {this.renderStatus()}
       </div>
     );
   }
@@ -193,27 +105,27 @@ class App extends React.Component {
 App.propTypes = {
   status: React.PropTypes.string,
   apps: React.PropTypes.instanceOf(Immutable.List),
-  appStatus: React.PropTypes.instanceOf(Immutable.Map),
+  searchStatus: React.PropTypes.string,
+  query: React.PropTypes.string,
+  hits: React.PropTypes.instanceOf(Immutable.List),
   requestFetchApps: React.PropTypes.func,
-  requestInstallApp: React.PropTypes.func,
-  requestUninstallApp: React.PropTypes.func,
+  requestSearch: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   status: state.app.status,
   apps: state.app.apps,
-  appStatus: state.app.appStatus,
+  searchStatus: state.search.status,
+  query: state.search.query,
+  hits: state.search.hits,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
   },
-  requestInstallApp: (app) => {
-    dispatch(installApp(app));
-  },
-  requestUninstallApp: (app) => {
-    dispatch(uninstallApp(app));
+  requestSearch: () => {
+    dispatch(search());
   },
 });
 
