@@ -13,8 +13,22 @@
         max-width: 960px;
         margin: 0 auto;
       }
+
+      .pt-navbar {
+        display: flex;
+      }
+
+      .pt-navbar > .pt-align-left {
+        flex: 1;
+        padding-right: 12px;
+      }
+
+      .pt-navbar > .pt-align-left .pt-input {
+        width: 100%;
+      }
+
       .grid {
-        margin-top: 6px;
+        margin-top: 56px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -46,6 +60,10 @@
     <div id="app"></div>
     <script>
       var shell = require('electron').shell;
+      var remote = require('electron').remote;
+      var https = require('https');
+      var fs= require('fs');
+      var exec = require('child_process').exec;
     </script>
     <script src="bundle.js"></script>
   </body>

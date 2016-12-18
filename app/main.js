@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const electron = require('electron');
+const argv = require('optimist').argv;
+
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -14,20 +16,42 @@ const url = require('url');
 let mainWindow;
 
 function createWindow() {
+  const appUrl = argv.url;
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  const options = appUrl ? {
+    width: 1280,
+    height: 800,
+    title: argv.name,
+    webPreferences: {
+      javascript: true,
+      plugins: true,
+      // node globals causes problems with sites like messenger.com
+      nodeIntegration: false,
+      webSecurity: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  } : {
     width: 800,
     height: 600,
     minWidth: 500,
     minHeight: 400,
-  });
+    titleBarStyle: 'hidden',
+  };
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
+  mainWindow = new BrowserWindow(options);
+
+  const windowUrl = appUrl || url.format({
     pathname: path.join(__dirname, 'www', 'index.html'),
     protocol: 'file:',
     slashes: true,
-  }));
+  });
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(windowUrl);
+
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {

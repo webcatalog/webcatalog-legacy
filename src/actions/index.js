@@ -1,4 +1,4 @@
-/* global fetch */
+/* global fetch exec remote fs https */
 import Immutable from 'immutable';
 
 import {
@@ -31,4 +31,20 @@ export const fetchApps = () => ((dispatch, getState) => {
         totalPage: result.totalPage,
       });
     });
+});
+
+
+export const installApp = app => (() => {
+  const iconPath = `${remote.app.getPath('temp')}/icon.icns`;
+  const iconFile = fs.createWriteStream(iconPath);
+
+  https.get(`https://backend.getwebcatalog.com/images/${app.get('id')}.icns`, (response) => {
+    response.pipe(iconFile);
+
+    iconFile.on('finish', () => {
+      const cmd = `${remote.app.getAppPath()}/applify.sh "${app.get('name')}" "${app.get('url')}" "${iconPath}"`;
+
+      exec(cmd);
+    });
+  });
 });

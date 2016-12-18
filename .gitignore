@@ -38,3 +38,6 @@ jspm_packages
 
 # Compiled code
 www
+
+# Electron builds
+*-darwin-x64

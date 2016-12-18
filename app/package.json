@@ -1,3 +1,7 @@
 {
-  "main": "main.js"
+  "name": "WebCatalog",
+  "main": "main.js",
+  "dependencies": {
+    "optimist": "^0.6.1"
+  }
 }

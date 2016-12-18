@@ -3,7 +3,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
-import { fetchApps } from '../actions';
+import { fetchApps, installApp } from '../actions';
 
 const extractDomain = (url) => {
   const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -18,20 +18,28 @@ class App extends React.Component {
   }
 
   render() {
-    const { status, apps } = this.props;
+    const { status, apps, requestInstallApp } = this.props;
 
     if (status === 'loading') return (<div>loading</div>);
 
     return (
       <div className="container">
-        <div className="pt-input-group pt-large">
-          <span className="pt-icon pt-icon-search" />
-          <input type="text" className="pt-input" placeholder="Search (name, URL)..." />
-          <button className="pt-button pt-minimal pt-intent-primary pt-icon-arrow-right" />
-        </div>
+        <nav className="pt-navbar pt-fixed-top">
+          <div className="pt-navbar-group pt-align-left">
+            <div className="pt-navbar-heading">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <input className="pt-input" placeholder="Search (name, URL)..." type="text" />
+          </div>
+          <div className="pt-navbar-group pt-align-right">
+            <button className="pt-button pt-minimal pt-icon-edit">Request New App</button>
+            <span className="pt-navbar-divider" />
+            <button className="pt-button pt-minimal pt-icon-cog" />
+          </div>
+        </nav>
         <div className="grid">
           {apps.map(app => (
-            <div className="col">
+            <div className="col" key={app.get('id')}>
               <div className="pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
                 <img className="logo" src={`https://backend.getwebcatalog.com/images/${app.get('id')}@128px.webp`} role="presentation" />
                 <h5>{app.get('name')}</h5>
@@ -44,6 +52,7 @@ class App extends React.Component {
                   role="button"
                   className="pt-button pt-intent-primary pt-icon-download"
                   tabIndex="0"
+                  onClick={() => requestInstallApp(app)}
                 >
                   Install
                 </a>
@@ -66,8 +75,9 @@ class App extends React.Component {
 
 App.propTypes = {
   status: React.PropTypes.string,
-  apps: React.PropTypes.instanceOf(Immutable.Map),
+  apps: React.PropTypes.instanceOf(Immutable.List),
   requestFetchApps: React.PropTypes.func,
+  requestInstallApp: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -78,6 +88,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
+  },
+  requestInstallApp: (app) => {
+    dispatch(installApp(app));
   },
 });
 
