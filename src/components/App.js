@@ -1,10 +1,10 @@
-/* global shell remote */
+/* global shell remote window document */
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
 import { fetchApps, installApp, uninstallApp } from '../actions';
-import { LOADING, INSTALLED, INPROGRESS } from '../constants/actions';
+import { LOADING, FAILED, INSTALLED, INPROGRESS } from '../constants/actions';
 
 
 const extractDomain = (url) => {
@@ -17,10 +17,23 @@ class App extends React.Component {
   componentDidMount() {
     const { requestFetchApps } = this.props;
     requestFetchApps();
+
+    window.onscroll = () => {
+      if ((window.innerHeight + window.scrollY + 300) >= document.body.offsetHeight) {
+        requestFetchApps();
+      }
+    };
+  }
+
+  componentWillUnmount() {
+    window.onscroll = null;
   }
 
   render() {
-    const { status, apps, appStatus, requestInstallApp, requestUninstallApp } = this.props;
+    const {
+      status, apps, appStatus,
+      requestFetchApps, requestInstallApp, requestUninstallApp,
+    } = this.props;
 
     return (
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
@@ -38,29 +51,6 @@ class App extends React.Component {
           </div>
         </nav>
         <div style={{ height: 56 }} />
-        {(status === LOADING) ? (
-          <div
-            style={{
-              width: '100%',
-              height: 64,
-              alignItems: 'center',
-              justifyContent: 'center',
-              display: 'flex',
-            }}
-          >
-            <div className="pt-spinner pt-small">
-              <div className="pt-spinner-svg-container">
-                <svg viewBox="0 0 100 100">
-                  <path
-                    className="pt-spinner-track"
-                    d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
-                  />
-                  <path className="pt-spinner-head" d="M 94.5 50 A 44.5 44.5 0 0 0 50 5.5" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        ) : null}
         {apps ? (
           <div className="grid">
             {apps.map(app => (
@@ -136,6 +126,50 @@ class App extends React.Component {
                 </div>
               </div>
             ))}
+          </div>
+        ) : null}
+        {(status === LOADING) ? (
+          <div
+            style={{
+              width: '100%',
+              height: 64,
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
+            <div className="pt-spinner pt-small">
+              <div className="pt-spinner-svg-container">
+                <svg viewBox="0 0 100 100">
+                  <path
+                    className="pt-spinner-track"
+                    d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
+                  />
+                  <path className="pt-spinner-head" d="M 94.5 50 A 44.5 44.5 0 0 0 50 5.5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {(status === FAILED) ? (
+          <div
+            style={{
+              width: '100%',
+              padding: 12,
+              textAlign: 'center',
+            }}
+          >
+            <h5>
+              WebCatalog could not connect to its server.
+              Please check your Internet connection and try again.
+            </h5>
+            <button
+              type="button"
+              className="pt-button pt-large pt-intent-primary pt-icon-repeat"
+              onClick={() => requestFetchApps()}
+            >
+              Try again
+            </button>
           </div>
         ) : null}
       </div>

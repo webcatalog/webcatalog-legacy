@@ -1,7 +1,9 @@
 /* global fetch exec remote fs https */
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, INSTALLED, INPROGRESS,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, INSTALLED, INPROGRESS, FAILED
 } from '../constants/actions';
+
+let loading = false;
 
 export const fetchApps = () => ((dispatch, getState) => {
   const appState = getState().app;
@@ -9,7 +11,12 @@ export const fetchApps = () => ((dispatch, getState) => {
   // All pages have been fetched => stop
   if (appState.totalPage && appState.currentPage + 1 === appState.totalPage) return;
 
-  const currentPage = appState.currentPage ? appState.currentPage + 1 : 0;
+  // Prevent run many times
+  if (loading) return;
+
+  loading = true;
+
+  const currentPage = appState.currentPage + 1;
 
   fetch(`https://backend.getwebcatalog.com/${currentPage}.json`)
     .then(response => response.json())
@@ -24,6 +31,18 @@ export const fetchApps = () => ((dispatch, getState) => {
         currentPage,
         totalPage,
       });
+
+      loading = false;
+    })
+    .catch((err) => {
+      console.log(err);
+
+      dispatch({
+        type: SET_STATUS,
+        status: FAILED,
+      });
+
+      loading = false;
     });
 });
 

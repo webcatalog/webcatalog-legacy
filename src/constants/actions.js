@@ -6,4 +6,5 @@ export const REMOVE_APP_STATUS = 'REMOVE_APP_STATUS';
 export const INSTALLED = 1;
 export const INPROGRESS = 2;
 
-export const LOADING = 1;
+export const LOADING = 'LOADING';
+export const FAILED = 'FAILED';

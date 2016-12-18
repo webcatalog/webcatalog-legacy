@@ -7,7 +7,7 @@ import {
 const initialState = {
   status: LOADING,
   apps: null,
-  currentPage: null,
+  currentPage: -1,
   totalPage: null,
   appStatus: Immutable.fromJS({}),
 };
@@ -29,7 +29,13 @@ const app = (state = initialState, action) => {
         apps = chunk;
       }
 
-      return Object.assign({}, state, { apps });
+      console.log(action.currentPage);
+
+      return Object.assign({}, state, {
+        apps,
+        currentPage: action.currentPage,
+        totalPage: action.totalPage,
+      });
     }
     case ADD_APP_STATUS: {
       return Object.assign({}, state, {
