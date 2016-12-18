@@ -9,6 +9,7 @@ before_install:
   - brew update
   - brew install imagemagick
 script:
+  - yarn global add node-gyp
   - node-gyp rebuild -C ./node_modules/sharp
   - yarn start
 after_success:
