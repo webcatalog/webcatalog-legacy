@@ -118,6 +118,14 @@ class App extends React.Component {
                         className="pt-button"
                         tabIndex="0"
                         style={{ marginLeft: 6 }}
+                        onClick={() => {
+                          const BrowserWindow = remote.BrowserWindow;
+                          const trialWindow = new BrowserWindow({
+                            width: 1024,
+                            height: 600,
+                          });
+                          trialWindow.loadURL(app.get('url'));
+                        }}
                       >
                         Try
                       </a>,
