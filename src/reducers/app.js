@@ -1,21 +1,46 @@
+import Immutable from 'immutable';
+
 import {
-  UPDATE_APP,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, LOADING,
 } from '../constants/actions';
 
 const initialState = {
-  status: 'loading',
+  status: LOADING,
   apps: null,
   currentPage: null,
   totalPage: null,
+  installedApps: Immutable.fromJS({}),
 };
 
 const app = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_APP:
+    case SET_STATUS: {
       return Object.assign({}, state, {
         status: action.status,
-        apps: action.apps,
       });
+    }
+    case ADD_APPS: {
+      const chunk = Immutable.fromJS(action.chunk);
+
+      let apps;
+      if (state.apps) {
+        apps = state.apps.concat(Immutable.fromJS(chunk));
+      } else {
+        apps = chunk;
+      }
+
+      return Object.assign({}, state, { apps });
+    }
+    case ADD_APP_STATUS: {
+      return Object.assign({}, state, {
+        installedApps: state.installedApps.set(action.id, action.status),
+      });
+    }
+    case REMOVE_APP_STATUS: {
+      return Object.assign({}, state, {
+        installedApps: state.installedApps.delete(action.id),
+      });
+    }
     default:
       return state;
   }

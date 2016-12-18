@@ -6,6 +6,7 @@
 APPNAME=${1}
 APPURL=${2}
 APPICONS=${3}
+APPID=${4}
 APPDIR=$(eval echo "~/Applications")
 TARGETDIR="${APPDIR}/WebCatalog Apps/$APPNAME.app"
 DIR="${TARGETDIR}/Contents"
@@ -20,6 +21,9 @@ EOF
 chmod +x "${SCRIPT}"
 
 cp -v "$APPICONS" "${DIR}/Resources/${APPNAME}.icns"
+
+# To identify
+echo "${APPID}" > "${TARGETDIR}/id"
 
 cat <<EOF > "$DIR/Info.plist"
 <?xml version="1.0" encoding="UTF-8"?>

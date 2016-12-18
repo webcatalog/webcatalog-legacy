@@ -8,7 +8,6 @@ import { FocusStyleManager } from '@blueprintjs/core';
 import store from './store';
 import App from './components/App';
 
-
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
 
