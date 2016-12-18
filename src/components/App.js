@@ -94,7 +94,7 @@ class App extends React.Component {
     return (
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
         <Nav />
-        <div style={{ height: 56 }} />
+        <div style={{ height: 48 }} />
         {this.renderList()}
         {this.renderStatus()}
       </div>

@@ -97,7 +97,7 @@ function createWindow() {
     getCurrentUrl,
   };
 
-   // createMenu(menuOptions);
+  createMenu(menuOptions);
 }
 
 // This method will be called when Electron has finished
