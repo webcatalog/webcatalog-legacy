@@ -8,6 +8,9 @@ cache:
 before_install:
   - brew update
   - brew install imagemagick
+install:
+  - yarn
+  - node-gyp rebuild -C ./node_modules/sharp
 script:
   - yarn start
 after_success:
