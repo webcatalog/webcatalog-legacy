@@ -2,6 +2,9 @@
   "name": "WebCatalog",
   "main": "main.js",
   "dependencies": {
+    "deep-equal": "^1.0.1",
+    "jsonfile": "^2.4.0",
+    "mkdirp": "^0.5.1",
     "optimist": "^0.6.1"
   }
 }

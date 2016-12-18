@@ -13,37 +13,6 @@ const Settings = ({ isOpen, requestToggleSettingDialog }) => (
     title="Settings"
   >
     <div className="pt-dialog-body">
-      <p>The initial width & height used for new apps installed from WebCatalog.</p>
-      <label htmlFor="windowWidth" className="pt-label pt-inline">
-        Initial window width
-        <div className="pt-input-group">
-          <span className="pt-icon pt-icon-column-layout" />
-          <input
-            className="pt-input"
-            style={{ width: 200 }}
-            type="text"
-            placeholder="Initial window width"
-            dir="auto"
-            name="windowWidth"
-          />
-        </div>
-      </label>
-      <label htmlFor="windowHeight" className="pt-label pt-inline">
-        Initial window height
-        <div className="pt-input-group">
-          <span className="pt-icon pt-icon-column-layout" />
-          <input
-            className="pt-input"
-            style={{ width: 200 }}
-            type="text"
-            placeholder="Initial window height"
-            dir="auto"
-            name="windowHeight"
-          />
-        </div>
-      </label>
-      <p>All settings are automatically saved.</p>
-      <hr />
       <Button
         text="Clear browsing data"
         intent={Intent.DANGER}

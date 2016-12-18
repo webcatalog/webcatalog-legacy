@@ -9,18 +9,27 @@ const path = require('path');
 const url = require('url');
 
 const createMenu = require('./createMenu');
+const windowStateKeeper = require('./windowStateKeeper');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
-  const appUrl = argv.url;
+  const isWebView = argv.url && argv.id;
+
+  const mainWindowState = windowStateKeeper({
+    id: isWebView ? argv.id : 'webcatalog',
+    defaultWidth: isWebView ? 1280 : 800,
+    defaultHeight: isWebView ? 800 : 600,
+  });
 
   // Create the browser window.
-  const options = appUrl ? {
-    width: 1280,
-    height: 800,
+  const options = isWebView ? {
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     title: argv.name,
     webPreferences: {
       javascript: true,
@@ -31,8 +40,10 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   } : {
-    width: 800,
-    height: 600,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     minWidth: 500,
     minHeight: 400,
     titleBarStyle: 'hidden',
@@ -40,7 +51,9 @@ function createWindow() {
 
   mainWindow = new BrowserWindow(options);
 
-  const windowUrl = appUrl || url.format({
+  mainWindowState.manage(mainWindow);
+
+  const windowUrl = isWebView ? argv.url : url.format({
     pathname: path.join(__dirname, 'www', 'index.html'),
     protocol: 'file:',
     slashes: true,

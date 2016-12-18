@@ -7,7 +7,8 @@
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
     "build": "NODE_ENV=production webpack -p",
-    "lint": "eslint ./src --ext .js --cache"
+    "lint": "eslint ./src --ext .js --cache",
+    "package": "electron-packager ./app --darwin --overwrite"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",
