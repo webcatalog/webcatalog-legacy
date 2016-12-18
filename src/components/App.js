@@ -3,7 +3,8 @@ import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
-import { fetchApps, search } from '../actions';
+import { fetchApps } from '../actions/app';
+import { search } from '../actions/search';
 import { LOADING, FAILED, DONE, NONE } from '../constants/actions';
 
 import Nav from './Nav';

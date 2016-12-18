@@ -2,9 +2,8 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { enableBatching } from 'redux-batched-actions';
 
-
 import rootReducer from './reducers';
-import { scanInstalledApps } from './actions';
+import { scanInstalledApps } from './actions/app';
 
 const configureStore = (initialState) => {
   const store = createStore(

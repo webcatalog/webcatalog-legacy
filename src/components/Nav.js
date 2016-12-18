@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { search, setSearchQuery } from '../actions';
+import { search, setSearchQuery } from '../actions/search';
 import { toggleSettingDialog } from '../actions/settings';
 import { NONE } from '../constants/actions';
 

@@ -3,9 +3,10 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
+import { Button, Intent } from '@blueprintjs/core';
 
 import { INSTALLED, INPROGRESS } from '../constants/actions';
-import { installApp, uninstallApp } from '../actions';
+import { installApp, uninstallApp } from '../actions/app';
 
 const extractDomain = (url) => {
   const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -44,43 +45,32 @@ const Card = ({
         }
         if (appStatus.get(app.get('id')) === INSTALLED) {
           return [
-            <a
+            <Button
               key="open"
-              role="button"
-              className="pt-button"
-              tabIndex="0"
+              text="Open"
               onClick={() => shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`)}
-            >
-              Open
-            </a>,
-            <a
+            />,
+            <Button
               key="uninstall"
-              role="button"
-              className="pt-button pt-intent-danger pt-icon-trash"
-              tabIndex="0"
-              style={{ marginLeft: 6 }}
+              text="Uninstall"
+              iconName="trash"
+              intent={Intent.DANGER}
               onClick={() => requestUninstallApp(app)}
-            >
-              Uninstall
-            </a>,
+              style={{ marginLeft: 6 }}
+            />,
           ];
         }
         return [
-          <a
+          <Button
             key="install"
-            role="button"
-            className="pt-button pt-intent-primary pt-icon-download"
-            tabIndex="0"
+            text="Install"
+            iconName="download"
+            intent={Intent.PRIMARY}
             onClick={() => requestInstallApp(app)}
-          >
-            Install
-          </a>,
-          <a
+          />,
+          <Button
             key="try"
-            role="button"
-            className="pt-button"
-            tabIndex="0"
-            style={{ marginLeft: 6 }}
+            text="Try"
             onClick={() => {
               const BrowserWindow = remote.BrowserWindow;
               const trialWindow = new BrowserWindow({
@@ -89,9 +79,8 @@ const Card = ({
               });
               trialWindow.loadURL(app.get('url'));
             }}
-          >
-            Try
-          </a>,
+            style={{ marginLeft: 6 }}
+          />,
         ];
       })()}
     </div>
