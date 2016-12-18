@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { status, apps, installedApps, requestInstallApp, requestUninstallApp } = this.props;
+    const { status, apps, appStatus, requestInstallApp, requestUninstallApp } = this.props;
 
     return (
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
@@ -82,14 +82,14 @@ class App extends React.Component {
                     </a>
                   </p>
                   {(() => {
-                    if (installedApps.get(app.get('id')) === INPROGRESS) {
+                    if (appStatus.get(app.get('id')) === INPROGRESS) {
                       return (
                         <div className="pt-progress-bar pt-intent-primary" style={{ textAlign: 'left' }}>
                           <div className="pt-progress-meter" style={{ width: '100%' }} />
                         </div>
                       );
                     }
-                    if (installedApps.get(app.get('id')) === INSTALLED) {
+                    if (appStatus.get(app.get('id')) === INSTALLED) {
                       return [
                         <a
                           key="open"
@@ -146,7 +146,7 @@ class App extends React.Component {
 App.propTypes = {
   status: React.PropTypes.string,
   apps: React.PropTypes.instanceOf(Immutable.List),
-  installedApps: React.PropTypes.instanceOf(Immutable.Map),
+  appStatus: React.PropTypes.instanceOf(Immutable.Map),
   requestFetchApps: React.PropTypes.func,
   requestInstallApp: React.PropTypes.func,
   requestUninstallApp: React.PropTypes.func,
@@ -155,7 +155,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   status: state.app.status,
   apps: state.app.apps,
-  installedApps: state.app.installedApps,
+  appStatus: state.app.appStatus,
 });
 
 const mapDispatchToProps = dispatch => ({

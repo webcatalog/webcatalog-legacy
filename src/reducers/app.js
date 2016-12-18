@@ -9,7 +9,7 @@ const initialState = {
   apps: null,
   currentPage: null,
   totalPage: null,
-  installedApps: Immutable.fromJS({}),
+  appStatus: Immutable.fromJS({}),
 };
 
 const app = (state = initialState, action) => {
@@ -33,12 +33,12 @@ const app = (state = initialState, action) => {
     }
     case ADD_APP_STATUS: {
       return Object.assign({}, state, {
-        installedApps: state.installedApps.set(action.id, action.status),
+        appStatus: state.appStatus.set(action.id, action.status),
       });
     }
     case REMOVE_APP_STATUS: {
       return Object.assign({}, state, {
-        installedApps: state.installedApps.delete(action.id),
+        appStatus: state.appStatus.delete(action.id),
       });
     }
     default:
