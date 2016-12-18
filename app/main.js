@@ -11,6 +11,8 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
+const createMenu = require('./createMenu');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -60,6 +62,42 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  let currentZoom = 1;
+  const ZOOM_INTERVAL = 0.1;
+
+  const onZoomIn = () => {
+    currentZoom += ZOOM_INTERVAL;
+    mainWindow.webContents.send('change-zoom', currentZoom);
+  };
+
+  const onZoomOut = () => {
+    currentZoom -= ZOOM_INTERVAL;
+    mainWindow.webContents.send('change-zoom', currentZoom);
+  };
+
+  const onGoBack = () => {
+    mainWindow.webContents.goBack();
+  };
+
+  const onGoForward = () => {
+    mainWindow.webContents.goForward();
+  };
+
+  const getCurrentUrl = () => mainWindow.webContents.getURL();
+
+  const menuOptions = {
+    webView: argv.url,
+    appName: argv.name || 'WebCatalog',
+    appQuit: app.quit,
+    zoomIn: onZoomIn,
+    zoomOut: onZoomOut,
+    goBack: onGoBack,
+    goForward: onGoForward,
+    getCurrentUrl,
+  };
+
+  createMenu(menuOptions);
 }
 
 // This method will be called when Electron has finished
