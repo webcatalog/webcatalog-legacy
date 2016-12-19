@@ -34,7 +34,7 @@ fi
 NAME=$(basename "${SOURCE}")
 EXT="${NAME##*.}"
 BASE="${NAME%.*}"
-ICONSET="${BASE}.iconset"
+ICONSET="${TMPDIR}/${BASE}.iconset"
 
 function cleanUp() {
     rm -rf "${ICONSET}"
