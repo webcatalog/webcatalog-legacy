@@ -4,27 +4,27 @@ os: osx
 cache:
   yarn: true
   directories:
-    - node_modules
+  - node_modules
 script:
-  - yarn run lint
-  - yarn run build
+- yarn run lint
+- yarn run build
 before_deploy:
-  - yarn run dist
+- yarn run dist
 deploy:
   provider: releases
   api_key:
-    secure: "R3nZBOFFJw4K0L31EXkNuT53sJb/ovwVj3ae0XVg2rs1LS9gIUSg9azcjDiVqqp8WahinbdAfD0CsdD+YKycxGBkzOtPMcDqLvOfAAGpgZSReud6/Gj7IMyHgEH7gUOT0VYEDZEzAGbtbzf9rmpJvOvw+T4V0dEXwCXeLCgTNJpdUreHEUNsjqO28/pFAyI73pQ8inUMdekUKDvQvXfYfjmgGbl7mXeukzl16wPNaTBVklWa2hP7J9rHxrGhknSS9L2ivyoWDShsXSvB1W+QRRleorKWzJP1QogRLeHN+TU51DIcIOEOVKFidpTmCKQpk14GOjAAcQllWv/sc8pgrjlL6DSOhr5s67onYlQ7FNJRzlYHGvDbKV6O2F0UkVZ7PEaYpnmJcn6/f4BiZhMixzurvdaw01lhiUOqDdsJjcAEa8hRBMp8XT+d6XsF2iCnXrm8N9UkB2qj/7182hl2PejHckRLW+GwbWIgTXGplhJv+jWWvZzZPR9/uLJfTsad6k+7Js95xj/Ih9AlSBLfyBJOkzvFOWu4tSf7SbxiqlpHzHYXdWJhEd4qbK2D3zl3LVRmaa3jTAyytnXHThR9yUUc3bgN4YUgTJzFvOb/vr7RuKDNuIbud0JtJSnCIZ5IOYR7aEaHCYCF0DFKIUj5dVxt0qyMP1d18CgcS3mvW3o="
+    secure: D9kIsHgbPVKtnaPJSmEXNN90Dw8OzxgPJ+6sBUEWimbkKq6yFkMnSeAsCa3xHR3a1TE91ycSevEpvLm5syvwgDygpg+kzPfWi4Av8vFpUMsyyuEYy2ZqxaXnMCke+Ayg4EKZNt8xJGxmjDK24X2twKf/1bNUz1b0xwSTbs5QtK5QMTqPljSQOvUgPnnMWmbrQMJxRLy5gDwA4qpjeAe/g+8VN9hPfwspvP8gee+SSrhqev8Yd3yN6qEcrAOANj/z5ajbYsCokI5N56mSZT6FN3HLKRE73s/xVvIl/MLQVOCjbyVQML6sffythSr//nVf/CfpnXyKfemnIGpWxcE5myHHFuTH7WIBMP7AHX9i+ArHoN3l0brxEfyfWL6WzY1cbzsnApPSZpamC1moRhul9NwPB4pKPl7hn/klsBilNZ+4eemFljUjDkVXuefuQ5LzksIbWMJdNvZKZxgLuF2noHhqmcqyc0ZoO0r4UuEFSMIYHm55VfvgFUKVxxL3gIqAqRGuln7XCT4+9JjA7eQceKNW1qwzjVJ/gCth/I8WQCOrYVvOZlGkyG+1xNB3psrC2bLKAPR2VHxsx9kQ4KiX8aHLmvuC2s210izaRQm9q1NdiDHzk1HrAz5JnkMJbWlWomW8ahN3LLI2StswxCCv9NoKUBN2FaUe1nrajBjrjcU=
   skip_cleanup: true
   file:
-    - dist/mac/*.dmg
-    - dist/mac/*.zip
+  - dist/mac/*.dmg
+  - dist/mac/*.zip
   on:
     tags: true
 after_deploy:
-  - WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
-  - yarn global add harp surge
-  - cd website
-  - yarn
-  - mv ./node_modules ./_node_modules
-  - harp compile
-  - surge --project ./www --domain getwebcatalog.com
+- WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
+- yarn global add harp surge
+- cd website
+- yarn
+- mv ./node_modules ./_node_modules
+- harp compile
+- surge --project ./www --domain getwebcatalog.com
