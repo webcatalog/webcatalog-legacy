@@ -10,14 +10,13 @@ script:
 - yarn run build
 before_deploy:
 - yarn run dist
+- rm -rf dist/mac/WebCatalog.app
 deploy:
   provider: releases
   api_key:
     secure: D9kIsHgbPVKtnaPJSmEXNN90Dw8OzxgPJ+6sBUEWimbkKq6yFkMnSeAsCa3xHR3a1TE91ycSevEpvLm5syvwgDygpg+kzPfWi4Av8vFpUMsyyuEYy2ZqxaXnMCke+Ayg4EKZNt8xJGxmjDK24X2twKf/1bNUz1b0xwSTbs5QtK5QMTqPljSQOvUgPnnMWmbrQMJxRLy5gDwA4qpjeAe/g+8VN9hPfwspvP8gee+SSrhqev8Yd3yN6qEcrAOANj/z5ajbYsCokI5N56mSZT6FN3HLKRE73s/xVvIl/MLQVOCjbyVQML6sffythSr//nVf/CfpnXyKfemnIGpWxcE5myHHFuTH7WIBMP7AHX9i+ArHoN3l0brxEfyfWL6WzY1cbzsnApPSZpamC1moRhul9NwPB4pKPl7hn/klsBilNZ+4eemFljUjDkVXuefuQ5LzksIbWMJdNvZKZxgLuF2noHhqmcqyc0ZoO0r4UuEFSMIYHm55VfvgFUKVxxL3gIqAqRGuln7XCT4+9JjA7eQceKNW1qwzjVJ/gCth/I8WQCOrYVvOZlGkyG+1xNB3psrC2bLKAPR2VHxsx9kQ4KiX8aHLmvuC2s210izaRQm9q1NdiDHzk1HrAz5JnkMJbWlWomW8ahN3LLI2StswxCCv9NoKUBN2FaUe1nrajBjrjcU=
   skip_cleanup: true
-  file:
-  - dist/mac/*.dmg
-  - dist/mac/*.zip
+  file: "dist/mac/*"
   on:
     tags: true
 after_deploy:
