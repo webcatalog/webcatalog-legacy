@@ -4,6 +4,7 @@
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
+    "postinstall": "install-app-deps",
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
     "build": "NODE_ENV=production webpack -p",
