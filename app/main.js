@@ -156,9 +156,11 @@ function createWindow() {
         });
       });
 
-      autoUpdater.addListener('error', (err) => {
-        log(`Update error: ${err.message}`);
-      });
+      autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
+      autoUpdater.on('checking-for-update', () => log('Checking for update'));
+      autoUpdater.on('update-available', () => log('Update available'));
+      autoUpdater.on('update-not-available', () => log('No update available'));
+
 
       autoUpdater.setFeedURL(feedUrl);
 
