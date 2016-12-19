@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>WebCatalog</title>
     <link href="dist/blueprint.css" rel="stylesheet" />
     <style>
       body {
@@ -44,7 +44,7 @@
       var { shell, remote, ipcRenderer } = require('electron');
       var https = require('https');
       var fs= require('fs');
-      var exec = require('child_process').exec;
+      var execFile = require('child_process').execFile;
     </script>
     <script src="bundle.js"></script>
   </body>

@@ -1,4 +1,4 @@
-/* global fetch exec remote fs https */
+/* global fetch execFile remote fs https */
 import { batchActions } from 'redux-batched-actions';
 import {
   SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS,
@@ -71,16 +71,28 @@ export const installApp = app => (dispatch) => {
     response.pipe(iconFile);
 
     iconFile.on('finish', () => {
-      const cmd = `${remote.app.getAppPath()}/applify.sh "${app.get('name')}" "${app.get('url')}" "${iconPath}" "${app.get('id')}"`;
-
-      exec(cmd, (err) => {
-        if (!err) {
+      execFile(`${remote.app.getAppPath()}/applify.sh`, [
+        app.get('name'),
+        app.get('url'),
+        iconPath,
+        app.get('id'),
+      ], (err) => {
+        if (err) {
+          /* eslint-disable no-console */
+          console.log(err);
+          /* eslint-enable no-console */
           dispatch({
-            type: ADD_APP_STATUS,
+            type: REMOVE_APP_STATUS,
             id: app.get('id'),
-            status: INSTALLED,
           });
+          return;
         }
+
+        dispatch({
+          type: ADD_APP_STATUS,
+          id: app.get('id'),
+          status: INSTALLED,
+        });
       });
     });
   });

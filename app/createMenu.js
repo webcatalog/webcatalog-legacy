@@ -169,6 +169,12 @@ function createMenu({
         role: 'help',
         submenu: [
           {
+            label: 'Website',
+            click: () => {
+              shell.openExternal('https://getwebcatalog.com');
+            },
+          },
+          {
             label: 'Report an Issue',
             click: () => {
               shell.openExternal('https://github.com/webCatalog/desktop/issues');
@@ -182,6 +188,10 @@ function createMenu({
       template.unshift({
         label: appName,
         submenu: [
+          {
+            label: `About ${appName}`,
+            role: 'about',
+          },
           {
             label: 'Services',
             role: 'services',
@@ -323,6 +333,12 @@ function createMenu({
         role: 'help',
         submenu: [
           {
+            label: 'Website',
+            click: () => {
+              shell.openExternal('https://getwebcatalog.com');
+            },
+          },
+          {
             label: 'Report an Issue',
             click: () => {
               shell.openExternal('https://github.com/webCatalog/desktop/issues');
@@ -336,6 +352,10 @@ function createMenu({
       template.unshift({
         label: 'WebCatalog',
         submenu: [
+          {
+            label: `About ${appName}`,
+            role: 'about',
+          },
           {
             label: 'Services',
             role: 'services',
