@@ -9,8 +9,12 @@ const jsonDataPath = './data/json';
 
 const targetPath = './www';
 const imageTargetPath = `${targetPath}/images`;
+const updateTargetPath = `${targetPath}/update`;
 
 const numberOfAppInChunk = 24;
+
+// released versions
+const versions = ['2.0.1', '2.0.0'];
 
 // init target folders
 if (!fs.existsSync(targetPath)) {
@@ -18,6 +22,9 @@ if (!fs.existsSync(targetPath)) {
 }
 if (!fs.existsSync(imageTargetPath)) {
   fs.mkdirSync(imageTargetPath);
+}
+if (!fs.existsSync(updateTargetPath)) {
+  fs.mkdirSync(updateTargetPath);
 }
 
 const jsonFiles = fs.readdirSync(jsonDataPath);
@@ -91,6 +98,25 @@ chunks.forEach((chunk, i) => {
   };
 
   fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(data), (err) => {
+    if (err) {
+      console.log(err);
+      process.exit(1);
+    }
+  });
+});
+
+// update server
+// https://github.com/Squirrel/Squirrel.Mac#server-support
+const currentVersion = versions[0];
+const oldVersions = versions;
+oldVersions.shift();
+oldVersions.forEach((version) => {
+  const data = {
+    version: currentVersion,
+    url: `https://github.com/webcatalog/desktop/releases/download/${currentVersion}/WebCatalog-${currentVersion}-mac.zip`,
+  };
+
+  fs.writeFile(`${updateTargetPath}/${version}.json`, JSON.stringify(data), (err) => {
     if (err) {
       console.log(err);
       process.exit(1);
