@@ -107,7 +107,7 @@ const oldVersions = versions;
 oldVersions.shift();
 oldVersions.forEach((version) => {
   const data = {
-    version: currentVersion,
+    name: currentVersion,
     url: `https://github.com/webcatalog/desktop/releases/download/${currentVersion}/WebCatalog-${currentVersion}-mac.zip`,
   };
 
