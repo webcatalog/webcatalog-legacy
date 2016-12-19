@@ -75,6 +75,34 @@ function createWindow() {
     mainWindow = null;
   });
 
+  // do nothing for setDockBadge if not OSX
+  let setDockBadge = () => {};
+
+  if (os.platform() === 'darwin') {
+    setDockBadge = app.dock.setBadge;
+  }
+
+  /* Badge count */
+  mainWindow.on('page-title-updated', (e, title) => {
+    const itemCountRegex = /[([{](\d*?)[}\])]/;
+    const match = itemCountRegex.exec(title);
+    if (match) {
+      setDockBadge(match[1]);
+    } else {
+      setDockBadge('');
+    }
+  });
+
+  ipcMain.on('notification', () => {
+    if (os.platform() !== 'darwin' || mainWindow.isFocused()) {
+      return;
+    }
+    setDockBadge('•');
+  });
+  mainWindow.on('focus', () => {
+    setDockBadge('');
+  });
+
   let currentZoom = 1;
   const ZOOM_INTERVAL = 0.1;
 
