@@ -2,6 +2,8 @@
 
 const electron = require('electron');
 const argv = require('optimist').argv;
+const autoUpdater = require('electron-auto-updater').autoUpdater;
+const os = require('os');
 
 const { app, BrowserWindow, dialog, ipcMain } = electron;
 
@@ -128,6 +130,31 @@ function createWindow() {
 
   ipcMain.on('clearAppData', () => {
     clearAppData();
+  });
+
+  // Auto updater
+  const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+
+  autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      buttons: ['Yes', 'Cancel'],
+      defaultId: 1,
+      title: 'A new update is ready to install',
+      message: `Version ${releaseName} is downloaded and will be automatically installed on Quit`,
+    }, (response) => {
+      if (response === 0) {
+        autoUpdater.quitAndInstall();
+      }
+    });
+  });
+
+  autoUpdater.addListener('error', () => {});
+
+  autoUpdater.setFeedURL(feedUrl);
+
+  mainWindow.webContents.once('did-frame-finish-load', () => {
+    autoUpdater.checkForUpdates();
   });
 }
 
