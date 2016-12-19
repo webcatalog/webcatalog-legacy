@@ -41,3 +41,4 @@ www
 
 # Electron builds
 *-darwin-x64
+dist

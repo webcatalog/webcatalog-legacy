@@ -1,14 +1,21 @@
 {
-  "name": "webcatalog-desktop",
-  "version": "1.0.0",
-  "description": "WebCatalog Desktop, built with Electron",
+  "name": "WebCatalog",
+  "version": "2.0.0",
+  "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
     "build": "NODE_ENV=production webpack -p",
     "lint": "eslint ./src --ext .js --cache",
-    "package": "electron-packager ./app --darwin --overwrite"
+    "pack": "build --dir",
+    "dist": "build --macos"
+  },
+  "build": {
+    "appId": "com.webcatalog.app",
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",
@@ -21,6 +28,7 @@
     "clean-webpack-plugin": "^0.1.14",
     "copy-webpack-plugin": "^4.0.1",
     "electron": "^1.4.12",
+    "electron-builder": "^10.8.1",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.1.0",

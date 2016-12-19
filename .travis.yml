@@ -1,0 +1,28 @@
+language: node_js
+node_js: 6
+os: osx
+cache:
+  yarn: true
+  directories:
+    - node_modules
+before_deploy:
+  - npm install
+  - npm run dist
+deploy:
+  provider: releases
+  api_key:
+    secure: "R3nZBOFFJw4K0L31EXkNuT53sJb/ovwVj3ae0XVg2rs1LS9gIUSg9azcjDiVqqp8WahinbdAfD0CsdD+YKycxGBkzOtPMcDqLvOfAAGpgZSReud6/Gj7IMyHgEH7gUOT0VYEDZEzAGbtbzf9rmpJvOvw+T4V0dEXwCXeLCgTNJpdUreHEUNsjqO28/pFAyI73pQ8inUMdekUKDvQvXfYfjmgGbl7mXeukzl16wPNaTBVklWa2hP7J9rHxrGhknSS9L2ivyoWDShsXSvB1W+QRRleorKWzJP1QogRLeHN+TU51DIcIOEOVKFidpTmCKQpk14GOjAAcQllWv/sc8pgrjlL6DSOhr5s67onYlQ7FNJRzlYHGvDbKV6O2F0UkVZ7PEaYpnmJcn6/f4BiZhMixzurvdaw01lhiUOqDdsJjcAEa8hRBMp8XT+d6XsF2iCnXrm8N9UkB2qj/7182hl2PejHckRLW+GwbWIgTXGplhJv+jWWvZzZPR9/uLJfTsad6k+7Js95xj/Ih9AlSBLfyBJOkzvFOWu4tSf7SbxiqlpHzHYXdWJhEd4qbK2D3zl3LVRmaa3jTAyytnXHThR9yUUc3bgN4YUgTJzFvOb/vr7RuKDNuIbud0JtJSnCIZ5IOYR7aEaHCYCF0DFKIUj5dVxt0qyMP1d18CgcS3mvW3o="
+  skip_cleanup: true
+  file:
+    - dist/mac/*.dmg
+    - dist/mac/*.zip
+  on:
+    tags: true
+after_deploy:
+  - WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
+  - yarn globall add harp surge
+  - cd website
+  - yarn
+  - mv ./node_modules ./_node_modules
+  - harp compile
+  - surge --project ./www --domain getwebcatalog.com
