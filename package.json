@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "algoliasearch": "^3.20.1",
+    "mkdirp": "^0.5.1",
     "sharp": "^0.17.0",
     "shelljs": "^0.7.5"
   },

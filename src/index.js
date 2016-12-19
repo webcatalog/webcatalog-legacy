@@ -1,6 +1,8 @@
 const fs = require('fs');
 const sharp = require('sharp');
 const algoliasearch = require('algoliasearch');
+const mkdirp = require('mkdirp');
+
 
 const convertToIcns = require('./convertToIcns');
 
@@ -9,7 +11,7 @@ const jsonDataPath = './data/json';
 
 const targetPath = './www';
 const imageTargetPath = `${targetPath}/images`;
-const updateTargetPath = `${targetPath}/update`;
+const updateTargetPath = `${targetPath}/update/darwin`;
 
 const numberOfAppInChunk = 24;
 
@@ -17,15 +19,8 @@ const numberOfAppInChunk = 24;
 const versions = ['2.0.1', '2.0.0'];
 
 // init target folders
-if (!fs.existsSync(targetPath)) {
-  fs.mkdirSync(targetPath);
-}
-if (!fs.existsSync(imageTargetPath)) {
-  fs.mkdirSync(imageTargetPath);
-}
-if (!fs.existsSync(updateTargetPath)) {
-  fs.mkdirSync(updateTargetPath);
-}
+mkdirp.sync(imageTargetPath);
+mkdirp.sync(updateTargetPath);
 
 const jsonFiles = fs.readdirSync(jsonDataPath);
 
