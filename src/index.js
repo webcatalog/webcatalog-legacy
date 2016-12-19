@@ -16,7 +16,7 @@ const updateTargetPath = `${targetPath}/update/darwin`;
 const numberOfAppInChunk = 24;
 
 // released versions
-const versions = ['2.0.2', '2.0.1', '2.0.0'];
+const versions = ['2.1.0', '2.0.2', '2.0.1', '2.0.0'];
 
 // init target folders
 mkdirp.sync(imageTargetPath);
@@ -127,3 +127,6 @@ index.addObjects(apps, (err) => {
     console.error(err);
   }
 });
+
+// create 404
+fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
