@@ -1,0 +1,59 @@
+@charset "utf-8"
+
+$blue: #0E5A8A
+$green: #0A6640
+$orange: #A66321
+$purple: #5C255C
+$red: #A82A2A
+$turquoise: #008075
+$yellow: #728C23
+
+@import "../_node_modules/bulma/sass/utilities/_all"
+
+@import "../_node_modules/bulma/sass/base/_all"
+
+@import "../_node_modules/bulma/sass/elements/_all"
+
+@import "../_node_modules/bulma/sass/components/_all"
+
+@import "../_node_modules/bulma/sass/grid/_all"
+
+@import "../_node_modules/bulma/sass/layout/_all"
+
+.footer
+  background-color: whitesmoke
+  padding: 40px 20px 80px
+  a
+    color: $green !important
+
+.hero.is-info
+  background-image: url("/images/overlay.png")
+
+.logo
+  height: 128px
+  width: 128px
+
+.nav-item img
+  padding-left: 12px
+  margin-right: 6px
+
+.image.is-screenshot img
+  width: 100%
+  margin: 0 auto
+
+@media screen and (min-width: 769px)
+  .nav-right
+    padding-right: 12px
+
+img.is-download
+  height: 52px
+  width: auto
+  border-radius: 6px
+
+.press
+  img
+    height: 50px
+    margin-left: 15px
+
+.is-transparent
+  background: none !important
