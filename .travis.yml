@@ -22,9 +22,10 @@ deploy:
   on:
     tags: true
 after_deploy:
-- WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
+- export WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
 - yarn global add harp surge
 - cd website
+- echo "{ \"globals\": { \"webcatalogVersion\": \"${WEBCATALOG_VERSION}\" } }" > _harp.json
 - yarn
 - mv ./node_modules ./_node_modules
 - harp compile
