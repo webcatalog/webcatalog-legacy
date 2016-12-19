@@ -45,6 +45,10 @@
       var https = require('https');
       var fs= require('fs');
       var execFile = require('child_process').execFile;
+
+      ipcRenderer.on('log', (event, message) => {
+        console.log(message);
+      });
     </script>
     <script src="bundle.js"></script>
   </body>

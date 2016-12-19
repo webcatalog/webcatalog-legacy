@@ -96,6 +96,11 @@ function createWindow() {
     mainWindow.webContents.goForward();
   };
 
+  const log = (message) => {
+    mainWindow.webContents.send('log', message);
+  };
+
+
   const clearAppData = () => {
     dialog.showMessageBox(mainWindow, {
       type: 'warning',
@@ -132,29 +137,33 @@ function createWindow() {
     clearAppData();
   });
 
-  // Auto updater
-  const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+  mainWindow.webContents.once('did-finish-load', () => {
+    setTimeout(() => {
+      // Auto updater
+      const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
 
-  autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-    dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      buttons: ['Yes', 'Cancel'],
-      defaultId: 1,
-      title: 'A new update is ready to install',
-      message: `Version ${releaseName} is downloaded and will be automatically installed on Quit`,
-    }, (response) => {
-      if (response === 0) {
-        autoUpdater.quitAndInstall();
-      }
-    });
-  });
+      autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          buttons: ['Yes', 'Cancel'],
+          defaultId: 1,
+          title: 'A new update is ready to install',
+          message: `Version ${releaseName} is downloaded and will be automatically installed on Quit`,
+        }, (response) => {
+          if (response === 0) {
+            autoUpdater.quitAndInstall();
+          }
+        });
+      });
 
-  autoUpdater.addListener('error', () => {});
+      autoUpdater.addListener('error', (err) => {
+        log(`Update error: ${err.message}`);
+      });
 
-  autoUpdater.setFeedURL(feedUrl);
+      autoUpdater.setFeedURL(feedUrl);
 
-  mainWindow.webContents.once('did-frame-finish-load', () => {
-    autoUpdater.checkForUpdates();
+      autoUpdater.checkForUpdates();
+    }, 1000);
   });
 }
 
