@@ -171,12 +171,12 @@ function createWindow() {
       const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
 
       autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-        dialog.showMessageBox(mainWindow, {
+        dialog.showMessageBox({
           type: 'info',
           buttons: ['Yes', 'Cancel'],
           defaultId: 1,
           title: 'A new update is ready to install',
-          message: `Version ${releaseName} is downloaded and will be automatically installed on Quit`,
+          message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
         }, (response) => {
           if (response === 0) {
             autoUpdater.quitAndInstall();
