@@ -11,7 +11,14 @@ const Nav = ({
   query, searchStatus,
   requestSearch, requestSetSearchQuery, requestToggleSettingDialog,
 }) => (
-  <nav className="pt-navbar pt-fixed-top" style={{ display: 'flex' }}>
+  <nav
+    className="pt-navbar pt-fixed-top"
+    style={{
+      display: 'flex',
+      WebkitUserSelect: 'none',
+      WebkitAppRegion: 'drag',
+    }}
+  >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
       <div className="pt-navbar-heading">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -22,7 +29,7 @@ const Nav = ({
           className="pt-input"
           placeholder="Search (name, URL)..."
           type="text"
-          style={{ width: '100%' }}
+          style={{ width: '100%', webkitUserSelect: 'text' }}
           value={query}
           onKeyDown={(e) => {
             if ((e.keyCode || e.which) === 13) {
