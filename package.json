@@ -7,16 +7,11 @@
     "postinstall": "install-app-deps",
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
-    "build": "NODE_ENV=production webpack -p",
+    "compile": "NODE_ENV=production webpack -p",
+    "build": "node ./builder.js",
     "lint": "eslint ./src --ext .js --cache",
-    "pack": "build --dir",
-    "dist": "build --macos"
-  },
-  "build": {
-    "appId": "com.webcatalog.app",
-    "mac": {
-      "category": "public.app-category.utilities"
-    }
+    "pack": "npm run compile && build --dir",
+    "dist": "npm run compile && build --macos"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",
