@@ -7,17 +7,16 @@ import {
 } from '../constants/actions';
 
 export const setSearchQuery = query => (dispatch) => {
-  dispatch({
-    type: SET_SEARCH_QUERY,
-    query,
-  });
-
-  if (!query || query.length < 1) {
-    dispatch({
+  dispatch(batchActions([
+    {
+      type: SET_SEARCH_QUERY,
+      query,
+    },
+    {
       type: SET_SEARCH_STATUS,
       status: NONE,
-    });
-  }
+    },
+  ]));
 };
 
 export const search = () => (dispatch, getState) => {
