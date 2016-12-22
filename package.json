@@ -4,14 +4,12 @@
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
-    "postinstall": "install-app-deps",
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
     "compile": "NODE_ENV=production webpack -p",
     "build": "node ./builder.js",
     "lint": "eslint ./src --ext .js --cache",
-    "pack": "npm run compile && build --dir",
-    "dist": "npm run compile && build --macos"
+    "dist": "npm run compile && npm run build"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",
