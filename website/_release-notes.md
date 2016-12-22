@@ -1,3 +1,11 @@
+# 2.2.0
+- Fixes many bugs.
+- Allows WebCatalog window to be moved around by dragging nav bar.
+- Allows WebCatalog to run when other web apps are running.
+- Adds refreshing button.
+
+---
+
 # 2.1.0
 - Fixes many bugs.
 - Adds badge support.
