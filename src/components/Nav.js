@@ -3,13 +3,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
 import { toggleSettingDialog } from '../actions/settings';
 import { NONE } from '../constants/actions';
 
 const Nav = ({
   query, searchStatus,
-  requestSearch, requestSetSearchQuery, requestToggleSettingDialog,
+  requestSearch, requestSetSearchQuery, requestToggleSettingDialog, requestRefresh,
 }) => (
   <nav
     className="pt-navbar pt-fixed-top"
@@ -29,7 +30,7 @@ const Nav = ({
           className="pt-input"
           placeholder="Search (name, URL)..."
           type="text"
-          style={{ width: '100%', webkitUserSelect: 'text' }}
+          style={{ width: '100%', WebkitUserSelect: 'text' }}
           value={query}
           onKeyDown={(e) => {
             if ((e.keyCode || e.which) === 13) {
@@ -61,6 +62,10 @@ const Nav = ({
       >
         Submit new app
       </button>
+      <button
+        className="pt-button pt-minimal pt-icon-refresh"
+        onClick={() => requestRefresh()}
+      />
       <span className="pt-navbar-divider" />
       <button
         className="pt-button pt-minimal pt-icon-cog"
@@ -76,6 +81,7 @@ Nav.propTypes = {
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestToggleSettingDialog: React.PropTypes.func,
+  requestRefresh: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -92,6 +98,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestToggleSettingDialog: () => {
     dispatch(toggleSettingDialog());
+  },
+  requestRefresh: () => {
+    dispatch(refresh());
   },
 });
 

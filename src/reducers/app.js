@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, LOADING,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP, LOADING,
 } from '../constants/actions';
 
 const initialState = {
@@ -44,6 +44,9 @@ const app = (state = initialState, action) => {
       return Object.assign({}, state, {
         appStatus: state.appStatus.delete(action.id),
       });
+    }
+    case RESET_APP: {
+      return Object.assign({}, state, initialState);
     }
     default:
       return state;

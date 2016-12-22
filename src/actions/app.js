@@ -1,22 +1,17 @@
 /* global fetch execFile remote fs https */
 import { batchActions } from 'redux-batched-actions';
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS,
-  INSTALLED, INPROGRESS, LOADING, FAILED, DONE,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP,
+  INSTALLED, INPROGRESS, LOADING, FAILED, DONE, NONE,
 } from '../constants/actions';
 
-let loading = false;
+import { search } from './search';
 
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
 
   // All pages have been fetched => stop
   if (appState.totalPage && appState.currentPage + 1 === appState.totalPage) return;
-
-  // Prevent run many times
-  if (loading) return;
-
-  loading = true;
 
   const currentPage = appState.currentPage + 1;
 
@@ -40,19 +35,12 @@ export const fetchApps = () => (dispatch, getState) => {
           totalPage,
         },
       ]));
-
-      loading = false;
     })
     .catch(() => {
       dispatch({
         type: SET_STATUS,
         status: FAILED,
       });
-
-      // prevent constantly retrying to connect
-      setTimeout(() => {
-        loading = false;
-      }, 1000);
     });
 };
 
@@ -146,4 +134,16 @@ export const scanInstalledApps = () => ((dispatch) => {
       });
     });
   });
+});
+
+export const refresh = () => ((dispatch, getState) => {
+  const state = getState();
+  const searchStatus = state.search.status;
+  const appStatus = state.app.status;
+  if (searchStatus !== LOADING && searchStatus !== NONE) {
+    dispatch(search());
+  } else if (appStatus !== LOADING) {
+    dispatch({ type: RESET_APP });
+    dispatch(fetchApps());
+  }
 });
