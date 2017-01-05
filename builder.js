@@ -12,6 +12,8 @@ builder.build({
       mac: {
         category: 'public.app-category.utilities',
       },
+      asar: true,
+      asarUnpack: ['plugins/**'],
       afterPack: ({ appOutDir }) => {
         // Use alternative exec to allow launching multiple instance of WebCatalog
 
