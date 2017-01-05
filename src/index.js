@@ -66,7 +66,9 @@ jsonFiles.forEach((fileName) => {
       console.log(`${imageDataPath}/${id}.icns`);
       console.log(err);
       process.exit(1);
+      return;
     }
+    console.log(`${id}.png is converted to ${id}.icns`);
   });
 
   // Add Data to chunk
