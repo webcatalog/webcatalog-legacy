@@ -1,3 +1,10 @@
+# 2.3.0
+- Adds Flash support. (Spotify now works properly).
+- Adds WidevineCdm support. (Netflix now works properly).
+- Makes external URLs open in browser.
+
+---
+
 # 2.2.0
 - Fixes many bugs.
 - Allows WebCatalog window to be moved around by dragging nav bar.
