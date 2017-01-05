@@ -5,7 +5,7 @@ const argv = require('optimist').argv;
 const autoUpdater = require('electron-auto-updater').autoUpdater;
 const os = require('os');
 
-const { app, BrowserWindow, dialog, ipcMain } = electron;
+const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
 
 const path = require('path');
 const url = require('url');
@@ -26,6 +26,12 @@ app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+const extractDomain = (fullUrl) => {
+  const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
+  const domain = matches && matches[1];
+  return domain.replace('www.', '');
+};
 
 function createWindow() {
   const isWebView = argv.url && argv.id;
@@ -175,36 +181,52 @@ function createWindow() {
     clearAppData();
   });
 
-  mainWindow.webContents.once('did-finish-load', () => {
-    setTimeout(() => {
-      // Auto updater
-      const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+  if (isWebView) {
+    const webViewDomain = extractDomain(argv.url);
 
-      autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-        dialog.showMessageBox({
-          type: 'info',
-          buttons: ['Yes', 'Cancel'],
-          defaultId: 1,
-          title: 'A new update is ready to install',
-          message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
-        }, (response) => {
-          if (response === 0) {
-            autoUpdater.quitAndInstall();
-          }
+    const handleRedirect = (e, nextUrl) => {
+      // open external url in browser if domain doesn't match.
+      if (extractDomain(nextUrl) !== webViewDomain) {
+        e.preventDefault();
+        shell.openExternal(nextUrl);
+      }
+    };
+
+    mainWindow.webContents.on('will-navigate', handleRedirect);
+    mainWindow.webContents.on('new-window', handleRedirect);
+  } else {
+    // only check update in WebCatalog main app.
+    mainWindow.webContents.once('did-finish-load', () => {
+      setTimeout(() => {
+        // Auto updater
+        const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+
+        autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
+          dialog.showMessageBox({
+            type: 'info',
+            buttons: ['Yes', 'Cancel'],
+            defaultId: 1,
+            title: 'A new update is ready to install',
+            message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
+          }, (response) => {
+            if (response === 0) {
+              autoUpdater.quitAndInstall();
+            }
+          });
         });
-      });
 
-      autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
-      autoUpdater.on('checking-for-update', () => log('Checking for update'));
-      autoUpdater.on('update-available', () => log('Update available'));
-      autoUpdater.on('update-not-available', () => log('No update available'));
+        autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
+        autoUpdater.on('checking-for-update', () => log('Checking for update'));
+        autoUpdater.on('update-available', () => log('Update available'));
+        autoUpdater.on('update-not-available', () => log('No update available'));
 
 
-      autoUpdater.setFeedURL(feedUrl);
+        autoUpdater.setFeedURL(feedUrl);
 
-      autoUpdater.checkForUpdates();
-    }, 1000);
-  });
+        autoUpdater.checkForUpdates();
+      }, 1000);
+    });
+  }
 }
 
 // This method will be called when Electron has finished
