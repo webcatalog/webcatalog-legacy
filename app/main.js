@@ -13,6 +13,16 @@ const url = require('url');
 const createMenu = require('./createMenu');
 const windowStateKeeper = require('./windowStateKeeper');
 
+const FLASH_VERSION = '24.0.0.186';
+const WIDEVINECDM_VERSION = '1.4.8.903';
+
+// load plugins
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, 'plugins/PepperFlash', FLASH_VERSION, 'PepperFlashPlayer.plugin'));
+app.commandLine.appendSwitch('ppapi-flash-version', FLASH_VERSION);
+
+app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, 'plugins/WidevineCdm', WIDEVINECDM_VERSION, 'widevinecdmadapter.plugin'));
+app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
