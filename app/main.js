@@ -30,7 +30,7 @@ let mainWindow;
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
   const domain = matches && matches[1];
-  return domain.replace('www.', '');
+  return domain ? domain.replace('www.', '') : null;
 };
 
 function createWindow() {
@@ -186,7 +186,8 @@ function createWindow() {
 
     const handleRedirect = (e, nextUrl) => {
       // open external url in browser if domain doesn't match.
-      if (extractDomain(nextUrl) !== webViewDomain) {
+      const nextDomain = extractDomain(nextUrl);
+      if (nextDomain && nextDomain !== webViewDomain) {
         e.preventDefault();
         shell.openExternal(nextUrl);
       }
