@@ -1,6 +1,6 @@
 # WebCatalog Backend
 [![Build Status](https://travis-ci.org/webcatalog/backend.svg?branch=master)](https://travis-ci.org/webcatalog/backend)
-[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/quanglam2807/webcatalog/blob/master/LICENSE)
+[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/backend/blob/master/LICENSE)
 
 
 #### Homepage: https://getwebcatalog.com
