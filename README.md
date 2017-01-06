@@ -1,6 +1,6 @@
 # WebCatalog Desktop
 [![Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
-[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/quanglam2807/webcatalog/blob/master/LICENSE)
+[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/desktop/blob/master/LICENSE)
 
 
 #### Homepage: https://getwebcatalog.com
