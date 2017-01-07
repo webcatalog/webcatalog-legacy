@@ -7,11 +7,17 @@ import {
 
 import { search } from './search';
 
+let fetching = false;
+
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
 
   // All pages have been fetched => stop
   if (appState.totalPage && appState.currentPage + 1 === appState.totalPage) return;
+
+  // Prevent redundant requests
+  if (fetching) return;
+  fetching = true;
 
   const currentPage = appState.currentPage + 1;
 
@@ -19,6 +25,7 @@ export const fetchApps = () => (dispatch, getState) => {
     type: SET_STATUS,
     status: LOADING,
   });
+
 
   fetch(`https://backend.getwebcatalog.com/${currentPage}.json`)
     .then(response => response.json())
@@ -41,6 +48,9 @@ export const fetchApps = () => (dispatch, getState) => {
         type: SET_STATUS,
         status: FAILED,
       });
+    })
+    .then(() => {
+      fetching = false;
     });
 };
 
