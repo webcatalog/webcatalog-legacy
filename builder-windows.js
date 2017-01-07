@@ -10,6 +10,7 @@ builder.build({
       win: {
         publish: ['github'],
       },
+      files: ['!plugins/darwin/**/*'],
       appId: 'com.webcatalog.app',
       asar: true,
       asarUnpack: ['plugins/**'],

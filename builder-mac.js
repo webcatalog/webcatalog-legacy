@@ -14,6 +14,7 @@ builder.build({
       },
       asar: true,
       asarUnpack: ['plugins/**'],
+      files: ['!plugins/win32/**/*'],
       afterPack: ({ appOutDir }) => {
         // Use alternative exec to allow launching multiple instance of WebCatalog
 
