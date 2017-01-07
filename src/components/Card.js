@@ -48,7 +48,14 @@ const Card = ({
             <Button
               key="open"
               text="Open"
-              onClick={() => shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`)}
+              onClick={() => {
+                if (process.platform === 'darwin') {
+                  shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`);
+                } else {
+                  // Windows
+                  shell.openItem(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`);
+                }
+              }}
             />,
             <Button
               key="uninstall"

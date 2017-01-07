@@ -3,7 +3,6 @@
 const electron = require('electron');
 const argv = require('optimist').argv;
 const autoUpdater = require('electron-auto-updater').autoUpdater;
-const os = require('os');
 
 const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
 
@@ -94,7 +93,7 @@ function createWindow() {
   // do nothing for setDockBadge if not OSX
   let setDockBadge = () => {};
 
-  if (os.platform() === 'darwin') {
+  if (process.platform === 'darwin') {
     setDockBadge = app.dock.setBadge;
   }
 
@@ -110,7 +109,7 @@ function createWindow() {
   });
 
   ipcMain.on('notification', () => {
-    if (os.platform() !== 'darwin' || mainWindow.isFocused()) {
+    if (process.platform !== 'darwin' || mainWindow.isFocused()) {
       return;
     }
     setDockBadge('•');
@@ -175,7 +174,7 @@ function createWindow() {
     getCurrentUrl,
   };
 
-  // createMenu(menuOptions);
+  createMenu(menuOptions);
 
   ipcMain.on('clearAppData', () => {
     clearAppData();
@@ -200,7 +199,7 @@ function createWindow() {
     mainWindow.webContents.once('did-finish-load', () => {
       setTimeout(() => {
         // Auto updater
-        const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+        const feedUrl = `https://backend.getwebcatalog.com/update/${process.platformos}/${app.getVersion()}.json`;
 
         autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
           dialog.showMessageBox({
@@ -221,8 +220,9 @@ function createWindow() {
         autoUpdater.on('update-available', () => log('Update available'));
         autoUpdater.on('update-not-available', () => log('No update available'));
 
-
-        autoUpdater.setFeedURL(feedUrl);
+        if (process.platform === 'darwin') {
+          autoUpdater.setFeedURL(feedUrl);
+        }
 
         autoUpdater.checkForUpdates();
       }, 1000);
