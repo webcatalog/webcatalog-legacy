@@ -9,8 +9,6 @@ const APP_DIR = path.resolve(__dirname, 'src');
 
 /* eslint-disable no-console */
 
-console.log(process.env.NODE_ENV);
-
 const common = {
   entry: `${APP_DIR}/index.js`,
   output: {
