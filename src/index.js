@@ -3,8 +3,8 @@ const sharp = require('sharp');
 const algoliasearch = require('algoliasearch');
 const mkdirp = require('mkdirp');
 
-
 const convertToIcns = require('./convertToIcns');
+const convertToIco = require('./convertToIco');
 
 const imageDataPath = './data/images';
 const jsonDataPath = './data/json';
@@ -71,6 +71,17 @@ jsonFiles.forEach((fileName) => {
     console.log(`${id}.png is converted to ${id}.icns`);
   });
 
+  // Generate ICO
+  convertToIco(`${imageDataPath}/${id}.png`, `${imageTargetPath}/${id}.ico`, (err) => {
+    if (err) {
+      console.log(`${imageDataPath}/${id}.ico`);
+      console.log(err);
+      process.exit(1);
+      return;
+    }
+    console.log(`${id}.png is converted to ${id}.ico`);
+  });
+
   // Add Data to chunk
   if (count === numberOfAppInChunk) {
     chunkIndex += 1;
@@ -129,6 +140,7 @@ index.addObjects(apps, (err) => {
     console.error(err);
   }
 });
+
 
 // create 404
 fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
