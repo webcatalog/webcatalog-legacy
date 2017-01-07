@@ -1,5 +1,6 @@
 # WebCatalog Desktop
-[![Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
+[![Travis Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/desktop?branch=windows&svg=true)](https://ci.appveyor.com/project/webcatalog/desktop/branch/master)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/quanglam2807/webcatalog/blob/master/LICENSE)
 
 
