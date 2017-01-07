@@ -23,13 +23,11 @@ install:
   # install modules
   - yarn
 
-test_script:
+build_script:
   - yarn run lint
   - yarn run compile-windows
   - yarn run build-windows
 
-# disable build and test phases
-build: off
 test: off
 
 artifacts:
