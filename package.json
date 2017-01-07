@@ -12,7 +12,8 @@
     "build-mac": "node ./builder-mac.js",
     "build-windows": "node ./builder-windows.js",
     "lint": "eslint ./src --ext .js --cache",
-    "dist": "npm run compile && npm run build"
+    "dist-mac": "npm run compile && npm run build-mac",
+    "dist-windows": "npm run compile-windows && npm run build-windows"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",

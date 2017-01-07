@@ -1,0 +1,45 @@
+# appveyor file
+# http://www.appveyor.com/docs/appveyor-yml
+version: "{build}"
+
+os: Visual Studio 2015
+
+# Test against this version of Node.js
+environment:
+  nodejs_version: "6"
+
+platform: x64
+
+init:
+  - git config --global core.autocrlf input
+
+cache:
+ - "%LOCALAPPDATA%\\Yarn"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # install modules
+  - yarn
+
+test_script:
+  - yarn run lint
+  - yarn run compile-windows
+  - yarn run build-windows
+
+# disable build and test phases
+build: off
+test: off
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o # your encrypted token from GitHub
+  artifacts:
+    - path: dist/win/*.exe
+      name: NSIS Installer
+    - path: dist/win/*.nupkg
+      name: Nuget Package
+  on:
+    appveyor_repo_tag: true        # deploy on tag push only
