@@ -32,14 +32,15 @@ test_script:
 build: off
 test: off
 
+artifacts:
+  - path: dist/win/*.exe
+    name: NSIS Installer
+  - path: dist/win/*.nupkg
+    name: Nuget Package
+
 deploy:
   provider: GitHub
   auth_token:
     secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o # your encrypted token from GitHub
-  artifacts:
-    - path: dist/win/*.exe
-      name: NSIS Installer
-    - path: dist/win/*.nupkg
-      name: Nuget Package
   on:
     appveyor_repo_tag: true        # deploy on tag push only
