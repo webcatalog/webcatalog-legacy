@@ -9,6 +9,7 @@
     "electron-auto-updater": "^0.7.2",
     "jsonfile": "^2.4.0",
     "mkdirp": "^0.5.1",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "windows-shortcuts": "^0.1.4"
   }
 }

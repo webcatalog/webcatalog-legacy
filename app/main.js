@@ -175,7 +175,7 @@ function createWindow() {
     getCurrentUrl,
   };
 
-  createMenu(menuOptions);
+  // createMenu(menuOptions);
 
   ipcMain.on('clearAppData', () => {
     clearAppData();

@@ -1,4 +1,4 @@
-/* global fetch execFile remote fs https */
+/* global fetch execFile remote fs WindowsShortcuts https */
 import { batchActions } from 'redux-batched-actions';
 import {
   SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP,
@@ -52,36 +52,66 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-  const iconPath = `${remote.app.getPath('temp')}/icon.icns`;
+  const iconExt = process.platform === 'darwin' ? 'icns' : 'ico';
+
+  const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
   const iconFile = fs.createWriteStream(iconPath);
 
-  https.get(`https://backend.getwebcatalog.com/images/${app.get('id')}.icns`, (response) => {
+  https.get(`https://backend.getwebcatalog.com/images/${app.get('id')}.${iconExt}`, (response) => {
     response.pipe(iconFile);
 
-    iconFile.on('finish', () => {
-      execFile(`${remote.app.getAppPath()}/applify.sh`, [
-        app.get('name'),
-        app.get('url'),
-        iconPath,
-        app.get('id'),
-      ], (err) => {
-        if (err) {
-          /* eslint-disable no-console */
-          console.log(err);
-          /* eslint-enable no-console */
-          dispatch({
-            type: REMOVE_APP_STATUS,
-            id: app.get('id'),
-          });
-          return;
-        }
 
-        dispatch({
-          type: ADD_APP_STATUS,
-          id: app.get('id'),
-          status: INSTALLED,
+    iconFile.on('finish', () => {
+      if (process.platform === 'darwin') {
+        execFile(`${remote.app.getAppPath()}/applify.sh`, [
+          app.get('name'),
+          app.get('url'),
+          iconPath,
+          app.get('id'),
+        ], (err) => {
+          if (err) {
+            /* eslint-disable no-console */
+            console.log(err);
+            /* eslint-enable no-console */
+            dispatch({
+              type: REMOVE_APP_STATUS,
+              id: app.get('id'),
+            });
+            return;
+          }
+
+          dispatch({
+            type: ADD_APP_STATUS,
+            id: app.get('id'),
+            status: INSTALLED,
+          });
         });
-      });
+      } else {
+        // Windows
+        WindowsShortcuts.create(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`, {
+          target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
+          args: `--name="${app.get('name')}" --url="${app.get('url')}" --id="${app.get('id')}"`,
+          icon: iconPath,
+          desc: app.get('id'),
+        }, (err) => {
+          if (err) {
+            /* eslint-disable no-console */
+            console.log(err);
+            /* eslint-enable no-console */
+            dispatch({
+              type: REMOVE_APP_STATUS,
+              id: app.get('id'),
+            });
+            return;
+          }
+
+          dispatch({
+            type: ADD_APP_STATUS,
+            id: app.get('id'),
+            status: INSTALLED,
+          });
+        });
+      }
     });
   });
 };
@@ -108,9 +138,13 @@ export const uninstallApp = app => ((dispatch) => {
     status: INPROGRESS,
   });
 
-  const appPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`;
-
-  deleteFolderRecursive(appPath);
+  if (process.platform === 'darwin') {
+    const appPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`;
+    deleteFolderRecursive(appPath);
+  } else {
+    const appPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`;
+    fs.unlinkSync(appPath);
+  }
 
   dispatch({
     type: REMOVE_APP_STATUS,
@@ -120,20 +154,38 @@ export const uninstallApp = app => ((dispatch) => {
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  const allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
-  fs.readdir(allAppPath, (err, files) => {
-    if (err) return;
+  if (process.platform === 'darwin') {
+    const allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
+    fs.readdir(allAppPath, (err, files) => {
+      if (err) return;
 
-    files.forEach((fileName) => {
-      if (fileName === '.DS_Store') return;
-      const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
-      dispatch({
-        type: ADD_APP_STATUS,
-        id,
-        status: INSTALLED,
+      files.forEach((fileName) => {
+        if (fileName === '.DS_Store') return;
+        const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
+        dispatch({
+          type: ADD_APP_STATUS,
+          id,
+          status: INSTALLED,
+        });
       });
     });
-  });
+  } else {
+    // Windows
+    const allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
+    fs.readdir(allAppPath, (err, files) => {
+      if (err) return;
+
+      files.forEach((fileName) => {
+        WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
+          dispatch({
+            type: ADD_APP_STATUS,
+            id: desc,
+            status: INSTALLED,
+          });
+        });
+      });
+    });
+  }
 });
 
 export const refresh = () => ((dispatch, getState) => {
