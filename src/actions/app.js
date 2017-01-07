@@ -1,4 +1,4 @@
-/* global fetch execFile remote fs WindowsShortcuts https */
+/* global fetch execFile remote fs WindowsShortcuts https os */
 import { batchActions } from 'redux-batched-actions';
 import {
   SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP,
@@ -52,7 +52,7 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-  const iconExt = process.platform === 'darwin' ? 'icns' : 'ico';
+  const iconExt = os.platform() === 'darwin' ? 'icns' : 'ico';
 
   const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
   const iconFile = fs.createWriteStream(iconPath);
@@ -62,7 +62,7 @@ export const installApp = app => (dispatch) => {
 
 
     iconFile.on('finish', () => {
-      if (process.platform === 'darwin') {
+      if (os.platform() === 'darwin') {
         execFile(`${remote.app.getAppPath()}/applify.sh`, [
           app.get('name'),
           app.get('url'),
@@ -138,7 +138,7 @@ export const uninstallApp = app => ((dispatch) => {
     status: INPROGRESS,
   });
 
-  if (process.platform === 'darwin') {
+  if (os.platform() === 'darwin') {
     const appPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`;
     deleteFolderRecursive(appPath);
   } else {
@@ -154,7 +154,7 @@ export const uninstallApp = app => ((dispatch) => {
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  if (process.platform === 'darwin') {
+  if (os.platform() === 'darwin') {
     const allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
     fs.readdir(allAppPath, (err, files) => {
       if (err) return;
