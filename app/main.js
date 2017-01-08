@@ -224,8 +224,6 @@ function createWindow() {
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {
       // Auto updater
-      const feedUrl = `https://backend.getwebcatalog.com/update/${process.platformos}/${app.getVersion()}.json`;
-
       autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
         dialog.showMessageBox({
           type: 'info',
@@ -246,6 +244,7 @@ function createWindow() {
       autoUpdater.on('update-not-available', () => log('No update available'));
 
       if (process.platform === 'darwin') {
+        const feedUrl = `https://backend.getwebcatalog.com/update/${process.platform}/${app.getVersion()}.json`;
         autoUpdater.setFeedURL(feedUrl);
       }
 
