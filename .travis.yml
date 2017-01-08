@@ -7,10 +7,7 @@ cache:
   - node_modules
 script:
 - yarn run lint
-- yarn run compile
-- yarn run build-mac
-before_deploy:
-- yarn run dist
+- yarn run dist-mac
 deploy:
   provider: releases
   api_key:

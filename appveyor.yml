@@ -25,8 +25,7 @@ install:
 
 build_script:
   - yarn run lint
-  - yarn run compile-windows
-  - yarn run build-windows
+  - yarn run dist-windows
 
 test: off
 
