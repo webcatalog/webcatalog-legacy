@@ -38,6 +38,7 @@ artifacts:
 
 deploy:
   provider: GitHub
+  artifact: /(.*\.)(nupkg|exe)/
   auth_token:
     secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o # your encrypted token from GitHub
   on:
