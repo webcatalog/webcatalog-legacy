@@ -1,4 +1,4 @@
-/* global fetch execFile remote fs WindowsShortcuts https */
+/* global fetch execFile remote fs WindowsShortcuts https os */
 import { batchActions } from 'redux-batched-actions';
 import {
   SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP,
@@ -7,11 +7,17 @@ import {
 
 import { search } from './search';
 
+let fetching = false;
+
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
 
   // All pages have been fetched => stop
   if (appState.totalPage && appState.currentPage + 1 === appState.totalPage) return;
+
+  // Prevent redundant requests
+  if (fetching) return;
+  fetching = true;
 
   const currentPage = appState.currentPage + 1;
 
@@ -19,6 +25,7 @@ export const fetchApps = () => (dispatch, getState) => {
     type: SET_STATUS,
     status: LOADING,
   });
+
 
   fetch(`https://backend.getwebcatalog.com/${currentPage}.json`)
     .then(response => response.json())
@@ -41,6 +48,9 @@ export const fetchApps = () => (dispatch, getState) => {
         type: SET_STATUS,
         status: FAILED,
       });
+    })
+    .then(() => {
+      fetching = false;
     });
 };
 
@@ -52,7 +62,7 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-  const iconExt = process.platform === 'darwin' ? 'icns' : 'ico';
+  const iconExt = os.platform() === 'darwin' ? 'icns' : 'ico';
 
   const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
   const iconFile = fs.createWriteStream(iconPath);
@@ -62,7 +72,7 @@ export const installApp = app => (dispatch) => {
 
 
     iconFile.on('finish', () => {
-      if (process.platform === 'darwin') {
+      if (os.platform() === 'darwin') {
         execFile(`${remote.app.getAppPath()}/applify.sh`, [
           app.get('name'),
           app.get('url'),
@@ -138,7 +148,7 @@ export const uninstallApp = app => ((dispatch) => {
     status: INPROGRESS,
   });
 
-  if (process.platform === 'darwin') {
+  if (os.platform() === 'darwin') {
     const appPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`;
     deleteFolderRecursive(appPath);
   } else {
@@ -154,7 +164,7 @@ export const uninstallApp = app => ((dispatch) => {
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  if (process.platform === 'darwin') {
+  if (os.platform() === 'darwin') {
     const allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
     fs.readdir(allAppPath, (err, files) => {
       if (err) return;

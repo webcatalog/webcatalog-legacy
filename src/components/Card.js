@@ -1,4 +1,4 @@
-/* global shell remote */
+/* global shell remote os */
 
 import React from 'react';
 import Immutable from 'immutable';
@@ -49,7 +49,7 @@ const Card = ({
               key="open"
               text="Open"
               onClick={() => {
-                if (process.platform === 'darwin') {
+                if (os.platform() === 'darwin') {
                   shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`);
                 } else {
                   // Windows
