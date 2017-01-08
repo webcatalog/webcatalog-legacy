@@ -46,7 +46,10 @@
       var fs = require('fs');
       var os = require('os');
       var execFile = require('child_process').execFile;
-      var WindowsShortcuts = require('windows-shortcuts');
+
+      if (os.platform() === 'win32') {
+        var WindowsShortcuts = require('windows-shortcuts');
+      }
 
       ipcRenderer.on('log', (event, message) => {
         console.log(message);
