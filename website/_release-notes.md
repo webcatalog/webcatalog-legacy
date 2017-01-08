@@ -1,3 +1,9 @@
+# 2.4.0
+- Add Windows support.
+- Fixes a few bugs.
+
+---
+
 # 2.3.0
 - Adds Flash support. (Spotify now works properly).
 - Adds WidevineCdm support. (Netflix now works properly).
