@@ -218,40 +218,40 @@ function createWindow() {
 
     mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('new-window', handleRedirect);
-  } else {
-    // only check update in WebCatalog main app.
-    mainWindow.webContents.once('did-finish-load', () => {
-      setTimeout(() => {
-        // Auto updater
-        const feedUrl = `https://backend.getwebcatalog.com/update/${process.platformos}/${app.getVersion()}.json`;
-
-        autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-          dialog.showMessageBox({
-            type: 'info',
-            buttons: ['Yes', 'Cancel'],
-            defaultId: 1,
-            title: 'A new update is ready to install',
-            message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
-          }, (response) => {
-            if (response === 0) {
-              autoUpdater.quitAndInstall();
-            }
-          });
-        });
-
-        autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
-        autoUpdater.on('checking-for-update', () => log('Checking for update'));
-        autoUpdater.on('update-available', () => log('Update available'));
-        autoUpdater.on('update-not-available', () => log('No update available'));
-
-        if (process.platform === 'darwin') {
-          autoUpdater.setFeedURL(feedUrl);
-        }
-
-        autoUpdater.checkForUpdates();
-      }, 1000);
-    });
   }
+
+  // Run autoUpdater in any windows
+  mainWindow.webContents.once('did-finish-load', () => {
+    setTimeout(() => {
+      // Auto updater
+      const feedUrl = `https://backend.getwebcatalog.com/update/${process.platformos}/${app.getVersion()}.json`;
+
+      autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
+        dialog.showMessageBox({
+          type: 'info',
+          buttons: ['Yes', 'Cancel'],
+          defaultId: 1,
+          title: 'A new update is ready to install',
+          message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
+        }, (response) => {
+          if (response === 0) {
+            autoUpdater.quitAndInstall();
+          }
+        });
+      });
+
+      autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
+      autoUpdater.on('checking-for-update', () => log('Checking for update'));
+      autoUpdater.on('update-available', () => log('Update available'));
+      autoUpdater.on('update-not-available', () => log('No update available'));
+
+      if (process.platform === 'darwin') {
+        autoUpdater.setFeedURL(feedUrl);
+      }
+
+      autoUpdater.checkForUpdates();
+    }, 1000);
+  });
 }
 
 // This method will be called when Electron has finished
