@@ -35,7 +35,7 @@ artifacts:
     name: NSIS Installer
   - path: dist/win/*.nupkg
     name: Nuget Package
-  - path: dist/win/latest.yml
+  - path: dist/latest.yml
     name: YML for Squirrel
 
 deploy:
