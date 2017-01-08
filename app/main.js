@@ -3,7 +3,6 @@
 const electron = require('electron');
 const argv = require('optimist').argv;
 const autoUpdater = require('electron-auto-updater').autoUpdater;
-const os = require('os');
 
 const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
 
@@ -16,11 +15,35 @@ const windowStateKeeper = require('./windowStateKeeper');
 const FLASH_VERSION = '24.0.0.186';
 const WIDEVINECDM_VERSION = '1.4.8.903';
 
+let flashPluginFilename;
+switch (process.platform) {
+  case 'darwin':
+    flashPluginFilename = 'PepperFlashPlayer.plugin';
+    break;
+  default:
+  case 'win32':
+    flashPluginFilename = 'pepflashplayer.dll';
+    break;
+}
+
+let widevineCdmPluginFilename;
+switch (process.platform) {
+  case 'darwin':
+    widevineCdmPluginFilename = 'widevinecdmadapter.plugin';
+    break;
+  default:
+  case 'win32':
+    widevineCdmPluginFilename = 'widevinecdmadapter.dll';
+    break;
+}
+
+const pluginFolder = `plugins/${process.platform}/${process.arch}`;
+
 // load plugins
-app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, 'plugins/PepperFlash', FLASH_VERSION, 'PepperFlashPlayer.plugin').replace('app.asar', 'app.asar.unpacked'));
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginFolder, 'PepperFlash', FLASH_VERSION, flashPluginFilename).replace('app.asar', 'app.asar.unpacked'));
 app.commandLine.appendSwitch('ppapi-flash-version', FLASH_VERSION);
 
-app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, 'plugins/WidevineCdm', WIDEVINECDM_VERSION, 'widevinecdmadapter.plugin').replace('app.asar', 'app.asar.unpacked'));
+app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, pluginFolder, 'WidevineCdm', WIDEVINECDM_VERSION, widevineCdmPluginFilename).replace('app.asar', 'app.asar.unpacked'));
 app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -94,7 +117,7 @@ function createWindow() {
   // do nothing for setDockBadge if not OSX
   let setDockBadge = () => {};
 
-  if (os.platform() === 'darwin') {
+  if (process.platform === 'darwin') {
     setDockBadge = app.dock.setBadge;
   }
 
@@ -110,7 +133,7 @@ function createWindow() {
   });
 
   ipcMain.on('notification', () => {
-    if (os.platform() !== 'darwin' || mainWindow.isFocused()) {
+    if (process.platform !== 'darwin' || mainWindow.isFocused()) {
       return;
     }
     setDockBadge('•');
@@ -200,7 +223,7 @@ function createWindow() {
     mainWindow.webContents.once('did-finish-load', () => {
       setTimeout(() => {
         // Auto updater
-        const feedUrl = `https://backend.getwebcatalog.com/update/${os.platform()}/${app.getVersion()}.json`;
+        const feedUrl = `https://backend.getwebcatalog.com/update/${process.platformos}/${app.getVersion()}.json`;
 
         autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
           dialog.showMessageBox({
@@ -221,8 +244,9 @@ function createWindow() {
         autoUpdater.on('update-available', () => log('Update available'));
         autoUpdater.on('update-not-available', () => log('No update available'));
 
-
-        autoUpdater.setFeedURL(feedUrl);
+        if (process.platform === 'darwin') {
+          autoUpdater.setFeedURL(feedUrl);
+        }
 
         autoUpdater.checkForUpdates();
       }, 1000);

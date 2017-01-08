@@ -8,7 +8,7 @@ cache:
 script:
 - yarn run lint
 - yarn run compile
-- yarn run build
+- yarn run build-mac
 before_deploy:
 - yarn run dist
 deploy:

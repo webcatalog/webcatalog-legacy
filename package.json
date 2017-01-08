@@ -7,9 +7,13 @@
     "start": "electron ./app",
     "dev": "NODE_ENV=development webpack -d --watch",
     "compile": "NODE_ENV=production webpack -p",
-    "build": "node ./builder.js",
+    "dev-windows": "set NODE_ENV=development&& webpack -d --watch",
+    "compile-windows": "set NODE_ENV=production&& webpack -p",
+    "build-mac": "node ./builder-mac.js",
+    "build-windows": "node ./builder-windows.js",
     "lint": "eslint ./src --ext .js --cache",
-    "dist": "npm run compile && npm run build"
+    "dist-mac": "npm run compile && npm run build-mac",
+    "dist-windows": "npm run compile-windows && npm run build-windows"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",

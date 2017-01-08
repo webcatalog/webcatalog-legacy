@@ -1,11 +1,11 @@
 # Based on https://gist.github.com/oubiwann/453744744da1141ccc542ff75b47e0cf
 #!/usr/bin/env bash
 
-# applify.sh "App name" "URL" "Icon path"
+# applify.sh "App name" "URL" "Icon path" "Id"
 
 APPNAME=${1}
 APPURL=${2}
-APPICONS=${3}
+APPICON=${3}
 APPID=${4}
 APPDIR=$(eval echo "~/Applications")
 TARGETDIR="${APPDIR}/WebCatalog Apps/$APPNAME.app"
@@ -20,7 +20,7 @@ cat <<EOF > "${SCRIPT}"
 EOF
 chmod +x "${SCRIPT}"
 
-cp -v "$APPICONS" "${DIR}/Resources/${APPNAME}.icns"
+cp -v "$APPICON" "${DIR}/Resources/${APPNAME}.icns"
 
 # To identify
 echo "${APPID}" > "${TARGETDIR}/id"

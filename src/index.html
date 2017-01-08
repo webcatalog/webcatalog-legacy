@@ -43,8 +43,10 @@
     <script>
       var { shell, remote, ipcRenderer } = require('electron');
       var https = require('https');
-      var fs= require('fs');
+      var fs = require('fs');
+      var os = require('os');
       var execFile = require('child_process').execFile;
+      var WindowsShortcuts = require('windows-shortcuts');
 
       ipcRenderer.on('log', (event, message) => {
         console.log(message);

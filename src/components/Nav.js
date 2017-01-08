@@ -1,4 +1,4 @@
-/* global shell */
+/* global shell os */
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -21,9 +21,11 @@ const Nav = ({
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
-      <div className="pt-navbar-heading">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
+      {(os.platform() === 'darwin') ? (
+        <div className="pt-navbar-heading">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+      ) : null}
       <div className="pt-input-group" style={{ width: '100%' }}>
         <span className="pt-icon pt-icon-search" />
         <input

@@ -1,13 +1,12 @@
 # WebCatalog Desktop
-[![Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
-[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/desktop/blob/master/LICENSE)
-
+[![Travis Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/desktop?branch=windows&svg=true)](https://ci.appveyor.com/project/webcatalog/desktop/branch/master)
+[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/quanglam2807/webcatalog/blob/master/LICENSE)
 
 #### Homepage: https://getwebcatalog.com
 
-
 ## Introduction
-WebCatalog Desktop is a Mac app which allows users to install and run web apps natively. It offers similar functionalities with [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but with different approach and a more user-friendly UI.
+WebCatalog Desktop is a desktop app which allows users to install and run web apps natively. It offers similar functionalities with [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but with different approach and a more user-friendly UI.
 
 WebCatalog Desktop needs to rely on [WebCatalog Backend](https://github.com/webcatalog/backend) to store data and manage app updates.
 
@@ -26,8 +25,18 @@ yarn run dev
 yarn start
 ```
 
-To build the app:
+(for Windows)
 ```bash
-yarn run build
+yarn run dev-windows
+yarn start
+```
+
+To build the app for release:
+```bash
 yarn run dist
+```
+
+(for Windows)
+```bash
+yarn run dist-windows
 ```
