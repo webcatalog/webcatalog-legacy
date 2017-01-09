@@ -216,7 +216,7 @@ function createWindow() {
       }
     };
 
-    mainWindow.webContents.on('will-navigate', handleRedirect);
+    // mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('new-window', handleRedirect);
   }
 
