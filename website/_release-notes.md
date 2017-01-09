@@ -1,3 +1,8 @@
+# 2.4.1
+- Fixes OAuth authentication.
+
+---
+
 # 2.4.0
 - Add Windows support.
 - Fixes a few bugs.
