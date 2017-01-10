@@ -1,10 +1,12 @@
 const builder = require('electron-builder');
 
+const { Platform, Arch } = builder;
+
 /* eslint-disable no-console */
 
 // Promise is returned
 builder.build({
-  targets: builder.Platform.WINDOWS.createTarget(['squirrel', 'nsis']),
+  targets: Platform.WINDOWS.createTarget(['nsis'], Arch.x64, Arch.ia32),
   devMetadata: {
     build: {
       win: {

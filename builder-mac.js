@@ -1,11 +1,13 @@
 const builder = require('electron-builder');
 const execFile = require('child_process').execFile;
 
+const { Platform } = builder;
+
 /* eslint-disable no-console */
 
 // Promise is returned
 builder.build({
-  targets: builder.Platform.MAC.createTarget(),
+  targets: Platform.MAC.createTarget(),
   devMetadata: {
     build: {
       appId: 'com.webcatalog.app',
