@@ -15,8 +15,8 @@ const updateTargetPath = `${targetPath}/update/darwin`;
 
 const numberOfAppInChunk = 24;
 
-// released versions
-const versions = ['2.4.1', '2.4.0', '2.3.0', '2.2.0', '2.1.0', '2.0.2', '2.0.1', '2.0.0'];
+// released version
+const latestVersion = '2.4.1';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
@@ -115,21 +115,11 @@ chunks.forEach((chunk, i) => {
 
 // update server
 // https://github.com/Squirrel/Squirrel.Mac#server-support
-const currentVersion = versions[0];
-const oldVersions = versions;
-oldVersions.shift();
-oldVersions.forEach((version) => {
-  const data = {
-    name: currentVersion,
-    url: `https://github.com/webcatalog/desktop/releases/download/${currentVersion}/WebCatalog-${currentVersion}-mac.zip`,
-  };
-
-  fs.writeFile(`${updateTargetPath}/${version}.json`, JSON.stringify(data), (err) => {
-    if (err) {
-      console.log(err);
-      process.exit(1);
-    }
-  });
+fs.writeFile(`${updateTargetPath}/latest.json`, JSON.stringify({ version: latestVersion }), (err) => {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
 });
 
 // algolia
@@ -140,7 +130,6 @@ index.addObjects(apps, (err) => {
     console.error(err);
   }
 });
-
 
 // create 404
 fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
