@@ -1,3 +1,11 @@
+# 2.5.0
+- Fixes update mechanism.
+- Fixes many minor bugs.
+- Adds version number to settings dialog.
+- Improves Windows installer.
+
+---
+
 # 2.4.1
 - Fixes OAuth authentication.
 
