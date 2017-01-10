@@ -30,9 +30,9 @@ build_script:
 test: off
 
 artifacts:
-  - path: dist/win/*.exe
+  - path: dist/*.exe
     name: NSIS Installer
-  - path: dist/win/*.nupkg
+  - path: dist/*.nupkg
     name: Nuget Package
   - path: dist/latest.yml
     name: YML for Squirrel
