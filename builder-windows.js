@@ -6,7 +6,7 @@ const { Platform, Arch } = builder;
 
 // Promise is returned
 builder.build({
-  targets: Platform.WINDOWS.createTarget(['nsis'], Arch.x64, Arch.ia32),
+  targets: Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64, Arch.ia32),
   devMetadata: {
     build: {
       win: {
