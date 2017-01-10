@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+/* global ipcRenderer remote */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent } from '@blueprintjs/core';
@@ -23,6 +23,7 @@ const Settings = ({ isOpen, requestToggleSettingDialog }) => (
     </div>
     <div className="pt-dialog-footer">
       <div className="pt-dialog-footer-actions">
+        <p>Version {remote.app.getVersion()}</p>
         <Button text="Close" intent={Intent.PRIMARY} onClick={() => requestToggleSettingDialog()} />
       </div>
     </div>
