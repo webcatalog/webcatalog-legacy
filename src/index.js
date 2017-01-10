@@ -11,6 +11,7 @@ const jsonDataPath = './data/json';
 
 const targetPath = './www';
 const imageTargetPath = `${targetPath}/images`;
+const appPageTargetPath = `${targetPath}/apps/page`;
 
 const numberOfAppInChunk = 24;
 
@@ -19,6 +20,7 @@ const latestVersion = '2.5.0';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
+mkdirp.sync(appPageTargetPath);
 
 const jsonFiles = fs.readdirSync(jsonDataPath);
 
@@ -103,7 +105,16 @@ chunks.forEach((chunk, i) => {
     chunk,
   };
 
+  // old, will be removed.
   fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(data), (err) => {
+    if (err) {
+      console.log(err);
+      process.exit(1);
+    }
+  });
+
+  // generate app page
+  fs.writeFile(`${appPageTargetPath}/${i}.json`, JSON.stringify(data), (err) => {
     if (err) {
       console.log(err);
       process.exit(1);
