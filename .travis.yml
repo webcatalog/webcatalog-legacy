@@ -20,7 +20,7 @@ deploy:
   on:
     tags: true
 after_deploy:
-- export WEBCATALOG_VERSION=$(node -e "console.log(require('./package.json').version);")
+- export WEBCATALOG_VERSION=$(node -e "console.log(require('./app/package.json').version);")
 - yarn global add harp surge
 - cd website
 - yarn
