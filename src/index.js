@@ -11,7 +11,6 @@ const jsonDataPath = './data/json';
 
 const targetPath = './www';
 const imageTargetPath = `${targetPath}/images`;
-const updateTargetPath = `${targetPath}/update/darwin`;
 
 const numberOfAppInChunk = 24;
 
@@ -20,7 +19,6 @@ const latestVersion = '2.4.1';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
-mkdirp.sync(updateTargetPath);
 
 const jsonFiles = fs.readdirSync(jsonDataPath);
 
@@ -114,8 +112,7 @@ chunks.forEach((chunk, i) => {
 });
 
 // update server
-// https://github.com/Squirrel/Squirrel.Mac#server-support
-fs.writeFile(`${updateTargetPath}/latest.json`, JSON.stringify({ version: latestVersion }), (err) => {
+fs.writeFile(`${targetPath}/latest.json`, JSON.stringify({ version: latestVersion }), (err) => {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -130,6 +127,7 @@ index.addObjects(apps, (err) => {
     console.error(err);
   }
 });
+
 
 // create 404
 fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
