@@ -80,6 +80,7 @@ function createWindow() {
       nodeIntegration: false,
       webSecurity: true,
       preload: path.join(__dirname, 'preload.js'),
+      partition: `persist:${argv.id}`,
     },
   } : {
     x: mainWindowState.x,
