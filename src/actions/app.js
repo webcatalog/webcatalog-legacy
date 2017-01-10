@@ -27,7 +27,7 @@ export const fetchApps = () => (dispatch, getState) => {
   });
 
 
-  fetch(`https://backend.getwebcatalog.com/${currentPage}.json`)
+  fetch(`https://backend.getwebcatalog.com/apps/page/${currentPage}.json`)
     .then(response => response.json())
     .then(({ chunk, totalPage }) => {
       dispatch(batchActions([
