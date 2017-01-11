@@ -5,15 +5,13 @@
   "main": "main.js",
   "scripts": {
     "start": "electron ./app",
-    "dev": "NODE_ENV=development webpack -d --watch",
-    "compile": "NODE_ENV=production webpack -p",
-    "dev-windows": "set NODE_ENV=development&& webpack -d --watch",
-    "compile-windows": "set NODE_ENV=production&& webpack -p",
+    "dev": "cross-env NODE_ENV=development webpack -d --watch",
+    "compile": "cross-env NODE_ENV=production webpack -p",
     "build-mac": "node ./builder-mac.js",
     "build-windows": "node ./builder-windows.js",
     "lint": "eslint ./src --ext .js --cache",
     "dist-mac": "npm run compile && npm run build-mac",
-    "dist-windows": "npm run compile-windows && npm run build-windows"
+    "dist-windows": "npm run compile && npm run build-windows"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": "Quang Lam",
@@ -25,6 +23,7 @@
     "babel-preset-react": "^6.16.0",
     "clean-webpack-plugin": "^0.1.15",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.4",
     "electron": "^1.4.14",
     "electron-builder": "^11.2.3",
     "electron-builder-squirrel-windows": "^11.2.1",
