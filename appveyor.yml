@@ -26,6 +26,7 @@ install:
 build_script:
   - yarn run lint
   - yarn run dist-windows
+  - ren "dist\WebCatalog Setup *.exe" "WebCatalog-Setup-*.exe"
 
 test: off
 
