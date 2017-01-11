@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
-import { toggleSettingDialog } from '../actions/settings';
 import { NONE } from '../constants/actions';
 
 const Nav = ({
   query, searchStatus,
-  requestSearch, requestSetSearchQuery, requestToggleSettingDialog, requestRefresh,
+  requestSearch, requestSetSearchQuery, requestRefresh,
 }) => (
   <nav
     className="pt-navbar pt-fixed-top"
@@ -68,11 +67,6 @@ const Nav = ({
         className="pt-button pt-minimal pt-icon-refresh"
         onClick={() => requestRefresh()}
       />
-      <span className="pt-navbar-divider" />
-      <button
-        className="pt-button pt-minimal pt-icon-cog"
-        onClick={() => requestToggleSettingDialog()}
-      />
     </div>
   </nav>
 );
@@ -82,7 +76,6 @@ Nav.propTypes = {
   searchStatus: React.PropTypes.string,
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
-  requestToggleSettingDialog: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
 };
 
@@ -97,9 +90,6 @@ const mapDispatchToProps = dispatch => ({
   },
   requestSetSearchQuery: (query) => {
     dispatch(setSearchQuery(query));
-  },
-  requestToggleSettingDialog: () => {
-    dispatch(toggleSettingDialog());
   },
   requestRefresh: () => {
     dispatch(refresh());

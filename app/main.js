@@ -147,6 +147,10 @@ function createWindow() {
   let currentZoom = 1;
   const ZOOM_INTERVAL = 0.1;
 
+  const log = (message) => {
+    mainWindow.webContents.send('log', message);
+  };
+
   const onZoomIn = () => {
     currentZoom += ZOOM_INTERVAL;
     mainWindow.webContents.send('change-zoom', currentZoom);
@@ -165,18 +169,22 @@ function createWindow() {
     mainWindow.webContents.goForward();
   };
 
-  const clearAppData = () => {
+  const clearBrowsingData = () => {
     dialog.showMessageBox(mainWindow, {
       type: 'warning',
       buttons: ['Yes', 'Cancel'],
       defaultId: 1,
       title: 'Clear cache confirmation',
-      message: 'This will clear all data (cookies, local storage etc) from every app installed from WebCatalog. Are you sure you wish to proceed?',
+      message: `This will clear all data (cookies, local storage etc) from ${argv.name}. Are you sure you wish to proceed?`,
     }, (response) => {
       if (response === 0) {
         const session = mainWindow.webContents.session;
-        session.clearStorageData(() => {
-          session.clearCache();
+        session.clearStorageData((err) => {
+          if (err) {
+            log(`Clearing browsing data err: ${err.message}`);
+            return;
+          }
+          log(`Browsing data of ${argv.id} cleared.`);
         });
       }
     });
@@ -193,13 +201,10 @@ function createWindow() {
     goBack: onGoBack,
     goForward: onGoForward,
     getCurrentUrl,
+    clearBrowsingData,
   };
 
   createMenu(menuOptions);
-
-  ipcMain.on('clearAppData', () => {
-    clearAppData();
-  });
 
   if (isWebView) {
     const webViewDomain = extractDomain(argv.url);
@@ -216,10 +221,6 @@ function createWindow() {
     // mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('new-window', handleRedirect);
   }
-
-  const log = (message) => {
-    mainWindow.webContents.send('log', message);
-  };
 
   // Run autoUpdater in any windows
   mainWindow.webContents.once('did-finish-load', () => {

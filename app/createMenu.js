@@ -15,10 +15,22 @@ const { Menu, shell, clipboard } = electron;
  */
 function createMenu({
   webView, appName, getCurrentUrl, goBack, goForward, zoomIn, zoomOut, appQuit,
+  clearBrowsingData,
 }) {
   let template;
   if (webView) {
     template = [
+      {
+        label: 'File',
+        submenu: [
+          {
+            label: 'Clear browsing data',
+            click: () => {
+              clearBrowsingData();
+            },
+          },
+        ],
+      },
       {
         label: 'Edit',
         submenu: [

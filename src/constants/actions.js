@@ -8,8 +8,6 @@ export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SET_SEARCH_HITS = 'SET_SEARCH_HITS';
 export const SET_SEARCH_STATUS = 'SET_SEARCH_STATUS';
 
-export const TOGGLE_SETTING_DIALOG = 'TOGGLE_SETTING_DIALOG';
-
 export const INSTALLED = 1;
 export const INPROGRESS = 2;
 
