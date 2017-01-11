@@ -9,6 +9,19 @@ import { search } from './search';
 
 let fetching = false;
 
+let allAppPath;
+switch (os.platform()) {
+  case 'darwin': {
+    allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
+    break;
+  }
+  case 'windows':
+  default: {
+    allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
+  }
+}
+
+
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
 
@@ -20,6 +33,7 @@ export const fetchApps = () => (dispatch, getState) => {
   fetching = true;
 
   const currentPage = appState.currentPage + 1;
+
 
   dispatch({
     type: SET_STATUS,
@@ -98,7 +112,12 @@ export const installApp = app => (dispatch) => {
         });
       } else {
         // Windows
-        WindowsShortcuts.create(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`, {
+
+        if (!fs.existsSync(allAppPath)) {
+          fs.mkdirSync(allAppPath);
+        }
+
+        WindowsShortcuts.create(`${allAppPath}/${app.get('name')}.lnk`, {
           target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
           args: `--name="${app.get('name')}" --url="${app.get('url')}" --id="${app.get('id')}"`,
           icon: iconPath,
@@ -149,10 +168,10 @@ export const uninstallApp = app => ((dispatch) => {
   });
 
   if (os.platform() === 'darwin') {
-    const appPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`;
+    const appPath = `${allAppPath}/${app.get('name')}.app`;
     deleteFolderRecursive(appPath);
   } else {
-    const appPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`;
+    const appPath = `${allAppPath}/${app.get('name')}.lnk`;
     fs.unlinkSync(appPath);
   }
 
@@ -165,7 +184,6 @@ export const uninstallApp = app => ((dispatch) => {
 
 export const scanInstalledApps = () => ((dispatch) => {
   if (os.platform() === 'darwin') {
-    const allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
     fs.readdir(allAppPath, (err, files) => {
       if (err) return;
 
@@ -181,7 +199,6 @@ export const scanInstalledApps = () => ((dispatch) => {
     });
   } else {
     // Windows
-    const allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
     fs.readdir(allAppPath, (err, files) => {
       if (err) return;
 
