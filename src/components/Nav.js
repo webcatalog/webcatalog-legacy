@@ -67,6 +67,10 @@ const Nav = ({
         className="pt-button pt-minimal pt-icon-refresh"
         onClick={() => requestRefresh()}
       />
+      <button
+        className="pt-button pt-minimal pt-icon-help"
+        onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
+      />
     </div>
   </nav>
 );

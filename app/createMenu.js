@@ -351,9 +351,9 @@ function createMenu({
             },
           },
           {
-            label: 'Report an Issue',
+            label: 'Support',
             click: () => {
-              shell.openExternal('https://github.com/webCatalog/desktop/issues');
+              shell.openExternal('https://getwebcatalog.com/support');
             },
           },
         ],
