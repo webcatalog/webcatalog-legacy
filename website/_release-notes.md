@@ -1,4 +1,10 @@
 # 2.5.0
+- Fixes app installation on Windows.
+- Uses independent session for each app.
+
+---
+
+# 2.5.0
 - Fixes update mechanism.
 - Fixes many minor bugs.
 - Adds version number to settings dialog.

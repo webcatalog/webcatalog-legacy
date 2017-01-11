@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
     "electron": "^1.4.14",
-    "electron-builder": "^11.2.3",
+    "electron-builder": "^11.2.4",
     "electron-builder-squirrel-windows": "^11.2.1",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^13.0.0",
@@ -42,7 +42,7 @@
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-redux": "^5.0.1",
+    "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-batched-actions": "^0.1.5",
     "redux-thunk": "^2.1.0"
