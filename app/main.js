@@ -185,6 +185,7 @@ function createWindow() {
             return;
           }
           log(`Browsing data of ${argv.id} cleared.`);
+          mainWindow.webContents.reload();
         });
       }
     });
