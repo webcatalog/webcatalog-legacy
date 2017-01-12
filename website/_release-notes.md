@@ -1,4 +1,4 @@
-# 2.5.0
+# 2.6.0
 - Fixes app installation on Windows.
 - Uses independent session for each app.
 
