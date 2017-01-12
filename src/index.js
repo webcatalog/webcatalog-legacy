@@ -105,14 +105,6 @@ chunks.forEach((chunk, i) => {
     chunk,
   };
 
-  // old, will be removed.
-  fs.writeFile(`${targetPath}/${i}.json`, JSON.stringify(data), (err) => {
-    if (err) {
-      console.log(err);
-      process.exit(1);
-    }
-  });
-
   // generate app page
   fs.writeFile(`${appPageTargetPath}/${i}.json`, JSON.stringify(data), (err) => {
     if (err) {
@@ -121,6 +113,25 @@ chunks.forEach((chunk, i) => {
     }
   });
 });
+
+// warning.
+const oldVersionCaution = {
+  totalPage: 1,
+  chunk: [
+    {
+      name: 'This version is no longer supported. Go to getwebcatalog.com to download the latest version.',
+      url: 'https://getwebcatalog.com',
+      id: 'old-version-caution',
+    },
+  ],
+};
+fs.writeFile(`${targetPath}/0.json`, JSON.stringify(oldVersionCaution), (err) => {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
+});
+
 
 // update server
 fs.writeFile(`${targetPath}/latest.json`, JSON.stringify({ version: latestVersion }), (err) => {
