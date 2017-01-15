@@ -2,7 +2,11 @@
   "name": "WebCatalog",
   "version": "2.6.0",
   "description": "WebCatalog, run your favorite web apps natively",
-  "author": "Quang Lam",
+  "author": {
+    "name": "Quang Lam",
+    "email": "quang.lam2807@gmail.com",
+    "url": "https://quanglam.me"
+  },
   "main": "main.js",
   "dependencies": {
     "deep-equal": "^1.0.1",

@@ -1,13 +1,24 @@
 language: node_js
 node_js: 6
-os: osx
+matrix:
+  include:
+    - os: osx
+    - os: linux
+      env: CC=clang CXX=clang++ npm_config_clang=1
+      compiler: clang
 cache:
   yarn: true
   directories:
   - node_modules
+addons:
+  apt:
+    packages:
+      - icnsutils
+      - rpm
 script:
 - yarn run lint
-- yarn run dist-mac
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn run dist-linux; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn run dist-mac; fi
 deploy:
   provider: releases
   api_key:
@@ -17,6 +28,8 @@ deploy:
   file:
   - dist/mac/*.dmg
   - dist/mac/*.zip
+  - dist/*.deb
+  - dist/*.rpm
   on:
     tags: true
 after_deploy:

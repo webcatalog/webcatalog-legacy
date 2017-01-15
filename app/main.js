@@ -21,6 +21,9 @@ switch (process.platform) {
   case 'darwin':
     flashPluginFilename = 'PepperFlashPlayer.plugin';
     break;
+  case 'linux':
+    flashPluginFilename = 'libpepflashplayer.so';
+    break;
   default:
   case 'win32':
     flashPluginFilename = 'pepflashplayer.dll';
@@ -32,10 +35,12 @@ switch (process.platform) {
   case 'darwin':
     widevineCdmPluginFilename = 'widevinecdmadapter.plugin';
     break;
+  case 'linux':
+    widevineCdmPluginFilename = 'libwidevinecdmadapter.so';
+    break;
   default:
   case 'win32':
     widevineCdmPluginFilename = 'widevinecdmadapter.dll';
-    break;
 }
 
 const pluginFolder = `plugins/${process.platform}/${process.arch}`;

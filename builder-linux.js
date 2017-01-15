@@ -6,14 +6,14 @@ const { Platform, Arch } = builder;
 
 // Promise is returned
 builder.build({
-  targets: Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64),
+  targets: Platform.LINUX.createTarget(['deb', 'rpm'], Arch.x64),
   devMetadata: {
     build: {
       appId: 'com.webcatalog.app',
-      win: {
-        publish: ['github'],
+      linux: {
+        category: 'public.app-category.utilities',
       },
-      files: ['!plugins/darwin/**/*', '!plugins/linux/**/*'],
+      files: ['!plugins/darwin/**/*', '!plugins/win32/**/*'],
       asar: true,
       asarUnpack: ['plugins/**'],
     },
