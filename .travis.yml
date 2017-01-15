@@ -27,7 +27,6 @@ deploy:
   - dist/mac/*.dmg
   - dist/mac/*.zip
   - dist/*.AppImage
-  - dist/latest-mac.json
   on:
     tags: true
 after_deploy:
