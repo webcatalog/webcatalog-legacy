@@ -89,8 +89,16 @@ const Card = ({
             onClick={() => {
               const BrowserWindow = remote.BrowserWindow;
               const trialWindow = new BrowserWindow({
-                width: 1024,
-                height: 600,
+                width: 1280,
+                height: 800,
+                webPreferences: {
+                  javascript: true,
+                  plugins: true,
+                  // node globals causes problems with sites like messenger.com
+                  nodeIntegration: false,
+                  webSecurity: true,
+                  partition: app.get('id'),
+                },
               });
               trialWindow.loadURL(app.get('url'));
             }}
