@@ -1,6 +1,8 @@
 language: node_js
-node_js: 6
+node_js:
+  - 6
 matrix:
+  fast_finish: true
   include:
     - os: osx
     - os: linux
@@ -8,10 +10,10 @@ cache:
   yarn: true
   directories:
   - node_modules
+  - app/node_modules
 addons:
   apt:
     packages:
-      - graphicsmagick
       - icnsutils
       - rpm
 script:
@@ -27,8 +29,7 @@ deploy:
   file:
   - dist/mac/*.dmg
   - dist/mac/*.zip
-  - dist/*.deb
-  - dist/*.rpm
+  - dist/*.AppImage
   on:
     tags: true
 after_deploy:
