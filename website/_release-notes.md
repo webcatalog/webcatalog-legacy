@@ -1,5 +1,10 @@
+# 2.7.1
+- Fixes a critical bug on Linux and macOS.
+
+---
+
 # 2.7.0
-- Add Linux support.
+- Adds Linux support.
 - Fixes bugs.
 
 ---
