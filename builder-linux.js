@@ -6,7 +6,7 @@ const { Platform, Arch } = builder;
 
 // Promise is returned
 builder.build({
-  targets: Platform.LINUX.createTarget(['deb', 'rpm'], Arch.x64),
+  targets: Platform.LINUX.createTarget(['AppImage'], Arch.x64),
   devMetadata: {
     build: {
       appId: 'com.webcatalog.app',
