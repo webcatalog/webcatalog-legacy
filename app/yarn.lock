@@ -18,7 +18,7 @@ bluebird@^3.4.6:
   version "3.4.7"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.7.tgz#f72d760be09b7f76d08ed8fae98b289a8d05fab3"
 
-debug@^2.6.0:
+debug@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -28,22 +28,22 @@ deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
-electron-auto-updater@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/electron-auto-updater/-/electron-auto-updater-0.10.1.tgz#5f68e3348393f7a8cac8d4ef5caf50e788ac58e3"
+electron-auto-updater@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/electron-auto-updater/-/electron-auto-updater-1.0.0.tgz#fcaac7cb48afa9c3ea1d48b0ff7f0eee1a51418e"
   dependencies:
     bluebird-lst-c "^1.0.5"
-    debug "^2.6.0"
-    electron-builder-http "11.1.1"
+    electron-builder-http "11.3.0"
     fs-extra-p "^3.0.3"
     js-yaml "^3.7.0"
     semver "^5.3.0"
     source-map-support "^0.4.8"
 
-electron-builder-http@11.1.1:
-  version "11.1.1"
-  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-11.1.1.tgz#a46a1e3a3b968d0cc3e4e5b0c3e31f8227f141e0"
+electron-builder-http@11.3.0:
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-11.3.0.tgz#9ac35fa08da30cff3c42dc3a2444958796afd117"
   dependencies:
+    debug "2.6.0"
     fs-extra-p "^3.0.3"
 
 esprima@^2.6.0:
