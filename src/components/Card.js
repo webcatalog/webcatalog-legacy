@@ -1,4 +1,4 @@
-/* global shell remote os */
+/* global shell remote os exec */
 
 import React from 'react';
 import Immutable from 'immutable';
@@ -49,11 +49,19 @@ const Card = ({
               key="open"
               text="Open"
               onClick={() => {
-                if (os.platform() === 'darwin') {
-                  shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`);
-                } else {
-                  // Windows
-                  shell.openItem(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`);
+                switch (os.platform()) {
+                  case 'darwin': {
+                    shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`);
+                    break;
+                  }
+                  case 'linux': {
+                    exec(`gtk-launch ${app.get('id')}`);
+                    break;
+                  }
+                  case 'win32':
+                  default: {
+                    shell.openItem(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`);
+                  }
                 }
               }}
             />,

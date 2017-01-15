@@ -45,7 +45,7 @@
       var https = require('https');
       var fs = require('fs');
       var os = require('os');
-      var execFile = require('child_process').execFile;
+      var { exec, execFile } = require('child_process');
 
       if (os.platform() === 'win32') {
         var WindowsShortcuts = require('windows-shortcuts');

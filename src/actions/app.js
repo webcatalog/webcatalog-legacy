@@ -15,7 +15,11 @@ switch (os.platform()) {
     allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
     break;
   }
-  case 'windows':
+  case 'linux': {
+    allAppPath = `${remote.app.getPath('home')}/.local/share/applications`;
+    break;
+  }
+  case 'win32':
   default: {
     allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
   }
@@ -76,7 +80,21 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-  const iconExt = os.platform() === 'darwin' ? 'icns' : 'ico';
+  let iconExt;
+  switch (os.platform()) {
+    case 'darwin': {
+      iconExt = 'icns';
+      break;
+    }
+    case 'linux': {
+      iconExt = 'png';
+      break;
+    }
+    case 'win32':
+    default: {
+      iconExt = 'ico';
+    }
+  }
 
   const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
   const iconFile = fs.createWriteStream(iconPath);
@@ -86,60 +104,64 @@ export const installApp = app => (dispatch) => {
 
 
     iconFile.on('finish', () => {
-      if (os.platform() === 'darwin') {
-        execFile(`${remote.app.getAppPath()}/applify.sh`, [
-          app.get('name'),
-          app.get('url'),
-          iconPath,
-          app.get('id'),
-        ], (err) => {
-          if (err) {
-            /* eslint-disable no-console */
-            console.log(err);
-            /* eslint-enable no-console */
+      switch (os.platform()) {
+        case 'darwin':
+        case 'linux': {
+          execFile(`${remote.app.getAppPath()}/applify-${os.platform()}.sh`, [
+            app.get('name'),
+            app.get('url'),
+            iconPath,
+            app.get('id'),
+          ], (err) => {
+            if (err) {
+              /* eslint-disable no-console */
+              console.log(err);
+              /* eslint-enable no-console */
+              dispatch({
+                type: REMOVE_APP_STATUS,
+                id: app.get('id'),
+              });
+              return;
+            }
+
             dispatch({
-              type: REMOVE_APP_STATUS,
+              type: ADD_APP_STATUS,
               id: app.get('id'),
+              status: INSTALLED,
             });
-            return;
-          }
-
-          dispatch({
-            type: ADD_APP_STATUS,
-            id: app.get('id'),
-            status: INSTALLED,
           });
-        });
-      } else {
-        // Windows
-
-        if (!fs.existsSync(allAppPath)) {
-          fs.mkdirSync(allAppPath);
+          break;
         }
-
-        WindowsShortcuts.create(`${allAppPath}/${app.get('name')}.lnk`, {
-          target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
-          args: `--name="${app.get('name')}" --url="${app.get('url')}" --id="${app.get('id')}"`,
-          icon: iconPath,
-          desc: app.get('id'),
-        }, (err) => {
-          if (err) {
-            /* eslint-disable no-console */
-            console.log(err);
-            /* eslint-enable no-console */
-            dispatch({
-              type: REMOVE_APP_STATUS,
-              id: app.get('id'),
-            });
-            return;
+        case 'win32':
+        default: {
+          if (!fs.existsSync(allAppPath)) {
+            fs.mkdirSync(allAppPath);
           }
 
-          dispatch({
-            type: ADD_APP_STATUS,
-            id: app.get('id'),
-            status: INSTALLED,
+          WindowsShortcuts.create(`${allAppPath}/${app.get('name')}.lnk`, {
+            target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
+            args: `--name="${app.get('name')}" --url="${app.get('url')}" --id="${app.get('id')}"`,
+            icon: iconPath,
+            desc: app.get('id'),
+          }, (err) => {
+            if (err) {
+              /* eslint-disable no-console */
+              console.log(err);
+              /* eslint-enable no-console */
+              dispatch({
+                type: REMOVE_APP_STATUS,
+                id: app.get('id'),
+              });
+              return;
+            }
+
+            dispatch({
+              type: ADD_APP_STATUS,
+              id: app.get('id'),
+              status: INSTALLED,
+            });
           });
-        });
+        }
       }
     });
   });
@@ -167,12 +189,22 @@ export const uninstallApp = app => ((dispatch) => {
     status: INPROGRESS,
   });
 
-  if (os.platform() === 'darwin') {
-    const appPath = `${allAppPath}/${app.get('name')}.app`;
-    deleteFolderRecursive(appPath);
-  } else {
-    const appPath = `${allAppPath}/${app.get('name')}.lnk`;
-    fs.unlinkSync(appPath);
+  switch (os.platform()) {
+    case 'darwin': {
+      const appPath = `${allAppPath}/${app.get('name')}.app`;
+      deleteFolderRecursive(appPath);
+      break;
+    }
+    case 'linux': {
+      const appPath = `${allAppPath}/${app.get('id')}.desktop`;
+      fs.unlinkSync(appPath);
+      break;
+    }
+    case 'win32':
+    default: {
+      const appPath = `${allAppPath}/${app.get('name')}.lnk`;
+      fs.unlinkSync(appPath);
+    }
   }
 
   dispatch({
@@ -183,35 +215,54 @@ export const uninstallApp = app => ((dispatch) => {
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  if (os.platform() === 'darwin') {
-    fs.readdir(allAppPath, (err, files) => {
-      if (err) return;
+  switch (os.platform()) {
+    case 'darwin': {
+      fs.readdir(allAppPath, (err, files) => {
+        if (err) return;
 
-      files.forEach((fileName) => {
-        if (fileName === '.DS_Store') return;
-        const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
-        dispatch({
-          type: ADD_APP_STATUS,
-          id,
-          status: INSTALLED,
-        });
-      });
-    });
-  } else {
-    // Windows
-    fs.readdir(allAppPath, (err, files) => {
-      if (err) return;
-
-      files.forEach((fileName) => {
-        WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
+        files.forEach((fileName) => {
+          if (fileName === '.DS_Store') return;
+          const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
           dispatch({
             type: ADD_APP_STATUS,
-            id: desc,
+            id,
             status: INSTALLED,
           });
         });
       });
-    });
+      break;
+    }
+    case 'linux': {
+      fs.readdir(allAppPath, (err, files) => {
+        if (err) return;
+
+        files.forEach((fileName) => {
+          const id = fileName.replace('.desktop', '').trim();
+          dispatch({
+            type: ADD_APP_STATUS,
+            id,
+            status: INSTALLED,
+          });
+        });
+      });
+      break;
+    }
+    case 'win32':
+    default: {
+      fs.readdir(allAppPath, (err, files) => {
+        if (err) return;
+
+        files.forEach((fileName) => {
+          WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
+            dispatch({
+              type: ADD_APP_STATUS,
+              id: desc,
+              status: INSTALLED,
+            });
+          });
+        });
+      });
+    }
   }
 });
 

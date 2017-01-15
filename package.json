@@ -9,12 +9,18 @@
     "compile": "cross-env NODE_ENV=production webpack -p",
     "build-mac": "node ./builder-mac.js",
     "build-windows": "node ./builder-windows.js",
+    "build-linux": "node ./builder-linux.js",
     "lint": "eslint ./src --ext .js --cache",
     "dist-mac": "npm run compile && npm run build-mac",
-    "dist-windows": "npm run compile && npm run build-windows"
+    "dist-windows": "npm run compile && npm run build-windows",
+    "dist-linux": "npm run compile && npm run build-linux"
   },
   "repository": "https://github.com/webcatalog/desktop",
-  "author": "Quang Lam",
+  "author": {
+    "name": "Quang Lam",
+    "email": "quang.lam2807@gmail.com",
+    "url": "https://quanglam.me"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.21.0",

@@ -1,13 +1,23 @@
 language: node_js
 node_js: 6
-os: osx
+fast_finish: true
+os:
+  - osx
+  - linux
 cache:
   yarn: true
   directories:
   - node_modules
+  - app/node_modules
+addons:
+  apt:
+    packages:
+      - icnsutils
+      - rpm
 script:
 - yarn run lint
-- yarn run dist-mac
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn run dist-linux; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn run dist-mac; fi
 deploy:
   provider: releases
   api_key:
@@ -17,6 +27,7 @@ deploy:
   file:
   - dist/mac/*.dmg
   - dist/mac/*.zip
+  - dist/*.AppImage
   on:
     tags: true
 after_deploy:
