@@ -1,3 +1,9 @@
+# 2.7.0
+- Add Linux support.
+- Fixes bugs.
+
+---
+
 # 2.6.0
 - Fixes app installation on Windows.
 - Uses independent session for each app.
