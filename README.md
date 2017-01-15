@@ -25,18 +25,7 @@ yarn run dev
 yarn start
 ```
 
-(for Windows)
-```bash
-yarn run dev-windows
-yarn start
-```
-
 To build the app for release:
 ```bash
 yarn run dist
-```
-
-(for Windows)
-```bash
-yarn run dist-windows
 ```
