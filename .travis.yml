@@ -16,8 +16,7 @@ addons:
       - rpm
 script:
 - yarn run lint
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn run dist-linux; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn run dist-mac; fi
+- yarn run dist
 deploy:
   provider: releases
   api_key:
