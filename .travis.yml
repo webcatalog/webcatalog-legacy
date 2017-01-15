@@ -1,11 +1,9 @@
 language: node_js
-node_js:
-  - 6
-matrix:
-  fast_finish: true
-  include:
-    - os: osx
-    - os: linux
+node_js: 6
+fast_finish: true
+os:
+  - osx
+  - linux
 cache:
   yarn: true
   directories:
