@@ -7,7 +7,7 @@
     "start": "electron ./app",
     "dev": "cross-env NODE_ENV=development webpack -d --watch",
     "compile": "cross-env NODE_ENV=production webpack -p",
-    "package": "node ./builder.js",
+    "package": "node ./packager.js",
     "lint": "eslint ./src --ext .js --cache",
     "dist": "npm run compile && npm run package"
   },
