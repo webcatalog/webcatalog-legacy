@@ -12,6 +12,8 @@ DESKTOP_FILE="${APPDIR}/${APPID}.desktop"
 
 echo $DESKTOP_FILE
 
+mkdir -p "${APPDIR}"
+
 mkdir -p "${ICONDIR}"
 
 cp -v "$APPICON" "${ICONDIR}/${APPID}.png"
