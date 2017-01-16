@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
       - rpm
+      - bsdtar
 script:
 - yarn run lint
 - yarn run dist
