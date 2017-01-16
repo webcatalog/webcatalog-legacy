@@ -17,6 +17,7 @@ addons:
     packages:
       - rpm
       - bsdtar
+      - libavahi-compat-libdnssd-dev
 script:
 - yarn run lint
 - yarn run dist
