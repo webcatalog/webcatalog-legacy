@@ -1,3 +1,8 @@
+# 2.7.2
+- Fixes Linux installers.
+
+---
+
 # 2.7.1
 - Fixes a critical bug on Linux and macOS.
 
