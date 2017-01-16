@@ -2,6 +2,7 @@
 /* global window */
 
 const { ipcRenderer, webFrame } = require('electron');
+require('electron-chromecast');
 
 ipcRenderer.on('change-zoom', (event, message) => {
   webFrame.setZoomFactor(message);
