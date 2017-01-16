@@ -11,11 +11,11 @@ cache:
 addons:
   apt:
     packages:
-      - icnsutils
       - rpm
 script:
 - yarn run lint
 - yarn run dist
+- ls dist
 deploy:
   provider: releases
   api_key:
@@ -25,7 +25,9 @@ deploy:
   file:
   - dist/mac/*.dmg
   - dist/mac/*.zip
-  - dist/*.AppImage
+  - dist/*.deb
+  - dist/*.rpm
+  - dist/*.pacman
   on:
     tags: true
 after_deploy:
