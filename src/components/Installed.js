@@ -2,44 +2,37 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
 
-
-import { search } from '../actions/search';
+import { fetchInstalled } from '../actions/installed';
 import { LOADING, FAILED, DONE } from '../constants/actions';
 
 import Spinner from './Spinner';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
-class Search extends React.Component {
+class App extends React.Component {
   componentDidMount() {
-    const {
-      query, closeSearch,
-    } = this.props;
-
-    if (query.length < 1) {
-      closeSearch();
-    }
+    const { requestInstalled } = this.props;
+    requestInstalled();
   }
 
   renderList() {
     const {
-      searchStatus, hits, query,
+      status, hits,
     } = this.props;
 
-    if (searchStatus === DONE) {
+    if (status === DONE) {
       if (hits.size < 1) {
         return (
           <div className="text-container">
-            <h5>Your search {`"${query}"`} did not match any apps.</h5>
+            <h5>You have not installed any apps.</h5>
           </div>
         );
       }
       return (
         <div>
           <div className="text-container">
-            <h5>Search result for {`"${query}"`}</h5>
+            <h5>Installed applications</h5>
           </div>
           <div className="grid">
             {hits.map(app => <Card app={app} key={app.get('id')} />)}
@@ -65,12 +58,12 @@ class Search extends React.Component {
 
   renderStatus() {
     const {
-      searchStatus,
-      requestSearch,
+      status,
+      requestInstalled,
     } = this.props;
 
-    if (searchStatus === LOADING) return <Spinner />;
-    if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
+    if (status === LOADING) return <Spinner />;
+    if (status === FAILED) return <NoConnection handleClick={() => requestInstalled()} />;
 
     return null;
   }
@@ -85,29 +78,23 @@ class Search extends React.Component {
   }
 }
 
-Search.propTypes = {
-  searchStatus: React.PropTypes.string,
-  query: React.PropTypes.string,
+App.propTypes = {
+  status: React.PropTypes.string,
   hits: React.PropTypes.instanceOf(Immutable.List),
-  requestSearch: React.PropTypes.func,
-  closeSearch: React.PropTypes.func,
+  requestInstalled: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  searchStatus: state.search.status,
-  query: state.search.query,
-  hits: state.search.hits,
+  status: state.installed.status,
+  hits: state.installed.hits,
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestSearch: () => {
-    dispatch(search());
-  },
-  closeSearch: () => {
-    dispatch(replace('/'));
+  requestInstalled: () => {
+    dispatch(fetchInstalled());
   },
 });
 
 export default connect(
   mapStateToProps, mapDispatchToProps,
-)(Search);
+)(App);

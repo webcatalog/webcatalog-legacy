@@ -1,30 +1,18 @@
 /* global fetch execFile remote fs WindowsShortcuts https os */
 import { batchActions } from 'redux-batched-actions';
 import {
-  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP,
-  INSTALLED, INPROGRESS, LOADING, FAILED, DONE, NONE,
+  SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP, SET_INSTALLED_HITS,
+  INSTALLED, INPROGRESS, LOADING, FAILED, DONE,
 } from '../constants/actions';
+import scanInstalledAsync from '../helpers/scanInstalledAsync';
+import getAllAppPath from '../helpers/getAllAppPath';
 
 import { search } from './search';
+import { fetchInstalled } from './installed';
 
 let fetching = false;
 
-let allAppPath;
-switch (os.platform()) {
-  case 'darwin': {
-    allAppPath = `${remote.app.getPath('home')}/Applications/WebCatalog Apps`;
-    break;
-  }
-  case 'linux': {
-    allAppPath = `${remote.app.getPath('home')}/.local/share/applications`;
-    break;
-  }
-  case 'win32':
-  default: {
-    allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
-  }
-}
-
+const allAppPath = getAllAppPath();
 
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
@@ -182,7 +170,7 @@ const deleteFolderRecursive = (path) => {
 };
 
 
-export const uninstallApp = app => ((dispatch) => {
+export const uninstallApp = app => ((dispatch, getState) => {
   dispatch({
     type: ADD_APP_STATUS,
     id: app.get('id'),
@@ -211,68 +199,38 @@ export const uninstallApp = app => ((dispatch) => {
     type: REMOVE_APP_STATUS,
     id: app.get('id'),
   });
+
+  // update installed page
+  const { installed } = getState();
+  if (installed.status !== LOADING && installed.hits && installed.hits.size > 0) {
+    dispatch({
+      type: SET_INSTALLED_HITS,
+      hits: installed.hits.filter(hit => (hit.get('id') !== app.get('id'))),
+    });
+  }
 });
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  switch (os.platform()) {
-    case 'darwin': {
-      fs.readdir(allAppPath, (err, files) => {
-        if (err) return;
-
-        files.forEach((fileName) => {
-          if (fileName === '.DS_Store') return;
-          const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
-          dispatch({
-            type: ADD_APP_STATUS,
-            id,
-            status: INSTALLED,
-          });
+  scanInstalledAsync(allAppPath)
+    .then((installedIds) => {
+      installedIds.forEach((id) => {
+        dispatch({
+          type: ADD_APP_STATUS,
+          id,
+          status: INSTALLED,
         });
       });
-      break;
-    }
-    case 'linux': {
-      fs.readdir(allAppPath, (err, files) => {
-        if (err) return;
-
-        files.forEach((fileName) => {
-          const id = fileName.replace('.desktop', '').trim();
-          dispatch({
-            type: ADD_APP_STATUS,
-            id,
-            status: INSTALLED,
-          });
-        });
-      });
-      break;
-    }
-    case 'win32':
-    default: {
-      fs.readdir(allAppPath, (err, files) => {
-        if (err) return;
-
-        files.forEach((fileName) => {
-          WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
-            dispatch({
-              type: ADD_APP_STATUS,
-              id: desc,
-              status: INSTALLED,
-            });
-          });
-        });
-      });
-    }
-  }
+    });
 });
 
-export const refresh = () => ((dispatch, getState) => {
+export const refresh = pathname => ((dispatch, getState) => {
   const state = getState();
-  const searchStatus = state.search.status;
-  const appStatus = state.app.status;
-  if (searchStatus !== LOADING && searchStatus !== NONE) {
+  if (pathname === '/search' && state.search.status !== LOADING) {
     dispatch(search());
-  } else if (appStatus !== LOADING) {
+  } else if (pathname === '/installed' && state.installed.status !== LOADING) {
+    dispatch(fetchInstalled());
+  } else if (state.app.status !== LOADING) {
     dispatch({ type: RESET_APP });
     dispatch(fetchApps());
   }

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
-import { replace } from 'react-router-redux';
+import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
@@ -11,7 +11,7 @@ import { NONE } from '../constants/actions';
 
 const Nav = ({
   query, searchStatus, pathname,
-  requestSearch, requestSetSearchQuery, requestRefresh,
+  requestSearch, requestSetSearchQuery, requestRefresh, goTo,
 }) => (
   <nav
     className="pt-navbar pt-fixed-top"
@@ -41,9 +41,9 @@ const Nav = ({
               e.target.blur();
             }
           }}
-          onInput={e => requestSetSearchQuery(e.target.value)}
-          onKeyUp={e => requestSetSearchQuery(e.target.value)}
-          onChange={e => requestSetSearchQuery(e.target.value)}
+          onInput={e => requestSetSearchQuery(e.target.value, pathname)}
+          onKeyUp={e => requestSetSearchQuery(e.target.value, pathname)}
+          onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
         {searchStatus === NONE ? (
           <button
@@ -53,7 +53,7 @@ const Nav = ({
         ) : (
           <button
             className="pt-button pt-minimal pt-intent-primary pt-icon-cross"
-            onClick={() => requestSetSearchQuery('')}
+            onClick={() => requestSetSearchQuery('', pathname)}
           />
         )}
       </div>
@@ -66,15 +66,20 @@ const Nav = ({
           Classes.MINIMAL,
         )}
         text="Home"
+        onClick={() => goTo('/')}
+      />
+      <Button
+        iconName="import"
+        className={classNames(
+          { [Classes.ACTIVE]: (pathname === '/installed') },
+          Classes.MINIMAL,
+        )}
+        text="Installed"
+        onClick={() => goTo('/installed')}
       />
       <button
-        className="pt-button pt-minimal pt-icon-import"
-      >
-        Installed
-      </button>
-      <button
         className="pt-button pt-minimal pt-icon-refresh"
-        onClick={() => requestRefresh()}
+        onClick={() => requestRefresh(pathname)}
       />
       <Popover
         content={(
@@ -98,6 +103,7 @@ Nav.propTypes = {
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
+  goTo: React.PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -109,14 +115,19 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   requestSearch: () => {
     dispatch(search());
-    dispatch(replace('/search'));
+    dispatch(push('/search'));
   },
-  requestSetSearchQuery: (query) => {
-    dispatch(replace('/'));
+  requestSetSearchQuery: (query, pathname) => {
+    if (pathname === '/search') {
+      dispatch(goBack());
+    }
     dispatch(setSearchQuery(query));
   },
-  requestRefresh: () => {
-    dispatch(refresh());
+  requestRefresh: (pathname) => {
+    dispatch(refresh(pathname));
+  },
+  goTo: (pathname) => {
+    dispatch(replace(pathname));
   },
 });
 
