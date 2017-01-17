@@ -218,10 +218,11 @@ function createWindow() {
     const handleRedirect = (e, nextUrl) => {
       // open external url in browser if domain doesn't match.
       const nextDomain = extractDomain(nextUrl);
-      if (nextDomain && nextDomain !== webViewDomain) {
-        e.preventDefault();
-        shell.openExternal(nextUrl);
+      if (nextDomain && nextDomain === webViewDomain) {
+        return;
       }
+      e.preventDefault();
+      shell.openExternal(nextUrl);
     };
 
     // mainWindow.webContents.on('will-navigate', handleRedirect);
