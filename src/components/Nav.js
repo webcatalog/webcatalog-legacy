@@ -1,14 +1,16 @@
 /* global shell os */
-
 import React from 'react';
 import { connect } from 'react-redux';
+import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
+import classNames from 'classnames';
+import { replace } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
 import { NONE } from '../constants/actions';
 
 const Nav = ({
-  query, searchStatus,
+  query, searchStatus, pathname,
   requestSearch, requestSetSearchQuery, requestRefresh,
 }) => (
   <nav
@@ -57,20 +59,34 @@ const Nav = ({
       </div>
     </div>
     <div className="pt-navbar-group pt-align-right">
+      <Button
+        iconName="home"
+        className={classNames(
+          { [Classes.ACTIVE]: (pathname === '/') },
+          Classes.MINIMAL,
+        )}
+        text="Home"
+      />
       <button
-        className="pt-button pt-minimal pt-icon-edit"
-        onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
+        className="pt-button pt-minimal pt-icon-import"
       >
-        Submit new app
+        Installed
       </button>
       <button
         className="pt-button pt-minimal pt-icon-refresh"
         onClick={() => requestRefresh()}
       />
-      <button
-        className="pt-button pt-minimal pt-icon-help"
-        onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
-      />
+      <Popover
+        content={(
+          <Menu>
+            <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
+            <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
+          </Menu>
+        )}
+        position={Position.BOTTOM_RIGHT}
+      >
+        <button className="pt-button pt-minimal pt-icon-more" />
+      </Popover>
     </div>
   </nav>
 );
@@ -78,21 +94,25 @@ const Nav = ({
 Nav.propTypes = {
   query: React.PropTypes.string,
   searchStatus: React.PropTypes.string,
+  pathname: React.PropTypes.string,
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   query: state.search.query,
   searchStatus: state.search.status,
+  pathname: ownProps.pathname,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestSearch: () => {
     dispatch(search());
+    dispatch(replace('/search'));
   },
   requestSetSearchQuery: (query) => {
+    dispatch(replace('/'));
     dispatch(setSearchQuery(query));
   },
   requestRefresh: () => {

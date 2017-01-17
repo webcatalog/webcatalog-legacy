@@ -6,14 +6,14 @@ import { Provider } from 'react-redux';
 import { FocusStyleManager } from '@blueprintjs/core';
 
 import store from './store';
-import App from './components/App';
+import renderRoutes from './renderRoutes';
 
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
 
 render(
   <Provider store={store}>
-    <App />
+    {renderRoutes()}
   </Provider>,
   document.getElementById('app'),
 );
