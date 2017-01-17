@@ -144,7 +144,15 @@ fs.writeFile(`${targetPath}/latest.json`, JSON.stringify({ version: latestVersio
 // algolia
 const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
 const index = client.initIndex('webcatalog');
-index.addObjects(apps, (err) => {
+
+// set object id
+const algoliaApps = apps.map((a) => {
+  const app = a;
+  app.objectID = app.id;
+  return app;
+});
+
+index.addObjects(algoliaApps, (err) => {
   if (err) {
     console.error(err);
   }
