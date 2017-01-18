@@ -1,3 +1,11 @@
+# 2.8.0
+- Adds Chromecast support.
+- Adds installed app list.
+- Fixes some bugs.
+
+---
+
+
 # 2.7.2
 - Fixes Linux installers.
 
