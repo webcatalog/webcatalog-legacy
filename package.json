@@ -34,17 +34,20 @@
     "eslint-plugin-import": "^2.1.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.6.0",
-    "webpack": "2.2.0-rc.5",
+    "webpack": "2.2.0-rc.7",
     "webpack-merge": "^2.4.0"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.6.0",
-    "algoliasearch": "^3.20.3",
+    "algoliasearch": "^3.20.4",
+    "classnames": "^2.2.5",
     "immutable": "^3.8.1",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
+    "react-router": "^3.0.1",
+    "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
     "redux-batched-actions": "^0.1.5",
     "redux-thunk": "^2.1.0"

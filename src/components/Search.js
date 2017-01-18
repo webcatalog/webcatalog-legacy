@@ -2,35 +2,30 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import { fetchApps } from '../actions/app';
+
 import { search } from '../actions/search';
-import { LOADING, FAILED, DONE, NONE } from '../constants/actions';
+import { LOADING, FAILED, DONE } from '../constants/actions';
 
-import Nav from './Nav';
 import Spinner from './Spinner';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
-class App extends React.Component {
+class Search extends React.Component {
   componentDidMount() {
-    const { requestFetchApps } = this.props;
-    requestFetchApps();
+    const {
+      query, closeSearch,
+    } = this.props;
 
-    window.onscroll = () => {
-      if ((window.innerHeight + window.scrollY + 300) >= document.body.offsetHeight) {
-        requestFetchApps();
-      }
-    };
-  }
-
-  componentWillUnmount() {
-    window.onscroll = null;
+    if (query.length < 1) {
+      closeSearch();
+    }
   }
 
   renderList() {
     const {
-      searchStatus, apps, hits, query,
+      searchStatus, hits, query,
     } = this.props;
 
     if (searchStatus === DONE) {
@@ -65,37 +60,24 @@ class App extends React.Component {
       );
     }
 
-    // Only show all apps if search is not running
-    if (searchStatus === NONE && apps) {
-      return (
-        <div className="grid">
-          {apps.map(app => <Card app={app} key={app.get('id')} />)}
-        </div>
-      );
-    }
-
     return null;
   }
 
   renderStatus() {
     const {
-      status, searchStatus,
-      requestFetchApps, requestSearch,
+      searchStatus,
+      requestSearch,
     } = this.props;
 
     if (searchStatus === LOADING) return <Spinner />;
-    else if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
-    else if (status === LOADING) return <Spinner />;
-    else if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
+    if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
 
     return null;
   }
 
   render() {
     return (
-      <div style={{ maxWidth: 960, margin: '0 auto' }}>
-        <Nav />
-        <div style={{ height: 48 }} />
+      <div>
         {this.renderList()}
         {this.renderStatus()}
       </div>
@@ -103,33 +85,29 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  status: React.PropTypes.string,
-  apps: React.PropTypes.instanceOf(Immutable.List),
+Search.propTypes = {
   searchStatus: React.PropTypes.string,
   query: React.PropTypes.string,
   hits: React.PropTypes.instanceOf(Immutable.List),
-  requestFetchApps: React.PropTypes.func,
   requestSearch: React.PropTypes.func,
+  closeSearch: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  status: state.app.status,
-  apps: state.app.apps,
   searchStatus: state.search.status,
   query: state.search.query,
   hits: state.search.hits,
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestFetchApps: () => {
-    dispatch(fetchApps());
-  },
   requestSearch: () => {
     dispatch(search());
+  },
+  closeSearch: () => {
+    dispatch(replace('/'));
   },
 });
 
 export default connect(
   mapStateToProps, mapDispatchToProps,
-)(App);
+)(Search);

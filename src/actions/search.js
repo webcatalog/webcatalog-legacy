@@ -1,9 +1,10 @@
 import algoliasearch from 'algoliasearch';
 import { batchActions } from 'redux-batched-actions';
 
+import { ALGOLIA_APPLICATION_ID, ALGOLIA_APPLICATION_KEY } from '../constants/algolia';
 import {
   SET_SEARCH_QUERY, SET_SEARCH_HITS, SET_SEARCH_STATUS,
-  LOADING, FAILED, DONE, NONE,
+  LOADING, FAILED, DONE,
 } from '../constants/actions';
 
 export const setSearchQuery = query => (dispatch) => {
@@ -14,7 +15,7 @@ export const setSearchQuery = query => (dispatch) => {
     },
     {
       type: SET_SEARCH_STATUS,
-      status: NONE,
+      status: LOADING,
     },
   ]));
 };
@@ -29,7 +30,7 @@ export const search = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  const client = algoliasearch('PFL0LPV96S', '2b9f5f768d387b7239ce0b21106373e9');
+  const client = algoliasearch(ALGOLIA_APPLICATION_ID, ALGOLIA_APPLICATION_KEY);
   const index = client.initIndex('webcatalog');
 
   index.search(query, (err, content) => {

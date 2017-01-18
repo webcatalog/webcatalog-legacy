@@ -1,15 +1,17 @@
 /* global shell os */
-
 import React from 'react';
 import { connect } from 'react-redux';
+import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
+import classNames from 'classnames';
+import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
 import { NONE } from '../constants/actions';
 
 const Nav = ({
-  query, searchStatus,
-  requestSearch, requestSetSearchQuery, requestRefresh,
+  query, searchStatus, pathname,
+  requestSearch, requestSetSearchQuery, requestRefresh, goTo,
 }) => (
   <nav
     className="pt-navbar pt-fixed-top"
@@ -39,9 +41,9 @@ const Nav = ({
               e.target.blur();
             }
           }}
-          onInput={e => requestSetSearchQuery(e.target.value)}
-          onKeyUp={e => requestSetSearchQuery(e.target.value)}
-          onChange={e => requestSetSearchQuery(e.target.value)}
+          onInput={e => requestSetSearchQuery(e.target.value, pathname)}
+          onKeyUp={e => requestSetSearchQuery(e.target.value, pathname)}
+          onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
         {searchStatus === NONE ? (
           <button
@@ -51,26 +53,45 @@ const Nav = ({
         ) : (
           <button
             className="pt-button pt-minimal pt-intent-primary pt-icon-cross"
-            onClick={() => requestSetSearchQuery('')}
+            onClick={() => requestSetSearchQuery('', pathname)}
           />
         )}
       </div>
     </div>
     <div className="pt-navbar-group pt-align-right">
-      <button
-        className="pt-button pt-minimal pt-icon-edit"
-        onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
-      >
-        Submit new app
-      </button>
+      <Button
+        iconName="home"
+        className={classNames(
+          { [Classes.ACTIVE]: (pathname === '/') },
+          Classes.MINIMAL,
+        )}
+        text="Home"
+        onClick={() => goTo('/')}
+      />
+      <Button
+        iconName="import"
+        className={classNames(
+          { [Classes.ACTIVE]: (pathname === '/installed') },
+          Classes.MINIMAL,
+        )}
+        text="Installed"
+        onClick={() => goTo('/installed')}
+      />
       <button
         className="pt-button pt-minimal pt-icon-refresh"
-        onClick={() => requestRefresh()}
+        onClick={() => requestRefresh(pathname)}
       />
-      <button
-        className="pt-button pt-minimal pt-icon-help"
-        onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
-      />
+      <Popover
+        content={(
+          <Menu>
+            <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
+            <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
+          </Menu>
+        )}
+        position={Position.BOTTOM_RIGHT}
+      >
+        <button className="pt-button pt-minimal pt-icon-more" />
+      </Popover>
     </div>
   </nav>
 );
@@ -78,25 +99,35 @@ const Nav = ({
 Nav.propTypes = {
   query: React.PropTypes.string,
   searchStatus: React.PropTypes.string,
+  pathname: React.PropTypes.string,
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
+  goTo: React.PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   query: state.search.query,
   searchStatus: state.search.status,
+  pathname: ownProps.pathname,
 });
 
 const mapDispatchToProps = dispatch => ({
   requestSearch: () => {
     dispatch(search());
+    dispatch(push('/search'));
   },
-  requestSetSearchQuery: (query) => {
+  requestSetSearchQuery: (query, pathname) => {
+    if (pathname === '/search') {
+      dispatch(goBack());
+    }
     dispatch(setSearchQuery(query));
   },
-  requestRefresh: () => {
-    dispatch(refresh());
+  requestRefresh: (pathname) => {
+    dispatch(refresh(pathname));
+  },
+  goTo: (pathname) => {
+    dispatch(replace(pathname));
   },
 });
 
