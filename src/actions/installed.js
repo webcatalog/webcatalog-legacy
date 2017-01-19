@@ -44,6 +44,8 @@ export const fetchInstalled = () => (dispatch) => {
           return;
         }
 
+        const hits = content.results ? content.results.filter(hit => hit !== null) : [];
+
         dispatch(batchActions([
           {
             type: SET_INSTALLED_STATUS,
@@ -51,8 +53,7 @@ export const fetchInstalled = () => (dispatch) => {
           },
           {
             type: SET_INSTALLED_HITS,
-            hits: (content.results && content.results.length > 0 && content.results[0] !== null)
-                  ? content.results : [],
+            hits,
           },
         ]));
       });
