@@ -7,10 +7,9 @@ import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
-import { NONE } from '../constants/actions';
 
 const Nav = ({
-  query, searchStatus, pathname,
+  query, pathname,
   requestSearch, requestSetSearchQuery, requestRefresh, goTo,
 }) => (
   <nav
@@ -45,7 +44,7 @@ const Nav = ({
           onKeyUp={e => requestSetSearchQuery(e.target.value, pathname)}
           onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
-        {searchStatus === NONE ? (
+        {query.length > 0 ? (
           <button
             className="pt-button pt-minimal pt-intent-primary pt-icon-arrow-right"
             onClick={() => requestSearch()}
@@ -98,7 +97,6 @@ const Nav = ({
 
 Nav.propTypes = {
   query: React.PropTypes.string,
-  searchStatus: React.PropTypes.string,
   pathname: React.PropTypes.string,
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
