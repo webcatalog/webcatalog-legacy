@@ -1,3 +1,9 @@
+# 2.8.1
+- Fixes some bugs.
+
+---
+
+
 # 2.8.0
 - Adds Chromecast support.
 - Adds installed app list.
