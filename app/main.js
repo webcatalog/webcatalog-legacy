@@ -227,6 +227,11 @@ function createWindow() {
 
     // mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('new-window', handleRedirect);
+
+    // remove Electron from useragent
+    // https://github.com/webcatalog/desktop/issues/28
+    const userAgent = mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, '');
+    mainWindow.webContents.setUserAgent(userAgent);
   }
 
   // Run autoUpdater in any windows
