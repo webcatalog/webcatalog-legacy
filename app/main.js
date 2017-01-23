@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const electron = require('electron');
-const argv = require('optimist').argv;
+// const argv = require('optimist').argv;
 
 const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
 
@@ -60,6 +60,11 @@ const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
   const domain = matches && matches[1];
   return domain ? domain.replace('www.', '') : null;
+};
+
+const argv = {
+  id: 'messenger',
+  url: 'https://messenger.com',
 };
 
 function createWindow() {
@@ -216,9 +221,10 @@ function createWindow() {
     const webViewDomain = extractDomain(argv.url);
 
     const handleRedirect = (e, nextUrl) => {
+      log(`newWindow: ${nextUrl}`);
       // open external url in browser if domain doesn't match.
       const nextDomain = extractDomain(nextUrl);
-      if (nextDomain && nextDomain === webViewDomain) {
+      if ((nextDomain && nextDomain === webViewDomain) || (nextDomain === null)) {
         return;
       }
       e.preventDefault();
