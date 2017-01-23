@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
