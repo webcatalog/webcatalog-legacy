@@ -1,3 +1,9 @@
+# 2.8.2
+- Fixes calling bug in Facebook Messenger.
+
+---
+
+
 # 2.8.1
 - Fixes some bugs.
 
