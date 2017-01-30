@@ -21,17 +21,6 @@ function createMenu({
   if (webView) {
     template = [
       {
-        label: 'File',
-        submenu: [
-          {
-            label: 'Clear browsing data',
-            click: () => {
-              clearBrowsingData();
-            },
-          },
-        ],
-      },
-      {
         label: 'Edit',
         submenu: [
           {
@@ -74,6 +63,15 @@ function createMenu({
             label: 'Select All',
             accelerator: 'CmdOrCtrl+A',
             role: 'selectall',
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Clear browsing data',
+            click: () => {
+              clearBrowsingData();
+            },
           },
         ],
       },
