@@ -1,3 +1,8 @@
+# 2.8.4
+- Fixes switching account bug in Google apps.
+
+---
+
 # 2.8.3
 - Fixes adding account bug in Google apps.
 
