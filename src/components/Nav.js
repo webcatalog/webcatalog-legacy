@@ -22,7 +22,13 @@ const Nav = ({
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
       {(os.platform() === 'darwin') ? (
-        <div className="pt-navbar-heading">
+        <div
+          className="pt-navbar-heading"
+          style={{
+            WebkitUserSelect: 'none',
+            WebkitAppRegion: 'drag',
+          }}
+        >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       ) : null}
