@@ -1,3 +1,8 @@
+# 2.8.3
+- Fixes adding account bug in Google apps.
+
+---
+
 # 2.8.2
 - Fixes calling bug in Facebook Messenger.
 
