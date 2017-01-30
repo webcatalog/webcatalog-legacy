@@ -221,19 +221,19 @@ function createWindow() {
       const nextDomain = extractDomain(nextUrl);
 
       // open new window
-      if ((nextDomain && nextDomain === webViewDomain) || (nextDomain === null)) {
+      if (nextDomain === null) {
         return;
       }
 
       // navigate
-      if (nextDomain === 'accounts.google.com') {
+      if (nextDomain && (nextDomain === webViewDomain || nextDomain === 'accounts.google.com')) {
         // https://github.com/webcatalog/desktop/issues/35
         e.preventDefault();
         mainWindow.loadURL(nextUrl);
         return;
       }
 
-
+      // open in browser
       e.preventDefault();
       shell.openExternal(nextUrl);
     };
