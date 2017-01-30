@@ -219,9 +219,21 @@ function createWindow() {
       log(`newWindow: ${nextUrl}`);
       // open external url in browser if domain doesn't match.
       const nextDomain = extractDomain(nextUrl);
+
+      // open new window
       if ((nextDomain && nextDomain === webViewDomain) || (nextDomain === null)) {
         return;
       }
+
+      // navigate
+      if (nextDomain === 'accounts.google.com') {
+        // https://github.com/webcatalog/desktop/issues/35
+        e.preventDefault();
+        mainWindow.loadURL(nextUrl);
+        return;
+      }
+
+
       e.preventDefault();
       shell.openExternal(nextUrl);
     };
