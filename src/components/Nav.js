@@ -52,15 +52,10 @@ const Nav = ({
         />
         {query.length > 0 ? (
           <button
-            className="pt-button pt-minimal pt-intent-primary pt-icon-arrow-right"
-            onClick={() => requestSearch()}
-          />
-        ) : (
-          <button
             className="pt-button pt-minimal pt-intent-primary pt-icon-cross"
             onClick={() => requestSetSearchQuery('', pathname)}
           />
-        )}
+        ) : null}
       </div>
     </div>
     <div className="pt-navbar-group pt-align-right">
