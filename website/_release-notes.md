@@ -1,3 +1,11 @@
+# 2.9.0
+- Adds option to remember the last page you open.
+- Adds option to swipe to navigate (macOS only).
+- Fixes bugs.
+
+---
+
+
 # 2.8.4
 - Fixes switching account bug in Google apps.
 
