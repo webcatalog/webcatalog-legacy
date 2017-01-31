@@ -21,8 +21,9 @@ const Settings = ({
           checked={swipeToNavigate}
           label="Swipe to Navigate"
           onChange={e => requestSetBehavior('swipeToNavigate', e.target.checked)}
+          key="swipeToNavigate"
         />,
-        <p>
+        <p key="swipeToNavigateDesc">
           <span>Navigate between pages with 3-finger gesture. You need to change </span>
           <strong>Preferences &gt; Trackpad &gt; More Gesture &gt; Swipe between page</strong>
           <span> to </span>
@@ -36,6 +37,7 @@ const Settings = ({
         checked={rememberLastPage}
         label="Remember the last page you open"
         onChange={e => requestSetBehavior('rememberLastPage', e.target.checked)}
+        key="rememberLastPage"
       />
       <p>
         <span>Remember the last page you open and automatically go to</span>
