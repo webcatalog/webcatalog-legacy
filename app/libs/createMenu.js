@@ -3,22 +3,17 @@
 
 const electron = require('electron');
 
-const { Menu, shell, clipboard } = electron;
+const { Menu, shell, clipboard, app, dialog } = electron;
 
-/**
- * @param appQuit
- * @param zoomIn
- * @param zoomOut
- * @param goBack
- * @param goForward
- * @param getCurrentUrl
- */
+
 function createMenu({
-  webView, appName, getCurrentUrl, goBack, goForward, zoomIn, zoomOut, appQuit,
-  clearBrowsingData,
+  isWebView, appName, appId, mainWindow, log,
 }) {
   let template;
-  if (webView) {
+  if (isWebView) {
+    let currentZoom = 1;
+    const ZOOM_INTERVAL = 0.1;
+
     template = [
       {
         label: 'Edit',
@@ -50,7 +45,7 @@ function createMenu({
             label: 'Copy Current URL',
             accelerator: 'CmdOrCtrl+L',
             click: () => {
-              const currentURL = getCurrentUrl();
+              const currentURL = mainWindow.webContents.getURL();
               clipboard.writeText(currentURL);
             },
           },
@@ -70,7 +65,25 @@ function createMenu({
           {
             label: 'Clear browsing data',
             click: () => {
-              clearBrowsingData();
+              dialog.showMessageBox(mainWindow, {
+                type: 'warning',
+                buttons: ['Yes', 'Cancel'],
+                defaultId: 1,
+                title: 'Clear cache confirmation',
+                message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
+              }, (response) => {
+                if (response === 0) {
+                  const session = mainWindow.webContents.session;
+                  session.clearStorageData((err) => {
+                    if (err) {
+                      log(`Clearing browsing data err: ${err.message}`);
+                      return;
+                    }
+                    log(`Browsing data of ${appId} cleared.`);
+                    mainWindow.webContents.reload();
+                  });
+                }
+              });
             },
           },
         ],
@@ -82,14 +95,14 @@ function createMenu({
             label: 'Back',
             accelerator: 'CmdOrCtrl+[',
             click: () => {
-              goBack();
+              mainWindow.webContents.goBack();
             },
           },
           {
             label: 'Forward',
             accelerator: 'CmdOrCtrl+]',
             click: () => {
-              goForward();
+              mainWindow.webContents.goForward();
             },
           },
           {
@@ -127,7 +140,8 @@ function createMenu({
               return 'Ctrl+=';
             })(),
             click: () => {
-              zoomIn();
+              currentZoom += ZOOM_INTERVAL;
+              mainWindow.webContents.send('change-zoom', currentZoom);
             },
           },
           {
@@ -139,7 +153,8 @@ function createMenu({
               return 'Ctrl+-';
             })(),
             click: () => {
-              zoomOut();
+              currentZoom -= ZOOM_INTERVAL;
+              mainWindow.webContents.send('change-zoom', currentZoom);
             },
           },
           {
@@ -231,7 +246,7 @@ function createMenu({
             label: 'Quit',
             accelerator: 'Command+Q',
             click: () => {
-              appQuit();
+              app.quit();
             },
           },
         ],
@@ -395,7 +410,7 @@ function createMenu({
             label: 'Quit',
             accelerator: 'Command+Q',
             click: () => {
-              appQuit();
+              app.quit();
             },
           },
         ],

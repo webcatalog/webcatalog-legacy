@@ -5,64 +5,21 @@ const electron = require('electron');
 const argv = require('optimist').argv;
 const path = require('path');
 const url = require('url');
-const semver = require('semver');
-const https = require('https');
 const settings = require('electron-settings');
 
-const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
+const { app, BrowserWindow, ipcMain, shell } = electron;
 
-const createMenu = require('./createMenu');
-const windowStateKeeper = require('./windowStateKeeper');
+const createMenu = require('./libs/createMenu');
+const windowStateKeeper = require('./libs/windowStateKeeper');
+const checkForUpdate = require('./libs/checkForUpdate');
+const extractDomain = require('./libs/extractDomain');
+const loadPlugins = require('./libs/loadPlugins');
 
-const FLASH_VERSION = '24.0.0.186';
-const WIDEVINECDM_VERSION = '1.4.8.903';
-
-
-let flashPluginFilename;
-switch (process.platform) {
-  case 'darwin':
-    flashPluginFilename = 'PepperFlashPlayer.plugin';
-    break;
-  case 'linux':
-    flashPluginFilename = 'libpepflashplayer.so';
-    break;
-  default:
-  case 'win32':
-    flashPluginFilename = 'pepflashplayer.dll';
-    break;
-}
-
-let widevineCdmPluginFilename;
-switch (process.platform) {
-  case 'darwin':
-    widevineCdmPluginFilename = 'widevinecdmadapter.plugin';
-    break;
-  case 'linux':
-    widevineCdmPluginFilename = 'libwidevinecdmadapter.so';
-    break;
-  default:
-  case 'win32':
-    widevineCdmPluginFilename = 'widevinecdmadapter.dll';
-}
-
-const pluginFolder = `plugins/${process.platform}/${process.arch}`;
-
-// load plugins
-app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginFolder, 'PepperFlash', FLASH_VERSION, flashPluginFilename).replace('app.asar', 'app.asar.unpacked'));
-app.commandLine.appendSwitch('ppapi-flash-version', FLASH_VERSION);
-
-app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, pluginFolder, 'WidevineCdm', WIDEVINECDM_VERSION, widevineCdmPluginFilename).replace('app.asar', 'app.asar.unpacked'));
-app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
+loadPlugins();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-const extractDomain = (fullUrl) => {
-  const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
-  const domain = matches && matches[1];
-  return domain ? domain.replace('www.', '') : null;
-};
 
 function createWindow() {
   // set default settings
@@ -112,6 +69,10 @@ function createWindow() {
 
     mainWindowState.manage(mainWindow);
 
+    const log = (message) => {
+      mainWindow.webContents.send('log', message);
+    };
+
     // Open the DevTools.
     // mainWindow.webContents.openDevTools();
 
@@ -152,68 +113,13 @@ function createWindow() {
       setDockBadge('');
     });
 
-    let currentZoom = 1;
-    const ZOOM_INTERVAL = 0.1;
-
-    const log = (message) => {
-      mainWindow.webContents.send('log', message);
-    };
-
-    const onZoomIn = () => {
-      currentZoom += ZOOM_INTERVAL;
-      mainWindow.webContents.send('change-zoom', currentZoom);
-    };
-
-    const onZoomOut = () => {
-      currentZoom -= ZOOM_INTERVAL;
-      mainWindow.webContents.send('change-zoom', currentZoom);
-    };
-
-    const onGoBack = () => {
-      mainWindow.webContents.goBack();
-    };
-
-    const onGoForward = () => {
-      mainWindow.webContents.goForward();
-    };
-
-    const clearBrowsingData = () => {
-      dialog.showMessageBox(mainWindow, {
-        type: 'warning',
-        buttons: ['Yes', 'Cancel'],
-        defaultId: 1,
-        title: 'Clear cache confirmation',
-        message: `This will clear all data (cookies, local storage etc) from ${argv.name}. Are you sure you wish to proceed?`,
-      }, (response) => {
-        if (response === 0) {
-          const session = mainWindow.webContents.session;
-          session.clearStorageData((err) => {
-            if (err) {
-              log(`Clearing browsing data err: ${err.message}`);
-              return;
-            }
-            log(`Browsing data of ${argv.id} cleared.`);
-            mainWindow.webContents.reload();
-          });
-        }
-      });
-    };
-
-    const getCurrentUrl = () => mainWindow.webContents.getURL();
-
-    const menuOptions = {
-      webView: argv.url,
+    createMenu({
+      isWebView,
       appName: argv.name || 'WebCatalog',
-      appQuit: app.quit,
-      zoomIn: onZoomIn,
-      zoomOut: onZoomOut,
-      goBack: onGoBack,
-      goForward: onGoForward,
-      getCurrentUrl,
-      clearBrowsingData,
-    };
-
-    createMenu(menuOptions);
+      appId: argv.id || 'webcatalog',
+      mainWindow,
+      log,
+    });
 
     if (isWebView) {
       const webViewDomain = extractDomain(argv.url);
@@ -278,7 +184,7 @@ function createWindow() {
         });
     } else {
       const windowUrl = isWebView ? argv.url : url.format({
-        pathname: path.join(__dirname, 'www', 'index.html'),
+        pathname: path.join(__dirname, 'www', 'store.html'),
         protocol: 'file:',
         slashes: true,
       });
@@ -287,65 +193,7 @@ function createWindow() {
       mainWindow.loadURL(windowUrl);
     }
 
-    // Run autoUpdater in any windows
-    mainWindow.webContents.once('did-finish-load', () => {
-      setTimeout(() => {
-        // Auto updater
-        if (process.platform === 'win32') {
-          /* eslint-disable global-require */
-          const autoUpdater = require('electron-auto-updater').autoUpdater;
-          /* eslint-enable global-require */
-          autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-            dialog.showMessageBox({
-              type: 'info',
-              buttons: ['Yes', 'Cancel'],
-              defaultId: 1,
-              title: 'A new update is ready to install',
-              message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
-            }, (response) => {
-              if (response === 0) {
-                autoUpdater.quitAndInstall();
-              }
-            });
-          });
-
-          autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
-          autoUpdater.on('checking-for-update', () => log('Checking for update'));
-          autoUpdater.on('update-available', () => log('Update available'));
-          autoUpdater.on('update-not-available', () => log('No update available'));
-
-          autoUpdater.checkForUpdates();
-        } else {
-          https.get('https://backend.getwebcatalog.com/latest.json', (res) => {
-            if (res.statusCode >= 200 && res.statusCode <= 299) {
-              let body = '';
-              res.on('data', (chunk) => {
-                body += chunk;
-              });
-              res.on('end', () => {
-                const latestVersion = JSON.parse(body).version;
-                log(`Lastest version ${latestVersion}`);
-                if (semver.gt(latestVersion, app.getVersion())) {
-                  dialog.showMessageBox(mainWindow, {
-                    type: 'info',
-                    buttons: ['Yes', 'Cancel'],
-                    defaultId: 1,
-                    title: 'A new update is ready to install',
-                    message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
-                  }, (response) => {
-                    if (response === 0) {
-                      shell.openExternal('https://getwebcatalog.com');
-                    }
-                  });
-                }
-              });
-            }
-          }).on('error', (err) => {
-            log(`Update checker: ${err.message}`);
-          });
-        }
-      }, 1000);
-    });
+    checkForUpdate(mainWindow, log);
   });
 }
 
