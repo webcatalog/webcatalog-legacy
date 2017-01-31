@@ -6,6 +6,7 @@ const initialState = {
   isOpen: false,
   behaviors: {
     swipeToNavigate: true,
+    rememberLastPage: false,
   },
 };
 

@@ -6,7 +6,7 @@ import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
-  isOpen, swipeToNavigate,
+  isOpen, swipeToNavigate, rememberLastPage,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -31,6 +31,16 @@ const Settings = ({
           <strong>Swipe with two or three fingers</strong>.
         </p>,
       ] : null}
+
+      <Switch
+        checked={rememberLastPage}
+        label="Remember the last page you open"
+        onChange={e => requestSetBehavior('rememberLastPage', e.target.checked)}
+      />
+      <p>
+        <span>Remember the last page you open and automatically go to</span>
+        <span> the page the next time you open an app installed from WebCatalog.</span>
+      </p>
     </div>
     <div className="pt-dialog-footer">
       <div className="pt-dialog-footer-actions">
@@ -43,6 +53,7 @@ const Settings = ({
 Settings.propTypes = {
   isOpen: React.PropTypes.bool,
   swipeToNavigate: React.PropTypes.bool,
+  rememberLastPage: React.PropTypes.bool,
   requestToggleSettingDialog: React.PropTypes.func,
   requestSetBehavior: React.PropTypes.func,
 };
@@ -50,6 +61,7 @@ Settings.propTypes = {
 const mapStateToProps = state => ({
   isOpen: state.settings.isOpen,
   swipeToNavigate: state.settings.behaviors.swipeToNavigate,
+  rememberLastPage: state.settings.behaviors.rememberLastPage,
 });
 
 const mapDispatchToProps = dispatch => ({

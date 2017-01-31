@@ -73,7 +73,7 @@ function createWindow() {
   });
   settings.applyDefaultsSync();
 
-  settings.get('behaviors').then(({ swipeToNavigate }) => {
+  settings.get('behaviors').then(({ swipeToNavigate, rememberLastPage }) => {
     const isWebView = argv.url && argv.id;
 
     const mainWindowState = windowStateKeeper({
@@ -111,15 +111,6 @@ function createWindow() {
     mainWindow = new BrowserWindow(options);
 
     mainWindowState.manage(mainWindow);
-
-    const windowUrl = isWebView ? argv.url : url.format({
-      pathname: path.join(__dirname, 'www', 'index.html'),
-      protocol: 'file:',
-      slashes: true,
-    });
-
-    // and load the index.html of the app.
-    mainWindow.loadURL(windowUrl);
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools();
@@ -267,6 +258,33 @@ function createWindow() {
           }
         });
       }
+
+      if (rememberLastPage) {
+        const handleNavigate = (e, curUrl) => {
+          settings.set(`lastpages.${argv.id}`, curUrl);
+        };
+
+        mainWindow.webContents.on('did-navigate', handleNavigate);
+        mainWindow.webContents.on('did-navigate-in-page', handleNavigate);
+      }
+
+      settings.get(`lastpages.${argv.id}`)
+        .then((lastPage) => {
+          if (lastPage) mainWindow.loadURL(lastPage);
+          else mainWindow.loadURL(argv.url);
+        })
+        .catch(() => {
+          mainWindow.loadURL(argv.url);
+        });
+    } else {
+      const windowUrl = isWebView ? argv.url : url.format({
+        pathname: path.join(__dirname, 'www', 'index.html'),
+        protocol: 'file:',
+        slashes: true,
+      });
+
+      // and load the index.html of the app.
+      mainWindow.loadURL(windowUrl);
     }
 
     // Run autoUpdater in any windows
