@@ -46,6 +46,7 @@
       var fs = require('fs');
       var os = require('os');
       var { exec, execFile } = require('child_process');
+      var electronSettings = require('electron-settings');
 
       if (os.platform() === 'win32') {
         var WindowsShortcuts = require('windows-shortcuts');

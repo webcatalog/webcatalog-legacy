@@ -12,6 +12,7 @@
     "deep-equal": "^1.0.1",
     "electron-auto-updater": "^1.0.0",
     "electron-chromecast": "^1.0.18",
+    "electron-settings": "^2.2.2",
     "jsonfile": "^2.4.0",
     "mkdirp": "^0.5.1",
     "optimist": "^0.6.1",
