@@ -15,7 +15,7 @@ const Nav = ({
   requestToggleSettingDialog, goTo,
 }) => (
   <nav
-    className="pt-navbar pt-fixed-top"
+    className="pt-navbar"
     style={{
       display: 'flex',
       WebkitUserSelect: 'none',
@@ -34,7 +34,7 @@ const Nav = ({
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       ) : null}
-      <div className="pt-input-group" style={{ width: '100%' }}>
+      <div className="pt-input-group" style={{ width: '100%', maxWidth: 300 }}>
         <span className="pt-icon pt-icon-search" />
         <input
           className="pt-input"
@@ -60,7 +60,7 @@ const Nav = ({
         ) : null}
       </div>
     </div>
-    <div className="pt-navbar-group pt-align-right">
+    <div className="pt-navbar-group pt-align-left">
       <Button
         iconName="home"
         className={classNames(

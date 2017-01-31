@@ -14,16 +14,6 @@ class Home extends React.Component {
   componentDidMount() {
     const { requestFetchApps } = this.props;
     requestFetchApps();
-
-    window.onscroll = () => {
-      if ((window.innerHeight + window.scrollY + 300) >= document.body.offsetHeight) {
-        requestFetchApps();
-      }
-    };
-  }
-
-  componentWillUnmount() {
-    window.onscroll = null;
   }
 
   renderList() {
@@ -32,7 +22,7 @@ class Home extends React.Component {
     // Show apps if available
     if (apps) {
       return (
-        <div className="grid">
+        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
           {apps.map(app => <Card app={app} key={app.get('id')} />)}
         </div>
       );

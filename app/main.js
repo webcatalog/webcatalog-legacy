@@ -113,13 +113,13 @@ function createWindow() {
       setDockBadge('');
     });
 
-    createMenu({
+    /* createMenu({
       isWebView,
       appName: argv.name || 'WebCatalog',
       appId: argv.id || 'webcatalog',
       mainWindow,
       log,
-    });
+    }); */
 
     if (isWebView) {
       const webViewDomain = extractDomain(argv.url);

@@ -2,6 +2,8 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
+import { NonIdealState } from '@blueprintjs/core';
+
 
 import { fetchInstalled } from '../actions/installed';
 import { LOADING, FAILED, DONE } from '../constants/actions';
@@ -24,9 +26,11 @@ class Installed extends React.Component {
     if (status === DONE) {
       if (hits.size < 1) {
         return (
-          <div className="text-container">
-            <h5>You have not installed any apps.</h5>
-          </div>
+          <NonIdealState
+            visual="import"
+            title="No installed apps"
+            description="Your installed apps will show up here."
+          />
         );
       }
       return (
@@ -34,7 +38,7 @@ class Installed extends React.Component {
           <div className="text-container">
             <h5>Installed applications</h5>
           </div>
-          <div className="grid">
+          <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
             {hits.map(app => <Card app={app} key={app.get('id')} />)}
           </div>
           <div className="text-container">
