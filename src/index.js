@@ -142,21 +142,25 @@ fs.writeFile(`${targetPath}/latest.json`, JSON.stringify({ version: latestVersio
 });
 
 // algolia
-const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
-const index = client.initIndex('webcatalog');
+if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
+  console.log('Missing Algolia info >> Skip Algolia');
+} else {
+  const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
+  const index = client.initIndex('webcatalog');
 
-// set object id
-const algoliaApps = apps.map((a) => {
-  const app = a;
-  app.objectID = app.id;
-  return app;
-});
+  // set object id
+  const algoliaApps = apps.map((a) => {
+    const app = a;
+    app.objectID = app.id;
+    return app;
+  });
 
-index.addObjects(algoliaApps, (err) => {
-  if (err) {
-    console.error(err);
-  }
-});
+  index.addObjects(algoliaApps, (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}
 
 
 // create 404
