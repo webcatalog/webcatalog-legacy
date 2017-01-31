@@ -10,7 +10,7 @@ import Spinner from './Spinner';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
-class App extends React.Component {
+class Installed extends React.Component {
   componentDidMount() {
     const { requestInstalled } = this.props;
     requestInstalled();
@@ -78,7 +78,7 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
+Installed.propTypes = {
   status: React.PropTypes.string,
   hits: React.PropTypes.instanceOf(Immutable.List),
   requestInstalled: React.PropTypes.func,
@@ -97,4 +97,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps, mapDispatchToProps,
-)(App);
+)(Installed);
