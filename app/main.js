@@ -317,27 +317,29 @@ function createWindow() {
           autoUpdater.checkForUpdates();
         } else {
           https.get('https://backend.getwebcatalog.com/latest.json', (res) => {
-            let body = '';
-            res.on('data', (chunk) => {
-              body += chunk;
-            });
-            res.on('end', () => {
-              const latestVersion = JSON.parse(body).version;
-              log(`Lastest version ${latestVersion}`);
-              if (semver.gt(latestVersion, app.getVersion())) {
-                dialog.showMessageBox(mainWindow, {
-                  type: 'info',
-                  buttons: ['Yes', 'Cancel'],
-                  defaultId: 1,
-                  title: 'A new update is ready to install',
-                  message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
-                }, (response) => {
-                  if (response === 0) {
-                    shell.openExternal('https://getwebcatalog.com');
-                  }
-                });
-              }
-            });
+            if (res.statusCode >= 200 && res.statusCode <= 299) {
+              let body = '';
+              res.on('data', (chunk) => {
+                body += chunk;
+              });
+              res.on('end', () => {
+                const latestVersion = JSON.parse(body).version;
+                log(`Lastest version ${latestVersion}`);
+                if (semver.gt(latestVersion, app.getVersion())) {
+                  dialog.showMessageBox(mainWindow, {
+                    type: 'info',
+                    buttons: ['Yes', 'Cancel'],
+                    defaultId: 1,
+                    title: 'A new update is ready to install',
+                    message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
+                  }, (response) => {
+                    if (response === 0) {
+                      shell.openExternal('https://getwebcatalog.com');
+                    }
+                  });
+                }
+              });
+            }
           }).on('error', (err) => {
             log(`Update checker: ${err.message}`);
           });
