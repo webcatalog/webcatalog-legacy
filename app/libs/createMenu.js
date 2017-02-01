@@ -3,8 +3,7 @@
 
 const electron = require('electron');
 
-const { Menu, shell, clipboard, app, dialog } = electron;
-
+const { Menu, shell, app, dialog, session } = electron;
 
 function createMenu({
   isWebView, appName, appId, mainWindow, log,
@@ -45,8 +44,7 @@ function createMenu({
             label: 'Copy Current URL',
             accelerator: 'CmdOrCtrl+L',
             click: () => {
-              const currentURL = mainWindow.webContents.getURL();
-              clipboard.writeText(currentURL);
+              mainWindow.webContents.send('copy-url');
             },
           },
           {
@@ -63,7 +61,7 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Clear browsing data',
+            label: 'Clear browsing data...',
             click: () => {
               dialog.showMessageBox(mainWindow, {
                 type: 'warning',
@@ -73,14 +71,14 @@ function createMenu({
                 message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
               }, (response) => {
                 if (response === 0) {
-                  const session = mainWindow.webContents.session;
-                  session.clearStorageData((err) => {
+                  const s = session.fromPartition(`persist:${appId}`);
+                  s.clearStorageData((err) => {
                     if (err) {
                       log(`Clearing browsing data err: ${err.message}`);
                       return;
                     }
                     log(`Browsing data of ${appId} cleared.`);
-                    mainWindow.webContents.reload();
+                    mainWindow.webContents.send('reload');
                   });
                 }
               });
@@ -95,23 +93,21 @@ function createMenu({
             label: 'Back',
             accelerator: 'CmdOrCtrl+[',
             click: () => {
-              mainWindow.webContents.goBack();
+              mainWindow.webContents.send('go-back');
             },
           },
           {
             label: 'Forward',
             accelerator: 'CmdOrCtrl+]',
             click: () => {
-              mainWindow.webContents.goForward();
+              mainWindow.webContents.send('go-forward');
             },
           },
           {
             label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
-            click: (item, focusedWindow) => {
-              if (focusedWindow) {
-                focusedWindow.reload();
-              }
+            click: () => {
+              mainWindow.webContents.send('reload');
             },
           },
           {
@@ -165,6 +161,23 @@ function createMenu({
               }
               return 'Ctrl+Shift+I';
             })(),
+            click: () => {
+              mainWindow.webContents.send('toggle-dev-tools');
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Reload (Container)',
+            click: (item, focusedWindow) => {
+              if (focusedWindow) {
+                focusedWindow.reload();
+              }
+            },
+          },
+          {
+            label: 'Toggle Developer Tools (Container)',
             click: (item, focusedWindow) => {
               if (focusedWindow) {
                 focusedWindow.toggleDevTools();

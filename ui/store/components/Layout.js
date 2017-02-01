@@ -35,7 +35,7 @@ class Layout extends React.Component {
           flexDirection: 'column',
         }}
       >
-        <Nav pathname={pathname} style={{ flexBasis: 48 }} />
+        <Nav pathname={pathname} />
         <div
           style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
           ref={(container) => { this.scrollContainer = container; }}

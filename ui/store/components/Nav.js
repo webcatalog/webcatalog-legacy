@@ -20,6 +20,7 @@ const Nav = ({
       display: 'flex',
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
+      flexBasis: 48,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>

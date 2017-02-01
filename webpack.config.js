@@ -12,6 +12,7 @@ const SOURCE_DIR = path.resolve(__dirname, 'ui');
 const common = {
   entry: {
     store: `${SOURCE_DIR}/store/index.js`,
+    app: `${SOURCE_DIR}/app/index.js`,
   },
   output: {
     path: OUTPUT_DIR,
@@ -38,6 +39,8 @@ const common = {
 const config = (() => {
   const copyArr = [
     { from: `${SOURCE_DIR}/store/store.html` },
+    { from: `${SOURCE_DIR}/app/app.html` },
+    { from: `${SOURCE_DIR}/app/preload.js` },
     { from: `${SOURCE_DIR}/images`, to: `${OUTPUT_DIR}/images` },
     { from: 'node_modules/@blueprintjs/core/dist/blueprint.css', to: `${OUTPUT_DIR}/dist` },
     { from: 'node_modules/@blueprintjs/core/resources', to: `${OUTPUT_DIR}/resources` },

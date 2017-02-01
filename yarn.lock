@@ -2682,6 +2682,10 @@ lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
+lodash.camelcase@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
+
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
@@ -3294,6 +3298,12 @@ react-dom@^15.4.2:
     fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+
+react-electron-web-view@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-electron-web-view/-/react-electron-web-view-2.0.0.tgz#4763d1e9e30e99b8a81558ac1aa60f388eea790d"
+  dependencies:
+    lodash.camelcase "^4.3.0"
 
 react-redux@^5.0.2:
   version "5.0.2"

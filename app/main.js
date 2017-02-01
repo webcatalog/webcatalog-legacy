@@ -7,12 +7,11 @@ const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 
-const { app, BrowserWindow, ipcMain, shell } = electron;
+const { app, BrowserWindow } = electron;
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
-const extractDomain = require('./libs/extractDomain');
 const loadPlugins = require('./libs/loadPlugins');
 
 loadPlugins();
@@ -26,175 +25,55 @@ function createWindow() {
   settings.defaults({
     behaviors: {
       swipeToNavigate: true,
+      rememberLastPages: true,
     },
   });
   settings.applyDefaultsSync();
 
-  settings.get('behaviors').then(({ swipeToNavigate, rememberLastPage }) => {
-    const isWebView = argv.url && argv.id;
+  const isWebView = argv.url && argv.id;
 
-    const mainWindowState = windowStateKeeper({
-      id: isWebView ? argv.id : 'webcatalog',
-      defaultWidth: isWebView ? 1280 : 800,
-      defaultHeight: isWebView ? 800 : 600,
-    });
-
-    // Create the browser window.
-    const options = isWebView ? {
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      title: argv.name,
-      webPreferences: {
-        javascript: true,
-        plugins: true,
-        // node globals causes problems with sites like messenger.com
-        nodeIntegration: false,
-        webSecurity: true,
-        preload: path.join(__dirname, 'preload.js'),
-        partition: `persist:${argv.id}`,
-      },
-    } : {
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      minWidth: 500,
-      minHeight: 400,
-      titleBarStyle: 'hidden',
-    };
-
-    mainWindow = new BrowserWindow(options);
-
-    mainWindowState.manage(mainWindow);
-
-    const log = (message) => {
-      mainWindow.webContents.send('log', message);
-    };
-
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
-
-    // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      mainWindow = null;
-    });
-
-    // do nothing for setDockBadge if not OSX
-    let setDockBadge = () => {};
-
-    if (process.platform === 'darwin') {
-      setDockBadge = app.dock.setBadge;
-    }
-
-    /* Badge count */
-    mainWindow.on('page-title-updated', (e, title) => {
-      const itemCountRegex = /[([{](\d*?)[}\])]/;
-      const match = itemCountRegex.exec(title);
-      if (match) {
-        setDockBadge(match[1]);
-      } else {
-        setDockBadge('');
-      }
-    });
-
-    ipcMain.on('notification', () => {
-      if (process.platform !== 'darwin' || mainWindow.isFocused()) {
-        return;
-      }
-      setDockBadge('•');
-    });
-
-    mainWindow.on('focus', () => {
-      setDockBadge('');
-    });
-
-    /* createMenu({
-      isWebView,
-      appName: argv.name || 'WebCatalog',
-      appId: argv.id || 'webcatalog',
-      mainWindow,
-      log,
-    }); */
-
-    if (isWebView) {
-      const webViewDomain = extractDomain(argv.url);
-
-      const handleRedirect = (e, nextUrl) => {
-        log(`newWindow: ${nextUrl}`);
-        // open external url in browser if domain doesn't match.
-        const nextDomain = extractDomain(nextUrl);
-
-        // open new window
-        if (nextDomain === null) {
-          return;
-        }
-
-        // navigate
-        if (nextDomain && (nextDomain === webViewDomain || nextDomain === 'accounts.google.com')) {
-          // https://github.com/webcatalog/desktop/issues/35
-          e.preventDefault();
-          mainWindow.loadURL(nextUrl);
-          return;
-        }
-
-        // open in browser
-        e.preventDefault();
-        shell.openExternal(nextUrl);
-      };
-
-      // mainWindow.webContents.on('will-navigate', handleRedirect);
-      mainWindow.webContents.on('new-window', handleRedirect);
-
-      // remove Electron from useragent
-      // https://github.com/webcatalog/desktop/issues/28
-      const userAgent = mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, '');
-      mainWindow.webContents.setUserAgent(userAgent);
-
-      if (swipeToNavigate) {
-        mainWindow.on('swipe', (e, direction) => {
-          if (direction === 'left' && mainWindow.webContents.canGoBack()) {
-            mainWindow.webContents.goBack();
-          } else if (direction === 'right' && mainWindow.webContents.canGoForward()) {
-            mainWindow.webContents.goForward();
-          }
-        });
-      }
-
-      if (rememberLastPage) {
-        const handleNavigate = (e, curUrl) => {
-          settings.set(`lastpages.${argv.id}`, curUrl);
-        };
-
-        mainWindow.webContents.on('did-navigate', handleNavigate);
-        mainWindow.webContents.on('did-navigate-in-page', handleNavigate);
-      }
-
-      settings.get(`lastpages.${argv.id}`)
-        .then((lastPage) => {
-          if (lastPage) mainWindow.loadURL(lastPage);
-          else mainWindow.loadURL(argv.url);
-        })
-        .catch(() => {
-          mainWindow.loadURL(argv.url);
-        });
-    } else {
-      const windowUrl = isWebView ? argv.url : url.format({
-        pathname: path.join(__dirname, 'www', 'store.html'),
-        protocol: 'file:',
-        slashes: true,
-      });
-
-      // and load the index.html of the app.
-      mainWindow.loadURL(windowUrl);
-    }
-
-    checkForUpdate(mainWindow, log);
+  const mainWindowState = windowStateKeeper({
+    id: isWebView ? argv.id : 'webcatalog',
+    defaultWidth: isWebView ? 1280 : 800,
+    defaultHeight: isWebView ? 800 : 600,
   });
+
+  const options = {
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    minWidth: 500,
+    minHeight: 400,
+    title: argv.name || 'WebCatalog',
+    titleBarStyle: 'hidden',
+  };
+
+  mainWindow = new BrowserWindow(options);
+
+  mainWindowState.manage(mainWindow);
+
+  const windowUrl = url.format({
+    pathname: path.join(__dirname, 'www', 'app.html'),
+    protocol: 'file:',
+    slashes: true,
+  });
+
+  mainWindow.loadURL(windowUrl);
+
+  const log = (message) => {
+    mainWindow.webContents.send('log', message);
+  };
+
+  createMenu({
+    isWebView,
+    appName: argv.name,
+    appId: argv.id,
+    mainWindow,
+    log,
+  });
+
+  checkForUpdate(mainWindow, log);
 }
 
 // This method will be called when Electron has finished

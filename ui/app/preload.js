@@ -1,12 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-unresolved */
 /* global window */
 
-const { ipcRenderer, webFrame } = require('electron');
+const { ipcRenderer } = require('electron');
 require('electron-chromecast');
-
-ipcRenderer.on('change-zoom', (event, message) => {
-  webFrame.setZoomFactor(message);
-});
 
 /**
  * Patches window.Notification to set a callback on a new Notification
