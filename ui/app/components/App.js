@@ -92,8 +92,6 @@ class App extends React.Component {
       <div
         style={{
           height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
         }}
       >
         <Nav
@@ -105,10 +103,11 @@ class App extends React.Component {
         <WebView
           ref={(c) => { this.c = c; }}
           src={url}
-          style={{ flex: 1, position: 'relative' }}
+          style={{ height: 'calc(100vh - 22px)', width: '100%' }}
           className="webview"
           plugins
           allowpopups
+          autoresize
           partition={`persist:${argv.id}`}
           onNewWindow={this.handleNewWindow}
           onDidStartLoading={() => requestUpdateLoading(true)}
