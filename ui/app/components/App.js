@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import WebView from './WebView';
 
 import extractDomain from '../libs/extractDomain';
-import { updateLoading } from '../actions/nav';
+import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 
 import Nav from './Nav';
 
@@ -73,8 +73,16 @@ class App extends React.Component {
   }
 
   handleDidStopLoading() {
-    this.props.requestUpdateLoading(false);
-    electronSettings.set(`lastpages.${argv.id}`, this.c.getURL());
+    const {
+      requestUpdateLoading, requestUpdateCanGoBack, requestUpdateCanGoForward,
+    } = this.props;
+    const c = this.c;
+
+    requestUpdateLoading(false);
+    requestUpdateCanGoBack(c.canGoBack());
+    requestUpdateCanGoForward(c.canGoForward());
+
+    electronSettings.set(`lastpages.${argv.id}`, c.getURL());
   }
 
   render() {
@@ -89,6 +97,7 @@ class App extends React.Component {
         }}
       >
         <Nav
+          onHomeButtonClick={() => this.c.loadURL(argv.url)}
           onBackButtonClick={() => this.c.goBack()}
           onForwardButtonClick={() => this.c.goForward()}
           onRefreshButtonClick={() => this.c.reload()}
@@ -114,11 +123,19 @@ class App extends React.Component {
 App.propTypes = {
   url: React.PropTypes.string,
   requestUpdateLoading: React.PropTypes.func,
+  requestUpdateCanGoBack: React.PropTypes.func,
+  requestUpdateCanGoForward: React.PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({
   requestUpdateLoading: (isLoading) => {
     dispatch(updateLoading(isLoading));
+  },
+  requestUpdateCanGoBack: (canGoBack) => {
+    dispatch(updateCanGoBack(canGoBack));
+  },
+  requestUpdateCanGoForward: (canGoForward) => {
+    dispatch(updateCanGoForward(canGoForward));
   },
 });
 

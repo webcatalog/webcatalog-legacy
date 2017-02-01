@@ -5,6 +5,9 @@ import classNames from 'classnames';
 
 const Nav = ({
   isLoading,
+  canGoBack,
+  canGoForward,
+  onHomeButtonClick,
   onBackButtonClick,
   onForwardButtonClick,
   onRefreshButtonClick,
@@ -18,15 +21,23 @@ const Nav = ({
       flexBasis: 22,
       height: 22,
       paddingLeft: 80,
+      backgroundColor: '#CED9E0',
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1 }}>
       <Button
+        iconName="home"
+        className={classNames(
+          Classes.MINIMAL,
+        )}
+        onClick={onHomeButtonClick}
+      />
+      <Button
         iconName="chevron-left"
         className={classNames(
           Classes.MINIMAL,
-          Classes.DISABLED,
         )}
+        disabled={!canGoBack}
         onClick={onBackButtonClick}
       />
       <Button
@@ -34,6 +45,7 @@ const Nav = ({
         className={classNames(
           Classes.MINIMAL,
         )}
+        disabled={!canGoForward}
         onClick={onForwardButtonClick}
       />
       <Button
@@ -64,6 +76,9 @@ const Nav = ({
 
 Nav.propTypes = {
   isLoading: React.PropTypes.bool,
+  canGoBack: React.PropTypes.bool,
+  canGoForward: React.PropTypes.bool,
+  onHomeButtonClick: React.PropTypes.func,
   onBackButtonClick: React.PropTypes.func,
   onForwardButtonClick: React.PropTypes.func,
   onRefreshButtonClick: React.PropTypes.func,
@@ -71,6 +86,8 @@ Nav.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state.nav.isLoading,
+  canGoBack: state.nav.canGoBack,
+  canGoForward: state.nav.canGoForward,
 });
 
 export default connect(
