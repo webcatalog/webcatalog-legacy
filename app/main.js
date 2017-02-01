@@ -59,6 +59,14 @@ function createWindow() {
     slashes: true,
   });
 
+  if (isWebView) {
+    mainWindow.appInfo = {
+      id: argv.id,
+      name: argv.name,
+      url: argv.url,
+    };
+  }
+
   mainWindow.loadURL(windowUrl);
 
   const log = (message) => {

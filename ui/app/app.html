@@ -38,8 +38,8 @@
   <body>
     <div id="app"></div>
     <script>
-      var argv = require('optimist').argv;
-      var { shell, ipcRenderer, clipboard } = require('electron');
+      var { shell, ipcRenderer, clipboard, remote } = require('electron');
+      var argv = remote.getCurrentWindow().appInfo;
       var electronSettings = require('electron-settings');
     </script>
     <script src="app.bundle.js"></script>

@@ -1,4 +1,5 @@
 /* global document electronSettings argv */
+/* eslint-disable no-console */
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -12,6 +13,7 @@ import store from './store';
 FocusStyleManager.onlyShowFocusOnTabs();
 
 const startApp = (url) => {
+  console.log(`Starting: ${url}`);
   render(
     <Provider store={store}>
       <App url={url} />
