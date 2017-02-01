@@ -1,14 +1,19 @@
-/* global argv shell ipcRenderer path clipboard */
+/* global argv shell ipcRenderer path clipboard electronSettings */
 /* eslint-disable no-console */
 import React from 'react';
+import { connect } from 'react-redux';
 import WebView from './WebView';
 
 import extractDomain from '../libs/extractDomain';
+import { updateLoading } from '../actions/nav';
+
+import Nav from './Nav';
 
 class App extends React.Component {
   constructor() {
     super();
     this.handleNewWindow = this.handleNewWindow.bind(this);
+    this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +72,14 @@ class App extends React.Component {
     shell.openExternal(nextUrl);
   }
 
+  handleDidStopLoading() {
+    this.props.requestUpdateLoading(false);
+    electronSettings.set(`lastpages.${argv.id}`, this.c.getURL());
+  }
+
   render() {
+    const { url, requestUpdateLoading } = this.props;
+
     return (
       <div
         style={{
@@ -76,25 +88,22 @@ class App extends React.Component {
           flexDirection: 'column',
         }}
       >
-        <nav
-          className="pt-navbar"
-          style={{
-            display: 'flex',
-            WebkitUserSelect: 'none',
-            WebkitAppRegion: 'drag',
-            flexBasis: 22,
-            height: 22,
-          }}
+        <Nav
+          onBackButtonClick={() => this.c.goBack()}
+          onForwardButtonClick={() => this.c.goForward()}
+          onRefreshButtonClick={() => this.c.reload()}
         />
         <WebView
           ref={(c) => { this.c = c; }}
-          src="https://messenger.com"
-          style={{ flex: 1 }}
+          src={url}
+          style={{ flex: 1, position: 'relative' }}
           className="webview"
           plugins
           allowpopups
-          partition={argv.id ? `persist:${argv.id}` : 'persist:webcatalog'}
+          partition={`persist:${argv.id}`}
           onNewWindow={this.handleNewWindow}
+          onDidStartLoading={() => requestUpdateLoading(true)}
+          onDidStopLoading={this.handleDidStopLoading}
           preload="./preload.js"
         />
       </div>
@@ -102,4 +111,17 @@ class App extends React.Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  url: React.PropTypes.string,
+  requestUpdateLoading: React.PropTypes.func,
+};
+
+const mapDispatchToProps = dispatch => ({
+  requestUpdateLoading: (isLoading) => {
+    dispatch(updateLoading(isLoading));
+  },
+});
+
+export default connect(
+  null, mapDispatchToProps,
+)(App);

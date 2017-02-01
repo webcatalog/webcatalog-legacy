@@ -23,7 +23,6 @@ export const setBehavior = (name, val) => (dispatch) => {
 export const getBehaviors = () => (dispatch) => {
   electronSettings.get('behaviors')
     .then((behaviors) => {
-      console.log(behaviors);
       dispatch({
         type: SET_BEHAVIORS,
         behaviors,

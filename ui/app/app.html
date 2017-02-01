@@ -17,6 +17,22 @@
       .webview {
         height: 100%;
       }
+
+      .pt-navbar.pt-tiny .pt-navbar-group {
+        height: 22px;
+      }
+
+      .pt-navbar.pt-tiny .pt-button {
+        min-width: 30px;
+        min-height: 22px;
+        line-height: 22px;
+        font-size: 14px;
+      }
+
+      .pt-navbar.pt-tiny .pt-spinner {
+        width: 18px;
+        margin-top: 2px;
+      }
     </style>
   </head>
   <body>
@@ -24,6 +40,7 @@
     <script>
       var argv = require('optimist').argv;
       var { shell, ipcRenderer, clipboard } = require('electron');
+      var electronSettings = require('electron-settings');
     </script>
     <script src="app.bundle.js"></script>
   </body>

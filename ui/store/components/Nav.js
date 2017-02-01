@@ -20,7 +20,7 @@ const Nav = ({
       display: 'flex',
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
-      flexBasis: 48,
+      flexBasis: 50,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
@@ -61,7 +61,7 @@ const Nav = ({
         ) : null}
       </div>
     </div>
-    <div className="pt-navbar-group pt-align-left">
+    <div className="pt-navbar-group pt-align-right">
       <Button
         iconName="home"
         className={classNames(

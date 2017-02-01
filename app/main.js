@@ -25,7 +25,7 @@ function createWindow() {
   settings.defaults({
     behaviors: {
       swipeToNavigate: true,
-      rememberLastPages: true,
+      rememberLastPage: true,
     },
   });
   settings.applyDefaultsSync();
@@ -74,6 +74,20 @@ function createWindow() {
   });
 
   checkForUpdate(mainWindow, log);
+
+  if (isWebView) {
+    settings.get('behaviors.swipeToNavigate').then((swipeToNavigate) => {
+      if (swipeToNavigate) {
+        mainWindow.on('swipe', (e, direction) => {
+          if (direction === 'left' && mainWindow.webContents.canGoBack()) {
+            mainWindow.webContents.send('go-back');
+          } else if (direction === 'right' && mainWindow.webContents.canGoForward()) {
+            mainWindow.webContents.send('go-forward');
+          }
+        });
+      }
+    });
+  }
 }
 
 // This method will be called when Electron has finished
