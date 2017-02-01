@@ -54,7 +54,7 @@ function createWindow() {
   mainWindowState.manage(mainWindow);
 
   const windowUrl = url.format({
-    pathname: path.join(__dirname, 'www', 'app.html'),
+    pathname: path.join(__dirname, 'www', isWebView ? 'app.html' : 'store.html'),
     protocol: 'file:',
     slashes: true,
   });
