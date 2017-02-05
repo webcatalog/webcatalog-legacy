@@ -4,6 +4,10 @@ const scanInstalledAsync = allAppPath =>
   new Promise((resolve, reject) => {
     const installedIds = [];
 
+    if (!fs.existsSync(allAppPath)) {
+      fs.mkdirSync(allAppPath);
+    }
+
     switch (os.platform()) {
       case 'darwin': {
         fs.readdir(allAppPath, (err, files) => {
@@ -45,6 +49,9 @@ const scanInstalledAsync = allAppPath =>
           }
 
           let i = 0;
+
+          if (files.length === 0) resolve(installedIds);
+
           files.forEach((fileName) => {
             WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
               if (wsShortcutErr) {
