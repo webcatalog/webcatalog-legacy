@@ -4,12 +4,14 @@
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
-    "start": "electron ./app",
+    "start": "yarn run start.store",
+    "start.store": "electron ./app",
+    "start.app": "electron ./app --id=test --url=https://messenger.com --name=Messenger",
     "dev": "cross-env NODE_ENV=development webpack -d --watch",
     "compile": "cross-env NODE_ENV=production webpack -p",
     "package": "node ./packager.js",
     "lint": "eslint ./src --ext .js --cache",
-    "dist": "npm run compile && npm run package"
+    "dist": "yarn run compile && yarn run package"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": {
