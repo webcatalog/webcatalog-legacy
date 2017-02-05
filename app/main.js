@@ -47,6 +47,7 @@ function createWindow() {
     minHeight: 400,
     title: argv.name || 'WebCatalog',
     titleBarStyle: 'hidden',
+    frame: (process.platform === 'darwin' || argv.development),
   };
 
   mainWindow = new BrowserWindow(options);
@@ -73,13 +74,15 @@ function createWindow() {
     mainWindow.webContents.send('log', message);
   };
 
-  createMenu({
-    isWebView,
-    appName: argv.name,
-    appId: argv.id,
-    mainWindow,
-    log,
-  });
+  if (!argv.development) {
+    createMenu({
+      isWebView,
+      appName: argv.name,
+      appId: argv.id,
+      mainWindow,
+      log,
+    });
+  }
 
   checkForUpdate(mainWindow, log);
 

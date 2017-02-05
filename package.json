@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "yarn run start.store",
-    "start.store": "electron ./app",
-    "start.app": "electron ./app --id=test --url=https://messenger.com --name=Messenger",
+    "start.store": "electron ./app --development=true",
+    "start.app": "electron ./app --development=true --id=test --url=https://messenger.com --name=Messenger",
     "dev": "cross-env NODE_ENV=development webpack -d --watch",
     "compile": "cross-env NODE_ENV=production webpack -p",
     "package": "node ./packager.js",

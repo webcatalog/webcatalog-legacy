@@ -30,6 +30,7 @@ const Nav = ({
         className={classNames(
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         onClick={onHomeButtonClick}
       />
       <Button
@@ -37,6 +38,7 @@ const Nav = ({
         className={classNames(
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         disabled={!canGoBack}
         onClick={onBackButtonClick}
       />
@@ -45,6 +47,7 @@ const Nav = ({
         className={classNames(
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         disabled={!canGoForward}
         onClick={onForwardButtonClick}
       />
@@ -53,6 +56,7 @@ const Nav = ({
         className={classNames(
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         onClick={onRefreshButtonClick}
       />
     </div>
