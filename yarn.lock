@@ -1519,9 +1519,9 @@ electron-macos-sign@~1.4.0:
     minimist "^1.2.0"
     plist "^2.0.1"
 
-electron@^1.4.14:
-  version "1.4.15"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.4.15.tgz#eaccafe3f55ade02a746b706ac14b43db6c7ccf8"
+electron@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.0.tgz#d1d12024fe4e8d14128eb9c73b8a5253324ced06"
   dependencies:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
