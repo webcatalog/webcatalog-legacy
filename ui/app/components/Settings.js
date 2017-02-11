@@ -6,7 +6,7 @@ import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
-  isOpen, swipeToNavigate, rememberLastPage,
+  isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -31,6 +31,12 @@ const Settings = ({
           <span> or </span>
           <strong>Swipe with two or three fingers</strong>.
         </p>,
+        <Switch
+          checked={quitOnLastWindow}
+          label="Quit when last window is closed"
+          onChange={e => requestSetBehavior('quitOnLastWindow', e.target.checked)}
+          key="quitOnLastWindow"
+        />,
       ] : null}
 
       <Switch
@@ -55,6 +61,7 @@ const Settings = ({
 Settings.propTypes = {
   isOpen: React.PropTypes.bool,
   swipeToNavigate: React.PropTypes.bool,
+  quitOnLastWindow: React.PropTypes.bool,
   rememberLastPage: React.PropTypes.bool,
   requestToggleSettingDialog: React.PropTypes.func,
   requestSetBehavior: React.PropTypes.func,
@@ -64,6 +71,7 @@ const mapStateToProps = state => ({
   isOpen: state.settings.isOpen,
   swipeToNavigate: state.settings.behaviors.swipeToNavigate,
   rememberLastPage: state.settings.behaviors.rememberLastPage,
+  quitOnLastWindow: state.settings.behaviors.quitOnLastWindow,
 });
 
 const mapDispatchToProps = dispatch => ({

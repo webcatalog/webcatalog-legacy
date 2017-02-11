@@ -16,6 +16,9 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
 const loadPlugins = require('./libs/loadPlugins');
 
+const isWebView = argv.url && argv.id;
+const isDevelopment = argv.development === 'true';
+
 loadPlugins();
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -23,15 +26,13 @@ loadPlugins();
 let mainWindow;
 
 function createWindow() {
-  const isWebView = argv.url && argv.id;
-  const isDevelopment = argv.development === 'true';
-
   if (isWebView) {
     // set default settings
     const defaultSettings = { behaviors: {} };
     defaultSettings.behaviors[camelCase(argv.id)] = {
       swipeToNavigate: true,
       rememberLastPage: false,
+      quitOnLastWindow: false,
     };
 
     settings.defaults(defaultSettings);
@@ -119,6 +120,12 @@ app.on('window-all-closed', () => {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
+  } else if (isWebView) {
+    settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`).then((quitOnLastWindow) => {
+      if (quitOnLastWindow) {
+        app.quit();
+      }
+    });
   }
 });
 

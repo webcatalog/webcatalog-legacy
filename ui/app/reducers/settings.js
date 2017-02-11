@@ -7,6 +7,7 @@ const initialState = {
   behaviors: {
     swipeToNavigate: true,
     rememberLastPage: false,
+    quitOnLastWindow: false,
   },
 };
 
