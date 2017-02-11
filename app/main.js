@@ -31,6 +31,7 @@ function createWindow() {
   settings.applyDefaultsSync();
 
   const isWebView = argv.url && argv.id;
+  const isDevelopment = argv.development === 'true';
 
   const mainWindowState = windowStateKeeper({
     id: isWebView ? argv.id : 'webcatalog',
@@ -47,7 +48,7 @@ function createWindow() {
     minHeight: 400,
     title: argv.name || 'WebCatalog',
     titleBarStyle: 'hidden',
-    frame: (process.platform === 'darwin' || argv.development),
+    frame: (process.platform === 'darwin' || isDevelopment || isWebView),
   };
 
   mainWindow = new BrowserWindow(options);
@@ -74,7 +75,7 @@ function createWindow() {
     mainWindow.webContents.send('log', message);
   };
 
-  if (!argv.development) {
+  if (!isDevelopment) {
     createMenu({
       isWebView,
       appName: argv.name,
