@@ -39,6 +39,10 @@ class App extends React.Component {
       c.goForward();
     });
 
+    ipcRenderer.on('go-home', () => {
+      c.loadURL(argv.url);
+    });
+
     ipcRenderer.on('copy-url', () => {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
@@ -94,12 +98,14 @@ class App extends React.Component {
           height: '100vh',
         }}
       >
-        <Nav
-          onHomeButtonClick={() => this.c.loadURL(argv.url)}
-          onBackButtonClick={() => this.c.goBack()}
-          onForwardButtonClick={() => this.c.goForward()}
-          onRefreshButtonClick={() => this.c.reload()}
-        />
+        {process.platform === 'darwin' ? (
+          <Nav
+            onHomeButtonClick={() => this.c.loadURL(argv.url)}
+            onBackButtonClick={() => this.c.goBack()}
+            onForwardButtonClick={() => this.c.goForward()}
+            onRefreshButtonClick={() => this.c.reload()}
+          />
+        ) : null}
         <WebView
           ref={(c) => { this.c = c; }}
           src={url}

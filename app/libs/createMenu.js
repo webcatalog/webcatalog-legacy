@@ -6,7 +6,7 @@ const electron = require('electron');
 const { Menu, shell, app, dialog, session } = electron;
 
 function createMenu({
-  isWebView, appName, appId, mainWindow, log,
+  isDevelopment, isWebView, appName, appId, mainWindow, log,
 }) {
   let template;
   if (isWebView) {
@@ -14,6 +14,39 @@ function createMenu({
     const ZOOM_INTERVAL = 0.1;
 
     template = [
+      {
+        label: 'Navigate',
+        submenu: [
+          {
+            label: 'Home',
+            accelerator: 'Alt+H',
+            click: () => {
+              mainWindow.webContents.send('go-home');
+            },
+          },
+          {
+            label: 'Back',
+            accelerator: 'CmdOrCtrl+[',
+            click: () => {
+              mainWindow.webContents.send('go-back');
+            },
+          },
+          {
+            label: 'Forward',
+            accelerator: 'CmdOrCtrl+]',
+            click: () => {
+              mainWindow.webContents.send('go-forward');
+            },
+          },
+          {
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click: () => {
+              mainWindow.webContents.send('reload');
+            },
+          },
+        ],
+      },
       {
         label: 'Edit',
         submenu: [
@@ -165,25 +198,6 @@ function createMenu({
               mainWindow.webContents.send('toggle-dev-tools');
             },
           },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'Reload (Container)',
-            click: (item, focusedWindow) => {
-              if (focusedWindow) {
-                focusedWindow.reload();
-              }
-            },
-          },
-          {
-            label: 'Toggle Developer Tools (Container)',
-            click: (item, focusedWindow) => {
-              if (focusedWindow) {
-                focusedWindow.toggleDevTools();
-              }
-            },
-          },
         ],
       },
       {
@@ -221,6 +235,32 @@ function createMenu({
         ],
       },
     ];
+
+    if (isDevelopment) {
+      template[2].submenu.push(
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Reload (Container)',
+          click: (item, focusedWindow) => {
+            if (focusedWindow) {
+              focusedWindow.reload();
+            }
+          },
+        },
+        {
+          label: 'Toggle Developer Tools (Container)',
+          click: (item, focusedWindow) => {
+            if (focusedWindow) {
+              focusedWindow.toggleDevTools();
+            }
+          },
+        /* eslint-disable comma-dangle */
+        }
+        /* eslint-enable comma-dangle */
+      );
+    }
 
     if (process.platform === 'darwin') {
       template.unshift({

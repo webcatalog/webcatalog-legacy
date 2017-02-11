@@ -41,7 +41,7 @@ const Nav = ({
           className="pt-input"
           placeholder="Search (name, URL)..."
           type="text"
-          style={{ width: '100%', WebkitUserSelect: 'text' }}
+          style={{ width: '100%', WebkitUserSelect: 'text', WebkitAppRegion: 'no-drag' }}
           value={query}
           onKeyDown={(e) => {
             if ((e.keyCode || e.which) === 13) {
@@ -68,6 +68,7 @@ const Nav = ({
           { [Classes.ACTIVE]: (pathname === '/') },
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         text="Home"
         onClick={() => goTo('/')}
       />
@@ -77,11 +78,13 @@ const Nav = ({
           { [Classes.ACTIVE]: (pathname === '/installed') },
           Classes.MINIMAL,
         )}
+        style={{ WebkitAppRegion: 'no-drag' }}
         text="Installed"
         onClick={() => goTo('/installed')}
       />
       <button
         className="pt-button pt-minimal pt-icon-refresh"
+        style={{ WebkitAppRegion: 'no-drag' }}
         onClick={() => requestRefresh(pathname)}
       />
       <Popover
@@ -94,7 +97,10 @@ const Nav = ({
         )}
         position={Position.BOTTOM_RIGHT}
       >
-        <button className="pt-button pt-minimal pt-icon-more" />
+        <button
+          className="pt-button pt-minimal pt-icon-more"
+          style={{ WebkitAppRegion: 'no-drag' }}
+        />
       </Popover>
     </div>
   </nav>
