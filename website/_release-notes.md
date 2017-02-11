@@ -1,3 +1,8 @@
+# 2.9.1
+- Upgrades to Electron 1.6 (from 1.4), Chrome 56 (from 53).
+
+---
+
 # 2.9.0
 - Adds option to remember the last page you open.
 - Adds option to swipe to navigate (macOS only).
