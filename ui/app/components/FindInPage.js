@@ -7,11 +7,6 @@ import { toggleFindInPageDialog, updateFindInPageText } from '../actions/findInP
 class FindInPage extends React.Component {
   componentDidMount() {
     this.input.focus();
-
-    const { text, onRequestFind } = this.props;
-    if (text.length > 0) {
-      onRequestFind(text, true);
-    }
   }
 
   render() {

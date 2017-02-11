@@ -24,12 +24,12 @@ class App extends React.Component {
 
   componentDidMount() {
     const {
-      findInPageIsOpen,
       requestToggleSettingDialog,
       requestToggleFindInPageDialog,
       requestUpdateFindInPageMatches,
     } = this.props;
     const c = this.c;
+
     ipcRenderer.on('toggle-dev-tools', () => {
       console.log(c);
       c.openDevTools();
@@ -40,7 +40,7 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('toggle-find-in-page-dialog', () => {
-      if (findInPageIsOpen) {
+      if (this.props.findInPageIsOpen) {
         c.stopFindInPage('clearSelection');
         requestUpdateFindInPageMatches(0, 0);
       }
@@ -71,6 +71,16 @@ class App extends React.Component {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
     });
+  }
+
+  componentDidUpdate() {
+    const { findInPageIsOpen, findInPageText } = this.props;
+    const c = this.c;
+
+    // Restart search if text is available
+    if (findInPageIsOpen && findInPageText.length > 0) {
+      c.findInPage(findInPageText, { forward: true });
+    }
   }
 
   handleNewWindow(e) {
@@ -144,23 +154,25 @@ class App extends React.Component {
             }}
           />
         ) : null}
-        <WebView
-          ref={(c) => { this.c = c; }}
-          src={url}
-          style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100%' }}
-          className="webview"
-          plugins
-          allowpopups
-          autoresize
-          partition={`persist:${argv.id}`}
-          onNewWindow={this.handleNewWindow}
-          onDidStartLoading={() => requestUpdateLoading(true)}
-          onDidStopLoading={this.handleDidStopLoading}
-          onFoundInPage={({ result }) => {
-            requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
-          }}
-          preload="./preload.js"
-        />
+        <div style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100%' }}>
+          <WebView
+            ref={(c) => { this.c = c; }}
+            src={url}
+            style={{ height: '100%', width: '100%' }}
+            className="webview"
+            plugins
+            allowpopups
+            autoresize
+            partition={`persist:${argv.id}`}
+            onNewWindow={this.handleNewWindow}
+            onDidStartLoading={() => requestUpdateLoading(true)}
+            onDidStopLoading={this.handleDidStopLoading}
+            onFoundInPage={({ result }) => {
+              requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
+            }}
+            preload="./preload.js"
+          />
+        </div>
         <Settings />
       </div>
     );
@@ -170,6 +182,7 @@ class App extends React.Component {
 App.propTypes = {
   url: React.PropTypes.string,
   findInPageIsOpen: React.PropTypes.bool,
+  findInPageText: React.PropTypes.string,
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
   requestUpdateCanGoForward: React.PropTypes.func,
@@ -180,6 +193,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
+  findInPageText: state.findInPage.text,
 });
 
 const mapDispatchToProps = dispatch => ({
