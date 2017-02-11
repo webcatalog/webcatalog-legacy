@@ -1,4 +1,4 @@
-/* global argv shell ipcRenderer path clipboard electronSettings */
+/* global argv shell ipcRenderer path clipboard electronSettings os */
 /* eslint-disable no-console */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -8,6 +8,8 @@ import extractDomain from '../libs/extractDomain';
 import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 
 import Nav from './Nav';
+
+console.log(process.platform);
 
 class App extends React.Component {
   constructor() {
@@ -98,7 +100,7 @@ class App extends React.Component {
           height: '100vh',
         }}
       >
-        {process.platform === 'darwin' ? (
+        {os.platform() === 'darwin' ? (
           <Nav
             onHomeButtonClick={() => this.c.loadURL(argv.url)}
             onBackButtonClick={() => this.c.goBack()}

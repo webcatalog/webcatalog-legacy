@@ -40,6 +40,7 @@
     <script>
       const { shell, ipcRenderer, clipboard, remote } = require('electron');
       const argv = remote.getCurrentWindow().appInfo;
+      const os = require('os');
       const electronSettings = require('electron-settings');
     </script>
     <script src="app.bundle.js"></script>
