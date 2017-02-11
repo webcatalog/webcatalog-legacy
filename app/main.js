@@ -75,8 +75,9 @@ function createWindow() {
     mainWindow.webContents.send('log', message);
   };
 
-  if (!isDevelopment) {
+  if (!(isDevelopment && !isWebView)) {
     createMenu({
+      isDevelopment,
       isWebView,
       appName: argv.name,
       appId: argv.id,
