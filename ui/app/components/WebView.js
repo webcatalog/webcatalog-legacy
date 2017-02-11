@@ -26,6 +26,7 @@ const events = [
   'gpu-crashed',
   'plugin-crashed',
   'destroyed',
+  'found-in-page',
 ];
 
 const methods = [
@@ -83,14 +84,6 @@ const methods = [
   'getWebContents',
   'focus',
 ];
-
-const changableProps = {
-  src: '__USE_ATTR__',
-  useragent: 'setUserAgent',
-  guestinstance: '__USE_ATTR__',
-  devtools: 'setDevTools',
-  muted: 'setAudioMuted',
-};
 
 const props = {
   src: React.PropTypes.string,
@@ -160,16 +153,8 @@ class ElectronWebView extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    Object.keys(changableProps).forEach((propName) => {
-      if (this.props[propName] !== prevProps[propName]) {
-        if (changableProps[propName] === '__USE_ATTR__') {
-          this.view.setAttribute(propName, this.props[propName]);
-        } else {
-          this[changableProps[propName]](this.props[propName]);
-        }
-      }
-    });
+  shouldComponentUpdate() {
+    return false;
   }
 
   isReady() {

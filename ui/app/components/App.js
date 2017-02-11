@@ -6,12 +6,14 @@ import camelCase from 'lodash.camelcase';
 
 import WebView from './WebView';
 import Settings from './Settings';
+import Nav from './Nav';
+import FindInPage from './FindInPage';
 
 import extractDomain from '../libs/extractDomain';
 import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
+import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 
-import Nav from './Nav';
 
 class App extends React.Component {
   constructor() {
@@ -21,7 +23,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { requestToggleSettingDialog } = this.props;
+    const {
+      findInPageIsOpen,
+      requestToggleSettingDialog,
+      requestToggleFindInPageDialog,
+      requestUpdateFindInPageMatches,
+    } = this.props;
     const c = this.c;
     ipcRenderer.on('toggle-dev-tools', () => {
       console.log(c);
@@ -30,6 +37,14 @@ class App extends React.Component {
 
     ipcRenderer.on('toggle-setting-dialog', () => {
       requestToggleSettingDialog();
+    });
+
+    ipcRenderer.on('toggle-find-in-page-dialog', () => {
+      if (findInPageIsOpen) {
+        c.stopFindInPage('clearSelection');
+        requestUpdateFindInPageMatches(0, 0);
+      }
+      requestToggleFindInPageDialog();
     });
 
     ipcRenderer.on('change-zoom', (event, message) => {
@@ -95,11 +110,16 @@ class App extends React.Component {
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
-    electronSettings.set(`lastpages.${camelCase(argv.id)}`, c.getURL());
+    electronSettings.set(`lastPages.${camelCase(argv.id)}`, c.getURL());
   }
 
   render() {
-    const { url, requestUpdateLoading } = this.props;
+    const {
+      url, findInPageIsOpen, requestUpdateLoading, requestUpdateFindInPageMatches,
+    } = this.props;
+
+    let usedHeight = os.platform() === 'darwin' ? 22 : 0;
+    if (findInPageIsOpen) usedHeight += 50;
 
     return (
       <div
@@ -115,10 +135,19 @@ class App extends React.Component {
             onRefreshButtonClick={() => this.c.reload()}
           />
         ) : null}
+        {findInPageIsOpen ? (
+          <FindInPage
+            onRequestFind={(text, forward) => this.c.findInPage(text, { forward })}
+            onRequestStopFind={() => {
+              this.c.stopFindInPage('clearSelection');
+              requestUpdateFindInPageMatches(0, 0);
+            }}
+          />
+        ) : null}
         <WebView
           ref={(c) => { this.c = c; }}
           src={url}
-          style={{ height: 'calc(100vh - 22px)', width: '100%' }}
+          style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100%' }}
           className="webview"
           plugins
           allowpopups
@@ -127,6 +156,9 @@ class App extends React.Component {
           onNewWindow={this.handleNewWindow}
           onDidStartLoading={() => requestUpdateLoading(true)}
           onDidStopLoading={this.handleDidStopLoading}
+          onFoundInPage={({ result }) => {
+            requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
+          }}
           preload="./preload.js"
         />
         <Settings />
@@ -137,11 +169,18 @@ class App extends React.Component {
 
 App.propTypes = {
   url: React.PropTypes.string,
+  findInPageIsOpen: React.PropTypes.bool,
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
   requestUpdateCanGoForward: React.PropTypes.func,
   requestToggleSettingDialog: React.PropTypes.func,
+  requestToggleFindInPageDialog: React.PropTypes.func,
+  requestUpdateFindInPageMatches: React.PropTypes.func,
 };
+
+const mapStateToProps = state => ({
+  findInPageIsOpen: state.findInPage.isOpen,
+});
 
 const mapDispatchToProps = dispatch => ({
   requestUpdateLoading: (isLoading) => {
@@ -156,8 +195,14 @@ const mapDispatchToProps = dispatch => ({
   requestToggleSettingDialog: () => {
     dispatch(toggleSettingDialog());
   },
+  requestToggleFindInPageDialog: () => {
+    dispatch(toggleFindInPageDialog());
+  },
+  requestUpdateFindInPageMatches: (activeMatch, matches) => {
+    dispatch(updateFindInPageMatches(activeMatch, matches));
+  },
 });
 
 export default connect(
-  null, mapDispatchToProps,
+  mapStateToProps, mapDispatchToProps,
 )(App);

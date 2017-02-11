@@ -25,7 +25,7 @@ const startApp = (url) => {
 
 electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
   if (rememberLastPage) {
-    electronSettings.get(`lastpages.${camelCase(argv.id)}`)
+    electronSettings.get(`lastPages.${camelCase(argv.id)}`)
       .then((lastPage) => {
         if (lastPage) startApp(lastPage);
         else startApp(argv.url);

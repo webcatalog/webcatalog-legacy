@@ -94,27 +94,10 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Clear browsing data...',
+            label: 'Find in page...',
+            accelerator: 'CmdOrCtrl+F',
             click: () => {
-              dialog.showMessageBox(mainWindow, {
-                type: 'warning',
-                buttons: ['Yes', 'Cancel'],
-                defaultId: 1,
-                title: 'Clear cache confirmation',
-                message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
-              }, (response) => {
-                if (response === 0) {
-                  const s = session.fromPartition(`persist:${appId}`);
-                  s.clearStorageData((err) => {
-                    if (err) {
-                      log(`Clearing browsing data err: ${err.message}`);
-                      return;
-                    }
-                    log(`Browsing data of ${appId} cleared.`);
-                    mainWindow.webContents.send('reload');
-                  });
-                }
-              });
+              mainWindow.webContents.send('toggle-find-in-page-dialog');
             },
           },
         ],
@@ -224,6 +207,33 @@ function createMenu({
             label: 'Settings...',
             click: () => {
               mainWindow.webContents.send('toggle-setting-dialog');
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Clear browsing data...',
+            click: () => {
+              dialog.showMessageBox(mainWindow, {
+                type: 'warning',
+                buttons: ['Yes', 'Cancel'],
+                defaultId: 1,
+                title: 'Clear cache confirmation',
+                message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
+              }, (response) => {
+                if (response === 0) {
+                  const s = session.fromPartition(`persist:${appId}`);
+                  s.clearStorageData((err) => {
+                    if (err) {
+                      log(`Clearing browsing data err: ${err.message}`);
+                      return;
+                    }
+                    log(`Browsing data of ${appId} cleared.`);
+                    mainWindow.webContents.send('reload');
+                  });
+                }
+              });
             },
           },
         ],
