@@ -6,6 +6,8 @@ const argv = require('optimist').argv;
 const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
+const camelCase = require('lodash.camelcase');
+
 
 const { app, BrowserWindow } = electron;
 
@@ -21,17 +23,20 @@ loadPlugins();
 let mainWindow;
 
 function createWindow() {
-  // set default settings
-  settings.defaults({
-    behaviors: {
-      swipeToNavigate: true,
-      rememberLastPage: true,
-    },
-  });
-  settings.applyDefaultsSync();
-
   const isWebView = argv.url && argv.id;
   const isDevelopment = argv.development === 'true';
+
+  if (isWebView) {
+    // set default settings
+    const defaultSettings = { behaviors: {} };
+    defaultSettings.behaviors[camelCase(argv.id)] = {
+      swipeToNavigate: true,
+      rememberLastPage: false,
+    };
+
+    settings.defaults(defaultSettings);
+    settings.applyDefaultsSync();
+  }
 
   const mainWindowState = windowStateKeeper({
     id: isWebView ? argv.id : 'webcatalog',
@@ -89,7 +94,7 @@ function createWindow() {
   checkForUpdate(mainWindow, log);
 
   if (isWebView) {
-    settings.get('behaviors.swipeToNavigate').then((swipeToNavigate) => {
+    settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`).then((swipeToNavigate) => {
       if (swipeToNavigate) {
         mainWindow.on('swipe', (e, direction) => {
           if (direction === 'left' && mainWindow.webContents.canGoBack()) {

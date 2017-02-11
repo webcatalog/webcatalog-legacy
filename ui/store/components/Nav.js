@@ -7,12 +7,11 @@ import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
-import { toggleSettingDialog } from '../actions/settings';
 
 const Nav = ({
   query, pathname,
   requestSearch, requestSetSearchQuery, requestRefresh,
-  requestToggleSettingDialog, goTo,
+  goTo,
 }) => (
   <nav
     className="pt-navbar"
@@ -91,7 +90,6 @@ const Nav = ({
         content={(
           <Menu>
             <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
-            <MenuItem iconName="cog" text="Settings" onClick={() => requestToggleSettingDialog()} />
             <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
           </Menu>
         )}
@@ -112,7 +110,6 @@ Nav.propTypes = {
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
-  requestToggleSettingDialog: React.PropTypes.func,
   goTo: React.PropTypes.func,
 };
 
@@ -135,9 +132,6 @@ const mapDispatchToProps = dispatch => ({
   },
   requestRefresh: (pathname) => {
     dispatch(refresh(pathname));
-  },
-  requestToggleSettingDialog: () => {
-    dispatch(toggleSettingDialog());
   },
   goTo: (pathname) => {
     dispatch(replace(pathname));

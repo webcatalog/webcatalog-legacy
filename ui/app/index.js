@@ -3,6 +3,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import camelCase from 'lodash.camelcase';
 
 import { FocusStyleManager } from '@blueprintjs/core';
 
@@ -22,9 +23,9 @@ const startApp = (url) => {
   );
 };
 
-electronSettings.get('behaviors.rememberLastPage').then((rememberLastPage) => {
+electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
   if (rememberLastPage) {
-    electronSettings.get(`lastpages.${argv.id}`)
+    electronSettings.get(`lastpages.${camelCase(argv.id)}`)
       .then((lastPage) => {
         if (lastPage) startApp(lastPage);
         else startApp(argv.url);

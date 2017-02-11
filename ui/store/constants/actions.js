@@ -17,7 +17,3 @@ export const INPROGRESS = 2;
 export const LOADING = 'LOADING';
 export const FAILED = 'FAILED';
 export const DONE = 'DONE';
-
-export const TOGGLE_SETTING_DIALOG = 'TOGGLE_SETTING_DIALOG';
-export const SET_BEHAVIOR = 'SET_BEHAVIOR';
-export const SET_BEHAVIORS = 'SET_BEHAVIORS';

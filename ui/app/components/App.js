@@ -2,14 +2,16 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { connect } from 'react-redux';
+import camelCase from 'lodash.camelcase';
+
 import WebView from './WebView';
+import Settings from './Settings';
 
 import extractDomain from '../libs/extractDomain';
 import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
+import { toggleSettingDialog } from '../actions/settings';
 
 import Nav from './Nav';
-
-console.log(process.platform);
 
 class App extends React.Component {
   constructor() {
@@ -19,10 +21,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const { requestToggleSettingDialog } = this.props;
     const c = this.c;
     ipcRenderer.on('toggle-dev-tools', () => {
       console.log(c);
       c.openDevTools();
+    });
+
+    ipcRenderer.on('toggle-setting-dialog', () => {
+      requestToggleSettingDialog();
     });
 
     ipcRenderer.on('change-zoom', (event, message) => {
@@ -88,7 +95,7 @@ class App extends React.Component {
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
-    electronSettings.set(`lastpages.${argv.id}`, c.getURL());
+    electronSettings.set(`lastpages.${camelCase(argv.id)}`, c.getURL());
   }
 
   render() {
@@ -122,6 +129,7 @@ class App extends React.Component {
           onDidStopLoading={this.handleDidStopLoading}
           preload="./preload.js"
         />
+        <Settings />
       </div>
     );
   }
@@ -132,6 +140,7 @@ App.propTypes = {
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
   requestUpdateCanGoForward: React.PropTypes.func,
+  requestToggleSettingDialog: React.PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -143,6 +152,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestUpdateCanGoForward: (canGoForward) => {
     dispatch(updateCanGoForward(canGoForward));
+  },
+  requestToggleSettingDialog: () => {
+    dispatch(toggleSettingDialog());
   },
 });
 

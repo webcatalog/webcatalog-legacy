@@ -217,6 +217,18 @@ function createMenu({
         ],
       },
       {
+        label: 'Tools',
+        role: 'tools',
+        submenu: [
+          {
+            label: 'Settings...',
+            click: () => {
+              mainWindow.webContents.send('toggle-setting-dialog');
+            },
+          },
+        ],
+      },
+      {
         label: 'Help',
         role: 'help',
         submenu: [

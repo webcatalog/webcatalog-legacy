@@ -6,7 +6,6 @@ import { hashHistory } from 'react-router';
 
 import rootReducer from './reducers';
 import { scanInstalledApps } from './actions/app';
-import { getBehaviors } from './actions/settings';
 
 const configureStore = (initialState) => {
   const store = createStore(
@@ -20,8 +19,6 @@ const configureStore = (initialState) => {
 
   // load installed Apps
   store.dispatch(scanInstalledApps());
-  // load settings
-  store.dispatch(getBehaviors());
 
   return store;
 };

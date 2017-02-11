@@ -5,6 +5,8 @@ import { hashHistory } from 'react-router';
 
 import rootReducer from './reducers';
 
+import { getBehaviors } from './actions/settings';
+
 const configureStore = (initialState) => {
   const store = createStore(
     rootReducer,
@@ -14,6 +16,9 @@ const configureStore = (initialState) => {
       routerMiddleware(hashHistory),
     ),
   );
+
+  // load settings
+  store.dispatch(getBehaviors());
 
   return store;
 };

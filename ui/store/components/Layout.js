@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Nav from './Nav';
-import Settings from './Settings';
 
 import { fetchApps } from '../actions/app';
 
@@ -42,7 +41,6 @@ class Layout extends React.Component {
         >
           {children}
         </div>
-        <Settings />
       </div>
     );
   }
