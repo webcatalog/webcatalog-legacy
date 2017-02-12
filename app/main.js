@@ -72,7 +72,10 @@ function createWindow() {
       id: argv.id,
       name: argv.name,
       url: argv.url,
+      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
     };
+
+    console.log(mainWindow.appInfo.userAgent);
 
     /* Badge count */
     // do nothing for setDockBadge if not OSX

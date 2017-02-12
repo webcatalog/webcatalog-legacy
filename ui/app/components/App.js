@@ -163,6 +163,8 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
+            preload="./preload.js"
+            useragent={argv.userAgent}
             partition={`persist:${argv.id}`}
             onNewWindow={this.handleNewWindow}
             onDidStartLoading={() => requestUpdateLoading(true)}
@@ -170,7 +172,6 @@ class App extends React.Component {
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
-            preload="./preload.js"
           />
         </div>
         <Settings />
