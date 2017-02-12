@@ -75,8 +75,6 @@ function createWindow() {
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
     };
 
-    console.log(mainWindow.appInfo.userAgent);
-
     /* Badge count */
     // do nothing for setDockBadge if not OSX
     const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
