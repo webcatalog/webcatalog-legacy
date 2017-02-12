@@ -9,7 +9,7 @@ const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
 
 
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, ipcMain } = electron;
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
@@ -73,6 +73,31 @@ function createWindow() {
       name: argv.name,
       url: argv.url,
     };
+
+    /* Badge count */
+    // do nothing for setDockBadge if not OSX
+    const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
+
+    mainWindow.on('page-title-updated', (e, title) => {
+      const itemCountRegex = /[([{](\d*?)[}\])]/;
+      const match = itemCountRegex.exec(title);
+      if (match) {
+        setDockBadge(match[1]);
+      } else {
+        setDockBadge('');
+      }
+    });
+
+    ipcMain.on('notification', () => {
+      if (process.platform !== 'darwin' || mainWindow.isFocused()) {
+        return;
+      }
+      setDockBadge('•');
+    });
+
+    mainWindow.on('focus', () => {
+      setDockBadge('');
+    });
   }
 
   mainWindow.loadURL(windowUrl);
