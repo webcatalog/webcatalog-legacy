@@ -3,8 +3,8 @@
 const { app } = require('electron');
 const path = require('path');
 
-const FLASH_VERSION = '24.0.0.186';
-const WIDEVINECDM_VERSION = '1.4.8.903';
+const FLASH_VERSION = '24.0.0.194';
+const WIDEVINECDM_VERSION = '1.4.8.962';
 
 let flashPluginFilename;
 switch (process.platform) {

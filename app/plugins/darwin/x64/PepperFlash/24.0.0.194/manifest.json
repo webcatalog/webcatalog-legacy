@@ -1,8 +1,8 @@
 {
     "description": "Pepper Flash Player", 
     "name": "Flapper", 
-    "version": "24.0.0.186", 
-    "x-flapper-revision": "VGMFP", 
+    "version": "24.0.0.194", 
+    "x-flapper-revision": "68395", 
     "x-ppapi-arch": "x64", 
     "x-ppapi-os": "mac", 
     "x-ppapi-required-interfaces": [
