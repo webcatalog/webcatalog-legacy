@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn run start.store",
     "start.store": "electron ./app --development=true",
-    "start.app": "electron ./app --development=true --id=test --url=https://google.com --name=Messenger",
+    "start.app": "electron ./app --development=true --id=test --url=https://messenger.com --name=Messenger",
     "start.store.production": "electron ./app",
     "start.app.production": "electron ./app --id=test --url=https://messenger.com --name=Messenger",
     "dev": "cross-env NODE_ENV=development webpack -d --watch",

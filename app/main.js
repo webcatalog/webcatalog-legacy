@@ -79,21 +79,17 @@ function createWindow() {
     // do nothing for setDockBadge if not OSX
     const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
 
-    mainWindow.on('page-title-updated', (e, title) => {
-      const itemCountRegex = /[([{](\d*?)[}\])]/;
-      const match = itemCountRegex.exec(title);
-      if (match) {
-        setDockBadge(match[1]);
-      } else {
-        setDockBadge('');
-      }
-    });
-
+    /* temporarily removed.
     ipcMain.on('notification', () => {
       if (process.platform !== 'darwin' || mainWindow.isFocused()) {
         return;
       }
       setDockBadge('•');
+    });
+    */
+
+    ipcMain.on('badge', (e, badge) => {
+      setDockBadge(badge);
     });
 
     mainWindow.on('focus', () => {
@@ -120,16 +116,10 @@ function createWindow() {
 
   checkForUpdate(mainWindow, log);
 
-  mainWindow.on('swipe', (e, direction) => {
-    console.log(direction);
-  });
-
   if (isWebView) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`).then((swipeToNavigate) => {
-      console.log(swipeToNavigate);
       if (swipeToNavigate) {
         mainWindow.on('swipe', (e, direction) => {
-          console.log(direction);
           if (direction === 'left') {
             mainWindow.webContents.send('go-back');
           } else if (direction === 'right') {

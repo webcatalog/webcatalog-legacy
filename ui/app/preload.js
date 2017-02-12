@@ -2,13 +2,10 @@
 /* eslint-disable import/no-unresolved */
 /* global window */
 
-const { ipcRenderer } = require('electron');
+// const { ipcRenderer } = require('electron');
 require('electron-chromecast');
 
-/**
- * Patches window.Notification to set a callback on a new Notification
- * @param callback
- */
+/* temporarily removed.
 const setNotificationCallback = (callback) => {
   const OldNotify = window.Notification;
   const newNotify = (title, opt) => {
@@ -26,3 +23,4 @@ const setNotificationCallback = (callback) => {
 setNotificationCallback((title, opt) => {
   ipcRenderer.send('notification', title, opt);
 });
+*/

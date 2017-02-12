@@ -31,7 +31,6 @@ class App extends React.Component {
     const c = this.c;
 
     ipcRenderer.on('toggle-dev-tools', () => {
-      console.log(c);
       c.openDevTools();
     });
 
@@ -171,6 +170,15 @@ class App extends React.Component {
             onDidStopLoading={this.handleDidStopLoading}
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
+            }}
+            onPageTitleUpdated={(e, title) => {
+              const itemCountRegex = /[([{](\d*?)[}\])]/;
+              const match = itemCountRegex.exec(title);
+              if (match) {
+                ipcRenderer.send('badge', match[1]);
+              } else {
+                ipcRenderer.send('badge', '');
+              }
             }}
           />
         </div>
