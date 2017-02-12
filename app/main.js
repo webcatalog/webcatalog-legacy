@@ -120,13 +120,19 @@ function createWindow() {
 
   checkForUpdate(mainWindow, log);
 
+  mainWindow.on('swipe', (e, direction) => {
+    console.log(direction);
+  });
+
   if (isWebView) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`).then((swipeToNavigate) => {
+      console.log(swipeToNavigate);
       if (swipeToNavigate) {
         mainWindow.on('swipe', (e, direction) => {
-          if (direction === 'left' && mainWindow.webContents.canGoBack()) {
+          console.log(direction);
+          if (direction === 'left') {
             mainWindow.webContents.send('go-back');
-          } else if (direction === 'right' && mainWindow.webContents.canGoForward()) {
+          } else if (direction === 'right') {
             mainWindow.webContents.send('go-forward');
           }
         });
