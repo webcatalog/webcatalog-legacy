@@ -1,3 +1,16 @@
+# 3.0.1
+- Fixes bugs.
+
+---
+
+# 3.0.0
+- Adds Find in Page.
+- Adds Navigation bar.
+- Adds Per-app settings.
+- Adds options to quit app when last window is closed (macOS only).
+
+---
+
 # 2.9.1
 - Upgrades to Electron 1.6 (from 1.4), Chrome 56 (from 53).
 
