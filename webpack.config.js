@@ -4,16 +4,19 @@ const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const BUILD_DIR = path.resolve(__dirname, 'app/www');
-const APP_DIR = path.resolve(__dirname, 'src');
+const OUTPUT_DIR = path.resolve(__dirname, 'app/www');
+const SOURCE_DIR = path.resolve(__dirname, 'ui');
 
 /* eslint-disable no-console */
 
 const common = {
-  entry: `${APP_DIR}/index.js`,
+  entry: {
+    store: `${SOURCE_DIR}/store/index.js`,
+    app: `${SOURCE_DIR}/app/index.js`,
+  },
   output: {
-    path: BUILD_DIR,
-    filename: 'bundle.js',
+    path: OUTPUT_DIR,
+    filename: '[name].bundle.js',
     chunkFilename: '[id].js',
   },
   module: {
@@ -35,17 +38,19 @@ const common = {
 
 const config = (() => {
   const copyArr = [
-    { from: 'src/index.html' },
-    { from: 'src/images', to: `${BUILD_DIR}/images` },
-    { from: 'node_modules/@blueprintjs/core/dist/blueprint.css', to: `${BUILD_DIR}/dist` },
-    { from: 'node_modules/@blueprintjs/core/resources', to: `${BUILD_DIR}/resources` },
+    { from: `${SOURCE_DIR}/store/store.html` },
+    { from: `${SOURCE_DIR}/app/app.html` },
+    { from: `${SOURCE_DIR}/app/preload.js` },
+    { from: `${SOURCE_DIR}/images`, to: `${OUTPUT_DIR}/images` },
+    { from: 'node_modules/@blueprintjs/core/dist/blueprint.css', to: `${OUTPUT_DIR}/dist` },
+    { from: 'node_modules/@blueprintjs/core/resources', to: `${OUTPUT_DIR}/resources` },
   ];
 
   switch (process.env.NODE_ENV) {
     case 'production':
       return merge(common, {
         plugins: [
-          new CleanWebpackPlugin([BUILD_DIR]),
+          new CleanWebpackPlugin([OUTPUT_DIR]),
           new CopyWebpackPlugin(copyArr),
           new webpack.optimize.UglifyJsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),

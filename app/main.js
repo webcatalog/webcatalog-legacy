@@ -5,346 +5,130 @@ const electron = require('electron');
 const argv = require('optimist').argv;
 const path = require('path');
 const url = require('url');
-const semver = require('semver');
-const https = require('https');
 const settings = require('electron-settings');
-
-const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
-
-const createMenu = require('./createMenu');
-const windowStateKeeper = require('./windowStateKeeper');
-
-const FLASH_VERSION = '24.0.0.186';
-const WIDEVINECDM_VERSION = '1.4.8.903';
+const camelCase = require('lodash.camelcase');
 
 
-let flashPluginFilename;
-switch (process.platform) {
-  case 'darwin':
-    flashPluginFilename = 'PepperFlashPlayer.plugin';
-    break;
-  case 'linux':
-    flashPluginFilename = 'libpepflashplayer.so';
-    break;
-  default:
-  case 'win32':
-    flashPluginFilename = 'pepflashplayer.dll';
-    break;
-}
+const { app, BrowserWindow, ipcMain } = electron;
 
-let widevineCdmPluginFilename;
-switch (process.platform) {
-  case 'darwin':
-    widevineCdmPluginFilename = 'widevinecdmadapter.plugin';
-    break;
-  case 'linux':
-    widevineCdmPluginFilename = 'libwidevinecdmadapter.so';
-    break;
-  default:
-  case 'win32':
-    widevineCdmPluginFilename = 'widevinecdmadapter.dll';
-}
+const createMenu = require('./libs/createMenu');
+const windowStateKeeper = require('./libs/windowStateKeeper');
+const checkForUpdate = require('./libs/checkForUpdate');
+const loadPlugins = require('./libs/loadPlugins');
 
-const pluginFolder = `plugins/${process.platform}/${process.arch}`;
+const isWebView = argv.url && argv.id;
+const isDevelopment = argv.development === 'true';
 
-// load plugins
-app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginFolder, 'PepperFlash', FLASH_VERSION, flashPluginFilename).replace('app.asar', 'app.asar.unpacked'));
-app.commandLine.appendSwitch('ppapi-flash-version', FLASH_VERSION);
-
-app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, pluginFolder, 'WidevineCdm', WIDEVINECDM_VERSION, widevineCdmPluginFilename).replace('app.asar', 'app.asar.unpacked'));
-app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
+loadPlugins();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-const extractDomain = (fullUrl) => {
-  const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
-  const domain = matches && matches[1];
-  return domain ? domain.replace('www.', '') : null;
-};
-
 function createWindow() {
-  // set default settings
-  settings.defaults({
-    behaviors: {
+  if (isWebView) {
+    // set default settings
+    const defaultSettings = { behaviors: {} };
+    defaultSettings.behaviors[camelCase(argv.id)] = {
       swipeToNavigate: true,
-    },
-  });
-  settings.applyDefaultsSync();
-
-  settings.get('behaviors').then(({ swipeToNavigate, rememberLastPage }) => {
-    const isWebView = argv.url && argv.id;
-
-    const mainWindowState = windowStateKeeper({
-      id: isWebView ? argv.id : 'webcatalog',
-      defaultWidth: isWebView ? 1280 : 800,
-      defaultHeight: isWebView ? 800 : 600,
-    });
-
-    // Create the browser window.
-    const options = isWebView ? {
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      title: argv.name,
-      webPreferences: {
-        javascript: true,
-        plugins: true,
-        // node globals causes problems with sites like messenger.com
-        nodeIntegration: false,
-        webSecurity: true,
-        preload: path.join(__dirname, 'preload.js'),
-        partition: `persist:${argv.id}`,
-      },
-    } : {
-      x: mainWindowState.x,
-      y: mainWindowState.y,
-      width: mainWindowState.width,
-      height: mainWindowState.height,
-      minWidth: 500,
-      minHeight: 400,
-      titleBarStyle: 'hidden',
+      rememberLastPage: false,
+      quitOnLastWindow: false,
     };
 
-    mainWindow = new BrowserWindow(options);
+    settings.defaults(defaultSettings);
+    settings.applyDefaultsSync();
+  }
 
-    mainWindowState.manage(mainWindow);
+  const mainWindowState = windowStateKeeper({
+    id: isWebView ? argv.id : 'webcatalog',
+    defaultWidth: isWebView ? 1280 : 800,
+    defaultHeight: isWebView ? 800 : 600,
+  });
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+  const options = {
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    minWidth: 500,
+    minHeight: 400,
+    title: argv.name || 'WebCatalog',
+    titleBarStyle: 'hidden',
+    frame: (process.platform === 'darwin' || isDevelopment || isWebView),
+  };
 
-    // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      mainWindow = null;
-    });
+  mainWindow = new BrowserWindow(options);
 
-    // do nothing for setDockBadge if not OSX
-    let setDockBadge = () => {};
+  mainWindowState.manage(mainWindow);
 
-    if (process.platform === 'darwin') {
-      setDockBadge = app.dock.setBadge;
-    }
+  const windowUrl = url.format({
+    pathname: path.join(__dirname, 'www', isWebView ? 'app.html' : 'store.html'),
+    protocol: 'file:',
+    slashes: true,
+  });
+
+  if (isWebView) {
+    mainWindow.appInfo = {
+      id: argv.id,
+      name: argv.name,
+      url: argv.url,
+      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
+    };
 
     /* Badge count */
-    mainWindow.on('page-title-updated', (e, title) => {
-      const itemCountRegex = /[([{](\d*?)[}\])]/;
-      const match = itemCountRegex.exec(title);
-      if (match) {
-        setDockBadge(match[1]);
-      } else {
-        setDockBadge('');
-      }
-    });
+    // do nothing for setDockBadge if not OSX
+    const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
 
+    /* temporarily removed.
     ipcMain.on('notification', () => {
       if (process.platform !== 'darwin' || mainWindow.isFocused()) {
         return;
       }
       setDockBadge('•');
     });
+    */
+
+    ipcMain.on('badge', (e, badge) => {
+      setDockBadge(badge);
+    });
 
     mainWindow.on('focus', () => {
       setDockBadge('');
     });
+  }
 
-    let currentZoom = 1;
-    const ZOOM_INTERVAL = 0.1;
+  mainWindow.loadURL(windowUrl);
 
-    const log = (message) => {
-      mainWindow.webContents.send('log', message);
-    };
+  const log = (message) => {
+    mainWindow.webContents.send('log', message);
+  };
 
-    const onZoomIn = () => {
-      currentZoom += ZOOM_INTERVAL;
-      mainWindow.webContents.send('change-zoom', currentZoom);
-    };
+  if (!(isDevelopment && !isWebView)) {
+    createMenu({
+      isDevelopment,
+      isWebView,
+      appName: argv.name,
+      appId: argv.id,
+      mainWindow,
+      log,
+    });
+  }
 
-    const onZoomOut = () => {
-      currentZoom -= ZOOM_INTERVAL;
-      mainWindow.webContents.send('change-zoom', currentZoom);
-    };
+  checkForUpdate(mainWindow, log);
 
-    const onGoBack = () => {
-      mainWindow.webContents.goBack();
-    };
-
-    const onGoForward = () => {
-      mainWindow.webContents.goForward();
-    };
-
-    const clearBrowsingData = () => {
-      dialog.showMessageBox(mainWindow, {
-        type: 'warning',
-        buttons: ['Yes', 'Cancel'],
-        defaultId: 1,
-        title: 'Clear cache confirmation',
-        message: `This will clear all data (cookies, local storage etc) from ${argv.name}. Are you sure you wish to proceed?`,
-      }, (response) => {
-        if (response === 0) {
-          const session = mainWindow.webContents.session;
-          session.clearStorageData((err) => {
-            if (err) {
-              log(`Clearing browsing data err: ${err.message}`);
-              return;
-            }
-            log(`Browsing data of ${argv.id} cleared.`);
-            mainWindow.webContents.reload();
-          });
-        }
-      });
-    };
-
-    const getCurrentUrl = () => mainWindow.webContents.getURL();
-
-    const menuOptions = {
-      webView: argv.url,
-      appName: argv.name || 'WebCatalog',
-      appQuit: app.quit,
-      zoomIn: onZoomIn,
-      zoomOut: onZoomOut,
-      goBack: onGoBack,
-      goForward: onGoForward,
-      getCurrentUrl,
-      clearBrowsingData,
-    };
-
-    createMenu(menuOptions);
-
-    if (isWebView) {
-      const webViewDomain = extractDomain(argv.url);
-
-      const handleRedirect = (e, nextUrl) => {
-        log(`newWindow: ${nextUrl}`);
-        // open external url in browser if domain doesn't match.
-        const nextDomain = extractDomain(nextUrl);
-
-        // open new window
-        if (nextDomain === null) {
-          return;
-        }
-
-        // navigate
-        if (nextDomain && (nextDomain === webViewDomain || nextDomain === 'accounts.google.com')) {
-          // https://github.com/webcatalog/desktop/issues/35
-          e.preventDefault();
-          mainWindow.loadURL(nextUrl);
-          return;
-        }
-
-        // open in browser
-        e.preventDefault();
-        shell.openExternal(nextUrl);
-      };
-
-      // mainWindow.webContents.on('will-navigate', handleRedirect);
-      mainWindow.webContents.on('new-window', handleRedirect);
-
-      // remove Electron from useragent
-      // https://github.com/webcatalog/desktop/issues/28
-      const userAgent = mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, '');
-      mainWindow.webContents.setUserAgent(userAgent);
-
+  if (isWebView) {
+    settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`).then((swipeToNavigate) => {
       if (swipeToNavigate) {
         mainWindow.on('swipe', (e, direction) => {
-          if (direction === 'left' && mainWindow.webContents.canGoBack()) {
-            mainWindow.webContents.goBack();
-          } else if (direction === 'right' && mainWindow.webContents.canGoForward()) {
-            mainWindow.webContents.goForward();
+          if (direction === 'left') {
+            mainWindow.webContents.send('go-back');
+          } else if (direction === 'right') {
+            mainWindow.webContents.send('go-forward');
           }
         });
       }
-
-      if (rememberLastPage) {
-        const handleNavigate = (e, curUrl) => {
-          settings.set(`lastpages.${argv.id}`, curUrl);
-        };
-
-        mainWindow.webContents.on('did-navigate', handleNavigate);
-        mainWindow.webContents.on('did-navigate-in-page', handleNavigate);
-      }
-
-      settings.get(`lastpages.${argv.id}`)
-        .then((lastPage) => {
-          if (lastPage) mainWindow.loadURL(lastPage);
-          else mainWindow.loadURL(argv.url);
-        })
-        .catch(() => {
-          mainWindow.loadURL(argv.url);
-        });
-    } else {
-      const windowUrl = isWebView ? argv.url : url.format({
-        pathname: path.join(__dirname, 'www', 'index.html'),
-        protocol: 'file:',
-        slashes: true,
-      });
-
-      // and load the index.html of the app.
-      mainWindow.loadURL(windowUrl);
-    }
-
-    // Run autoUpdater in any windows
-    mainWindow.webContents.once('did-finish-load', () => {
-      setTimeout(() => {
-        // Auto updater
-        if (process.platform === 'win32') {
-          /* eslint-disable global-require */
-          const autoUpdater = require('electron-auto-updater').autoUpdater;
-          /* eslint-enable global-require */
-          autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
-            dialog.showMessageBox({
-              type: 'info',
-              buttons: ['Yes', 'Cancel'],
-              defaultId: 1,
-              title: 'A new update is ready to install',
-              message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
-            }, (response) => {
-              if (response === 0) {
-                autoUpdater.quitAndInstall();
-              }
-            });
-          });
-
-          autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
-          autoUpdater.on('checking-for-update', () => log('Checking for update'));
-          autoUpdater.on('update-available', () => log('Update available'));
-          autoUpdater.on('update-not-available', () => log('No update available'));
-
-          autoUpdater.checkForUpdates();
-        } else {
-          https.get('https://backend.getwebcatalog.com/latest.json', (res) => {
-            let body = '';
-            res.on('data', (chunk) => {
-              body += chunk;
-            });
-            res.on('end', () => {
-              const latestVersion = JSON.parse(body).version;
-              log(`Lastest version ${latestVersion}`);
-              if (semver.gt(latestVersion, app.getVersion())) {
-                dialog.showMessageBox(mainWindow, {
-                  type: 'info',
-                  buttons: ['Yes', 'Cancel'],
-                  defaultId: 1,
-                  title: 'A new update is ready to install',
-                  message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
-                }, (response) => {
-                  if (response === 0) {
-                    shell.openExternal('https://getwebcatalog.com');
-                  }
-                });
-              }
-            });
-          }).on('error', (err) => {
-            log(`Update checker: ${err.message}`);
-          });
-        }
-      }, 1000);
     });
-  });
+  }
 }
 
 // This method will be called when Electron has finished
@@ -358,6 +142,12 @@ app.on('window-all-closed', () => {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
+  } else if (isWebView) {
+    settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`).then((quitOnLastWindow) => {
+      if (quitOnLastWindow) {
+        app.quit();
+      }
+    });
   }
 });
 
