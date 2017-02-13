@@ -47,7 +47,7 @@ class Installed extends React.Component {
               <a onClick={() => shell.openExternal('https://www.algolia.com')}>
                 <img
                   src="images/Algolia_logo_bg-white.svg"
-                  role="presentation"
+                  alt="Algolia"
                   style={{ height: 32 }}
                 />
               </a>

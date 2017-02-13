@@ -23,6 +23,7 @@ const Card = ({
       <img
         src={`https://backend.getwebcatalog.com/images/${app.get('id')}@128px.webp`}
         role="presentation"
+        alt={app.get('name')}
         style={{
           height: 64,
           width: 64,
