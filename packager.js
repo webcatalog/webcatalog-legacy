@@ -36,47 +36,37 @@ builder.build({
   targets,
   config: {
     appId: 'com.webcatalog.app',
-    build: {
-      linux: {
-        category: 'public.app-category.utilities',
-      },
-      mac: {
-        category: 'public.app-category.utilities',
-      },
-      win: {
-        publish: ['github'],
-      },
-      files,
-      asar: true,
-      asarUnpack: ['plugins/**'],
-      afterPack: ({ appOutDir }) =>
-        new Promise((resolve, reject) => {
-          if (process.platform !== 'darwin') {
-            resolve();
+    category: 'public.app-category.utilities',
+    files,
+    asar: true,
+    asarUnpack: ['plugins/**'],
+    afterPack: ({ appOutDir }) =>
+      new Promise((resolve, reject) => {
+        if (process.platform !== 'darwin') {
+          resolve();
+          return;
+        }
+
+        // Use alternative exec to allow launching multiple instance of WebCatalog
+        const fakeExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
+        const realExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog_Real`;
+
+        execFile('./build/generate_alt_exec.sh', [
+          fakeExecPath,
+          realExecPath,
+        ], (err, stdout) => {
+          console.log(err);
+          console.log(stdout);
+
+          if (err) {
+            reject(err);
             return;
           }
 
-          // Use alternative exec to allow launching multiple instance of WebCatalog
-          const fakeExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
-          const realExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog_Real`;
-
-          execFile('./build/generate_alt_exec.sh', [
-            fakeExecPath,
-            realExecPath,
-          ], (err, stdout) => {
-            console.log(err);
-            console.log(stdout);
-
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            resolve();
-          });
-        })
-      ,
-    },
+          resolve();
+        });
+      })
+    ,
   },
 })
 .then(() => {
