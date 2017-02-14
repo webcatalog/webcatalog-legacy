@@ -37,20 +37,5 @@ install:
 build_script:
   - yarn run lint
   - yarn run dist
-  - ren "dist\WebCatalog Setup *.exe" "WebCatalog-Setup-*.exe"
 
 test: off
-
-artifacts:
-  - path: dist/*.exe
-    name: NSIS Installer
-  - path: dist/latest.yml
-    name: YML for Squirrel
-
-deploy:
-  provider: GitHub
-  artifact: /(.*\.)(exe|yml)/
-  auth_token:
-    secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o # your encrypted token from GitHub
-  on:
-    appveyor_repo_tag: true        # deploy on tag push only
