@@ -205,6 +205,7 @@ function createMenu({
         submenu: [
           {
             label: 'Settings...',
+            accelerator: process.platform === 'darwin' ? 'Cmd+,' : 'Ctrl+P',
             click: () => {
               mainWindow.webContents.send('toggle-setting-dialog');
             },
