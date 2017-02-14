@@ -1,3 +1,9 @@
+# 3.0.3
+- Adds shortcut key to launch Settings.
+- Removes trial mode.
+
+---
+
 # 3.0.2
 - Fixes bugs.
 
