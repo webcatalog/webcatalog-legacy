@@ -1,3 +1,8 @@
+# 3.0.3
+- Adds shortcut key to launch Settings.
+
+---
+
 # 3.0.2
 - Fixes bugs.
 
