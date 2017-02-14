@@ -34,9 +34,9 @@ const files = [];
 // Promise is returned
 builder.build({
   targets,
-  devMetadata: {
+  config: {
+    appId: 'com.webcatalog.app',
     build: {
-      appId: 'com.webcatalog.app',
       linux: {
         category: 'public.app-category.utilities',
       },

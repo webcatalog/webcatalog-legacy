@@ -8,6 +8,8 @@ os: Visual Studio 2015
 environment:
   nodejs_version: "6"
   BONJOUR_SDK_HOME: "C:\\Program Files\\Bonjour SDK"
+  GH_TOKEN:
+    secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o
 
 platform: x64
 
