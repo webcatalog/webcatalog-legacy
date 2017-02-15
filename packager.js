@@ -65,8 +65,8 @@ builder.build({
 
           resolve();
         });
-      })
-    ,
+      }),
+    publish: 'never',
   },
 })
 .then(() => {
