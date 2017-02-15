@@ -171,7 +171,7 @@ class App extends React.Component {
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
-            onPageTitleUpdated={(e, title) => {
+            onPageTitleUpdated={({ title }) => {
               const itemCountRegex = /[([{](\d*?)[}\])]/;
               const match = itemCountRegex.exec(title);
               if (match) {
