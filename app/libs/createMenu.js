@@ -5,8 +5,10 @@ const electron = require('electron');
 
 const { Menu, shell, app, dialog, session } = electron;
 
+const sendMessageToWindow = require('./sendMessageToWindow');
+
 function createMenu({
-  isDevelopment, isWebView, appName, appId, mainWindow, log,
+  isDevelopment, isWebView, appName, appId, log,
 }) {
   let template;
   if (isWebView) {
@@ -21,28 +23,28 @@ function createMenu({
             label: 'Home',
             accelerator: 'Alt+H',
             click: () => {
-              mainWindow.webContents.send('go-home');
+              sendMessageToWindow('go-home');
             },
           },
           {
             label: 'Back',
             accelerator: 'CmdOrCtrl+[',
             click: () => {
-              mainWindow.webContents.send('go-back');
+              sendMessageToWindow('go-back');
             },
           },
           {
             label: 'Forward',
             accelerator: 'CmdOrCtrl+]',
             click: () => {
-              mainWindow.webContents.send('go-forward');
+              sendMessageToWindow('go-forward');
             },
           },
           {
             label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
             click: () => {
-              mainWindow.webContents.send('reload');
+              sendMessageToWindow('reload');
             },
           },
         ],
@@ -77,7 +79,7 @@ function createMenu({
             label: 'Copy Current URL',
             accelerator: 'CmdOrCtrl+L',
             click: () => {
-              mainWindow.webContents.send('copy-url');
+              sendMessageToWindow('copy-url');
             },
           },
           {
@@ -97,7 +99,7 @@ function createMenu({
             label: 'Find in page...',
             accelerator: 'CmdOrCtrl+F',
             click: () => {
-              mainWindow.webContents.send('toggle-find-in-page-dialog');
+              sendMessageToWindow('toggle-find-in-page-dialog');
             },
           },
         ],
@@ -109,21 +111,21 @@ function createMenu({
             label: 'Back',
             accelerator: 'CmdOrCtrl+[',
             click: () => {
-              mainWindow.webContents.send('go-back');
+              sendMessageToWindow('go-back');
             },
           },
           {
             label: 'Forward',
             accelerator: 'CmdOrCtrl+]',
             click: () => {
-              mainWindow.webContents.send('go-forward');
+              sendMessageToWindow('go-forward');
             },
           },
           {
             label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
             click: () => {
-              mainWindow.webContents.send('reload');
+              sendMessageToWindow('reload');
             },
           },
           {
@@ -153,7 +155,7 @@ function createMenu({
             })(),
             click: () => {
               currentZoom += ZOOM_INTERVAL;
-              mainWindow.webContents.send('change-zoom', currentZoom);
+              sendMessageToWindow('change-zoom', currentZoom);
             },
           },
           {
@@ -166,7 +168,7 @@ function createMenu({
             })(),
             click: () => {
               currentZoom -= ZOOM_INTERVAL;
-              mainWindow.webContents.send('change-zoom', currentZoom);
+              sendMessageToWindow('change-zoom', currentZoom);
             },
           },
           {
@@ -178,7 +180,7 @@ function createMenu({
               return 'Ctrl+Shift+I';
             })(),
             click: () => {
-              mainWindow.webContents.send('toggle-dev-tools');
+              sendMessageToWindow('toggle-dev-tools');
             },
           },
         ],
@@ -207,7 +209,7 @@ function createMenu({
             label: 'Settings...',
             accelerator: process.platform === 'darwin' ? 'Cmd+,' : 'Ctrl+P',
             click: () => {
-              mainWindow.webContents.send('toggle-setting-dialog');
+              sendMessageToWindow('toggle-setting-dialog');
             },
           },
           {
@@ -216,7 +218,7 @@ function createMenu({
           {
             label: 'Clear browsing data...',
             click: () => {
-              dialog.showMessageBox(mainWindow, {
+              dialog.showMessageBox({
                 type: 'warning',
                 buttons: ['Yes', 'Cancel'],
                 defaultId: 1,
@@ -231,7 +233,7 @@ function createMenu({
                       return;
                     }
                     log(`Browsing data of ${appId} cleared.`);
-                    mainWindow.webContents.send('reload');
+                    sendMessageToWindow('reload');
                   });
                 }
               });
