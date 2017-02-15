@@ -20,20 +20,10 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       flexBasis: 50,
+      paddingLeft: (os.platform() === 'darwin') ? 80 : null,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
-      {(os.platform() === 'darwin') ? (
-        <div
-          className="pt-navbar-heading"
-          style={{
-            WebkitUserSelect: 'none',
-            WebkitAppRegion: 'drag',
-          }}
-        >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-      ) : null}
       <div className="pt-input-group" style={{ width: '100%', maxWidth: 300 }}>
         <span className="pt-icon pt-icon-search" />
         <input
