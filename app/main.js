@@ -107,7 +107,7 @@ function createWindow() {
     createMenu({
       isDevelopment,
       isWebView,
-      appName: argv.name,
+      appName: isWebView ? argv.name : 'WebCatalog',
       appId: argv.id,
       mainWindow,
       log,
