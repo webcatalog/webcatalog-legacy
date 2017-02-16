@@ -16,7 +16,7 @@ const appPageTargetPath = `${targetPath}/apps/page`;
 const numberOfAppInChunk = 24;
 
 // released version
-const latestVersion = '2.8.3';
+const latestVersion = '3.0.6';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
