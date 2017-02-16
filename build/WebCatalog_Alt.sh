@@ -2,4 +2,4 @@
 
 cd "${0%/*}"
 
-./WebCatalog_Real $1 $2 $3
+./WebCatalog_Real "$@"

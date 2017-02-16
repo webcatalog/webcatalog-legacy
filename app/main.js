@@ -2,7 +2,7 @@
 
 const electron = require('electron');
 
-const argv = require('optimist').argv;
+const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
@@ -109,7 +109,7 @@ function createWindow() {
     createMenu({
       isDevelopment,
       isWebView,
-      appName: isWebView ? argv.name : 'WebCatalog',
+      appName: argv.name || 'WebCatalog',
       appId: argv.id,
       log,
     });
