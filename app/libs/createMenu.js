@@ -186,22 +186,6 @@ function createMenu({
         ],
       },
       {
-        label: 'Window',
-        role: 'window',
-        submenu: [
-          {
-            label: 'Minimize',
-            accelerator: 'CmdOrCtrl+M',
-            role: 'minimize',
-          },
-          {
-            label: 'Close',
-            accelerator: 'CmdOrCtrl+W',
-            role: 'close',
-          },
-        ],
-      },
-      {
         label: 'Tools',
         role: 'tools',
         submenu: [
@@ -241,24 +225,6 @@ function createMenu({
           },
         ],
       },
-      {
-        label: 'Help',
-        role: 'help',
-        submenu: [
-          {
-            label: 'Website',
-            click: () => {
-              shell.openExternal('https://getwebcatalog.com');
-            },
-          },
-          {
-            label: 'Report an Issue',
-            click: () => {
-              shell.openExternal('https://github.com/webCatalog/desktop/issues');
-            },
-          },
-        ],
-      },
     ];
 
     if (isDevelopment) {
@@ -281,62 +247,6 @@ function createMenu({
               focusedWindow.toggleDevTools();
             }
           },
-        /* eslint-disable comma-dangle */
-        }
-        /* eslint-enable comma-dangle */
-      );
-    }
-
-    if (process.platform === 'darwin') {
-      template.unshift({
-        label: appName,
-        submenu: [
-          {
-            label: `About ${appName}`,
-            role: 'about',
-          },
-          {
-            label: 'Services',
-            role: 'services',
-            submenu: [],
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'Hide App',
-            accelerator: 'Command+H',
-            role: 'hide',
-          },
-          {
-            label: 'Hide Others',
-            accelerator: 'Command+Shift+H',
-            role: 'hideothers',
-          },
-          {
-            label: 'Show All',
-            role: 'unhide',
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'Quit',
-            accelerator: 'Command+Q',
-            click: () => {
-              app.quit();
-            },
-          },
-        ],
-      });
-      template[3].submenu.push(
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Bring All to Front',
-          role: 'front',
-        // Need babel.js
         /* eslint-disable comma-dangle */
         }
         /* eslint-enable comma-dangle */
@@ -415,97 +325,89 @@ function createMenu({
           },
         ],
       },
-      {
-        label: 'Window',
-        role: 'window',
-        submenu: [
-          {
-            label: 'Minimize',
-            accelerator: 'CmdOrCtrl+M',
-            role: 'minimize',
-          },
-          {
-            label: 'Close',
-            accelerator: 'CmdOrCtrl+W',
-            role: 'close',
-          },
-        ],
-      },
-      {
-        label: 'Help',
-        role: 'help',
-        submenu: [
-          {
-            label: 'Website',
-            click: () => {
-              shell.openExternal('https://getwebcatalog.com');
-            },
-          },
-          {
-            label: 'Support',
-            click: () => {
-              shell.openExternal('https://getwebcatalog.com/support');
-            },
-          },
-        ],
-      },
     ];
+  }
 
-    if (process.platform === 'darwin') {
-      template.unshift({
-        label: 'WebCatalog',
-        submenu: [
-          {
-            label: `About ${appName}`,
-            role: 'about',
-          },
-          {
-            label: 'Services',
-            role: 'services',
-            submenu: [],
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'Hide App',
-            accelerator: 'Command+H',
-            role: 'hide',
-          },
-          {
-            label: 'Hide Others',
-            accelerator: 'Command+Shift+H',
-            role: 'hideothers',
-          },
-          {
-            label: 'Show All',
-            role: 'unhide',
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'Quit',
-            accelerator: 'Command+Q',
-            click: () => {
-              app.quit();
-            },
-          },
-        ],
-      });
-      template[3].submenu.push(
+  template.push({
+    role: 'window',
+    submenu: [
+      {
+        accelerator: 'CmdOrCtrl+M',
+        role: 'minimize',
+      },
+      {
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close',
+      },
+    ],
+  });
+
+  template.push({
+    role: 'help',
+    submenu: [
+      {
+        label: 'Website',
+        click: () => {
+          shell.openExternal('https://getwebcatalog.com');
+        },
+      },
+      {
+        label: 'Support',
+        click: () => {
+          shell.openExternal('https://getwebcatalog.com/support');
+        },
+      },
+    ],
+  });
+
+  if (process.platform === 'darwin') {
+    template.unshift({
+      submenu: [
+        {
+          role: 'about',
+        },
+        {
+          role: 'services',
+          submenu: [],
+        },
         {
           type: 'separator',
         },
         {
-          label: 'Bring All to Front',
-          role: 'front',
-        // Need babel.js
-        /* eslint-disable comma-dangle */
-        }
-        /* eslint-enable comma-dangle */
-      );
-    }
+          label: `Hide ${appName}`,
+          accelerator: 'Command+H',
+          role: 'hide',
+        },
+        {
+          accelerator: 'Command+Shift+H',
+          role: 'hideothers',
+        },
+        {
+          role: 'unhide',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: () => {
+            app.quit();
+          },
+        },
+      ],
+    });
+    template[3].submenu.push(
+      {
+        type: 'separator',
+      },
+      {
+        role: 'front',
+      // Need babel.js
+      /* eslint-disable comma-dangle */
+      }
+      /* eslint-enable comma-dangle */
+    );
   }
 
   const menu = Menu.buildFromTemplate(template);
