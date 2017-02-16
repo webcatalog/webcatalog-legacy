@@ -1,3 +1,9 @@
+# 3.0.6
+- Fixes bugs.
+
+---
+
+
 # 3.0.5
 - Fixes bugs.
 
