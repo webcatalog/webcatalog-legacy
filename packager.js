@@ -34,7 +34,7 @@ const files = [];
 // Promise is returned
 builder.build({
   targets,
-  publish: process.platform === 'win32' ? 'onTag' : 'never',
+  publish: 'onTag',
   config: {
     appId: 'com.webcatalog.app',
     category: 'public.app-category.utilities',
