@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 const builder = require('electron-builder');
-const execFile = require('child_process').execFile;
+const exec = require('child_process').exec;
 
 const { Platform, Arch } = builder;
 
@@ -49,16 +49,12 @@ builder.build({
         }
 
         // Use alternative exec to allow launching multiple instance of WebCatalog
-        const fakeExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
-        const realExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog_Real`;
+        // https://github.com/webcatalog/desktop/issues/10
+        const execPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
+        const altExecPath = `${appOutDir}/WebCatalog.app/Contents/Resources/WebCatalog_Alt`;
 
-        execFile('./build/generate_alt_exec.sh', [
-          fakeExecPath,
-          realExecPath,
-        ], (err, stdout) => {
-          console.log(err);
+        exec(`cp ${execPath} ${altExecPath}`, (err, stdout) => {
           console.log(stdout);
-
           if (err) {
             reject(err);
             return;
