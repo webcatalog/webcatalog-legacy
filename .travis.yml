@@ -2,14 +2,14 @@ language: node_js
 matrix:
   fast_finish: true
   include:
-    - os: osx
-      env:
-        secure: "o6TgAYfpX/6MipvfdseADka+Ak825TIJProRpFO7GW/qdDmQjyRyixB+RVETVt1+0KaEANuaihyGMwQaLyLHDua3rcZ0DvLdrA8DsP06vVqrhl3k2r77OusonNiW40+k1kvjlGydguRR8Ip+fWPiakFN02P5J/Nv0hrmLvXGfYY+EMBdiHGvtyfb1e7rv8GIydYp02j4abqlm0DRRHVh+X4dTzZSSvCBYQukk3xF6nahTJjZv9vMwwVgMR7+Ap9qLLnZ1qrnsmB6mdn5aBoJnBq3xdLIkyvheHAgzj7eVXYTJFCTRn1VqAvVuOnC2jpH0rnwNkkkIFmRe/g+feJBukAycsAiNLiyOT8rdbzOUl6JRgje05ZPEVbITA7c4iN76qOMOQFCtWhD+STjq/T40rvzLAvWDuIdHtwIEgC3/yFs+qUy6c5acbQj+SPWMI3CkHXic4S0XCBUgVz4I4mDPr5Tc53mgx2Mbws4OGe43kuSO24nP6JTHgG/bfxA5GuGq4YIxeT0aeHa1tdUB9FC04IB0VShcVujtYz2vfrLCcqmGNnlEQTLRTcNi9kAycVVZlLmO/zeWfUTkV+iOVrje2rGnGitTBWaR+/X8I/K0tqpLwocRM4EpGOSceoJg3fjhhu+8QCmYSu/20MjDRgcrr1HbGKsRkHXi7PIR8XtHjY="
-      node_js: 6
-    - os: linux
-      env: CC=clang CXX=clang++ npm_config_clang=1
-      compiler: clang
-      node_js: 6
+  - os: osx
+    env:
+      secure: o6TgAYfpX/6MipvfdseADka+Ak825TIJProRpFO7GW/qdDmQjyRyixB+RVETVt1+0KaEANuaihyGMwQaLyLHDua3rcZ0DvLdrA8DsP06vVqrhl3k2r77OusonNiW40+k1kvjlGydguRR8Ip+fWPiakFN02P5J/Nv0hrmLvXGfYY+EMBdiHGvtyfb1e7rv8GIydYp02j4abqlm0DRRHVh+X4dTzZSSvCBYQukk3xF6nahTJjZv9vMwwVgMR7+Ap9qLLnZ1qrnsmB6mdn5aBoJnBq3xdLIkyvheHAgzj7eVXYTJFCTRn1VqAvVuOnC2jpH0rnwNkkkIFmRe/g+feJBukAycsAiNLiyOT8rdbzOUl6JRgje05ZPEVbITA7c4iN76qOMOQFCtWhD+STjq/T40rvzLAvWDuIdHtwIEgC3/yFs+qUy6c5acbQj+SPWMI3CkHXic4S0XCBUgVz4I4mDPr5Tc53mgx2Mbws4OGe43kuSO24nP6JTHgG/bfxA5GuGq4YIxeT0aeHa1tdUB9FC04IB0VShcVujtYz2vfrLCcqmGNnlEQTLRTcNi9kAycVVZlLmO/zeWfUTkV+iOVrje2rGnGitTBWaR+/X8I/K0tqpLwocRM4EpGOSceoJg3fjhhu+8QCmYSu/20MjDRgcrr1HbGKsRkHXi7PIR8XtHjY=
+    node_js: 6
+  - os: linux
+    env: CC=clang CXX=clang++ npm_config_clang=1
+    compiler: clang
+    node_js: 6
 cache:
   yarn: true
   directories:
@@ -17,9 +17,9 @@ cache:
 addons:
   apt:
     packages:
-      - rpm
-      - bsdtar
-      - libavahi-compat-libdnssd-dev
+    - rpm
+    - bsdtar
+    - libavahi-compat-libdnssd-dev
 script:
 - yarn run lint
 - yarn run dist
@@ -27,7 +27,7 @@ script:
 deploy:
   provider: releases
   api_key:
-    secure: "o6TgAYfpX/6MipvfdseADka+Ak825TIJProRpFO7GW/qdDmQjyRyixB+RVETVt1+0KaEANuaihyGMwQaLyLHDua3rcZ0DvLdrA8DsP06vVqrhl3k2r77OusonNiW40+k1kvjlGydguRR8Ip+fWPiakFN02P5J/Nv0hrmLvXGfYY+EMBdiHGvtyfb1e7rv8GIydYp02j4abqlm0DRRHVh+X4dTzZSSvCBYQukk3xF6nahTJjZv9vMwwVgMR7+Ap9qLLnZ1qrnsmB6mdn5aBoJnBq3xdLIkyvheHAgzj7eVXYTJFCTRn1VqAvVuOnC2jpH0rnwNkkkIFmRe/g+feJBukAycsAiNLiyOT8rdbzOUl6JRgje05ZPEVbITA7c4iN76qOMOQFCtWhD+STjq/T40rvzLAvWDuIdHtwIEgC3/yFs+qUy6c5acbQj+SPWMI3CkHXic4S0XCBUgVz4I4mDPr5Tc53mgx2Mbws4OGe43kuSO24nP6JTHgG/bfxA5GuGq4YIxeT0aeHa1tdUB9FC04IB0VShcVujtYz2vfrLCcqmGNnlEQTLRTcNi9kAycVVZlLmO/zeWfUTkV+iOVrje2rGnGitTBWaR+/X8I/K0tqpLwocRM4EpGOSceoJg3fjhhu+8QCmYSu/20MjDRgcrr1HbGKsRkHXi7PIR8XtHjY="
+    secure: BmNIBVmZ0qdxouJ7hSfqBU6Z+K1C5mZezri1YWYjcVSXi4BmnTcfcBWyWYTqpdHBst+UFnOlflEmeSC2JwYq27MYYy32cXkKSYAXWwspUB7+NnaEfOmgHRxa/PbSkEy9OCJS5snAF+jxq+7lDI7oOkjIgN85AG7u1eKzPG23Aed9Mieq+lqkEOamTsqmTST3M8/iCUZZHxhZjGd3CCo+jJUSVW/iGiifmKrxcJDbI8KbIn7LElLAIHHS22qTKtlVoXplx5rwFdHTjd3NAh+TofTdFx2sJv/2vWMnulwI3lz+aknEv0mTtORzLUEKIPgsi/xtyK/wgy74KAIpweOOTFROQIa/v7SPUIJiw2kPI5hwDtmNly/bCeBwCpd0UgyJYzIcXySfpbiEXsrxoFV8mfHwecvSFhlGZQwJpUcbw4bUJSipKnoAttrKYNyewXqil66bbRe8okoc415N+Ra7YYNfBQ0iiAPo1iyx4U3YDdTdjzokW25HL5yOvsPdeO7Yi2HfdNjvx9sCIVYvtNDbGO/tB1RAJmiNfqdZbTDPiGIz3z+FjLP0oPGSQYStbWcLl+1ATg+6fNnjj1paCIPuMZTnQYEBXrbjJciREWH8JOlUlO5wQsgUx5C6Hl9bbWZ4i9+ZUwsYyJBP5DjTy/SXETF5RVuypKT9fhnqmVPK22Q=
   skip_cleanup: true
   file_glob: true
   file:
@@ -37,4 +37,4 @@ deploy:
   on:
     tags: true
 after_deploy:
-  - ./publish-website.sh
+- "./publish-website.sh"
