@@ -1,40 +1,46 @@
-# 3.1.0
+# 3.1.1
+- Fixes bugs.
+
+---
+
+
+# 3.1.0 (beta)
 - Adds Auto Updater (macOS).
 
 ---
 
-# 3.0.6
+# 3.0.6 (beta)
 - Fixes bugs.
 
 ---
 
-# 3.0.5
+# 3.0.5 (beta)
 - Fixes bugs.
 
 ---
 
-# 3.0.4
+# 3.0.4 (beta)
 - Fixes bugs.
 
 ---
 
-# 3.0.3
+# 3.0.3 (beta)
 - Adds shortcut key to launch Settings.
 - Removes trial mode.
 
 ---
 
-# 3.0.2
+# 3.0.2 (beta)
 - Fixes bugs.
 
 ---
 
-# 3.0.1
+# 3.0.1 (beta)
 - Fixes bugs.
 
 ---
 
-# 3.0.0
+# 3.0.0 (beta)
 - Adds Find in Page.
 - Adds Navigation bar.
 - Adds Per-app settings.
