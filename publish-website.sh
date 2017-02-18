@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+if [ "$TRAVIS_OS_NAME" == 'osx' -a "$TRAVIS_BRANCH" = "master" -a -n "TRAVIS_TAG" ]; then
+  echo "Publishing Website"
   export WEBCATALOG_VERSION=$(node -e "console.log(require('./app/package.json').version);")
   yarn global add harp surge
   cd website
