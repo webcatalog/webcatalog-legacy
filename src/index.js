@@ -16,7 +16,8 @@ const appPageTargetPath = `${targetPath}/apps/page`;
 const numberOfAppInChunk = 24;
 
 // released version
-const latestVersion = '3.0.6';
+// do not need to change, auto updater is now handled using electron-builder + GitHub Release
+const latestVersion = '3.1.1';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
