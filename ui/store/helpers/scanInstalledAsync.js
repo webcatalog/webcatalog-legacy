@@ -20,6 +20,36 @@ const scanInstalledAsync = allAppPath =>
             if (fileName === '.DS_Store') return;
             const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
             installedIds.push(id);
+
+            // update app
+            const appName = fileName.replace('.app', '');
+            const appExecPath = `${allAppPath}/${fileName}/Contents/MacOS/${appName}`;
+            fs.readFile(appExecPath, 'utf-8', (readFileErr, script) => {
+              if (readFileErr) {
+                /* eslint-disable no-console */
+                console.log(readFileErr);
+                /* eslint-enable no-console */
+                return;
+              }
+
+              const oldPath = '/Applications/WebCatalog.app/Contents/MacOS/WebCatalog';
+              const newPath = '/Applications/WebCatalog.app/Contents/Resources/WebCatalog_Alt';
+
+              if (script.indexOf(`${oldPath} `) > -1) {
+                const newScript = script.replace(
+                  `${oldPath} `,
+                  `${newPath} `,
+                );
+
+                fs.writeFile(appExecPath, newScript, 'utf-8', (writeFileErr) => {
+                  if (writeFileErr) {
+                    /* eslint-disable no-console */
+                    console.log(writeFileErr);
+                    /* eslint-enable no-console */
+                  }
+                });
+              }
+            });
           });
           resolve(installedIds);
         });

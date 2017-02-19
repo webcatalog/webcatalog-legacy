@@ -9,7 +9,7 @@ const checkForUpdate = (mainWindow, log) => {
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {
       // Auto updater
-      if (process.platform === 'win32') {
+      if (process.platform !== 'linux') {
         /* eslint-disable global-require */
         const autoUpdater = require('electron-auto-updater').autoUpdater;
         /* eslint-enable global-require */

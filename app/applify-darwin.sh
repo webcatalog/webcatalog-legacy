@@ -16,7 +16,7 @@ mkdir -vp "${DIR}"/{MacOS,Resources}
 
 cat <<EOF > "${SCRIPT}"
 #!/usr/bin/env bash
-/Applications/WebCatalog.app/Contents/MacOS/WebCatalog --name="$APPNAME" --url="$APPURL" --id="$APPID"
+/Applications/WebCatalog.app/Contents/Resources/WebCatalog_Alt --name="$APPNAME" --url="$APPURL" --id="$APPID"
 EOF
 chmod +x "${SCRIPT}"
 
