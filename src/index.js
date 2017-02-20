@@ -166,8 +166,9 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
 }
 
 
-// create 404
+// create 404 & CNAME
 fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
+fs.createReadStream('./src/CNAME').pipe(fs.createWriteStream('./www/CNAME'));
 
 // create simple catalog index.html
 const ejsTemplate = fs.readFileSync('./src/index.ejs', 'utf8');
