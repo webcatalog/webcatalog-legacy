@@ -160,6 +160,7 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
   index.addObjects(algoliaApps, (err) => {
     if (err) {
       console.error(err);
+      process.exit(1);
     }
   });
 }
