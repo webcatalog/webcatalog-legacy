@@ -5,3 +5,5 @@ $toggle.onclick = function() {
   $toggle.classList.toggle('is-active');
   $menu.classList.toggle('is-active');
 };
+
+smoothScroll.init();

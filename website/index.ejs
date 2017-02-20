@@ -33,7 +33,7 @@
           <p>Version <%= webcatalogVersion %>. Any 64-bit Linux distros. </p>
 
           <p class="title is-4" style="margin-top: 30px">
-            <a href="#features">
+            <a data-scroll href="#intro">
               learn more <i class="fa fa-angle-down"></i>
             </a>
           </p>
@@ -48,10 +48,20 @@
   </div>
 </section>
 
+<section class="hero" id="intro">
+  <div class="hero-body">
+    <div class="container">
+      <h3 class="title is-3 has-text-centered">What is WebCatalog?</h3>
+      <p class="title is-5">WebCatalog is an open source desktop app which allows you to install and run your favorite web apps <i>natively</i>. Similar to the app stores on your smartphones and tablets, you can just open WebCatalog, install an app you like and start using it immediately. Those apps will stay on your Dock or Taskbar, notify you when you receive a new message or a call and <a data-scroll href="#features">more</a>;  or in short, improve your productivity significantly.</p>
+      <p class="title is-5">It offers similar functionalities with <a href="http://fluidapp.com/" target="_blank" rel="noopener noreferrer">Fluid</a> and <a href="https://github.com/jiahaog/nativefier" target="_blank" rel="noopener noreferrer">Nativefier</a>, but it is better and easier to use. Don't trust me? Check the <a data-scroll href="#comparison">Comparison table.</a></p>
+    </div>
+  </div>
+</section>
+
 <section class="hero is-dark" id="features">
   <div class="hero-body">
     <div class="container has-text-centered">
-      <h3 class="title is-3">Why should you install apps from WebCatalog?</h3>
+      <h3 class="title is-3">Features</h3>
       <div class="columns">
         <div class="column">
           <figure class="image is-screenshot" style="padding-top: 0;">
@@ -78,7 +88,7 @@
 </section>
 
 
-<section class="section" style="overflow-x: auto;">
+<section class="section" style="overflow-x: auto;" id="comparison">
   <div class="container">
     <div class="content has-text-centered">
       <h2>Comparison</h2>
@@ -137,14 +147,14 @@
           <tr>
             <td>App size</td>
             <td>
-              ~150kB
+              0.15 MB
             </td>
             <td>
-              ~8000kB
+              8 MB
               (~60x heavier)
             </td>
             <td>
-              ~110000kB
+              110 MB
               (800x heavier)
             </td>
           </tr>
@@ -218,6 +228,45 @@
             <a href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.pacman" target="_blank" rel="noopener noreferrer">Pacman</a>.
           </p>
           <p>Version <%= webcatalogVersion %>. Any 64-bit Linux distros. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" class="hero is-success">
+  <div class="hero-body">
+    <div class="container">
+      <div id="mc_embed_signup" class="columns is-vcentered">
+        <div class="column is-one-third is-left">
+          <p class="title">WebCatalog <strong>Newsletter</strong></p>
+          <p class="subtitle">Get notified about new features!</p>
+        </div>
+
+        <div class="column">
+          <form action="https://getwebcatalog.us12.list-manage.com/subscribe/post?u=fd8f4ae47cc6394f5a3b0dbb5&amp;id=5701b80e55" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+            <div id="mc_embed_signup_scroll">
+              <div class="control is-grouped">
+                <div class="control has-icon is-expanded">
+                  <input type="email" value="" name="EMAIL" class="input is-flat required email" id="mce-EMAIL" placeholder="email address" required="" aria-required="true">
+                  <span class="icon is-small">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+                <div class="control">
+                  <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button is-white is-outlined">
+                </div>
+              </div>
+              <div id="mce-responses">
+                <div class="notification is-danger response" id="mce-error-response" style="display:none"></div>
+                <div class="notification is-success response" id="mce-success-response" style="display:none"></div>
+              </div>
+              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <input type="text" name="b_b43b93fe633f0560b2a72a69c_52585e8803" tabindex="-1" value="">
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
