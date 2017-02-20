@@ -2,6 +2,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const algoliasearch = require('algoliasearch');
 const mkdirp = require('mkdirp');
+const ejs = require('ejs');
 
 const convertToIcns = require('./convertToIcns');
 const convertToIco = require('./convertToIco');
@@ -166,3 +167,7 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
 
 // create 404
 fs.createReadStream('./src/404.html').pipe(fs.createWriteStream('./www/404.html'));
+
+// create simple catalog index.html
+const ejsTemplate = fs.readFileSync('./src/index.ejs', 'utf8');
+fs.writeFileSync('./www/index.html', ejs.render(ejsTemplate, { apps }));
