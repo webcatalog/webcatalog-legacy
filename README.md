@@ -2,6 +2,7 @@
 [![Travis Build Status](https://travis-ci.org/webcatalog/desktop.svg?branch=master)](https://travis-ci.org/webcatalog/desktop)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/desktop?branch=windows&svg=true)](https://ci.appveyor.com/project/webcatalog/desktop/branch/master)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/desktop/blob/master/LICENSE)
+[![Donate with Paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD)
 
 #### Homepage: https://getwebcatalog.com
 
