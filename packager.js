@@ -41,6 +41,9 @@ builder.build({
     files,
     asar: true,
     asarUnpack: ['plugins/**'],
+    mac: {
+      extendInfo: './build/Info.plist',
+    },
     afterPack: ({ appOutDir }) =>
       new Promise((resolve, reject) => {
         if (process.platform !== 'darwin') {
