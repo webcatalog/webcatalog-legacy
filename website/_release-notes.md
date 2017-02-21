@@ -1,3 +1,10 @@
+# 3.2.0
+- Adds Donate button.
+- Allows OpenGL application to utilize the integrated GPU.
+- Improves About window.
+
+---
+
 # 3.1.1
 - Fixes bugs.
 
