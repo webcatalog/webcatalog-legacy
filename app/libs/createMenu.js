@@ -2,10 +2,28 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const electron = require('electron');
+const openAboutWindow = require('about-window').default;
+const join = require('path').join;
+
 
 const { Menu, shell, app, dialog, session } = electron;
 
 const sendMessageToWindow = require('./sendMessageToWindow');
+
+const showAboutWindow = () =>
+  openAboutWindow({
+    icon_path: join(__dirname, '..', 'www', 'images', 'icon.1024x1024.png'),
+    copyright: `Copyright © 2016 - ${new Date().getFullYear()} Quang Lam`,
+    win_options: {
+      minWidth: 400,
+      minHeight: 400,
+      maxWidth: 400,
+      maxHeight: 400,
+      minimizable: false,
+      maximizable: false,
+      fullscreenable: false,
+    },
+  });
 
 function createMenu({
   isDevelopment, isWebView, appName, appId, log,
@@ -342,7 +360,7 @@ function createMenu({
     ],
   });
 
-  template.push({
+  const helpMenu = {
     role: 'help',
     submenu: [
       {
@@ -364,13 +382,23 @@ function createMenu({
         },
       },
     ],
-  });
+  };
+
+  if (process.platform !== 'darwin') {
+    helpMenu.submenu.push({
+      label: 'About WebCatalog',
+      click: () => showAboutWindow(),
+    });
+  }
+
+  template.push(helpMenu);
 
   if (process.platform === 'darwin') {
     template.unshift({
       submenu: [
         {
-          role: 'about',
+          label: 'About WebCatalog',
+          click: () => showAboutWindow(),
         },
         {
           role: 'services',
