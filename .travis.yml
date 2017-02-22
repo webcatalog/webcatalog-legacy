@@ -22,7 +22,7 @@ addons:
     - libavahi-compat-libdnssd-dev
 script:
 - yarn run lint
-- yarn run dist
+- DEBUG=electron-builder yarn run dist
 - ls dist
 deploy:
   provider: releases

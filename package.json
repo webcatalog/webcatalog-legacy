@@ -13,7 +13,7 @@
     "compile": "cross-env NODE_ENV=production webpack -p",
     "package": "node ./packager.js",
     "lint": "eslint ./ui --ext .js --cache",
-    "dist": "cross-env DEBUG=electron-builder yarn run compile && yarn run package"
+    "dist": "yarn run compile && yarn run package"
   },
   "repository": "https://github.com/webcatalog/desktop",
   "author": {
