@@ -36,6 +36,6 @@ install:
 
 build_script:
   - yarn run lint
-  - set DEBUG=electron-builder&&yarn run dist
+  - yarn run dist
 
 test: off
