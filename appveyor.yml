@@ -9,7 +9,7 @@ environment:
   nodejs_version: "6"
   BONJOUR_SDK_HOME: "C:\\Program Files\\Bonjour SDK"
   GH_TOKEN:
-    secure: TOPUgyRafIA8Q304QB7iwALoHPE445Ni8JjR5TOVrEoxInGSzF164y9Vp8+o82/o # your encrypted token from GitHub
+    secure: 6mE0K0NLBpBsasGH49vKu7E1p2uYwqKcFdbwKv9uEW7FwmVlml+PH8kmVT9OSAUM # your encrypted token from GitHub
 
 platform: x64
 
