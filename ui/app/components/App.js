@@ -20,6 +20,7 @@ class App extends React.Component {
     super();
     this.handleNewWindow = this.handleNewWindow.bind(this);
     this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
+    this.handleDidGetRedirectRequest = this.handleDidGetRedirectRequest.bind(this);
   }
 
   componentDidMount() {
@@ -79,6 +80,16 @@ class App extends React.Component {
     // Restart search if text is available
     if (findInPageIsOpen && findInPageText.length > 0) {
       c.findInPage(findInPageText, { forward: true });
+    }
+  }
+
+  handleDidGetRedirectRequest(e) {
+    const c = this.c;
+    const { newURL, isMainFrame } = e;
+    // https://github.com/webcatalog/desktop/issues/42
+    if (isMainFrame) {
+      setTimeout(() => c.loadURL(newURL), 100);
+      e.preventDefault();
     }
   }
 
@@ -165,6 +176,7 @@ class App extends React.Component {
             preload="./preload.js"
             useragent={argv.userAgent}
             partition={`persist:${argv.id}`}
+            onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
             onNewWindow={this.handleNewWindow}
             onDidStartLoading={() => requestUpdateLoading(true)}
             onDidStopLoading={this.handleDidStopLoading}
