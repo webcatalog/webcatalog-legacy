@@ -1,5 +1,6 @@
 # 3.2.1 (beta)
 - Adds ability for apps installed from WebCatalog to open URLs.
+- Allows OpenGL applications to utilize the integrated GPU.
 
 ---
 
