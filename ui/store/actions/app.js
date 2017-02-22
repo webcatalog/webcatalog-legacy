@@ -95,7 +95,7 @@ export const installApp = app => (dispatch) => {
       switch (os.platform()) {
         case 'darwin':
         case 'linux': {
-          execFile(`${remote.app.getAppPath()}/applify-${os.platform()}.sh`, [
+          execFile(`${remote.app.getAppPath()}/scripts/applify-${os.platform()}.sh`, [
             app.get('name'),
             app.get('url'),
             iconPath,

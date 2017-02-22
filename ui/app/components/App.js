@@ -67,6 +67,10 @@ class App extends React.Component {
       c.loadURL(argv.url);
     });
 
+    ipcRenderer.on('go-to-url', (e, url) => {
+      c.loadURL(url);
+    });
+
     ipcRenderer.on('copy-url', () => {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);

@@ -1,4 +1,4 @@
-/* global fs WindowsShortcuts https os */
+/* global fs WindowsShortcuts https os execFile remote */
 
 const scanInstalledAsync = allAppPath =>
   new Promise((resolve, reject) => {
@@ -18,38 +18,53 @@ const scanInstalledAsync = allAppPath =>
 
           files.forEach((fileName) => {
             if (fileName === '.DS_Store') return;
-            const id = fs.readFileSync(`${allAppPath}/${fileName}/id`, 'utf8').trim();
-            installedIds.push(id);
 
-            // update app
-            const appName = fileName.replace('.app', '');
-            const appExecPath = `${allAppPath}/${fileName}/Contents/MacOS/${appName}`;
-            fs.readFile(appExecPath, 'utf-8', (readFileErr, script) => {
-              if (readFileErr) {
-                /* eslint-disable no-console */
-                console.log(readFileErr);
-                /* eslint-enable no-console */
-                return;
-              }
+            // if id file exists, the .app needs to be updated
+            const idPath = `${allAppPath}/${fileName}/id`;
+            let appId;
+            if (fs.existsSync(idPath)) {
+              appId = fs.readFileSync(idPath, 'utf8').trim();
+              installedIds.push(appId);
 
-              const oldPath = '/Applications/WebCatalog.app/Contents/MacOS/WebCatalog';
-              const newPath = '/Applications/WebCatalog.app/Contents/Resources/WebCatalog_Alt';
+              // update app
+              const appName = fileName.replace('.app', '');
+              const appExecPath = `${allAppPath}/${fileName}/Contents/MacOS/${appName}`;
+              fs.readFile(appExecPath, 'utf-8', (readFileErr, oldScript) => {
+                if (readFileErr) {
+                  /* eslint-disable no-console */
+                  console.log(readFileErr);
+                  /* eslint-enable no-console */
+                  return;
+                }
 
-              if (script.indexOf(`${oldPath} `) > -1) {
-                const newScript = script.replace(
-                  `${oldPath} `,
-                  `${newPath} `,
-                );
+                const appUrl = oldScript
+                  .match(/(--url=")(.+)(" --id)/)[0]
+                  .replace('--url="', '')
+                  .replace('" --id', '');
 
-                fs.writeFile(appExecPath, newScript, 'utf-8', (writeFileErr) => {
-                  if (writeFileErr) {
+                // store icon temporarily as old .app will be removed
+                const tmpIcns = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.icns`;
+                fs.writeFileSync(tmpIcns, fs.readFileSync(`${allAppPath}/${fileName}/Contents/Resources/${appName}.icns`));
+
+                execFile(`${remote.app.getAppPath()}/scripts/applify-${os.platform()}.sh`, [
+                  appName,
+                  appUrl,
+                  tmpIcns, // iconPath
+                  appId,
+                ], (execErr) => {
+                  if (err) {
                     /* eslint-disable no-console */
-                    console.log(writeFileErr);
+                    console.log(execErr);
                     /* eslint-enable no-console */
                   }
                 });
-              }
-            });
+              });
+            } else {
+              const infoPath = `${allAppPath}/${fileName}/Contents/Resources/info.json`;
+              const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
+
+              installedIds.push(appInfo.id);
+            }
           });
           resolve(installedIds);
         });

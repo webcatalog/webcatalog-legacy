@@ -7,10 +7,12 @@ APPNAME=${1}
 APPURL=${2}
 APPICON=${3}
 APPID=${4}
-APPDIR=$(eval echo "~/Applications")
-TARGETDIR="${APPDIR}/WebCatalog Apps/$APPNAME.app"
+TMPDIR=$(eval echo "~/.webcatalog")
+TARGETDIR="${TMPDIR}/$APPNAME.app"
 DIR="${TARGETDIR}/Contents"
 SCRIPT="${DIR}/MacOS/${APPNAME}"
+
+mkdir ${TMPDIR}
 
 mkdir -vp "${DIR}"/{MacOS,Resources}
 
@@ -21,9 +23,6 @@ EOF
 chmod +x "${SCRIPT}"
 
 cp -v "$APPICON" "${DIR}/Resources/${APPNAME}.icns"
-
-# To identify
-echo "${APPID}" > "${TARGETDIR}/id"
 
 cat <<EOF > "$DIR/Info.plist"
 <?xml version="1.0" encoding="UTF-8"?>
@@ -42,6 +41,8 @@ cat <<EOF > "$DIR/Info.plist"
     <string>APPL</string>
     <key>CFBundleSignature</key>
     <string>4242</string>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
   </dict>
 </plist>
 EOF

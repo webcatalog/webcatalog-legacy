@@ -39,7 +39,7 @@ builder.build({
     category: 'public.app-category.utilities',
     files,
     asar: true,
-    asarUnpack: ['plugins/**'],
+    asarUnpack: ['plugins/**', 'scripts/**'],
     mac: {
       extendInfo: {
         CFBundleURLTypes: [
