@@ -41,6 +41,8 @@ cat <<EOF > "$DIR/Info.plist"
     <string>APPL</string>
     <key>CFBundleSignature</key>
     <string>4242</string>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
   </dict>
 </plist>
 EOF
