@@ -24,5 +24,18 @@ script:
 - yarn run lint
 - yarn run dist
 - ls dist
+deploy:
+  provider: releases
+  api_key:
+    secure: BmNIBVmZ0qdxouJ7hSfqBU6Z+K1C5mZezri1YWYjcVSXi4BmnTcfcBWyWYTqpdHBst+UFnOlflEmeSC2JwYq27MYYy32cXkKSYAXWwspUB7+NnaEfOmgHRxa/PbSkEy9OCJS5snAF+jxq+7lDI7oOkjIgN85AG7u1eKzPG23Aed9Mieq+lqkEOamTsqmTST3M8/iCUZZHxhZjGd3CCo+jJUSVW/iGiifmKrxcJDbI8KbIn7LElLAIHHS22qTKtlVoXplx5rwFdHTjd3NAh+TofTdFx2sJv/2vWMnulwI3lz+aknEv0mTtORzLUEKIPgsi/xtyK/wgy74KAIpweOOTFROQIa/v7SPUIJiw2kPI5hwDtmNly/bCeBwCpd0UgyJYzIcXySfpbiEXsrxoFV8mfHwecvSFhlGZQwJpUcbw4bUJSipKnoAttrKYNyewXqil66bbRe8okoc415N+Ra7YYNfBQ0iiAPo1iyx4U3YDdTdjzokW25HL5yOvsPdeO7Yi2HfdNjvx9sCIVYvtNDbGO/tB1RAJmiNfqdZbTDPiGIz3z+FjLP0oPGSQYStbWcLl+1ATg+6fNnjj1paCIPuMZTnQYEBXrbjJciREWH8JOlUlO5wQsgUx5C6Hl9bbWZ4i9+ZUwsYyJBP5DjTy/SXETF5RVuypKT9fhnqmVPK22Q=
+  draft: true
+  skip_cleanup: true
+  file_glob: true
+  file:
+  - dist/*.deb
+  - dist/*.rpm
+  - dist/*.pacman
+  on:
+    tags: true
 after_deploy:
 - "./publish-website.sh"
