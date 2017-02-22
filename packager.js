@@ -41,7 +41,14 @@ builder.build({
     asar: true,
     asarUnpack: ['plugins/**'],
     mac: {
-      extendInfo: './build/Info.plist',
+      extendInfo: {
+        CFBundleURLTypes: [
+          {
+            CFBundleURLName: 'com.webcatalog.app.launch',
+            CFBundleURLSchemes: ['webcatalog'],
+          },
+        ],
+      },
     },
     afterPack: ({ appOutDir }) =>
       new Promise((resolve, reject) => {

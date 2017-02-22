@@ -16,12 +16,13 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
 const loadPlugins = require('./libs/loadPlugins');
 const sendMessageToWindow = require('./libs/sendMessageToWindow');
-
+const setProtocols = require('./libs/setProtocols');
 
 const isWebView = argv.url && argv.id;
 const isDevelopment = argv.development === 'true';
 
 loadPlugins();
+setProtocols();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
