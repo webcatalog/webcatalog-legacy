@@ -1,13 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const electron = require('electron');
-
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
-
+const fs = require('fs');
 
 const { app, BrowserWindow, ipcMain } = electron;
 
@@ -71,10 +70,18 @@ function createWindow() {
   });
 
   if (isWebView) {
+    let requestedURL = argv.url;
+
+    const rURLFile = `${app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
+    if (fs.existsSync(rURLFile)) {
+      requestedURL = fs.readFileSync(rURLFile, 'utf8');
+      fs.unlink(rURLFile);
+    }
+
     mainWindow.appInfo = {
       id: argv.id,
       name: argv.name,
-      url: argv.url,
+      url: requestedURL,
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
     };
 
