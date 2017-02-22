@@ -34,7 +34,6 @@ const files = [];
 // Promise is returned
 builder.build({
   targets,
-  publish: 'onTag',
   config: {
     appId: 'com.webcatalog.app',
     category: 'public.app-category.utilities',
