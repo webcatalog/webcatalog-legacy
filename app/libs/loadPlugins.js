@@ -37,10 +37,10 @@ const pluginFolder = `plugins/${process.platform}/${process.arch}`;
 
 const loadPlugins = () => {
   // load plugins
-  app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginFolder, 'PepperFlash', FLASH_VERSION, flashPluginFilename).replace('app.asar', 'app.asar.unpacked'));
+  app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, '..', pluginFolder, 'PepperFlash', FLASH_VERSION, flashPluginFilename).replace('app.asar', 'app.asar.unpacked'));
   app.commandLine.appendSwitch('ppapi-flash-version', FLASH_VERSION);
 
-  app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, pluginFolder, 'WidevineCdm', WIDEVINECDM_VERSION, widevineCdmPluginFilename).replace('app.asar', 'app.asar.unpacked'));
+  app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, '..', pluginFolder, 'WidevineCdm', WIDEVINECDM_VERSION, widevineCdmPluginFilename).replace('app.asar', 'app.asar.unpacked'));
   app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINECDM_VERSION);
 };
 

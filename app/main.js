@@ -126,21 +126,42 @@ function createWindow() {
   checkForUpdate(mainWindow, log);
 
   if (isWebView) {
-    settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`).then((swipeToNavigate) => {
-      if (swipeToNavigate) {
-        mainWindow.on('swipe', (e, direction) => {
-          if (direction === 'left') {
-            mainWindow.webContents.send('go-back');
-          } else if (direction === 'right') {
-            mainWindow.webContents.send('go-forward');
-          }
-        });
-      }
-    });
+    settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)
+      .then((swipeToNavigate) => {
+        if (swipeToNavigate) {
+          mainWindow.on('swipe', (e, direction) => {
+            if (direction === 'left') {
+              mainWindow.webContents.send('go-back');
+            } else if (direction === 'right') {
+              mainWindow.webContents.send('go-forward');
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        sendMessageToWindow('log', err);
+      });
   }
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
+  mainWindow.on('close', (e) => {
+    // keep window running when close button is hit except when quit on last window is turned on
+    if (process.platform === 'darwin' && isWebView) {
+      e.preventDefault();
+      settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`)
+        .then((quitOnLastWindow) => {
+          if (quitOnLastWindow) {
+            app.quit();
+          } else {
+            mainWindow.hide();
+          }
+        })
+        .catch((err) => {
+          sendMessageToWindow('log', err);
+        });
+
+      return;
+    }
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -159,12 +180,6 @@ app.on('window-all-closed', () => {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
-  } else if (isWebView) {
-    settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`).then((quitOnLastWindow) => {
-      if (quitOnLastWindow) {
-        app.quit();
-      }
-    });
   }
 });
 
@@ -173,7 +188,10 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
-  } else if (isWebView) {
-    sendMessageToWindow('go-to-url', argv.url);
+  } else {
+    mainWindow.show();
+    if (isWebView) {
+      sendMessageToWindow('go-to-url', argv.url);
+    }
   }
 });
