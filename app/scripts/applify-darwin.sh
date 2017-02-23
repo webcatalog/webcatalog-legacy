@@ -17,7 +17,7 @@ APPLESCRIPT_TEMP=$(mktemp)
 # If a URL is received, write a temporary file to tell WebCatalog what URL to launch
 cat <<EOF > "${APPLESCRIPT_TEMP}"
 on open location this_URL
-	 do shell script "echo " & this_URL & " > ~/.webcatalog/${APPID}.rurl"
+	 do shell script "echo \"" & this_URL & "\" > ~/.webcatalog/${APPID}.rurl"
 	 do shell script "open -a ~/.webcatalog/\"${APPNAME}.app\""
 end open location
 

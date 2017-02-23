@@ -194,7 +194,7 @@ app.on('activate', () => {
       const rURLFile = `${app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
       if (fs.existsSync(rURLFile)) {
         const requestedURL = fs.readFileSync(rURLFile, 'utf8').trim();
-        fs.unlink(rURLFile);
+        fs.unlink(rURLFile, () => {});
         sendMessageToWindow('go-to-url', requestedURL);
       }
     }

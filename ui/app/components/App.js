@@ -91,7 +91,7 @@ class App extends React.Component {
     const c = this.c;
     const { newURL, isMainFrame } = e;
     // https://github.com/webcatalog/desktop/issues/42
-    if (isMainFrame) {
+    if (isMainFrame && extractDomain(newURL) === 'twitter.com') {
       setTimeout(() => c.loadURL(newURL), 100);
       e.preventDefault();
     }

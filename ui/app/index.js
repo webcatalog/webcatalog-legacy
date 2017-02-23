@@ -28,7 +28,7 @@ const rURLFile = `${remote.app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
 console.log(rURLFile);
 if (fs.existsSync(rURLFile)) {
   const requestedURL = fs.readFileSync(rURLFile, 'utf8').trim();
-  fs.unlink(rURLFile);
+  fs.unlink(rURLFile, () => {});
   startApp(requestedURL);
 } else {
   electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
