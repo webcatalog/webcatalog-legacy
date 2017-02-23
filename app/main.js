@@ -143,10 +143,11 @@ function createWindow() {
       });
   }
 
-  // Emitted when the window is closed.
+  // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {
     // keep window running when close button is hit except when quit on last window is turned on
     if (process.platform === 'darwin' && isWebView) {
+      if (mainWindow.forceClose) return;
       e.preventDefault();
       settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`)
         .then((quitOnLastWindow) => {
@@ -173,6 +174,12 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
+
+
+app.on('before-quit', () => {
+  // https://github.com/atom/electron/issues/444#issuecomment-76492576 does not work,
+  mainWindow.forceClose = true;
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
