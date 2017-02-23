@@ -70,18 +70,10 @@ function createWindow() {
   });
 
   if (isWebView) {
-    let requestedURL = argv.url;
-
-    const rURLFile = `${app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
-    if (fs.existsSync(rURLFile)) {
-      requestedURL = fs.readFileSync(rURLFile, 'utf8');
-      fs.unlink(rURLFile);
-    }
-
     mainWindow.appInfo = {
       id: argv.id,
       name: argv.name,
-      url: requestedURL,
+      url: argv.url,
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
     };
 
@@ -197,8 +189,14 @@ app.on('activate', () => {
     createWindow();
   } else {
     mainWindow.show();
+
     if (isWebView) {
-      sendMessageToWindow('go-to-url', argv.url);
+      const rURLFile = `${app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
+      if (fs.existsSync(rURLFile)) {
+        const requestedURL = fs.readFileSync(rURLFile, 'utf8').trim();
+        fs.unlink(rURLFile);
+        sendMessageToWindow('go-to-url', requestedURL);
+      }
     }
   }
 });
