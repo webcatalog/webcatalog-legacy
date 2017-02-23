@@ -1,3 +1,13 @@
+# 3.2.2
+- Adds Donate button.
+- Improves About window.
+- Adds ability for apps installed from WebCatalog to open URLs.
+- Allows OpenGL applications to utilize the integrated GPU.
+- Allows apps to open in assigned workspace.
+- Fixes bugs.
+
+---
+
 # 3.2.1 (beta)
 - Adds ability for apps installed from WebCatalog to open URLs.
 - Allows OpenGL applications to utilize the integrated GPU.
