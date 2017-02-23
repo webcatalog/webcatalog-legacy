@@ -1,11 +1,11 @@
-/* global fs WindowsShortcuts https os execFile remote */
+/* global fs WindowsShortcuts https os execFile remote mkdirp */
 
 const scanInstalledAsync = allAppPath =>
   new Promise((resolve, reject) => {
     const installedIds = [];
 
     if (!fs.existsSync(allAppPath)) {
-      fs.mkdirSync(allAppPath);
+      mkdirp.sync(allAppPath);
     }
 
     switch (os.platform()) {

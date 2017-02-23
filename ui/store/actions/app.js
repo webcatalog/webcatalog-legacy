@@ -1,4 +1,4 @@
-/* global fetch execFile remote fs WindowsShortcuts https os */
+/* global fetch execFile remote fs WindowsShortcuts https os mkdirp */
 import { batchActions } from 'redux-batched-actions';
 import {
   SET_STATUS, ADD_APPS, ADD_APP_STATUS, REMOVE_APP_STATUS, RESET_APP, SET_INSTALLED_HITS,
@@ -123,7 +123,7 @@ export const installApp = app => (dispatch) => {
         case 'win32':
         default: {
           if (!fs.existsSync(allAppPath)) {
-            fs.mkdirSync(allAppPath);
+            mkdirp.sync(allAppPath);
           }
 
           WindowsShortcuts.create(`${allAppPath}/${app.get('name')}.lnk`, {

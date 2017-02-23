@@ -48,6 +48,7 @@
       const { shell, remote, ipcRenderer } = require('electron');
       const https = require('https');
       const fs = require('fs');
+      const mkdirp = require('mkdirp');
       const os = require('os');
       const { exec, execFile } = require('child_process');
       const electronSettings = require('electron-settings');
