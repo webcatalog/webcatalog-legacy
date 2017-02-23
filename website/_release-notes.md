@@ -1,4 +1,9 @@
-# 3.2.2
+# 3.2.3
+- Fixes bugs.
+
+---
+
+# 3.2.2 (beta)
 - Adds Donate button.
 - Improves About window.
 - Adds ability for apps installed from WebCatalog to open URLs.
