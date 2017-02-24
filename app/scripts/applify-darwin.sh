@@ -1,6 +1,6 @@
-# Based on https://gist.github.com/oubiwann/453744744da1141ccc542ff75b47e0cf
 #!/usr/bin/env bash
 
+# Based on https://gist.github.com/oubiwann/453744744da1141ccc542ff75b47e0cf
 # applify.sh "App name" "URL" "Icon path" "Id"
 
 APPNAME=${1}
