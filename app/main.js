@@ -170,7 +170,9 @@ app.on('ready', createWindow);
 
 app.on('before-quit', () => {
   // https://github.com/atom/electron/issues/444#issuecomment-76492576 does not work,
-  mainWindow.forceClose = true;
+  if (mainWindow !== null) {
+    mainWindow.forceClose = true;
+  }
 });
 
 // Quit when all windows are closed.
