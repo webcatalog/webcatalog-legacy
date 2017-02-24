@@ -26,5 +26,4 @@ script:
 - yarn run lint
 - yarn run dist
 - ls dist
-after_deploy:
-- "./publish-website.sh"
+- ./publish-website.sh
