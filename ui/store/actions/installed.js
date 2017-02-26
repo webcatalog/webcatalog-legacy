@@ -17,8 +17,9 @@ export const fetchInstalled = () => (dispatch) => {
     status: LOADING,
   });
 
-  scanInstalledAsync(getAllAppPath())
-    .then((objectIds) => {
+  scanInstalledAsync({ allAppPath: getAllAppPath() })
+    .then((installedIds) => {
+      const objectIds = installedIds.map(({ id }) => id);
       if (objectIds.length < 1) {
         dispatch(batchActions([
           {

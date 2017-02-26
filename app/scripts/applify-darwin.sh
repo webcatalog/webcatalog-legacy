@@ -1,37 +1,54 @@
 #!/usr/bin/env bash
 
 # Based on https://gist.github.com/oubiwann/453744744da1141ccc542ff75b47e0cf
-# applify.sh "App name" "URL" "Icon path" "Id"
+# applify.sh "App name" "URL" "Icon path" "Id" "JSON Content"
 
 APPNAME=${1}
 APPURL=${2}
 APPICON=${3}
 APPID=${4}
-APPDIR=$(eval echo "~/Applications")
-TARGETDIR="${APPDIR}/WebCatalog Apps/$APPNAME.app"
+JSONCONTENT=${5}
+APPDIR=$(eval echo "~/Applications/WebCatalog Apps")
+TARGETDIR="${APPDIR}/$APPNAME.app"
+DIR="${TARGETDIR}/Contents"
+SCRIPT="${DIR}/MacOS/${APPNAME}"
 
-rm -rf "${TARGETDIR}"
+mkdir ${TMPDIR}
 
-APPLESCRIPT_TEMP=$(mktemp)
+mkdir -vp "${DIR}"/{MacOS,Resources}
 
-# If a URL is received, write a temporary file to tell WebCatalog what URL to launch
-cat <<EOF > "${APPLESCRIPT_TEMP}"
-on open location this_URL
-	 do shell script "echo \"" & this_URL & "\" > ~/.webcatalog/${APPID}.rurl"
-	 do shell script "open -a ~/.webcatalog/\"${APPNAME}.app\""
-end open location
+cat <<EOF > "${SCRIPT}"
+#!/usr/bin/env bash
+/Applications/WebCatalog.app/Contents/Resources/WebCatalog_Alt --name="$APPNAME" --url="$APPURL" --id="$APPID"
+EOF
+chmod +x "${SCRIPT}"
 
-do shell script "open -a ~/.webcatalog/\"${APPNAME}.app\""
+cp -v "$APPICON" "${DIR}/Resources/${APPNAME}.icns"
+
+cat <<EOF > "$DIR/Info.plist"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleExecutable</key>
+    <string>$APPNAME</string>
+    <key>CFBundleGetInfoString</key>
+    <string>$APPNAME</string>
+    <key>CFBundleIconFile</key>
+    <string>$APPNAME.icns</string>
+    <key>CFBundleName</key>
+    <string>$APPNAME</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+  </dict>
+</plist>
 EOF
 
-osacompile -o "${TARGETDIR}" "${APPLESCRIPT_TEMP}"
-
-# Icon
-cp -v "${APPICON}" "${TARGETDIR}/Contents/Resources/applet.icns"
-
 # To identify
-echo "{ \"id\": \"${APPID}\", \"version\": 2 }" > "${TARGETDIR}/Contents/Resources/info.json"
+echo "${JSONCONTENT}" > "${TARGETDIR}/Contents/Resources/info.json"
 
-# Generate a temporary app to be launched by AppleScript
+# Generate an alt .app with AppleScript
 # Two .app file structure because AppleScripe doesn't not launch the exectuable correctly + Bash script doesn't support Apple Events
-$(dirname -- "$0")/applify-darwin-tmp.sh "$@"
+$(dirname -- "$0")/applify-darwin-applescript.sh "$@"

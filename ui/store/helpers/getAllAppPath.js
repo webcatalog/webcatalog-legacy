@@ -1,4 +1,4 @@
-/* global os remote */
+/* global os remote fs mkdirp */
 
 const getAllAppPath = () => {
   let allAppPath;
@@ -16,6 +16,12 @@ const getAllAppPath = () => {
       allAppPath = `${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps`;
     }
   }
+
+  // ensure the folder exists
+  if (!fs.existsSync(allAppPath)) {
+    mkdirp.sync(allAppPath);
+  }
+
   return allAppPath;
 };
 
