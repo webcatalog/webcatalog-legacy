@@ -1,3 +1,8 @@
+# 3.2.5 (beta)
+- Fixes bugs.
+
+---
+
 # 3.2.4 (beta)
 - Fixes bugs.
 
