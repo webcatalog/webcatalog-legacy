@@ -7,14 +7,13 @@ import {
 import scanInstalledAsync from '../helpers/scanInstalledAsync';
 import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
+import updateAppsAsync from '../helpers/updateAppsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
 
 import { search } from './search';
 import { fetchInstalled } from './installed';
 
 let fetching = false;
-
-const allAppPath = getAllAppPath();
 
 export const fetchApps = () => (dispatch, getState) => {
   const appState = getState().app;
@@ -70,9 +69,8 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-
   installAppAsync({
-    allAppPath,
+    allAppPath: getAllAppPath(),
     appId: app.get('id'),
     appName: app.get('name'),
     appUrl: app.get('url'),
@@ -105,7 +103,7 @@ export const uninstallApp = app => ((dispatch, getState) => {
 
 
   uninstallAppAsync({
-    allAppPath,
+    allAppPath: getAllAppPath(),
     appId: app.get('id'),
     appName: app.get('name'),
   })
@@ -137,9 +135,27 @@ export const uninstallApp = app => ((dispatch, getState) => {
 
 
 export const scanInstalledApps = () => ((dispatch) => {
-  scanInstalledAsync({ allAppPath })
-    .then((installedIds) => {
-      installedIds.map(({ id }) => id).forEach((id) => {
+  scanInstalledAsync({
+    allAppPath: getAllAppPath(),
+  })
+    .then((installedApps) => {
+      // update Apps
+      updateAppsAsync({
+        allAppPath: getAllAppPath(),
+        installedApps,
+      })
+      .then(() => {
+        /* eslint-disable no-console */
+        console.log('Updating all apps successfully');
+        /* eslint-enable no-console */
+      })
+      .catch((err) => {
+        /* eslint-disable no-console */
+        console.log(err);
+        /* eslint-enable no-console */
+      });
+
+      installedApps.map(({ id }) => id).forEach((id) => {
         dispatch({
           type: ADD_APP_STATUS,
           id,

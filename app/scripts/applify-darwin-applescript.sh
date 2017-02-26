@@ -14,17 +14,16 @@ mkdir -vp ${TARGETDIR}
 
 rm -rf "${TARGETDIR}"
 
-
 APPLESCRIPT_TEMP=$(mktemp)
 
 # If a URL is received, write a temporary file to tell WebCatalog what URL to launch
 cat <<EOF > "${APPLESCRIPT_TEMP}"
 on open location this_URL
 	 do shell script "echo \"" & this_URL & "\" > ~/.webcatalog/${APPID}.rurl"
-	 do shell script "open -a ~\"/Applications/WebCatalog Apps/${APPNAME}.app\""
+	 do shell script "open -a ~/Applications/\"WebCatalog Apps/${APPNAME}.app\""
 end open location
 
-do shell script "open -a ~\"/Applications/WebCatalog Apps/${APPNAME}.app\""
+do shell script "open -a ~/Applications/\"WebCatalog Apps/${APPNAME}.app\""
 EOF
 
 osacompile -o "${TARGETDIR}" "${APPLESCRIPT_TEMP}"
