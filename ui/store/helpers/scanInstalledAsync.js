@@ -1,12 +1,8 @@
 /* global fs WindowsShortcuts https os execFile remote mkdirp */
 
-const scanInstalledAsync = allAppPath =>
+const scanInstalledAsync = ({ allAppPath }) =>
   new Promise((resolve, reject) => {
     const installedIds = [];
-
-    if (!fs.existsSync(allAppPath)) {
-      mkdirp.sync(allAppPath);
-    }
 
     switch (os.platform()) {
       case 'darwin': {
@@ -24,46 +20,18 @@ const scanInstalledAsync = allAppPath =>
             let appId;
             if (fs.existsSync(idPath)) {
               appId = fs.readFileSync(idPath, 'utf8').trim();
-              installedIds.push(appId);
-
-              // update app
-              const appName = fileName.replace('.app', '');
-              const appExecPath = `${allAppPath}/${fileName}/Contents/MacOS/${appName}`;
-              fs.readFile(appExecPath, 'utf-8', (readFileErr, oldScript) => {
-                if (readFileErr) {
-                  /* eslint-disable no-console */
-                  console.log(readFileErr);
-                  /* eslint-enable no-console */
-                  return;
-                }
-
-                const appUrl = oldScript
-                  .match(/(--url=")(.+)(" --id)/)[0]
-                  .replace('--url="', '')
-                  .replace('" --id', '');
-
-                // store icon temporarily as old .app will be removed
-                const tmpIcns = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.icns`;
-                fs.writeFileSync(tmpIcns, fs.readFileSync(`${allAppPath}/${fileName}/Contents/Resources/${appName}.icns`));
-
-                execFile(`${remote.app.getAppPath()}/scripts/applify-${os.platform()}.sh`, [
-                  appName,
-                  appUrl,
-                  tmpIcns, // iconPath
-                  appId,
-                ], (execErr) => {
-                  if (err) {
-                    /* eslint-disable no-console */
-                    console.log(execErr);
-                    /* eslint-enable no-console */
-                  }
-                });
+              installedIds.push({
+                version: '3.1.1',
+                id: appId,
               });
             } else {
               const infoPath = `${allAppPath}/${fileName}/Contents/Resources/info.json`;
               const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
 
-              installedIds.push(appInfo.id);
+              installedIds.push({
+                id: appInfo.id,
+                version: appInfo.version,
+              });
             }
           });
           resolve(installedIds);
@@ -79,7 +47,19 @@ const scanInstalledAsync = allAppPath =>
 
           files.forEach((fileName) => {
             const id = fileName.replace('.desktop', '').trim();
-            installedIds.push(id);
+
+            let version = '3.1.1';
+            try {
+              const jsonContent = fs.readFileSync(`${allAppPath}/${fileName}`, 'utf8').split('\n')[1].splice(1);
+              const appInfo = JSON.parse(jsonContent);
+              version = appInfo.version;
+            } catch (jsonErr) {
+              /* eslint-disable no-console */
+              console.log(jsonErr);
+              /* eslint-enable no-console */
+            }
+
+            installedIds.push({ id, version });
           });
           resolve(installedIds);
         });
@@ -102,7 +82,20 @@ const scanInstalledAsync = allAppPath =>
               if (wsShortcutErr) {
                 reject(wsShortcutErr);
               } else {
-                installedIds.push(desc);
+                let id;
+                let version = '3.1.1';
+                // only from 3.2, WebCatalog starts using JSON
+                try {
+                  const appInfo = JSON.parse(desc);
+                  id = appInfo.id;
+                  version = appInfo.version;
+                } catch (jsonErr) {
+                  /* eslint-disable no-console */
+                  console.log(jsonErr);
+                  /* eslint-enable no-console */
+                  id = desc;
+                }
+                installedIds.push({ id, version });
               }
 
               i += 1;
