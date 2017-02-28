@@ -3,7 +3,7 @@
 if [ "$TRAVIS_OS_NAME" == 'linux' -a "$TRAVIS_BRANCH" = "master" ]; then
   echo "Publishing Website"
   export WEBCATALOG_VERSION=$(node -e "console.log(require('./app/package.json').version);")
-  yarn global add harp@0.3.1
+  yarn global add harp
   cd website
   yarn
   mv ./node_modules ./_node_modules
