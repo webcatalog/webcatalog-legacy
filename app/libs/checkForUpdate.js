@@ -4,12 +4,12 @@ const semver = require('semver');
 const https = require('https');
 const { app, dialog, shell } = require('electron');
 
-const checkForUpdate = (mainWindow, log) => {
+const checkForUpdate = ({ mainWindow, log, isWebView }) => {
   // Run autoUpdater in any windows
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {
       // Auto updater
-      if (process.platform !== 'linux') {
+      if (process.platform !== 'linux' && isWebView !== true) {
         /* eslint-disable global-require */
         const autoUpdater = require('electron-auto-updater').autoUpdater;
         /* eslint-enable global-require */
@@ -34,17 +34,23 @@ const checkForUpdate = (mainWindow, log) => {
 
         autoUpdater.checkForUpdates();
       } else {
-        https.get('https://backend.getwebcatalog.com/latest.json', (res) => {
+        https.get({
+          host: 'api.github.com',
+          path: '/repos/webcatalog/desktop/releases/latest',
+          method: 'GET',
+          headers: { 'user-agent': `WebCatalog/${app.getVersion()}` },
+        }, (res) => {
           if (res.statusCode >= 200 && res.statusCode <= 299) {
             let body = '';
             res.on('data', (chunk) => {
               body += chunk;
             });
             res.on('end', () => {
-              const latestVersion = JSON.parse(body).version;
+              const { tag_name } = JSON.parse(body);
+              const latestVersion = tag_name.slice(1);
               log(`Lastest version ${latestVersion}`);
               if (semver.gt(latestVersion, app.getVersion())) {
-                dialog.showMessageBox(mainWindow, {
+                dialog.showMessageBox({
                   type: 'info',
                   buttons: ['Yes', 'Cancel'],
                   defaultId: 1,
