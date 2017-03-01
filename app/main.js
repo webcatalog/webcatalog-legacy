@@ -17,7 +17,7 @@ const loadPlugins = require('./libs/loadPlugins');
 const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
 
-const isWebView = argv.url && argv.id;
+const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
 
 loadPlugins();
@@ -115,7 +115,7 @@ function createWindow() {
     });
   }
 
-  checkForUpdate(mainWindow, log);
+  checkForUpdate({ mainWindow, log, isWebView });
 
   if (isWebView) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)

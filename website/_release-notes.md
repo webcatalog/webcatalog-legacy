@@ -1,3 +1,8 @@
+# 3.2.6
+- Fixes bug with auto updater which [causes apps installed from WebCatalog to crash on startup](https://github.com/webcatalog/desktop/issues/47).
+
+---
+
 # 3.2.5
 - Fixes bugs.
 
