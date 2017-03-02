@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # https://raw.githubusercontent.com/jiahaog/nativefier/development/bin/convertToIco
 

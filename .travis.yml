@@ -1,16 +1,23 @@
 language: node_js
 node_js: 6
-os: osx
+os: linux
+dist: trusty
+sudo: false
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - icnsutils
 env:
   global:
-    secure: BTX3vkka95hx/euFFJdVoMZGOUaOPuYKCY+ByzAN4BKqPNz+itbbHyfD2DBZWFzmhoxyHTW16vDLYgkSo0ZwGJMfyeT3XGdg2RcBphZ+3evo6s6XzKtzjmjmrrkOE3aEsscLXbScA3QRDrxq0Al5DlaQBKuaiWj4+1RoGZINlbFFvdvXPWaZ2au2igbMZ9uIgwdk0y4nv+JCi11bg2dJrhZZn2qTm/7klH2fXnrjmFSJtAHsEBt0LZAoNd/BjjzsSB201s5DXLz7A4YcC1sCty3kXByxBccKw15NX9hoKu+yhjR1DA/grAfNg5JZBvWbIRaKALdffTtgDQUrN4wJZg6u4GSqo1yGDAXbWYiHNS8SF+y3qREMPE9Z9fEq6q4WRuv860FNL2DthFxkuDyTGUrmhDQjRlY6L7+Fk8E4s6WPg7lMt+HJrQCoEWluTAkgl92Bgq36S57pX34CQaqCnqb5YIsapHAMkGcp1moyNZg0lKbj8LEg3LWd3K64811ws7BczkCg+4N+ity2aQYD5VGMbjUmy0VIKIDlCSKQW8gu9BoHJaEqJnDGXHnRZhSziZoqidieKeoCAm9JeQVqDK7vVI2O9+llQwTk3Kgl+p6WzgxfAFQqAMwOGGQGehrhQD3S3i+SHWKgfNoiHShE3OjOOxsGNCCeaTnuUqnHpTw=
+    - CXX=g++-4.8
+    - secure: BTX3vkka95hx/euFFJdVoMZGOUaOPuYKCY+ByzAN4BKqPNz+itbbHyfD2DBZWFzmhoxyHTW16vDLYgkSo0ZwGJMfyeT3XGdg2RcBphZ+3evo6s6XzKtzjmjmrrkOE3aEsscLXbScA3QRDrxq0Al5DlaQBKuaiWj4+1RoGZINlbFFvdvXPWaZ2au2igbMZ9uIgwdk0y4nv+JCi11bg2dJrhZZn2qTm/7klH2fXnrjmFSJtAHsEBt0LZAoNd/BjjzsSB201s5DXLz7A4YcC1sCty3kXByxBccKw15NX9hoKu+yhjR1DA/grAfNg5JZBvWbIRaKALdffTtgDQUrN4wJZg6u4GSqo1yGDAXbWYiHNS8SF+y3qREMPE9Z9fEq6q4WRuv860FNL2DthFxkuDyTGUrmhDQjRlY6L7+Fk8E4s6WPg7lMt+HJrQCoEWluTAkgl92Bgq36S57pX34CQaqCnqb5YIsapHAMkGcp1moyNZg0lKbj8LEg3LWd3K64811ws7BczkCg+4N+ity2aQYD5VGMbjUmy0VIKIDlCSKQW8gu9BoHJaEqJnDGXHnRZhSziZoqidieKeoCAm9JeQVqDK7vVI2O9+llQwTk3Kgl+p6WzgxfAFQqAMwOGGQGehrhQD3S3i+SHWKgfNoiHShE3OjOOxsGNCCeaTnuUqnHpTw=
 cache:
   yarn: true
   directories:
   - node_modules
-before_install:
-- brew update
-- brew install imagemagick
 script:
 - yarn global add node-gyp
 - node-gyp rebuild -C ./node_modules/sharp
