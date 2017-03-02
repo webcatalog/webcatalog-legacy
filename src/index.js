@@ -18,7 +18,7 @@ const numberOfAppInChunk = 24;
 
 // released version
 // do not need to change, auto updater is now handled using electron-builder + GitHub Release
-const latestVersion = '3.1.1';
+const latestVersion = '3.2.6';
 
 // init target folders
 mkdirp.sync(imageTargetPath);
