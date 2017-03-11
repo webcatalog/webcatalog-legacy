@@ -6,7 +6,7 @@ import {
 } from '../constants/actions';
 
 import scanInstalledAsync from '../helpers/scanInstalledAsync';
-import fetchAppDataAsync from '../helpers/fetchAppDataAsync';
+import getObjectsAsync from '../helpers/getObjectsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
 
 
@@ -34,8 +34,10 @@ export const fetchInstalled = () => (dispatch) => {
         return;
       }
 
-      fetchAppDataAsync({ objectIds })
-        .then((hits) => {
+      getObjectsAsync({ objectIds })
+        .then((content) => {
+          const hits = content.results ? content.results.filter(hit => hit !== null) : [];
+
           dispatch(batchActions([
             {
               type: SET_INSTALLED_STATUS,

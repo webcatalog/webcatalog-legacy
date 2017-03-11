@@ -21,7 +21,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
     const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
     const iconFile = fs.createWriteStream(iconPath);
 
-    https.get(`https://backend.getwebcatalog.com/images/${appId}.${iconExt}`, (response) => {
+    https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
       response.pipe(iconFile);
       iconFile.on('finish', () => {
         const jsonContent = JSON.stringify({
