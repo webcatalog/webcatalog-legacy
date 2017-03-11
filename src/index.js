@@ -147,9 +147,6 @@ fs.writeFile(`${targetPath}/latest.json`, JSON.stringify({ version: latestVersio
 if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
   console.log('Missing Algolia info >> Skip Algolia');
 } else {
-  const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
-  const index = client.initIndex('webcatalog');
-
   // set object id
   const algoliaApps = apps.map((a) => {
     const app = a;
@@ -157,11 +154,27 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
     return app;
   });
 
+  const TEMP_INDEX = 'webcatalog_temp';
+  const PROD_INDEX = 'webcatalog';
+
+  const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
+  const index = client.initIndex(TEMP_INDEX);
+
+  // https://www.algolia.com/doc/faq/index-configuration/how-can-i-update-all-the-objects-of-my-index/
+
   index.addObjects(algoliaApps, (err) => {
     if (err) {
       console.error(err);
       process.exit(1);
     }
+
+    // Rename temporary index to production index (and overwrite it)
+    client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
+      if (moveIndexErr) {
+        console.error(moveIndexErr);
+        process.exit(1);
+      }
+    });
   });
 }
 
