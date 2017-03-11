@@ -11,7 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "algoliasearch": "^3.21.1",
-    "ejs": "^2.5.6",
     "mkdirp": "^0.5.1",
     "sharp": "^0.17.2",
     "shelljs": "^0.7.6"
