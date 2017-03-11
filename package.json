@@ -4,6 +4,7 @@
   "description": "Backend for WebCatalog",
   "main": "src/index.js",
   "scripts": {
+    "test": "node src/test.js",
     "start": "node src/index.js"
   },
   "author": "Quang Lam",
