@@ -35,6 +35,10 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
         default: {
           const appPath = `${allAppPath}/${appName}.lnk`;
           fs.unlinkSync(appPath);
+
+          const desktopPath = `${remote.app.getPath('home')}/Desktop`;
+          const desktopAppPath = `${desktopPath}/${appName}.lnk`;
+          fs.unlinkSync(desktopAppPath);
         }
       }
     } catch (err) {

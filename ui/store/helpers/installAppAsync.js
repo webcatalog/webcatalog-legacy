@@ -21,8 +21,14 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
     const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
     const iconFile = fs.createWriteStream(iconPath);
 
-    https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
+
+    const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
       response.pipe(iconFile);
+
+      iconFile.on('error', (err) => {
+        reject(err);
+      });
+
       iconFile.on('finish', () => {
         const jsonContent = JSON.stringify({
           id: appId,
@@ -63,11 +69,29 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
                 return;
               }
 
-              resolve();
+              // create desktop shortcut
+              const desktopPath = `${remote.app.getPath('home')}/Desktop`;
+              WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
+                target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
+                args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
+                icon: iconPath,
+                desc: jsonContent,
+              }, (desktopShortcutErr) => {
+                if (desktopShortcutErr) {
+                  reject(desktopShortcutErr);
+                  return;
+                }
+
+                resolve();
+              });
             });
           }
         }
       });
+    });
+
+    req.on('error', (err) => {
+      reject(err);
     });
   });
 
