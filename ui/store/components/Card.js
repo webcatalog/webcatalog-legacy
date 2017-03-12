@@ -19,7 +19,7 @@ const Card = ({
   requestUninstallApp, requestInstallApp,
 }) => (
   <div className="col">
-    <div className="pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
+    <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
       <img
         src={`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${app.get('id')}@128px.webp`}
         role="presentation"
