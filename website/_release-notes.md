@@ -1,3 +1,11 @@
+# 3.3.0
+- Fixes bugs & improves stability.
+- Shows page title on title bar (Windows).
+- Creates desktop shortcuts automatically when installing apps (Windows).
+- Hides title bar in full screen mode (macOS).
+
+---
+
 # 3.2.7
 - Only shows navigation bar on hover (less distraction).
 

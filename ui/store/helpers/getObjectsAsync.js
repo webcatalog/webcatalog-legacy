@@ -2,7 +2,7 @@ import algoliasearch from 'algoliasearch';
 
 import { ALGOLIA_APPLICATION_ID, ALGOLIA_APPLICATION_KEY } from '../constants/algolia';
 
-const fetchAppDataAsync = ({ objectIds }) =>
+const getObjectsAsync = ({ objectIds }) =>
   new Promise((resolve, reject) => {
     const client = algoliasearch(ALGOLIA_APPLICATION_ID, ALGOLIA_APPLICATION_KEY);
     const index = client.initIndex('webcatalog');
@@ -12,10 +12,8 @@ const fetchAppDataAsync = ({ objectIds }) =>
         return;
       }
 
-      const hits = content.results ? content.results.filter(hit => hit !== null) : [];
-
-      resolve(hits);
+      resolve(content);
     });
   });
 
-export default fetchAppDataAsync;
+export default getObjectsAsync;

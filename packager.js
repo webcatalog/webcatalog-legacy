@@ -36,11 +36,15 @@ builder.build({
   targets,
   config: {
     appId: 'com.webcatalog.app',
-    category: 'public.app-category.utilities',
     files,
     asar: true,
     asarUnpack: ['plugins/**', 'scripts/**'],
+    linux: {
+      category: 'Utilities', // https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
+      packageCategory: 'utils', // https://packages.debian.org/wheezy/utils/
+    },
     mac: {
+      category: 'public.app-category.utilities',
       extendInfo: {
         CFBundleURLTypes: [
           {

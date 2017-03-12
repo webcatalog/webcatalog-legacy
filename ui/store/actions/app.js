@@ -9,6 +9,7 @@ import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
 import updateAppsAsync from '../helpers/updateAppsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
+import searchAsync from '../helpers/searchAsync';
 
 import { search } from './search';
 import { fetchInstalled } from './installed';
@@ -27,38 +28,42 @@ export const fetchApps = () => (dispatch, getState) => {
 
   const currentPage = appState.currentPage + 1;
 
-
   dispatch({
     type: SET_STATUS,
     status: LOADING,
   });
 
-
-  fetch(`https://backend.getwebcatalog.com/apps/page/${currentPage}.json`)
-    .then(response => response.json())
-    .then(({ chunk, totalPage }) => {
-      dispatch(batchActions([
-        {
-          type: SET_STATUS,
-          status: DONE,
-        },
-        {
-          type: ADD_APPS,
-          chunk,
-          currentPage,
-          totalPage,
-        },
-      ]));
-    })
-    .catch(() => {
-      dispatch({
+  searchAsync({
+    query: null,
+    params: { page: currentPage, hitsPerPage: 24 },
+  })
+  .then((content) => {
+    dispatch(batchActions([
+      {
         type: SET_STATUS,
-        status: FAILED,
-      });
-    })
-    .then(() => {
-      fetching = false;
+        status: DONE,
+      },
+      {
+        type: ADD_APPS,
+        chunk: content.hits,
+        currentPage,
+        totalPage: content.nbPages,
+      },
+    ]));
+  })
+  .catch((err) => {
+    /* eslint-disable no-console */
+    console.log(err);
+    /* eslint-enable no-console */
+
+    dispatch({
+      type: SET_STATUS,
+      status: FAILED,
     });
+  })
+  .then(() => {
+    fetching = false;
+  });
 };
 
 

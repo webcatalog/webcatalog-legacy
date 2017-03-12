@@ -55,8 +55,8 @@ function createWindow() {
     minWidth: 500,
     minHeight: 400,
     title: argv.name || 'WebCatalog',
-    titleBarStyle: 'hidden',
-    frame: (process.platform === 'darwin' || isDevelopment || isWebView),
+    titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
+    frame: true,
   };
 
   mainWindow = new BrowserWindow(options);

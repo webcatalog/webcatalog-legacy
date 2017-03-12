@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "3.2.7",
+  "version": "3.3.0",
   "description": "WebCatalog, run your favorite web apps natively",
   "main": "main.js",
   "scripts": {
@@ -30,19 +30,19 @@
     "clean-webpack-plugin": "^0.1.15",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
-    "electron": "1.6.0",
-    "electron-builder": "^13.11.1",
-    "electron-builder-squirrel-windows": "^13.10.1",
+    "electron": "^1.6.2",
+    "electron-builder": "15.3.0",
+    "electron-builder-squirrel-windows": "^15.3.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.1.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "webpack": "^2.2.1",
-    "webpack-merge": "^3.0.0"
+    "webpack-merge": "^4.0.0"
   },
   "dependencies": {
-    "@blueprintjs/core": "^1.9.0",
+    "@blueprintjs/core": "^1.11.1",
     "algoliasearch": "^3.21.1",
     "classnames": "^2.2.5",
     "immutable": "^3.8.1",
@@ -51,7 +51,7 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-electron-web-view": "^2.0.0",
-    "react-redux": "^5.0.2",
+    "react-redux": "^5.0.3",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",

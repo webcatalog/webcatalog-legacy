@@ -40,13 +40,21 @@
           width: 49.5%;
         }
       }
+
+      .custom-card h5 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: normal;
+        white-space: nowrap;
+        margin: 0;
+      }
     </style>
   </head>
   <body>
     <div id="app"></div>
     <script>
       const { shell, remote, ipcRenderer } = require('electron');
-      const https = require('https');
+      const https = require('follow-redirects').https;
       const fs = require('fs');
       const mkdirp = require('mkdirp');
       const os = require('os');

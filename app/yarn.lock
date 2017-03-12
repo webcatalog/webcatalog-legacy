@@ -78,7 +78,7 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-debug@2.6.0, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0:
+debug@2.6.0, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.4.5:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -144,6 +144,12 @@ esprima@^2.6.0:
 file-exists@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/file-exists/-/file-exists-2.0.0.tgz#a24150665150e62d55bc5449281d88d2b0810dca"
+
+follow-redirects@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.2.3.tgz#01abaeca85e3609837d9fcda3167a7e42fdaca21"
+  dependencies:
+    debug "^2.4.5"
 
 fs-extra-p@^3.0.3:
   version "3.0.3"

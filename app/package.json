@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "3.2.7",
+  "version": "3.3.0",
   "description": "WebCatalog, run your favorite web apps natively",
   "author": {
     "name": "Quang Lam",
@@ -14,6 +14,7 @@
     "electron-auto-updater": "^1.0.0",
     "electron-chromecast": "^1.0.18",
     "electron-settings": "^2.2.2",
+    "follow-redirects": "^1.2.3",
     "jsonfile": "^2.4.0",
     "lodash.camelcase": "^4.3.0",
     "mkdirp": "^0.5.1",

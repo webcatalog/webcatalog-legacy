@@ -1,4 +1,4 @@
-/* global argv shell ipcRenderer path clipboard electronSettings os */
+/* global argv shell ipcRenderer path clipboard electronSettings os remote window */
 /* eslint-disable no-console */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import extractDomain from '../libs/extractDomain';
 import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
+import { screenResize } from '../actions/screen';
 
 
 class App extends React.Component {
@@ -28,8 +29,11 @@ class App extends React.Component {
       requestToggleSettingDialog,
       requestToggleFindInPageDialog,
       requestUpdateFindInPageMatches,
+      onResize,
     } = this.props;
     const c = this.c;
+
+    window.addEventListener('resize', onResize);
 
     ipcRenderer.on('toggle-dev-tools', () => {
       c.openDevTools();
@@ -87,6 +91,10 @@ class App extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.props.onResize);
+  }
+
   handleDidGetRedirectRequest(e) {
     const c = this.c;
     const { newURL, isMainFrame } = e;
@@ -137,12 +145,27 @@ class App extends React.Component {
     electronSettings.set(`lastPages.${camelCase(argv.id)}`, c.getURL());
   }
 
+  handlePageTitleUpdated({ title }) {
+    remote.getCurrentWindow().setTitle(title);
+
+    const itemCountRegex = /[([{](\d*?)[}\])]/;
+    const match = itemCountRegex.exec(title);
+    if (match) {
+      ipcRenderer.send('badge', match[1]);
+    } else {
+      ipcRenderer.send('badge', '');
+    }
+  }
+
   render() {
     const {
-      url, findInPageIsOpen, requestUpdateLoading, requestUpdateFindInPageMatches,
+      url, findInPageIsOpen, isFullScreen,
+      requestUpdateLoading, requestUpdateFindInPageMatches,
     } = this.props;
 
-    let usedHeight = os.platform() === 'darwin' ? 22 : 0;
+    const showNav = (os.platform() === 'darwin' && !isFullScreen);
+
+    let usedHeight = showNav ? 22 : 0;
     if (findInPageIsOpen) usedHeight += 50;
 
     return (
@@ -151,7 +174,7 @@ class App extends React.Component {
           height: '100vh',
         }}
       >
-        {os.platform() === 'darwin' ? (
+        {showNav ? (
           <Nav
             onHomeButtonClick={() => this.c.loadURL(argv.url)}
             onBackButtonClick={() => this.c.goBack()}
@@ -187,15 +210,7 @@ class App extends React.Component {
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
-            onPageTitleUpdated={({ title }) => {
-              const itemCountRegex = /[([{](\d*?)[}\])]/;
-              const match = itemCountRegex.exec(title);
-              if (match) {
-                ipcRenderer.send('badge', match[1]);
-              } else {
-                ipcRenderer.send('badge', '');
-              }
-            }}
+            onPageTitleUpdated={this.handlePageTitleUpdated}
           />
         </div>
         <Settings />
@@ -208,6 +223,8 @@ App.propTypes = {
   url: React.PropTypes.string,
   findInPageIsOpen: React.PropTypes.bool,
   findInPageText: React.PropTypes.string,
+  isFullScreen: React.PropTypes.bool,
+  onResize: React.PropTypes.func,
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
   requestUpdateCanGoForward: React.PropTypes.func,
@@ -219,9 +236,13 @@ App.propTypes = {
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
+  isFullScreen: state.screen.isFullScreen,
 });
 
 const mapDispatchToProps = dispatch => ({
+  onResize: () => {
+    dispatch(screenResize(window.innerWidth, remote.getCurrentWindow().isFullScreen()));
+  },
   requestUpdateLoading: (isLoading) => {
     dispatch(updateLoading(isLoading));
   },

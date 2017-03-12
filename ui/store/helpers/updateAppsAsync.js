@@ -1,7 +1,7 @@
 /* global os */
 import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
-import fetchAppDataAsync from '../helpers/fetchAppDataAsync';
+import getObjectsAsync from '../helpers/getObjectsAsync';
 
 const shouldUpdate = version => (version.toString() < '3.2.5' && os.platform() === 'darwin');
 
@@ -16,10 +16,12 @@ const updateAppsAsync = ({ allAppPath, installedApps }) => {
   /* eslint-enable no-console */
 
   if (neededToUpdateAppIds.length > 0) {
-    return fetchAppDataAsync({
+    return getObjectsAsync({
       objectIds: neededToUpdateAppIds,
     })
-    .then((hits) => {
+    .then((content) => {
+      const hits = content.results ? content.results.filter(hit => hit !== null) : [];
+
       const promises = hits
         .map(({ id, name, url }) => {
           const appId = id;

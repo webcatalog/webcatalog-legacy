@@ -14,6 +14,7 @@ const common = {
     store: `${SOURCE_DIR}/store/index.js`,
     app: `${SOURCE_DIR}/app/index.js`,
   },
+  devtool: 'source-map',
   output: {
     path: OUTPUT_DIR,
     filename: '[name].bundle.js',
@@ -52,7 +53,9 @@ const config = (() => {
         plugins: [
           new CleanWebpackPlugin([OUTPUT_DIR]),
           new CopyWebpackPlugin(copyArr),
-          new webpack.optimize.UglifyJsPlugin(),
+          new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+          }),
           new webpack.optimize.AggressiveMergingPlugin(),
         ],
       });
