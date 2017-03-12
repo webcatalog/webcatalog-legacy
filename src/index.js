@@ -96,18 +96,25 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
 
   // https://www.algolia.com/doc/faq/index-configuration/how-can-i-update-all-the-objects-of-my-index/
 
-  index.addObjects(algoliaApps, (err) => {
+  index.setSettings({ customRanking: ['asc(name)'] }, (err) => {
     if (err) {
       console.error(err);
       process.exit(1);
     }
 
-    // Rename temporary index to production index (and overwrite it)
-    client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
-      if (moveIndexErr) {
-        console.error(moveIndexErr);
+    index.addObjects(algoliaApps, (addObjectsErr) => {
+      if (addObjectsErr) {
+        console.error(addObjectsErr);
         process.exit(1);
       }
+
+      // Rename temporary index to production index (and overwrite it)
+      client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
+        if (moveIndexErr) {
+          console.error(moveIndexErr);
+          process.exit(1);
+        }
+      });
     });
   });
 }
