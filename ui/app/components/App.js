@@ -145,6 +145,18 @@ class App extends React.Component {
     electronSettings.set(`lastPages.${camelCase(argv.id)}`, c.getURL());
   }
 
+  handlePageTitleUpdated({ title }) {
+    remote.getCurrentWindow().setTitle(title);
+
+    const itemCountRegex = /[([{](\d*?)[}\])]/;
+    const match = itemCountRegex.exec(title);
+    if (match) {
+      ipcRenderer.send('badge', match[1]);
+    } else {
+      ipcRenderer.send('badge', '');
+    }
+  }
+
   render() {
     const {
       url, findInPageIsOpen, isFullScreen,
@@ -198,15 +210,7 @@ class App extends React.Component {
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
-            onPageTitleUpdated={({ title }) => {
-              const itemCountRegex = /[([{](\d*?)[}\])]/;
-              const match = itemCountRegex.exec(title);
-              if (match) {
-                ipcRenderer.send('badge', match[1]);
-              } else {
-                ipcRenderer.send('badge', '');
-              }
-            }}
+            onPageTitleUpdated={this.handlePageTitleUpdated}
           />
         </div>
         <Settings />
