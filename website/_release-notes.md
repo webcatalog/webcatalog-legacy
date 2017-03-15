@@ -1,3 +1,8 @@
+# 3.3.1
+- Adds Windows 32-bit support.
+
+---
+
 # 3.3.0
 - Fixes bugs & improves stability.
 - Shows page title on title bar (Windows).
