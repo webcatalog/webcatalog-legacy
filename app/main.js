@@ -13,14 +13,12 @@ const { app, BrowserWindow, ipcMain } = electron;
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
-const loadPlugins = require('./libs/loadPlugins');
 const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
 
 const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
 
-loadPlugins();
 setProtocols();
 
 // Keep a global reference of the window object, if you don't, the window will
