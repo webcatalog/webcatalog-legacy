@@ -116,7 +116,11 @@ class App extends React.Component {
     console.log(nextDomain);
 
     // open new window
-    if (nextDomain === null || nextDomain === 'feedly.com') {
+    if (
+      nextDomain === null
+      || nextDomain === 'feedly.com'
+      || nextUrl.indexOf('oauth') > -1 // Works with Google & Facebook.
+    ) {
       return;
     }
 
