@@ -107,15 +107,20 @@ class App extends React.Component {
 
   handleNewWindow(e) {
     const nextUrl = e.url;
-    console.log(nextUrl);
     const c = this.c;
     console.log(`newWindow: ${nextUrl}`);
     // open external url in browser if domain doesn't match.
     const curDomain = extractDomain(argv.url);
     const nextDomain = extractDomain(nextUrl);
 
+    console.log(nextDomain);
+
     // open new window
-    if (nextDomain === null) {
+    if (
+      nextDomain === null
+      || nextDomain === 'feedly.com'
+      || nextUrl.indexOf('oauth') > -1 // Works with Google & Facebook.
+    ) {
       return;
     }
 

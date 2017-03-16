@@ -1,3 +1,15 @@
+# 3.4.0
+- Adds Windows 32-bit & Linux 32-bit support.
+- Fixes bugs, including [Feedly's login bug](https://github.com/webcatalog/desktop/issues/70).
+- Removes Flash, Chromecast and WidevineCdm support. *Apps with Flash and WidevineCdm will be removed from the catalog*.
+
+---
+
+# 3.3.1 (beta)
+- Adds Windows 32-bit support.
+
+---
+
 # 3.3.0
 - Fixes bugs & improves stability.
 - Shows page title on title bar (Windows).

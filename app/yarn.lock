@@ -12,20 +12,9 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-ascli@~0.3:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ascli/-/ascli-0.3.0.tgz#5e66230e5219fe3e8952a4efb4f20fae596a813a"
-  dependencies:
-    colour latest
-    optjs latest
-
 balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
-
-bindings@~1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
 
 bluebird-lst-c@^1.0.5:
   version "1.0.5"
@@ -44,41 +33,19 @@ brace-expansion@^1.0.0:
     balanced-match "^0.4.1"
     concat-map "0.0.1"
 
-bufferview@~1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/bufferview/-/bufferview-1.0.1.tgz#7afd74a45f937fa422a1d338c08bbfdc76cd725d"
-
-"bytebuffer@~3 >=3.5":
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/bytebuffer/-/bytebuffer-3.5.5.tgz#7a6faf1a13514b083f1fcf9541c4c9bfbe7e7fd3"
-  dependencies:
-    bufferview "~1"
-    long "~2 >=2.2.3"
-
 camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
-
-castv2@^0.1.6:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/castv2/-/castv2-0.1.9.tgz#d0b0fab1fd06b0d9cca636886716ec1293a5905a"
-  dependencies:
-    debug "^2.2.0"
-    protobufjs "^3.2.2"
 
 clone@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
 
-colour@latest:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/colour/-/colour-0.7.1.tgz#9cb169917ec5d12c0736d3e8685746df1cadf778"
-
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-debug@2.6.0, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.4.5:
+debug@2.6.0, debug@^2.2.0, debug@^2.4.5:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -91,13 +58,6 @@ deep-equal@^1.0.1:
 deep-extend@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.1.tgz#efe4113d08085f4e6f9687759810f807469e2253"
-
-dns-js@~0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/dns-js/-/dns-js-0.2.1.tgz#5d66629b3c0e6a5eb0e14f0ae701d05f6ea46673"
-  dependencies:
-    debug "^2.1.0"
-    qap "^3.1.2"
 
 electron-auto-updater@^1.0.0:
   version "1.0.0"
@@ -116,14 +76,6 @@ electron-builder-http@11.3.0:
   dependencies:
     debug "2.6.0"
     fs-extra-p "^3.0.3"
-
-electron-chromecast@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/electron-chromecast/-/electron-chromecast-1.0.18.tgz#5c1dadbd3acb9d45097f8f3f6a47e05936dbb66f"
-  dependencies:
-    castv2 "^0.1.6"
-    lodash "^4.13.1"
-    node-mdns-easy "^1.0.0"
 
 electron-settings@^2.2.2:
   version "2.2.2"
@@ -233,29 +185,6 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
 
-lodash@^4.13.1:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
-
-"long@~2 >=2.2.3":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/long/-/long-2.4.0.tgz#9fa180bb1d9500cdc29c4156766a1995e1f4524f"
-
-"mdns-js@github:mdns-js/node-mdns-js":
-  version "0.5.3"
-  resolved "https://codeload.github.com/mdns-js/node-mdns-js/tar.gz/fb05136e6666684bee9f9af012c74601a2664be3"
-  dependencies:
-    debug "^2.1.1"
-    dns-js "~0.2.1"
-    semver "~5.1.0"
-
-mdns@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/mdns/-/mdns-2.3.3.tgz#bbc6ad5407a230133d62e0da692f29f0bd49728e"
-  dependencies:
-    bindings "~1.2.1"
-    nan "~2.3.0"
-
 minimatch@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
@@ -276,41 +205,15 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-nan@~2.3.0:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.3.5.tgz#822a0dc266290ce4cd3a12282ca3e7e364668a08"
-
-node-mdns-easy@^1.0.0:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/node-mdns-easy/-/node-mdns-easy-1.0.4.tgz#339e03a719761269f90c2df23da9e17b0fd405ac"
-  dependencies:
-    mdns "^2.3.3"
-    mdns-js "github:mdns-js/node-mdns-js"
-
 once@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
     wrappy "1"
 
-optjs@latest:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/optjs/-/optjs-3.2.2.tgz#69a6ce89c442a44403141ad2f9b370bd5bb6f4ee"
-
 path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
-
-protobufjs@^3.2.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-3.8.2.tgz#bc826e34c3af4697e8d0af7a669e4d612aedcd17"
-  dependencies:
-    ascli "~0.3"
-    bytebuffer "~3 >=3.5"
-
-qap@^3.1.2:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/qap/-/qap-3.1.3.tgz#394288bf07c8fe16cf36bb2e40a3bb947ed24963"
 
 rimraf@^2.2.8:
   version "2.5.4"
@@ -321,10 +224,6 @@ rimraf@^2.2.8:
 semver@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
-
-semver@~5.1.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.1.1.tgz#a3292a373e6f3e0798da0b20641b9a9c5bc47e19"
 
 source-map-support@^0.4.8:
   version "0.4.8"

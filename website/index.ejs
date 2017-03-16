@@ -2,35 +2,61 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <div class="columns is-desktop">
-        <div class="column is-4-desktop" style="padding-top: 30px;">
+        <div class="column is-4-desktop" style="padding-top: 30px">
           <img class="logo" src="/images/icon.128px@2x.png" />
           <p class="title">
-            WebCatalog
+            WebCatalog <%= webcatalogVersion %>
           </p>
           <p class="subtitle">
             Run your favorite web apps natively.
           </p>
-          <a class="button is-large is-black" style="margin-bottom: 6px;" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.dmg" target="_blank" rel="noopener noreferrer">
+          <a class="button is-black" style="margin-bottom: 6px" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.dmg" target="_blank" rel="noopener noreferrer">
             <i class="fa fa-apple"></i>
             <span>&nbsp;Download for macOS</span>
           </a>
-          <p>Version <%= webcatalogVersion %>. macOS 10.9 or higher. </p>
+          <p>macOS 10.9 or higher.</p>
 
-          <a class="button is-large is-black" style="margin-top: 30px; margin-bottom: 6px; background-color: #0078D6" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-windows"></i>
-            <span>&nbsp;Download for Windows</span>
-          </a>
-          <p>Version <%= webcatalogVersion %>. Windows 7 64-bit or higher. </p>
+          <div class="field has-addons" style="justify-content: center; margin-bottom: 6px; margin-top: 30px">
+            <p class="control">
+              <a class="button is-black" style="background-color: #0078D6" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-windows"></i>
+                <span>&nbsp;Download for Windows</span>
+              </a>
+            </p>
+            <p class="control">
+              <a class="button is-black" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
+                <span>64-bit</span>
+              </a>
+            </p>
+            <p class="control">
+              <a class="button" style="color: #000" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>-ia32.exe" target="_blank" rel="noopener noreferrer">
+                <span>32-bit</span>
+              </a>
+            </p>
+          </div>
+          <p>Windows 7 or higher.</p>
 
-          <a class="button is-large is-black" style="margin-top: 30px; margin-bottom: 6px; background-color: #77216f" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-linux"></i>
-            <span>&nbsp;Download for Linux</span>
-          </a>
+          <div class="field has-addons" style="justify-content: center; margin-bottom: 6px; margin-top: 30px">
+            <p class="control">
+              <a class="button is-black" style="background-color: #77216f" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-windows"></i>
+                <span>&nbsp;Download for Linux</span>
+              </a>
+            </p>
+            <p class="control">
+              <a class="button is-black" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+                <span>64-bit</span>
+              </a>
+            </p>
+            <p class="control">
+              <a class="button" style="color: #000" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_i386.deb" target="_blank" rel="noopener noreferrer">
+                <span>32-bit</span>
+              </a>
+            </p>
+          </div>
           <p>Also available in
-            <a style="color: #fff; font-weight: 700;" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.rpm" target="_blank" rel="noopener noreferrer">RPM</a> &
-            <a style="color: #fff; font-weight: 700;" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.pacman" target="_blank" rel="noopener noreferrer">Pacman</a>.
+            <a style="color: #fff; font-weight: 700" href="https://github.com/webcatalog/desktop/releases/tag/v<%= webcatalogVersion %>" target="_blank" rel="noopener noreferrer">other formats</a>.
           </p>
-          <p>Version <%= webcatalogVersion %>. Any 64-bit Linux distros. </p>
 
           <p class="title is-4" style="margin-top: 30px">
             <a data-scroll href="#intro">
@@ -38,7 +64,7 @@
             </a>
           </p>
         </div>
-        <div class="column" style="padding: 0;">
+        <div class="column" style="padding: 0">
           <figure class="image is-screenshot">
             <img src="/images/screenshot_1.png" alt="Modern Translator on macOS">
           </figure>
@@ -52,8 +78,8 @@
   <div class="hero-body">
     <div class="container">
       <h3 class="title is-3 has-text-centered">What is WebCatalog?</h3>
-      <p class="title is-5" style="line-height: 1.75;">WebCatalog is an open source desktop app which allows you to install and run your favorite web apps <i>natively</i>. Similar to the app stores on your smartphones and tablets, you can just open WebCatalog, install an app you like and start using it immediately. Those apps will stay on your Dock or Taskbar, notify you when you receive a new message or a call and <a data-scroll href="#features">more</a>;  or in short, improve your productivity significantly.</p>
-      <p class="title is-5" style="line-height: 1.75;">It offers similar functionalities with <a href="http://fluidapp.com/" target="_blank" rel="noopener noreferrer">Fluid</a> and <a href="https://github.com/jiahaog/nativefier" target="_blank" rel="noopener noreferrer">Nativefier</a>, but it is better and easier to use. Don't trust me? Check the <a data-scroll href="#comparison">Comparison table.</a></p>
+      <p class="title is-5" style="line-height: 1.75">WebCatalog is an open source desktop app which allows you to install and run your favorite web apps <i>natively</i>. Similar to the app stores on your smartphones and tablets, you can just open WebCatalog, install an app you like and start using it immediately. Those apps will stay on your Dock or Taskbar, notify you when you receive a new message or a call and <a data-scroll href="#features">more</a>;  or in short, improve your productivity significantly.</p>
+      <p class="title is-5" style="line-height: 1.75">It offers similar functionalities with <a href="http://fluidapp.com/" target="_blank" rel="noopener noreferrer">Fluid</a> and <a href="https://github.com/jiahaog/nativefier" target="_blank" rel="noopener noreferrer">Nativefier</a>, but it is better and easier to use. Don't trust me? Check the <a data-scroll href="#comparison">Comparison table.</a></p>
     </div>
   </div>
 </section>
@@ -64,12 +90,12 @@
       <h3 class="title is-3">Features</h3>
       <div class="columns">
         <div class="column">
-          <figure class="image is-screenshot" style="padding-top: 0;">
+          <figure class="image is-screenshot" style="padding-top: 0">
             <img src="/images/screenshot_2.png" alt="Modern Translator on macOS">
           </figure>
           <p>Facebook Messenger, installed from WebCatalog.</p>
         </div>
-        <div class="column is-4" style="padding-top: 42px;">
+        <div class="column is-4" style="padding-top: 42px">
           <p class="title is-5">Open from Launchpad or Spotlight</p>
           <p class="title is-5">Open from Start Menu or Desktop</p>
           <p class="title is-5">Stay on Dock or Taskbar</p>
@@ -88,7 +114,7 @@
 </section>
 
 
-<section class="section" style="overflow-x: auto;" id="comparison">
+<section class="section" style="overflow-x: auto" id="comparison">
   <div class="container">
     <div class="content has-text-centered">
       <h2>Comparison</h2>
@@ -199,75 +225,61 @@
   </div>
 </section>
 
-<section class="section" style="border-top: 1px solid #dbdbdb;">
+<section class="section" style="border-top: 1px solid #dbdbdb">
   <div class="container">
     <div class="content has-text-centered">
-      <h2>Try now! It's free!</h2>
+      <h2 style="margin-bottom: 30px">Try now! It's free!</h2>
       <div class="columns is-desktop">
         <div class="column">
-          <a class="button is-large is-black" style="margin-bottom: 6px;" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.dmg" target="_blank" rel="noopener noreferrer">
+          <a class="button is-black" style="margin-bottom: 6px" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.dmg" target="_blank" rel="noopener noreferrer">
             <i class="fa fa-apple"></i>
             <span>&nbsp;Download for macOS</span>
           </a>
-          <p>Version <%= webcatalogVersion %>. macOS 10.9 or higher. </p>
+          <p>macOS 10.9 or higher.</p>
         </div>
         <div class="column">
-          <a class="button is-large is-black" style="margin-bottom: 6px; background-color: #0078D6" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-windows"></i>
-            <span>&nbsp;Download for Windows</span>
-          </a>
-          <p>Version <%= webcatalogVersion %>. Windows 7 64-bit or higher. </p>
+          <div class="field has-addons" style="justify-content: center; margin-bottom: 6px">
+            <p class="control" style="margin-bottom: 0">
+              <a class="button is-black" style="background-color: #0078D6" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-windows"></i>
+                <span>&nbsp;Download for Windows</span>
+              </a>
+            </p>
+            <p class="control" style="margin-bottom: 0">
+              <a class="button is-black" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>.exe" target="_blank" rel="noopener noreferrer">
+                <span>64-bit</span>
+              </a>
+            </p>
+            <p class="control" style="margin-bottom: 0">
+              <a class="button" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-Setup-<%= webcatalogVersion %>-ia32.exe" target="_blank" rel="noopener noreferrer">
+                <span>32-bit</span>
+              </a>
+            </p>
+          </div>
+          <p>Windows 7 or higher.</p>
         </div>
         <div class="column">
-          <a class="button is-large is-black" style="margin-bottom: 6px; background-color: #77216f" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-linux"></i>
-            <span>&nbsp;Download for Linux</span>
-          </a>
-          <p style="margin-bottom: 0;">Also available in
-            <a href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.rpm" target="_blank" rel="noopener noreferrer">RPM</a> &
-            <a href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog-<%= webcatalogVersion %>.pacman" target="_blank" rel="noopener noreferrer">Pacman</a>.
+          <div class="field has-addons" style="justify-content: center; margin-bottom: 6px">
+            <p class="control" style="margin-bottom: 0">
+              <a class="button is-black" style="background-color: #77216f" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-windows"></i>
+                <span>&nbsp;Download for Linux</span>
+              </a>
+            </p>
+            <p class="control" style="margin-bottom: 0">
+              <a class="button is-black" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+                <span>64-bit</span>
+              </a>
+            </p>
+            <p class="control" style="margin-bottom: 0">
+              <a class="button" href="https://github.com/webcatalog/desktop/releases/download/v<%= webcatalogVersion %>/WebCatalog_<%= webcatalogVersion %>_i386.deb" target="_blank" rel="noopener noreferrer">
+                <span>32-bit</span>
+              </a>
+            </p>
+          </div>
+          <p>Also available in
+            <a href="https://github.com/webcatalog/desktop/releases/tag/v<%= webcatalogVersion %>" target="_blank" rel="noopener noreferrer">other formats</a>.
           </p>
-          <p>Version <%= webcatalogVersion %>. Any 64-bit Linux distros. </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="newsletter" class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <div id="mc_embed_signup" class="columns is-vcentered">
-        <div class="column is-one-third is-left">
-          <p class="title">WebCatalog <strong>Newsletter</strong></p>
-          <p class="subtitle">Get notified about new features!</p>
-        </div>
-
-        <div class="column">
-          <form action="https://getwebcatalog.us12.list-manage.com/subscribe/post?u=fd8f4ae47cc6394f5a3b0dbb5&amp;id=5701b80e55" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
-            <div id="mc_embed_signup_scroll">
-              <div class="control is-grouped">
-                <div class="control has-icon is-expanded">
-                  <input type="email" value="" name="EMAIL" class="input is-flat required email" id="mce-EMAIL" placeholder="email address" required="" aria-required="true">
-                  <span class="icon is-small">
-                    <i class="fa fa-envelope"></i>
-                  </span>
-                </div>
-                <div class="control">
-                  <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button is-white is-outlined">
-                </div>
-              </div>
-              <div id="mce-responses">
-                <div class="notification is-danger response" id="mce-error-response" style="display:none"></div>
-                <div class="notification is-success response" id="mce-success-response" style="display:none"></div>
-              </div>
-              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-              <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                <input type="text" name="b_b43b93fe633f0560b2a72a69c_52585e8803" tabindex="-1" value="">
-              </div>
-            </div>
-          </form>
-        </div>
       </div>
     </div>
   </div>
