@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_OS_NAME" == 'linux' -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+if [ "$TRAVIS_OS_NAME" = 'linux' -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
   echo "Publishing Website"
   export WEBCATALOG_VERSION=$(node -e "console.log(require('./app/package.json').version);")
   yarn global add harp
@@ -17,6 +17,7 @@ if [ "$TRAVIS_OS_NAME" == 'linux' -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PUL
   git remote add origin "https://$GH_TOKEN@github.com/webcatalog/desktop.git"
   git push origin gh-pages -f --quiet > /dev/null 2>&1
 else
+  echo $TRAVIS_PULL_REQUEST
   echo $TRAVIS_OS_NAME
   echo $TRAVIS_BRANCH
   echo "Skip Publishing Website"
