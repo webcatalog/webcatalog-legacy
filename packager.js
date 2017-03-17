@@ -15,12 +15,12 @@ switch (process.platform) {
     break;
   }
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64, Arch.ia32);
+    targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64);
     break;
   }
   case 'win32':
   default: {
-    targets = Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64, Arch.ia32);
+    targets = Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64);
   }
 }
 
