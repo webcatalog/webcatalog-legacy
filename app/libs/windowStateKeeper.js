@@ -1,6 +1,4 @@
 // https://raw.githubusercontent.com/mawie81/electron-window-state/master/index.js
-/* eslint-disable import/no-extraneous-dependencies */
-
 const path = require('path');
 const electron = require('electron');
 const jsonfile = require('jsonfile');

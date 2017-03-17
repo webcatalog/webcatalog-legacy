@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 const semver = require('semver');
 const https = require('https');
 const { app, dialog, shell } = require('electron');

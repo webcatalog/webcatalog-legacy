@@ -1,6 +1,4 @@
 // https://raw.githubusercontent.com/jiahaog/nativefier/development/app/src/components/menu/menu.js
-/* eslint-disable import/no-extraneous-dependencies */
-
 const electron = require('electron');
 const openAboutWindow = require('about-window').default;
 const join = require('path').join;
