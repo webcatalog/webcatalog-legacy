@@ -46,7 +46,7 @@ const checkForUpdate = ({ mainWindow, log, isWebView }) => {
       } else {
         https.get({
           host: 'api.github.com',
-          path: '/repos/webcatalog/desktop/releases/latest',
+          path: '/repos/webcatalog/webcatalog/releases/latest',
           method: 'GET',
           headers: { 'user-agent': `WebCatalog/${app.getVersion()}` },
         }, (res) => {

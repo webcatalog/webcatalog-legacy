@@ -1,12 +1,12 @@
 # 3.4.1
 - Removes Windows 32-bit & Linux 32-bit support.
-- Fixes [a critical bug on Windows](https://github.com/webcatalog/desktop/issues/74).
+- Fixes [a critical bug on Windows](https://github.com/webcatalog/webcatalog/issues/74).
 
 ---
 
 # 3.4.0 (beta)
 - Adds Windows 32-bit & Linux 32-bit support.
-- Fixes bugs, including [Feedly's login bug](https://github.com/webcatalog/desktop/issues/70).
+- Fixes bugs, including [Feedly's login bug](https://github.com/webcatalog/webcatalog/issues/70).
 - Removes Flash, Chromecast and WidevineCdm support. *Apps with Flash and WidevineCdm will be removed from the catalog*.
 
 ---
@@ -30,7 +30,7 @@
 ---
 
 # 3.2.6
-- Fixes bug with auto updater which [causes apps installed from WebCatalog to crash on startup](https://github.com/webcatalog/desktop/issues/47).
+- Fixes bug with auto updater which [causes apps installed from WebCatalog to crash on startup](https://github.com/webcatalog/webcatalog/issues/47).
 
 ---
 

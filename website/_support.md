@@ -21,7 +21,7 @@ sudo pacman -U path-to-webcatalog-pacman-file
 ```
 
 ### Can I use WebCatalog with [Choosy](https://www.choosyosx.com) on macOS?
-Due to [technical limitations](https://github.com/webcatalog/desktop/issues/44), at the moment, using WebCatalog with [Choosy](https://www.choosyosx.com) is possible but will be a little bit complicated.
+Due to [technical limitations](https://github.com/webcatalog/webcatalog/issues/44), at the moment, using WebCatalog with [Choosy](https://www.choosyosx.com) is possible but will be a little bit complicated.
 
 Even though the apps are located at `~/Applications/WebCatalog Apps`, they will not work properly with Choosy. Instead, you need to go to `~/.webcatalog` (Finder > Go to Folder). There, you will also find all the apps you install from WebCatalog. You can move these apps to any locations you like and add them to Choosy to configure your system to fit your preferences.
 

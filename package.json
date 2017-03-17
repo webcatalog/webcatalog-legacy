@@ -15,7 +15,7 @@
     "lint": "eslint ./ui --ext .js --cache",
     "dist": "yarn run compile && yarn run package"
   },
-  "repository": "https://github.com/webcatalog/desktop",
+  "repository": "https://github.com/webcatalog/webcatalog",
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam2807@gmail.com",

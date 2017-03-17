@@ -64,7 +64,7 @@ builder.build({
         }
 
         // Use alternative exec to allow launching multiple instance of WebCatalog
-        // https://github.com/webcatalog/desktop/issues/10
+        // https://github.com/webcatalog/webcatalog/issues/10
         const execPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
         const altExecPath = `${appOutDir}/WebCatalog.app/Contents/Resources/WebCatalog_Alt`;
 

@@ -98,7 +98,7 @@ class App extends React.Component {
   handleDidGetRedirectRequest(e) {
     const c = this.c;
     const { newURL, isMainFrame } = e;
-    // https://github.com/webcatalog/desktop/issues/42
+    // https://github.com/webcatalog/webcatalog/issues/42
     if (isMainFrame && extractDomain(newURL) === 'twitter.com') {
       setTimeout(() => c.loadURL(newURL), 100);
       e.preventDefault();
@@ -126,7 +126,7 @@ class App extends React.Component {
 
     // navigate
     if (nextDomain && (nextDomain === curDomain || nextDomain === 'accounts.google.com')) {
-      // https://github.com/webcatalog/desktop/issues/35
+      // https://github.com/webcatalog/webcatalog/issues/35
       e.preventDefault();
       c.loadURL(nextUrl);
       return;
