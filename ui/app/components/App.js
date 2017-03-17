@@ -205,7 +205,6 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
-            preload="./preload.js"
             useragent={argv.userAgent}
             partition={`persist:${argv.id}`}
             onDidGetRedirectRequest={this.handleDidGetRedirectRequest}

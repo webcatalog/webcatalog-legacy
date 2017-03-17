@@ -22,5 +22,8 @@
   },
   "optionalDependencies": {
     "windows-shortcuts": "^0.1.4"
+  },
+  "devDependencies": {
+    "electron": "^1.6.2"
   }
 }

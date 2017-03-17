@@ -2,6 +2,7 @@
 
 const builder = require('electron-builder');
 const exec = require('child_process').exec;
+const electronVersion = require('./package.json').devDependencies.electron.substr(1);
 
 const { Platform, Arch } = builder;
 
@@ -14,12 +15,12 @@ switch (process.platform) {
     break;
   }
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64, Arch.ia32);
+    targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64);
     break;
   }
   case 'win32':
   default: {
-    targets = Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64, Arch.ia32);
+    targets = Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64);
   }
 }
 
@@ -35,6 +36,7 @@ const files = [];
 builder.build({
   targets,
   config: {
+    electronVersion,
     appId: 'com.webcatalog.app',
     files,
     asar: true,
