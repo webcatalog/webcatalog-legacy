@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_OS_NAME" == 'linux' -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+if [ "$TRAVIS_OS_NAME" = 'linux' -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" != "false" ]; then
   echo "Publishing Website"
   export WEBCATALOG_VERSION=$(node -e "console.log(require('./app/package.json').version);")
   yarn global add harp
