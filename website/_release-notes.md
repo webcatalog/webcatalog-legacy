@@ -1,4 +1,10 @@
-# 3.4.0
+# 3.4.1
+- Removes Windows 32-bit & Linux 32-bit support.
+- Fixes [a critical bug on Windows](https://github.com/webcatalog/desktop/issues/74).
+
+---
+
+# 3.4.0 (beta)
 - Adds Windows 32-bit & Linux 32-bit support.
 - Fixes bugs, including [Feedly's login bug](https://github.com/webcatalog/desktop/issues/70).
 - Removes Flash, Chromecast and WidevineCdm support. *Apps with Flash and WidevineCdm will be removed from the catalog*.
