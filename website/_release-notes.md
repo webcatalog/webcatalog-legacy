@@ -1,3 +1,8 @@
+# 3.4.2
+- Brings back WideVineCDM (for Netflix).
+
+---
+
 # 3.4.1
 - Removes Windows 32-bit & Linux 32-bit support.
 - Fixes [a critical bug on Windows](https://github.com/webcatalog/webcatalog/issues/74).
