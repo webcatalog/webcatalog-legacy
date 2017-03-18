@@ -110,8 +110,8 @@ class ElectronWebView extends React.Component {
     let propString = '';
     Object.keys(props).forEach((propName) => {
       if (typeof this.props[propName] !== 'undefined') {
-        if (typeof this.props[propName] === 'boolean' && this.props[propName === true]) {
-          propString += `${propName}=on" `;
+        if (typeof this.props[propName] === 'boolean') {
+          if (this.props[propName] === true) propString += `${propName}=on" `;
         } else {
           propString += `${propName}=${JSON.stringify(this.props[propName].toString())} `;
         }
