@@ -34,7 +34,7 @@ install:
   # install modules
   - yarn
 
-before_script:
+before_build:
   - yarn lint
 
 build_script:
