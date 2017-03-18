@@ -11,7 +11,7 @@ const getElectronPath = () => {
   } else if (process.platform === 'darwin') {
     return path.resolve(
       __dirname,
-      '../../node_modules/electron/dist/electron.app/Contents/MacOS/electron'
+      '../../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron'
     );
   }
 
