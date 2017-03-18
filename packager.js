@@ -56,6 +56,9 @@ builder.build({
         ],
       },
     },
+    dmg: {
+      icon: 'build/installerIcon.icns',
+    },
     afterPack: ({ appOutDir }) =>
       new Promise((resolve, reject) => {
         if (process.platform !== 'darwin') {
