@@ -1,4 +1,9 @@
-# 3.4.3
+# 3.4.4
+- Fixes bugs.
+
+---
+
+# 3.4.3 (beta)
 - Fixes bugs.
 
 ---
