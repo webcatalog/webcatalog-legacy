@@ -25,7 +25,6 @@ const widewinePath = argv.development ? 'electron-widevinecdm' : '../app.asar.un
 /* eslint-disable import/no-dynamic-require */
 const widewine = require(widewinePath);
 /* eslint-enable import/no-dynamic-require */
-widewine.load(app);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -74,6 +73,9 @@ function createWindow() {
   });
 
   if (isWebView) {
+    // only need DRM in webview
+    widewine.load(app);
+
     mainWindow.appInfo = {
       id: argv.id,
       name: argv.name,
