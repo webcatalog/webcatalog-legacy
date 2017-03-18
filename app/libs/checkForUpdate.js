@@ -14,7 +14,10 @@ const shouldUseSquirrel = (isWebView) => {
   return true;
 };
 
-const checkForUpdate = ({ mainWindow, log, isWebView }) => {
+const checkForUpdate = ({ mainWindow, log, isWebView, isDevelopment, isTesting }) => {
+  // Don't run update checker in dev mode
+  if (isDevelopment || isTesting) return;
+
   // Run autoUpdater in any windows
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {

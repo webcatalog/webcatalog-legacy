@@ -22,8 +22,10 @@ addons:
     - rpm
     - bsdtar
     - libavahi-compat-libdnssd-dev
+before_script:
+- yarn lint
 script:
-- yarn run lint
-- yarn run dist
-- ls dist
+- yarn dist
+- ./test.sh
+after_script:
 - ./publish-website.sh

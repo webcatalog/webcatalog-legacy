@@ -34,8 +34,11 @@ install:
   # install modules
   - yarn
 
+before_build:
+  - yarn lint
+
 build_script:
-  - yarn run lint
-  - yarn run dist
+  - yarn dist
+  - yarn test
 
 test: off

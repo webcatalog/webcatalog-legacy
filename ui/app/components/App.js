@@ -205,6 +205,8 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
+            // enable nodeintegration in testing mode (mainly for Spectron)
+            nodeintegration={argv.isTesting}
             useragent={argv.userAgent}
             partition={`persist:${argv.id}`}
             onDidGetRedirectRequest={this.handleDidGetRedirectRequest}

@@ -16,8 +16,16 @@ const setProtocols = require('./libs/setProtocols');
 
 const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
+const isTesting = argv.testing === 'true';
 
 setProtocols();
+
+// for Netflix
+const widewinePath = argv.development ? 'electron-widevinecdm' : '../app.asar.unpacked/node_modules/electron-widevinecdm/src';
+/* eslint-disable import/no-dynamic-require */
+const widewine = require(widewinePath);
+/* eslint-enable import/no-dynamic-require */
+widewine.load(app);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -71,6 +79,8 @@ function createWindow() {
       name: argv.name,
       url: argv.url,
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
+      isTesting,
+      isDevelopment,
     };
 
     /* Badge count */
@@ -111,7 +121,7 @@ function createWindow() {
     });
   }
 
-  checkForUpdate({ mainWindow, log, isWebView });
+  checkForUpdate({ mainWindow, log, isWebView, isDevelopment, isTesting });
 
   if (isWebView) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)
