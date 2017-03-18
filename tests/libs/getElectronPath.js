@@ -6,18 +6,18 @@ const getElectronPath = () => {
   if (process.platform === 'win32') {
     return path.resolve(
       __dirname,
-      '../../node_modules/electron/dist/electron.exe'
+      '../../dist/win-unpacked/WebCatalog.exe'
     );
   } else if (process.platform === 'darwin') {
     return path.resolve(
       __dirname,
-      '../../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron'
+      '../../dist/mac/WebCatalog.app/Contents/MacOS/WebCatalog'
     );
   }
 
   return path.resolve(
     __dirname,
-    '../../node_modules/electron/dist/electron'
+    '../../dist/linux-unpacked/webcatalog'
   );
 };
 

@@ -16,7 +16,6 @@ describe('shaka-player-test', function shakaPlayerTest() {
     this.app = new Application({
       path: getElectronPath(),
       args: [
-        'app/main.js',
         '--testing=true', // disable auto updater
         '--id=shaka',
         '--url=https://shaka-player-demo.appspot.com/demo/',
