@@ -1,4 +1,9 @@
-# 3.4.2
+# 3.4.3
+- Fixes bugs.
+
+---
+
+# 3.4.2 (beta)
 - Brings back WideVineCDM (for Netflix).
 
 ---
