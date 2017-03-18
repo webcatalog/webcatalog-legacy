@@ -23,10 +23,9 @@ addons:
     - bsdtar
     - libavahi-compat-libdnssd-dev
 before_script:
-- sh -c "cd app && exec yarn"
 - yarn lint
 script:
-- ./test.sh
 - yarn dist
-- ls dist
+- ./test.sh
+after_script:
 - ./publish-website.sh
