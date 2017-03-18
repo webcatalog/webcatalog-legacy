@@ -82,6 +82,7 @@ jsonFiles.forEach((fileName) => {
 if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
   console.log('Missing Algolia info >> Skip Algolia');
 } else {
+  console.log('Algolia: start.');
   // set object id
   const algoliaApps = apps.map((a) => {
     const app = a;
@@ -103,12 +104,15 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
       process.exit(1);
     }
 
-    const promises = chunk(algoliaApps, 50).map(appChunk =>
+    const promises = chunk(algoliaApps, 50).map((appChunk, appChunkIndex) =>
       new Promise((resolve, reject) => {
+        console.log(`Algolia: Adding chunk ${appChunkIndex}`);
         index.addObjects(appChunk, (addObjectsErr) => {
           if (addObjectsErr) {
             reject(addObjectsErr);
+            return;
           }
+          resolve();
         });
       }));
 
@@ -118,7 +122,9 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
           if (moveIndexErr) {
             console.error(moveIndexErr);
             process.exit(1);
+            return;
           }
+          console.log('Algolia: done.');
         });
       })
       .catch((pErr) => {
