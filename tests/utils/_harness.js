@@ -27,7 +27,7 @@ const harness = (name, fn, args) => {
       global.app = new Application({
         path: getElectronPath(),
         args,
-        waitTimeout: 50000,
+        startTimeout: 50000,
       });
       return global.app.start()
         .then(() => {
