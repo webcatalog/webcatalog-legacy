@@ -5,7 +5,6 @@ const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
 const fs = require('fs');
-const widewineCDM = require('electron-widevinecdm');
 
 const { app, BrowserWindow, ipcMain } = electron;
 
@@ -22,7 +21,11 @@ const isTesting = argv.testing === 'true';
 setProtocols();
 
 // for Netflix
-widewineCDM.load(app);
+const widewinePath = argv.development ? 'electron-widevinecdm' : '../app.asar.unpacked/node_modules/electron-widevinecdm/src';
+/* eslint-disable import/no-dynamic-require */
+const widewine = require(widewinePath);
+/* eslint-enable import/no-dynamic-require */
+widewine.load(app);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
