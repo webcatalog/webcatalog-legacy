@@ -13,6 +13,7 @@
     "deep-equal": "^1.0.1",
     "electron-auto-updater": "^1.0.0",
     "electron-settings": "^2.2.2",
+    "electron-widevinecdm": "webcatalog/electron-widevinecdm#v1.4.8.970",
     "follow-redirects": "^1.2.3",
     "jsonfile": "^2.4.0",
     "lodash.camelcase": "^4.3.0",

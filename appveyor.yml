@@ -35,7 +35,9 @@ install:
   - yarn
 
 build_script:
-  - yarn run lint
-  - yarn run dist
+  - sh -c "cd app && exec yarn"
+  - yarn lint
+  - yarn test
+  - yarn dist
 
 test: off

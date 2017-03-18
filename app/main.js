@@ -5,6 +5,7 @@ const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
 const fs = require('fs');
+const widewineCDM = require('electron-widevinecdm');
 
 const { app, BrowserWindow, ipcMain } = electron;
 
@@ -16,8 +17,12 @@ const setProtocols = require('./libs/setProtocols');
 
 const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
+const isTesting = argv.testing === 'true';
 
 setProtocols();
+
+// for Netflix
+widewineCDM.load(app);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -71,6 +76,8 @@ function createWindow() {
       name: argv.name,
       url: argv.url,
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
+      isTesting,
+      isDevelopment,
     };
 
     /* Badge count */
@@ -111,7 +118,7 @@ function createWindow() {
     });
   }
 
-  checkForUpdate({ mainWindow, log, isWebView });
+  checkForUpdate({ mainWindow, log, isWebView, isDevelopment, isTesting });
 
   if (isWebView) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)
