@@ -328,7 +328,7 @@ electron-settings@^2.2.2:
     fs-extra "^0.30.0"
     key-path-helpers "^0.4.0"
 
-electron-widevinecdm@webcatalog/electron-widevinecdm#v1.4.8.970:
+electron-widevinecdm@webcatalog/electron-widevinecdm#2fb5a50af54358124fbcf508573d1201d16e081f, electron-widevinecdm@webcatalog/electron-widevinecdm#v1.4.8.970:
   version "1.4.8.970"
   resolved "https://codeload.github.com/webcatalog/electron-widevinecdm/tar.gz/2fb5a50af54358124fbcf508573d1201d16e081f"
   dependencies:
