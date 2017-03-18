@@ -2,6 +2,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const algoliasearch = require('algoliasearch');
 const mkdirp = require('mkdirp');
+const { chunk } = require('lodash');
 
 const convertToIcns = require('./convertToIcns');
 const convertToIco = require('./convertToIco');
@@ -102,19 +103,35 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
       process.exit(1);
     }
 
-    index.addObjects(algoliaApps, (addObjectsErr) => {
-      if (addObjectsErr) {
-        console.error(addObjectsErr);
-        process.exit(1);
-      }
+    const promises = chunk(algoliaApps, 50).map(appChunk =>
+      new Promise((resolve, reject) => {
+        index.addObjects(appChunk, (addObjectsErr) => {
+          if (addObjectsErr) {
+            reject(addObjectsErr);
+          }
+        });
+      }));
 
-      // Rename temporary index to production index (and overwrite it)
-      client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
-        if (moveIndexErr) {
-          console.error(moveIndexErr);
-          process.exit(1);
-        }
+    Promise.all(promises)
+      .then(() => {
+        client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
+          if (moveIndexErr) {
+            console.error(moveIndexErr);
+            process.exit(1);
+          }
+        });
+      })
+      .catch((pErr) => {
+        console.log(pErr);
+
+        // delete temp index
+        client.deleteIndex(TEMP_INDEX, (delErr) => {
+          if (!delErr) {
+            console.log('delete temp index successfully');
+          }
+        });
+
+        process.exit(1);
       });
-    });
   });
 }
