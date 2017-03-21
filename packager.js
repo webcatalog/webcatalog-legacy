@@ -56,6 +56,27 @@ builder.build({
         ],
       },
     },
+    dmg: {
+      icon: 'build/installerIcon.icns',
+      background: 'build/background.tiff',
+      iconSize: 100,
+      contents: [
+        {
+          x: 164,
+          y: 182,
+        },
+        {
+          x: 383,
+          y: 182,
+          type: 'link',
+          path: '/Applications',
+        },
+      ],
+      window: {
+        x: 550,
+        y: 315,
+      },
+    },
     afterPack: ({ appOutDir }) =>
       new Promise((resolve, reject) => {
         if (process.platform !== 'darwin') {
