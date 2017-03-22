@@ -193,11 +193,11 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
     delayed-stream "~1.0.0"
 
 compress-commons@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/compress-commons/-/compress-commons-1.1.0.tgz#9f4460bb1288564c7473916e0298aa3c320dcadb"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/compress-commons/-/compress-commons-1.2.0.tgz#58587092ef20d37cb58baf000112c9278ff73b9f"
   dependencies:
     buffer-crc32 "^0.2.1"
-    crc32-stream "^1.0.0"
+    crc32-stream "^2.0.0"
     normalize-path "^2.0.0"
     readable-stream "^2.0.0"
 
@@ -217,9 +217,9 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-crc32-stream@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-1.0.1.tgz#ce2c5dc3bd8ffb3830f9cb47f540222c63c90fab"
+crc32-stream@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-2.0.0.tgz#e3cdd3b4df3168dd74e3de3fbbcb7b297fe908f4"
   dependencies:
     crc "^3.4.4"
     readable-stream "^2.0.0"
@@ -328,9 +328,9 @@ electron-settings@^2.2.2:
     fs-extra "^0.30.0"
     key-path-helpers "^0.4.0"
 
-electron-widevinecdm@webcatalog/electron-widevinecdm#2fb5a50af54358124fbcf508573d1201d16e081f, electron-widevinecdm@webcatalog/electron-widevinecdm#v1.4.8.970:
-  version "1.4.8.970"
-  resolved "https://codeload.github.com/webcatalog/electron-widevinecdm/tar.gz/2fb5a50af54358124fbcf508573d1201d16e081f"
+electron-widevinecdm@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-1.0.0.tgz#3a8145cf2cf5ff14d7cad9b923663a7fd749079c"
   dependencies:
     archiver-promise "^1.0.0"
     extract-zip "^1.6.0"
