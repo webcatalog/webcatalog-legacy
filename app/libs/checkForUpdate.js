@@ -6,9 +6,6 @@ const { app, dialog, shell } = require('electron');
 const shouldUseSquirrel = (isWebView) => {
   if (process.platform === 'linux') return false;
 
-  // https://github.com/Squirrel/Squirrel.Windows/issues/282
-  if (process.platform === 'windows' && process.arch !== 'x64') return false;
-
   if (isWebView === true) return false;
 
   return true;
