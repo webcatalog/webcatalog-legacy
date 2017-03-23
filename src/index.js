@@ -2,6 +2,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const algoliasearch = require('algoliasearch');
 const mkdirp = require('mkdirp');
+const { chunk } = require('lodash');
 
 const convertToIcns = require('./convertToIcns');
 const convertToIco = require('./convertToIco');
@@ -81,6 +82,7 @@ jsonFiles.forEach((fileName) => {
 if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
   console.log('Missing Algolia info >> Skip Algolia');
 } else {
+  console.log('Algolia: start.');
   // set object id
   const algoliaApps = apps.map((a) => {
     const app = a;
@@ -102,19 +104,40 @@ if (!process.env.ALGOLIA_API_KEY || !process.env.ALGOLIA_APPLICATION_ID) {
       process.exit(1);
     }
 
-    index.addObjects(algoliaApps, (addObjectsErr) => {
-      if (addObjectsErr) {
-        console.error(addObjectsErr);
-        process.exit(1);
-      }
+    const promises = chunk(algoliaApps, 50).map((appChunk, appChunkIndex) =>
+      new Promise((resolve, reject) => {
+        console.log(`Algolia: Adding chunk ${appChunkIndex}`);
+        index.addObjects(appChunk, (addObjectsErr) => {
+          if (addObjectsErr) {
+            reject(addObjectsErr);
+            return;
+          }
+          resolve();
+        });
+      }));
 
-      // Rename temporary index to production index (and overwrite it)
-      client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
-        if (moveIndexErr) {
-          console.error(moveIndexErr);
-          process.exit(1);
-        }
+    Promise.all(promises)
+      .then(() => {
+        client.moveIndex(TEMP_INDEX, PROD_INDEX, (moveIndexErr) => {
+          if (moveIndexErr) {
+            console.error(moveIndexErr);
+            process.exit(1);
+            return;
+          }
+          console.log('Algolia: done.');
+        });
+      })
+      .catch((pErr) => {
+        console.log(pErr);
+
+        // delete temp index
+        client.deleteIndex(TEMP_INDEX, (delErr) => {
+          if (!delErr) {
+            console.log('delete temp index successfully');
+          }
+        });
+
+        process.exit(1);
       });
-    });
   });
 }
