@@ -1,11 +1,58 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp */
+/* global https os fs remote execFile mkdirp WindowsShortcuts tmp sharp icongen */
 
-import pngToIcnsAsync from './pngToIcnsAsync';
+const generateIconSet = (pngPath, iconSizes) => {
+  const iconSetPath = tmp.dirSync().name;
 
-const installAppAsync = ({ allAppPath, appId, appName, appUrl }) => {
+  const promises = iconSizes.map(size =>
+    new Promise((resolve, reject) => {
+      sharp(pngPath)
+        .resize(size, size)
+        .toFile(`${iconSetPath}/${size}.png`, (err, info) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(info);
+        });
+    }));
+
+  return Promise.all(promises)
+    .then(() => iconSetPath);
+};
+
+const pngToIcnsAsync = pngPath =>
+  generateIconSet(pngPath, [16, 32, 64, 128, 256, 512, 1024])
+    .then((iconSetPath) => {
+      const options = {
+        type: 'png',
+        report: false,
+        modes: ['icns'],
+      };
+
+      const distPath = tmp.dirSync().name;
+      return icongen(iconSetPath, distPath, options)
+        .then(() => `${distPath}/app.icns`);
+    });
+
+const pngToIcoAsync = pngPath =>
+  generateIconSet(pngPath, [16, 24, 32, 48, 64, 128, 256])
+    .then((iconSetPath) => {
+      const options = {
+        type: 'png',
+        report: false,
+        modes: ['ico'],
+      };
+
+      const distPath = tmp.dirSync().name;
+      return icongen(iconSetPath, distPath, options)
+        .then(() => `${distPath}/app.ico`);
+    });
+
+const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
   Promise.resolve()
     .then(() => {
-      const pngPath = tmp.fileSync().name;
+      const pngDirPath = tmp.dirSync().name;
+      const pngPath = `${pngDirPath}/${appId}.png`;
 
       return new Promise((resolve, reject) => {
         const iconFile = fs.createWriteStream(pngPath);
@@ -31,6 +78,9 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) => {
       switch (os.platform()) {
         case 'darwin': {
           return pngToIcnsAsync(pngPath);
+        }
+        case 'win32': {
+          return pngToIcoAsync(pngPath);
         }
         case 'linux':
         default: {
@@ -99,6 +149,5 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) => {
         }
       });
     });
-};
 
 export default installAppAsync;
