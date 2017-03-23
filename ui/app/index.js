@@ -42,7 +42,10 @@ if (fs.existsSync(rURLFile)) {
           startApp(argv.url);
         });
     } else {
-      startApp(argv.url);
+      electronSettings.get(`behaviors.${camelCase(argv.id)}.customHome`).then((customHome) => {
+        if (customHome) startApp(customHome);
+        else startApp(argv.url);
+      });
     }
   });
 }

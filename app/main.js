@@ -42,6 +42,7 @@ function createWindow() {
       swipeToNavigate: true,
       rememberLastPage: false,
       quitOnLastWindow: false,
+      customHome: null,
     };
 
     settings.defaults(defaultSettings);

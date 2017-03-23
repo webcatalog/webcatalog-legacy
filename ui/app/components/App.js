@@ -164,7 +164,7 @@ class App extends React.Component {
 
   render() {
     const {
-      url, findInPageIsOpen, isFullScreen,
+      url, findInPageIsOpen, isFullScreen, customHome,
       requestUpdateLoading, requestUpdateFindInPageMatches,
     } = this.props;
 
@@ -181,7 +181,7 @@ class App extends React.Component {
       >
         {showNav ? (
           <Nav
-            onHomeButtonClick={() => this.c.loadURL(argv.url)}
+            onHomeButtonClick={() => this.c.loadURL(customHome || argv.url)}
             onBackButtonClick={() => this.c.goBack()}
             onForwardButtonClick={() => this.c.goForward()}
             onRefreshButtonClick={() => this.c.reload()}
@@ -230,6 +230,7 @@ App.propTypes = {
   findInPageIsOpen: React.PropTypes.bool,
   findInPageText: React.PropTypes.string,
   isFullScreen: React.PropTypes.bool,
+  customHome: React.PropTypes.string,
   onResize: React.PropTypes.func,
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
@@ -243,6 +244,7 @@ const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
   isFullScreen: state.screen.isFullScreen,
+  customHome: state.settings.behaviors.customHome,
 });
 
 const mapDispatchToProps = dispatch => ({
