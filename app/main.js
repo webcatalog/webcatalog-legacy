@@ -1,12 +1,10 @@
-const electron = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
 const fs = require('fs');
-
-const { app, BrowserWindow, ipcMain } = electron;
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');

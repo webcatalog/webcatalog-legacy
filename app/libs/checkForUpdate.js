@@ -1,6 +1,6 @@
+const { app, dialog, shell } = require('electron');
 const semver = require('semver');
 const https = require('https');
-const { app, dialog, shell } = require('electron');
 
 // determine if Squirrel (auto-updater) should be used or not
 const shouldUseSquirrel = (isWebView) => {
