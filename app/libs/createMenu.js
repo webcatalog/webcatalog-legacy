@@ -3,7 +3,6 @@ const electron = require('electron');
 const openAboutWindow = require('about-window').default;
 const join = require('path').join;
 
-
 const { Menu, shell, app, dialog, session } = electron;
 
 const sendMessageToWindow = require('./sendMessageToWindow');

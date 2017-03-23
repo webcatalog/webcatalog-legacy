@@ -7,7 +7,7 @@ import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
-  customHome,
+  blockAds, customHome,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -50,6 +50,20 @@ const Settings = ({
           </div>
         </div>
       ) : null}
+
+      <div className="pt-form-group">
+        <div className="pt-form-content">
+          <Switch
+            checked={blockAds}
+            label="Block ads & tracking"
+            onChange={e => requestSetBehavior('blockAds', e.target.checked)}
+            key="blockAds"
+          />
+          <p className="pt-form-helper-text" key="blockAdsDesc">
+            Restart is required.
+          </p>
+        </div>
+      </div>
 
       <div className="pt-form-group">
         <div className="pt-form-content">
@@ -103,9 +117,10 @@ Settings.propTypes = {
   swipeToNavigate: React.PropTypes.bool,
   quitOnLastWindow: React.PropTypes.bool,
   rememberLastPage: React.PropTypes.bool,
+  blockAds: React.PropTypes.bool,
+  customHome: React.PropTypes.string,
   requestToggleSettingDialog: React.PropTypes.func,
   requestSetBehavior: React.PropTypes.func,
-  customHome: React.PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -113,6 +128,7 @@ const mapStateToProps = state => ({
   swipeToNavigate: state.settings.behaviors.swipeToNavigate,
   rememberLastPage: state.settings.behaviors.rememberLastPage,
   quitOnLastWindow: state.settings.behaviors.quitOnLastWindow,
+  blockAds: state.settings.behaviors.blockAds,
   customHome: state.settings.behaviors.customHome,
 });
 

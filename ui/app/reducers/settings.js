@@ -8,6 +8,7 @@ const initialState = {
     swipeToNavigate: true,
     rememberLastPage: false,
     quitOnLastWindow: false,
+    blockAds: false,
     customHome: null,
   },
 };

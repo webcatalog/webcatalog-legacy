@@ -13,6 +13,7 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
 const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
+const registerFiltering = require('./libs/adblock/registerFiltering');
 
 const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
@@ -42,6 +43,7 @@ function createWindow() {
       swipeToNavigate: true,
       rememberLastPage: false,
       quitOnLastWindow: false,
+      blockAds: false,
       customHome: null,
     };
 
@@ -86,6 +88,14 @@ function createWindow() {
       isTesting,
       isDevelopment,
     };
+
+    // ablocker
+    settings.get(`behaviors.${camelCase(argv.id)}.blockAds`)
+      .then((blockAds) => {
+        if (blockAds) {
+          registerFiltering(argv.id);
+        }
+      });
 
     /* Badge count */
     // do nothing for setDockBadge if not OSX

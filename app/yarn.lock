@@ -22,6 +22,15 @@ about-window@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/about-window/-/about-window-1.6.1.tgz#1687cd1a429abe7a0cff096ba3d96f278714ffe3"
 
+ad-block@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.1.tgz#f3d8036c1dfacc2c0c3acada65f1fedfd6b9271a"
+  dependencies:
+    bloom-filter-cpp "1.1.x"
+    cppunitlite "^1.0.0"
+    hashset-cpp "1.0.x"
+    nan "^2.2.1"
+
 ajv@^4.9.1:
   version "4.11.5"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.5.tgz#b6ee74657b993a01dce44b7944d56f485828d5bd"
@@ -124,6 +133,10 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
+bloom-filter-cpp@1.1.x:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/bloom-filter-cpp/-/bloom-filter-cpp-1.1.6.tgz#ddf0305923adf6edac1bf409e6735e196d2cacbf"
+
 bluebird-lst-c@^1.0.5, bluebird-lst-c@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/bluebird-lst-c/-/bluebird-lst-c-1.0.6.tgz#81f881d13f9df700f67d577f13480bc32d84bba9"
@@ -216,6 +229,10 @@ concat-stream@1.5.0:
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+
+cppunitlite@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cppunitlite/-/cppunitlite-1.0.0.tgz#d9b33bd4dbde7de6b09e3534176e046653fabceb"
 
 crc32-stream@^2.0.0:
   version "2.0.0"
@@ -491,6 +508,10 @@ har-validator@~4.2.1:
     ajv "^4.9.1"
     har-schema "^1.0.5"
 
+hashset-cpp@1.0.x:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/hashset-cpp/-/hashset-cpp-1.0.17.tgz#3c5911f0b7f8f2d0784c9cced4ea6969344e4c87"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -740,6 +761,10 @@ mz@^2.6.0:
     any-promise "^1.0.0"
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
+
+nan@^2.2.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.5.1.tgz#d5b01691253326a97a2bbee9e61c55d8d60351e2"
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4:
   version "2.3.6"
