@@ -53,7 +53,7 @@
   <body>
     <div id="app"></div>
     <script>
-      const { shell, remote, ipcRenderer } = require('electron');
+      const { shell, remote, ipcRenderer, session } = require('electron');
       const https = require('follow-redirects').https;
       const fs = require('fs');
       const mkdirp = require('mkdirp');
