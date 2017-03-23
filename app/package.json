@@ -8,7 +8,7 @@
     "url": "https://quanglam.me"
   },
   "scripts": {
-    "postinstall": "yarn rebuild && node libs/adblock/updateEasyList.js"
+    "postinstall": "node libs/adblock/updateEasyList.js"
   },
   "main": "main.js",
   "dependencies": {
