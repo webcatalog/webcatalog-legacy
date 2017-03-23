@@ -1,11 +1,12 @@
 // https://raw.githubusercontent.com/mawie81/electron-window-state/master/index.js
 const path = require('path');
-const { app, screen } = require('electron');
+const electron = require('electron');
 const jsonfile = require('jsonfile');
 const mkdirp = require('mkdirp');
 const deepEqual = require('deep-equal');
 
 module.exports = (options) => {
+  const { app, screen } = electron;
   let state;
   let winRef;
   let stateChangeTimer;
