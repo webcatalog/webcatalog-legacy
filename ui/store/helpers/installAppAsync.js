@@ -1,42 +1,52 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts */
+/* global https os fs remote execFile mkdirp WindowsShortcuts tmp */
 
-const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
-  new Promise((resolve, reject) => {
-    let iconExt;
-    switch (os.platform()) {
-      case 'darwin': {
-        iconExt = 'icns';
-        break;
-      }
-      case 'linux': {
-        iconExt = 'png';
-        break;
-      }
-      case 'win32':
-      default: {
-        iconExt = 'ico';
-      }
-    }
+import pngToIcnsAsync from './pngToIcnsAsync';
 
-    const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
-    const iconFile = fs.createWriteStream(iconPath);
+const installAppAsync = ({ allAppPath, appId, appName, appUrl }) => {
+  Promise.resolve()
+    .then(() => {
+      const pngPath = tmp.fileSync().name;
 
+      return new Promise((resolve, reject) => {
+        const iconFile = fs.createWriteStream(pngPath);
 
-    const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
-      response.pipe(iconFile);
+        const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.png`, (response) => {
+          response.pipe(iconFile);
 
-      iconFile.on('error', (err) => {
-        reject(err);
+          iconFile.on('error', (err) => {
+            reject(err);
+          });
+
+          iconFile.on('finish', () => {
+            resolve(pngPath);
+          });
+        });
+
+        req.on('error', (err) => {
+          reject(err);
+        });
       });
+    })
+    .then((pngPath) => {
+      switch (os.platform()) {
+        case 'darwin': {
+          return pngToIcnsAsync(pngPath);
+        }
+        case 'linux':
+        default: {
+          return pngPath;
+        }
+      }
+    })
+    .then((iconPath) => {
+      const jsonContent = JSON.stringify({
+        id: appId,
+        name: appName,
+        url: appUrl,
+        version: remote.app.getVersion(),
+      }); // data to track app info & version
 
-      iconFile.on('finish', () => {
-        const jsonContent = JSON.stringify({
-          id: appId,
-          name: appName,
-          url: appUrl,
-          version: remote.app.getVersion(),
-        }); // data to track app info & version
-
+      return new Promise((resolve, reject) => {
         switch (os.platform()) {
           case 'darwin':
           case 'linux': {
@@ -89,10 +99,6 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
         }
       });
     });
-
-    req.on('error', (err) => {
-      reject(err);
-    });
-  });
+};
 
 export default installAppAsync;

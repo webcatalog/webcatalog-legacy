@@ -58,6 +58,9 @@
       const fs = require('fs');
       const mkdirp = require('mkdirp');
       const os = require('os');
+      const tmp = require('tmp');
+      const sharp = require('sharp');
+      const icongen = require('icon-gen');
       const { exec, execFile } = require('child_process');
       const electronSettings = require('electron-settings');
       const WindowsShortcuts = (os.platform() === 'win32') ? require('windows-shortcuts') : null;
