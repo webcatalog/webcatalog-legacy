@@ -173,6 +173,8 @@ class App extends React.Component {
     let usedHeight = showNav ? 22 : 0;
     if (findInPageIsOpen) usedHeight += 50;
 
+    console.log(remote.app.getAppPath());
+
     return (
       <div
         style={{
@@ -205,6 +207,7 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
+            preload={path.join(remote.app.getAppPath(), 'app', 'preload.js')}
             // enable nodeintegration in testing mode (mainly for Spectron)
             nodeintegration={argv.isTesting}
             useragent={argv.userAgent}

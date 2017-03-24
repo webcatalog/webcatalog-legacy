@@ -10,6 +10,8 @@ const initialState = {
     quitOnLastWindow: false,
     blockAds: false,
     customHome: null,
+    injectedJS: null,
+    injectedCSS: null,
   },
 };
 

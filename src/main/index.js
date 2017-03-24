@@ -39,6 +39,8 @@ function createWindow() {
       quitOnLastWindow: false,
       blockAds: false,
       customHome: null,
+      injectedCSS: null,
+      injectedJS: null,
     };
 
     settings.defaults(defaultSettings);

@@ -7,7 +7,7 @@ import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
-  blockAds, customHome,
+  blockAds, customHome, injectedCSS, injectedJS,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -25,9 +25,8 @@ const Settings = ({
               checked={swipeToNavigate}
               label="Swipe to Navigate"
               onChange={e => requestSetBehavior('swipeToNavigate', e.target.checked)}
-              key="swipeToNavigate"
             />
-            <p key="swipeToNavigateDesc" className="pt-form-helper-text">
+            <p className="pt-form-helper-text">
               <span>Navigate between pages with 3-finger gesture. You need to change </span>
               <strong>Preferences &gt; Trackpad &gt; More Gesture &gt; Swipe between page</strong>
               <span> to </span>
@@ -46,7 +45,6 @@ const Settings = ({
               checked={quitOnLastWindow}
               label="Quit when last window is closed"
               onChange={e => requestSetBehavior('quitOnLastWindow', e.target.checked)}
-              key="quitOnLastWindow"
             />
           </div>
         </div>
@@ -58,9 +56,8 @@ const Settings = ({
             checked={blockAds}
             label="Block ads & tracking"
             onChange={e => requestSetBehavior('blockAds', e.target.checked)}
-            key="blockAds"
           />
-          <p className="pt-form-helper-text" key="blockAdsDesc">
+          <p className="pt-form-helper-text">
             Restart is required.
           </p>
         </div>
@@ -72,9 +69,8 @@ const Settings = ({
             checked={rememberLastPage}
             label="Remember the last page you open"
             onChange={e => requestSetBehavior('rememberLastPage', e.target.checked)}
-            key="rememberLastPage"
           />
-          <p className="pt-form-helper-text" key="rememberLastPageDesc">
+          <p className="pt-form-helper-text">
             <span>Remember the last page you open and automatically go to</span>
             <span> the page the next time you open an app installed from WebCatalog.</span>
           </p>
@@ -97,10 +93,64 @@ const Settings = ({
               const val = e.target.value.length > 0 ? e.target.value : null;
               requestSetBehavior('customHome', val);
             }}
+            onChange={(e) => {
+              const val = e.target.value.length > 0 ? e.target.value : null;
+              requestSetBehavior('customHome', val);
+            }}
           />
-          <p className="pt-form-helper-text" key="rememberLastPageDesc">
+          <p className="pt-form-helper-text">
             Set home page to a custom URL.
             Leave it blank to use {argv.url} (default).
+          </p>
+        </div>
+      </div>
+
+      <div className="pt-form-group">
+        <label className="pt-label" htmlFor="injectedCSS">
+          Injected CSS
+        </label>
+        <div className="pt-form-content">
+          <textarea
+            className="pt-input"
+            style={{ width: 300 }}
+            dir="auto"
+            value={injectedCSS || ''}
+            onInput={(e) => {
+              const val = e.target.value.length > 0 ? e.target.value : null;
+              requestSetBehavior('injectedCSS', val);
+            }}
+            onChange={(e) => {
+              const val = e.target.value.length > 0 ? e.target.value : null;
+              requestSetBehavior('injectedCSS', val);
+            }}
+          />
+          <p className="pt-form-helper-text">
+            Restart is required. Leave it blank if you do not want to inject anything.
+          </p>
+        </div>
+      </div>
+
+      <div className="pt-form-group">
+        <label className="pt-label" htmlFor="injectedCSS">
+          Injected JS
+        </label>
+        <div className="pt-form-content">
+          <textarea
+            className="pt-input"
+            style={{ width: 300 }}
+            dir="auto"
+            value={injectedJS || ''}
+            onInput={(e) => {
+              const val = e.target.value.length > 0 ? e.target.value : null;
+              requestSetBehavior('injectedJS', val);
+            }}
+            onChange={(e) => {
+              const val = e.target.value.length > 0 ? e.target.value : null;
+              requestSetBehavior('injectedJS', val);
+            }}
+          />
+          <p className="pt-form-helper-text">
+            Restart is required. Leave it blank if you do not want to inject anything.
           </p>
         </div>
       </div>
@@ -120,6 +170,8 @@ Settings.propTypes = {
   rememberLastPage: React.PropTypes.bool,
   blockAds: React.PropTypes.bool,
   customHome: React.PropTypes.string,
+  injectedCSS: React.PropTypes.string,
+  injectedJS: React.PropTypes.string,
   requestToggleSettingDialog: React.PropTypes.func,
   requestSetBehavior: React.PropTypes.func,
 };
@@ -131,6 +183,8 @@ const mapStateToProps = state => ({
   quitOnLastWindow: state.settings.behaviors.quitOnLastWindow,
   blockAds: state.settings.behaviors.blockAds,
   customHome: state.settings.behaviors.customHome,
+  injectedCSS: state.settings.behaviors.injectedCSS,
+  injectedJS: state.settings.behaviors.injectedJS,
 });
 
 const mapDispatchToProps = dispatch => ({
