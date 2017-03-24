@@ -75,9 +75,9 @@ acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
 
-ad-block@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.4.tgz#4c5b5b6db259680ea43ea6a2f1d2ca046c9a8cd8"
+ad-block@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.2.tgz#70ef98f136a947e729c240b51f9c52a80c3160c0"
   dependencies:
     bloom-filter-cpp "1.1.x"
     cppunitlite "^1.0.0"
@@ -4807,7 +4807,7 @@ sumchecker@^2.0.2:
   dependencies:
     debug "^2.2.0"
 
-supports-color@3.1.2, supports-color@^3.1.0, supports-color@^3.1.2:
+supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -4821,7 +4821,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.2.3:
+supports-color@^3.1.0, supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
