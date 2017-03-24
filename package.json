@@ -4,7 +4,7 @@
   "description": "WebCatalog, Run any web app natively.",
   "main": "app/index.js",
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "install-app-deps && node src/main/libs/adblock/updateEasyList.js",
     "start": "yarn run start.store",
     "start.store.dev": "electron ./app --development=true",
     "start.app.dev": "electron ./app --development=true --id=test --url=http://ads-blocker.com/testing/ --name=Shaka",
