@@ -1,1 +1,0 @@
-const{app}=require('electron'),setProtocols=()=>{app.setAsDefaultProtocolClient('webcatalog')};module.exports=setProtocols;
