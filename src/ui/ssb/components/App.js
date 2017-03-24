@@ -173,8 +173,6 @@ class App extends React.Component {
     let usedHeight = showNav ? 22 : 0;
     if (findInPageIsOpen) usedHeight += 50;
 
-    console.log(remote.app.getAppPath());
-
     return (
       <div
         style={{

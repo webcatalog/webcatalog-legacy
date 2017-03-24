@@ -71,7 +71,7 @@ const Settings = ({
       {(status === DONE) ? (
         <div className="text-container">
           <h5>
-            Installed successfully.
+            {name} is installed successfully.
           </h5>
           <button
             type="button"
@@ -178,6 +178,7 @@ const mapDispatchToProps = dispatch => ({
     };
 
     remote.dialog.showOpenDialog(options, (filePaths) => {
+      if (!filePaths || filePaths.length < 1) return;
       dispatch(setCustomValue('icon', filePaths[0]));
     });
   },
