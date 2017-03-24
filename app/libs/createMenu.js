@@ -1,13 +1,13 @@
-// https://raw.githubusercontent.com/jiahaog/nativefier/development/app/src/components/menu/menu.js
 const { Menu, shell, app, dialog, session } = require('electron');
-const openAboutWindow = require('about-window').default;
-const join = require('path').join;
-
+const path = require('path');
 const sendMessageToWindow = require('./sendMessageToWindow');
 
-const showAboutWindow = () =>
+// https://raw.githubusercontent.com/jiahaog/nativefier/development/app/src/components/menu/menu.js
+const showAboutWindow = () => {
+  const openAboutWindow = require('about-window').default;
+
   openAboutWindow({
-    icon_path: join(__dirname, '..', 'www', 'images', 'icon.1024x1024.png'),
+    icon_path: path.join(__dirname, '..', 'www', 'images', 'icon.1024x1024.png'),
     copyright: `Copyright © 2016 - ${new Date().getFullYear()} Quang Lam`,
     win_options: {
       minWidth: 400,
@@ -19,6 +19,7 @@ const showAboutWindow = () =>
       fullscreenable: false,
     },
   });
+};
 
 function createMenu({
   isDevelopment, isWebView, appName, appId, log,

@@ -1,10 +1,7 @@
 // https://github.com/minbrowser/min/blob/0a07a99415d8670e49c03a6e12d76a427784964e/main/filtering.js
-
 const { session } = require('electron');
 const fs = require('fs');
 const path = require('path');
-
-const { AdBlockClient, FilterOptions } = require('ad-block');
 
 const extractDomain = (url) => {
   const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -13,6 +10,8 @@ const extractDomain = (url) => {
 };
 
 const registerFiltering = (partitionId) => {
+  const { AdBlockClient, FilterOptions } = require('ad-block');
+
   const filePath = path.join(__dirname, 'easylist+easyprivacy-noelementhiding.txt');
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) return;
