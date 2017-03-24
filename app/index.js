@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
+
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
@@ -93,15 +94,6 @@ function createWindow() {
     /* Badge count */
     // do nothing for setDockBadge if not OSX
     const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
-
-    /* temporarily removed.
-    ipcMain.on('notification', () => {
-      if (process.platform !== 'darwin' || mainWindow.isFocused()) {
-        return;
-      }
-      setDockBadge('•');
-    });
-    */
 
     ipcMain.on('badge', (e, badge) => {
       setDockBadge(badge);
