@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "about-window": "^1.6.1",
-    "ad-block": "2.0.2",
+    "ad-block": "https://github.com/quanglam2807/ad-block#2b97c56",
     "deep-equal": "^1.0.1",
     "electron-settings": "^2.2.2",
     "electron-updater": "^1.11.0",
