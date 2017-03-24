@@ -34,7 +34,7 @@ export const installCustomApp = () => (dispatch, getState) => {
     appId: id,
     appName: name,
     appUrl: url,
-    pngPath: icon || path.join(remote.app.getAppPath(), 'www', 'images', 'custom_app.png').replace('app.asar', 'app.asar.unpacked'),
+    pngPath: icon || path.join(remote.app.getAppPath(), 'app', 'www', 'images', 'custom_app.png').replace('app.asar', 'app.asar.unpacked'),
   })
   .then(() => {
     dispatch(setCustomValue('id', id));

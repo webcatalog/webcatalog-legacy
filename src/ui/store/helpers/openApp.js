@@ -1,9 +1,10 @@
-/* global shell remote exec os */
+/* global shell remote exec os path */
 
 const openApp = (name, id) => {
   switch (os.platform()) {
     case 'darwin': {
-      shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${name}.app`);
+      const appPath = path.join(remote.app.getPath('home'), 'Applications', 'WebCatalog Apps', `${name}.app`);
+      shell.openItem(appPath);
       break;
     }
     case 'linux': {
@@ -12,7 +13,8 @@ const openApp = (name, id) => {
     }
     case 'win32':
     default: {
-      shell.openItem(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${name}.lnk`);
+      const shortcutPath = path.join(remote.app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
+      shell.openItem(shortcutPath);
     }
   }
 };

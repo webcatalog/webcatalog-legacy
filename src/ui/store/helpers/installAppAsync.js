@@ -1,4 +1,4 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp sharp icongen */
+/* global https os fs remote execFile mkdirp WindowsShortcuts tmp sharp icongen path */
 
 const generateIconSet = (pngPath, iconSizes) => {
   const iconSetPath = tmp.dirSync().name;
@@ -76,7 +76,8 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
         switch (os.platform()) {
           case 'darwin':
           case 'linux': {
-            execFile(`${remote.app.getAppPath()}/scripts/applify-${os.platform()}.sh`, [
+            const execFilePath = path.join(remote.app.getAppPath(), 'app', 'scripts', `applify-${os.platform()}.sh`);
+            execFile(execFilePath, [
               appName,
               appUrl,
               iconPath,
@@ -94,7 +95,8 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
           }
           case 'win32':
           default: {
-            WindowsShortcuts.create(`${allAppPath}/${appName}.lnk`, {
+            const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
+            WindowsShortcuts.create(shortcutPath, {
               target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
               args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
               icon: iconPath,
@@ -106,7 +108,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
               }
 
               // create desktop shortcut
-              const desktopPath = `${remote.app.getPath('home')}/Desktop`;
+              const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
               WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
                 target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
                 args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,

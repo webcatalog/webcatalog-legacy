@@ -1,4 +1,4 @@
-/* global fs WindowsShortcuts https os execFile remote mkdirp */
+/* global fs WindowsShortcuts https os execFile remote mkdirp path */
 
 const scanInstalledAsync = ({ allAppPath }) =>
   new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
             if (fileName === '.DS_Store') return;
 
             // if id file exists, the .app needs to be updated
-            const idPath = `${allAppPath}/${fileName}/id`;
+            const idPath = path.join(allAppPath, fileName, 'id');
             let appId;
             if (fs.existsSync(idPath)) {
               appId = fs.readFileSync(idPath, 'utf8').trim();
@@ -25,7 +25,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
                 id: appId,
               });
             } else {
-              const infoPath = `${allAppPath}/${fileName}/Contents/Resources/info.json`;
+              const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
               const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
 
               installedIds.push({
@@ -50,7 +50,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
 
             let version = '3.1.1';
             try {
-              const jsonContent = fs.readFileSync(`${allAppPath}/${fileName}`, 'utf8').split('\n')[1].splice(1);
+              const jsonContent = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].splice(1);
               const appInfo = JSON.parse(jsonContent);
               version = appInfo.version;
             } catch (jsonErr) {
@@ -78,7 +78,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
           if (files.length === 0) resolve(installedIds);
 
           files.forEach((fileName) => {
-            WindowsShortcuts.query(`${allAppPath}/${fileName}`, (wsShortcutErr, { desc }) => {
+            WindowsShortcuts.query(path.join(allAppPath, fileName), (wsShortcutErr, { desc }) => {
               if (wsShortcutErr) {
                 reject(wsShortcutErr);
               } else {

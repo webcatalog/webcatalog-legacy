@@ -1,8 +1,8 @@
-/* global https fs tmp */
+/* global https fs tmp path */
 
 const downloadIconAsync = (appId) => {
   const pngDirPath = tmp.dirSync().name;
-  const pngPath = `${pngDirPath}/${appId}.png`;
+  const pngPath = path.join(pngDirPath, `${appId}.png`);
 
   return new Promise((resolve, reject) => {
     const iconFile = fs.createWriteStream(pngPath);

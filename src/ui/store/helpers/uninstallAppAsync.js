@@ -1,4 +1,4 @@
-/* global os fs remote */
+/* global os fs remote path */
 
 const deleteFolderRecursive = (path) => {
   if (fs.existsSync(path)) {
@@ -19,25 +19,25 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
     try {
       switch (os.platform()) {
         case 'darwin': {
-          const appPath = `${allAppPath}/${appName}.app`;
+          const appPath = path.join(allAppPath, `${appName}.app`);
           deleteFolderRecursive(appPath);
 
-          const altAppPath = `${remote.app.getPath('home')}/.webcatalog/${appName}.app`;
+          const altAppPath = path.join(remote.app.getPath('home'), '.webcatalog', `${appName}.app`);
           deleteFolderRecursive(altAppPath);
           break;
         }
         case 'linux': {
-          const appPath = `${allAppPath}/${appId}.desktop`;
+          const appPath = path.join(allAppPath, `${appId}.desktop`);
           fs.unlinkSync(appPath);
           break;
         }
         case 'win32':
         default: {
-          const appPath = `${allAppPath}/${appName}.lnk`;
+          const appPath = path.join(allAppPath, `${appName}.lnk`);
           fs.unlinkSync(appPath);
 
-          const desktopPath = `${remote.app.getPath('home')}/Desktop`;
-          const desktopAppPath = `${desktopPath}/${appName}.lnk`;
+          const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
+          const desktopAppPath = path.join(desktopPath, `${appName}.lnk`);
           fs.unlinkSync(desktopAppPath);
         }
       }
