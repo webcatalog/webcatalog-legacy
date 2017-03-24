@@ -26,6 +26,6 @@ before_script:
 - yarn lint
 script:
 - yarn dist
-- ./test.sh
+- ./scripts/test.sh
 after_script:
-- ./publish-website.sh
+- ./scripts/publish-website.sh

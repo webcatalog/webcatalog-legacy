@@ -5,10 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const OUTPUT_DIR = path.resolve(__dirname, 'app/www');
-const SOURCE_DIR = path.resolve(__dirname, 'ui');
+const SOURCE_DIR = path.resolve(__dirname, 'src/ui');
 
 /* eslint-disable no-console */
-
 const common = {
   entry: {
     store: `${SOURCE_DIR}/store/index.js`,

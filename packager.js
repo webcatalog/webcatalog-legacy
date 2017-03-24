@@ -24,21 +24,15 @@ switch (process.platform) {
   }
 }
 
-// construct excluded files
-const files = [];
-['darwin', 'linux', 'win32'].forEach((platform) => {
-  if (platform !== process.platform) {
-    files.push(`!plugins/${platform}/**/*`);
-  }
-});
-
 // Promise is returned
 builder.build({
   targets,
   config: {
     electronVersion,
     appId: 'com.webcatalog.app',
-    files,
+    files: [
+      '!{scripts,src,website,tests,webpack.config.js}',
+    ],
     asar: true,
     asarUnpack: [
       'www/images/custom_app.png',
