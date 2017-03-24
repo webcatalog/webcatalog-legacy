@@ -4,9 +4,7 @@ const { session } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-/* eslint-disable import/no-unresolved */
 const { AdBlockClient, FilterOptions } = require('ad-block');
-/* eslint-enable import/no-unresolved */
 
 const extractDomain = (url) => {
   const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);

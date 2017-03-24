@@ -22,9 +22,18 @@ about-window@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/about-window/-/about-window-1.6.1.tgz#1687cd1a429abe7a0cff096ba3d96f278714ffe3"
 
-ad-block@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.1.tgz#f3d8036c1dfacc2c0c3acada65f1fedfd6b9271a"
+ad-block@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.4.tgz#4c5b5b6db259680ea43ea6a2f1d2ca046c9a8cd8"
+  dependencies:
+    bloom-filter-cpp "1.1.x"
+    cppunitlite "^1.0.0"
+    hashset-cpp "1.0.x"
+    nan "^2.2.1"
+
+"ad-block@https://github.com/quanglam2807/ad-block#patch-1":
+  version "2.0.4"
+  resolved "https://github.com/quanglam2807/ad-block#cda9406bf5e414ed13dc382a8d072d47d68e030b"
   dependencies:
     bloom-filter-cpp "1.1.x"
     cppunitlite "^1.0.0"
