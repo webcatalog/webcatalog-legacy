@@ -17,7 +17,7 @@ init:
   - git config --global core.autocrlf input
 
 cache:
- - "%LOCALAPPDATA%\\Yarn"
+- "%LOCALAPPDATA%\\Yarn" -> app/yarn.lock
 
 # Install scripts. (runs after repo cloning)
 install:
