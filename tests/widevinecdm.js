@@ -7,11 +7,10 @@ harness('shaka-player-test', () => {
     global.app.client
       .windowByIndex(1) // use webview
       .waitUntilWindowLoaded()
-      .getText('optgroup[label="Unified Streaming"] option:nth-of-type(2)').should.eventually.equal('Tears of Steel (Widevine)')
-      .getAttribute('optgroup[label="Unified Streaming"] option:nth-of-type(2)', 'disabled').should.eventually.equal(null));
+      .getText('#drmUsageDrm').should.eventually.equal('widevine'));
 }, [
   '--testing=true', // disable auto updater
   '--id=shaka',
-  '--url=https://shaka-player-demo.appspot.com/demo/',
+  '--url=https://bitmovin.com/mpeg-dash-hls-drm-test-player/',
   '--name=Shaka',
 ]);
