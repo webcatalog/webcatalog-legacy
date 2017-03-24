@@ -1,4 +1,4 @@
-# WebCatalog
+[![WebCatalog](http://i.imgur.com/WhgnaPN.png)](https://getwebcatalog.com)
 
 [![Join the chat at https://gitter.im/webcatalog/webcatalog](https://badges.gitter.im/webcatalog/webcatalog.svg)](https://gitter.im/webcatalog/webcatalog?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
@@ -9,9 +9,9 @@
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run web apps natively. It offers similar functionalities with [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but with different approach and a more user-friendly UI.
+WebCatalog is a desktop app which allows users to install and run any web app natively. It offers similar functionalities with [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but with more features and user-friendly user interface.
 
-WebCatalog Desktop needs to rely on [WebCatalog Backend](https://github.com/webcatalog/backend) to store data and manage app updates.
+![Demo](http://i.imgur.com/mXlu7PG.gif)
 
 ## Development
 With Node.js 6+ & Yarn installed, run
