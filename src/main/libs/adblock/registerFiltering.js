@@ -10,7 +10,7 @@ const extractDomain = (url) => {
 };
 
 const registerFiltering = (partitionId) => {
-  const { AdBlockClient, FilterOptions } = require('ad-block');
+  const { AdBlockClient, FilterOptions } = require('ad-block/build/Release/ad-block.node');
 
   const filePath = path.join(__dirname, 'easylist+easyprivacy-noelementhiding.txt');
   fs.readFile(filePath, 'utf8', (err, data) => {

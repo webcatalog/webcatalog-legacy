@@ -21,7 +21,7 @@ const checkForUpdate = ({ mainWindow, log, isWebView, isDevelopment, isTesting }
       // Auto updater
       if (shouldUseSquirrel(isWebView)) {
         /* eslint-disable global-require */
-        const autoUpdater = require('electron-auto-updater').autoUpdater;
+        const autoUpdater = require('electron-updater').autoUpdater;
         /* eslint-enable global-require */
         autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
           dialog.showMessageBox({

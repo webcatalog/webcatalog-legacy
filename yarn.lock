@@ -75,11 +75,13 @@ acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
 
-"ad-block@https://github.com/quanglam2807/ad-block#7e72e79dc6a3e4f63540f04e40aaa4ea3c0aa20d":
+ad-block@^2.0.4:
   version "2.0.4"
-  resolved "https://github.com/quanglam2807/ad-block#7e72e79dc6a3e4f63540f04e40aaa4ea3c0aa20d"
+  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-2.0.4.tgz#4c5b5b6db259680ea43ea6a2f1d2ca046c9a8cd8"
   dependencies:
+    bloom-filter-cpp "1.1.x"
     cppunitlite "^1.0.0"
+    hashset-cpp "1.0.x"
     nan "^2.2.1"
 
 agentkeepalive@^2.1.1:
@@ -1064,11 +1066,9 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bluebird-lst-c@^1.0.5, bluebird-lst-c@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/bluebird-lst-c/-/bluebird-lst-c-1.0.6.tgz#81f881d13f9df700f67d577f13480bc32d84bba9"
-  dependencies:
-    bluebird "^3.4.7"
+bloom-filter-cpp@1.1.x:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/bloom-filter-cpp/-/bloom-filter-cpp-1.1.6.tgz#ddf0305923adf6edac1bf409e6735e196d2cacbf"
 
 bluebird-lst@^1.0.2:
   version "1.0.2"
@@ -1671,12 +1671,6 @@ debug@2.3.3:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
-  dependencies:
-    ms "0.7.2"
-
 debug@2.6.3, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.4.5, debug@^2.6.0, debug@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
@@ -1811,27 +1805,9 @@ ejs@^2.3.1:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.6.tgz#479636bfa3fe3b1debd52087f0acb204b4f19c88"
 
-electron-auto-updater@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/electron-auto-updater/-/electron-auto-updater-1.0.0.tgz#fcaac7cb48afa9c3ea1d48b0ff7f0eee1a51418e"
-  dependencies:
-    bluebird-lst-c "^1.0.5"
-    electron-builder-http "11.3.0"
-    fs-extra-p "^3.0.3"
-    js-yaml "^3.7.0"
-    semver "^5.3.0"
-    source-map-support "^0.4.8"
-
 electron-builder-core@15.6.3, electron-builder-core@~15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/electron-builder-core/-/electron-builder-core-15.6.3.tgz#c43e5ed38d249317a5bcf21c2c1d56ba1bf9ed3a"
-
-electron-builder-http@11.3.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-11.3.0.tgz#9ac35fa08da30cff3c42dc3a2444958796afd117"
-  dependencies:
-    debug "2.6.0"
-    fs-extra-p "^3.0.3"
 
 electron-builder-http@15.6.3, electron-builder-http@~15.6.3:
   version "15.6.3"
@@ -1968,6 +1944,17 @@ electron-settings@^2.2.2:
     file-exists "^2.0.0"
     fs-extra "^0.30.0"
     key-path-helpers "^0.4.0"
+
+electron-updater@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-1.11.0.tgz#3038675503a3837ffed3cbe41c222d55ed62c71d"
+  dependencies:
+    bluebird-lst "^1.0.2"
+    electron-builder-http "~15.6.3"
+    fs-extra-p "^4.1.0"
+    js-yaml "^3.8.2"
+    semver "^5.3.0"
+    source-map-support "^0.4.14"
 
 electron-widevinecdm@^1.0.2:
   version "1.0.2"
@@ -2472,13 +2459,6 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-fs-extra-p@^3.0.3:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/fs-extra-p/-/fs-extra-p-3.1.0.tgz#eddf7bb8d9385d79014decb21f45b1d0c57900d3"
-  dependencies:
-    bluebird-lst-c "^1.0.6"
-    fs-extra "^2.0.0"
-
 fs-extra-p@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra-p/-/fs-extra-p-4.1.0.tgz#7356871b0ebf5e13c80a1194477a4d587ac0d3fd"
@@ -2774,6 +2754,10 @@ hasha@~2.2.0:
   dependencies:
     is-stream "^1.0.1"
     pinkie-promise "^2.0.0"
+
+hashset-cpp@1.0.x:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/hashset-cpp/-/hashset-cpp-1.0.17.tgz#3c5911f0b7f8f2d0784c9cced4ea6969344e4c87"
 
 hawk@~3.1.3:
   version "3.1.3"
@@ -3176,7 +3160,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@^3.5.1, js-yaml@^3.7.0, js-yaml@^3.8.2:
+js-yaml@^3.5.1, js-yaml@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.2.tgz#02d3e2c0f6beab20248d412c352203827d786721"
   dependencies:
@@ -4589,7 +4573,7 @@ source-map-resolve@^0.3.0:
     source-map-url "~0.3.0"
     urix "~0.1.0"
 
-source-map-support@^0.4.14, source-map-support@^0.4.2, source-map-support@^0.4.8:
+source-map-support@^0.4.14, source-map-support@^0.4.2:
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.14.tgz#9d4463772598b86271b4f523f6c1f4e02a7d6aef"
   dependencies:
