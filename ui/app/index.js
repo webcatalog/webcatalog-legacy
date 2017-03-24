@@ -23,29 +23,20 @@ const startApp = (url) => {
   );
 };
 
-// handle url protocol
-const rURLFile = `${remote.app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
-console.log(rURLFile);
-if (fs.existsSync(rURLFile)) {
-  const requestedURL = fs.readFileSync(rURLFile, 'utf8').trim();
-  fs.unlink(rURLFile, () => {});
-  startApp(requestedURL);
-} else {
-  electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
-    if (rememberLastPage) {
-      electronSettings.get(`lastPages.${camelCase(argv.id)}`)
-        .then((lastPage) => {
-          if (lastPage) startApp(lastPage);
-          else startApp(argv.url);
-        })
-        .catch(() => {
-          startApp(argv.url);
-        });
-    } else {
-      electronSettings.get(`behaviors.${camelCase(argv.id)}.customHome`).then((customHome) => {
-        if (customHome) startApp(customHome);
+electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
+  if (rememberLastPage) {
+    electronSettings.get(`lastPages.${camelCase(argv.id)}`)
+      .then((lastPage) => {
+        if (lastPage) startApp(lastPage);
         else startApp(argv.url);
+      })
+      .catch(() => {
+        startApp(argv.url);
       });
-    }
-  });
-}
+  } else {
+    electronSettings.get(`behaviors.${camelCase(argv.id)}.customHome`).then((customHome) => {
+      if (customHome) startApp(customHome);
+      else startApp(argv.url);
+    });
+  }
+});

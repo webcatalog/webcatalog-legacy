@@ -4,8 +4,6 @@ const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 const camelCase = require('lodash.camelcase');
-const fs = require('fs');
-
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
@@ -206,14 +204,5 @@ app.on('activate', () => {
     createWindow();
   } else {
     mainWindow.show();
-
-    if (isWebView) {
-      const rURLFile = `${app.getPath('home')}/.webcatalog/${argv.id}.rurl`;
-      if (fs.existsSync(rURLFile)) {
-        const requestedURL = fs.readFileSync(rURLFile, 'utf8').trim();
-        fs.unlink(rURLFile, () => {});
-        sendMessageToWindow('go-to-url', requestedURL);
-      }
-    }
   }
 });

@@ -44,7 +44,6 @@ builder.build({
       'www/images/custom_app.png',
       'node_modules/sharp',
       'node_modules/electron-widevinecdm',
-      'scripts/**',
     ],
     linux: {
       category: 'Utilities', // https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry

@@ -48,7 +48,3 @@ EOF
 
 # To identify
 echo "${JSONCONTENT}" > "${TARGETDIR}/Contents/Resources/info.json"
-
-# Generate an alt .app with AppleScript
-# Two .app file structure because AppleScripe doesn't not launch the exectuable correctly + Bash script doesn't support Apple Events
-$(dirname -- "$0")/applify-darwin-applescript.sh "$@"
