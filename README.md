@@ -24,9 +24,9 @@ yarn
 
 To run the app for development:
 ```bash
-yarn package # electron-builder needs to be run to install node dependencies & rebuild native dependencies
-yarn dev # start webpack dev
-yarn start # run app
+yarn dev
+yarn start.store.dev # run store app
+yarn start.ssb.dev # run single-site-browser app
 ```
 
 To build the app for release:

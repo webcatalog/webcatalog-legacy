@@ -12,14 +12,14 @@ const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 
-const isWebView = (typeof argv.url === 'string' && typeof argv.id === 'string');
+const isSSB = (typeof argv.url === 'string' && typeof argv.id === 'string');
 const isDevelopment = argv.development === 'true';
 const isTesting = argv.testing === 'true';
 
 setProtocols();
 
 // for Netflix
-if (isWebView) {
+if (isSSB) {
   const widewine = require('electron-widevinecdm');
   // only need DRM in webview
   widewine.load(app);
@@ -30,7 +30,7 @@ if (isWebView) {
 let mainWindow;
 
 function createWindow() {
-  if (isWebView) {
+  if (isSSB) {
     // set default settings
     const defaultSettings = { behaviors: {} };
     defaultSettings.behaviors[camelCase(argv.id)] = {
@@ -46,9 +46,9 @@ function createWindow() {
   }
 
   const mainWindowState = windowStateKeeper({
-    id: isWebView ? argv.id : 'webcatalog',
-    defaultWidth: isWebView ? 1280 : 800,
-    defaultHeight: isWebView ? 800 : 600,
+    id: isSSB ? argv.id : 'webcatalog',
+    defaultWidth: isSSB ? 1280 : 800,
+    defaultHeight: isSSB ? 800 : 600,
   });
 
   const options = {
@@ -68,12 +68,12 @@ function createWindow() {
   mainWindowState.manage(mainWindow);
 
   const windowUrl = url.format({
-    pathname: path.join(__dirname, 'www', isWebView ? 'app.html' : 'store.html'),
+    pathname: path.join(__dirname, 'www', isSSB ? 'ssb.html' : 'store.html'),
     protocol: 'file:',
     slashes: true,
   });
 
-  if (isWebView) {
+  if (isSSB) {
     mainWindow.appInfo = {
       id: argv.id,
       name: argv.name,
@@ -110,19 +110,19 @@ function createWindow() {
     sendMessageToWindow('log', message);
   };
 
-  if (!(isDevelopment && !isWebView)) {
+  if (!(isDevelopment && !isSSB)) {
     createMenu({
       isDevelopment,
-      isWebView,
+      isSSB,
       appName: argv.name || 'WebCatalog',
       appId: argv.id,
       log,
     });
   }
 
-  checkForUpdate({ mainWindow, log, isWebView, isDevelopment, isTesting });
+  checkForUpdate({ mainWindow, log, isSSB, isDevelopment, isTesting });
 
-  if (isWebView) {
+  if (isSSB) {
     settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)
       .then((swipeToNavigate) => {
         if (swipeToNavigate) {
@@ -143,7 +143,7 @@ function createWindow() {
   // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {
     // keep window running when close button is hit except when quit on last window is turned on
-    if (process.platform === 'darwin' && isWebView) {
+    if (process.platform === 'darwin' && isSSB) {
       if (mainWindow.forceClose) return;
       e.preventDefault();
       settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`)

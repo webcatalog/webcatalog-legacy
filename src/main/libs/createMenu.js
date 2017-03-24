@@ -22,10 +22,10 @@ const showAboutWindow = () => {
 };
 
 function createMenu({
-  isDevelopment, isWebView, appName, appId, log,
+  isDevelopment, isSSB, appName, appId, log,
 }) {
   let template;
-  if (isWebView) {
+  if (isSSB) {
     let currentZoom = 1;
     const ZOOM_INTERVAL = 0.1;
 

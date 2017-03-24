@@ -3,15 +3,15 @@ const semver = require('semver');
 const https = require('https');
 
 // determine if Squirrel (auto-updater) should be used or not
-const shouldUseSquirrel = (isWebView) => {
+const shouldUseSquirrel = (isSSB) => {
   if (process.platform === 'linux') return false;
 
-  if (isWebView === true) return false;
+  if (isSSB === true) return false;
 
   return true;
 };
 
-const checkForUpdate = ({ mainWindow, log, isWebView, isDevelopment, isTesting }) => {
+const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) => {
   // Don't run update checker in dev mode
   if (isDevelopment || isTesting) return;
 
@@ -19,7 +19,7 @@ const checkForUpdate = ({ mainWindow, log, isWebView, isDevelopment, isTesting }
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {
       // Auto updater
-      if (shouldUseSquirrel(isWebView)) {
+      if (shouldUseSquirrel(isSSB)) {
         /* eslint-disable global-require */
         const autoUpdater = require('electron-updater').autoUpdater;
         /* eslint-enable global-require */
