@@ -20,11 +20,8 @@ const isTesting = argv.testing === 'true';
 setProtocols();
 
 // for Netflix
-const widewinePath = argv.development ? 'electron-widevinecdm' : '../app.asar.unpacked/node_modules/electron-widevinecdm/src';
-/* eslint-disable import/no-dynamic-require */
-const widewine = require(widewinePath);
-/* eslint-enable import/no-dynamic-require */
 if (isWebView) {
+  const widewine = require('electron-widevinecdm');
   // only need DRM in webview
   widewine.load(app);
 }

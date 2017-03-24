@@ -40,7 +40,12 @@ builder.build({
     appId: 'com.webcatalog.app',
     files,
     asar: true,
-    asarUnpack: ['node_modules/electron-widevinecdm', 'scripts/**'],
+    asarUnpack: [
+      'www/images/custom_app.png',
+      'node_modules/sharp',
+      'node_modules/electron-widevinecdm',
+      'scripts/**',
+    ],
     linux: {
       category: 'Utilities', // https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
       packageCategory: 'utils', // https://packages.debian.org/wheezy/utils/

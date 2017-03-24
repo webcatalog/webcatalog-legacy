@@ -1,4 +1,4 @@
-/* global os fs remote session */
+/* global os fs remote */
 
 const deleteFolderRecursive = (path) => {
   if (fs.existsSync(path)) {
@@ -46,7 +46,7 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
     }
 
     // try to clear storage data
-    const s = session.fromPartition(`persist:${appId}`);
+    const s = remote.session.fromPartition(`persist:${appId}`);
     s.clearStorageData((err) => {
       if (err) {
         /* eslint-disable no-console */
