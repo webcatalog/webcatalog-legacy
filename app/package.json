@@ -13,7 +13,7 @@
   "main": "main.js",
   "dependencies": {
     "about-window": "^1.6.1",
-    "ad-block": "https://github.com/quanglam2807/ad-block#deae6cc203562df5bd772d6f88c5604686a3815f",
+    "ad-block": "https://github.com/quanglam2807/ad-block#d108c256df15238195957254dadb0c45a462626a",
     "deep-equal": "^1.0.1",
     "electron-auto-updater": "^1.0.0",
     "electron-settings": "^2.2.2",
