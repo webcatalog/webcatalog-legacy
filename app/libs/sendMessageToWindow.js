@@ -1,10 +1,1 @@
-const { BrowserWindow } = require('electron');
-
-const sendMessageToWindow = (...args) => {
-  const windows = BrowserWindow.getAllWindows();
-  if (windows.length > 0) {
-    windows[0].webContents.send(...args);
-  }
-};
-
-module.exports = sendMessageToWindow;
+const{BrowserWindow}=require('electron'),sendMessageToWindow=(...a)=>{const b=BrowserWindow.getAllWindows();0<b.length&&b[0].webContents.send(...a)};module.exports=sendMessageToWindow;

@@ -1,7 +1,1 @@
-const { app } = require('electron');
-
-const setProtocols = () => {
-  app.setAsDefaultProtocolClient('webcatalog');
-};
-
-module.exports = setProtocols;
+const{app}=require('electron'),setProtocols=()=>{app.setAsDefaultProtocolClient('webcatalog')};module.exports=setProtocols;
