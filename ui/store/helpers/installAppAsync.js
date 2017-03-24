@@ -48,33 +48,9 @@ const pngToIcoAsync = pngPath =>
         .then(() => `${distPath}/app.ico`);
     });
 
-const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
+const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
   Promise.resolve()
     .then(() => {
-      const pngDirPath = tmp.dirSync().name;
-      const pngPath = `${pngDirPath}/${appId}.png`;
-
-      return new Promise((resolve, reject) => {
-        const iconFile = fs.createWriteStream(pngPath);
-
-        const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.png`, (response) => {
-          response.pipe(iconFile);
-
-          iconFile.on('error', (err) => {
-            reject(err);
-          });
-
-          iconFile.on('finish', () => {
-            resolve(pngPath);
-          });
-        });
-
-        req.on('error', (err) => {
-          reject(err);
-        });
-      });
-    })
-    .then((pngPath) => {
       switch (os.platform()) {
         case 'darwin': {
           return pngToIcnsAsync(pngPath);

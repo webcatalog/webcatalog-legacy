@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
 import { fetchApps } from '../actions/app';
+import { toggleCustomDialog } from '../actions/custom';
 import { LOADING, FAILED } from '../constants/actions';
 
 import Spinner from './Spinner';
@@ -43,8 +44,22 @@ class Home extends React.Component {
   }
 
   render() {
+    const { requestToggleCustomDialog } = this.props;
+
     return (
       <div>
+        <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
+          <span>Can{'\''}t find your favorite apps? Don{'\''}t worry! </span>
+          <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>
+            <span className="pt-icon-standard pt-icon-add" />
+            <span> Submit new app</span>
+          </a>
+          <span> or </span>
+          <a onClick={() => requestToggleCustomDialog()}>
+            <span className="pt-icon-standard pt-icon-wrench" />
+            <span> Install custom app</span>
+          </a>.
+        </div>
         {this.renderList()}
         {this.renderStatus()}
       </div>
@@ -56,6 +71,7 @@ Home.propTypes = {
   status: React.PropTypes.string,
   apps: React.PropTypes.instanceOf(Immutable.List),
   requestFetchApps: React.PropTypes.func,
+  requestToggleCustomDialog: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -66,6 +82,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
+  },
+  requestToggleCustomDialog: () => {
+    dispatch(toggleCustomDialog());
   },
 });
 

@@ -7,9 +7,11 @@ import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/app';
 import { search, setSearchQuery } from '../actions/search';
+import { toggleCustomDialog } from '../actions/custom';
 
 const Nav = ({
   query, pathname,
+  requestToggleCustomDialog,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -79,6 +81,11 @@ const Nav = ({
       <Popover
         content={(
           <Menu>
+            <MenuItem
+              iconName="wrench"
+              text="Install custom app"
+              onClick={() => requestToggleCustomDialog()}
+            />
             <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
             <MenuItem iconName="heart" text="Donate" onClick={() => shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD')} />
             <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
@@ -101,6 +108,7 @@ Nav.propTypes = {
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
+  requestToggleCustomDialog: React.PropTypes.func,
   goTo: React.PropTypes.func,
 };
 
@@ -123,6 +131,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestRefresh: (pathname) => {
     dispatch(refresh(pathname));
+  },
+  requestToggleCustomDialog: () => {
+    dispatch(toggleCustomDialog());
   },
   goTo: (pathname) => {
     dispatch(replace(pathname));

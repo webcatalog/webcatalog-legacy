@@ -7,6 +7,7 @@ import { Button, Intent } from '@blueprintjs/core';
 
 import { INSTALLED, INPROGRESS } from '../constants/actions';
 import { installApp, uninstallApp } from '../actions/app';
+import openApp from '../helpers/openApp';
 
 const extractDomain = (url) => {
   const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -49,22 +50,7 @@ const Card = ({
             <Button
               key="open"
               text="Open"
-              onClick={() => {
-                switch (os.platform()) {
-                  case 'darwin': {
-                    shell.openItem(`${remote.app.getPath('home')}/Applications/WebCatalog Apps/${app.get('name')}.app`);
-                    break;
-                  }
-                  case 'linux': {
-                    exec(`gtk-launch ${app.get('id')}`);
-                    break;
-                  }
-                  case 'win32':
-                  default: {
-                    shell.openItem(`${remote.app.getPath('home')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/WebCatalog Apps/${app.get('name')}.lnk`);
-                  }
-                }
-              }}
+              onClick={() => openApp(app.get('name'), app.get('id'))}
             />,
             <Button
               key="uninstall"

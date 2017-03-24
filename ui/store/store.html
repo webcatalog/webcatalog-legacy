@@ -48,6 +48,11 @@
         white-space: nowrap;
         margin: 0;
       }
+
+      .centering_spinner {
+        display: block !important;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
@@ -61,6 +66,7 @@
       const tmp = require('tmp');
       const sharp = require('sharp');
       const icongen = require('icon-gen');
+      const path = require('path');
       const { exec, execFile } = require('child_process');
       const electronSettings = require('electron-settings');
       const WindowsShortcuts = (os.platform() === 'win32') ? require('windows-shortcuts') : null;

@@ -5,7 +5,7 @@ import {
   INSTALLED, INPROGRESS, LOADING, FAILED, DONE,
 } from '../constants/actions';
 import scanInstalledAsync from '../helpers/scanInstalledAsync';
-import installAppAsync from '../helpers/installAppAsync';
+import installOfficialAppAsync from '../helpers/installOfficialAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
 import updateAppsAsync from '../helpers/updateAppsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
@@ -74,7 +74,7 @@ export const installApp = app => (dispatch) => {
     status: INPROGRESS,
   });
 
-  installAppAsync({
+  installOfficialAppAsync({
     allAppPath: getAllAppPath(),
     appId: app.get('id'),
     appName: app.get('name'),
