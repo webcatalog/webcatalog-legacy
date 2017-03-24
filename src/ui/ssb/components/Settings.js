@@ -15,6 +15,7 @@ const Settings = ({
     isOpen={isOpen}
     onClose={() => requestToggleSettingDialog()}
     title="Settings"
+    className="settings-dialog"
   >
     <div className="pt-dialog-body">
       {(os.platform() === 'darwin') ? (
