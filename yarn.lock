@@ -1764,9 +1764,9 @@ electron-settings@^2.2.2:
     fs-extra "^0.30.0"
     key-path-helpers "^0.4.0"
 
-electron-widevinecdm@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-1.0.1.tgz#a071ea0f8e4b83cf294c89a3a94e8dec0a4ac3ac"
+electron-widevinecdm@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-1.0.2.tgz#59c8793e749746f0be9a2f7581d20e8434a7eed0"
   dependencies:
     archiver-promise "^1.0.0"
     extract-zip "^1.6.0"
