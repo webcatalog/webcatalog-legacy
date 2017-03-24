@@ -1,3 +1,4 @@
+require('hazardous');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');

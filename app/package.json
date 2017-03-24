@@ -19,6 +19,7 @@
     "electron-settings": "^2.2.2",
     "electron-widevinecdm": "^1.0.0",
     "follow-redirects": "^1.2.3",
+    "hazardous": "^0.2.3",
     "icon-gen": "^1.0.7",
     "jsonfile": "^2.4.0",
     "lodash.camelcase": "^4.3.0",
