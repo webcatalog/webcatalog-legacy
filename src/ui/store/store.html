@@ -64,12 +64,16 @@
       const mkdirp = require('mkdirp');
       const os = require('os');
       const tmp = require('tmp');
+<<<<<<< HEAD
       const Jimp = require('jimp');
+=======
+>>>>>>> 27f7a6ee1cd43b8956059525750aa5c0e30bcddc
       const icongen = require('icon-gen');
       const path = require('path');
       const { exec, execFile } = require('child_process');
       const electronSettings = require('electron-settings');
       const WindowsShortcuts = (os.platform() === 'win32') ? require('windows-shortcuts') : null;
+      const sharp = require('sharp');
 
       ipcRenderer.on('log', (event, message) => {
         console.log(message);
