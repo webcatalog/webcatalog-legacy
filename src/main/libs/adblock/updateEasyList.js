@@ -5,7 +5,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, 'easyList+easyprivacy-noelementhiding.txt');
+const filePath = path.join(__dirname, 'easylist+easyprivacy-noelementhiding.txt');
 
 const easyListOptions = {
   hostname: 'easylist.to',
