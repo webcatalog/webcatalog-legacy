@@ -1,27 +1,23 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp sharp icongen path */
+/* global https os fs remote execFile mkdirp WindowsShortcuts tmp Jimp icongen path */
 
 const generateIconSet = (pngPath, iconSizes) => {
   const iconSetPath = tmp.dirSync().name;
 
-  const promises = iconSizes.map(size =>
-    new Promise((resolve, reject) => {
-      sharp(pngPath)
-        .resize(size, size)
-        .toFile(`${iconSetPath}/${size}.png`, (err, info) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-          resolve(info);
-        });
-    }));
+  return Jimp.read(pngPath)
+    .then((png) => {
+      const promises = iconSizes.map(size =>
+        new Promise((resolve) => {
+          png.resize(size, size)            // resize
+             .write(path.join(iconSetPath, `${size}.png`), resolve); // save
+        }));
 
-  return Promise.all(promises)
+      return Promise.all(promises);
+    })
     .then(() => iconSetPath);
 };
 
 const pngToIcnsAsync = pngPath =>
-  generateIconSet(pngPath, [16, 32, 64, 128, 256, 512, 1024])
+  generateIconSet(pngPath, [1024, 512, 256, 128, 64, 32, 16])
     .then((iconSetPath) => {
       const options = {
         type: 'png',
@@ -35,7 +31,7 @@ const pngToIcnsAsync = pngPath =>
     });
 
 const pngToIcoAsync = pngPath =>
-  generateIconSet(pngPath, [16, 24, 32, 48, 64, 128, 256])
+  generateIconSet(pngPath, [256, 128, 64, 48, 32, 24, 16])
     .then((iconSetPath) => {
       const options = {
         type: 'png',
