@@ -35,7 +35,7 @@ builder.build({
     ],
     asar: true,
     asarUnpack: [
-      'www/images/custom_app.png',
+      'app/www/images/custom_app.png',
       'node_modules/sharp',
       'node_modules/electron-widevinecdm',
     ],
