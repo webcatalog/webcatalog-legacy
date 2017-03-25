@@ -21,7 +21,6 @@ addons:
     packages:
     - rpm
     - bsdtar
-    - libavahi-compat-libdnssd-dev
 before_script:
 - yarn lint
 script:
