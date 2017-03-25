@@ -68,7 +68,7 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('go-home', () => {
-      c.loadURL(argv.url);
+      c.loadURL(this.props.customHome || argv.url);
     });
 
     ipcRenderer.on('go-to-url', (e, url) => {
