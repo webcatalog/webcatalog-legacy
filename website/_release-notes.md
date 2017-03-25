@@ -1,3 +1,9 @@
+## 4.0.2 (alpha)
+- Fixes bugs.
+
+---
+
+
 ## 4.0.1 (alpha)
 - Fixes bugs.
 
