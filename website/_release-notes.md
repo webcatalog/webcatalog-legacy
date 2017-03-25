@@ -4,8 +4,8 @@
 ---
 
 ## 4.0.0 (alpha)
-- Adds ability to installs custom app.
-- Block ads & tracking.
+- Adds ability to install custom app.
+- Blocks ads & tracking.
 - Clears storage data when uninstalling.
 - Adds options to inject CSS & JS.
 - Adds option to customize home URL.
