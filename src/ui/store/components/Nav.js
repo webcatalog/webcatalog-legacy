@@ -1,4 +1,4 @@
-/* global shell os */
+/* global shell os remote */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
@@ -98,6 +98,41 @@ const Nav = ({
           style={{ WebkitAppRegion: 'no-drag' }}
         />
       </Popover>
+
+      {os.platform() !== 'darwin' ? [
+        <span className="pt-navbar-divider" key="divider" />,
+        <button
+          className="pt-button pt-minimal pt-icon-minus"
+          style={{ WebkitAppRegion: 'no-drag' }}
+          onClick={() => {
+            const window = remote.getCurrentWindow();
+            window.minimize();
+          }}
+          key="minimize"
+        />,
+        <button
+          className="pt-button pt-minimal pt-icon-applications"
+          style={{ WebkitAppRegion: 'no-drag' }}
+          onClick={() => {
+            const window = remote.getCurrentWindow();
+            if (!window.isMaximized()) {
+              window.maximize();
+            } else {
+              window.unmaximize();
+            }
+          }}
+          key="maximize"
+        />,
+        <button
+          className="pt-button pt-minimal pt-icon-cross"
+          style={{ WebkitAppRegion: 'no-drag' }}
+          onClick={() => {
+            const window = remote.getCurrentWindow();
+            window.close();
+          }}
+          key="close"
+        />,
+      ] : null}
     </div>
   </nav>
 );
