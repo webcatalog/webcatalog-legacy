@@ -1,3 +1,8 @@
+## 4.0.1 (alpha)
+- Fixes bugs.
+
+---
+
 ## 4.0.0 (alpha)
 - Adds ability to installs custom app.
 - Block ads & tracking.
