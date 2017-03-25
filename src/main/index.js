@@ -12,7 +12,7 @@ const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 
-const isSSB = !(argv.url === null || argv.id === null);
+const isSSB = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
 const isTesting = argv.testing === 'true';
 
