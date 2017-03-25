@@ -12,10 +12,7 @@ matrix:
       - secure: o6TgAYfpX/6MipvfdseADka+Ak825TIJProRpFO7GW/qdDmQjyRyixB+RVETVt1+0KaEANuaihyGMwQaLyLHDua3rcZ0DvLdrA8DsP06vVqrhl3k2r77OusonNiW40+k1kvjlGydguRR8Ip+fWPiakFN02P5J/Nv0hrmLvXGfYY+EMBdiHGvtyfb1e7rv8GIydYp02j4abqlm0DRRHVh+X4dTzZSSvCBYQukk3xF6nahTJjZv9vMwwVgMR7+Ap9qLLnZ1qrnsmB6mdn5aBoJnBq3xdLIkyvheHAgzj7eVXYTJFCTRn1VqAvVuOnC2jpH0rnwNkkkIFmRe/g+feJBukAycsAiNLiyOT8rdbzOUl6JRgje05ZPEVbITA7c4iN76qOMOQFCtWhD+STjq/T40rvzLAvWDuIdHtwIEgC3/yFs+qUy6c5acbQj+SPWMI3CkHXic4S0XCBUgVz4I4mDPr5Tc53mgx2Mbws4OGe43kuSO24nP6JTHgG/bfxA5GuGq4YIxeT0aeHa1tdUB9FC04IB0VShcVujtYz2vfrLCcqmGNnlEQTLRTcNi9kAycVVZlLmO/zeWfUTkV+iOVrje2rGnGitTBWaR+/X8I/K0tqpLwocRM4EpGOSceoJg3fjhhu+8QCmYSu/20MjDRgcrr1HbGKsRkHXi7PIR8XtHjY=
       - CC=clang CXX=clang++ npm_config_clang=1
     compiler: clang
-cache:
-  yarn: true
-  directories:
-  - node_modules
+cache: yarn
 addons:
   apt:
     packages:
