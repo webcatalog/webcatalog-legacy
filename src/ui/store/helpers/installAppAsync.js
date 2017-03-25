@@ -1,4 +1,4 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp Jimp icongen path */
+/* global https os fs remote execFile mkdirp WindowsShortcuts tmp Jimp icongen path pngToIco */
 
 const generateIconSet = (pngPath, iconSizes) => {
   const iconSetPath = tmp.dirSync().name;
@@ -31,17 +31,11 @@ const pngToIcnsAsync = pngPath =>
     });
 
 const pngToIcoAsync = pngPath =>
-  generateIconSet(pngPath, [256, 128, 64, 48, 32, 24, 16])
-    .then((iconSetPath) => {
-      const options = {
-        type: 'png',
-        report: false,
-        modes: ['ico'],
-      };
-
-      const distPath = tmp.dirSync().name;
-      return icongen(iconSetPath, distPath, options)
-        .then(() => `${distPath}/app.ico`);
+  pngToIco(pngPath)
+    .then((buf) => {
+      const icoPath = path.join(tmp.dirSync().name, 'app.ico');
+      fs.writeFileSync(icoPath, buf);
+      return icoPath;
     });
 
 const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>

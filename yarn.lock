@@ -4044,6 +4044,13 @@ pn@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.0.0.tgz#1cf5a30b0d806cd18f88fc41a6b5d4ad615b3ba9"
 
+png-to-ico@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/png-to-ico/-/png-to-ico-1.0.2.tgz#f217cca6bf9790dae86733fec076fbb450c08433"
+  dependencies:
+    jimp "^0.2.27"
+    meow "^3.7.0"
+
 pngjs@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.0.1.tgz#b15086ac1ac47298c8fd3f9cdf364fa9879c4db6"
