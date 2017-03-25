@@ -10,12 +10,12 @@ window.onload = () => {
   // inject JS
   settings.get(`behaviors.${camelCase(argv.id)}.injectedJS`)
     .then((injectedJS) => {
-      if (!injectedJS) return;
+      if (!injectedJS || injectedJS.trim().length < 1) return;
 
       try {
-        /* eslint-disable no-eval */
-        eval(injectedJS);
-        /* eslint-enable no-eval */
+        const node = document.createElement('script');
+        node.innerHTML = injectedJS;
+        document.body.appendChild(node);
       } catch (err) {
         /* eslint-disable no-console */
         console.log(err);
@@ -26,7 +26,7 @@ window.onload = () => {
   // inject CSS
   settings.get(`behaviors.${camelCase(argv.id)}.injectedCSS`)
     .then((injectedCSS) => {
-      if (!injectedCSS) return;
+      if (!injectedCSS || injectedCSS.trim().length < 1) return;
 
       try {
         const node = document.createElement('style');
