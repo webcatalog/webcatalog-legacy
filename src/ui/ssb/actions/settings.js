@@ -8,14 +8,13 @@ export const toggleSettingDialog = () => ({
 });
 
 export const setBehavior = (name, val) => (dispatch) => {
+  dispatch({
+    type: SET_BEHAVIOR,
+    behaviorName: name,
+    behaviorVal: val,
+  });
+
   electronSettings.set(`behaviors.${camelCase(argv.id)}.${name}`, val)
-    .then(() => {
-      dispatch({
-        type: SET_BEHAVIOR,
-        behaviorName: name,
-        behaviorVal: val,
-      });
-    })
     /* eslint-disable no-console */
     .catch(console.log);
     /* eslint-enab le no-console */

@@ -89,12 +89,8 @@ const Settings = ({
             placeholder="Custom Home URL"
             value={customHome || ''}
             required
-            onInput={(e) => {
-              const val = e.target.value.length > 0 ? e.target.value : null;
-              requestSetBehavior('customHome', val);
-            }}
             onChange={(e) => {
-              const val = e.target.value.length > 0 ? e.target.value : null;
+              const val = e.target.value;
               requestSetBehavior('customHome', val);
             }}
           />
@@ -115,10 +111,6 @@ const Settings = ({
             style={{ width: 300 }}
             dir="auto"
             value={injectedCSS || ''}
-            onInput={(e) => {
-              const val = e.target.value.length > 0 ? e.target.value : null;
-              requestSetBehavior('injectedCSS', val);
-            }}
             onChange={(e) => {
               const val = e.target.value.length > 0 ? e.target.value : null;
               requestSetBehavior('injectedCSS', val);
@@ -140,10 +132,6 @@ const Settings = ({
             style={{ width: 300 }}
             dir="auto"
             value={injectedJS || ''}
-            onInput={(e) => {
-              const val = e.target.value.length > 0 ? e.target.value : null;
-              requestSetBehavior('injectedJS', val);
-            }}
             onChange={(e) => {
               const val = e.target.value.length > 0 ? e.target.value : null;
               requestSetBehavior('injectedJS', val);
