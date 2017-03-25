@@ -29,104 +29,80 @@ if (isSSB) {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow() {
-  if (isSSB) {
-    // set default settings
-    const defaultSettings = { behaviors: {} };
-    defaultSettings.behaviors[camelCase(argv.id)] = {
-      swipeToNavigate: true,
-      rememberLastPage: false,
-      quitOnLastWindow: false,
-      blockAds: false,
-      customHome: null,
-      injectedCSS: null,
-      injectedJS: null,
-    };
+const createWindow = () =>
+  Promise.resolve()
+    .then(() => {
+      // set default settings
+      if (isSSB) {
+        const defaultSettings = { behaviors: {} };
+        defaultSettings.behaviors[camelCase(argv.id)] = {
+          swipeToNavigate: true,
+          rememberLastPage: false,
+          quitOnLastWindow: false,
+          blockAds: false,
+          customHome: null,
+          injectedCSS: null,
+          injectedJS: null,
+        };
 
-    settings.defaults(defaultSettings);
-    settings.applyDefaultsSync();
-  }
+        settings.defaults(defaultSettings);
+        return settings.applyDefaults();
+      }
+      return null;
+    })
+    .then(() => {
+      if (isSSB) return settings.get(`behaviors.${camelCase(argv.id)}`);
+      return {};
+    })
+    .then(({ blockAds, swipeToNavigate, quitOnLastWindow }) => {
+      const mainWindowState = windowStateKeeper({
+        id: isSSB ? argv.id : 'webcatalog',
+        defaultWidth: isSSB ? 1280 : 800,
+        defaultHeight: isSSB ? 800 : 600,
+      });
 
-  const mainWindowState = windowStateKeeper({
-    id: isSSB ? argv.id : 'webcatalog',
-    defaultWidth: isSSB ? 1280 : 800,
-    defaultHeight: isSSB ? 800 : 600,
-  });
+      const options = {
+        x: mainWindowState.x,
+        y: mainWindowState.y,
+        width: mainWindowState.width,
+        height: mainWindowState.height,
+        minWidth: 500,
+        minHeight: 400,
+        title: argv.name || 'WebCatalog',
+        titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
+        frame: true,
+      };
 
-  const options = {
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    minWidth: 500,
-    minHeight: 400,
-    title: argv.name || 'WebCatalog',
-    titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
-    frame: true,
-  };
+      mainWindow = new BrowserWindow(options);
 
-  mainWindow = new BrowserWindow(options);
+      mainWindowState.manage(mainWindow);
 
-  mainWindowState.manage(mainWindow);
+      if (isSSB) {
+        mainWindow.appInfo = {
+          id: argv.id,
+          name: argv.name,
+          url: argv.url,
+          userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
+          isTesting,
+          isDevelopment,
+        };
 
-  const windowUrl = url.format({
-    pathname: path.join(__dirname, 'www', isSSB ? 'ssb.html' : 'store.html'),
-    protocol: 'file:',
-    slashes: true,
-  });
+        /* Badge count */
+        // do nothing for setDockBadge if not OSX
+        const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
 
-  if (isSSB) {
-    mainWindow.appInfo = {
-      id: argv.id,
-      name: argv.name,
-      url: argv.url,
-      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
-      isTesting,
-      isDevelopment,
-    };
+        ipcMain.on('badge', (e, badge) => {
+          setDockBadge(badge);
+        });
 
-    // ablocker
-    settings.get(`behaviors.${camelCase(argv.id)}.blockAds`)
-      .then((blockAds) => {
+        mainWindow.on('focus', () => {
+          setDockBadge('');
+        });
+
         if (blockAds) {
           registerFiltering(argv.id);
         }
-      });
 
-    /* Badge count */
-    // do nothing for setDockBadge if not OSX
-    const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
-
-    ipcMain.on('badge', (e, badge) => {
-      setDockBadge(badge);
-    });
-
-    mainWindow.on('focus', () => {
-      setDockBadge('');
-    });
-  }
-
-  mainWindow.loadURL(windowUrl);
-
-  const log = (message) => {
-    sendMessageToWindow('log', message);
-  };
-
-  if (!(isDevelopment && !isSSB)) {
-    createMenu({
-      isDevelopment,
-      isSSB,
-      appName: argv.name || 'WebCatalog',
-      appId: argv.id,
-      log,
-    });
-  }
-
-  checkForUpdate({ mainWindow, log, isSSB, isDevelopment, isTesting });
-
-  if (isSSB) {
-    settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`)
-      .then((swipeToNavigate) => {
         if (swipeToNavigate) {
           mainWindow.on('swipe', (e, direction) => {
             if (direction === 'left') {
@@ -136,38 +112,58 @@ function createWindow() {
             }
           });
         }
-      })
-      .catch((err) => {
-        sendMessageToWindow('log', err);
-      });
-  }
+      }
 
-  // Emitted when the close button is clicked.
-  mainWindow.on('close', (e) => {
-    // keep window running when close button is hit except when quit on last window is turned on
-    if (process.platform === 'darwin' && isSSB) {
-      if (mainWindow.forceClose) return;
-      e.preventDefault();
-      settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`)
-        .then((quitOnLastWindow) => {
-          if (quitOnLastWindow) {
+      const log = (message) => {
+        sendMessageToWindow('log', message);
+      };
+
+      // setup update checking
+      checkForUpdate({ mainWindow, log, isSSB, isDevelopment, isTesting });
+
+      // Emitted when the close button is clicked.
+      mainWindow.on('close', (e) => {
+        // keep window running when close button is hit except when quit on last window is turned on
+        if (process.platform === 'darwin' && isSSB) {
+          if (mainWindow.forceClose) return;
+          e.preventDefault();
+          if (isSSB && quitOnLastWindow) {
             app.quit();
           } else {
             mainWindow.hide();
           }
-        })
-        .catch((err) => {
-          sendMessageToWindow('log', err);
-        });
 
-      return;
-    }
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-}
+          return;
+        }
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        mainWindow = null;
+      });
+
+      // create menu
+      if (!(isDevelopment && !isSSB)) {
+        createMenu({
+          isDevelopment,
+          isSSB,
+          appName: argv.name || 'WebCatalog',
+          appId: argv.id,
+          log,
+        });
+      }
+
+      // load window
+      const windowUrl = url.format({
+        pathname: path.join(__dirname, 'www', isSSB ? 'ssb.html' : 'store.html'),
+        protocol: 'file:',
+        slashes: true,
+      });
+
+      mainWindow.loadURL(windowUrl);
+    })
+    /* eslint-disable no-console */
+    .catch(console.log);
+    /* eslint-enable no-console */
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
