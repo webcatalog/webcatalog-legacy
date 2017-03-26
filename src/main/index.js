@@ -70,7 +70,7 @@ const createWindow = () =>
         minHeight: 400,
         title: argv.name || 'WebCatalog',
         titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
-        frame: (process.platform === 'darwin'),
+        frame: (process.platform === 'darwin' || isSSB),
       };
 
       mainWindow = new BrowserWindow(options);
