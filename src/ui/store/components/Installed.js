@@ -33,13 +33,25 @@ class Installed extends React.Component {
           />
         );
       }
+
+      const officialApps = hits.filter(app => !app.get('id').startsWith('custom-'));
+      const customApps = hits.filter(app => app.get('id').startsWith('custom-'));
+
       return (
         <div>
           <div className="text-container">
             <h5>Installed applications</h5>
           </div>
           <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-            {hits.map(app => <Card app={app} key={app.get('id')} />)}
+            {officialApps.map(app => <Card app={app} key={app.get('id')} />)}
+          </div>
+          {customApps.size > 0 ? (
+            <div className="text-container">
+              <h5>Custom applications</h5>
+            </div>
+          ) : null}
+          <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
+            {customApps.map(app => <Card app={app} key={app.get('id')} />)}
           </div>
           <div className="text-container">
             <p>powered by</p>

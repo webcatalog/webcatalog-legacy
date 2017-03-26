@@ -9,7 +9,6 @@ import scanInstalledAsync from '../helpers/scanInstalledAsync';
 import getObjectsAsync from '../helpers/getObjectsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
 
-
 export const fetchInstalled = () => (dispatch) => {
   dispatch({
     type: SET_INSTALLED_STATUS,
@@ -18,8 +17,8 @@ export const fetchInstalled = () => (dispatch) => {
 
 
   scanInstalledAsync({ allAppPath: getAllAppPath() })
-    .then((installedIds) => {
-      const objectIds = installedIds.map(({ id }) => id);
+    .then((installedApps) => {
+      const objectIds = installedApps.filter(({ id }) => !id.startsWith('custom-')).map(({ id }) => id);
       if (objectIds.length < 1) {
         dispatch(batchActions([
           {
@@ -38,6 +37,8 @@ export const fetchInstalled = () => (dispatch) => {
         .then((content) => {
           const hits = content.results ? content.results.filter(hit => hit !== null) : [];
 
+          const customApps = installedApps.filter(({ id }) => id.startsWith('custom-'));
+
           dispatch(batchActions([
             {
               type: SET_INSTALLED_STATUS,
@@ -45,7 +46,7 @@ export const fetchInstalled = () => (dispatch) => {
             },
             {
               type: SET_INSTALLED_HITS,
-              hits,
+              hits: hits.concat(customApps),
             },
           ]));
         })

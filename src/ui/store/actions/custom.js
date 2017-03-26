@@ -1,7 +1,7 @@
 /* global path remote */
 
 import {
-  TOGGLE_CUSTOM_DIALOG, SET_CUSTOM_VALUE, SET_CUSTOM_STATUS,
+  TOGGLE_CUSTOM_DIALOG, SET_CUSTOM_VALUE, SET_CUSTOM_STATUS, ADD_APP_STATUS, INSTALLED,
   DONE, FAILED, LOADING,
 } from '../constants/actions';
 
@@ -27,7 +27,7 @@ export const installCustomApp = () => (dispatch, getState) => {
   dispatch(setCustomStatus(LOADING));
 
   const { name, url, icon } = getState().custom;
-  const id = new Date().getTime().toString();
+  const id = `custom-${new Date().getTime().toString()}`;
 
   installAppAsync({
     allAppPath: getAllAppPath(),
@@ -39,6 +39,11 @@ export const installCustomApp = () => (dispatch, getState) => {
   .then(() => {
     dispatch(setCustomValue('id', id));
     dispatch(setCustomStatus(DONE));
+    dispatch({
+      type: ADD_APP_STATUS,
+      id,
+      status: INSTALLED,
+    });
   })
   .catch((err) => {
     /* eslint-disable no-console */

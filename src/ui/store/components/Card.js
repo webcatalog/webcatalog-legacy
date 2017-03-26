@@ -10,9 +10,13 @@ import { installApp, uninstallApp } from '../actions/app';
 import openApp from '../helpers/openApp';
 
 const extractDomain = (url) => {
-  const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
-  const domain = matches && matches[1];
-  return domain.replace('www.', '');
+  try {
+    const matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
+    const domain = matches && matches[1];
+    return domain.replace('www.', '');
+  } catch (err) {
+    return null;
+  }
 };
 
 const Card = ({
@@ -21,16 +25,18 @@ const Card = ({
 }) => (
   <div className="col">
     <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
-      <img
-        src={`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${app.get('id')}@128px.webp`}
-        role="presentation"
-        alt={app.get('name')}
-        style={{
-          height: 64,
-          width: 64,
-          marginBottom: 8,
-        }}
-      />
+      {app.get('id').startsWith('custom-') ? null : (
+        <img
+          src={`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${app.get('id')}@128px.webp`}
+          role="presentation"
+          alt={app.get('name')}
+          style={{
+            height: 64,
+            width: 64,
+            marginBottom: 8,
+          }}
+        />
+      )}
       <h5>{app.get('name')}</h5>
       <p>
         <a onClick={() => shell.openExternal(app.get('url'))}>
