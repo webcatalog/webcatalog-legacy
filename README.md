@@ -9,7 +9,7 @@
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). It offers similar functionalities with [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but with more features and user-friendly user interface.
+WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). It works similarly to [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but offers more features and an user-friendly user interface.
 
 ![Demo](http://i.imgur.com/mXlu7PG.gif)
 
