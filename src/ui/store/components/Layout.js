@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Nav from './Nav';
-import Custom from './Custom';
-
 import { fetchApps } from '../actions/app';
 
+import Nav from './Nav';
+import Custom from './Custom';
 
 class Layout extends React.Component {
   componentDidMount() {

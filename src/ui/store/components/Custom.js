@@ -73,16 +73,13 @@ const Settings = ({
           <h5>
             {name} is installed successfully.
           </h5>
-          <button
-            type="button"
-            className="pt-button pt-intent-primary"
+          <Button
+            text="Open"
+            intent={Intent.PRIMARY}
             onClick={() => openApp(name, id)}
-          >
-            Open
-          </button>
-          <button
-            type="button"
-            className="pt-button"
+          />
+          <Button
+            text="Install Other App"
             onClick={() => {
               // clean
               requestSetCustomValue('name', '');
@@ -93,9 +90,7 @@ const Settings = ({
               requestSetCustomStatus(DEFAULT);
             }}
             style={{ marginLeft: 6 }}
-          >
-            Install Other App
-          </button>
+          />
         </div>
       ) : null}
       {(status === FAILED) ? (
@@ -103,16 +98,12 @@ const Settings = ({
           <h5>
             Installation failed.
           </h5>
-          <button
-            type="button"
-            className="pt-button pt-intent-primary"
-            onClick={() => {
-              requestSetCustomStatus(DEFAULT);
-            }}
+          <Button
+            text="Install Other App"
+            intent={Intent.PRIMARY}
+            onClick={() => requestSetCustomStatus(DEFAULT)}
             style={{ marginLeft: 6 }}
-          >
-            Try Again
-          </button>
+          />
         </div>
       ) : null}
     </div>

@@ -7,7 +7,7 @@ import { fetchApps } from '../actions/app';
 import { toggleCustomDialog } from '../actions/custom';
 import { LOADING, FAILED } from '../constants/actions';
 
-import Spinner from './Spinner';
+import Loading from './Loading';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
@@ -37,7 +37,7 @@ class Home extends React.Component {
       status, requestFetchApps,
     } = this.props;
 
-    if (status === LOADING) return <Spinner />;
+    if (status === LOADING) return <Loading />;
     if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
 
     return null;

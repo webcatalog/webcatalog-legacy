@@ -433,10 +433,7 @@ function createMenu({
       },
       {
         role: 'front',
-      // Need babel.js
-      /* eslint-disable comma-dangle */
-      }
-      /* eslint-enable comma-dangle */
+      },
     );
   }
 

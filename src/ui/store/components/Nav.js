@@ -45,9 +45,11 @@ const Nav = ({
           onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
         {query.length > 0 ? (
-          <button
-            className="pt-button pt-minimal pt-intent-primary pt-icon-cross"
-            onClick={() => requestSetSearchQuery('', pathname)}
+          <Button
+            iconName="cross"
+            className={Classes.MINIMAL}
+            style={{ WebkitAppRegion: 'no-drag' }}
+            tonClick={() => requestSetSearchQuery('', pathname)}
           />
         ) : null}
       </div>
@@ -73,8 +75,11 @@ const Nav = ({
         text="Installed"
         onClick={() => goTo('/installed')}
       />
-      <button
-        className="pt-button pt-minimal pt-icon-refresh"
+      <Button
+        iconName="refresh"
+        className={classNames(
+          Classes.MINIMAL,
+        )}
         style={{ WebkitAppRegion: 'no-drag' }}
         onClick={() => requestRefresh(pathname)}
       />
@@ -93,16 +98,18 @@ const Nav = ({
         )}
         position={Position.BOTTOM_RIGHT}
       >
-        <button
-          className="pt-button pt-minimal pt-icon-more"
+        <Button
+          iconName="more"
+          className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
         />
       </Popover>
 
       {os.platform() !== 'darwin' ? [
         <span className="pt-navbar-divider" key="divider" />,
-        <button
-          className="pt-button pt-minimal pt-icon-minus"
+        <Button
+          iconName="minus"
+          className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
           onClick={() => {
             const window = remote.getCurrentWindow();
@@ -110,8 +117,9 @@ const Nav = ({
           }}
           key="minimize"
         />,
-        <button
-          className="pt-button pt-minimal pt-icon-applications"
+        <Button
+          iconName="applications"
+          className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
           onClick={() => {
             const window = remote.getCurrentWindow();
@@ -123,8 +131,9 @@ const Nav = ({
           }}
           key="maximize"
         />,
-        <button
-          className="pt-button pt-minimal pt-icon-cross"
+        <Button
+          iconName="cross"
+          className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
           onClick={() => {
             const window = remote.getCurrentWindow();

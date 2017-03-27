@@ -4,11 +4,10 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { NonIdealState } from '@blueprintjs/core';
 
-
 import { fetchInstalled } from '../actions/installed';
 import { LOADING, FAILED, DONE } from '../constants/actions';
 
-import Spinner from './Spinner';
+import Loading from './Loading';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
@@ -78,7 +77,7 @@ class Installed extends React.Component {
       requestInstalled,
     } = this.props;
 
-    if (status === LOADING) return <Spinner />;
+    if (status === LOADING) return <Loading />;
     if (status === FAILED) return <NoConnection handleClick={() => requestInstalled()} />;
 
     return null;

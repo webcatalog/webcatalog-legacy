@@ -4,11 +4,10 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 
-
 import { search } from '../actions/search';
 import { LOADING, FAILED, DONE } from '../constants/actions';
 
-import Spinner from './Spinner';
+import Loading from './Loading';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
@@ -69,7 +68,7 @@ class Search extends React.Component {
       requestSearch,
     } = this.props;
 
-    if (searchStatus === LOADING) return <Spinner />;
+    if (searchStatus === LOADING) return <Loading />;
     if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
 
     return null;
