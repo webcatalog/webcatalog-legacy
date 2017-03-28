@@ -1,4 +1,4 @@
-## 4.0.3 (alpha)
+## 4.0.3 (beta)
 - Fixes bugs.
 
 ---
