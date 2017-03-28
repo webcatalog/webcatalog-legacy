@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>WebCatalog</title>
+    <link href="dist/blueprint.css" rel="stylesheet" />
+    <style>
+      html {
+        overflow: hidden;
+      }
+
+      body {
+        margin: 0;
+        background-color: #f5f8fa;
+      }
+
+      .webview {
+        height: 100%;
+      }
+
+      .pt-navbar.pt-tiny .pt-navbar-group {
+        height: 22px;
+      }
+
+      .pt-navbar.pt-tiny .pt-button {
+        min-width: 30px;
+        min-height: 22px;
+        line-height: 22px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .pt-navbar.pt-tiny:hover .pt-button {
+        display: block;
+      }
+
+      .pt-navbar.pt-tiny .pt-spinner {
+        width: 18px;
+        margin-top: 2px;
+      }
+
+      .settings-dialog {
+        top: 44px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const { shell, ipcRenderer, clipboard, remote } = require('electron');
+      const argv = remote.getCurrentWindow().appInfo;
+      const os = require('os');
+      const fs = require('fs');
+      const path = require('path');
+      const electronSettings = require('electron-settings');
+    </script>
+    <script src="ssb.bundle.js"></script>
+  </body>
+</html>

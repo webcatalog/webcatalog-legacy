@@ -24,23 +24,20 @@ switch (process.platform) {
   }
 }
 
-// construct excluded files
-const files = [];
-['darwin', 'linux', 'win32'].forEach((platform) => {
-  if (platform !== process.platform) {
-    files.push(`!plugins/${platform}/**/*`);
-  }
-});
-
 // Promise is returned
 builder.build({
   targets,
   config: {
     electronVersion,
     appId: 'com.webcatalog.app',
-    files,
+    files: [
+      '!{scripts,src,website,tests,webpack.config.js}',
+    ],
     asar: true,
-    asarUnpack: ['node_modules/electron-widevinecdm', 'scripts/**'],
+    asarUnpack: [
+      'app/www/images/custom_app.png',
+      'node_modules/electron-widevinecdm',
+    ],
     linux: {
       category: 'Utilities', // https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
       packageCategory: 'utils', // https://packages.debian.org/wheezy/utils/

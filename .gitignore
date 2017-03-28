@@ -45,3 +45,5 @@ dist
 
 .DS_Store
 .eslintcache
+
+/app

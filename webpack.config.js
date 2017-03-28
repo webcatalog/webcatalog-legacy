@@ -5,14 +5,13 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const OUTPUT_DIR = path.resolve(__dirname, 'app/www');
-const SOURCE_DIR = path.resolve(__dirname, 'ui');
+const SOURCE_DIR = path.resolve(__dirname, 'src/ui');
 
 /* eslint-disable no-console */
-
 const common = {
   entry: {
     store: `${SOURCE_DIR}/store/index.js`,
-    app: `${SOURCE_DIR}/app/index.js`,
+    ssb: `${SOURCE_DIR}/ssb/index.js`,
   },
   devtool: 'source-map',
   output: {
@@ -40,7 +39,7 @@ const common = {
 const config = (() => {
   const copyArr = [
     { from: `${SOURCE_DIR}/store/store.html` },
-    { from: `${SOURCE_DIR}/app/app.html` },
+    { from: `${SOURCE_DIR}/ssb/ssb.html` },
     { from: `${SOURCE_DIR}/images`, to: `${OUTPUT_DIR}/images` },
     { from: 'node_modules/@blueprintjs/core/dist/blueprint.css', to: `${OUTPUT_DIR}/dist` },
     { from: 'node_modules/@blueprintjs/core/resources', to: `${OUTPUT_DIR}/resources` },
