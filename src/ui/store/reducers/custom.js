@@ -1,33 +1,28 @@
-import {
-  TOGGLE_CUSTOM_DIALOG, SET_CUSTOM_VALUE, SET_CUSTOM_STATUS, DEFAULT,
-} from '../constants/actions';
+import Immutable from 'immutable';
 
-const initialState = {
+import { TOGGLE_CUSTOM_DIALOG, SET_CUSTOM_VALUE, SET_CUSTOM_STATUS } from '../constants/actions';
+import { DEFAULT } from '../constants/statuses';
+
+const initialState = Immutable.Map({
   isOpen: false,
   status: DEFAULT,
   name: '',
   url: '',
   id: null,
   icon: null,
-};
+});
 
 
 const custom = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_CUSTOM_DIALOG: {
-      return Object.assign({}, state, {
-        isOpen: !state.isOpen,
-      });
+      return state.set('isOpen', !state.get('isOpen'));
     }
     case SET_CUSTOM_VALUE: {
-      const newState = Object.assign({}, state, {});
-      newState[action.fieldName] = action.fieldVal;
-      return newState;
+      return state.set(action.fieldName, action.fieldVal);
     }
     case SET_CUSTOM_STATUS: {
-      return Object.assign({}, state, {
-        status: action.status,
-      });
+      return state.set('status', action.status);
     }
     default:
       return state;

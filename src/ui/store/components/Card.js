@@ -3,11 +3,12 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { Button, Intent } from '@blueprintjs/core';
+import { ProgressBar, Button, Intent } from '@blueprintjs/core';
 
-import { INSTALLED, INPROGRESS } from '../constants/actions';
-import { installApp, uninstallApp } from '../actions/app';
+import { UNINSTALLING, INSTALLING, INSTALLED } from '../constants/statuses';
+import { installApp, uninstallApp } from '../actions/appManagement';
 import openApp from '../helpers/openApp';
+import getAppStatus from '../helpers/getAppStatus';
 
 const extractDomain = (url) => {
   try {
@@ -20,7 +21,7 @@ const extractDomain = (url) => {
 };
 
 const Card = ({
-  app, appStatus,
+  app, managedApps,
   requestUninstallApp, requestInstallApp,
 }) => (
   <div className="col">
@@ -44,14 +45,14 @@ const Card = ({
         </a>
       </p>
       {(() => {
-        if (appStatus.get(app.get('id')) === INPROGRESS) {
+        const appStatus = getAppStatus(managedApps, app.get('id'));
+
+        if (appStatus === INSTALLING || appStatus === UNINSTALLING) {
           return (
-            <div className="pt-progress-bar pt-intent-primary" style={{ textAlign: 'left' }}>
-              <div className="pt-progress-meter" style={{ width: '100%' }} />
-            </div>
+            <ProgressBar intent={Intent.PRIMARY} className="card-progress-bar" />
           );
         }
-        if (appStatus.get(app.get('id')) === INSTALLED) {
+        if (appStatus === INSTALLED) {
           return [
             <Button
               key="open"
@@ -83,14 +84,14 @@ const Card = ({
 );
 
 Card.propTypes = {
-  app: React.PropTypes.instanceOf(Immutable.Map),
-  appStatus: React.PropTypes.instanceOf(Immutable.Map),
-  requestInstallApp: React.PropTypes.func,
-  requestUninstallApp: React.PropTypes.func,
+  app: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  managedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  requestInstallApp: React.PropTypes.func.isRequired,
+  requestUninstallApp: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  appStatus: state.app.appStatus,
+  managedApps: state.appManagement.get('managedApps'),
 });
 
 const mapDispatchToProps = dispatch => ({

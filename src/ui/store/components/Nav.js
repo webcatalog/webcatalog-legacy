@@ -5,7 +5,7 @@ import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs
 import classNames from 'classnames';
 import { replace, push, goBack } from 'react-router-redux';
 
-import { refresh } from '../actions/app';
+import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
 import { toggleCustomDialog } from '../actions/custom';
 
@@ -75,25 +75,34 @@ const Nav = ({
         text="Installed"
         onClick={() => goTo('/installed')}
       />
-      <Button
-        iconName="refresh"
-        className={classNames(
-          Classes.MINIMAL,
-        )}
-        style={{ WebkitAppRegion: 'no-drag' }}
-        onClick={() => requestRefresh(pathname)}
-      />
       <Popover
         content={(
           <Menu>
+            <MenuItem
+              iconName="refresh"
+              text="Refresh"
+              onClick={() => requestRefresh(pathname)}
+            />
             <MenuItem
               iconName="wrench"
               text="Install custom app"
               onClick={() => requestToggleCustomDialog()}
             />
-            <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
-            <MenuItem iconName="heart" text="Donate" onClick={() => shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD')} />
-            <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
+            <MenuItem
+              iconName="add"
+              text="Submit new app"
+              onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
+            />
+            <MenuItem
+              iconName="heart"
+              text="Donate"
+              onClick={() => shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD')}
+            />
+            <MenuItem
+              iconName="help"
+              text="Help"
+              onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
+            />
           </Menu>
         )}
         position={Position.BOTTOM_RIGHT}
@@ -157,8 +166,8 @@ Nav.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  query: state.search.query,
-  searchStatus: state.search.status,
+  query: state.search.get('query'),
+  searchStatus: state.search.get('status'),
   pathname: ownProps.pathname,
 });
 

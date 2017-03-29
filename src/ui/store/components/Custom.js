@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent, Spinner } from '@blueprintjs/core';
 
-import { DEFAULT, DONE, LOADING, FAILED } from '../constants/actions';
+import { DEFAULT, LOADING, FAILED, DONE } from '../constants/statuses';
 import { toggleCustomDialog, setCustomValue, setCustomStatus, installCustomApp } from '../actions/custom';
 import openApp from '../helpers/openApp';
 
@@ -95,9 +95,7 @@ const Settings = ({
       ) : null}
       {(status === FAILED) ? (
         <div className="text-container">
-          <h5>
-            Installation failed.
-          </h5>
+          <h5>Installation failed.</h5>
           <Button
             text="Install Other App"
             intent={Intent.PRIMARY}
@@ -125,26 +123,26 @@ const Settings = ({
 );
 
 Settings.propTypes = {
-  isOpen: React.PropTypes.bool,
+  isOpen: React.PropTypes.bool.isRequired,
   name: React.PropTypes.string,
   url: React.PropTypes.string,
   icon: React.PropTypes.string,
   id: React.PropTypes.string,
-  status: React.PropTypes.string,
-  requestToggleCustomDialog: React.PropTypes.func,
-  requestSetCustomValue: React.PropTypes.func,
-  requestInstall: React.PropTypes.func,
-  requestSetCustomStatus: React.PropTypes.func,
-  handleBrowseIcon: React.PropTypes.func,
+  status: React.PropTypes.string.isRequired,
+  requestToggleCustomDialog: React.PropTypes.func.isRequired,
+  requestSetCustomValue: React.PropTypes.func.isRequired,
+  requestInstall: React.PropTypes.func.isRequired,
+  requestSetCustomStatus: React.PropTypes.func.isRequired,
+  handleBrowseIcon: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isOpen: state.custom.isOpen,
-  name: state.custom.name,
-  url: state.custom.url,
-  icon: state.custom.icon,
-  id: state.custom.id,
-  status: state.custom.status,
+  isOpen: state.custom.get('isOpen'),
+  name: state.custom.get('name'),
+  url: state.custom.get('url'),
+  icon: state.custom.get('icon'),
+  id: state.custom.get('id'),
+  status: state.custom.get('status'),
 });
 
 const mapDispatchToProps = dispatch => ({

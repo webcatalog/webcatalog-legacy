@@ -3,9 +3,9 @@ import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
-import { fetchApps } from '../actions/app';
+import { fetchApps } from '../actions/home';
 import { toggleCustomDialog } from '../actions/custom';
-import { LOADING, FAILED } from '../constants/actions';
+import { LOADING, FAILED } from '../constants/statuses';
 
 import Loading from './Loading';
 import NoConnection from './NoConnection';
@@ -49,15 +49,15 @@ class Home extends React.Component {
     return (
       <div>
         <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
-          <span>Can{'\''}t find your favorite apps? Don{'\''}t worry! </span>
+          <span>Cannot find your favorite app?&#32;</span>
           <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>
             <span className="pt-icon-standard pt-icon-add" />
-            <span> Submit new app</span>
+            <span>&#32;Submit new app</span>
           </a>
           <span> or </span>
           <a onClick={() => requestToggleCustomDialog()}>
             <span className="pt-icon-standard pt-icon-wrench" />
-            <span> Install custom app</span>
+            <span>&#32;Install custom app</span>
           </a>.
         </div>
         {this.renderList()}
@@ -68,15 +68,15 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  status: React.PropTypes.string,
-  apps: React.PropTypes.instanceOf(Immutable.List),
-  requestFetchApps: React.PropTypes.func,
-  requestToggleCustomDialog: React.PropTypes.func,
+  status: React.PropTypes.string.isRequired,
+  apps: React.PropTypes.instanceOf(Immutable.List).isRequired,
+  requestFetchApps: React.PropTypes.func.isRequired,
+  requestToggleCustomDialog: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  status: state.app.status,
-  apps: state.app.apps,
+  status: state.home.get('status'),
+  apps: state.home.get('apps'),
 });
 
 const mapDispatchToProps = dispatch => ({

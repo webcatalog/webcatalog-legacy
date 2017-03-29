@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 
 import { search } from '../actions/search';
-import { LOADING, FAILED, DONE } from '../constants/actions';
+import { LOADING, FAILED, DONE } from '../constants/statuses';
 
 import Loading from './Loading';
 import NoConnection from './NoConnection';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchApps } from '../actions/app';
+import { fetchApps } from '../actions/home';
 
 import Nav from './Nav';
 import Custom from './Custom';
