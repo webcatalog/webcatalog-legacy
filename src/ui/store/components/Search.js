@@ -24,10 +24,10 @@ class Search extends React.Component {
 
   renderList() {
     const {
-      searchStatus, hits, query,
+      status, hits, query,
     } = this.props;
 
-    if (searchStatus === DONE) {
+    if (status === DONE) {
       if (hits.size < 1) {
         return (
           <div className="text-container">
@@ -64,12 +64,12 @@ class Search extends React.Component {
 
   renderStatus() {
     const {
-      searchStatus,
+      status,
       requestSearch,
     } = this.props;
 
-    if (searchStatus === LOADING) return <Loading />;
-    if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
+    if (status === LOADING) return <Loading />;
+    if (status === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
 
     return null;
   }
@@ -85,7 +85,7 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  searchStatus: React.PropTypes.string,
+  status: React.PropTypes.string,
   query: React.PropTypes.string,
   hits: React.PropTypes.instanceOf(Immutable.List),
   requestSearch: React.PropTypes.func,
@@ -93,9 +93,9 @@ Search.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  searchStatus: state.search.status,
-  query: state.search.query,
-  hits: state.search.hits,
+  status: state.search.get('status'),
+  query: state.search.get('query'),
+  hits: state.search.get('hits'),
 });
 
 const mapDispatchToProps = dispatch => ({

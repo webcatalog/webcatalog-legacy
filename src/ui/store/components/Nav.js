@@ -40,8 +40,6 @@ const Nav = ({
               e.target.blur();
             }
           }}
-          onInput={e => requestSetSearchQuery(e.target.value, pathname)}
-          onKeyUp={e => requestSetSearchQuery(e.target.value, pathname)}
           onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
         {query.length > 0 ? (
@@ -49,7 +47,7 @@ const Nav = ({
             iconName="cross"
             className={Classes.MINIMAL}
             style={{ WebkitAppRegion: 'no-drag' }}
-            tonClick={() => requestSetSearchQuery('', pathname)}
+            onClick={() => requestSetSearchQuery('', pathname)}
           />
         ) : null}
       </div>
