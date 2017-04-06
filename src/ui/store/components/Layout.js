@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchApps } from '../actions/home';
+import { scanInstalledApps } from '../actions/appManagement';
 
 import Nav from './Nav';
 import Custom from './Custom';
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { pathname, requestFetchApps } = this.props;
+    const { pathname, requestFetchApps, requestScanInstalledApps } = this.props;
     const el = this.scrollContainer;
 
     el.onscroll = () => {
@@ -17,6 +18,8 @@ class Layout extends React.Component {
         requestFetchApps();
       }
     };
+
+    requestScanInstalledApps();
   }
 
   componentWillUnmount() {
@@ -51,6 +54,7 @@ Layout.propTypes = {
   children: React.PropTypes.element, // matched child route component
   pathname: React.PropTypes.string,
   requestFetchApps: React.PropTypes.func,
+  requestScanInstalledApps: React.PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -60,6 +64,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
+  },
+  requestScanInstalledApps: () => {
+    dispatch(scanInstalledApps());
   },
 });
 

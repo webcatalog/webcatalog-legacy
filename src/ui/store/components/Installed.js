@@ -10,11 +10,9 @@ import Card from './Card';
 
 class Installed extends React.Component {
   renderList() {
-    const { managedApps } = this.props;
+    const { officialApps, customApps } = this.props;
 
-    const installedApps = managedApps.filter(app => app.get('status') === INSTALLED);
-
-    if (installedApps.size < 1) {
+    if ((officialApps.size + customApps.size) < 1) {
       return (
         <NonIdealState
           visual="import"
@@ -23,9 +21,6 @@ class Installed extends React.Component {
         />
       );
     }
-
-    const officialApps = installedApps.filter(app => !app.get('id').startsWith('custom-'));
-    const customApps = installedApps.filter(app => app.get('id').startsWith('custom-'));
 
     return (
       <div>
@@ -69,12 +64,18 @@ class Installed extends React.Component {
 }
 
 Installed.propTypes = {
-  managedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  officialApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  customApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
 };
 
-const mapStateToProps = state => ({
-  managedApps: state.appManagement.get('managedApps'),
-});
+const mapStateToProps = (state) => {
+  const installedApps = state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED);
+
+  return {
+    officialApps: installedApps.filter(app => !app.get('id').startsWith('custom-')),
+    customApps: installedApps.filter(app => app.get('id').startsWith('custom-')),
+  };
+};
 
 export default connect(
   mapStateToProps,
