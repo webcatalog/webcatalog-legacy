@@ -9,8 +9,8 @@ APPID=${4}
 JSONCONTENT=${5}
 ICONDIR=$(eval echo "~/.icons/webcatalog")
 
-BINDIR="/usr/local/bin/webcatalog"
-BINFILE="/usr/local/bin/${APPID}"
+BINDIR=$(eval echo "~/.local/share/webcatalog")
+BINFILE="${BINDIR}/${APPID}"
 
 APPDIR=$(eval echo "~/.local/share/applications")
 DESKTOPFILE="${APPDIR}/${APPID}.desktop"
