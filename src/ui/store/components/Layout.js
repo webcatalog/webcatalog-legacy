@@ -8,16 +8,7 @@ import Nav from './Nav';
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { pathname, requestFetchApps, requestScanInstalledApps } = this.props;
-    const el = this.scrollContainer;
-
-    el.onscroll = () => {
-      // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight && pathname === '/') {
-        requestFetchApps();
-      }
-    };
-
+    const { requestScanInstalledApps } = this.props;
     requestScanInstalledApps();
   }
 
@@ -37,12 +28,7 @@ class Layout extends React.Component {
         }}
       >
         <Nav pathname={pathname} />
-        <div
-          style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
-          ref={(container) => { this.scrollContainer = container; }}
-        >
-          {children}
-        </div>
+        {children}
       </div>
     );
   }
@@ -51,7 +37,6 @@ class Layout extends React.Component {
 Layout.propTypes = {
   children: React.PropTypes.element, // matched child route component
   pathname: React.PropTypes.string,
-  requestFetchApps: React.PropTypes.func,
   requestScanInstalledApps: React.PropTypes.func,
 };
 

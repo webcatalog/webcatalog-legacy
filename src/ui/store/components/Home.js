@@ -15,6 +15,19 @@ class Home extends React.Component {
   componentDidMount() {
     const { requestFetchApps } = this.props;
     requestFetchApps();
+
+    const el = this.scrollContainer;
+
+    el.onscroll = () => {
+      // Plus 300 to run ahead.
+      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+        requestFetchApps();
+      }
+    };
+  }
+
+  componentWillUnmount() {
+    this.scrollContainer.onscroll = null;
   }
 
   renderList() {
@@ -45,7 +58,10 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
         <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
           <span>Cannot find your favorite app?&#32;</span>
           <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>

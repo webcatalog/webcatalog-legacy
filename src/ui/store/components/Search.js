@@ -76,7 +76,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}>
         {this.renderList()}
         {this.renderStatus()}
       </div>
