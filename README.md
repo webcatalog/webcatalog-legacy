@@ -14,7 +14,7 @@ WebCatalog is a desktop app which allows users to install and run any web app na
 ![Demo](http://i.imgur.com/mXlu7PG.gif)
 
 ## Development
-1. Install [Node.js 6+](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation) installed
+1. Install [Node.js 6+](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
 
 2. Run
 ```bash
