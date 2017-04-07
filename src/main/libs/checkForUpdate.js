@@ -23,13 +23,14 @@ const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) =>
         /* eslint-disable global-require */
         const autoUpdater = require('electron-updater').autoUpdater;
         /* eslint-enable global-require */
-        autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName) => {
+        // https://github.com/develar/onshape-desktop-shell/blob/master/src/AppUpdater.ts#L21
+        autoUpdater.signals.updateDownloaded(({ version }) => {
           dialog.showMessageBox({
             type: 'info',
             buttons: ['Yes', 'Cancel'],
             defaultId: 1,
             title: 'A new update is ready to install',
-            message: `Version ${releaseName} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
+            message: `Version ${version} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
           }, (response) => {
             if (response === 0) {
               autoUpdater.quitAndInstall();
