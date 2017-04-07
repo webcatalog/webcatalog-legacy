@@ -5,7 +5,6 @@ import { fetchApps } from '../actions/home';
 import { scanInstalledApps } from '../actions/appManagement';
 
 import Nav from './Nav';
-import Custom from './Custom';
 
 class Layout extends React.Component {
   componentDidMount() {
@@ -44,7 +43,6 @@ class Layout extends React.Component {
         >
           {children}
         </div>
-        <Custom />
       </div>
     );
   }

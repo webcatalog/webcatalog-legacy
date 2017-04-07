@@ -2,7 +2,7 @@ import { SET_MANAGED_APP, REMOVE_MANAGED_APP } from '../constants/actions';
 import { INSTALLING, UNINSTALLING, INSTALLED } from '../constants/statuses';
 
 import scanInstalledAsync from '../helpers/scanInstalledAsync';
-import installOfficialAppAsync from '../helpers/installOfficialAppAsync';
+import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
 import updateAppsAsync from '../helpers/updateAppsAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
@@ -18,7 +18,7 @@ export const installApp = app => (dispatch) => {
     },
   });
 
-  installOfficialAppAsync({
+  installAppAsync({
     allAppPath: getAllAppPath(),
     appId: app.get('id'),
     appName: app.get('name'),

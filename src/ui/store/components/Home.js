@@ -44,8 +44,6 @@ class Home extends React.Component {
   }
 
   render() {
-    const { requestToggleCustomDialog } = this.props;
-
     return (
       <div>
         <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
@@ -53,11 +51,6 @@ class Home extends React.Component {
           <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>
             <span className="pt-icon-standard pt-icon-add" />
             <span>&#32;Submit new app</span>
-          </a>
-          <span> or </span>
-          <a onClick={() => requestToggleCustomDialog()}>
-            <span className="pt-icon-standard pt-icon-wrench" />
-            <span>&#32;Install custom app</span>
           </a>.
         </div>
         {this.renderList()}
@@ -71,7 +64,6 @@ Home.propTypes = {
   status: React.PropTypes.string.isRequired,
   apps: React.PropTypes.instanceOf(Immutable.List).isRequired,
   requestFetchApps: React.PropTypes.func.isRequired,
-  requestToggleCustomDialog: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

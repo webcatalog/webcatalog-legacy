@@ -10,9 +10,9 @@ import Card from './Card';
 
 class Installed extends React.Component {
   renderList() {
-    const { officialApps, customApps } = this.props;
+    const { installedApps } = this.props;
 
-    if ((officialApps.size + customApps.size) < 1) {
+    if (installedApps.size < 1) {
       return (
         <NonIdealState
           visual="import"
@@ -28,27 +28,7 @@ class Installed extends React.Component {
           <h5>Installed applications</h5>
         </div>
         <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-          {officialApps.map(app => <Card app={app} key={app.get('id')} />)}
-        </div>
-        {customApps.size > 0 ? (
-          <div className="text-container">
-            <h5>Custom applications</h5>
-          </div>
-        ) : null}
-        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-          {customApps.map(app => <Card app={app} key={app.get('id')} />)}
-        </div>
-        <div className="text-container">
-          <p>powered by</p>
-          <p>
-            <a onClick={() => shell.openExternal('https://www.algolia.com')}>
-              <img
-                src="images/Algolia_logo_bg-white.svg"
-                alt="Algolia"
-                style={{ height: 32 }}
-              />
-            </a>
-          </p>
+          {installedApps.map(app => <Card app={app} key={app.get('id')} />)}
         </div>
       </div>
     );
@@ -64,18 +44,12 @@ class Installed extends React.Component {
 }
 
 Installed.propTypes = {
-  officialApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-  customApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+  installedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const installedApps = state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED);
-
-  return {
-    officialApps: installedApps.filter(app => !app.get('id').startsWith('custom-')),
-    customApps: installedApps.filter(app => app.get('id').startsWith('custom-')),
-  };
-};
+const mapStateToProps = state => ({
+  installedApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED),
+});
 
 export default connect(
   mapStateToProps,

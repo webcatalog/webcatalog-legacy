@@ -78,12 +78,9 @@
     "electron-updater": "^1.11.0",
     "electron-widevinecdm": "^1.0.2",
     "follow-redirects": "^1.2.3",
-    "icon-gen": "^1.0.7",
-    "jimp": "^0.2.27",
     "jsonfile": "^2.4.0",
     "lodash.camelcase": "^4.3.0",
     "mkdirp": "^0.5.1",
-    "png-to-ico": "^1.0.2",
     "semver": "^5.3.0",
     "tmp": "^0.0.31",
     "yargs-parser": "^5.0.0"

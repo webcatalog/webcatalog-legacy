@@ -1,13 +1,27 @@
-/* global https fs tmp path */
+/* global remote https fs os */
 
-const downloadIconAsync = (appId) => {
-  const pngDirPath = tmp.dirSync().name;
-  const pngPath = path.join(pngDirPath, `${appId}.png`);
+const downloadIconAsync = appId =>
+  new Promise((resolve, reject) => {
+    let iconExt;
+    switch (os.platform()) {
+      case 'darwin': {
+        iconExt = 'icns';
+        break;
+      }
+      case 'linux': {
+        iconExt = 'png';
+        break;
+      }
+      case 'win32':
+      default: {
+        iconExt = 'ico';
+      }
+    }
 
-  return new Promise((resolve, reject) => {
-    const iconFile = fs.createWriteStream(pngPath);
+    const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
+    const iconFile = fs.createWriteStream(iconPath);
 
-    const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.png`, (response) => {
+    const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
       response.pipe(iconFile);
 
       iconFile.on('error', (err) => {
@@ -15,7 +29,7 @@ const downloadIconAsync = (appId) => {
       });
 
       iconFile.on('finish', () => {
-        resolve(pngPath);
+        resolve(iconPath);
       });
     });
 
@@ -23,6 +37,5 @@ const downloadIconAsync = (appId) => {
       reject(err);
     });
   });
-};
 
 export default downloadIconAsync;
