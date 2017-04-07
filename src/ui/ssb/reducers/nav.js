@@ -1,13 +1,19 @@
 import {
-  UPDATE_LOADING, UPDATE_CAN_GO_BACK, UPDATE_CAN_GO_FORWARD,
+  UPDATE_TARGET_URL, UPDATE_LOADING, UPDATE_CAN_GO_BACK, UPDATE_CAN_GO_FORWARD,
 } from '../constants/actions';
 
 const initialState = {
   isLoading: false,
+  targetUrl: null,
 };
 
 const nav = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_TARGET_URL: {
+      return Object.assign({}, state, {
+        targetUrl: action.targetUrl,
+      });
+    }
     case UPDATE_LOADING: {
       return Object.assign({}, state, {
         isLoading: action.isLoading,

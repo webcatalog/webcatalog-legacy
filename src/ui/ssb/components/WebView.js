@@ -27,6 +27,7 @@ const events = [
   'plugin-crashed',
   'destroyed',
   'found-in-page',
+  'update-target-url',
 ];
 
 const methods = [

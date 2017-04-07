@@ -10,7 +10,7 @@ import Nav from './Nav';
 import FindInPage from './FindInPage';
 
 import extractDomain from '../libs/extractDomain';
-import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
+import { updateTargetUrl, updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
@@ -22,6 +22,7 @@ class App extends React.Component {
     this.handleNewWindow = this.handleNewWindow.bind(this);
     this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
     this.handleDidGetRedirectRequest = this.handleDidGetRedirectRequest.bind(this);
+    this.handleUpdateTargetUrl = this.handleUpdateTargetUrl.bind(this);
   }
 
   componentDidMount() {
@@ -162,10 +163,16 @@ class App extends React.Component {
     }
   }
 
+  handleUpdateTargetUrl({ url }) {
+    const { requestUpdateTargetUrl } = this.props;
+    requestUpdateTargetUrl(url);
+  }
+
   render() {
     const {
       url, findInPageIsOpen, isFullScreen, customHome,
       requestUpdateLoading, requestUpdateFindInPageMatches,
+      targetUrl,
     } = this.props;
 
     const showNav = (os.platform() === 'darwin' && !isFullScreen);
@@ -218,7 +225,23 @@ class App extends React.Component {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
             onPageTitleUpdated={this.handlePageTitleUpdated}
+            onUpdateTargetUrl={this.handleUpdateTargetUrl}
           />
+        </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            bottom: 0,
+            left: 0,
+            backgroundColor: '#CED9E0',
+            lineHeight: '20px',
+            fontSize: 12,
+            padding: '0 12px',
+            borderRadius: 2,
+          }}
+        >
+          {targetUrl}
         </div>
         <Settings />
       </div>
@@ -232,7 +255,9 @@ App.propTypes = {
   findInPageText: React.PropTypes.string,
   isFullScreen: React.PropTypes.bool,
   customHome: React.PropTypes.string,
+  targetUrl: React.PropTypes.string,
   onResize: React.PropTypes.func,
+  requestUpdateTargetUrl: React.PropTypes.func,
   requestUpdateLoading: React.PropTypes.func,
   requestUpdateCanGoBack: React.PropTypes.func,
   requestUpdateCanGoForward: React.PropTypes.func,
@@ -246,11 +271,15 @@ const mapStateToProps = state => ({
   findInPageText: state.findInPage.text,
   isFullScreen: state.screen.isFullScreen,
   customHome: state.settings.behaviors.customHome,
+  targetUrl: state.nav.targetUrl,
 });
 
 const mapDispatchToProps = dispatch => ({
   onResize: () => {
     dispatch(screenResize(window.innerWidth, remote.getCurrentWindow().isFullScreen()));
+  },
+  requestUpdateTargetUrl: (targetUrl) => {
+    dispatch(updateTargetUrl(targetUrl));
   },
   requestUpdateLoading: (isLoading) => {
     dispatch(updateLoading(isLoading));
