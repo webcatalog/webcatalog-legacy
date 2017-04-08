@@ -1,19 +1,23 @@
+import { remote } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchApps } from '../actions/home';
+import { screenResize } from '../actions/screen';
 import { scanInstalledApps } from '../actions/appManagement';
 
 import Nav from './Nav';
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { requestScanInstalledApps } = this.props;
+    const { requestScanInstalledApps, onResize } = this.props;
     requestScanInstalledApps();
+
+    window.addEventListener('resize', onResize);
   }
 
   componentWillUnmount() {
-    this.scrollContainer.onscroll = null;
+    window.removeEventListener('resize', this.props.onResize);
   }
 
   render() {
@@ -35,9 +39,10 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  children: React.PropTypes.element, // matched child route component
-  pathname: React.PropTypes.string,
-  requestScanInstalledApps: React.PropTypes.func,
+  children: React.PropTypes.element.isRequired, // matched child route component
+  pathname: React.PropTypes.string.isRequired,
+  requestScanInstalledApps: React.PropTypes.func.isRequired,
+  onResize: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -45,6 +50,14 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  onResize: () => {
+    dispatch(screenResize({
+      screenWidth: window.innerWidth,
+      isFullScreen: remote.getCurrentWindow().isFullScreen(),
+      isMaximized: remote.getCurrentWindow().isMaximized(),
+      isMinimized: remote.getCurrentWindow().isMinimized(),
+    }));
+  },
   requestFetchApps: () => {
     dispatch(fetchApps());
   },

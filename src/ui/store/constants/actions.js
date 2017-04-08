@@ -1,3 +1,5 @@
+export const SCREEN_RESIZE = 'SCREEN_RESIZE';
+
 export const SET_STATUS = 'SET_STATUS';
 export const ADD_APPS = 'ADD_APPS';
 export const RESET_HOME = 'RESET_HOME';

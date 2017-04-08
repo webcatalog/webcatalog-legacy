@@ -9,7 +9,7 @@ import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
 
 const Nav = ({
-  query, pathname,
+  query, pathname, isMaximized,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -118,7 +118,7 @@ const Nav = ({
           key="minimize"
         />,
         <Button
-          iconName="applications"
+          iconName={isMaximized ? 'applications' : 'application'}
           className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
           onClick={() => {
@@ -147,18 +147,19 @@ const Nav = ({
 );
 
 Nav.propTypes = {
-  query: React.PropTypes.string,
-  pathname: React.PropTypes.string,
-  requestSearch: React.PropTypes.func,
-  requestSetSearchQuery: React.PropTypes.func,
-  requestRefresh: React.PropTypes.func,
-  goTo: React.PropTypes.func,
+  query: React.PropTypes.string.isRequired,
+  pathname: React.PropTypes.string.isRequired,
+  isMaximized: React.PropTypes.bool.isRequired,
+  requestSearch: React.PropTypes.func.isRequired,
+  requestSetSearchQuery: React.PropTypes.func.isRequired,
+  requestRefresh: React.PropTypes.func.isRequired,
+  goTo: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   query: state.search.get('query'),
-  searchStatus: state.search.get('status'),
   pathname: ownProps.pathname,
+  isMaximized: state.screen.get('isMaximized'),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -278,7 +278,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onResize: () => {
-    dispatch(screenResize(window.innerWidth, remote.getCurrentWindow().isFullScreen()));
+    dispatch(screenResize({
+      screenWidth: window.innerWidth,
+      isFullScreen: remote.getCurrentWindow().isFullScreen(),
+      isMaximized: remote.getCurrentWindow().isMaximized(),
+      isMinimized: remote.getCurrentWindow().isMinimized(),
+    }));
   },
   requestUpdateTargetUrl: (targetUrl) => {
     dispatch(updateTargetUrl(targetUrl));
