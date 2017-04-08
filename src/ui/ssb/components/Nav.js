@@ -21,10 +21,10 @@ const Nav = ({
       WebkitAppRegion: 'drag',
       paddingLeft: 80,
       backgroundColor: '#CED9E0',
-      height: 36,
+      height: 32,
     }}
   >
-    <div className="pt-navbar-group pt-align-left" style={{ flex: 1, height: 36 }}>
+    <div className="pt-navbar-group pt-align-left" style={{ flex: 1, height: 32 }}>
       <Button
         iconName="home"
         className={Classes.MINIMAL}
@@ -52,7 +52,7 @@ const Nav = ({
         onClick={onRefreshButtonClick}
       />
     </div>
-    <div className="pt-navbar-group pt-align-right" style={{ height: 36 }}>
+    <div className="pt-navbar-group pt-align-right" style={{ height: 32 }}>
       {isLoading ? (
         <Spinner className={Classes.SMALL} />
       ) : null}

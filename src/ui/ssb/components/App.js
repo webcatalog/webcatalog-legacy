@@ -194,7 +194,7 @@ class App extends React.Component {
 
     const showNav = (remote.require('os').platform() === 'darwin' && !isFullScreen);
 
-    let usedHeight = showNav ? 22 : 0;
+    let usedHeight = showNav ? 32 : 0;
     if (findInPageIsOpen) usedHeight += 50;
 
     return (
