@@ -9,6 +9,7 @@ import { FocusStyleManager } from '@blueprintjs/core';
 
 import App from './components/App';
 import store from './store';
+import defaultSettings from './constants/defaultSettings';
 
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -23,20 +24,13 @@ const startApp = (url) => {
   );
 };
 
-electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`).then((rememberLastPage) => {
-  if (rememberLastPage) {
-    electronSettings.get(`lastPages.${camelCase(argv.id)}`)
-      .then((lastPage) => {
-        if (lastPage) startApp(lastPage);
-        else startApp(argv.url);
-      })
-      .catch(() => {
-        startApp(argv.url);
-      });
-  } else {
-    electronSettings.get(`behaviors.${camelCase(argv.id)}.customHome`).then((customHome) => {
-      if (customHome) startApp(customHome);
-      else startApp(argv.url);
-    });
-  }
-});
+const rememberLastPage = electronSettings.get(`behaviors.${camelCase(argv.id)}.rememberLastPage`, defaultSettings.rememberLastPage);
+if (rememberLastPage) {
+  const lastPage = electronSettings.get(`lastPages.${camelCase(argv.id)}`, argv.url);
+  if (lastPage) startApp(lastPage);
+  else startApp(argv.url);
+} else {
+  const customHome = electronSettings.get(`behaviors.${camelCase(argv.id)}.customHome`, defaultSettings.customHome);
+  if (customHome) startApp(customHome);
+  else startApp(argv.url);
+}

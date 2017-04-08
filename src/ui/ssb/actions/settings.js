@@ -2,6 +2,7 @@
 import camelCase from 'lodash.camelcase';
 
 import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS } from '../constants/actions';
+import defaultSettings from '../constants/defaultSettings';
 
 export const toggleSettingDialog = () => ({
   type: TOGGLE_SETTING_DIALOG,
@@ -21,14 +22,10 @@ export const setBehavior = (name, val) => (dispatch) => {
 };
 
 export const getBehaviors = () => (dispatch) => {
-  electronSettings.get(`behaviors.${camelCase(argv.id)}`)
-    .then((behaviors) => {
-      dispatch({
-        type: SET_BEHAVIORS,
-        behaviors,
-      });
-    })
-    /* eslint-disable no-console */
-    .catch(console.log);
-    /* eslint-enab le no-console */
+  const behaviors = electronSettings.get(`behaviors.${camelCase(argv.id)}`, defaultSettings);
+
+  dispatch({
+    type: SET_BEHAVIORS,
+    behaviors,
+  });
 };

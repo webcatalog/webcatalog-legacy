@@ -32,26 +32,16 @@ let mainWindow;
 const createWindow = () =>
   Promise.resolve()
     .then(() => {
-      // set default settings
-      if (isSSB) {
-        const defaultSettings = { behaviors: {} };
-        defaultSettings.behaviors[camelCase(argv.id)] = {
-          swipeToNavigate: true,
-          rememberLastPage: false,
-          quitOnLastWindow: false,
-          blockAds: false,
-          customHome: null,
-          injectedCSS: null,
-          injectedJS: null,
-        };
-
-        settings.defaults(defaultSettings);
-        return settings.applyDefaults();
-      }
-      return null;
-    })
-    .then(() => {
-      if (isSSB) return settings.get(`behaviors.${camelCase(argv.id)}`);
+      const defaultSettings = {
+        swipeToNavigate: true,
+        rememberLastPage: false,
+        quitOnLastWindow: false,
+        blockAds: false,
+        customHome: null,
+        injectedCSS: null,
+        injectedJS: null,
+      };
+      if (isSSB) return settings.get(`behaviors.${camelCase(argv.id)}`, defaultSettings);
       return {};
     })
     .then(({ blockAds, swipeToNavigate, quitOnLastWindow }) => {

@@ -1,18 +1,9 @@
-import {
-  TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS,
-} from '../constants/actions';
+import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS } from '../constants/actions';
+import defaultSettings from '../constants/defaultSettings';
 
 const initialState = {
   isOpen: false,
-  behaviors: {
-    swipeToNavigate: true,
-    rememberLastPage: false,
-    quitOnLastWindow: false,
-    blockAds: false,
-    customHome: null,
-    injectedJS: null,
-    injectedCSS: null,
-  },
+  behaviors: defaultSettings,
 };
 
 

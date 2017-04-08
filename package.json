@@ -74,7 +74,7 @@
     "about-window": "^1.6.1",
     "ad-block": "https://github.com/quanglam2807/ad-block#2b97c56",
     "deep-equal": "^1.0.1",
-    "electron-settings": "v2.2.4",
+    "electron-settings": "^3.0.14",
     "electron-updater": "^1.11.2",
     "electron-widevinecdm": "^1.0.2",
     "follow-redirects": "^1.2.3",
