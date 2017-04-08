@@ -1,5 +1,8 @@
-## 4.1.0
+## 4.1.0 (alpha)
 - Removes ability to install custom app.
+- Improves user interface.
+- Improves notification.
+- Fixes bugs.
 
 ---
 
