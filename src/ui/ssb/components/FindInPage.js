@@ -102,9 +102,9 @@ FindInPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  activeMatch: state.findInPage.activeMatch,
-  matches: state.findInPage.matches,
-  text: state.findInPage.text,
+  activeMatch: state.findInPage.get('activeMatch'),
+  matches: state.findInPage.get('matches'),
+  text: state.findInPage.get('text'),
 });
 
 const mapDispatchToProps = dispatch => ({

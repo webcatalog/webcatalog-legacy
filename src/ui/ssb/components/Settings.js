@@ -5,6 +5,8 @@ import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 
 import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
+const appInfo = remote.getCurrentWindow().appInfo;
+
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
   blockAds, customHome, injectedCSS, injectedJS,
@@ -96,7 +98,7 @@ const Settings = ({
           />
           <p className="pt-form-helper-text">
             Set home page to a custom URL.
-            Leave it blank to use {remote.getCurrentWindow().appInfo.url} (default).
+            Leave it blank to use {appInfo.url} (default).
           </p>
         </div>
       </div>
@@ -165,14 +167,14 @@ Settings.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isOpen: state.settings.isOpen,
-  swipeToNavigate: state.settings.behaviors.swipeToNavigate,
-  rememberLastPage: state.settings.behaviors.rememberLastPage,
-  quitOnLastWindow: state.settings.behaviors.quitOnLastWindow,
-  blockAds: state.settings.behaviors.blockAds,
-  customHome: state.settings.behaviors.customHome,
-  injectedCSS: state.settings.behaviors.injectedCSS,
-  injectedJS: state.settings.behaviors.injectedJS,
+  isOpen: state.settings.get('isOpen'),
+  swipeToNavigate: state.settings.getIn(['behaviors', 'swipeToNavigate']),
+  rememberLastPage: state.settings.getIn(['behaviors', 'rememberLastPage']),
+  quitOnLastWindow: state.settings.getIn(['behaviors', 'quitOnLastWindow']),
+  blockAds: state.settings.getIn(['behaviors', 'blockAds']),
+  customHome: state.settings.getIn(['behaviors', 'customHome']),
+  injectedCSS: state.settings.getIn(['behaviors', 'injectedCSS']),
+  injectedJS: state.settings.getIn(['behaviors', 'injectedJS']),
 });
 
 const mapDispatchToProps = dispatch => ({

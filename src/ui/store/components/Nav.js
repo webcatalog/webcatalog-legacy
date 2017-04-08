@@ -7,11 +7,9 @@ import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
-import { toggleCustomDialog } from '../actions/custom';
 
 const Nav = ({
   query, pathname,
-  requestToggleCustomDialog,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -80,11 +78,6 @@ const Nav = ({
               iconName="refresh"
               text="Refresh"
               onClick={() => requestRefresh(pathname)}
-            />
-            <MenuItem
-              iconName="wrench"
-              text="Install custom app"
-              onClick={() => requestToggleCustomDialog()}
             />
             <MenuItem
               iconName="add"
@@ -159,7 +152,6 @@ Nav.propTypes = {
   requestSearch: React.PropTypes.func,
   requestSetSearchQuery: React.PropTypes.func,
   requestRefresh: React.PropTypes.func,
-  requestToggleCustomDialog: React.PropTypes.func,
   goTo: React.PropTypes.func,
 };
 
@@ -182,9 +174,6 @@ const mapDispatchToProps = dispatch => ({
   },
   requestRefresh: (pathname) => {
     dispatch(refresh(pathname));
-  },
-  requestToggleCustomDialog: () => {
-    dispatch(toggleCustomDialog());
   },
   goTo: (pathname) => {
     dispatch(replace(pathname));

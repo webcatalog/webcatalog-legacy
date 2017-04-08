@@ -269,11 +269,11 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  findInPageIsOpen: state.findInPage.isOpen,
-  findInPageText: state.findInPage.text,
-  isFullScreen: state.screen.isFullScreen,
-  customHome: state.settings.behaviors.customHome,
-  targetUrl: state.nav.targetUrl,
+  findInPageIsOpen: state.findInPage.get('isOpen'),
+  findInPageText: state.findInPage.get('text'),
+  isFullScreen: state.screen.get('isFullScreen'),
+  customHome: state.settings.getIn(['behaviors', 'customHome']),
+  targetUrl: state.nav.get('targetUrl'),
 });
 
 const mapDispatchToProps = dispatch => ({

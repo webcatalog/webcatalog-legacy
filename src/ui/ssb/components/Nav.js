@@ -89,9 +89,9 @@ Nav.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.nav.isLoading,
-  canGoBack: state.nav.canGoBack,
-  canGoForward: state.nav.canGoForward,
+  isLoading: state.nav.get('isLoading'),
+  canGoBack: state.nav.get('canGoBack'),
+  canGoForward: state.nav.get('canGoForward'),
 });
 
 export default connect(

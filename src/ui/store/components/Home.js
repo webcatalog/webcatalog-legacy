@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
 import { fetchApps } from '../actions/home';
-import { toggleCustomDialog } from '../actions/custom';
 import { LOADING, FAILED } from '../constants/statuses';
 
 import Loading from './Loading';
@@ -90,9 +89,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
-  },
-  requestToggleCustomDialog: () => {
-    dispatch(toggleCustomDialog());
   },
 });
 
