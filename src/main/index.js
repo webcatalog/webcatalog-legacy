@@ -72,7 +72,7 @@ const createWindow = () =>
           id: argv.id,
           name: argv.name,
           url: argv.url,
-          userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, `WebCatalog/${app.getVersion()}`),
+          userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
           isTesting,
           isDevelopment,
         };
