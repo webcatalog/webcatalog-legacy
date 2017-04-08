@@ -78,15 +78,11 @@ const createWindow = () =>
         };
 
         /* Badge count */
-        // do nothing for setDockBadge if not OSX
-        const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
+        // support linux & macos
+        const setDockBadge = (process.platform !== 'win32') ? app.dock.setBadge : () => {};
 
         ipcMain.on('badge', (e, badge) => {
           setDockBadge(badge);
-        });
-
-        mainWindow.on('focus', () => {
-          setDockBadge('');
         });
 
         ipcMain.on('clear-browsing-data', () => {

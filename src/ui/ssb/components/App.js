@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* global Notification */
 import { remote, ipcRenderer, clipboard, shell } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -16,6 +17,8 @@ import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/find
 import { screenResize } from '../actions/screen';
 
 const appInfo = remote.getCurrentWindow().appInfo;
+
+let didShowNotification = false;
 
 class App extends React.Component {
   constructor() {
@@ -80,6 +83,10 @@ class App extends React.Component {
     ipcRenderer.on('copy-url', () => {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
+    });
+
+    remote.getCurrentWindow().on('focus', () => {
+      didShowNotification = false;
     });
   }
 
@@ -158,10 +165,18 @@ class App extends React.Component {
 
     const itemCountRegex = /[([{](\d*?)[}\])]/;
     const match = itemCountRegex.exec(title);
-    if (match) {
-      ipcRenderer.send('badge', match[1]);
-    } else {
-      ipcRenderer.send('badge', '');
+    const newBadge = match ? match[1] : '';
+
+    ipcRenderer.send('badge', newBadge);
+
+    if (newBadge !== '' && didShowNotification === false && remote.getCurrentWindow().isFocused() === false) {
+      /* eslint-disable no-unused-vars */
+      const notif = new Notification(appInfo.name, {
+        body: 'You have a notification.',
+      });
+      /* eslint-enable no-unused-vars */
+      // to prevent multiple notification like blinking titlebar
+      didShowNotification = true;
     }
   }
 
