@@ -78,8 +78,8 @@ const createWindow = () =>
         };
 
         /* Badge count */
-        // support linux & macos
-        const setDockBadge = (process.platform !== 'win32') ? app.dock.setBadge : () => {};
+        // support macos
+        const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
 
         ipcMain.on('badge', (e, badge) => {
           setDockBadge(badge);
