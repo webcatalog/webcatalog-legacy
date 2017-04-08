@@ -1,7 +1,7 @@
-/* global remote */
+import { remote } from 'electron';
+
 import { SCREEN_RESIZE } from '../constants/actions';
 
-/* global window */
 const initialState = {
   isFullScreen: remote.getCurrentWindow().isFullScreen(),
   screenWidth: typeof window === 'object' ? window.innerWidth : null,

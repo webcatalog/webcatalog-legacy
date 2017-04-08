@@ -1,8 +1,7 @@
 import Immutable from 'immutable';
 
-import {
-  SET_INSTALLED_HITS, SET_INSTALLED_STATUS, LOADING,
-} from '../constants/actions';
+import { SET_INSTALLED_HITS, SET_INSTALLED_STATUS } from '../constants/actions';
+import { LOADING } from '../constants/statuses';
 
 const initialState = Immutable.Map({
   status: LOADING,

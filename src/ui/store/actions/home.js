@@ -1,4 +1,3 @@
-/* global fetch execFile remote fs */
 import { batchActions } from 'redux-batched-actions';
 import { SET_STATUS, ADD_APPS, RESET_HOME } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';

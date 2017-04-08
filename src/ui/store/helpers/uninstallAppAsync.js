@@ -1,6 +1,8 @@
-/* global os fs remote path */
+import { remote } from 'electron';
 
 const deleteFolderRecursive = (path) => {
+  const fs = remote.require('fs');
+
   if (fs.existsSync(path)) {
     fs.readdirSync(path).forEach((file) => {
       const curPath = `${path}/${file}`;
@@ -17,6 +19,10 @@ const deleteFolderRecursive = (path) => {
 const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
   new Promise((resolve, reject) => {
     try {
+      const os = remote.require('os');
+      const path = remote.require('path');
+      const fs = remote.require('fs');
+
       switch (os.platform()) {
         case 'darwin': {
           const appPath = path.join(allAppPath, `${appName}.app`);

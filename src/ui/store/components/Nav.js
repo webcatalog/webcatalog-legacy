@@ -1,4 +1,4 @@
-/* global shell os remote */
+import { remote, shell } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
@@ -22,7 +22,7 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       flexBasis: 50,
-      paddingLeft: (os.platform() === 'darwin') ? 80 : null,
+      paddingLeft: (remote.require('os').platform() === 'darwin') ? 80 : null,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
@@ -112,7 +112,7 @@ const Nav = ({
         />
       </Popover>
 
-      {os.platform() !== 'darwin' ? [
+      {remote.require('os').platform() !== 'darwin' ? [
         <span className="pt-navbar-divider" key="divider" />,
         <Button
           iconName="minus"

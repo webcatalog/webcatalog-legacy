@@ -1,5 +1,5 @@
-/* global argv shell ipcRenderer path clipboard electronSettings os remote window */
 /* eslint-disable no-console */
+import { remote, ipcRenderer, clipboard, shell } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import camelCase from 'lodash.camelcase';
@@ -15,6 +15,7 @@ import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
 
+const appInfo = remote.getCurrentWindow().appInfo;
 
 class App extends React.Component {
   constructor() {
@@ -69,7 +70,7 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('go-home', () => {
-      c.loadURL(this.props.customHome || argv.url);
+      c.loadURL(this.props.customHome || appInfo.url);
     });
 
     ipcRenderer.on('go-to-url', (e, url) => {
@@ -111,7 +112,7 @@ class App extends React.Component {
     const c = this.c;
     console.log(`newWindow: ${nextUrl}`);
     // open external url in browser if domain doesn't match.
-    const curDomain = extractDomain(argv.url);
+    const curDomain = extractDomain(appInfo.url);
     const nextDomain = extractDomain(nextUrl);
 
     console.log(nextDomain);
@@ -148,7 +149,8 @@ class App extends React.Component {
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
-    electronSettings.set(`lastPages.${camelCase(argv.id)}`, c.getURL());
+    const electronSettings = remote.require('electron-settings');
+    electronSettings.set(`lastPages.${camelCase(appInfo.id)}`, c.getURL());
   }
 
   handlePageTitleUpdated({ title }) {
@@ -175,7 +177,7 @@ class App extends React.Component {
       targetUrl,
     } = this.props;
 
-    const showNav = (os.platform() === 'darwin' && !isFullScreen);
+    const showNav = (remote.require('os').platform() === 'darwin' && !isFullScreen);
 
     let usedHeight = showNav ? 22 : 0;
     if (findInPageIsOpen) usedHeight += 50;
@@ -188,7 +190,7 @@ class App extends React.Component {
       >
         {showNav ? (
           <Nav
-            onHomeButtonClick={() => this.c.loadURL(customHome || argv.url)}
+            onHomeButtonClick={() => this.c.loadURL(customHome || appInfo.url)}
             onBackButtonClick={() => this.c.goBack()}
             onForwardButtonClick={() => this.c.goForward()}
             onRefreshButtonClick={() => this.c.reload()}
@@ -212,11 +214,11 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
-            preload={path.join(remote.app.getAppPath(), 'app', 'preload.js')}
+            preload={remote.require('path').join(remote.app.getAppPath(), 'app', 'preload.js')}
             // enable nodeintegration in testing mode (mainly for Spectron)
-            nodeintegration={argv.isTesting}
-            useragent={argv.userAgent}
-            partition={`persist:${argv.id}`}
+            nodeintegration={appInfo.isTesting}
+            useragent={appInfo.userAgent}
+            partition={`persist:${appInfo.id}`}
             onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
             onNewWindow={this.handleNewWindow}
             onDidStartLoading={() => requestUpdateLoading(true)}

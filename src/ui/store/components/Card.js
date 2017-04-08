@@ -1,5 +1,4 @@
-/* global shell remote os exec */
-
+import { shell } from 'electron';
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';

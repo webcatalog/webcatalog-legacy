@@ -1,12 +1,16 @@
-/* global fs WindowsShortcuts https os execFile remote mkdirp path */
+import { remote } from 'electron';
 
 const scanInstalledAsync = ({ allAppPath }) =>
   new Promise((resolve, reject) => {
+    const os = remote.require('os');
+    const path = remote.require('path');
+    const fs = remote.require('fs');
+
     const installedIds = [];
 
     switch (os.platform()) {
       case 'darwin': {
-        fs.readdir(allAppPath, (err, files) => {
+        remote.require('fs').readdir(allAppPath, (err, files) => {
           if (err) {
             reject(err);
             return;
@@ -84,6 +88,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
           if (files.length === 0) resolve(installedIds);
 
           files.forEach((fileName) => {
+            const WindowsShortcuts = remote.require('windows-shortcuts');
             WindowsShortcuts.query(path.join(allAppPath, fileName), (wsShortcutErr, { desc }) => {
               if (wsShortcutErr) {
                 reject(wsShortcutErr);

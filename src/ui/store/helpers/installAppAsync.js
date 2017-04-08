@@ -1,4 +1,4 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp Jimp icongen path pngToIco */
+import { remote } from 'electron';
 
 import downloadIconAsync from './downloadIconAsync';
 
@@ -13,10 +13,13 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
       }); // data to track app info & version
 
       return new Promise((resolve, reject) => {
+        const os = remote.require('os');
+        const path = remote.require('path');
         switch (os.platform()) {
           case 'darwin':
           case 'linux': {
             const execFilePath = path.join(remote.app.getAppPath(), 'app', 'scripts', `applify-${os.platform()}.sh`);
+            const { execFile } = remote.require('child_process');
             execFile(execFilePath, [
               appName,
               appUrl,
@@ -35,6 +38,8 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
           }
           case 'win32':
           default: {
+            const WindowsShortcuts = remote.require('windows-shortcuts');
+
             const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
             WindowsShortcuts.create(shortcutPath, {
               target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',

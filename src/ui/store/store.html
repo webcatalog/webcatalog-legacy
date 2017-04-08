@@ -61,22 +61,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <script>
-      const { shell, remote, ipcRenderer, session } = require('electron');
-      const https = require('follow-redirects').https;
-      const fs = require('fs');
-      const mkdirp = require('mkdirp');
-      const os = require('os');
-      const tmp = require('tmp');
-      const path = require('path');
-      const { exec, execFile } = require('child_process');
-      const electronSettings = require('electron-settings');
-      const WindowsShortcuts = (os.platform() === 'win32') ? require('windows-shortcuts') : null;
-
-      ipcRenderer.on('log', (event, message) => {
-        console.log(message);
-      });
-    </script>
     <script src="store.bundle.js"></script>
   </body>
 </html>

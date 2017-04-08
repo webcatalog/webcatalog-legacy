@@ -1,7 +1,11 @@
-/* global remote https fs os */
+import { remote } from 'electron';
 
 const downloadIconAsync = appId =>
   new Promise((resolve, reject) => {
+    const os = remote.require('os');
+    const fs = remote.require('fs');
+    const https = remote.require('https');
+
     let iconExt;
     switch (os.platform()) {
       case 'darwin': {

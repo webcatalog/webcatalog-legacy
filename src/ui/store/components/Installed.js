@@ -1,4 +1,3 @@
-/* global window document shell */
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';

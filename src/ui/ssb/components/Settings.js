@@ -1,4 +1,4 @@
-/* global os argv */
+import { remote } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
@@ -18,7 +18,7 @@ const Settings = ({
     className="settings-dialog"
   >
     <div className="pt-dialog-body">
-      {(os.platform() === 'darwin') ? (
+      {(remote.require('os').platform() === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -38,7 +38,7 @@ const Settings = ({
         </div>
       ) : null}
 
-      {(os.platform() === 'darwin') ? (
+      {(remote.require('os').platform() === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -96,7 +96,7 @@ const Settings = ({
           />
           <p className="pt-form-helper-text">
             Set home page to a custom URL.
-            Leave it blank to use {argv.url} (default).
+            Leave it blank to use {remote.getCurrentWindow().appInfo.url} (default).
           </p>
         </div>
       </div>
