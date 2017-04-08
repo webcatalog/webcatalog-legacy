@@ -1,21 +1,19 @@
+import { remote } from 'electron';
+import Immutable from 'immutable';
+
 import { SET_MANAGED_APP, REMOVE_MANAGED_APP } from '../constants/actions';
-import { INSTALLING, UNINSTALLING, INSTALLED } from '../constants/statuses';
+import { INSTALLING, UNINSTALLING, INSTALLED, UPDATING } from '../constants/statuses';
 
 import scanInstalledAsync from '../helpers/scanInstalledAsync';
 import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
-import updateAppsAsync from '../helpers/updateAppsAsync';
+import updateAppAsync from '../helpers/updateAppAsync';
 import getAllAppPath from '../helpers/getAllAppPath';
 
 export const installApp = app => (dispatch) => {
   dispatch({
     type: SET_MANAGED_APP,
-    app: {
-      status: INSTALLING,
-      id: app.get('id'),
-      name: app.get('name'),
-      url: app.get('url'),
-    },
+    app: app.set('status', INSTALLING),
   });
 
   installAppAsync({
@@ -27,12 +25,36 @@ export const installApp = app => (dispatch) => {
   .then(() => {
     dispatch({
       type: SET_MANAGED_APP,
-      app: {
-        status: INSTALLED,
-        id: app.get('id'),
-        name: app.get('name'),
-        url: app.get('url'),
-      },
+      app: app.set('status', INSTALLED).set('version', remote.app.getVersion()),
+    });
+  })
+  .catch((err) => {
+    /* eslint-disable no-console */
+    console.log(err);
+    /* eslint-enable no-console */
+    dispatch({
+      type: REMOVE_MANAGED_APP,
+      id: app.get('id'),
+    });
+  });
+};
+
+export const updateApp = app => (dispatch) => {
+  dispatch({
+    type: SET_MANAGED_APP,
+    app: app.set('status', UPDATING),
+  });
+
+  updateAppAsync({
+    allAppPath: getAllAppPath(),
+    appId: app.get('id'),
+    appName: app.get('name'),
+    appUrl: app.get('url'),
+  })
+  .then(() => {
+    dispatch({
+      type: SET_MANAGED_APP,
+      app: app.set('status', INSTALLED).set('version', remote.app.getVersion()),
     });
   })
   .catch((err) => {
@@ -50,18 +72,14 @@ export const installApp = app => (dispatch) => {
 export const uninstallApp = app => ((dispatch) => {
   dispatch({
     type: SET_MANAGED_APP,
-    app: {
-      status: UNINSTALLING,
-      id: app.get('id'),
-      name: app.get('name'),
-      url: app.get('url'),
-    },
+    app: app.set('status', UNINSTALLING),
   });
 
   uninstallAppAsync({
     allAppPath: getAllAppPath(),
     appId: app.get('id'),
     appName: app.get('name'),
+    shouldClearStorageData: true,
   })
   .then(() => {
     dispatch({
@@ -75,12 +93,7 @@ export const uninstallApp = app => ((dispatch) => {
     /* eslint-enable no-console */
     dispatch({
       type: SET_MANAGED_APP,
-      app: {
-        status: INSTALLED,
-        id: app.get('id'),
-        name: app.get('name'),
-        url: app.get('url'),
-      },
+      app: app.set('status', INSTALLED).set('version', remote.app.getVersion()),
     });
   });
 });
@@ -91,31 +104,10 @@ export const scanInstalledApps = () => ((dispatch) => {
     allAppPath: getAllAppPath(),
   })
     .then((installedApps) => {
-      // update Apps
-      updateAppsAsync({
-        allAppPath: getAllAppPath(),
-        installedApps,
-      })
-      .then(() => {
-        /* eslint-disable no-console */
-        console.log('Updating all apps successfully');
-        /* eslint-enable no-console */
-      })
-      .catch((err) => {
-        /* eslint-disable no-console */
-        console.log(err);
-        /* eslint-enable no-console */
-      });
-
       installedApps.forEach((app) => {
         dispatch({
           type: SET_MANAGED_APP,
-          app: {
-            status: INSTALLED,
-            id: app.id,
-            name: app.name,
-            url: app.url,
-          },
+          app: Immutable.Map(app).set('status', INSTALLED),
         });
       });
     });

@@ -4,8 +4,10 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { ProgressBar, Button, Intent } from '@blueprintjs/core';
 
-import { UNINSTALLING, INSTALLING, INSTALLED } from '../constants/statuses';
-import { installApp, uninstallApp } from '../actions/appManagement';
+import { UNINSTALLING, INSTALLING, INSTALLED, UPDATING } from '../constants/statuses';
+import { LATEST_SSB_VERSION } from '../constants/versions';
+
+import { installApp, uninstallApp, updateApp } from '../actions/appManagement';
 import openApp from '../helpers/openApp';
 import getAppStatus from '../helpers/getAppStatus';
 
@@ -21,7 +23,9 @@ const extractDomain = (url) => {
 
 const Card = ({
   app, managedApps,
-  requestUninstallApp, requestInstallApp,
+  requestUninstallApp,
+  requestInstallApp,
+  requestUpdateApp,
 }) => (
   <div className="col">
     <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
@@ -46,18 +50,28 @@ const Card = ({
       {(() => {
         const appStatus = getAppStatus(managedApps, app.get('id'));
 
-        if (appStatus === INSTALLING || appStatus === UNINSTALLING) {
+        if (appStatus === INSTALLING || appStatus === UNINSTALLING || appStatus === UPDATING) {
           return (
             <ProgressBar intent={Intent.PRIMARY} className="card-progress-bar" />
           );
         }
         if (appStatus === INSTALLED) {
           return [
-            <Button
-              key="open"
-              text="Open"
-              onClick={() => openApp(app.get('name'), app.get('id'))}
-            />,
+            app.get('version') >= LATEST_SSB_VERSION ? (
+              <Button
+                key="open"
+                text="Open"
+                onClick={() => openApp(app.get('name'), app.get('id'))}
+              />
+            ) : (
+              <Button
+                key="update"
+                text="Update"
+                iconName="download"
+                intent={Intent.SUCCESS}
+                onClick={() => requestUpdateApp(app)}
+              />
+            ),
             <Button
               key="uninstall"
               text="Uninstall"
@@ -87,6 +101,7 @@ Card.propTypes = {
   managedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
   requestInstallApp: React.PropTypes.func.isRequired,
   requestUninstallApp: React.PropTypes.func.isRequired,
+  requestUpdateApp: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -99,6 +114,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestUninstallApp: (app) => {
     dispatch(uninstallApp(app));
+  },
+  requestUpdateApp: (app) => {
+    dispatch(updateApp(app));
   },
 });
 

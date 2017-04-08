@@ -16,7 +16,7 @@ const deleteFolderRecursive = (path) => {
   }
 };
 
-const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
+const uninstallAppAsync = ({ allAppPath, appId, appName, shouldClearStorageData }) =>
   new Promise((resolve, reject) => {
     try {
       const os = remote.require('os');
@@ -52,14 +52,16 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
     }
 
     // try to clear storage data
-    const s = remote.session.fromPartition(`persist:${appId}`);
-    s.clearStorageData((err) => {
-      if (err) {
-        /* eslint-disable no-console */
-        console.log(`Clearing browsing data err: ${err.message}`);
-        /* eslint-enable no-console */
-      }
-    });
+    if (shouldClearStorageData) {
+      const s = remote.session.fromPartition(`persist:${appId}`);
+      s.clearStorageData((err) => {
+        if (err) {
+          /* eslint-disable no-console */
+          console.log(`Clearing browsing data err: ${err.message}`);
+          /* eslint-enable no-console */
+        }
+      });
+    }
 
     resolve();
   });

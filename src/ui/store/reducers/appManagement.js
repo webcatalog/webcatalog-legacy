@@ -12,7 +12,7 @@ const appManagement = (state = initialState, action) => {
   switch (action.type) {
     case SET_MANAGED_APP: {
       return state
-        .set('managedApps', state.get('managedApps').set(action.app.id, Immutable.Map(action.app)));
+        .set('managedApps', state.get('managedApps').set(action.app.get('id'), action.app));
     }
     case REMOVE_MANAGED_APP: {
       return state

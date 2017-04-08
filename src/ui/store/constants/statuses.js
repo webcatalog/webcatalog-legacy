@@ -7,3 +7,4 @@ export const INSTALLED = 'INSTALLED';
 export const NOT_INSTALLED = 'NOT_INSTALLED';
 export const INSTALLING = 'INSTALLING';
 export const UNINSTALLING = 'UNINSTALLING';
+export const UPDATING = 'UPDATING';
