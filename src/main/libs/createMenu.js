@@ -1,6 +1,7 @@
-const { Menu, shell, app, dialog, session } = require('electron');
+const { Menu, shell, app } = require('electron');
 const path = require('path');
 const sendMessageToWindow = require('./sendMessageToWindow');
+const clearBrowsingData = require('./clearBrowsingData');
 
 // https://raw.githubusercontent.com/jiahaog/nativefier/development/app/src/components/menu/menu.js
 const showAboutWindow = () => {
@@ -22,7 +23,7 @@ const showAboutWindow = () => {
 };
 
 function createMenu({
-  isDevelopment, isSSB, appName, appId, log,
+  isDevelopment, isSSB, appName, appId,
 }) {
   let template;
   if (isSSB) {
@@ -110,7 +111,7 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Find in page...',
+            label: 'Find In Page...',
             accelerator: 'CmdOrCtrl+F',
             click: () => {
               sendMessageToWindow('toggle-find-in-page-dialog');
@@ -186,7 +187,7 @@ function createMenu({
             },
           },
           {
-            label: 'Toggle Developer Tools',
+            label: 'Developer Tools',
             accelerator: (() => {
               if (process.platform === 'darwin') {
                 return 'Alt+Command+I';
@@ -214,27 +215,9 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Clear browsing data...',
+            label: 'Clear Browsing Data...',
             click: () => {
-              dialog.showMessageBox({
-                type: 'warning',
-                buttons: ['Yes', 'Cancel'],
-                defaultId: 1,
-                title: 'Clear cache confirmation',
-                message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
-              }, (response) => {
-                if (response === 0) {
-                  const s = session.fromPartition(`persist:${appId}`);
-                  s.clearStorageData((err) => {
-                    if (err) {
-                      log(`Clearing browsing data err: ${err.message}`);
-                      return;
-                    }
-                    log(`Browsing data of ${appId} cleared.`);
-                    sendMessageToWindow('reload');
-                  });
-                }
-              });
+              clearBrowsingData({ appId, appName });
             },
           },
         ],
@@ -255,7 +238,7 @@ function createMenu({
           },
         },
         {
-          label: 'Toggle Developer Tools (Container)',
+          label: 'Developer Tools (Container)',
           click: (item, focusedWindow) => {
             if (focusedWindow) {
               focusedWindow.toggleDevTools();
@@ -324,7 +307,7 @@ function createMenu({
             },
           },
           {
-            label: 'Toggle Developer Tools',
+            label: 'Developer Tools',
             accelerator: (() => {
               if (process.platform === 'darwin') {
                 return 'Alt+Command+I';

@@ -8,9 +8,9 @@ const camelCase = require('lodash.camelcase');
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
 const checkForUpdate = require('./libs/checkForUpdate');
-const sendMessageToWindow = require('./libs/sendMessageToWindow');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
+const clearBrowsingData = require('./libs/clearBrowsingData');
 
 const isSSB = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
@@ -60,7 +60,7 @@ const createWindow = () =>
         minHeight: 400,
         title: argv.name || 'WebCatalog',
         titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
-        frame: (process.platform === 'darwin' || isSSB || isDevelopment),
+        frame: (process.platform === 'darwin' || isDevelopment),
       };
 
       mainWindow = new BrowserWindow(options);
@@ -89,6 +89,10 @@ const createWindow = () =>
           setDockBadge('');
         });
 
+        ipcMain.on('clear-browsing-data', () => {
+          clearBrowsingData({ appName: argv.name, appId: argv.id });
+        });
+
         if (blockAds) {
           registerFiltering(argv.id);
         }
@@ -104,12 +108,8 @@ const createWindow = () =>
         }
       }
 
-      const log = (message) => {
-        sendMessageToWindow('log', message);
-      };
-
       // setup update checking
-      checkForUpdate({ mainWindow, log, isSSB, isDevelopment, isTesting });
+      checkForUpdate({ mainWindow, isSSB, isDevelopment, isTesting });
 
       // Emitted when the close button is clicked.
       mainWindow.on('close', (e) => {
@@ -138,7 +138,6 @@ const createWindow = () =>
           isSSB,
           appName: argv.name || 'WebCatalog',
           appId: argv.id,
-          log,
         });
       }
 

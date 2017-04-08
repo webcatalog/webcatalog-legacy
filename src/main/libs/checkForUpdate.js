@@ -2,6 +2,8 @@ const { app, dialog, shell } = require('electron');
 const semver = require('semver');
 const https = require('https');
 
+const sendMessageToWindow = require('./sendMessageToWindow');
+
 // determine if Squirrel (auto-updater) should be used or not
 const shouldUseSquirrel = (isSSB) => {
   if (process.platform === 'linux') return false;
@@ -11,7 +13,7 @@ const shouldUseSquirrel = (isSSB) => {
   return true;
 };
 
-const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) => {
+const checkForUpdate = ({ mainWindow, isSSB, isDevelopment, isTesting }) => {
   // Don't run update checker in dev mode
   if (isDevelopment || isTesting) return;
 
@@ -38,10 +40,10 @@ const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) =>
           });
         });
 
-        autoUpdater.addListener('error', err => log(`Update error: ${err.message}`));
-        autoUpdater.on('checking-for-update', () => log('Checking for update'));
-        autoUpdater.on('update-available', () => log('Update available'));
-        autoUpdater.on('update-not-available', () => log('No update available'));
+        autoUpdater.addListener('error', err => sendMessageToWindow('log', `Update error: ${err.message}`));
+        autoUpdater.on('checking-for-update', () => sendMessageToWindow('log', 'Checking for update'));
+        autoUpdater.on('update-available', () => sendMessageToWindow('log', 'Update available'));
+        autoUpdater.on('update-not-available', () => sendMessageToWindow('log', 'No update available'));
 
         autoUpdater.checkForUpdates();
       } else {
@@ -59,7 +61,7 @@ const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) =>
             res.on('end', () => {
               const { tag_name } = JSON.parse(body);
               const latestVersion = tag_name.slice(1);
-              log(`Lastest version ${latestVersion}`);
+              sendMessageToWindow('log', `Lastest version ${latestVersion}`);
               if (semver.gt(latestVersion, app.getVersion())) {
                 dialog.showMessageBox({
                   type: 'info',
@@ -76,7 +78,7 @@ const checkForUpdate = ({ mainWindow, log, isSSB, isDevelopment, isTesting }) =>
             });
           }
         }).on('error', (err) => {
-          log(`Update checker: ${err.message}`);
+          sendMessageToWindow('log', `Update checker: ${err.message}`);
         });
       }
     }, 1000);
