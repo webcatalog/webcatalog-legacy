@@ -38,7 +38,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
           }
           case 'win32':
           default: {
-            const fs = require('fs-extra');
+            const fs = remote.require('fs-extra');
 
             const iconPersistPath = path.join(remote.app.getPath('userData'), 'icons', `${appId}.ico`);
 
