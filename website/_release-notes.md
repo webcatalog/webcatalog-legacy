@@ -1,3 +1,9 @@
+## 4.1.1 (alpha)
+- Adds ability to update apps installed from WebCatalog.
+- Fixes bugs.
+
+---
+
 ## 4.1.0 (alpha)
 - Removes ability to install custom app.
 - Improves user interface.
