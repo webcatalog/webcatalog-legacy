@@ -1,4 +1,4 @@
-[![WebCatalog](http://i.imgur.com/WhgnaPN.png)](https://getwebcatalog.com)
+# WebCatalog
 
 [![Join the chat at https://gitter.im/webcatalog/webcatalog](https://badges.gitter.im/webcatalog/webcatalog.svg)](https://gitter.im/webcatalog/webcatalog?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
