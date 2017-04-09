@@ -38,34 +38,45 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
           }
           case 'win32':
           default: {
-            const WindowsShortcuts = remote.require('windows-shortcuts');
+            const fs = require('fs-extra');
 
-            const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
-            WindowsShortcuts.create(shortcutPath, {
-              target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
-              args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
-              icon: iconPath,
-              desc: jsonContent,
-            }, (err) => {
-              if (err) {
-                reject(err);
+            const iconPersistPath = path.join(remote.app.getPath('userData'), 'icons', `${appId}.ico`);
+
+            fs.move(iconPath, iconPersistPath, (moveIconErr) => {
+              if (moveIconErr) {
+                reject(moveIconErr);
                 return;
               }
 
-              // create desktop shortcut
-              const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
-              WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
+              const WindowsShortcuts = remote.require('windows-shortcuts');
+
+              const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
+              WindowsShortcuts.create(shortcutPath, {
                 target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
                 args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
-                icon: iconPath,
+                icon: iconPersistPath,
                 desc: jsonContent,
-              }, (desktopShortcutErr) => {
-                if (desktopShortcutErr) {
-                  reject(desktopShortcutErr);
+              }, (err) => {
+                if (err) {
+                  reject(err);
                   return;
                 }
 
-                resolve();
+                // create desktop shortcut
+                const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
+                WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
+                  target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
+                  args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
+                  icon: iconPath,
+                  desc: jsonContent,
+                }, (desktopShortcutErr) => {
+                  if (desktopShortcutErr) {
+                    reject(desktopShortcutErr);
+                    return;
+                  }
+
+                  resolve();
+                });
               });
             });
           }
