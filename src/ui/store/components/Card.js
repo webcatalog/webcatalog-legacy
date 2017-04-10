@@ -9,7 +9,6 @@ import { LATEST_SSB_VERSION } from '../constants/versions';
 
 import { installApp, uninstallApp, updateApp } from '../actions/appManagement';
 import openApp from '../helpers/openApp';
-import getAppStatus from '../helpers/getAppStatus';
 
 const extractDomain = (url) => {
   try {
@@ -48,7 +47,15 @@ const Card = ({
         </a>
       </p>
       {(() => {
-        const appStatus = getAppStatus(managedApps, app.get('id'));
+        let appVersion = app.get('version');
+        let appStatus = app.get('status');
+
+        if (!appStatus && managedApps.has(app.get('id'))) {
+          appStatus = managedApps.get(app.get('id')).get('status');
+          if (appStatus === INSTALLED) {
+            appVersion = managedApps.get(app.get('id')).get('version');
+          }
+        }
 
         if (appStatus === INSTALLING || appStatus === UNINSTALLING || appStatus === UPDATING) {
           return (
@@ -57,7 +64,7 @@ const Card = ({
         }
         if (appStatus === INSTALLED) {
           return [
-            app.get('version') >= LATEST_SSB_VERSION ? (
+            appVersion >= LATEST_SSB_VERSION ? (
               <Button
                 key="open"
                 text="Open"
