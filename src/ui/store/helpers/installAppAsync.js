@@ -42,7 +42,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
 
             const iconPersistPath = path.join(remote.app.getPath('userData'), 'icons', `${appId}.ico`);
 
-            fs.move(iconPath, iconPersistPath, (moveIconErr) => {
+            fs.move(iconPath, iconPersistPath, { overwrite: true }, (moveIconErr) => {
               if (moveIconErr) {
                 reject(moveIconErr);
                 return;

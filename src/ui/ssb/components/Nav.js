@@ -19,7 +19,7 @@ const Nav = ({
       display: 'flex',
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
-      paddingLeft: 80,
+      paddingLeft: remote.require('os').platform() === 'darwin' ? 80 : null,
       backgroundColor: '#CED9E0',
       height: 32,
     }}
