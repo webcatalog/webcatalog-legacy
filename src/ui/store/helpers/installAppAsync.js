@@ -63,7 +63,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
                 }
 
                 // create desktop shortcut
-                const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
+                const desktopPath = remote.app.getPath('desktop');
                 WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
                   target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
                   args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
