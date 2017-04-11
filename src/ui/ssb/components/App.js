@@ -2,6 +2,7 @@
 /* global Notification */
 import { remote, ipcRenderer, clipboard, shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import camelCase from 'lodash.camelcase';
 
@@ -267,20 +268,20 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  url: React.PropTypes.string,
-  findInPageIsOpen: React.PropTypes.bool,
-  findInPageText: React.PropTypes.string,
-  isFullScreen: React.PropTypes.bool,
-  customHome: React.PropTypes.string,
-  targetUrl: React.PropTypes.string,
-  onResize: React.PropTypes.func,
-  requestUpdateTargetUrl: React.PropTypes.func,
-  requestUpdateLoading: React.PropTypes.func,
-  requestUpdateCanGoBack: React.PropTypes.func,
-  requestUpdateCanGoForward: React.PropTypes.func,
-  requestToggleSettingDialog: React.PropTypes.func,
-  requestToggleFindInPageDialog: React.PropTypes.func,
-  requestUpdateFindInPageMatches: React.PropTypes.func,
+  url: PropTypes.string,
+  findInPageIsOpen: PropTypes.bool,
+  findInPageText: PropTypes.string,
+  isFullScreen: PropTypes.bool,
+  customHome: PropTypes.string,
+  targetUrl: PropTypes.string,
+  onResize: PropTypes.func,
+  requestUpdateTargetUrl: PropTypes.func,
+  requestUpdateLoading: PropTypes.func,
+  requestUpdateCanGoBack: PropTypes.func,
+  requestUpdateCanGoForward: PropTypes.func,
+  requestToggleSettingDialog: PropTypes.func,
+  requestToggleFindInPageDialog: PropTypes.func,
+  requestUpdateFindInPageMatches: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

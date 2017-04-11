@@ -1,5 +1,6 @@
 import { remote, shell, ipcRenderer } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
@@ -154,13 +155,13 @@ const Nav = ({
 );
 
 Nav.propTypes = {
-  query: React.PropTypes.string.isRequired,
-  pathname: React.PropTypes.string.isRequired,
-  isMaximized: React.PropTypes.bool.isRequired,
-  requestSearch: React.PropTypes.func.isRequired,
-  requestSetSearchQuery: React.PropTypes.func.isRequired,
-  requestRefresh: React.PropTypes.func.isRequired,
-  goTo: React.PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  isMaximized: PropTypes.bool.isRequired,
+  requestSearch: PropTypes.func.isRequired,
+  requestSetSearchQuery: PropTypes.func.isRequired,
+  requestRefresh: PropTypes.func.isRequired,
+  goTo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({

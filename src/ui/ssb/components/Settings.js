@@ -1,5 +1,6 @@
 import { remote } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 
@@ -154,16 +155,16 @@ const Settings = ({
 );
 
 Settings.propTypes = {
-  isOpen: React.PropTypes.bool,
-  swipeToNavigate: React.PropTypes.bool,
-  quitOnLastWindow: React.PropTypes.bool,
-  rememberLastPage: React.PropTypes.bool,
-  blockAds: React.PropTypes.bool,
-  customHome: React.PropTypes.string,
-  injectedCSS: React.PropTypes.string,
-  injectedJS: React.PropTypes.string,
-  requestToggleSettingDialog: React.PropTypes.func,
-  requestSetBehavior: React.PropTypes.func,
+  isOpen: PropTypes.bool,
+  swipeToNavigate: PropTypes.bool,
+  quitOnLastWindow: PropTypes.bool,
+  rememberLastPage: PropTypes.bool,
+  blockAds: PropTypes.bool,
+  customHome: PropTypes.string,
+  injectedCSS: PropTypes.string,
+  injectedJS: PropTypes.string,
+  requestToggleSettingDialog: PropTypes.func,
+  requestSetBehavior: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

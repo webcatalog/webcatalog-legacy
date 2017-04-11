@@ -1,5 +1,6 @@
 import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
@@ -76,9 +77,9 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  status: React.PropTypes.string.isRequired,
-  apps: React.PropTypes.instanceOf(Immutable.List).isRequired,
-  requestFetchApps: React.PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  apps: PropTypes.instanceOf(Immutable.List).isRequired,
+  requestFetchApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

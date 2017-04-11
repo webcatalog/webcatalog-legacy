@@ -1,5 +1,6 @@
 import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
@@ -85,11 +86,11 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  status: React.PropTypes.string,
-  query: React.PropTypes.string,
-  hits: React.PropTypes.instanceOf(Immutable.List),
-  requestSearch: React.PropTypes.func,
-  closeSearch: React.PropTypes.func,
+  status: PropTypes.string,
+  query: PropTypes.string,
+  hits: PropTypes.instanceOf(Immutable.List),
+  requestSearch: PropTypes.func,
+  closeSearch: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

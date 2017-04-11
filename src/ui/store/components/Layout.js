@@ -1,5 +1,6 @@
 import { remote } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchApps } from '../actions/home';
@@ -39,10 +40,10 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  children: React.PropTypes.element.isRequired, // matched child route component
-  pathname: React.PropTypes.string.isRequired,
-  requestScanInstalledApps: React.PropTypes.func.isRequired,
-  onResize: React.PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired, // matched child route component
+  pathname: PropTypes.string.isRequired,
+  requestScanInstalledApps: PropTypes.func.isRequired,
+  onResize: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({

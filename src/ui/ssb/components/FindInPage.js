@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from '@blueprintjs/core';
 
@@ -92,13 +93,13 @@ class FindInPage extends React.Component {
 }
 
 FindInPage.propTypes = {
-  text: React.PropTypes.string,
-  activeMatch: React.PropTypes.number,
-  matches: React.PropTypes.number,
-  onRequestFind: React.PropTypes.func,
-  onRequestStopFind: React.PropTypes.func,
-  onRequestClose: React.PropTypes.func,
-  onRequestUpdateText: React.PropTypes.func,
+  text: PropTypes.string,
+  activeMatch: PropTypes.number,
+  matches: PropTypes.number,
+  onRequestFind: PropTypes.func,
+  onRequestStopFind: PropTypes.func,
+  onRequestClose: PropTypes.func,
+  onRequestUpdateText: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

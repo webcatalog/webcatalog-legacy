@@ -1,5 +1,6 @@
 import { remote, shell, ipcRenderer } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Spinner, Popover, Menu, MenuItem, Position, Classes } from '@blueprintjs/core';
 
@@ -151,14 +152,14 @@ const Nav = ({
 );
 
 Nav.propTypes = {
-  isLoading: React.PropTypes.bool,
-  canGoBack: React.PropTypes.bool,
-  canGoForward: React.PropTypes.bool,
-  isMaximized: React.PropTypes.bool,
-  onHomeButtonClick: React.PropTypes.func,
-  onBackButtonClick: React.PropTypes.func,
-  onForwardButtonClick: React.PropTypes.func,
-  onRefreshButtonClick: React.PropTypes.func,
+  isLoading: PropTypes.bool,
+  canGoBack: PropTypes.bool,
+  canGoForward: PropTypes.bool,
+  isMaximized: PropTypes.bool,
+  onHomeButtonClick: PropTypes.func,
+  onBackButtonClick: PropTypes.func,
+  onForwardButtonClick: PropTypes.func,
+  onRefreshButtonClick: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Intent, Classes } from '@blueprintjs/core';
 
 const NoConnection = ({ handleClick }) => (
@@ -16,7 +17,7 @@ const NoConnection = ({ handleClick }) => (
 );
 
 NoConnection.propTypes = {
-  handleClick: React.PropTypes.func,
+  handleClick: PropTypes.func,
 };
 
 export default NoConnection;

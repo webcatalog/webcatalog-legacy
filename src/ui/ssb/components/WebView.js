@@ -1,6 +1,7 @@
 // https://github.com/alexstrat/react-electron-web-view/blob/master/src/ElectronWebView.jsx
 /* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import camelCase from 'lodash.camelcase';
 
 const events = [
@@ -87,22 +88,22 @@ const methods = [
 ];
 
 const props = {
-  src: React.PropTypes.string,
-  autosize: React.PropTypes.bool,
-  nodeintegration: React.PropTypes.bool,
-  plugins: React.PropTypes.bool,
-  preload: React.PropTypes.string,
-  httpreferrer: React.PropTypes.string,
-  useragent: React.PropTypes.string,
-  disablewebsecurity: React.PropTypes.bool,
-  partition: React.PropTypes.string,
-  allowpopups: React.PropTypes.bool,
-  blinkfeatures: React.PropTypes.string,
-  disableblinkfeatures: React.PropTypes.string,
-  guestinstance: React.PropTypes.number,
-  devtools: React.PropTypes.bool,
-  muted: React.PropTypes.bool,
-  webpreferences: React.PropTypes.string,
+  src: PropTypes.string,
+  autosize: PropTypes.bool,
+  nodeintegration: PropTypes.bool,
+  plugins: PropTypes.bool,
+  preload: PropTypes.string,
+  httpreferrer: PropTypes.string,
+  useragent: PropTypes.string,
+  disablewebsecurity: PropTypes.bool,
+  partition: PropTypes.string,
+  allowpopups: PropTypes.bool,
+  blinkfeatures: PropTypes.string,
+  disableblinkfeatures: PropTypes.string,
+  guestinstance: PropTypes.number,
+  devtools: PropTypes.bool,
+  muted: PropTypes.bool,
+  webpreferences: PropTypes.string,
 };
 
 class ElectronWebView extends React.Component {
@@ -168,12 +169,12 @@ class ElectronWebView extends React.Component {
 }
 
 ElectronWebView.propTypes = Object.assign({
-  className: React.PropTypes.string,
-  style: React.PropTypes.object,
+  className: PropTypes.string,
+  style: PropTypes.object,
 }, props);
 
 events.forEach((event) => {
-  ElectronWebView.propTypes[camelCase(`on-${event}`)] = React.PropTypes.func;
+  ElectronWebView.propTypes[camelCase(`on-${event}`)] = PropTypes.func;
 });
 
 export default ElectronWebView;

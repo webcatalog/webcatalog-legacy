@@ -1,5 +1,6 @@
 import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { ProgressBar, Button, Intent } from '@blueprintjs/core';
@@ -104,11 +105,11 @@ const Card = ({
 );
 
 Card.propTypes = {
-  app: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-  managedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-  requestInstallApp: React.PropTypes.func.isRequired,
-  requestUninstallApp: React.PropTypes.func.isRequired,
-  requestUpdateApp: React.PropTypes.func.isRequired,
+  app: PropTypes.instanceOf(Immutable.Map).isRequired,
+  managedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  requestInstallApp: PropTypes.func.isRequired,
+  requestUninstallApp: PropTypes.func.isRequired,
+  requestUpdateApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

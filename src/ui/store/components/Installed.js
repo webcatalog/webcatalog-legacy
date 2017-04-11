@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { Button, Intent, NonIdealState } from '@blueprintjs/core';
@@ -57,9 +58,9 @@ class Installed extends React.Component {
 }
 
 Installed.propTypes = {
-  installedApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-  updatableApps: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-  requestUpdateApps: React.PropTypes.func.isRequired,
+  installedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  updatableApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  requestUpdateApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
