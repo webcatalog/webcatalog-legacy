@@ -30,7 +30,7 @@ const Card = ({
     <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
       {app.get('id').startsWith('custom-') ? null : (
         <img
-          src={`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${app.get('id')}@128px.webp`}
+          src={`https://raw.githubusercontent.com/webcatalog/webcatalog-backend/compiled/images/${app.get('id')}@128px.webp`}
           role="presentation"
           alt={app.get('name')}
           style={{

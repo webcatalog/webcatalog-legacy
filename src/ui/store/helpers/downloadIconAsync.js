@@ -25,7 +25,7 @@ const downloadIconAsync = appId =>
     const iconPath = `${remote.app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
     const iconFile = fs.createWriteStream(iconPath);
 
-    const req = https.get(`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${appId}.${iconExt}`, (response) => {
+    const req = https.get(`https://raw.githubusercontent.com/webcatalog/webcatalog-backend/compiled/images/${appId}.${iconExt}`, (response) => {
       response.pipe(iconFile);
 
       iconFile.on('error', (err) => {
