@@ -163,7 +163,7 @@ app.on('ready', createWindow);
 
 app.on('before-quit', () => {
   // https://github.com/atom/electron/issues/444#issuecomment-76492576 does not work,
-  if (mainWindow !== null) {
+  if (mainWindow) {
     mainWindow.forceClose = true;
   }
 });
@@ -180,9 +180,9 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  } else {
+  if (mainWindow) {
     mainWindow.show();
+  } else {
+    createWindow();
   }
 });
