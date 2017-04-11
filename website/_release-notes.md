@@ -1,3 +1,9 @@
+## 4.1.2 (alpha)
+- Fixes bugs.
+
+---
+
+
 ## 4.1.1 (alpha)
 - Adds ability to update apps installed from WebCatalog.
 - Fixes bugs.
