@@ -4,7 +4,7 @@ const downloadIconAsync = appId =>
   new Promise((resolve, reject) => {
     const os = remote.require('os');
     const fs = remote.require('fs');
-    const https = remote.require('https');
+    const https = remote.require('follow-redirects').https;
 
     let iconExt;
     switch (os.platform()) {

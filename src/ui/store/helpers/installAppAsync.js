@@ -67,7 +67,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
                 WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
                   target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
                   args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
-                  icon: iconPath,
+                  icon: iconPersistPath,
                   desc: jsonContent,
                 }, (desktopShortcutErr) => {
                   if (desktopShortcutErr) {
