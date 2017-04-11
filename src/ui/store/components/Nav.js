@@ -1,4 +1,4 @@
-import { remote, shell } from 'electron';
+import { remote, shell, ipcRenderer } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
@@ -93,6 +93,13 @@ const Nav = ({
               iconName="help"
               text="Help"
               onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
+            />
+            <MenuItem
+              iconName="info-sign"
+              text="About"
+              onClick={() => {
+                ipcRenderer.send('show-about-window');
+              }}
             />
           </Menu>
         )}

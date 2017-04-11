@@ -11,6 +11,7 @@ const checkForUpdate = require('./libs/checkForUpdate');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
+const showAboutWindow = require('./libs/showAboutWindow');
 
 const isSSB = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
@@ -66,6 +67,10 @@ const createWindow = () =>
       mainWindow = new BrowserWindow(options);
 
       mainWindowState.manage(mainWindow);
+
+      ipcMain.on('show-about-window', () => {
+        showAboutWindow();
+      });
 
       if (isSSB) {
         mainWindow.appInfo = {

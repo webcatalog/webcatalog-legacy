@@ -92,6 +92,13 @@ const Nav = ({
               text="Help"
               onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
             />
+            <MenuItem
+              iconName="info-sign"
+              text="About"
+              onClick={() => {
+                ipcRenderer.send('show-about-window');
+              }}
+            />
           </Menu>
         )}
         position={Position.BOTTOM_RIGHT}
