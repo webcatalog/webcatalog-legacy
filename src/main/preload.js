@@ -1,14 +1,15 @@
 /* global window document */
 
 const { remote } = require('electron');
-const settings = require('electron-settings');
-const camelCase = require('lodash.camelcase');
+
+const settings = remote.require('electron-settings');
+const camelCase = remote.require('lodash.camelcase');
 
 const argv = remote.getCurrentWindow().appInfo;
 
 window.onload = () => {
   // inject JS
-  settings.get(`behaviors.${camelCase(argv.id)}.injectedJS`)
+  settings.get(`behaviors.${camelCase(argv.id)}.injectedJS`, null)
     .then((injectedJS) => {
       if (!injectedJS || injectedJS.trim().length < 1) return;
 
@@ -24,7 +25,7 @@ window.onload = () => {
     });
 
   // inject CSS
-  settings.get(`behaviors.${camelCase(argv.id)}.injectedCSS`)
+  settings.get(`behaviors.${camelCase(argv.id)}.injectedCSS`, null)
     .then((injectedCSS) => {
       if (!injectedCSS || injectedCSS.trim().length < 1) return;
 
