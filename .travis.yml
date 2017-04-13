@@ -19,6 +19,15 @@ cache:
   directories:
   - node_modules
   - www/images
+before_install:
+  - wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+  - tar xf ImageMagick.tar.gz
+  - cd ImageMagick*
+  - ./configure --prefix=/usr
+  - make
+  - sudo make install
+  - cd ..
+  - printf "\n" | pecl install imagick-beta
 script:
 - convert --version
 - yarn global add node-gyp
