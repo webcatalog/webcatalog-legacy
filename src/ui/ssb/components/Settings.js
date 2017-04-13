@@ -36,6 +36,7 @@ const Settings = ({
               <strong>Swipe with three fingers</strong>
               <span> or </span>
               <strong>Swipe with two or three fingers</strong>.
+              <span> Restart is required.</span>
             </p>
           </div>
         </div>
