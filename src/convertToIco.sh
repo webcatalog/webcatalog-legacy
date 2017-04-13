@@ -25,6 +25,13 @@ if [ -z "${DEST}" ]; then
 	exit 1
 fi
 
+# Skip if already existed
+if [ -f "$DEST" ]; then
+	echo "Already existed"
+	exit 0
+fi
+
+
 NAME=$(basename "${SOURCE}")
 EXT="${NAME##*.}"
 BASE="${NAME%.*}"

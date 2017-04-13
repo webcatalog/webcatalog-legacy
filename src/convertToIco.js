@@ -5,20 +5,19 @@ const path = require('path');
 
 const PNG_TO_ICO_BIN_PATH = path.join(__dirname, 'convertToIco.sh');
 
-console.log(PNG_TO_ICO_BIN_PATH);
+const convertToIco = (pngSrc, icoDest) =>
+  new Promise((resolve, reject) => {
+    shell.exec(`${PNG_TO_ICO_BIN_PATH} ${pngSrc} ${icoDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
+      if (exitCode) {
+        reject({
+          stdOut,
+          stdError,
+        });
+        return;
+      }
 
-const convertToIco = (pngSrc, icoDest, callback) => {
-  shell.exec(`${PNG_TO_ICO_BIN_PATH} ${pngSrc} ${icoDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
-    if (exitCode) {
-      callback({
-        stdOut,
-        stdError,
-      }, pngSrc);
-      return;
-    }
-
-    callback(null, icoDest);
+      resolve(icoDest);
+    });
   });
-};
 
 module.exports = convertToIco;

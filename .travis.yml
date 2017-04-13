@@ -18,6 +18,7 @@ cache:
   yarn: true
   directories:
   - node_modules
+  - www/images
 script:
 - yarn global add node-gyp
 - node-gyp rebuild -C ./node_modules/sharp

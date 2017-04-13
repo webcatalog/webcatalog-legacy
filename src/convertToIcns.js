@@ -5,25 +5,24 @@ const path = require('path');
 
 const PNG_TO_ICNS_BIN_PATH = path.join(__dirname, 'convertToIcns.sh');
 
-console.log(PNG_TO_ICNS_BIN_PATH);
+const convertToIcns = (pngSrc, icnsDest) =>
+  new Promise((resolve, reject) => {
+    shell.exec(`${PNG_TO_ICNS_BIN_PATH} ${pngSrc} ${icnsDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
+      if (stdOut.includes('icon.iconset:error') || exitCode) {
+        if (exitCode) {
+          reject({
+            stdOut,
+            stdError,
+          });
+          return;
+        }
 
-const convertToIcns = (pngSrc, icnsDest, callback) => {
-  shell.exec(`${PNG_TO_ICNS_BIN_PATH} ${pngSrc} ${icnsDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
-    if (stdOut.includes('icon.iconset:error') || exitCode) {
-      if (exitCode) {
-        callback({
-          stdOut,
-          stdError,
-        }, pngSrc);
+        reject(stdOut);
         return;
       }
 
-      callback(stdOut, pngSrc);
-      return;
-    }
-
-    callback(null, icnsDest);
+      resolve(icnsDest);
+    });
   });
-};
 
 module.exports = convertToIcns;
