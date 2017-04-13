@@ -1,3 +1,9 @@
+## 4.1.5 (alpha)
+- Fixes bugs.
+- **Breaking change (Linux only):** Apps installed in previous versions will not be detected by WebCatalog. You need to remove them manually from `~/.local/share/applications`.
+
+---
+
 ## 4.1.4 (alpha)
 - Fixes bugs.
 
