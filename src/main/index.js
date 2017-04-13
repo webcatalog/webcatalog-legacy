@@ -102,7 +102,7 @@ const createWindow = () => {
   // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {
     // keep window running when close button is hit except when quit on last window is turned on
-    if (isSSB && process.platform === 'darwin') {
+    if (isSSB && process.platform === 'darwin' && !mainWindow.forceClose) {
       const quitOnLastWindow = settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`, true);
       if (!quitOnLastWindow) {
         e.preventDefault();
@@ -152,6 +152,13 @@ app.on('window-all-closed', () => {
     if (quitOnLastWindow) {
       app.quit();
     }
+  }
+});
+
+app.on('before-quit', () => {
+  // https://github.com/atom/electron/issues/444#issuecomment-76492576
+  if (mainWindow) {
+    mainWindow.forceClose = true;
   }
 });
 
