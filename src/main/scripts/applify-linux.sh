@@ -25,7 +25,7 @@ mkdir -p "${ICONDIR}"
 
 cat <<EOF > "${BINFILE}"
 #!/usr/bin/env bash
-/usr/local/bin/webcatalog --name="$APPNAME" --url="$APPURL" --id="$APPID"
+/opt/WebCatalog/webcatalog --name="$APPNAME" --url="$APPURL" --id="$APPID"
 EOF
 chmod +x "${BINFILE}"
 
