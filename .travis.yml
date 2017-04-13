@@ -20,6 +20,7 @@ cache:
   - node_modules
   - www/images
 script:
+- convert --version
 - yarn global add node-gyp
 - node-gyp rebuild -C ./node_modules/sharp
 - yarn test
