@@ -12,7 +12,7 @@ const openApp = (name, id) => {
     }
     case 'linux': {
       const { exec } = remote.require('child_process');
-      exec(`gtk-launch ${id}`);
+      exec(`gtk-launch webcatalog-${id}`);
       break;
     }
     case 'win32':

@@ -33,7 +33,7 @@ const uninstallAppAsync = ({ allAppPath, appId, appName, shouldClearStorageData 
           break;
         }
         case 'linux': {
-          const appPath = path.join(allAppPath, `${appId}.desktop`);
+          const appPath = path.join(allAppPath, `webcatalog-${appId}.desktop`);
           fs.unlinkSync(appPath);
           break;
         }
