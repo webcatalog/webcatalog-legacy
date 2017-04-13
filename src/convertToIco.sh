@@ -41,4 +41,4 @@ if [ "${EXT}" == "ico" ]; then
     exit 0
 fi
 
-convert "${SOURCE}" -define icon:auto-resize="256,128,96,64,48,32,16" "${DEST}"
+convert "${SOURCE}" -define icon:auto-resize "${DEST}"
