@@ -260,7 +260,7 @@ class App extends React.Component {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            width: '100vw',
+            maxWidth: '100vw',
           }}
         >
           {targetUrl}
