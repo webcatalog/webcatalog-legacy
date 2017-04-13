@@ -13,7 +13,7 @@ const getAllAppPath = () => {
       break;
     }
     case 'linux': {
-      allAppPath = path.join(remote.app.getPath('home'), '.local', 'share', 'applications');
+      allAppPath = path.join(remote.app.getPath('home'), '.local', 'share', 'applications', 'webcatalog');
       break;
     }
     case 'win32':
