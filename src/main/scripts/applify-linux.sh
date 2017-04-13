@@ -12,8 +12,8 @@ ICONDIR=$(eval echo "~/.icons/webcatalog")
 BINDIR=$(eval echo "~/.local/share/webcatalog")
 BINFILE="${BINDIR}/${APPID}"
 
-APPDIR=$(eval echo "~/.local/share/applications/webcatalog")
-DESKTOPFILE="${APPDIR}/${APPID}.desktop"
+APPDIR=$(eval echo "~/.local/share/applications")
+DESKTOPFILE="${APPDIR}/webcatalog-${APPID}.desktop"
 
 echo $DESKTOP_FILE
 

@@ -52,24 +52,11 @@ const scanInstalledAsync = ({ allAppPath }) =>
           }
 
           files.forEach((fileName) => {
-            const id = fileName.replace('.desktop', '').trim();
+            if (!fileName.startsWith('webcatalog-')) return;
 
-            let version = '3.1.1';
-            let name;
-            let url;
-            try {
-              const jsonContent = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1);
-              const appInfo = JSON.parse(jsonContent);
-              version = appInfo.version;
-              name = appInfo.name;
-              url = appInfo.url;
-            } catch (jsonErr) {
-              /* eslint-disable no-console */
-              console.log(jsonErr);
-              /* eslint-enable no-console */
-            }
+            const appInfo = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1);
 
-            installedIds.push({ id, version, name, url });
+            installedIds.push(appInfo);
           });
           resolve(installedIds);
         });
