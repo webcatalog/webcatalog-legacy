@@ -257,6 +257,10 @@ class App extends React.Component {
             fontSize: 12,
             padding: '0 12px',
             borderRadius: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            width: '100vw',
           }}
         >
           {targetUrl}
