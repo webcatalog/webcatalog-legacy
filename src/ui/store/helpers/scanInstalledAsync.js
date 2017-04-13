@@ -58,7 +58,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
             let name;
             let url;
             try {
-              const jsonContent = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].splice(1);
+              const jsonContent = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1);
               const appInfo = JSON.parse(jsonContent);
               version = appInfo.version;
               name = appInfo.name;
