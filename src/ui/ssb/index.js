@@ -24,7 +24,9 @@ const startReact = (url) => {
 
 const startApp = () => {
   const electronSettings = remote.require('electron-settings');
-  const { id, url } = remote.getCurrentWindow().appInfo;
+  const { id, name, url } = remote.getCurrentWindow().appInfo;
+
+  document.title = name;
 
   const rememberLastPage = electronSettings.get(`behaviors.${camelCase(id)}.rememberLastPage`, defaultSettings.rememberLastPage);
   if (rememberLastPage) {

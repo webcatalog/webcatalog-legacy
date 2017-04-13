@@ -47,6 +47,7 @@ const createWindow = () => {
     title: argv.name || 'WebCatalog',
     titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
     frame: (process.platform === 'darwin' || isDevelopment),
+    icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
   };
 
   mainWindow = new BrowserWindow(options);
