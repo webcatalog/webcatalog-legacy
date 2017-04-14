@@ -3,7 +3,7 @@ import installAppAsync from '../helpers/installAppAsync';
 import uninstallAppAsync from '../helpers/uninstallAppAsync';
 
 const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
-  uninstallAppAsync({ allAppPath, appId, appName, shouldClearStorageData: false })
+  Promise.resolve()
     .then(() => {
       // if missing appName or appUrl, get them from server
       if (!appName || !appUrl) {
@@ -16,6 +16,10 @@ const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
         url: appUrl,
       };
     })
-    .then(appInfo => installAppAsync({ appId, appName: appInfo.name, appUrl: appInfo.url }));
+    .then(appInfo =>
+      uninstallAppAsync({ allAppPath, appId, appName, shouldClearStorageData: false })
+        .then(() => installAppAsync({ appId, appName: appInfo.name, appUrl: appInfo.url })),
+    );
+
 
 export default updateAppAsync;
