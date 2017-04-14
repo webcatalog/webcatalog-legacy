@@ -20,8 +20,8 @@ platform: x64
 init:
   - git config --global core.autocrlf input
 
-# cache:
-# - "%LOCALAPPDATA%\\Yarn"
+cache:
+  - "%LOCALAPPDATA%\\Yarn"
 
 # Install scripts. (runs after repo cloning)
 install:

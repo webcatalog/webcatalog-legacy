@@ -35,6 +35,20 @@
     tether "^1.4"
     tslib "^1.5.0"
 
+"@electron-builder/electron-download@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@electron-builder/electron-download/-/electron-download-4.2.1.tgz#b10b7b077523ae2f6c21dc05658df145d716c223"
+  dependencies:
+    debug "^2.6.3"
+    env-paths "^1.0.0"
+    fs-extra "^2.1.2"
+    minimist "^1.2.0"
+    nugget "^2.0.1"
+    path-exists "^3.0.0"
+    rc "^1.2.1"
+    semver "^5.3.0"
+    sumchecker "^2.0.2"
+
 "@types/dom4@^1.5.20":
   version "1.5.20"
   resolved "https://registry.yarnpkg.com/@types/dom4/-/dom4-1.5.20.tgz#ccf636d3b794fe65a4191ebc7ff979a78efea6c2"
@@ -1836,7 +1850,24 @@ electron-builder-squirrel-windows@^16.8.3:
     electron-builder-util "~16.8.3"
     fs-extra-p "^4.1.0"
 
-electron-builder-util@16.8.3, electron-builder-util@~16.8.3:
+electron-builder-util@16.6.0, electron-builder-util@~16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-16.6.0.tgz#9a555c6e4e785e406a807abfd88aa1369665ac7d"
+  dependencies:
+    "7zip-bin" "^2.0.4"
+    bluebird-lst "^1.0.2"
+    chalk "^1.1.3"
+    debug "2.6.3"
+    electron-builder-http "~16.6.0"
+    fs-extra-p "^4.1.0"
+    ini "^1.3.4"
+    is-ci "^1.0.10"
+    node-emoji "^1.5.1"
+    source-map-support "^0.4.14"
+    stat-mode "^0.2.2"
+    tunnel-agent "^0.6.0"
+
+electron-builder-util@~16.8.3:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-16.8.3.tgz#31a7fdb2f80c255f8f572af8ed9f1c6b033a47ce"
   dependencies:
@@ -1853,11 +1884,12 @@ electron-builder-util@16.8.3, electron-builder-util@~16.8.3:
     stat-mode "^0.2.2"
     tunnel-agent "^0.6.0"
 
-electron-builder@^16.8.3:
-  version "16.8.3"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-16.8.3.tgz#7bbb3d9a60c1757a17e2d6e410e329dae3ec6640"
+electron-builder@16.8.2:
+  version "16.8.2"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-16.8.2.tgz#881e344d3d6164fb09188c1a31c04ecdd7f1e53d"
   dependencies:
     "7zip-bin" "^2.0.4"
+    "@electron-builder/electron-download" "4.2.1"
     ajv "^5.0.4-beta.2"
     ajv-keywords "^2.0.1-beta.2"
     bluebird-lst "^1.0.2"
@@ -1866,10 +1898,9 @@ electron-builder@^16.8.3:
     cuint "^0.2.2"
     electron-builder-core "16.8.0"
     electron-builder-http "16.6.0"
-    electron-builder-util "16.8.3"
-    electron-download-tf "4.2.1"
+    electron-builder-util "16.6.0"
     electron-osx-sign "0.4.4"
-    electron-publish "16.8.3"
+    electron-publish "16.6.2"
     fs-extra-p "^4.1.0"
     hosted-git-info "^2.4.1"
     is-ci "^1.0.10"
@@ -1892,20 +1923,6 @@ electron-chromedriver@~1.6.0:
   dependencies:
     electron-download "^3.1.0"
     extract-zip "^1.6.0"
-
-electron-download-tf@4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/electron-download-tf/-/electron-download-tf-4.2.1.tgz#d16d2e4c29fc681c10ce42235c629cd812533884"
-  dependencies:
-    debug "^2.6.3"
-    env-paths "^1.0.0"
-    fs-extra "^2.1.2"
-    minimist "^1.2.0"
-    nugget "^2.0.1"
-    path-exists "^3.0.0"
-    rc "^1.2.1"
-    semver "^5.3.0"
-    sumchecker "^2.0.2"
 
 electron-download@^3.0.1, electron-download@^3.1.0:
   version "3.3.0"
@@ -1937,14 +1954,14 @@ electron-osx-sign@0.4.4:
     plist "^2.0.1"
     tempfile "^1.1.1"
 
-electron-publish@16.8.3:
-  version "16.8.3"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-16.8.3.tgz#02f2cd8783c5216f0fc82991df487046994194a1"
+electron-publish@16.6.2:
+  version "16.6.2"
+  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-16.6.2.tgz#956699f04e5fa23bbe1129a596736c0f0ef956b3"
   dependencies:
     bluebird-lst "^1.0.2"
     chalk "^1.1.3"
     electron-builder-http "~16.6.0"
-    electron-builder-util "~16.8.3"
+    electron-builder-util "~16.6.0"
     fs-extra-p "^4.1.0"
     mime "^1.3.4"
 
@@ -4029,7 +4046,7 @@ randombytes@^2.0.0, randombytes@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.3.tgz#674c99760901c3c4112771a31e521dc349cc09ec"
 
-rc@^1.0.1, rc@^1.1.6, rc@^1.1.7, rc@^1.2.1:
+rc@^1.0.1, rc@^1.1.6, rc@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
   dependencies:
@@ -4038,7 +4055,7 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7, rc@^1.2.1:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rc@^1.1.2:
+rc@^1.1.2, rc@^1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.1.7.tgz#c5ea564bb07aff9fd3a5b32e906c1d3a65940fea"
   dependencies:
