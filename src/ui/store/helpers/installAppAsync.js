@@ -1,60 +1,8 @@
-/* global https os fs remote execFile mkdirp WindowsShortcuts tmp Jimp icongen path pngToIco */
+import { remote } from 'electron';
 
-const generateIconSet = (pngPath, iconSizes) => {
-  const iconSetPath = tmp.dirSync().name;
-
-  return Jimp.read(pngPath)
-    .then((png) => {
-      const promises = iconSizes.map(size =>
-        new Promise((resolve) => {
-          png.resize(size, size)            // resize
-             .write(path.join(iconSetPath, `${size}.png`), resolve); // save
-        }));
-
-      return Promise.all(promises);
-    })
-    .then(() => iconSetPath);
-};
-
-const pngToIcnsAsync = pngPath =>
-  generateIconSet(pngPath, [1024, 512, 256, 128, 64, 32, 16])
-    .then((iconSetPath) => {
-      const options = {
-        type: 'png',
-        report: false,
-        modes: ['icns'],
-      };
-
-      const distPath = tmp.dirSync().name;
-      return icongen(iconSetPath, distPath, options)
-        .then(() => `${distPath}/app.icns`);
-    });
-
-const pngToIcoAsync = pngPath =>
-  pngToIco(pngPath)
-    .then((buf) => {
-      const icoPath = path.join(tmp.dirSync().name, 'app.ico');
-      fs.writeFileSync(icoPath, buf);
-      return icoPath;
-    });
-
-const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
+const installAppAsync = ({ allAppPath, appId, appName, appUrl, iconPath }) =>
   Promise.resolve()
     .then(() => {
-      switch (os.platform()) {
-        case 'darwin': {
-          return pngToIcnsAsync(pngPath);
-        }
-        case 'win32': {
-          return pngToIcoAsync(pngPath);
-        }
-        case 'linux':
-        default: {
-          return pngPath;
-        }
-      }
-    })
-    .then((iconPath) => {
       const jsonContent = JSON.stringify({
         id: appId,
         name: appName,
@@ -63,10 +11,13 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
       }); // data to track app info & version
 
       return new Promise((resolve, reject) => {
+        const os = remote.require('os');
+        const path = remote.require('path');
         switch (os.platform()) {
           case 'darwin':
           case 'linux': {
             const execFilePath = path.join(remote.app.getAppPath(), 'app', 'scripts', `applify-${os.platform()}.sh`);
+            const { execFile } = remote.require('child_process');
             execFile(execFilePath, [
               appName,
               appUrl,
@@ -85,32 +36,45 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, pngPath }) =>
           }
           case 'win32':
           default: {
-            const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
-            WindowsShortcuts.create(shortcutPath, {
-              target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
-              args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
-              icon: iconPath,
-              desc: jsonContent,
-            }, (err) => {
-              if (err) {
-                reject(err);
+            const fs = remote.require('fs-extra');
+
+            const iconPersistPath = path.join(remote.app.getPath('userData'), 'icons', `${appId}.ico`);
+
+            fs.move(iconPath, iconPersistPath, { overwrite: true }, (moveIconErr) => {
+              if (moveIconErr) {
+                reject(moveIconErr);
                 return;
               }
 
-              // create desktop shortcut
-              const desktopPath = path.join(remote.app.getPath('home'), 'Desktop');
-              WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
+              const WindowsShortcuts = remote.require('windows-shortcuts');
+
+              const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
+              WindowsShortcuts.create(shortcutPath, {
                 target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
                 args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
-                icon: iconPath,
+                icon: iconPersistPath,
                 desc: jsonContent,
-              }, (desktopShortcutErr) => {
-                if (desktopShortcutErr) {
-                  reject(desktopShortcutErr);
+              }, (err) => {
+                if (err) {
+                  reject(err);
                   return;
                 }
 
-                resolve();
+                // create desktop shortcut
+                const desktopPath = remote.app.getPath('desktop');
+                WindowsShortcuts.create(`${desktopPath}/${appName}.lnk`, {
+                  target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
+                  args: `--name="${appName}" --url="${appUrl}" --id="${appId}"`,
+                  icon: iconPersistPath,
+                  desc: jsonContent,
+                }, (desktopShortcutErr) => {
+                  if (desktopShortcutErr) {
+                    reject(desktopShortcutErr);
+                    return;
+                  }
+
+                  resolve();
+                });
               });
             });
           }

@@ -5,7 +5,6 @@ import { routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
 
 import rootReducer from './reducers';
-import { scanInstalledApps } from './actions/app';
 
 const configureStore = (initialState) => {
   const store = createStore(
@@ -16,9 +15,6 @@ const configureStore = (initialState) => {
       routerMiddleware(hashHistory),
     ),
   );
-
-  // load installed Apps
-  store.dispatch(scanInstalledApps());
 
   return store;
 };

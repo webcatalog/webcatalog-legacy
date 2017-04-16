@@ -1,5 +1,9 @@
 {
   "extends": "airbnb",
+  "globals": {
+    "document": true,
+    "window": true
+  },
   "rules": {
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],

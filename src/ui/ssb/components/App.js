@@ -1,6 +1,8 @@
-/* global argv shell ipcRenderer path clipboard electronSettings os remote window */
 /* eslint-disable no-console */
+/* global Notification */
+import { remote, ipcRenderer, clipboard, shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import camelCase from 'lodash.camelcase';
 
@@ -10,11 +12,14 @@ import Nav from './Nav';
 import FindInPage from './FindInPage';
 
 import extractDomain from '../libs/extractDomain';
-import { updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
+import { updateTargetUrl, updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
 
+const appInfo = remote.getCurrentWindow().appInfo;
+
+let didShowNotification = false;
 
 class App extends React.Component {
   constructor() {
@@ -22,6 +27,7 @@ class App extends React.Component {
     this.handleNewWindow = this.handleNewWindow.bind(this);
     this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
     this.handleDidGetRedirectRequest = this.handleDidGetRedirectRequest.bind(this);
+    this.handleUpdateTargetUrl = this.handleUpdateTargetUrl.bind(this);
   }
 
   componentDidMount() {
@@ -68,7 +74,7 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('go-home', () => {
-      c.loadURL(this.props.customHome || argv.url);
+      c.loadURL(this.props.customHome || appInfo.url);
     });
 
     ipcRenderer.on('go-to-url', (e, url) => {
@@ -78,6 +84,12 @@ class App extends React.Component {
     ipcRenderer.on('copy-url', () => {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
+    });
+
+    ipcRenderer.on('focus', () => {
+      didShowNotification = false;
+
+      c.focus();
     });
   }
 
@@ -110,7 +122,7 @@ class App extends React.Component {
     const c = this.c;
     console.log(`newWindow: ${nextUrl}`);
     // open external url in browser if domain doesn't match.
-    const curDomain = extractDomain(argv.url);
+    const curDomain = extractDomain(appInfo.url);
     const nextDomain = extractDomain(nextUrl);
 
     console.log(nextDomain);
@@ -147,7 +159,8 @@ class App extends React.Component {
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
-    electronSettings.set(`lastPages.${camelCase(argv.id)}`, c.getURL());
+    const electronSettings = remote.require('electron-settings');
+    electronSettings.set(`lastPages.${camelCase(appInfo.id)}`, c.getURL());
   }
 
   handlePageTitleUpdated({ title }) {
@@ -155,22 +168,36 @@ class App extends React.Component {
 
     const itemCountRegex = /[([{](\d*?)[}\])]/;
     const match = itemCountRegex.exec(title);
-    if (match) {
-      ipcRenderer.send('badge', match[1]);
-    } else {
-      ipcRenderer.send('badge', '');
+    const newBadge = match ? match[1] : '';
+
+    ipcRenderer.send('badge', newBadge);
+
+    if (newBadge !== '' && didShowNotification === false && remote.getCurrentWindow().isFocused() === false) {
+      /* eslint-disable no-unused-vars */
+      const notif = new Notification(appInfo.name, {
+        body: 'You have a notification.',
+      });
+      /* eslint-enable no-unused-vars */
+      // to prevent multiple notification like blinking titlebar
+      didShowNotification = true;
     }
+  }
+
+  handleUpdateTargetUrl({ url }) {
+    const { requestUpdateTargetUrl } = this.props;
+    requestUpdateTargetUrl(url);
   }
 
   render() {
     const {
       url, findInPageIsOpen, isFullScreen, customHome,
       requestUpdateLoading, requestUpdateFindInPageMatches,
+      targetUrl,
     } = this.props;
 
-    const showNav = (os.platform() === 'darwin' && !isFullScreen);
+    const showNav = remote.require('os').platform() === 'darwin' && !isFullScreen;
 
-    let usedHeight = showNav ? 22 : 0;
+    let usedHeight = showNav ? 32 : 0;
     if (findInPageIsOpen) usedHeight += 50;
 
     return (
@@ -181,7 +208,7 @@ class App extends React.Component {
       >
         {showNav ? (
           <Nav
-            onHomeButtonClick={() => this.c.loadURL(customHome || argv.url)}
+            onHomeButtonClick={() => this.c.loadURL(customHome || appInfo.url)}
             onBackButtonClick={() => this.c.goBack()}
             onForwardButtonClick={() => this.c.goForward()}
             onRefreshButtonClick={() => this.c.reload()}
@@ -205,11 +232,11 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
-            preload={path.join(remote.app.getAppPath(), 'app', 'preload.js')}
+            preload={remote.require('path').join(remote.app.getAppPath(), 'app', 'preload.js')}
             // enable nodeintegration in testing mode (mainly for Spectron)
-            nodeintegration={argv.isTesting}
-            useragent={argv.userAgent}
-            partition={`persist:${argv.id}`}
+            nodeintegration={appInfo.isTesting}
+            useragent={appInfo.userAgent}
+            partition={`persist:${appInfo.id}`}
             onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
             onNewWindow={this.handleNewWindow}
             onDidStartLoading={() => requestUpdateLoading(true)}
@@ -218,7 +245,27 @@ class App extends React.Component {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
             }}
             onPageTitleUpdated={this.handlePageTitleUpdated}
+            onUpdateTargetUrl={this.handleUpdateTargetUrl}
           />
+        </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            bottom: 0,
+            left: 0,
+            backgroundColor: '#CED9E0',
+            lineHeight: '20px',
+            fontSize: 12,
+            padding: '0 12px',
+            borderRadius: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            maxWidth: '100vw',
+          }}
+        >
+          {targetUrl}
         </div>
         <Settings />
       </div>
@@ -227,30 +274,41 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  url: React.PropTypes.string,
-  findInPageIsOpen: React.PropTypes.bool,
-  findInPageText: React.PropTypes.string,
-  isFullScreen: React.PropTypes.bool,
-  customHome: React.PropTypes.string,
-  onResize: React.PropTypes.func,
-  requestUpdateLoading: React.PropTypes.func,
-  requestUpdateCanGoBack: React.PropTypes.func,
-  requestUpdateCanGoForward: React.PropTypes.func,
-  requestToggleSettingDialog: React.PropTypes.func,
-  requestToggleFindInPageDialog: React.PropTypes.func,
-  requestUpdateFindInPageMatches: React.PropTypes.func,
+  url: PropTypes.string,
+  findInPageIsOpen: PropTypes.bool,
+  findInPageText: PropTypes.string,
+  isFullScreen: PropTypes.bool,
+  customHome: PropTypes.string,
+  targetUrl: PropTypes.string,
+  onResize: PropTypes.func,
+  requestUpdateTargetUrl: PropTypes.func,
+  requestUpdateLoading: PropTypes.func,
+  requestUpdateCanGoBack: PropTypes.func,
+  requestUpdateCanGoForward: PropTypes.func,
+  requestToggleSettingDialog: PropTypes.func,
+  requestToggleFindInPageDialog: PropTypes.func,
+  requestUpdateFindInPageMatches: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  findInPageIsOpen: state.findInPage.isOpen,
-  findInPageText: state.findInPage.text,
-  isFullScreen: state.screen.isFullScreen,
-  customHome: state.settings.behaviors.customHome,
+  findInPageIsOpen: state.findInPage.get('isOpen'),
+  findInPageText: state.findInPage.get('text'),
+  isFullScreen: state.screen.get('isFullScreen'),
+  customHome: state.settings.getIn(['behaviors', 'customHome']),
+  targetUrl: state.nav.get('targetUrl'),
 });
 
 const mapDispatchToProps = dispatch => ({
   onResize: () => {
-    dispatch(screenResize(window.innerWidth, remote.getCurrentWindow().isFullScreen()));
+    dispatch(screenResize({
+      screenWidth: window.innerWidth,
+      isFullScreen: remote.getCurrentWindow().isFullScreen(),
+      isMaximized: remote.getCurrentWindow().isMaximized(),
+      isMinimized: remote.getCurrentWindow().isMinimized(),
+    }));
+  },
+  requestUpdateTargetUrl: (targetUrl) => {
+    dispatch(updateTargetUrl(targetUrl));
   },
   requestUpdateLoading: (isLoading) => {
     dispatch(updateLoading(isLoading));

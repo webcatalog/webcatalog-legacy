@@ -1,9 +1,7 @@
 import { batchActions } from 'redux-batched-actions';
 
-import {
-  SET_SEARCH_QUERY, SET_SEARCH_HITS, SET_SEARCH_STATUS,
-  LOADING, FAILED, DONE,
-} from '../constants/actions';
+import { SET_SEARCH_QUERY, SET_SEARCH_HITS, SET_SEARCH_STATUS } from '../constants/actions';
+import { LOADING, FAILED, DONE } from '../constants/statuses';
 import searchAsync from '../helpers/searchAsync';
 
 export const setSearchQuery = query => (dispatch) => {
@@ -20,7 +18,7 @@ export const setSearchQuery = query => (dispatch) => {
 };
 
 export const search = () => (dispatch, getState) => {
-  const query = getState().search.query;
+  const query = getState().search.get('query');
 
   if (!query || query.length < 1) return;
 

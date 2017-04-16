@@ -1,9 +1,12 @@
-/* global os argv */
+import { remote } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 
 import { toggleSettingDialog, setBehavior } from '../actions/settings';
+
+const appInfo = remote.getCurrentWindow().appInfo;
 
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
@@ -18,7 +21,7 @@ const Settings = ({
     className="settings-dialog"
   >
     <div className="pt-dialog-body">
-      {(os.platform() === 'darwin') ? (
+      {(remote.require('os').platform() === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -33,12 +36,13 @@ const Settings = ({
               <strong>Swipe with three fingers</strong>
               <span> or </span>
               <strong>Swipe with two or three fingers</strong>.
+              <span> Restart is required.</span>
             </p>
           </div>
         </div>
       ) : null}
 
-      {(os.platform() === 'darwin') ? (
+      {(remote.require('os').platform() === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -96,7 +100,7 @@ const Settings = ({
           />
           <p className="pt-form-helper-text">
             Set home page to a custom URL.
-            Leave it blank to use {argv.url} (default).
+            Leave it blank to use {appInfo.url} (default).
           </p>
         </div>
       </div>
@@ -152,27 +156,27 @@ const Settings = ({
 );
 
 Settings.propTypes = {
-  isOpen: React.PropTypes.bool,
-  swipeToNavigate: React.PropTypes.bool,
-  quitOnLastWindow: React.PropTypes.bool,
-  rememberLastPage: React.PropTypes.bool,
-  blockAds: React.PropTypes.bool,
-  customHome: React.PropTypes.string,
-  injectedCSS: React.PropTypes.string,
-  injectedJS: React.PropTypes.string,
-  requestToggleSettingDialog: React.PropTypes.func,
-  requestSetBehavior: React.PropTypes.func,
+  isOpen: PropTypes.bool,
+  swipeToNavigate: PropTypes.bool,
+  quitOnLastWindow: PropTypes.bool,
+  rememberLastPage: PropTypes.bool,
+  blockAds: PropTypes.bool,
+  customHome: PropTypes.string,
+  injectedCSS: PropTypes.string,
+  injectedJS: PropTypes.string,
+  requestToggleSettingDialog: PropTypes.func,
+  requestSetBehavior: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  isOpen: state.settings.isOpen,
-  swipeToNavigate: state.settings.behaviors.swipeToNavigate,
-  rememberLastPage: state.settings.behaviors.rememberLastPage,
-  quitOnLastWindow: state.settings.behaviors.quitOnLastWindow,
-  blockAds: state.settings.behaviors.blockAds,
-  customHome: state.settings.behaviors.customHome,
-  injectedCSS: state.settings.behaviors.injectedCSS,
-  injectedJS: state.settings.behaviors.injectedJS,
+  isOpen: state.settings.get('isOpen'),
+  swipeToNavigate: state.settings.getIn(['behaviors', 'swipeToNavigate']),
+  rememberLastPage: state.settings.getIn(['behaviors', 'rememberLastPage']),
+  quitOnLastWindow: state.settings.getIn(['behaviors', 'quitOnLastWindow']),
+  blockAds: state.settings.getIn(['behaviors', 'blockAds']),
+  customHome: state.settings.getIn(['behaviors', 'customHome']),
+  injectedCSS: state.settings.getIn(['behaviors', 'injectedCSS']),
+  injectedJS: state.settings.getIn(['behaviors', 'injectedJS']),
 });
 
 const mapDispatchToProps = dispatch => ({

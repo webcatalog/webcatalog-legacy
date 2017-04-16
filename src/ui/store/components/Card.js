@@ -1,12 +1,14 @@
-/* global shell remote os exec */
-
+import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { Button, Intent } from '@blueprintjs/core';
+import { ProgressBar, Button, Intent } from '@blueprintjs/core';
 
-import { INSTALLED, INPROGRESS } from '../constants/actions';
-import { installApp, uninstallApp } from '../actions/app';
+import { UNINSTALLING, INSTALLING, INSTALLED, UPDATING } from '../constants/statuses';
+import { LATEST_SSB_VERSION } from '../constants/versions';
+
+import { installApp, uninstallApp, updateApp } from '../actions/appManagement';
 import openApp from '../helpers/openApp';
 
 const extractDomain = (url) => {
@@ -20,14 +22,16 @@ const extractDomain = (url) => {
 };
 
 const Card = ({
-  app, appStatus,
-  requestUninstallApp, requestInstallApp,
+  app, managedApps,
+  requestUninstallApp,
+  requestInstallApp,
+  requestUpdateApp,
 }) => (
   <div className="col">
     <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
       {app.get('id').startsWith('custom-') ? null : (
         <img
-          src={`https://cdn.rawgit.com/webcatalog/backend/compiled/images/${app.get('id')}@128px.webp`}
+          src={`https://raw.githubusercontent.com/webcatalog/webcatalog-backend/compiled/images/${app.get('id')}@128px.webp`}
           role="presentation"
           alt={app.get('name')}
           style={{
@@ -44,20 +48,38 @@ const Card = ({
         </a>
       </p>
       {(() => {
-        if (appStatus.get(app.get('id')) === INPROGRESS) {
+        let appVersion = app.get('version');
+        let appStatus = app.get('status');
+
+        if (!appStatus && managedApps.has(app.get('id'))) {
+          appStatus = managedApps.get(app.get('id')).get('status');
+          if (appStatus === INSTALLED) {
+            appVersion = managedApps.get(app.get('id')).get('version');
+          }
+        }
+
+        if (appStatus === INSTALLING || appStatus === UNINSTALLING || appStatus === UPDATING) {
           return (
-            <div className="pt-progress-bar pt-intent-primary" style={{ textAlign: 'left' }}>
-              <div className="pt-progress-meter" style={{ width: '100%' }} />
-            </div>
+            <ProgressBar intent={Intent.PRIMARY} className="card-progress-bar" />
           );
         }
-        if (appStatus.get(app.get('id')) === INSTALLED) {
+        if (appStatus === INSTALLED) {
           return [
-            <Button
-              key="open"
-              text="Open"
-              onClick={() => openApp(app.get('name'), app.get('id'))}
-            />,
+            appVersion >= LATEST_SSB_VERSION ? (
+              <Button
+                key="open"
+                text="Open"
+                onClick={() => openApp(app.get('name'), app.get('id'))}
+              />
+            ) : (
+              <Button
+                key="update"
+                text="Update"
+                iconName="download"
+                intent={Intent.SUCCESS}
+                onClick={() => requestUpdateApp(app)}
+              />
+            ),
             <Button
               key="uninstall"
               text="Uninstall"
@@ -83,14 +105,15 @@ const Card = ({
 );
 
 Card.propTypes = {
-  app: React.PropTypes.instanceOf(Immutable.Map),
-  appStatus: React.PropTypes.instanceOf(Immutable.Map),
-  requestInstallApp: React.PropTypes.func,
-  requestUninstallApp: React.PropTypes.func,
+  app: PropTypes.instanceOf(Immutable.Map).isRequired,
+  managedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  requestInstallApp: PropTypes.func.isRequired,
+  requestUninstallApp: PropTypes.func.isRequired,
+  requestUpdateApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  appStatus: state.app.appStatus,
+  managedApps: state.appManagement.get('managedApps'),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -99,6 +122,9 @@ const mapDispatchToProps = dispatch => ({
   },
   requestUninstallApp: (app) => {
     dispatch(uninstallApp(app));
+  },
+  requestUpdateApp: (app) => {
+    dispatch(updateApp(app));
   },
 });
 

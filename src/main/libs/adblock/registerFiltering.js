@@ -10,7 +10,9 @@ const extractDomain = (url) => {
 };
 
 const registerFiltering = (partitionId) => {
+  /* eslint-disable import/no-unresolved */
   const { AdBlockClient, FilterOptions } = require('ad-block');
+  /* eslint-enable import/no-unresolved */
 
   const filePath = path.join(__dirname, 'easylist+easyprivacy-noelementhiding.txt');
   fs.readFile(filePath, 'utf8', (err, data) => {

@@ -1,28 +1,10 @@
-const { Menu, shell, app, dialog, session } = require('electron');
-const path = require('path');
+const { Menu, shell, app } = require('electron');
 const sendMessageToWindow = require('./sendMessageToWindow');
-
-// https://raw.githubusercontent.com/jiahaog/nativefier/development/app/src/components/menu/menu.js
-const showAboutWindow = () => {
-  const openAboutWindow = require('about-window').default;
-
-  openAboutWindow({
-    icon_path: path.join(__dirname, '..', 'www', 'images', 'icon.1024x1024.png'),
-    copyright: `Copyright © 2016 - ${new Date().getFullYear()} Quang Lam`,
-    win_options: {
-      minWidth: 400,
-      minHeight: 400,
-      maxWidth: 400,
-      maxHeight: 400,
-      minimizable: false,
-      maximizable: false,
-      fullscreenable: false,
-    },
-  });
-};
+const clearBrowsingData = require('./clearBrowsingData');
+const showAboutWindow = require('./showAboutWindow');
 
 function createMenu({
-  isDevelopment, isSSB, appName, appId, log,
+  isDevelopment, isSSB, appName, appId,
 }) {
   let template;
   if (isSSB) {
@@ -110,7 +92,7 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Find in page...',
+            label: 'Find In Page...',
             accelerator: 'CmdOrCtrl+F',
             click: () => {
               sendMessageToWindow('toggle-find-in-page-dialog');
@@ -186,7 +168,7 @@ function createMenu({
             },
           },
           {
-            label: 'Toggle Developer Tools',
+            label: 'Developer Tools',
             accelerator: (() => {
               if (process.platform === 'darwin') {
                 return 'Alt+Command+I';
@@ -214,27 +196,9 @@ function createMenu({
             type: 'separator',
           },
           {
-            label: 'Clear browsing data...',
+            label: 'Clear Browsing Data...',
             click: () => {
-              dialog.showMessageBox({
-                type: 'warning',
-                buttons: ['Yes', 'Cancel'],
-                defaultId: 1,
-                title: 'Clear cache confirmation',
-                message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
-              }, (response) => {
-                if (response === 0) {
-                  const s = session.fromPartition(`persist:${appId}`);
-                  s.clearStorageData((err) => {
-                    if (err) {
-                      log(`Clearing browsing data err: ${err.message}`);
-                      return;
-                    }
-                    log(`Browsing data of ${appId} cleared.`);
-                    sendMessageToWindow('reload');
-                  });
-                }
-              });
+              clearBrowsingData({ appId, appName });
             },
           },
         ],
@@ -255,7 +219,7 @@ function createMenu({
           },
         },
         {
-          label: 'Toggle Developer Tools (Container)',
+          label: 'Developer Tools (Container)',
           click: (item, focusedWindow) => {
             if (focusedWindow) {
               focusedWindow.toggleDevTools();
@@ -324,7 +288,7 @@ function createMenu({
             },
           },
           {
-            label: 'Toggle Developer Tools',
+            label: 'Developer Tools',
             accelerator: (() => {
               if (process.platform === 'darwin') {
                 return 'Alt+Command+I';
@@ -363,12 +327,6 @@ function createMenu({
         label: 'Support',
         click: () => {
           shell.openExternal('https://getwebcatalog.com/support');
-        },
-      },
-      {
-        label: 'Donate',
-        click: () => {
-          shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD');
         },
       },
       {
@@ -433,10 +391,7 @@ function createMenu({
       },
       {
         role: 'front',
-      // Need babel.js
-      /* eslint-disable comma-dangle */
-      }
-      /* eslint-enable comma-dangle */
+      },
     );
   }
 

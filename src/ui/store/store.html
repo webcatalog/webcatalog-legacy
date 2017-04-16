@@ -41,6 +41,10 @@
         }
       }
 
+      .custom-card {
+        padding: 20px 10px;
+      }
+
       .custom-card h5 {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -53,29 +57,14 @@
         display: block !important;
         margin: 0 auto;
       }
+
+      .card-progress-bar {
+        text-align: left;
+      }
     </style>
   </head>
   <body>
     <div id="app"></div>
-    <script>
-      const { shell, remote, ipcRenderer, session } = require('electron');
-      const https = require('follow-redirects').https;
-      const fs = require('fs');
-      const mkdirp = require('mkdirp');
-      const os = require('os');
-      const tmp = require('tmp');
-      const Jimp = require('jimp');
-      const icongen = require('icon-gen');
-      const pngToIco = require('png-to-ico');
-      const path = require('path');
-      const { exec, execFile } = require('child_process');
-      const electronSettings = require('electron-settings');
-      const WindowsShortcuts = (os.platform() === 'win32') ? require('windows-shortcuts') : null;
-
-      ipcRenderer.on('log', (event, message) => {
-        console.log(message);
-      });
-    </script>
     <script src="store.bundle.js"></script>
   </body>
 </html>

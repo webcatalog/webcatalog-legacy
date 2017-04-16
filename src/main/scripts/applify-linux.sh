@@ -9,7 +9,7 @@ APPID=${4}
 JSONCONTENT=${5}
 APPDIR=$(eval echo "~/.local/share/applications")
 ICONDIR=$(eval echo "~/.icons/webcatalog")
-DESKTOP_FILE="${APPDIR}/${APPID}.desktop"
+DESKTOP_FILE="${APPDIR}/webcatalog-${APPID}.desktop"
 
 echo $DESKTOP_FILE
 

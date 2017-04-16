@@ -10,6 +10,10 @@ environment:
   BONJOUR_SDK_HOME: "C:\\Program Files\\Bonjour SDK"
   GH_TOKEN:
     secure: 6mE0K0NLBpBsasGH49vKu7E1p2uYwqKcFdbwKv9uEW7FwmVlml+PH8kmVT9OSAUM # your encrypted token from GitHub
+  CSC_LINK:
+    secure: QfdF84kN767Nf4aramRsEToe3z58uTrg3owysR5TwevOXX1hMoooNk27jWWtjI2P9uypd+IsWNPaW2LXd9IyUg==
+  CSC_KEY_PASSWORD:
+    secure: Yj6GEtCvUAF1KGTBVuEH7A==
 
 platform: x64
 
@@ -17,7 +21,7 @@ init:
   - git config --global core.autocrlf input
 
 cache:
-- "%LOCALAPPDATA%\\Yarn"
+  - "%LOCALAPPDATA%\\Yarn"
 
 # Install scripts. (runs after repo cloning)
 install:

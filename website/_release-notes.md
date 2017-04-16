@@ -1,4 +1,60 @@
-## 4.0.3 (beta)
+## 4.1.8
+- Removes ability to install custom app.
+- Improves user interface.
+- Improves notification.
+- Code signs Windows version.
+- Fixes bugs.
+
+---
+
+## 4.1.7 (alpha)
+- Fixes bugs.
+
+---
+
+## 4.1.6 (alpha)
+- Fixes bugs.
+- Code signs Windows version.
+
+---
+
+## 4.1.5 (alpha)
+- Fixes bugs.
+- **Breaking change (Linux only):** Apps installed in previous versions will not be detected by WebCatalog. You need to remove them manually from `~/.local/share/applications`.
+
+---
+
+## 4.1.4 (alpha)
+- Fixes bugs.
+
+---
+
+## 4.1.3 (alpha)
+- Fixes bugs.
+
+---
+
+## 4.1.2 (alpha)
+- Fixes bugs.
+
+---
+
+
+## 4.1.1 (alpha)
+- Adds ability to update apps installed from WebCatalog.
+- Fixes bugs.
+
+---
+
+## 4.1.0 (alpha)
+- Removes ability to install custom app.
+- Improves user interface.
+- Improves notification.
+- Fixes bugs.
+
+---
+
+## 4.0.3
 - Fixes bugs.
 
 ---

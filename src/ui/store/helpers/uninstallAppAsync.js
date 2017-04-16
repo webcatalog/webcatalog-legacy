@@ -1,6 +1,8 @@
-/* global os fs remote path */
+import { remote } from 'electron';
 
 const deleteFolderRecursive = (path) => {
+  const fs = remote.require('fs');
+
   if (fs.existsSync(path)) {
     fs.readdirSync(path).forEach((file) => {
       const curPath = `${path}/${file}`;
@@ -14,9 +16,13 @@ const deleteFolderRecursive = (path) => {
   }
 };
 
-const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
+const uninstallAppAsync = ({ allAppPath, appId, appName, shouldClearStorageData }) =>
   new Promise((resolve, reject) => {
     try {
+      const os = remote.require('os');
+      const path = remote.require('path');
+      const fs = remote.require('fs');
+
       switch (os.platform()) {
         case 'darwin': {
           const appPath = path.join(allAppPath, `${appName}.app`);
@@ -27,7 +33,7 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
           break;
         }
         case 'linux': {
-          const appPath = path.join(allAppPath, `${appId}.desktop`);
+          const appPath = path.join(allAppPath, `webcatalog-${appId}.desktop`);
           fs.unlinkSync(appPath);
           break;
         }
@@ -46,14 +52,16 @@ const uninstallAppAsync = ({ allAppPath, appId, appName }) =>
     }
 
     // try to clear storage data
-    const s = remote.session.fromPartition(`persist:${appId}`);
-    s.clearStorageData((err) => {
-      if (err) {
-        /* eslint-disable no-console */
-        console.log(`Clearing browsing data err: ${err.message}`);
-        /* eslint-enable no-console */
-      }
-    });
+    if (shouldClearStorageData) {
+      const s = remote.session.fromPartition(`persist:${appId}`);
+      s.clearStorageData((err) => {
+        if (err) {
+          /* eslint-disable no-console */
+          console.log(`Clearing browsing data err: ${err.message}`);
+          /* eslint-enable no-console */
+        }
+      });
+    }
 
     resolve();
   });

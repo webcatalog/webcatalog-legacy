@@ -1,37 +1,24 @@
-import {
-  TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS,
-} from '../constants/actions';
+import Immutable from 'immutable';
 
-const initialState = {
+import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS } from '../constants/actions';
+import defaultSettings from '../constants/defaultSettings';
+
+const initialState = Immutable.Map({
   isOpen: false,
-  behaviors: {
-    swipeToNavigate: true,
-    rememberLastPage: false,
-    quitOnLastWindow: false,
-    blockAds: false,
-    customHome: null,
-    injectedJS: null,
-    injectedCSS: null,
-  },
-};
+  behaviors: defaultSettings,
+});
 
 
 const settings = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_SETTING_DIALOG: {
-      return Object.assign({}, state, {
-        isOpen: !state.isOpen,
-      });
+      return state.set('isOpen', !state.get('isOpen'));
     }
     case SET_BEHAVIOR: {
-      const newState = Object.assign({}, state, {});
-      newState.behaviors[action.behaviorName] = action.behaviorVal;
-      return newState;
+      return state.setIn(['behaviors', action.behaviorName], action.behaviorVal);
     }
     case SET_BEHAVIORS: {
-      return Object.assign({}, state, {
-        behaviors: action.behaviors,
-      });
+      return state.set('behaviors', Immutable.Map(action.behaviors));
     }
     default:
       return state;

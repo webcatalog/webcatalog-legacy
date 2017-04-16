@@ -1,13 +1,13 @@
-/* global window document shell */
+import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
-import { fetchApps } from '../actions/app';
-import { toggleCustomDialog } from '../actions/custom';
-import { LOADING, FAILED } from '../constants/actions';
+import { fetchApps } from '../actions/home';
+import { LOADING, FAILED } from '../constants/statuses';
 
-import Spinner from './Spinner';
+import Loading from './Loading';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
@@ -15,6 +15,19 @@ class Home extends React.Component {
   componentDidMount() {
     const { requestFetchApps } = this.props;
     requestFetchApps();
+
+    const el = this.scrollContainer;
+
+    el.onscroll = () => {
+      // Plus 300 to run ahead.
+      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+        requestFetchApps();
+      }
+    };
+  }
+
+  componentWillUnmount() {
+    this.scrollContainer.onscroll = null;
   }
 
   renderList() {
@@ -37,27 +50,23 @@ class Home extends React.Component {
       status, requestFetchApps,
     } = this.props;
 
-    if (status === LOADING) return <Spinner />;
+    if (status === LOADING) return <Loading />;
     if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
 
     return null;
   }
 
   render() {
-    const { requestToggleCustomDialog } = this.props;
-
     return (
-      <div>
+      <div
+        style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
         <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
-          <span>Can{'\''}t find your favorite apps? Don{'\''}t worry! </span>
+          <span>Cannot find your favorite app?&#32;</span>
           <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>
             <span className="pt-icon-standard pt-icon-add" />
-            <span> Submit new app</span>
-          </a>
-          <span> or </span>
-          <a onClick={() => requestToggleCustomDialog()}>
-            <span className="pt-icon-standard pt-icon-wrench" />
-            <span> Install custom app</span>
+            <span>&#32;Submit new app</span>
           </a>.
         </div>
         {this.renderList()}
@@ -68,23 +77,19 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  status: React.PropTypes.string,
-  apps: React.PropTypes.instanceOf(Immutable.List),
-  requestFetchApps: React.PropTypes.func,
-  requestToggleCustomDialog: React.PropTypes.func,
+  status: PropTypes.string.isRequired,
+  apps: PropTypes.instanceOf(Immutable.List).isRequired,
+  requestFetchApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  status: state.app.status,
-  apps: state.app.apps,
+  status: state.home.get('status'),
+  apps: state.home.get('apps'),
 });
 
 const mapDispatchToProps = dispatch => ({
   requestFetchApps: () => {
     dispatch(fetchApps());
-  },
-  requestToggleCustomDialog: () => {
-    dispatch(toggleCustomDialog());
   },
 });
 

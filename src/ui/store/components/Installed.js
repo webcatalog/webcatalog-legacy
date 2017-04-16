@@ -1,113 +1,78 @@
-/* global window document shell */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { NonIdealState } from '@blueprintjs/core';
+import { Button, Intent, NonIdealState } from '@blueprintjs/core';
 
+import { INSTALLED, UPDATING } from '../constants/statuses';
+import { LATEST_SSB_VERSION } from '../constants/versions';
+import { updateApp } from '../actions/appManagement';
 
-import { fetchInstalled } from '../actions/installed';
-import { LOADING, FAILED, DONE } from '../constants/actions';
-
-import Spinner from './Spinner';
-import NoConnection from './NoConnection';
 import Card from './Card';
 
 class Installed extends React.Component {
-  componentDidMount() {
-    const { requestInstalled } = this.props;
-    requestInstalled();
-  }
-
   renderList() {
-    const {
-      status, hits,
-    } = this.props;
+    const { installedApps, updatableApps, requestUpdateApps } = this.props;
 
-    if (status === DONE) {
-      if (hits.size < 1) {
-        return (
-          <NonIdealState
-            visual="import"
-            title="No installed apps"
-            description="Your installed apps will show up here."
-          />
-        );
-      }
-
-      const officialApps = hits.filter(app => !app.get('id').startsWith('custom-'));
-      const customApps = hits.filter(app => app.get('id').startsWith('custom-'));
-
+    if (installedApps.size < 1) {
       return (
-        <div>
-          <div className="text-container">
-            <h5>Installed applications</h5>
-          </div>
-          <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-            {officialApps.map(app => <Card app={app} key={app.get('id')} />)}
-          </div>
-          {customApps.size > 0 ? (
-            <div className="text-container">
-              <h5>Custom applications</h5>
-            </div>
-          ) : null}
-          <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-            {customApps.map(app => <Card app={app} key={app.get('id')} />)}
-          </div>
-          <div className="text-container">
-            <p>powered by</p>
-            <p>
-              <a onClick={() => shell.openExternal('https://www.algolia.com')}>
-                <img
-                  src="images/Algolia_logo_bg-white.svg"
-                  alt="Algolia"
-                  style={{ height: 32 }}
-                />
-              </a>
-            </p>
-          </div>
-        </div>
+        <NonIdealState
+          visual="import"
+          title="No Installed Apps"
+          description="Your installed apps will show up here."
+        />
       );
     }
 
-    return null;
-  }
-
-  renderStatus() {
-    const {
-      status,
-      requestInstalled,
-    } = this.props;
-
-    if (status === LOADING) return <Spinner />;
-    if (status === FAILED) return <NoConnection handleClick={() => requestInstalled()} />;
-
-    return null;
+    return (
+      <div>
+        <div className="text-container">
+          <h5>
+            <span style={{ lineHeight: '30px' }}>Installed Applications</span>
+            {updatableApps.size > 0 ? (
+              <Button
+                key="update-all"
+                text="Update All"
+                iconName="automatic-updates"
+                intent={Intent.SUCCESS}
+                style={{ marginLeft: 12 }}
+                onClick={() => requestUpdateApps(updatableApps)}
+              />
+            ) : null}
+          </h5>
+        </div>
+        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
+          {installedApps.valueSeq().map(app => <Card app={app} key={app.get('id')} />)}
+        </div>
+      </div>
+    );
   }
 
   render() {
     return (
-      <div>
+      <div style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}>
         {this.renderList()}
-        {this.renderStatus()}
       </div>
     );
   }
 }
 
 Installed.propTypes = {
-  status: React.PropTypes.string,
-  hits: React.PropTypes.instanceOf(Immutable.List),
-  requestInstalled: React.PropTypes.func,
+  installedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  updatableApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  requestUpdateApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  status: state.installed.status,
-  hits: state.installed.hits,
+  installedApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED || app.get('status') === UPDATING),
+  updatableApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED && app.get('version') < LATEST_SSB_VERSION),
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestInstalled: () => {
-    dispatch(fetchInstalled());
+  requestUpdateApps: (apps) => {
+    apps.forEach((app) => {
+      dispatch(updateApp(app));
+    });
   },
 });
 

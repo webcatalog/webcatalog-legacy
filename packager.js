@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 const builder = require('electron-builder');
-const exec = require('child_process').exec;
+const execFile = require('child_process').execFile;
 const electronVersion = require('./package.json').devDependencies.electron.substr(1);
 
 const { Platform, Arch } = builder;
@@ -83,10 +83,14 @@ builder.build({
 
         // Use alternative exec to allow launching multiple instance of WebCatalog
         // https://github.com/webcatalog/webcatalog/issues/10
-        const execPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
-        const altExecPath = `${appOutDir}/WebCatalog.app/Contents/Resources/WebCatalog_Alt`;
+        // Use this solution because it ensures notification will work.
+        const fakeExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog`;
+        const realExecPath = `${appOutDir}/WebCatalog.app/Contents/MacOS/WebCatalog_Real`;
 
-        exec(`cp ${execPath} ${altExecPath}`, (err, stdout) => {
+        execFile('./build/generate_alt_exec.sh', [
+          fakeExecPath,
+          realExecPath,
+        ], (err, stdout) => {
           console.log(stdout);
           if (err) {
             reject(err);

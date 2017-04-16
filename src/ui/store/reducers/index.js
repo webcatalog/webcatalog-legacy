@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import app from './app';
+import appManagement from './appManagement';
+import home from './home';
 import search from './search';
 import installed from './installed';
-import custom from './custom';
+import screen from './screen';
 
 const rootReducer = combineReducers({
-  app,
+  appManagement,
+  home,
   search,
   installed,
-  custom,
+  screen,
   routing: routerReducer,
 });
 

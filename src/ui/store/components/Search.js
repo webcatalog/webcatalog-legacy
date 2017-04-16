@@ -1,14 +1,14 @@
-/* global window document shell */
+import { shell } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 
-
 import { search } from '../actions/search';
-import { LOADING, FAILED, DONE } from '../constants/actions';
+import { LOADING, FAILED, DONE } from '../constants/statuses';
 
-import Spinner from './Spinner';
+import Loading from './Loading';
 import NoConnection from './NoConnection';
 import Card from './Card';
 
@@ -25,10 +25,10 @@ class Search extends React.Component {
 
   renderList() {
     const {
-      searchStatus, hits, query,
+      status, hits, query,
     } = this.props;
 
-    if (searchStatus === DONE) {
+    if (status === DONE) {
       if (hits.size < 1) {
         return (
           <div className="text-container">
@@ -65,19 +65,19 @@ class Search extends React.Component {
 
   renderStatus() {
     const {
-      searchStatus,
+      status,
       requestSearch,
     } = this.props;
 
-    if (searchStatus === LOADING) return <Spinner />;
-    if (searchStatus === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
+    if (status === LOADING) return <Loading />;
+    if (status === FAILED) return <NoConnection handleClick={() => requestSearch()} />;
 
     return null;
   }
 
   render() {
     return (
-      <div>
+      <div style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}>
         {this.renderList()}
         {this.renderStatus()}
       </div>
@@ -86,17 +86,17 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  searchStatus: React.PropTypes.string,
-  query: React.PropTypes.string,
-  hits: React.PropTypes.instanceOf(Immutable.List),
-  requestSearch: React.PropTypes.func,
-  closeSearch: React.PropTypes.func,
+  status: PropTypes.string,
+  query: PropTypes.string,
+  hits: PropTypes.instanceOf(Immutable.List),
+  requestSearch: PropTypes.func,
+  closeSearch: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  searchStatus: state.search.status,
-  query: state.search.query,
-  hits: state.search.hits,
+  status: state.search.get('status'),
+  query: state.search.get('query'),
+  hits: state.search.get('hits'),
 });
 
 const mapDispatchToProps = dispatch => ({

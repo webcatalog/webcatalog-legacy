@@ -1,12 +1,16 @@
-/* global fs WindowsShortcuts https os execFile remote mkdirp path */
+import { remote } from 'electron';
 
 const scanInstalledAsync = ({ allAppPath }) =>
   new Promise((resolve, reject) => {
+    const os = remote.require('os');
+    const path = remote.require('path');
+    const fs = remote.require('fs');
+
     const installedIds = [];
 
     switch (os.platform()) {
       case 'darwin': {
-        fs.readdir(allAppPath, (err, files) => {
+        remote.require('fs').readdir(allAppPath, (err, files) => {
           if (err) {
             reject(err);
             return;
@@ -48,24 +52,11 @@ const scanInstalledAsync = ({ allAppPath }) =>
           }
 
           files.forEach((fileName) => {
-            const id = fileName.replace('.desktop', '').trim();
+            if (!fileName.startsWith('webcatalog-')) return;
 
-            let version = '3.1.1';
-            let name;
-            let url;
-            try {
-              const jsonContent = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].splice(1);
-              const appInfo = JSON.parse(jsonContent);
-              version = appInfo.version;
-              name = appInfo.name;
-              url = appInfo.url;
-            } catch (jsonErr) {
-              /* eslint-disable no-console */
-              console.log(jsonErr);
-              /* eslint-enable no-console */
-            }
+            const appInfo = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1);
 
-            installedIds.push({ id, version, name, url });
+            installedIds.push(appInfo);
           });
           resolve(installedIds);
         });
@@ -84,6 +75,7 @@ const scanInstalledAsync = ({ allAppPath }) =>
           if (files.length === 0) resolve(installedIds);
 
           files.forEach((fileName) => {
+            const WindowsShortcuts = remote.require('windows-shortcuts');
             WindowsShortcuts.query(path.join(allAppPath, fileName), (wsShortcutErr, { desc }) => {
               if (wsShortcutErr) {
                 reject(wsShortcutErr);

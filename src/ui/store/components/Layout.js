@@ -1,27 +1,24 @@
+import { remote } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { fetchApps } from '../actions/home';
+import { screenResize } from '../actions/screen';
+import { scanInstalledApps } from '../actions/appManagement';
+
 import Nav from './Nav';
-import Custom from './Custom';
-
-import { fetchApps } from '../actions/app';
-
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { pathname, requestFetchApps } = this.props;
-    const el = this.scrollContainer;
+    const { requestScanInstalledApps, onResize } = this.props;
+    requestScanInstalledApps();
 
-    el.onscroll = () => {
-      // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight && pathname === '/') {
-        requestFetchApps();
-      }
-    };
+    window.addEventListener('resize', onResize);
   }
 
   componentWillUnmount() {
-    this.scrollContainer.onscroll = null;
+    window.removeEventListener('resize', this.props.onResize);
   }
 
   render() {
@@ -36,22 +33,17 @@ class Layout extends React.Component {
         }}
       >
         <Nav pathname={pathname} />
-        <div
-          style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
-          ref={(container) => { this.scrollContainer = container; }}
-        >
-          {children}
-        </div>
-        <Custom />
+        {children}
       </div>
     );
   }
 }
 
 Layout.propTypes = {
-  children: React.PropTypes.element, // matched child route component
-  pathname: React.PropTypes.string,
-  requestFetchApps: React.PropTypes.func,
+  children: PropTypes.element.isRequired, // matched child route component
+  pathname: PropTypes.string.isRequired,
+  requestScanInstalledApps: PropTypes.func.isRequired,
+  onResize: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -59,8 +51,19 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  onResize: () => {
+    dispatch(screenResize({
+      screenWidth: window.innerWidth,
+      isFullScreen: remote.getCurrentWindow().isFullScreen(),
+      isMaximized: remote.getCurrentWindow().isMaximized(),
+      isMinimized: remote.getCurrentWindow().isMinimized(),
+    }));
+  },
   requestFetchApps: () => {
     dispatch(fetchApps());
+  },
+  requestScanInstalledApps: () => {
+    dispatch(scanInstalledApps());
   },
 });
 

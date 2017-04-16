@@ -1,17 +1,16 @@
-/* global shell os remote */
+import { remote, shell, ipcRenderer } from 'electron';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { replace, push, goBack } from 'react-router-redux';
 
-import { refresh } from '../actions/app';
+import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
-import { toggleCustomDialog } from '../actions/custom';
 
 const Nav = ({
   query, pathname,
-  requestToggleCustomDialog,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -22,7 +21,7 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       flexBasis: 50,
-      paddingLeft: (os.platform() === 'darwin') ? 80 : null,
+      paddingLeft: (remote.require('os').platform() === 'darwin') ? 80 : null,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
@@ -40,13 +39,13 @@ const Nav = ({
               e.target.blur();
             }
           }}
-          onInput={e => requestSetSearchQuery(e.target.value, pathname)}
-          onKeyUp={e => requestSetSearchQuery(e.target.value, pathname)}
           onChange={e => requestSetSearchQuery(e.target.value, pathname)}
         />
         {query.length > 0 ? (
-          <button
-            className="pt-button pt-minimal pt-intent-primary pt-icon-cross"
+          <Button
+            iconName="cross"
+            className={Classes.MINIMAL}
+            style={{ WebkitAppRegion: 'no-drag' }}
             onClick={() => requestSetSearchQuery('', pathname)}
           />
         ) : null}
@@ -73,83 +72,56 @@ const Nav = ({
         text="Installed"
         onClick={() => goTo('/installed')}
       />
-      <button
-        className="pt-button pt-minimal pt-icon-refresh"
-        style={{ WebkitAppRegion: 'no-drag' }}
-        onClick={() => requestRefresh(pathname)}
-      />
       <Popover
         content={(
           <Menu>
             <MenuItem
-              iconName="wrench"
-              text="Install custom app"
-              onClick={() => requestToggleCustomDialog()}
+              iconName="refresh"
+              text="Refresh"
+              onClick={() => requestRefresh(pathname)}
             />
-            <MenuItem iconName="add" text="Submit new app" onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')} />
-            <MenuItem iconName="heart" text="Donate" onClick={() => shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD')} />
-            <MenuItem iconName="help" text="Help" onClick={() => shell.openExternal('https://getwebcatalog.com/support')} />
+            <MenuItem
+              iconName="add"
+              text="Submit new app"
+              onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
+            />
+            <MenuItem
+              iconName="help"
+              text="Help"
+              onClick={() => shell.openExternal('https://getwebcatalog.com/support')}
+            />
+            <MenuItem
+              iconName="info-sign"
+              text="About"
+              onClick={() => {
+                ipcRenderer.send('show-about-window');
+              }}
+            />
           </Menu>
         )}
         position={Position.BOTTOM_RIGHT}
       >
-        <button
-          className="pt-button pt-minimal pt-icon-more"
+        <Button
+          iconName="more"
+          className={Classes.MINIMAL}
           style={{ WebkitAppRegion: 'no-drag' }}
         />
       </Popover>
-
-      {os.platform() !== 'darwin' ? [
-        <span className="pt-navbar-divider" key="divider" />,
-        <button
-          className="pt-button pt-minimal pt-icon-minus"
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.minimize();
-          }}
-          key="minimize"
-        />,
-        <button
-          className="pt-button pt-minimal pt-icon-applications"
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            if (!window.isMaximized()) {
-              window.maximize();
-            } else {
-              window.unmaximize();
-            }
-          }}
-          key="maximize"
-        />,
-        <button
-          className="pt-button pt-minimal pt-icon-cross"
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.close();
-          }}
-          key="close"
-        />,
-      ] : null}
     </div>
   </nav>
 );
 
 Nav.propTypes = {
-  query: React.PropTypes.string,
-  pathname: React.PropTypes.string,
-  requestSearch: React.PropTypes.func,
-  requestSetSearchQuery: React.PropTypes.func,
-  requestRefresh: React.PropTypes.func,
-  requestToggleCustomDialog: React.PropTypes.func,
-  goTo: React.PropTypes.func,
+  query: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  requestSearch: PropTypes.func.isRequired,
+  requestSetSearchQuery: PropTypes.func.isRequired,
+  requestRefresh: PropTypes.func.isRequired,
+  goTo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  query: state.search.query,
-  searchStatus: state.search.status,
+  query: state.search.get('query'),
   pathname: ownProps.pathname,
 });
 
@@ -166,9 +138,6 @@ const mapDispatchToProps = dispatch => ({
   },
   requestRefresh: (pathname) => {
     dispatch(refresh(pathname));
-  },
-  requestToggleCustomDialog: () => {
-    dispatch(toggleCustomDialog());
   },
   goTo: (pathname) => {
     dispatch(replace(pathname));
