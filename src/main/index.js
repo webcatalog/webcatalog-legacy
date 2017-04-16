@@ -95,6 +95,10 @@ const createWindow = () => {
         }
       });
     }
+
+    mainWindow.on('focus', () => {
+      mainWindow.webContents.send('focus');
+    });
   }
 
   // setup update checking

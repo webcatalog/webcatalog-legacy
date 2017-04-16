@@ -86,8 +86,10 @@ class App extends React.Component {
       clipboard.writeText(currentURL);
     });
 
-    remote.getCurrentWindow().on('focus', () => {
+    ipcRenderer.on('focus', () => {
       didShowNotification = false;
+
+      c.focus();
     });
   }
 
