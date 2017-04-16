@@ -330,12 +330,6 @@ function createMenu({
         },
       },
       {
-        label: 'Donate',
-        click: () => {
-          shell.openExternal('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ2Y4F47ZMGHE&lc=US&item_name=WebCatalog&item_number=webcatalog&currency_code=USD');
-        },
-      },
-      {
         label: 'Website',
         click: () => {
           shell.openExternal('https://getwebcatalog.com');
