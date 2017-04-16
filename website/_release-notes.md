@@ -1,3 +1,8 @@
+## 4.1.7 (alpha)
+- Fixes bugs.
+
+---
+
 ## 4.1.6 (alpha)
 - Fixes bugs.
 - Code signs Windows version.
