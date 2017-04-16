@@ -98,7 +98,7 @@ const createWindow = () => {
   }
 
   // setup update checking
-  checkForUpdate({ mainWindow, isSSB, isDevelopment, isTesting });
+  checkForUpdate({ mainWindow, isDevelopment, isTesting });
 
   // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {

@@ -4,83 +4,46 @@ const https = require('https');
 
 const sendMessageToWindow = require('./sendMessageToWindow');
 
-// determine if Squirrel (auto-updater) should be used or not
-const shouldUseSquirrel = (isSSB) => {
-  if (process.platform === 'linux') return false;
-
-  if (isSSB === true) return false;
-
-  return true;
-};
-
-const checkForUpdate = ({ mainWindow, isSSB, isDevelopment, isTesting }) => {
+const checkForUpdate = ({ mainWindow, isDevelopment, isTesting }) => {
   // Don't run update checker in dev mode
   if (isDevelopment || isTesting) return;
 
   // Run autoUpdater in any windows
   mainWindow.webContents.once('did-finish-load', () => {
     setTimeout(() => {
-      // Auto updater
-      if (shouldUseSquirrel(isSSB)) {
-        /* eslint-disable global-require */
-        const autoUpdater = require('electron-updater').autoUpdater;
-        /* eslint-enable global-require */
-        // https://github.com/develar/onshape-desktop-shell/blob/master/src/AppUpdater.ts#L21
-        autoUpdater.signals.updateDownloaded(({ version }) => {
-          dialog.showMessageBox({
-            type: 'info',
-            buttons: ['Yes', 'Cancel'],
-            defaultId: 1,
-            title: 'A new update is ready to install',
-            message: `Version ${version} is downloaded and will be automatically installed. Do you want to quit the app to install it now?`,
-          }, (response) => {
-            if (response === 0) {
-              autoUpdater.quitAndInstall();
+      https.get({
+        host: 'api.github.com',
+        path: '/repos/webcatalog/webcatalog/releases/latest',
+        method: 'GET',
+        headers: { 'user-agent': `WebCatalog/${app.getVersion()}` },
+      }, (res) => {
+        if (res.statusCode >= 200 && res.statusCode <= 299) {
+          let body = '';
+          res.on('data', (chunk) => {
+            body += chunk;
+          });
+          res.on('end', () => {
+            const { tag_name } = JSON.parse(body);
+            const latestVersion = tag_name.slice(1);
+            sendMessageToWindow('log', `Lastest version ${latestVersion}`);
+            if (semver.gt(latestVersion, app.getVersion())) {
+              dialog.showMessageBox({
+                type: 'info',
+                buttons: ['Yes', 'Cancel'],
+                defaultId: 1,
+                title: 'A new update is ready to install',
+                message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
+              }, (response) => {
+                if (response === 0) {
+                  shell.openExternal('https://getwebcatalog.com');
+                }
+              });
             }
           });
-        });
-
-        autoUpdater.addListener('error', err => sendMessageToWindow('log', `Update error: ${err.message}`));
-        autoUpdater.on('checking-for-update', () => sendMessageToWindow('log', 'Checking for update'));
-        autoUpdater.on('update-available', () => sendMessageToWindow('log', 'Update available'));
-        autoUpdater.on('update-not-available', () => sendMessageToWindow('log', 'No update available'));
-
-        autoUpdater.checkForUpdates();
-      } else {
-        https.get({
-          host: 'api.github.com',
-          path: '/repos/webcatalog/webcatalog/releases/latest',
-          method: 'GET',
-          headers: { 'user-agent': `WebCatalog/${app.getVersion()}` },
-        }, (res) => {
-          if (res.statusCode >= 200 && res.statusCode <= 299) {
-            let body = '';
-            res.on('data', (chunk) => {
-              body += chunk;
-            });
-            res.on('end', () => {
-              const { tag_name } = JSON.parse(body);
-              const latestVersion = tag_name.slice(1);
-              sendMessageToWindow('log', `Lastest version ${latestVersion}`);
-              if (semver.gt(latestVersion, app.getVersion())) {
-                dialog.showMessageBox({
-                  type: 'info',
-                  buttons: ['Yes', 'Cancel'],
-                  defaultId: 1,
-                  title: 'A new update is ready to install',
-                  message: `WebCatalog ${latestVersion} is now available. Do you want to go to the website and download now?`,
-                }, (response) => {
-                  if (response === 0) {
-                    shell.openExternal('https://getwebcatalog.com');
-                  }
-                });
-              }
-            });
-          }
-        }).on('error', (err) => {
-          sendMessageToWindow('log', `Update checker: ${err.message}`);
-        });
-      }
+        }
+      }).on('error', (err) => {
+        sendMessageToWindow('log', `Update checker: ${err.message}`);
+      });
     }, 1000);
   });
 };
