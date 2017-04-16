@@ -89,7 +89,7 @@ export const uninstallApp = app => ((dispatch) => {
     /* eslint-enable no-console */
     dispatch({
       type: SET_MANAGED_APP,
-      app: app.set('status', INSTALLED).set('version', remote.app.getVersion()),
+      app: app.set('status', INSTALLED).set('version', app.get('version')),
     });
   });
 });
