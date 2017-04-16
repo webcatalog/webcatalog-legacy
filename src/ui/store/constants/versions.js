@@ -1,1 +1,1 @@
-export const LATEST_SSB_VERSION = '4.1.5';
+export const LATEST_SSB_VERSION = '4.1.8';

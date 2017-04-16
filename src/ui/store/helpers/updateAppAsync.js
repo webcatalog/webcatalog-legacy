@@ -1,6 +1,7 @@
 /* global fetch */
-import installAppAsync from '../helpers/installAppAsync';
-import uninstallAppAsync from '../helpers/uninstallAppAsync';
+import downloadIconAsync from './downloadIconAsync';
+import installAppAsync from './installAppAsync';
+import uninstallAppAsync from './uninstallAppAsync';
 
 const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
   Promise.resolve()
@@ -17,8 +18,12 @@ const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
       };
     })
     .then(appInfo =>
-      uninstallAppAsync({ allAppPath, appId, appName, shouldClearStorageData: false })
-        .then(() => installAppAsync({ appId, appName: appInfo.name, appUrl: appInfo.url })),
+      downloadIconAsync(appId)
+        .then(iconPath =>
+          uninstallAppAsync({ allAppPath, appId, appName, shouldClearStorageData: false })
+            .then(() =>
+              installAppAsync({ appId, appName: appInfo.name, appUrl: appInfo.url, iconPath })),
+        ),
     );
 
 

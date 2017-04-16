@@ -1,10 +1,8 @@
 import { remote } from 'electron';
 
-import downloadIconAsync from './downloadIconAsync';
-
-const installAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
-  downloadIconAsync(appId)
-    .then((iconPath) => {
+const installAppAsync = ({ allAppPath, appId, appName, appUrl, iconPath }) =>
+  Promise.resolve()
+    .then(() => {
       const jsonContent = JSON.stringify({
         id: appId,
         name: appName,
