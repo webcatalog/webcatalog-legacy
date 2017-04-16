@@ -10,7 +10,7 @@ import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
 
 const Nav = ({
-  query, pathname, isMaximized,
+  query, pathname,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -112,44 +112,6 @@ const Nav = ({
           style={{ WebkitAppRegion: 'no-drag' }}
         />
       </Popover>
-
-      {remote.require('os').platform() !== 'darwin' ? [
-        <span className="pt-navbar-divider" key="divider" />,
-        <Button
-          iconName="minus"
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.minimize();
-          }}
-          key="minimize"
-        />,
-        <Button
-          iconName={isMaximized ? 'applications' : 'application'}
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            if (!window.isMaximized()) {
-              window.maximize();
-            } else {
-              window.unmaximize();
-            }
-          }}
-          key="maximize"
-        />,
-        <Button
-          iconName="cross"
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.close();
-          }}
-          key="close"
-        />,
-      ] : null}
     </div>
   </nav>
 );
@@ -157,7 +119,6 @@ const Nav = ({
 Nav.propTypes = {
   query: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
-  isMaximized: PropTypes.bool.isRequired,
   requestSearch: PropTypes.func.isRequired,
   requestSetSearchQuery: PropTypes.func.isRequired,
   requestRefresh: PropTypes.func.isRequired,
@@ -167,7 +128,6 @@ Nav.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   query: state.search.get('query'),
   pathname: ownProps.pathname,
-  isMaximized: state.screen.get('isMaximized'),
 });
 
 const mapDispatchToProps = dispatch => ({
