@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Spinner, Popover, Menu, MenuItem, Position, Classes } from '@blueprintjs/core';
 
-const NAV_HEIGHT = remote.require('os').platform() === 'darwin' ? 32 : 50;
+const NAV_HEIGHT = 32;
 
 const Nav = ({
   isLoading,
   canGoBack,
   canGoForward,
-  isMaximized,
   onHomeButtonClick,
   onBackButtonClick,
   onForwardButtonClick,
@@ -112,43 +111,6 @@ const Nav = ({
           style={{ WebkitAppRegion: 'no-drag' }}
         />
       </Popover>
-      {remote.require('os').platform() !== 'darwin' ? [
-        <span className="pt-navbar-divider" key="divider" />,
-        <Button
-          iconName="minus"
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.minimize();
-          }}
-          key="minimize"
-        />,
-        <Button
-          iconName={isMaximized ? 'applications' : 'application'}
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            if (!window.isMaximized()) {
-              window.maximize();
-            } else {
-              window.unmaximize();
-            }
-          }}
-          key="maximize"
-        />,
-        <Button
-          iconName="cross"
-          className={Classes.MINIMAL}
-          style={{ WebkitAppRegion: 'no-drag' }}
-          onClick={() => {
-            const window = remote.getCurrentWindow();
-            window.close();
-          }}
-          key="close"
-        />,
-      ] : null}
     </div>
   </nav>
 );
@@ -157,7 +119,6 @@ Nav.propTypes = {
   isLoading: PropTypes.bool,
   canGoBack: PropTypes.bool,
   canGoForward: PropTypes.bool,
-  isMaximized: PropTypes.bool,
   onHomeButtonClick: PropTypes.func,
   onBackButtonClick: PropTypes.func,
   onForwardButtonClick: PropTypes.func,
@@ -168,7 +129,6 @@ const mapStateToProps = state => ({
   isLoading: state.nav.get('isLoading'),
   canGoBack: state.nav.get('canGoBack'),
   canGoForward: state.nav.get('canGoForward'),
-  isMaximized: state.screen.get('isMaximized'),
 });
 
 export default connect(

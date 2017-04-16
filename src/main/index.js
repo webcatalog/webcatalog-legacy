@@ -46,7 +46,7 @@ const createWindow = () => {
     minHeight: 400,
     title: argv.name || 'WebCatalog',
     titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
-    frame: (process.platform === 'darwin' || isDevelopment),
+    frame: true,
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
   };
 
