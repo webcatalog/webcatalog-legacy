@@ -46,7 +46,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^4.0.0",
     "electron": "^1.6.2",
-    "electron-builder": "^16.8.4",
+    "electron-builder": "16.8.2",
     "electron-builder-squirrel-windows": "^16.8.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
