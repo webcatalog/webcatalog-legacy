@@ -1,4 +1,13 @@
-## 4.1.8
+## 4.1.9
+- Removes ability to install custom app.
+- Improves user interface.
+- Improves notification.
+- Code signs Windows version.
+- Fixes bugs.
+
+---
+
+## 4.1.8 (beta)
 - Removes ability to install custom app.
 - Improves user interface.
 - Improves notification.

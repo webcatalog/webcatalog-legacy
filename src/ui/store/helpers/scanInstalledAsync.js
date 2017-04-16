@@ -1,10 +1,13 @@
 import { remote } from 'electron';
+import getAllAppPath from './getAllAppPath';
 
-const scanInstalledAsync = ({ allAppPath }) =>
+const scanInstalledAsync = () =>
   new Promise((resolve, reject) => {
     const os = remote.require('os');
     const path = remote.require('path');
     const fs = remote.require('fs');
+
+    const allAppPath = getAllAppPath();
 
     const installedIds = [];
 

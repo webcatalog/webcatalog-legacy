@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import getAllAppPath from './getAllAppPath';
 
 const deleteFolderRecursive = (path) => {
   const fs = remote.require('fs');
@@ -16,12 +17,14 @@ const deleteFolderRecursive = (path) => {
   }
 };
 
-const uninstallAppAsync = ({ allAppPath, appId, appName, shouldClearStorageData }) =>
+const uninstallAppAsync = ({ appId, appName, shouldClearStorageData }) =>
   new Promise((resolve, reject) => {
     try {
       const os = remote.require('os');
       const path = remote.require('path');
       const fs = remote.require('fs');
+
+      const allAppPath = getAllAppPath();
 
       switch (os.platform()) {
         case 'darwin': {
