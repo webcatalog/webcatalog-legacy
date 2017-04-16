@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Spinner, Popover, Menu, MenuItem, Position, Classes } from '@blueprintjs/core';
 
+const NAV_HEIGHT = remote.require('os').platform() === 'darwin' ? 32 : 50;
+
 const Nav = ({
   isLoading,
   canGoBack,
@@ -22,10 +24,10 @@ const Nav = ({
       WebkitAppRegion: 'drag',
       paddingLeft: remote.require('os').platform() === 'darwin' ? 80 : null,
       backgroundColor: '#CED9E0',
-      height: 32,
+      height: NAV_HEIGHT,
     }}
   >
-    <div className="pt-navbar-group pt-align-left" style={{ flex: 1, height: 32 }}>
+    <div className="pt-navbar-group pt-align-left" style={{ flex: 1, height: NAV_HEIGHT }}>
       <Button
         iconName="home"
         className={Classes.MINIMAL}
@@ -53,7 +55,7 @@ const Nav = ({
         onClick={onRefreshButtonClick}
       />
     </div>
-    <div className="pt-navbar-group pt-align-right" style={{ height: 32 }}>
+    <div className="pt-navbar-group pt-align-right" style={{ height: NAV_HEIGHT }}>
       {isLoading ? (
         <Spinner className={Classes.SMALL} />
       ) : null}
