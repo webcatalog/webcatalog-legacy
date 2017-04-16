@@ -1,9 +1,8 @@
 /* global fetch */
 import downloadIconAsync from './downloadIconAsync';
 import installAppAsync from './installAppAsync';
-import uninstallAppAsync from './uninstallAppAsync';
 
-const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
+const updateAppAsync = ({ appId, appName, appUrl }) =>
   Promise.resolve()
     .then(() => {
       // if missing appName or appUrl, get them from server
@@ -17,12 +16,15 @@ const updateAppAsync = ({ allAppPath, appId, appName, appUrl }) =>
         url: appUrl,
       };
     })
-    .then(appInfo =>
+    .then(fetchedInfo =>
       downloadIconAsync(appId)
         .then(iconPath =>
-          uninstallAppAsync({ allAppPath, appId, appName, shouldClearStorageData: false })
-            .then(() =>
-              installAppAsync({ appId, appName: appInfo.name, appUrl: appInfo.url, iconPath })),
+          installAppAsync({
+            appId,
+            appName: fetchedInfo.name,
+            appUrl: fetchedInfo.url,
+            iconPath,
+          }),
         ),
     );
 

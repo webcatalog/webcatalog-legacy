@@ -1,8 +1,10 @@
 import { remote } from 'electron';
+import getAllAppPath from './getAllAppPath';
+import downloadIconAsync from './downloadIconAsync';
 
-const installAppAsync = ({ allAppPath, appId, appName, appUrl, iconPath }) =>
-  Promise.resolve()
-    .then(() => {
+const installAppAsync = ({ appId, appName, appUrl }) =>
+  downloadIconAsync(appId)
+    .then((iconPath) => {
       const jsonContent = JSON.stringify({
         id: appId,
         name: appName,
@@ -48,6 +50,7 @@ const installAppAsync = ({ allAppPath, appId, appName, appUrl, iconPath }) =>
 
               const WindowsShortcuts = remote.require('windows-shortcuts');
 
+              const allAppPath = getAllAppPath();
               const shortcutPath = path.join(allAppPath, `${appName}.lnk`);
               WindowsShortcuts.create(shortcutPath, {
                 target: '%userprofile%/AppData/Local/Programs/WebCatalog/WebCatalog.exe',
