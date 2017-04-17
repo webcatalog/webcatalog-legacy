@@ -1,3 +1,8 @@
+## 4.1.10
+- Hides custom apps from installed app list.
+
+---
+
 ## 4.1.9
 - Removes ability to install custom app.
 - Improves user interface.
