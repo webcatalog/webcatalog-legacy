@@ -9,7 +9,7 @@ const scanInstalledAsync = () =>
 
     const allAppPath = getAllAppPath();
 
-    const installedIds = [];
+    const installedApps = [];
 
     switch (os.platform()) {
       case 'darwin': {
@@ -27,7 +27,7 @@ const scanInstalledAsync = () =>
             let appId;
             if (fs.existsSync(idPath)) {
               appId = fs.readFileSync(idPath, 'utf8').trim();
-              installedIds.push({
+              installedApps.push({
                 version: '3.1.1',
                 id: appId,
               });
@@ -35,7 +35,7 @@ const scanInstalledAsync = () =>
               const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
               const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
 
-              installedIds.push({
+              installedApps.push({
                 id: appInfo.id,
                 version: appInfo.version,
                 name: appInfo.name,
@@ -43,7 +43,7 @@ const scanInstalledAsync = () =>
               });
             }
           });
-          resolve(installedIds);
+          resolve(installedApps);
         });
         break;
       }
@@ -59,9 +59,9 @@ const scanInstalledAsync = () =>
 
             const appInfo = fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1);
 
-            installedIds.push(appInfo);
+            installedApps.push(appInfo);
           });
-          resolve(installedIds);
+          resolve(installedApps);
         });
         break;
       }
@@ -75,7 +75,7 @@ const scanInstalledAsync = () =>
 
           let i = 0;
 
-          if (files.length === 0) resolve(installedIds);
+          if (files.length === 0) resolve(installedApps);
 
           files.forEach((fileName) => {
             const WindowsShortcuts = remote.require('windows-shortcuts');
@@ -100,16 +100,17 @@ const scanInstalledAsync = () =>
                   /* eslint-enable no-console */
                   id = desc;
                 }
-                installedIds.push({ id, version, name, url });
+                installedApps.push({ id, version, name, url });
               }
 
               i += 1;
-              if (i === files.length) resolve(installedIds);
+              if (i === files.length) resolve(installedApps);
             });
           });
         });
       }
     }
-  });
+  })
+  .then(installedApps => installedApps.filter(({ id }) => !id.startsWith('custom-')));
 
 export default scanInstalledAsync;
