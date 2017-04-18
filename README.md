@@ -2,7 +2,7 @@
 
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/webcatalog?branch=master&svg=true)](https://ci.appveyor.com/project/webcatalog/webcatalog/branch/master)
-[![MIT License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/webcatalog/webcatalog/blob/master/LICENSE)
+[![Apache License](http://img.shields.io/:license-apache-blue.svg)](https://github.com/webcatalog/webcatalog/blob/master/LICENSE)
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
