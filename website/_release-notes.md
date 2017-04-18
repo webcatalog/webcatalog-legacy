@@ -1,3 +1,8 @@
+## 4.1.11
+- Fixes a bug with app update detection.
+
+---
+
 ## 4.1.10
 - Hides custom apps from installed app list.
 
