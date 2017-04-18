@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { ProgressBar, Button, Intent } from '@blueprintjs/core';
+import semver from 'semver';
 
 import { UNINSTALLING, INSTALLING, INSTALLED, UPDATING } from '../constants/statuses';
 import { LATEST_SSB_VERSION } from '../constants/versions';
@@ -65,7 +66,7 @@ const Card = ({
         }
         if (appStatus === INSTALLED) {
           return [
-            appVersion >= LATEST_SSB_VERSION ? (
+            semver.gt(appVersion, LATEST_SSB_VERSION) ? (
               <Button
                 key="open"
                 text="Open"
