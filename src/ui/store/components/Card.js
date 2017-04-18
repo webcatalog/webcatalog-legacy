@@ -66,7 +66,7 @@ const Card = ({
         }
         if (appStatus === INSTALLED) {
           return [
-            semver.gt(appVersion, LATEST_SSB_VERSION) ? (
+            semver.gte(appVersion, LATEST_SSB_VERSION) ? (
               <Button
                 key="open"
                 text="Open"
