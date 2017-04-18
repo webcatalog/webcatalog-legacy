@@ -22,6 +22,3 @@ before_script:
 - yarn lint
 script:
 - yarn dist
-- ./scripts/test.sh
-after_script:
-- ./scripts/publish-website.sh
