@@ -18,7 +18,6 @@ cache:
   yarn: true
   directories:
   - node_modules
-  - www/images
 before_install:
 - wget http://www.imagemagick.org/download/ImageMagick.tar.gz
 - tar xf ImageMagick.tar.gz
