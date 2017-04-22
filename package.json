@@ -1,0 +1,28 @@
+{
+  "name": "webcatalog-server",
+  "version": "1.0.0",
+  "description": "WebCatalog Server",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d dist",
+    "start": "node dist/index.js",
+    "postinstall": "yarn build"
+  },
+  "repository": "git@github.com:quanglam2807/webcatalog-server.git",
+  "author": "Quang Lam",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "nodemon": "^1.11.0"
+  }
+}
