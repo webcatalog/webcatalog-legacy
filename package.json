@@ -24,7 +24,8 @@
     "express": "^4.15.2",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "shelljs": "^0.7.7"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
