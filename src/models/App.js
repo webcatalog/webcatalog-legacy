@@ -12,6 +12,9 @@ const App = sequelize.define('app', {
   url: {
     type: Sequelize.STRING,
   },
+  category: {
+    type: Sequelize.STRING,
+  },
   version: {
     type: Sequelize.INTEGER,
   },
