@@ -56,7 +56,7 @@ const scanInstalledAsync = () =>
 
           files.forEach((fileName) => {
             if (!fileName.startsWith('webcatalog-')) return;
-  
+
             const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
 
             installedApps.push(appInfo);
