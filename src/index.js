@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import shell from 'shelljs';
 
 import admin from './modules/admin';
 
@@ -19,12 +18,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/admin', admin);
-
-app.use('/icns', (req, res) => {
-  shell.exec('png2icns', { silent: true }, (exitCode, stdOut, stdError) => {
-    res.json({ stdOut, stdError });
-  });
-});
 
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
