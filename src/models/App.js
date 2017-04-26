@@ -3,6 +3,11 @@ import Sequelize from 'sequelize';
 import sequelize from '../sequelize';
 
 const App = sequelize.define('app', {
+  id: {
+    primaryKey: true,
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+  },
   slug: {
     type: Sequelize.STRING,
   },
@@ -15,17 +20,23 @@ const App = sequelize.define('app', {
   category: {
     type: Sequelize.STRING,
   },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+  },
   version: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   description: {
     type: Sequelize.STRING,
   },
   installCount: {
     type: Sequelize.INTEGER,
+    defaultValue: () => 0,
   },
 }, {
   freezeTableName: true,
 });
 
 App.sync({ force: true });
+
+module.exports = App;

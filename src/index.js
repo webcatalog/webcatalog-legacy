@@ -1,7 +1,9 @@
 import express from 'express';
 import path from 'path';
+import bodyParser from 'body-parser';
 
-import admin from './modules/admin';
+// load .env
+require('dotenv').config();
 
 const app = express();
 
@@ -13,11 +15,17 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 app.get('/', (req, res) => {
   res.render('index', { version: process.env.VERSION || 'local' });
 });
 
-app.use('/admin', admin);
+app.use('/admin', require('./modules/admin'));
 
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));

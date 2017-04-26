@@ -4,7 +4,7 @@
   <div class="container">
     <div class="content">
       <h2>Add an App</h2>
-      <form>
+      <form method="post" enctype="multipart/form-data">
         <div class="field">
           <label class="label">Name</label>
           <p class="control">
@@ -15,6 +15,12 @@
           <label class="label">URL</label>
           <p class="control">
             <input class="input" type="text" placeholder="URL" name="url">
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Icon</label>
+          <p class="control">
+            <input class="input" type="file" placeholder="Icon" name="icon" accept=".png">
           </p>
         </div>
         <div class="field">
