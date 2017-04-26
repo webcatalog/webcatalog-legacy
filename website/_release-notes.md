@@ -1,3 +1,8 @@
+## 4.1.12
+- Fixes bugs.
+
+---
+
 ## 4.1.11
 - Fixes a bug with app update detection.
 
