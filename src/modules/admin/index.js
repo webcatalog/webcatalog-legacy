@@ -71,7 +71,7 @@ const sharpAsync = (pngPath, appId) =>
           reject(err);
           return;
         }
-        console.log(`${appId}.png is converted to ${appId}.webp and compressed ${appId}.png`);
+        console.log(`${appId}.png is converted to other image formats.`);
         resolve();
       });
   });
@@ -120,6 +120,7 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
       res.send('Done');
     })
     .catch((err) => {
+      console.log(JSON.stringify(err));
       next(err);
     });
   }
