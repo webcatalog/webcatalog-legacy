@@ -26,14 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/admin', require('./modules/admin'));
-
-// Error handler
-/* eslint-disable no-unused-vars */
-app.use((err, req, res, next) => {
-/* eslint-enable no-unused-vars */
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+app.use('/api', require('./modules/api'));
 
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
