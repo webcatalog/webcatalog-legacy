@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use('/admin', require('./modules/admin'));
 app.use('/api', require('./modules/api'));
+app.use('/s3', require('./modules/s3'));
 
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
