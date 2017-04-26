@@ -99,7 +99,7 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
       url: req.body.url,
       category: req.body.category,
       isActive: false,
-      version: Date.now().toString,
+      version: Date.now().toString(),
       description: req.body.description,
     })
     .then(({ id }) =>
