@@ -34,7 +34,7 @@ const App = sequelize.define('app', {
     defaultValue: () => 0,
   },
   parentId: {
-    type: Sequelize.UUID,
+    type: Sequelize.STRING,
   },
 }, {
   freezeTableName: true,
