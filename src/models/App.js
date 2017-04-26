@@ -33,10 +33,13 @@ const App = sequelize.define('app', {
     type: Sequelize.INTEGER,
     defaultValue: () => 0,
   },
+  parentId: {
+    type: Sequelize.UUID,
+  },
 }, {
   freezeTableName: true,
 });
 
-App.sync({ force: true });
+App.sync();
 
 module.exports = App;
