@@ -94,7 +94,7 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
     res.send('Please fill in all fields.');
   } else {
     App.create({
-      slug: slug(req.body.name),
+      slug: slug(req.body.name, { lower: true }),
       name: req.body.name,
       url: req.body.url,
       category: req.body.category,
