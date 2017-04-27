@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { Button, Intent, NonIdealState } from '@blueprintjs/core';
+import semver from 'semver';
 
 import { INSTALLED, UPDATING } from '../constants/statuses';
 import { LATEST_SSB_VERSION } from '../constants/versions';
@@ -65,7 +66,7 @@ Installed.propTypes = {
 
 const mapStateToProps = state => ({
   installedApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED || app.get('status') === UPDATING),
-  updatableApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED && app.get('version') < LATEST_SSB_VERSION),
+  updatableApps: state.appManagement.get('managedApps').filter(app => app.get('status') === INSTALLED && semver.lt(app.get('version'), LATEST_SSB_VERSION)),
 });
 
 const mapDispatchToProps = dispatch => ({
