@@ -61,6 +61,14 @@ app.use('/admin', require('./modules/admin'));
 app.use('/api', require('./modules/api'));
 app.use('/s3', require('./modules/s3'));
 
+// Error handler
+/* eslint-disable no-unused-vars */
+app.use((err, req, res, next) => {
+/* eslint-enable no-unused-vars */
+  console.error(JSON.stringify(err));
+  res.status(500).send('Something broke!');
+});
+
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
 });
