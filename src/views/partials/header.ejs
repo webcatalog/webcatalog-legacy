@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= locals.title ? title + ' - ' : '' %>WebCatalog for macOS, Windows & Linux - Run any web app natively.</title>
-  <meta name="description" content="WebCatalog is a desktop app which allows you to easily install your favorites web apps and run them natively on your Mac, PC & Linux.">
+  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
+  <meta name="description" content="WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.">
   <meta name="keywords" content="fluid, nativefier, webcatalog, electron, chrome, chromium, notification, native, single site browser, mac, pc, linux, macos, windows 10, ubuntu">
-  <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+  <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://getwebcatalog.com/css/app.css">
+  <link rel="stylesheet" href="/public/css/app.css">
 </head>
 <body>
   <section class="hero is-info">
@@ -17,9 +17,9 @@
       <div class="container">
         <nav class="nav">
           <div class="nav-center">
-            <a class="nav-item is-active" href="/">Home</a>
-            <a class="nav-item" href="/apps">Apps</a>
-            <a class="nav-item" href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer" alt="GitHub"><span class="icon"><i class="fa fa-github"></i></span></a>
+            <a class="nav-item" href="/">
+              <img src="/public/images/logo_white.png" style="max-height: 56px" />
+            </a>
           </div>
         </nav>
       </div>

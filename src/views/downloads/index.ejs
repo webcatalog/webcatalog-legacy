@@ -1,0 +1,71 @@
+<% include ../partials/header %>
+
+<section class="hero is-info">
+  <div class="hero-body download-mac">
+    <div class="container">
+      <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
+      </h1>
+      <p class="subtitle" style="margin-top: -1em">
+        Explore thousands of exclusive apps,<br>get desktop notifications, and launch right from your <% if (platform === "mac") { %>dock<% } %><% if (platform === "linux") { %>launcher<% } else { %>taskbar<% } %>.
+      </p>
+
+      <% if (platform === "mac") { %>
+      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-apple"></i>
+        <span>&nbsp;Download for macOS</span>
+      </a>
+      <% } else if (platform === "linux") { %>
+      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-linux"></i>
+        <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
+      </a><br/>
+      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-linux"></i>
+        <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
+      </a>
+      <% } else { %>
+      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-windows"></i>
+        <span>&nbsp;Download for Windows</span>
+      </a>
+      <% } %>
+
+      <p>
+        <span>
+          <% if (platform === "mac") { %>
+            macOS 10.9+.
+          <% } else if (platform === "linux") { %>
+          <% } else { %>
+            Windows 7+.
+          <% } %>
+        </span>
+        <span> Version <%= version %> - <a>What's new</a>.</span>
+      </p>
+
+      <p class="subtitle other-platforms">
+        <% if (platform === "mac") { %>
+          Looking for the <a href="/downloads/windows">Windows</a> or <a href="/downloads/linux">Linux</a> desktop apps?
+        <% } else if (platform === "linux") { %>
+          Looking for the <a href="/downloads/windows">Windows</a> or <a href="/downloads/mac">Mac</a> desktop apps?
+        <% } else { %>
+          Looking for the <a href="/downloads/mac">Mac</a> or <a href="/downloads/linux">Linux</a> desktop apps?
+        <% } %>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top: 1px solid #dbdbdb">
+  <div class="container">
+    <div class="content has-text-centered">
+      <h2 style="margin-bottom: 30px">Try now! It's free!</h2>
+      <a class="button is-medium is-black" style="margin-bottom: 6px" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-apple"></i>
+        <span>&nbsp;Download for macOS</span>
+      </a>
+      <p>macOS 10.9 or higher.</p>
+    </div>
+  </div>
+</section>
+
+<% include ../partials/footer %>

@@ -1,0 +1,36 @@
+@charset "utf-8"
+
+$blue: #1976D2
+$green: #388E3C
+$orange: #E64A19
+$purple: #7B1FA2
+$red: #D32F2F
+$turquoise: #00796B
+$yellow: #FBC02D
+
+@import "../../../node_modules/bulma/bulma"
+
+.footer
+  background-color: whitesmoke
+  padding: 40px 20px 80px
+  a
+    color: $green !important
+
+.download-mac, .download-windows, .downloads-linux
+  text-align: center
+  +desktop
+    text-align: left
+    background: url(/public/images/screenshot.png)
+    background-size: 600px
+    background-repeat: no-repeat
+    background-position-x: calc(100vw - 600px)
+    background-position-y: 3em
+  .download-button
+    margin-top: 6px
+    margin-bottom: 6px
+  .other-platforms
+    margin-top: 36px
+    a
+      font-weight: 600
+      &:hover
+        text-decoration: underline
