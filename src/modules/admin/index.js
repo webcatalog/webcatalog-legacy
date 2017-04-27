@@ -48,38 +48,23 @@ const uploadToS3Async = (localPath, s3Path) =>
     });
   });
 
-const sharpAsync = (pngPath, appId) =>
+const sharpAsync = (inputPath, outputPath, newSize) =>
   new Promise((resolve, reject) => {
     // Generate WebP & PNG
-    sharp(pngPath)
-      .toFile(`uploads/${appId}.png`, (err) => {
-        if (err) {
-          console.log(`failed to generate uploads/${appId}.png`);
-          reject(err);
-        }
-      })
-      .toFile(`uploads/${appId}.webp`, (err) => {
-        if (err) {
-          console.log(`failed to generate uploads/${appId}.webp`);
-          reject(err);
-        }
-      })
-      .resize(128, 128)
-      .toFile(`uploads/${appId}@128px.png`, (err) => {
-        if (err) {
-          console.log(`failed to generate uploads/${appId}@128px.png`);
-          reject(err);
-        }
-      })
-      .toFile(`uploads/${appId}@128px.webp`, (err) => {
-        if (err) {
-          console.log(`failed to generate uploads/${appId}@128px.webp`);
-          reject(err);
-          return;
-        }
-        console.log(`${appId}.png is converted to other image formats.`);
+    let p = sharp(inputPath);
+    if (newSize) {
+      p = p.resize(newSize, newSize);
+    }
+
+    p = p.toFile(outputPath, (err) => {
+      if (err) {
+        reject(err);
+      } else {
         resolve();
-      });
+      }
+    });
+
+    return p;
   });
 
 admin.get('/', (req, res) => {
@@ -109,7 +94,10 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
       description: req.body.description,
     })
     .then(({ id }) =>
-      sharpAsync(`${req.file.destination}${req.file.filename}`, id)
+      sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.png`)
+        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.webp`))
+        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.png`, 128))
+        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.webp`, 128))
         .then(() => convertToIcns(`uploads/${id}.png`, `uploads/${id}.icns`))
         .then(() => convertToIco(`uploads/${id}.png`, `uploads/${id}.ico`))
         .then(() => uploadToS3Async(`uploads/${id}.png`, `${id}.png`))
