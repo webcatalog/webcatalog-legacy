@@ -65,6 +65,12 @@ const sharpAsync = (pngPath, appId) =>
         }
       })
       .resize(128, 128)
+      .toFile(`uploads/${appId}@128px.png`, (err) => {
+        if (err) {
+          console.log(`failed to generate uploads/${appId}@128px.png`);
+          reject(err);
+        }
+      })
       .toFile(`uploads/${appId}@128px.webp`, (err) => {
         if (err) {
           console.log(`failed to generate uploads/${appId}@128px.webp`);
@@ -90,7 +96,7 @@ admin.get('/apps/add', (req, res) => {
 
 admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file) res.sendStatus(400);
-  else if (!req.body.name || !req.body.url || !req.body.category || !req.body.description) {
+  else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
   } else {
     App.create({
@@ -108,6 +114,7 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
         .then(() => convertToIco(`uploads/${id}.png`, `uploads/${id}.ico`))
         .then(() => uploadToS3Async(`uploads/${id}.png`, `${id}.png`))
         .then(() => uploadToS3Async(`uploads/${id}.webp`, `${id}.webp`))
+        .then(() => uploadToS3Async(`uploads/${id}@128px.png`, `${id}@128px.png`))
         .then(() => uploadToS3Async(`uploads/${id}@128px.webp`, `${id}@128px.webp`))
         .then(() => uploadToS3Async(`uploads/${id}.icns`, `${id}.icns`))
         .then(() => uploadToS3Async(`uploads/${id}.ico`, `${id}.ico`))
@@ -120,7 +127,6 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
       res.send('Done');
     })
     .catch((err) => {
-      console.log(JSON.stringify(err));
       next(err);
     });
   }
