@@ -10,6 +10,8 @@ import App from './components/App';
 import store from './store';
 import defaultSettings from './constants/defaultSettings';
 
+import '../shared/styles/main.scss';
+
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
 

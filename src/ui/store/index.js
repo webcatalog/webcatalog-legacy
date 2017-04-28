@@ -9,6 +9,8 @@ import store from './store';
 import renderRoutes from './renderRoutes';
 import getAllAppPath from './helpers/getAllAppPath';
 
+import '../shared/styles/main.scss';
+
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
 
