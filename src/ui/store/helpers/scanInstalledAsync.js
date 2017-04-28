@@ -22,26 +22,10 @@ const scanInstalledAsync = () =>
           files.forEach((fileName) => {
             if (fileName === '.DS_Store') return;
 
-            // if id file exists, the .app needs to be updated
-            const idPath = path.join(allAppPath, fileName, 'id');
-            let appId;
-            if (fs.existsSync(idPath)) {
-              appId = fs.readFileSync(idPath, 'utf8').trim();
-              installedApps.push({
-                version: '3.1.1',
-                id: appId,
-              });
-            } else {
-              const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
-              const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
+            const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
+            const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
 
-              installedApps.push({
-                id: appInfo.id,
-                version: appInfo.version,
-                name: appInfo.name,
-                url: appInfo.url,
-              });
-            }
+            installedApps.push(appInfo);
           });
           resolve(installedApps);
         });
@@ -83,24 +67,8 @@ const scanInstalledAsync = () =>
               if (wsShortcutErr) {
                 reject(wsShortcutErr);
               } else {
-                let id;
-                let name;
-                let url;
-                let version = '3.1.1';
-                // only from 3.2, WebCatalog starts using JSON
-                try {
-                  const appInfo = JSON.parse(desc);
-                  id = appInfo.id;
-                  version = appInfo.version;
-                  name = appInfo.name;
-                  url = appInfo.url;
-                } catch (jsonErr) {
-                  /* eslint-disable no-console */
-                  console.log(jsonErr);
-                  /* eslint-enable no-console */
-                  id = desc;
-                }
-                installedApps.push({ id, version, name, url });
+                const appInfo = JSON.parse(desc);
+                installedApps.push(appInfo);
               }
 
               i += 1;

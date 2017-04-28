@@ -1,7 +1,9 @@
+/* global fetch */
+
 import { batchActions } from 'redux-batched-actions';
 import { SET_STATUS, ADD_APPS, RESET_HOME } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
-import searchAsync from '../helpers/searchAsync';
+import getServerUrl from '../helpers/getServerUrl';
 
 import { search } from './search';
 
@@ -24,11 +26,9 @@ export const fetchApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  searchAsync({
-    query: null,
-    params: { page: currentPage, hitsPerPage: 24 },
-  })
-  .then((content) => {
+  fetch(getServerUrl('/api/apps'))
+  .then(response => response.json())
+  .then((chunk) => {
     dispatch(batchActions([
       {
         type: SET_STATUS,
@@ -36,9 +36,9 @@ export const fetchApps = () => (dispatch, getState) => {
       },
       {
         type: ADD_APPS,
-        chunk: content.hits,
+        chunk,
         currentPage,
-        totalPage: content.nbPages,
+        totalPage: 1,
       },
     ]));
   })

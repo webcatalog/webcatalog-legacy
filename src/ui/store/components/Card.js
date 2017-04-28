@@ -11,6 +11,7 @@ import { LATEST_SSB_VERSION } from '../constants/versions';
 
 import { installApp, uninstallApp, updateApp } from '../actions/appManagement';
 import openApp from '../helpers/openApp';
+import getServerUrl from '../helpers/getServerUrl';
 
 const extractDomain = (url) => {
   try {
@@ -30,18 +31,16 @@ const Card = ({
 }) => (
   <div className="col">
     <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
-      {app.get('id').startsWith('custom-') ? null : (
-        <img
-          src={`https://raw.githubusercontent.com/webcatalog/webcatalog-backend/compiled/images/${app.get('id')}@128px.webp`}
-          role="presentation"
-          alt={app.get('name')}
-          style={{
-            height: 64,
-            width: 64,
-            marginBottom: 8,
-          }}
-        />
-      )}
+      <img
+        src={getServerUrl(`/s3/${app.get('id')}@128px.webp`)}
+        role="presentation"
+        alt={app.get('name')}
+        style={{
+          height: 64,
+          width: 64,
+          marginBottom: 8,
+        }}
+      />
       <h5>{app.get('name')}</h5>
       <p>
         <a onClick={() => shell.openExternal(app.get('url'))}>
