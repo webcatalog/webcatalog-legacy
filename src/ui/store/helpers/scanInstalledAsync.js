@@ -1,5 +1,7 @@
 import { remote } from 'electron';
+
 import getAllAppPath from './getAllAppPath';
+import uninstallAppAsync from './uninstallAppAsync';
 
 const scanInstalledAsync = () =>
   new Promise((resolve, reject) => {
@@ -27,6 +29,7 @@ const scanInstalledAsync = () =>
 
             installedApps.push(appInfo);
           });
+
           resolve(installedApps);
         });
         break;
@@ -79,6 +82,19 @@ const scanInstalledAsync = () =>
       }
     }
   })
-  .then(installedApps => installedApps.filter(({ id }) => !id.startsWith('custom-')));
+  // uninstall < 5.0 apps
+  .then(installedApps => installedApps.filter((app) => {
+    if (!app.shellVersion) {
+      uninstallAppAsync({
+        appId: app.id,
+        appName: app.name,
+        shouldClearStorageData: true,
+      });
+
+      return false;
+    }
+
+    return true;
+  }));
 
 export default scanInstalledAsync;
