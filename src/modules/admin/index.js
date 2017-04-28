@@ -32,7 +32,7 @@ const uploadToS3Async = (localPath, s3Path) =>
       localFile: localPath,
 
       s3Params: {
-        Bucket: 'webcatalog',
+        Bucket: process.env.S3_BUCKET,
         Key: s3Path,
         // other options supported by putObject, except Body and ContentLength.
         // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property

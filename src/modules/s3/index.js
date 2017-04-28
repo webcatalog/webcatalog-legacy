@@ -11,7 +11,7 @@ const s3 = new S3({
 
 s3Route.get('/:key', (req, res) => {
   const imgStream = s3.getObject({
-    Bucket: 'webcatalog',
+    Bucket: process.env.S3_BUCKET,
     Key: req.params.key,
   }).createReadStream();
 
