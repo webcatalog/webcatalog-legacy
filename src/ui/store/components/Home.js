@@ -1,11 +1,12 @@
-import { shell } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
+import { Menu, MenuItem, Popover, Button, Position } from '@blueprintjs/core';
 
 import { fetchApps } from '../actions/home';
 import { LOADING, FAILED } from '../constants/statuses';
+import categories from '../constants/categories';
 
 import Loading from './Loading';
 import NoConnection from './NoConnection';
@@ -49,7 +50,6 @@ class Home extends React.Component {
     const {
       status, requestFetchApps,
     } = this.props;
-
     if (status === LOADING) return <Loading />;
     if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
 
@@ -62,12 +62,46 @@ class Home extends React.Component {
         style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        <div className="pt-card" style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
-          <span>Cannot find your favorite app?&#32;</span>
-          <a onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}>
-            <span className="pt-icon-standard pt-icon-add" />
-            <span>&#32;Submit new app</span>
-          </a>.
+        <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
+          <Popover
+            content={(
+              <Menu>
+                {categories.map(category => (
+                  <MenuItem
+                    key={category}
+                    text={category}
+                  />
+                ))}
+              </Menu>
+            )}
+            position={Position.BOTTOM_LEFT}
+          >
+            <Button
+              rightIconName="chevron-down"
+              text="All Categories"
+            />
+          </Popover>
+          <Popover
+            content={(
+              <Menu>
+                <MenuItem
+                  text="Most Downloaded"
+                />
+                <MenuItem
+                  text="A to Z"
+                />
+                <MenuItem
+                  text="Recently Added"
+                />
+              </Menu>
+            )}
+            position={Position.BOTTOM_RIGHT}
+          >
+            <Button
+              rightIconName="chevron-down"
+              text="Most Downloaded"
+            />
+          </Popover>
         </div>
         {this.renderList()}
         {this.renderStatus()}

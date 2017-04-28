@@ -2,7 +2,7 @@ import { remote, shell, ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Menu, MenuItem, Popover, Button, Position, Classes } from '@blueprintjs/core';
+import { Menu, MenuItem, MenuDivider, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { replace, push, goBack } from 'react-router-redux';
 
@@ -25,11 +25,11 @@ const Nav = ({
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
-      <div className="pt-input-group" style={{ width: '100%', maxWidth: 300 }}>
+      <div className="pt-input-group" style={{ width: '100%' }}>
         <span className="pt-icon pt-icon-search" />
         <input
           className="pt-input"
-          placeholder="Search (name, URL)..."
+          placeholder="Search..."
           type="text"
           style={{ width: '100%', WebkitUserSelect: 'text', WebkitAppRegion: 'no-drag' }}
           value={query}
@@ -63,13 +63,13 @@ const Nav = ({
         onClick={() => goTo('/')}
       />
       <Button
-        iconName="import"
+        iconName="user"
         className={classNames(
           { [Classes.ACTIVE]: (pathname === '/installed') },
           Classes.MINIMAL,
         )}
         style={{ WebkitAppRegion: 'no-drag' }}
-        text="Installed"
+        text="My Apps"
         onClick={() => goTo('/installed')}
       />
       <Popover
@@ -85,6 +85,11 @@ const Nav = ({
               text="Submit new app"
               onClick={() => shell.openExternal('https://goo.gl/forms/QIFncw8dauDn61Mw1')}
             />
+            <MenuItem
+              iconName="log-out"
+              text="Log out"
+            />
+            <MenuDivider />
             <MenuItem
               iconName="help"
               text="Help"

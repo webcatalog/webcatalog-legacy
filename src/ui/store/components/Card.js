@@ -30,7 +30,7 @@ const Card = ({
   requestUpdateApp,
 }) => (
   <div className="col">
-    <div className="custom-card pt-card pt-elevation-1" style={{ textAlign: 'center' }}>
+    <div className="custom-card pt-card pt-elevation-1 pt-interactive" style={{ textAlign: 'center' }}>
       <img
         src={getServerUrl(`/s3/${app.get('id')}@128px.webp`)}
         role="presentation"
