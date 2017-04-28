@@ -3,6 +3,7 @@ import multer from 'multer';
 import s3 from 's3';
 import sharp from 'sharp';
 import slug from 'slug';
+import fetch from 'node-fetch';
 
 import App from '../../models/App';
 import categories from '../../constants/categories';
@@ -84,28 +85,61 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
   else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
   } else {
-    App.create({
-      slug: slug(req.body.name, { lower: true }),
-      name: req.body.name,
-      url: req.body.url,
-      category: req.body.category,
-      isActive: false,
-      version: Date.now().toString(),
-      description: req.body.description,
+    console.log('k');
+    console.log(fetch);
+    console.log('l');
+
+    fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.name)}`)
+    .then(response => response.json())
+    .then((content) => {
+      console.log(content);
+      const pageId = Object.keys(content.query.pages);
+      if (pageId === '-1') return null;
+
+      console.log(content.query.pages[pageId].extract);
+
+      return content.query.pages[pageId].extract;
     })
+    .then(description =>
+      App.create({
+        slug: slug(req.body.name, { lower: true }),
+        name: req.body.name,
+        url: req.body.url,
+        category: req.body.category,
+        isActive: false,
+        version: Date.now().toString(),
+        description,
+      }),
+    )
     .then(({ id }) =>
-      sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.png`)
-        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.webp`))
-        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.png`, 128))
-        .then(() => sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.webp`, 128))
-        .then(() => convertToIcns(`uploads/${id}.png`, `uploads/${id}.icns`))
-        .then(() => convertToIco(`uploads/${id}.png`, `uploads/${id}.ico`))
-        .then(() => uploadToS3Async(`uploads/${id}.png`, `${id}.png`))
-        .then(() => uploadToS3Async(`uploads/${id}.webp`, `${id}.webp`))
-        .then(() => uploadToS3Async(`uploads/${id}@128px.png`, `${id}@128px.png`))
-        .then(() => uploadToS3Async(`uploads/${id}@128px.webp`, `${id}@128px.webp`))
-        .then(() => uploadToS3Async(`uploads/${id}.icns`, `${id}.icns`))
-        .then(() => uploadToS3Async(`uploads/${id}.ico`, `${id}.ico`))
+      Promise.resolve()
+        .then(() => {
+          const p = [];
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.png`));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.webp`));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.png`, 128));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.webp`, 128));
+
+          return Promise.all(p);
+        })
+        .then(() => {
+          const p = [];
+          p.push(convertToIcns(`uploads/${id}.png`, `uploads/${id}.icns`));
+          p.push(convertToIco(`uploads/${id}.png`, `uploads/${id}.ico`));
+
+          return Promise.all(p);
+        })
+        .then(() => {
+          const p = [];
+          p.push(uploadToS3Async(`uploads/${id}.png`, `${id}.png`));
+          p.push(uploadToS3Async(`uploads/${id}.webp`, `${id}.webp`));
+          p.push(uploadToS3Async(`uploads/${id}@128px.png`, `${id}@128px.png`));
+          p.push(uploadToS3Async(`uploads/${id}@128px.webp`, `${id}@128px.webp`));
+          p.push(uploadToS3Async(`uploads/${id}.icns`, `${id}.icns`));
+          p.push(uploadToS3Async(`uploads/${id}.ico`, `${id}.ico`));
+
+          return Promise.all(p);
+        })
         .then(() => App.find({ where: { id } }))
         .then(app => app.updateAttributes({
           isActive: true,

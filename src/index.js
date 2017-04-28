@@ -65,7 +65,7 @@ app.use('/s3', require('./modules/s3'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
 /* eslint-enable no-unused-vars */
-  console.error(JSON.stringify(err));
+  console.log(JSON.stringify(err));
   res.status(500).send('Something broke!');
 });
 
