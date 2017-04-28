@@ -46,15 +46,15 @@ app.get('/', handleDownloads);
 app.get('/downloads', handleDownloads);
 
 app.get('/downloads/mac', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'mac' });
+  res.render('downloads/index', { version: process.env.VERSION, platform: 'mac', title: 'Download WebCatalog for Mac' });
 });
 
 app.get('/downloads/windows', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'windows' });
+  res.render('downloads/index', { version: process.env.VERSION, platform: 'windows', title: 'Download WebCatalog for Windows' });
 });
 
 app.get('/downloads/linux', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'linux' });
+  res.render('downloads/index', { version: process.env.VERSION, platform: 'linux', title: 'Download WebCatalog for Linux' });
 });
 
 app.use('/admin', require('./modules/admin'));

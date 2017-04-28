@@ -77,7 +77,7 @@ admin.get('/apps', (req, res) => {
 });
 
 admin.get('/apps/add', (req, res) => {
-  res.render('admin/apps/add', { categories });
+  res.render('admin/apps/add', { title: 'Add New App', categories });
 });
 
 admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
