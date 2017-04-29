@@ -27,7 +27,7 @@ const App = sequelize.define('app', {
     type: Sequelize.STRING,
   },
   description: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
   },
   installCount: {
     type: Sequelize.INTEGER,
