@@ -2,46 +2,52 @@
 
 <section class="section" style="border-top: 1px solid #dbdbdb">
   <div class="container">
-    <div class="content">
-      <h2>Add New App</h2>
-      <form method="post" enctype="multipart/form-data">
-        <div class="field">
-          <label class="label">Name</label>
-          <p class="control">
-            <input class="input" type="text" placeholder="Name" name="name">
-          </p>
-        </div>
-        <div class="field">
-          <label class="label">URL</label>
-          <p class="control">
-            <input class="input" type="text" placeholder="URL" name="url">
-          </p>
-        </div>
-        <div class="field">
-          <label class="label">Icon</label>
-          <p class="control">
-            <input class="input" type="file" placeholder="Icon" name="icon" accept=".png">
-          </p>
-        </div>
-        <div class="field">
-          <label class="label">Category</label>
-          <p class="control">
-            <span class="select">
-              <select name="category">
-                <% categories.forEach(function (category) { %>
-                <option value="<%= category %>"><%= category %></option>
-                <% }) %>
-              </select>
-            </span>
-          </p>
-        </div>
-        <div class="field is-grouped">
-          <p class="control">
-            <button class="button is-primary" type="submit">Submit</button>
-          </p>
-        </div>
-      </form>
-  </div>
+    <h1 class="title">Add New App</h1>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+      <div class="field">
+        <label class="label">Name</label>
+        <p class="control">
+          <input class="input" type="text" placeholder="Name" name="name">
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">URL</label>
+        <p class="control">
+          <input class="input" type="text" placeholder="URL" name="url">
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">Icon</label>
+        <p class="control">
+          <input class="input" type="file" placeholder="Icon" name="icon" accept=".png">
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">Category</label>
+        <p class="control">
+          <span class="select">
+            <select name="category">
+              <% categories.forEach(function (category) { %>
+              <option value="<%= category %>"><%= category %></option>
+              <% }) %>
+            </select>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">Wikipedia Title</label>
+        <p class="control">
+          <input class="input" type="text" placeholder="Wikipedia Title" name="wikipedia">
+        </p>
+        <p class="help">Leave it blank if Wikipedia title is similar to name.</p>
+      </div>
+      <div class="field is-grouped">
+        <p class="control">
+          <button class="button is-primary" type="submit">Submit</button>
+        </p>
+      </div>
+    </form>
 </section>
 
 <% include ../partials/footer %>

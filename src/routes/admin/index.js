@@ -82,11 +82,9 @@ adminRouter.post('/apps/add', upload.single('icon'), (req, res, next) => {
   else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
   } else {
-    console.log('k');
-    console.log(fetch);
-    console.log('l');
+    const wikipediaTitle = req.body.wikipediaTitle || req.body.name;
 
-    fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.name)}`)
+    fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(wikipediaTitle)}`)
     .then(response => response.json())
     .then((content) => {
       const pageId = Object.keys(content.query.pages);
@@ -103,6 +101,7 @@ adminRouter.post('/apps/add', upload.single('icon'), (req, res, next) => {
         isActive: false,
         version: Date.now().toString(),
         description,
+        wikipediaTitle: req.body.wikipediaTitle,
       }),
     )
     .then(app =>
