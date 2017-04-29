@@ -19,11 +19,11 @@
         <a class="button is-info open" href="webcatalog://apps/<%= app.id %>">Open in WebCatalog</a>
         <p>Don't have WebCatalog? <a href="/downloads">Download for free.</a></p>
       </div>
-      <hr>
       <% if (app.description) { %>
+      <hr>
       <p><%= app.description %></p>
-      <% } %>
       <p><i>Description provided by <a href="https://en.wikipedia.org/wiki/<%= encodeURIComponent(app.name) %>" target="_blank" rel="noopener noreferrer">Wikipedia</a>.</i></p>
+      <% } %>
     </div>
   </div>
 </section>
