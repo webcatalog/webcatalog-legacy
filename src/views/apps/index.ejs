@@ -1,0 +1,51 @@
+<% include ../partials/header %>
+
+<section class="section apps">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-quarter">
+        <aside class="menu">
+          <ul class="menu-list">
+            <li><a href="/apps">All</a></li>
+          </ul>
+          <p class="menu-label">
+            Categories
+          </p>
+          <ul class="menu-list">
+            <% categories.forEach(function (category) { %>
+            <li><a class="category" href="/apps?category=<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a></li>
+            <% }) %>
+          </ul>
+        </aside>
+      </div>
+      <div class="column">
+        <div class="columns is-multiline">
+          <% apps.forEach(function (app) { %>
+          <div class="column is-half-tablet is-one-third-desktop">
+            <div class="card app">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <a href="/apps/<%= app.slug %>/id<%= app.id %>">
+                      <figure class="image is-64x64 icon">
+                        <picture>
+                          <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
+                          <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
+                          <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
+                        </picture>
+                      </figure>
+                    </a>
+                    <p class="title is-5 has-text-centered"><a href="/apps/<%= app.slug %>/id<%= app.id %>"><%= app.name %></a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% include ../partials/footer %>

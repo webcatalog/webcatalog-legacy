@@ -147,10 +147,10 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
       plainApp.objectID = plainApp.id;
 
       const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
-      return index.addObject(plainApp);
-    })
-    .then(() => {
-      res.send('Done');
+      return index.addObject(plainApp)
+        .then(() => {
+          res.redirect(`/apps/${app.slug}/${app.id}`);
+        });
     })
     .catch((err) => {
       next(err);

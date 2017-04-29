@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+
+<section class="section app">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p class="category"><a href="/apps?category=<%= encodeURIComponent(app.category) %>"><%= app.category.replace('+', ' & ') %></a></p>
+      <a href="/s3/<%= app.id %>.png">
+        <figure class="image is-128x128 icon">
+          <picture>
+            <source srcset="/s3/<%= app.id %>.webp" type="image/webp">
+            <source srcset="/s3/<%= app.id %>.png" type="image/jpeg">
+            <img src="/s3/<%= app.id %>.png" alt="<%= app.name %> on the WebCatalog Store">
+          </picture>
+        </figure>
+      </a>
+      <h1 class="title"><%= app.name %></h1>
+      <h2 class="subtitle is-6"><a href="<%= app.url %>" target="_blank" rel="noopener noreferrer"><%= extractDomain(app.url) %></a></h2>
+      <a class="button is-info open" href="webcatalog://apps/<%= app.id %>">Open in WebCatalog</a>
+      <p>Don't have WebCatalog? <a href="/downloads">Download for free.</a></p>
+      <hr>
+      <% if (app.description) { %>
+      <p><%= app.description %></p>
+      <% } %>
+      <p><i>Description provided by <a href="https://en.wikipedia.org/wiki/<%= encodeURIComponent(app.name) %>" target="_blank" rel="noopener noreferrer">Wikipedia</a>.</i></p>
+    </div>
+  </div>
+</section>
+
+<% include ../partials/footer %>

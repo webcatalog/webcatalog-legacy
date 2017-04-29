@@ -57,6 +57,7 @@ app.get('/downloads/linux', (req, res) => {
   res.render('downloads/index', { version: process.env.VERSION, platform: 'linux', title: 'Download WebCatalog for Linux' });
 });
 
+app.use('/apps', require('./modules/apps'));
 app.use('/admin', require('./modules/admin'));
 app.use('/api', require('./modules/api'));
 app.use('/s3', require('./modules/s3'));
@@ -65,7 +66,7 @@ app.use('/s3', require('./modules/s3'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
 /* eslint-enable no-unused-vars */
-  console.log(JSON.stringify(err));
+  console.log(err);
   res.status(500).send('Something broke!');
 });
 
