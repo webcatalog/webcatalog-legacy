@@ -33,6 +33,9 @@ const App = sequelize.define('app', {
     type: Sequelize.INTEGER,
     defaultValue: () => 0,
   },
+  wikipediaTitle: {
+    type: Sequelize.STRING,
+  },
 }, {
   freezeTableName: true,
 });
