@@ -15,7 +15,7 @@ appsRouter.get('/', (req, res) => {
 
   App.findAll(opts)
     .then((apps) => {
-      res.render('apps/index', { title: 'Explore WebCatalog Store', apps, categories });
+      res.render('apps/index', { title: 'Explore WebCatalog Store', apps, categories, category: opts.where.category });
     });
 });
 
