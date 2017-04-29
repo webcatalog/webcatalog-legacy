@@ -11,7 +11,7 @@ import convertToIcns from '../../libs/convertToIcns';
 import convertToIco from '../../libs/convertToIco';
 import algoliaClient from '../../algoliaClient';
 
-const admin = express.Router();
+const adminRouter = express.Router();
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -69,19 +69,15 @@ const sharpAsync = (inputPath, outputPath, newSize) =>
     return p;
   });
 
-admin.get('/', (req, res) => {
-  res.redirect('/admin/apps');
+adminRouter.get('/', (req, res) => {
+  res.redirect('/admin/add');
 });
 
-admin.get('/apps', (req, res) => {
-  res.json({});
+adminRouter.get('/add', (req, res) => {
+  res.render('admin/add', { title: 'Add New App', categories });
 });
 
-admin.get('/apps/add', (req, res) => {
-  res.render('admin/apps/add', { title: 'Add New App', categories });
-});
-
-admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
+adminRouter.post('/apps/add', upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file) res.sendStatus(400);
   else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
@@ -158,4 +154,4 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
   }
 });
 
-module.exports = admin;
+module.exports = adminRouter;

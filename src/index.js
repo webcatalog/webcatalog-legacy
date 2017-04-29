@@ -31,36 +31,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-const handleDownloads = (req, res) => {
-  const ua = req.headers['user-agent'];
-  if (/(Intel|PPC) Mac OS X/.test(ua)) {
-    res.redirect('/downloads/mac');
-  } else if (/(Linux x86_64|Linux i686)/.test(ua)) {
-    res.redirect('/downloads/linux');
-  } else {
-    res.redirect('/downloads/windows');
-  }
-};
-
-app.get('/', handleDownloads);
-app.get('/downloads', handleDownloads);
-
-app.get('/downloads/mac', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'mac', title: 'Download WebCatalog for Mac' });
-});
-
-app.get('/downloads/windows', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'windows', title: 'Download WebCatalog for Windows' });
-});
-
-app.get('/downloads/linux', (req, res) => {
-  res.render('downloads/index', { version: process.env.VERSION, platform: 'linux', title: 'Download WebCatalog for Linux' });
-});
-
-app.use('/apps', require('./modules/apps'));
-app.use('/admin', require('./modules/admin'));
-app.use('/api', require('./modules/api'));
-app.use('/s3', require('./modules/s3'));
+app.use('/', require('./routes/downloads'));
+app.use('/apps', require('./routes/apps'));
+app.use('/admin', require('./routes/admin'));
+app.use('/api', require('./routes/api'));
+app.use('/s3', require('./routes/s3'));
 
 // Error handler
 /* eslint-disable no-unused-vars */

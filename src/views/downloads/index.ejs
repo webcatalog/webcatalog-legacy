@@ -6,7 +6,7 @@
       <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
       </h1>
       <p class="subtitle" style="margin-top: -1em">
-        Explore thousands of exclusive apps,<br>get desktop notifications, and launch right from your <% if (platform === "mac") { %>dock<% } else if (platform === "linux") { %>launcher<% } else { %>taskbar<% } %>.
+        Explore thousands of exclusive apps,<br>get desktop notifications, and launch right from your <%= dockName %>.
       </p>
 
       <% if (platform === "mac") { %>
@@ -55,7 +55,91 @@
   </div>
 </section>
 
-<section class="section download">
+<section class="section hero is-dark featured-apps">
+  <div class="container">
+    <div class="content has-text-centered">
+      <h2 class="title">The Apps You Love, On Your Mac & PC</h2>
+      <div>
+        <% topApps.forEach(function (app) { %>
+        <a href="/apps/<%= app.slug %>/id<%= app.id %>">
+          <picture class="app-icon">
+            <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
+            <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
+            <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
+          </picture>
+        </a>
+        <% }) %>
+      </div>
+      <a href="/apps" class="button see-more">See more</a>
+    </div>
+  </div>
+</section>
+
+<section class="section hero features">
+  <div class="container">
+    <div class="content has-text-centered">
+      <h2 class="title">Why WebCatalog?</h1>
+
+      <div class="columns is-multiline is-desktop">
+        <div class="column is-half-desktop">
+          <div class="message">
+            <div class="message-body has-text-centered">
+              <span class="icon is-large">
+                <i class="fa fa-bell"></i>
+              </span>
+              <p class="title is-4">Notifications</p>
+              <p class="subtitle is-6">
+                Stay up-to-date with desktop notifications.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-half-desktop">
+          <div class="message">
+            <div class="message-body has-text-centered">
+              <span class="icon is-large">
+                <i class="fa fa-line-chart"></i>
+              </span>
+              <p class="title is-4">Productivity</p>
+              <p class="subtitle is-6">
+                Launch from your <%= dockName %>. <% if (platform === "windows") { %>Alt+Tab. Snap Assist<% } else { %>Freely configure the windows<% } %>.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-half-desktop">
+          <div class="message">
+            <div class="message-body has-text-centered">
+              <span class="icon is-large">
+                <i class="fa fa-user-secret"></i>
+              </span>
+              <p class="title is-4">Privacy</p>
+              <p class="subtitle is-6">
+                Each app runs within an isolated container.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-half-desktop">
+          <div class="message">
+            <div class="message-body has-text-centered">
+              <span class="icon is-large">
+                <i class="fa fa-ban"></i>
+              </span>
+              <p class="title is-4">Ad-Free</p>
+              <p class="subtitle is-6">
+                Ads + tracker blocker is preinstalled.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-dark download">
   <div class="container">
     <div class="content has-text-centered">
       <h2 class="title">Try now! It's free!</h2>

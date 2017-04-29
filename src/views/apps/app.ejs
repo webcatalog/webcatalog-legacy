@@ -6,7 +6,7 @@
       <div class="has-text-centered">
         <p class="category"><a href="/apps?category=<%= encodeURIComponent(app.category) %>"><%= app.category.replace('+', ' & ') %></a></p>
         <a href="/s3/<%= app.id %>.png">
-          <figure class="image is-128x128 icon">
+          <figure class="image is-128x128 app-icon">
             <picture>
               <source srcset="/s3/<%= app.id %>.webp" type="image/webp">
               <source srcset="/s3/<%= app.id %>.png" type="image/jpeg">

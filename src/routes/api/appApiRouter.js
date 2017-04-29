@@ -2,9 +2,9 @@ import express from 'express';
 
 import App from '../../models/App';
 
-const appApi = express.Router();
+const appApiRouter = express.Router();
 
-appApi.get('/', (req, res, next) => {
+appApiRouter.get('/', (req, res, next) => {
   App.findAll({ where: { isActive: true } })
     .then((apps) => {
       res.json(apps);
@@ -14,4 +14,4 @@ appApi.get('/', (req, res, next) => {
     });
 });
 
-module.exports = appApi;
+module.exports = appApiRouter;

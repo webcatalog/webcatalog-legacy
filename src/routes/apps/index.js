@@ -4,9 +4,9 @@ import App from '../../models/App';
 import categories from '../../constants/categories';
 import extractDomain from '../../libs/extractDomain';
 
-const api = express.Router();
+const appsRouter = express.Router();
 
-api.get('/', (req, res) => {
+appsRouter.get('/', (req, res) => {
   const opts = { where: { isActive: true } };
 
   if (req.query.category && categories.indexOf(req.query.category) > -1) {
@@ -19,7 +19,7 @@ api.get('/', (req, res) => {
     });
 });
 
-api.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
+appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
   const id = req.params.id;
   if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
     App.find({ where: { id: req.params.id, isActive: true } })
@@ -32,4 +32,4 @@ api.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
   }
 });
 
-module.exports = api;
+module.exports = appsRouter;
