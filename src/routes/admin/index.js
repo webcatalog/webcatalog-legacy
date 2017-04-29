@@ -80,7 +80,7 @@ adminRouter.get('/add', (req, res) => {
 adminRouter.get('/edit/id:id', (req, res, next) => {
   const id = req.params.id;
   if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.find({ where: { id } })
+    App.findbyId()
       .then((app) => {
         if (!app) next(new Error('App does not exist'));
         res.render('admin/edit', { title: `Edit ${app.name}`, categories, app });
@@ -93,13 +93,11 @@ adminRouter.get('/edit/id:id', (req, res, next) => {
 adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
   const id = req.params.id;
 
-  console.log(req.body.wikipediaTitle);
-
   if (!req.body) next(new Error('Request is not valid.'));
   else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
   } else if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.find({ where: { id } })
+    App.findbyId(id)
       .then((app) => {
         if (!app) next(new Error('App does not exist'));
 
