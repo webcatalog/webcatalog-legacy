@@ -22,7 +22,7 @@ appsRouter.get('/', (req, res) => {
 appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
   const id = req.params.id;
   if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.find({ where: { id: req.params.id, isActive: true } })
+    App.find({ where: { id, isActive: true } })
       .then((app) => {
         if (!app) next(new Error('App does not exist or is not activated.'));
         res.render('apps/app', { title: `${app.name} for Mac and PC on the WebCatalog Store`, app, extractDomain });

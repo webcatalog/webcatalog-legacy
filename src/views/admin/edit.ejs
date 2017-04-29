@@ -2,25 +2,25 @@
 
 <section class="section">
   <div class="container">
-    <h1 class="title">Add New App</h1>
+    <h1 class="title">Edit <%= app.name %></h1>
     <hr>
     <form method="post" enctype="multipart/form-data">
       <div class="field">
         <label class="label">Name</label>
         <p class="control">
-          <input class="input" type="text" placeholder="Name" name="name" required>
+          <input class="input" type="text" placeholder="Name" name="name" value="<%= app.name %>" required>
         </p>
       </div>
       <div class="field">
         <label class="label">URL</label>
         <p class="control">
-          <input class="input" type="text" placeholder="URL" name="url" required>
+          <input class="input" type="text" placeholder="URL" name="url" value="<%= app.url %>" required>
         </p>
       </div>
       <div class="field">
         <label class="label">Icon</label>
         <p class="control">
-          <input class="input" type="file" placeholder="Icon" name="icon" accept=".png" required>
+          <input class="input" type="file" placeholder="Icon" name="icon" accept=".png">
         </p>
       </div>
       <div class="field">
@@ -29,7 +29,7 @@
           <span class="select">
             <select name="category" required>
               <% categories.forEach(function (category) { %>
-              <option value="<%= category %>"><%= category %></option>
+              <option value="<%= category %>"<% if (category === app.category) { %> selected="selected"<% } %>><%= category %></option>
               <% }) %>
             </select>
           </span>
@@ -38,7 +38,7 @@
       <div class="field">
         <label class="label">Wikipedia Title</label>
         <p class="control">
-          <input class="input" type="text" placeholder="Wikipedia Title" name="wikipediaTitle">
+          <input class="input" type="text" placeholder="Wikipedia Title" name="wikipediaTitle" value="<%= app.wikipediaTitle %>">
         </p>
         <p class="help">Leave it blank if Wikipedia title is similar to name.</p>
       </div>
