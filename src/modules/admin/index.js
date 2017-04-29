@@ -9,6 +9,7 @@ import App from '../../models/App';
 import categories from '../../constants/categories';
 import convertToIcns from '../../libs/convertToIcns';
 import convertToIco from '../../libs/convertToIco';
+import algoliaClient from '../../algoliaClient';
 
 const admin = express.Router();
 
@@ -92,11 +93,8 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
     fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.name)}`)
     .then(response => response.json())
     .then((content) => {
-      console.log(content);
       const pageId = Object.keys(content.query.pages);
       if (pageId === '-1') return null;
-
-      console.log(content.query.pages[pageId].extract);
 
       return content.query.pages[pageId].extract;
     })
@@ -111,40 +109,46 @@ admin.post('/apps/add', upload.single('icon'), (req, res, next) => {
         description,
       }),
     )
-    .then(({ id }) =>
+    .then(app =>
       Promise.resolve()
         .then(() => {
           const p = [];
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.png`));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}.webp`));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.png`, 128));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${id}@128px.webp`, 128));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.png`));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.webp`));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.png`, 128));
+          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.webp`, 128));
 
           return Promise.all(p);
         })
         .then(() => {
           const p = [];
-          p.push(convertToIcns(`uploads/${id}.png`, `uploads/${id}.icns`));
-          p.push(convertToIco(`uploads/${id}.png`, `uploads/${id}.ico`));
+          p.push(convertToIcns(`uploads/${app.id}.png`, `uploads/${app.id}.icns`));
+          p.push(convertToIco(`uploads/${app.id}.png`, `uploads/${app.id}.ico`));
 
           return Promise.all(p);
         })
         .then(() => {
           const p = [];
-          p.push(uploadToS3Async(`uploads/${id}.png`, `${id}.png`));
-          p.push(uploadToS3Async(`uploads/${id}.webp`, `${id}.webp`));
-          p.push(uploadToS3Async(`uploads/${id}@128px.png`, `${id}@128px.png`));
-          p.push(uploadToS3Async(`uploads/${id}@128px.webp`, `${id}@128px.webp`));
-          p.push(uploadToS3Async(`uploads/${id}.icns`, `${id}.icns`));
-          p.push(uploadToS3Async(`uploads/${id}.ico`, `${id}.ico`));
+          p.push(uploadToS3Async(`uploads/${app.id}.png`, `${app.id}.png`));
+          p.push(uploadToS3Async(`uploads/${app.id}.webp`, `${app.id}.webp`));
+          p.push(uploadToS3Async(`uploads/${app.id}@128px.png`, `${app.id}@128px.png`));
+          p.push(uploadToS3Async(`uploads/${app.id}@128px.webp`, `${app.id}@128px.webp`));
+          p.push(uploadToS3Async(`uploads/${app.id}.icns`, `${app.id}.icns`));
+          p.push(uploadToS3Async(`uploads/${app.id}.ico`, `${app.id}.ico`));
 
           return Promise.all(p);
         })
-        .then(() => App.find({ where: { id } }))
-        .then(app => app.updateAttributes({
+        .then(() => app.updateAttributes({
           isActive: true,
         })),
     )
+    .then((app) => {
+      const plainApp = app.get({ plain: true });
+      plainApp.objectID = plainApp.id;
+
+      const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+      return index.addObject(plainApp);
+    })
     .then(() => {
       res.send('Done');
     })
