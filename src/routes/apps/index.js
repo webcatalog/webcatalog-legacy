@@ -24,9 +24,13 @@ appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
   App.find({ where: { id: req.params.id, isActive: true } })
     .then((app) => {
       if (!app) throw new Error('App does not exist or is not activated.');
+
+      let description = `${app.name} for Mac, Windows & Linux on the WebCatalog Store.`;
+      if (app.description) description += ` ${app.description.split('. ')[0]}.`;
+
       res.render('apps/app', {
         title: `${app.name} for Mac, Windows & Linux on the WebCatalog Store`,
-        description: `${app.name} for Mac, Windows & Linux on the WebCatalog Store. ${app.description.split(/[\n\r\!\,\.\?]/)[0]}.`,
+        description,
         app,
         extractDomain,
       });
