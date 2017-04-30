@@ -1,42 +1,19 @@
 import express from 'express';
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import User from '../../models/User';
+import jwt from 'jsonwebtoken';
 
 const authRouter = express.Router();
-
-passport.use(new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    User
-      .findOrCreate({
-        where: { email: profile.emails[0].value },
-        defaults: { profilePicture: profile.photos[0].value },
-      })
-      .spread((user) => {
-        // try to update new profile picture
-        if (user.profilePicture !== profile.photos[0].value) {
-          user.updateAttributes({
-            profilePicture: profile.photos[0].value,
-          })
-          .catch(console.log);
-        }
-
-        cb(null, user);
-      })
-      .catch(cb);
-  },
-));
 
 authRouter.get(['/', '/google'],
   (req, res, next) => {
     if (req.query.returnTo) {
       req.session.returnTo = req.query.returnTo;
     }
+
+    if (req.query.jwt === '1') {
+      req.session.useJWT = true;
+    }
+
     next();
   },
   passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -45,8 +22,23 @@ authRouter.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   (req, res) => {
-    res.redirect(req.session.returnTo || '/');
+    if (req.session.useJWT) {
+      const payload = { id: req.user.id };
+      const token = jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        {
+          issuer: process.env.JWT_ISSUER,
+          audience: process.env.JWT_AUDIENCE,
+        },
+      );
+      req.session.useJWT = null;
+      return res.json({ token });
+    }
+
+    const returnTo = req.session.returnTo || '/';
     req.session.returnTo = null;
+    return res.redirect(returnTo);
   });
 
 authRouter.get('/logout', (req, res) => {

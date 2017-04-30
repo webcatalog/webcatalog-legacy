@@ -4,6 +4,10 @@ import bodyParser from 'body-parser';
 import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import accepts from 'accepts';
+
 
 import User from './models/User';
 
@@ -20,7 +24,7 @@ app.use(sassMiddleware({
   indentedSyntax: true,
   prefix: '/public',
 }));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: 3600 * 24 * 30 }));
 
 // passport
 app.use(session({
@@ -41,6 +45,46 @@ passport.deserializeUser((id, done) => {
     })
     .catch(err => done(err));
 });
+
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    User
+      .findOrCreate({
+        where: { email: profile.emails[0].value },
+        defaults: { profilePicture: profile.photos[0].value },
+      })
+      .spread((user) => {
+        // try to update new profile picture
+        if (user.profilePicture !== profile.photos[0].value) {
+          user.updateAttributes({
+            profilePicture: profile.photos[0].value,
+          })
+          .catch(console.log);
+        }
+
+        cb(null, user);
+      })
+      .catch(cb);
+  },
+));
+
+const jwtOpts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  secretOrKey: process.env.JWT_SECRET,
+  issuer: process.env.JWT_ISSUER,
+  audience: process.env.JWT_AUDIENCE,
+};
+passport.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
+  User.findById(jwtPayload.id)
+    .then(user => done(null, user))
+    .catch(err => done(err, false));
+}));
+
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -70,15 +114,37 @@ app.use('/auth', require('./routes/auth'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
 /* eslint-enable no-unused-vars */
-  if (err.message === '404') {
-    return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
-  }
+  const accept = accepts(req);
 
-  return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
+  switch (accept.type(['json', 'html'])) {
+    case 'json': {
+      if (err.message === '404') {
+        return res.status(404).json({ errors: [{ status: '404', title: 'Page Not Found' }] });
+      }
+
+      return res.status(500).json({ errors: [{ status: '500', title: 'Internal Server Error' }] });
+    }
+    default: {
+      if (err.message === '404') {
+        return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+      }
+
+      return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
+    }
+  }
 });
 
 app.use((req, res) => {
-  res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+  const accept = accepts(req);
+
+  switch (accept.type(['json', 'html'])) {
+    case 'json': {
+      return res.status(404).json({ errors: [{ status: '404', title: 'Page Not Found' }] });
+    }
+    default: {
+      return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+    }
+  }
 });
 
 app.listen(app.get('port'), () => {
