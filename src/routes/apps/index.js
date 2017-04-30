@@ -3,19 +3,38 @@ import express from 'express';
 import App from '../../models/App';
 import categories from '../../constants/categories';
 import extractDomain from '../../libs/extractDomain';
+import generatePageList from '../../libs/generatePageList';
 
 const appsRouter = express.Router();
 
 appsRouter.get('/', (req, res, next) => {
-  const opts = { where: { isActive: true } };
+  const currentPage = parseInt(req.query.page, 10) || 1;
+  const limit = 10;
+  const offset = (currentPage - 1) * limit;
+
+  const opts = {
+    where: { isActive: true },
+    offset,
+    limit,
+  };
 
   if (req.query.category && categories.indexOf(req.query.category) > -1) {
     opts.where.category = req.query.category;
   }
 
-  App.findAll(opts)
-    .then((apps) => {
-      res.render('apps/index', { title: 'Explore WebCatalog Store', apps, categories, category: opts.where.category });
+  App.findAndCountAll(opts)
+    .then(({ rows, count }) => {
+      const totalPage = Math.ceil(count / limit);
+
+      res.render('apps/index', {
+        title: 'Explore WebCatalog Store',
+        apps: rows,
+        categories,
+        category: opts.where.category,
+        currentPage,
+        pages: generatePageList(currentPage, totalPage),
+        totalPage,
+      });
     })
     .catch(next);
 });
