@@ -9,7 +9,7 @@ import { signIn } from '../actions/auth';
 import getServerUrl from '../helpers/getServerUrl';
 
 const Auth = ({ onSignIn }) => (
-  <div style={{ flex: 1 }}>
+  <div style={{ flex: 1, WebkitUserSelect: 'none', WebkitAppRegion: 'drag' }}>
     <NonIdealState
       visual={<img src="images/logo.png" alt="WebCatalog" className="logo" />}
       title="Sign in to Continue"
@@ -21,6 +21,7 @@ const Auth = ({ onSignIn }) => (
           className={Classes.LARGE}
           text="Sign in with Google"
           onClick={onSignIn}
+          style={{ WebkitAppRegion: 'no-drag' }}
         />
       )}
     />

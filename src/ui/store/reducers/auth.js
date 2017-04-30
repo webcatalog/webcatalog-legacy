@@ -1,20 +1,19 @@
+/* global localStorage */
 import Immutable from 'immutable';
-import { remote } from 'electron';
 import { SIGN_IN, LOG_OUT } from '../constants/actions';
 
-const electronSettings = remote.require('electron-settings');
-
 const initialState = Immutable.Map({
-  token: electronSettings.get('token', null),
+  token: localStorage.getItem('token'),
 });
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_IN:
-      electronSettings.set('token', action.token);
+      localStorage.setItem('token', action.token);
       return state
         .set('token', action.token);
     case LOG_OUT:
+      localStorage.removeItem('token');
       return state
         .set('token', action.token);
     default:
