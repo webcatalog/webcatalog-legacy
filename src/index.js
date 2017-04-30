@@ -70,6 +70,7 @@ app.use('/auth', require('./routes/auth'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
 /* eslint-enable no-unused-vars */
+  console.log(err);
   res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
 });
 
