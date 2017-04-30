@@ -26,8 +26,6 @@ appsRouter.get('/', (req, res, next) => {
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
 
-      console.log(totalPage);
-
       if (currentPage > totalPage && currentPage > 1) throw new Error('404');
 
       let path = '/apps';
