@@ -15,7 +15,7 @@ downloadsRouter.get(['/', '/downloads'], (req, res) => {
   }
 });
 
-downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
+downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res, next) => {
   const platform = req.params.platform;
   const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
 
@@ -28,9 +28,8 @@ downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
     limit: 10,
     order: [['installCount', 'DESC']],
   })
-  .then((topApps) => {
-    res.render('downloads/index', { version: process.env.VERSION, platform, dockName, topApps, title: `Download WebCatalog for ${platformName}` });
-  });
+  .then(topApps => res.render('downloads/index', { version: process.env.VERSION, platform, dockName, topApps, title: `Download WebCatalog for ${platformName}` }))
+  .catch(next);
 });
 
 module.exports = downloadsRouter;

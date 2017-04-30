@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
+  <meta name="description" content="WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.">
+  <meta name="keywords" content="fluid, nativefier, webcatalog, electron, chrome, chromium, notification, native, single site browser, mac, pc, linux, macos, windows 10, ubuntu">
+  <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/public/css/app.css">
+</head>
+<body>
+  <section class="hero is-danger error">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <span class="icon is-large">
+          <i class="fa fa-exclamation-circle"></i>
+        </span>
+        <h1 class="title">
+          <%= errorCode %>
+        </h1>
+        <h2 class="subtitle">
+          <%= errorMessage %>
+        </h2>
+        <a class="button is-white" href="/">Return Home</a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

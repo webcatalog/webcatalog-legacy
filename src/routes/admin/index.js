@@ -70,6 +70,36 @@ const sharpAsync = (inputPath, outputPath, newSize) =>
     return p;
   });
 
+const compileUploadImagesAsync = (fileName, appId) =>
+  Promise.resolve()
+    .then(() => {
+      const p = [];
+      p.push(sharpAsync(`uploads/${fileName}`, `uploads/${appId}.png`));
+      p.push(sharpAsync(`uploads/${fileName}`, `uploads/${appId}.webp`));
+      p.push(sharpAsync(`uploads/${fileName}`, `uploads/${appId}@128px.png`, 128));
+      p.push(sharpAsync(`uploads/${fileName}`, `uploads/${appId}@128px.webp`, 128));
+
+      return Promise.all(p);
+    })
+    .then(() => {
+      const p = [];
+      p.push(convertToIcns(`uploads/${appId}.png`, `uploads/${appId}.icns`));
+      p.push(convertToIco(`uploads/${appId}.png`, `uploads/${appId}.ico`));
+
+      return Promise.all(p);
+    })
+    .then(() => {
+      const p = [];
+      p.push(uploadToS3Async(`uploads/${appId}.png`, `${appId}.png`));
+      p.push(uploadToS3Async(`uploads/${appId}.webp`, `${appId}.webp`));
+      p.push(uploadToS3Async(`uploads/${appId}@128px.png`, `${appId}@128px.png`));
+      p.push(uploadToS3Async(`uploads/${appId}@128px.webp`, `${appId}@128px.webp`));
+      p.push(uploadToS3Async(`uploads/${appId}.icns`, `${appId}.icns`));
+      p.push(uploadToS3Async(`uploads/${appId}.ico`, `${appId}.ico`));
+
+      return Promise.all(p);
+    });
+
 adminRouter.get('/', (req, res) => {
   res.redirect('/admin/add');
 });
@@ -79,61 +109,25 @@ adminRouter.get('/add', ensureIsAdmin, (req, res) => {
 });
 
 adminRouter.get('/edit/id:id', (req, res, next) => {
-  const id = req.params.id;
-  if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.findById(id)
-      .then((app) => {
-        if (!app) next(new Error('App does not exist'));
-        res.render('admin/edit', { title: `Edit ${app.name}`, categories, app });
-      });
-  } else {
-    next(new Error('UUID is not valid.'));
-  }
+  App.findById(req.params.id)
+    .then(app => res.render('admin/edit', { title: `Edit ${app.name}`, categories, app }))
+    .catch(next);
 });
 
 adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
-  const id = req.params.id;
+  if (!req.body) return next(new Error('Request is not valid.'));
 
-  if (!req.body) next(new Error('Request is not valid.'));
-  else if (!req.body.name || !req.body.url || !req.body.category) {
-    res.send('Please fill in all fields.');
-  } else if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.findById(id)
-      .then((app) => {
-        if (!app) next(new Error('App does not exist'));
+  if (!req.body.name || !req.body.url || !req.body.category) {
+    return res.send('Please fill in all fields.');
+  }
 
-        return Promise.resolve()
+  return App.findById(req.params.id)
+    .then(app =>
+      Promise.resolve()
         .then(() => {
           if (!req.file) return null;
 
-          return Promise.resolve()
-            .then(() => {
-              const p = [];
-              p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.png`));
-              p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.webp`));
-              p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.png`, 128));
-              p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.webp`, 128));
-
-              return Promise.all(p);
-            })
-            .then(() => {
-              const p = [];
-              p.push(convertToIcns(`uploads/${app.id}.png`, `uploads/${app.id}.icns`));
-              p.push(convertToIco(`uploads/${app.id}.png`, `uploads/${app.id}.ico`));
-
-              return Promise.all(p);
-            })
-            .then(() => {
-              const p = [];
-              p.push(uploadToS3Async(`uploads/${app.id}.png`, `${app.id}.png`));
-              p.push(uploadToS3Async(`uploads/${app.id}.webp`, `${app.id}.webp`));
-              p.push(uploadToS3Async(`uploads/${app.id}@128px.png`, `${app.id}@128px.png`));
-              p.push(uploadToS3Async(`uploads/${app.id}@128px.webp`, `${app.id}@128px.webp`));
-              p.push(uploadToS3Async(`uploads/${app.id}.icns`, `${app.id}.icns`));
-              p.push(uploadToS3Async(`uploads/${app.id}.ico`, `${app.id}.ico`));
-
-              return Promise.all(p);
-            });
+          return compileUploadImagesAsync(req.file.filename, app.id);
         })
         .then(() => fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.wikipediaTitle || req.body.name)}`))
         .then(response => response.json())
@@ -164,24 +158,21 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
             .then(() => {
               res.redirect(`/apps/${app.slug}/id${app.id}`);
             });
-        });
-      })
-      .catch((err) => {
-        next(err);
-      });
-  } else {
-    next(new Error('UUID is not valid.'));
-  }
+        }),
+      )
+      .catch(next);
 });
 
 adminRouter.post('/add', upload.single('icon'), (req, res, next) => {
-  if (!req.body || !req.file) next(new Error('Request is not valid.'));
-  else if (!req.body.name || !req.body.url || !req.body.category) {
-    res.send('Please fill in all fields.');
-  } else {
-    const wikipediaTitle = req.body.wikipediaTitle || req.body.name;
+  if (!req.body || !req.file) return next(new Error('Request is not valid.'));
 
-    fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(wikipediaTitle)}`)
+  if (!req.body.name || !req.body.url || !req.body.category) {
+    return res.send('Please fill in all fields.');
+  }
+
+  const wikipediaTitle = req.body.wikipediaTitle || req.body.name;
+
+  return fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(wikipediaTitle)}`)
     .then(response => response.json())
     .then((content) => {
       const pageId = Object.keys(content.query.pages);
@@ -202,34 +193,7 @@ adminRouter.post('/add', upload.single('icon'), (req, res, next) => {
       }),
     )
     .then(app =>
-      Promise.resolve()
-        .then(() => {
-          const p = [];
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.png`));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}.webp`));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.png`, 128));
-          p.push(sharpAsync(`uploads/${req.file.filename}`, `uploads/${app.id}@128px.webp`, 128));
-
-          return Promise.all(p);
-        })
-        .then(() => {
-          const p = [];
-          p.push(convertToIcns(`uploads/${app.id}.png`, `uploads/${app.id}.icns`));
-          p.push(convertToIco(`uploads/${app.id}.png`, `uploads/${app.id}.ico`));
-
-          return Promise.all(p);
-        })
-        .then(() => {
-          const p = [];
-          p.push(uploadToS3Async(`uploads/${app.id}.png`, `${app.id}.png`));
-          p.push(uploadToS3Async(`uploads/${app.id}.webp`, `${app.id}.webp`));
-          p.push(uploadToS3Async(`uploads/${app.id}@128px.png`, `${app.id}@128px.png`));
-          p.push(uploadToS3Async(`uploads/${app.id}@128px.webp`, `${app.id}@128px.webp`));
-          p.push(uploadToS3Async(`uploads/${app.id}.icns`, `${app.id}.icns`));
-          p.push(uploadToS3Async(`uploads/${app.id}.ico`, `${app.id}.ico`));
-
-          return Promise.all(p);
-        })
+      compileUploadImagesAsync(req.file.filename, app.id)
         .then(() => app.updateAttributes({
           isActive: true,
         })),
@@ -244,10 +208,7 @@ adminRouter.post('/add', upload.single('icon'), (req, res, next) => {
           res.redirect(`/apps/${app.slug}/id${app.id}`);
         });
     })
-    .catch((err) => {
-      next(err);
-    });
-  }
+    .catch(next);
 });
 
 module.exports = adminRouter;

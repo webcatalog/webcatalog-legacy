@@ -7,9 +7,7 @@ const appApiRouter = express.Router();
 appApiRouter.get('/', (req, res, next) => {
   App.findAll({ where: { isActive: true } })
     .then(apps => res.json(apps))
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 });
 
 appApiRouter.get('/:id', (req, res, next) => {
@@ -18,9 +16,7 @@ appApiRouter.get('/:id', (req, res, next) => {
       if (!app) throw new Error('App not found');
       return res.json(app);
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 });
 
 module.exports = appApiRouter;

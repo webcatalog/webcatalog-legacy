@@ -6,7 +6,7 @@ import extractDomain from '../../libs/extractDomain';
 
 const appsRouter = express.Router();
 
-appsRouter.get('/', (req, res) => {
+appsRouter.get('/', (req, res, next) => {
   const opts = { where: { isActive: true } };
 
   if (req.query.category && categories.indexOf(req.query.category) > -1) {
@@ -16,20 +16,17 @@ appsRouter.get('/', (req, res) => {
   App.findAll(opts)
     .then((apps) => {
       res.render('apps/index', { title: 'Explore WebCatalog Store', apps, categories, category: opts.where.category });
-    });
+    })
+    .catch(next);
 });
 
 appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
-  const id = req.params.id;
-  if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.find({ where: { id, isActive: true } })
-      .then((app) => {
-        if (!app) next(new Error('App does not exist or is not activated.'));
-        res.render('apps/app', { title: `${app.name} for Mac and PC on the WebCatalog Store`, app, extractDomain });
-      });
-  } else {
-    next(new Error('UUID is not valid.'));
-  }
+  App.find({ where: { id: req.params.id, isActive: true } })
+    .then((app) => {
+      if (!app) throw new Error('App does not exist or is not activated.');
+      res.render('apps/app', { title: `${app.name} for Mac and PC on the WebCatalog Store`, app, extractDomain });
+    })
+    .catch(next);
 });
 
 module.exports = appsRouter;
