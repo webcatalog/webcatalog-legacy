@@ -2,9 +2,10 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import sassMiddleware from 'node-sass-middleware';
+import session from 'express-session';
+import passport from 'passport';
 
-// load .env
-require('dotenv').config();
+import User from './models/User';
 
 const app = express();
 
@@ -21,9 +22,35 @@ app.use(sassMiddleware({
 }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+// passport
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then((user) => {
+      if (!user) return done(new Error('User not found'));
+      return done(null, user);
+    })
+    .catch(err => done(err));
+});
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use((req, res, next) => {
+  res.locals.path = req.path;
+  res.locals.user = req.user;
+
+  next();
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,6 +63,7 @@ app.use('/apps', require('./routes/apps'));
 app.use('/admin', require('./routes/admin'));
 app.use('/api', require('./routes/api'));
 app.use('/s3', require('./routes/s3'));
+app.use('/auth', require('./routes/auth'));
 
 // Error handler
 /* eslint-disable no-unused-vars */

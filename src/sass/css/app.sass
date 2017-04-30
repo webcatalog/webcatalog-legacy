@@ -10,11 +10,18 @@ $yellow: #FBC02D
 
 @import "../../../node_modules/bulma/bulma"
 
-.nav-item.logo
-  padding-top: 0
-  padding-bottom: 0
-  img
-    max-height: 52px
+.nav-item
+  &.logo
+    padding-top: 0
+    padding-bottom: 0
+    img
+      max-height: 52px
+
+  .image.profile-picture
+    margin-right: 8px
+    img
+      max-height: inherit
+      border-radius: 16px
 
 .footer
   background-color: whitesmoke

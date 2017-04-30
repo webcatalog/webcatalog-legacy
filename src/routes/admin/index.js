@@ -10,6 +10,7 @@ import categories from '../../constants/categories';
 import convertToIcns from '../../libs/convertToIcns';
 import convertToIco from '../../libs/convertToIco';
 import algoliaClient from '../../algoliaClient';
+import ensureIsAdmin from '../../middlewares/ensureIsAdmin';
 
 const adminRouter = express.Router();
 
@@ -73,14 +74,14 @@ adminRouter.get('/', (req, res) => {
   res.redirect('/admin/add');
 });
 
-adminRouter.get('/add', (req, res) => {
+adminRouter.get('/add', ensureIsAdmin, (req, res) => {
   res.render('admin/add', { title: 'Add New App', categories });
 });
 
 adminRouter.get('/edit/id:id', (req, res, next) => {
   const id = req.params.id;
   if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.findbyId()
+    App.findById(id)
       .then((app) => {
         if (!app) next(new Error('App does not exist'));
         res.render('admin/edit', { title: `Edit ${app.name}`, categories, app });
@@ -97,7 +98,7 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
   else if (!req.body.name || !req.body.url || !req.body.category) {
     res.send('Please fill in all fields.');
   } else if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id)) {
-    App.findbyId(id)
+    App.findById(id)
       .then((app) => {
         if (!app) next(new Error('App does not exist'));
 
