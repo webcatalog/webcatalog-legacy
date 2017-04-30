@@ -33,7 +33,7 @@ authRouter.get(
         },
       );
       req.session.useJWT = null;
-      return res.json({ token });
+      return res.render('jwt', { token });
     }
 
     const returnTo = req.session.returnTo || '/';

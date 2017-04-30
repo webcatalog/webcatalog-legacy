@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
-  <meta charset="utf-8">
+  <title><%= token %></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.">
@@ -26,15 +26,14 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <span class="icon is-large">
-          <i class="fa fa-exclamation-circle"></i>
+          <i class="fa fa-user-circle-o"></i>
         </span>
         <h1 class="title">
-          <%= errorCode %>
+          Signed In Successfully
         </h1>
         <h2 class="subtitle">
-          <%= errorMessage %>
+          Plese close this window.
         </h2>
-        <a class="button is-white" href="/">Return Home</a>
       </div>
     </div>
   </section>
