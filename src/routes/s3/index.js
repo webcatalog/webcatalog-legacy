@@ -10,6 +10,8 @@ const s3 = new S3({
 });
 
 s3Route.get('/:key', (req, res) => {
+  res.setHeader('Cache-Control', `public, max-age=${3600 * 24 * 30}`); // cache 1 month
+
   const imgStream = s3.getObject({
     Bucket: process.env.S3_BUCKET,
     Key: req.params.key,
