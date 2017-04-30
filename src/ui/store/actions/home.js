@@ -4,6 +4,7 @@ import { batchActions } from 'redux-batched-actions';
 import { SET_STATUS, ADD_APPS, RESET_HOME } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 import getServerUrl from '../helpers/getServerUrl';
+import checkFetchStatus from '../helpers/checkFetchStatus';
 
 import { search } from './search';
 
@@ -27,6 +28,7 @@ export const fetchApps = () => (dispatch, getState) => {
   });
 
   fetch(getServerUrl('/api/apps'))
+  .then(checkFetchStatus)
   .then(response => response.json())
   .then((chunk) => {
     dispatch(batchActions([
@@ -44,7 +46,7 @@ export const fetchApps = () => (dispatch, getState) => {
   })
   .catch((err) => {
     /* eslint-disable no-console */
-    console.log(err);
+    console.log(err.message);
     /* eslint-enable no-console */
 
     dispatch({

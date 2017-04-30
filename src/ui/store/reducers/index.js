@@ -1,19 +1,21 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
+import route from './route';
+import screen from './screen';
 import appManagement from './appManagement';
 import home from './home';
 import search from './search';
 import installed from './installed';
-import screen from './screen';
+import auth from './auth';
 
 const rootReducer = combineReducers({
+  route,
+  screen,
   appManagement,
   home,
   search,
   installed,
-  screen,
-  routing: routerReducer,
+  auth,
 });
 
 export default rootReducer;

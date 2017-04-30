@@ -1,10 +1,7 @@
 /* global fetch */
 
 const getServerUrl = (path) => {
-  let endpoint = 'https://webcatalog-server.herokuapp.com';
-  if (process.env.NODE_ENV === 'development') {
-    endpoint = 'http://localhost:5000';
-  }
+  const endpoint = 'https://webcatalog-server.herokuapp.com';
 
   return `${endpoint}${path}`;
 };

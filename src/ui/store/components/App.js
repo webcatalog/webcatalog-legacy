@@ -9,7 +9,12 @@ import { scanInstalledApps } from '../actions/appManagement';
 
 import Nav from './Nav';
 
-class Layout extends React.Component {
+import Auth from './Auth';
+import Home from './Home';
+import Search from './Search';
+import Installed from './Installed';
+
+class App extends React.Component {
   componentDidMount() {
     const { requestScanInstalledApps, onResize } = this.props;
     requestScanInstalledApps();
@@ -22,7 +27,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { children, pathname } = this.props;
+    const { token, routeId } = this.props;
 
     return (
       <div
@@ -32,22 +37,34 @@ class Layout extends React.Component {
           flexDirection: 'column',
         }}
       >
-        <Nav pathname={pathname} />
-        {children}
+        {token ? <Nav /> : null}
+        {(() => {
+          if (!token) return <Auth />;
+
+          switch (routeId) {
+            case 'search':
+              return <Search />;
+            case 'installed':
+              return <Installed />;
+            default:
+              return <Home />;
+          }
+        })()}
       </div>
     );
   }
 }
 
-Layout.propTypes = {
-  children: PropTypes.element.isRequired, // matched child route component
-  pathname: PropTypes.string.isRequired,
+App.propTypes = {
+  routeId: PropTypes.string.isRequired,
+  token: PropTypes.string,
   requestScanInstalledApps: PropTypes.func.isRequired,
   onResize: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  pathname: ownProps.location.pathname,
+const mapStateToProps = state => ({
+  routeId: state.route.get('routeId'),
+  token: state.auth.get('token'),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -69,4 +86,4 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps, mapDispatchToProps,
-)(Layout);
+)(App);

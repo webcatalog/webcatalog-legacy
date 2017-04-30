@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, MenuDivider, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
-import { replace, push, goBack } from 'react-router-redux';
 
 import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
+import { setRoute, goBack } from '../actions/route';
 
 const Nav = ({
-  query, pathname,
+  query, routeId,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo,
 }) => (
@@ -39,14 +39,14 @@ const Nav = ({
               e.target.blur();
             }
           }}
-          onChange={e => requestSetSearchQuery(e.target.value, pathname)}
+          onChange={e => requestSetSearchQuery(e.target.value, routeId)}
         />
         {query.length > 0 ? (
           <Button
             iconName="cross"
             className={Classes.MINIMAL}
             style={{ WebkitAppRegion: 'no-drag' }}
-            onClick={() => requestSetSearchQuery('', pathname)}
+            onClick={() => requestSetSearchQuery('', routeId)}
           />
         ) : null}
       </div>
@@ -55,22 +55,22 @@ const Nav = ({
       <Button
         iconName="home"
         className={classNames(
-          { [Classes.ACTIVE]: (pathname === '/') },
+          { [Classes.ACTIVE]: (routeId === 'home') },
           Classes.MINIMAL,
         )}
         style={{ WebkitAppRegion: 'no-drag' }}
         text="Home"
-        onClick={() => goTo('/')}
+        onClick={() => goTo('home')}
       />
       <Button
-        iconName="user"
+        iconName="tag"
         className={classNames(
-          { [Classes.ACTIVE]: (pathname === '/installed') },
+          { [Classes.ACTIVE]: (routeId === 'installed') },
           Classes.MINIMAL,
         )}
         style={{ WebkitAppRegion: 'no-drag' }}
         text="My Apps"
-        onClick={() => goTo('/installed')}
+        onClick={() => goTo('installed')}
       />
       <Popover
         content={(
@@ -78,7 +78,7 @@ const Nav = ({
             <MenuItem
               iconName="refresh"
               text="Refresh"
-              onClick={() => requestRefresh(pathname)}
+              onClick={() => requestRefresh(routeId)}
             />
             <MenuItem
               iconName="add"
@@ -118,25 +118,25 @@ const Nav = ({
 
 Nav.propTypes = {
   query: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired,
+  routeId: PropTypes.string.isRequired,
   requestSearch: PropTypes.func.isRequired,
   requestSetSearchQuery: PropTypes.func.isRequired,
   requestRefresh: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   query: state.search.get('query'),
-  pathname: ownProps.pathname,
+  routeId: state.route.get('routeId'),
 });
 
 const mapDispatchToProps = dispatch => ({
   requestSearch: () => {
     dispatch(search());
-    dispatch(push('/search'));
+    dispatch(setRoute('search'));
   },
-  requestSetSearchQuery: (query, pathname) => {
-    if (pathname === '/search') {
+  requestSetSearchQuery: (query, routeId) => {
+    if (routeId === 'search') {
       dispatch(goBack());
     }
     dispatch(setSearchQuery(query));
@@ -145,7 +145,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(refresh(pathname));
   },
   goTo: (pathname) => {
-    dispatch(replace(pathname));
+    dispatch(setRoute(pathname));
   },
 });
 

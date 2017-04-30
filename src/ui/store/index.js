@@ -1,4 +1,4 @@
-import { remote, ipcRenderer } from 'electron';
+import { remote, ipcRenderer, webFrame } from 'electron';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -6,13 +6,18 @@ import { Provider } from 'react-redux';
 import { FocusStyleManager } from '@blueprintjs/core';
 
 import store from './store';
-import renderRoutes from './renderRoutes';
 import getAllAppPath from './helpers/getAllAppPath';
+
+import App from './components/App';
 
 import '../shared/styles/main.scss';
 
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
+
+// disable zoom
+webFrame.setVisualZoomLevelLimits(1, 1);
+webFrame.setLayoutZoomLevelLimits(0, 0);
 
 // log message
 ipcRenderer.on('log', (event, message) => {
@@ -29,7 +34,7 @@ if (!remote.require('fs').existsSync(allAppPath)) {
 
 render(
   <Provider store={store}>
-    {renderRoutes()}
+    {<App />}
   </Provider>,
   document.getElementById('app'),
 );

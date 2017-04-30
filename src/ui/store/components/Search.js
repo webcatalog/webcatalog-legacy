@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
 
 import { search } from '../actions/search';
+import { setRoute } from '../actions/route';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 
 import Loading from './Loading';
@@ -104,7 +104,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(search());
   },
   closeSearch: () => {
-    dispatch(replace('/'));
+    dispatch(setRoute('home'));
   },
 });
 

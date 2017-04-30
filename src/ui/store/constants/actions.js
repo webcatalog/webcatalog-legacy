@@ -1,3 +1,6 @@
+export const SET_ROUTE = 'SET_ROUTE';
+export const GO_BACK = 'GO_BACK';
+
 export const SCREEN_RESIZE = 'SCREEN_RESIZE';
 
 export const SET_STATUS = 'SET_STATUS';
@@ -14,3 +17,6 @@ export const SET_CUSTOM_STATUS = 'SET_CUSTOM_STATUS';
 
 export const SET_MANAGED_APP = 'SET_MANAGED_APP';
 export const REMOVE_MANAGED_APP = 'REMOVE_MANAGED_APP';
+
+export const SIGN_IN = 'SIGN_IN';
+export const LOG_OUT = 'LOG_OUT';
