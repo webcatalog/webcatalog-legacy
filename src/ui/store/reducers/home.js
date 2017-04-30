@@ -6,7 +6,7 @@ import { LOADING } from '../constants/statuses';
 const initialState = Immutable.Map({
   status: LOADING,
   apps: Immutable.List([]),
-  currentPage: -1,
+  currentPage: 0,
   totalPage: null,
   appStatus: Immutable.Map({}),
 });

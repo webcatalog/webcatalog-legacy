@@ -37,7 +37,7 @@ class Home extends React.Component {
     // Show apps if available
     if (apps) {
       return (
-        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
+        <div className="grid" style={{ maxWidth: 960, margin: '48px auto 0 auto', zIndex: 1 }}>
           {apps.map(app => <Card app={app} key={app.get('id')} />)}
         </div>
       );
@@ -59,49 +59,51 @@ class Home extends React.Component {
   render() {
     return (
       <div
-        style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
+        style={{ flex: 1, overflow: 'auto', paddingBottom: 12, zIndex: 2 }}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
-          <Popover
-            content={(
-              <Menu>
-                {categories.map(category => (
+        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, paddingTop: 6 }}>
+          <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
+            <Popover
+              content={(
+                <Menu>
+                  {categories.map(category => (
+                    <MenuItem
+                      key={category}
+                      text={category}
+                    />
+                  ))}
+                </Menu>
+              )}
+              position={Position.BOTTOM_LEFT}
+            >
+              <Button
+                rightIconName="chevron-down"
+                text="All Categories"
+              />
+            </Popover>
+            <Popover
+              content={(
+                <Menu>
                   <MenuItem
-                    key={category}
-                    text={category}
+                    text="Most Downloaded"
                   />
-                ))}
-              </Menu>
-            )}
-            position={Position.BOTTOM_LEFT}
-          >
-            <Button
-              rightIconName="chevron-down"
-              text="All Categories"
-            />
-          </Popover>
-          <Popover
-            content={(
-              <Menu>
-                <MenuItem
-                  text="Most Downloaded"
-                />
-                <MenuItem
-                  text="A to Z"
-                />
-                <MenuItem
-                  text="Recently Added"
-                />
-              </Menu>
-            )}
-            position={Position.BOTTOM_RIGHT}
-          >
-            <Button
-              rightIconName="chevron-down"
-              text="Most Downloaded"
-            />
-          </Popover>
+                  <MenuItem
+                    text="A to Z"
+                  />
+                  <MenuItem
+                    text="Recently Added"
+                  />
+                </Menu>
+              )}
+              position={Position.BOTTOM_RIGHT}
+            >
+              <Button
+                rightIconName="chevron-down"
+                text="Most Downloaded"
+              />
+            </Popover>
+          </div>
         </div>
         {this.renderList()}
         {this.renderStatus()}

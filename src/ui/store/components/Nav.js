@@ -23,6 +23,7 @@ const Nav = ({
       WebkitAppRegion: 'drag',
       flexBasis: 50,
       paddingLeft: (remote.require('os').platform() === 'darwin') ? 80 : null,
+      zIndex: 1000,
     }}
   >
     <div className="pt-navbar-group pt-align-left" style={{ flex: 1, paddingRight: 12 }}>
