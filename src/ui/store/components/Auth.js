@@ -1,9 +1,12 @@
+/* global fetch */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NonIdealState, Button, Intent, Classes } from '@blueprintjs/core';
+import { remote } from 'electron';
 
 import { signIn } from '../actions/auth';
+import getServerUrl from '../helpers/getServerUrl';
 
 const Auth = ({ onSignIn }) => (
   <div style={{ flex: 1 }}>
@@ -30,7 +33,30 @@ Auth.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   onSignIn: () => {
-    dispatch(signIn('test'));
+    let authWindow = new remote.BrowserWindow({
+      width: 800,
+      height: 600,
+      show: false,
+      nodeIntegration: false,
+      sandbox: true,
+      session: remote.session.fromPartition('jwt'),
+    });
+    const authUrl = getServerUrl('/auth/google?jwt=1');
+    authWindow.loadURL(authUrl);
+    authWindow.show();
+
+    // Handle the response
+    authWindow.webContents.on('did-stop-loading', () => {
+      if (/^.*(auth\/google\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
+        dispatch(signIn(authWindow.webContents.getTitle()));
+        authWindow.destroy();
+      }
+    });
+
+    // Reset the authWindow on close
+    authWindow.on('close', () => {
+      authWindow = null;
+    }, false);
   },
 });
 

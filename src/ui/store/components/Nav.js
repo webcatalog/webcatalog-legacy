@@ -8,11 +8,12 @@ import classNames from 'classnames';
 import { refresh } from '../actions/home';
 import { search, setSearchQuery } from '../actions/search';
 import { setRoute, goBack } from '../actions/route';
+import { logOut } from '../actions/auth';
 
 const Nav = ({
   query, routeId,
   requestSearch, requestSetSearchQuery, requestRefresh,
-  goTo,
+  goTo, onLogOut,
 }) => (
   <nav
     className="pt-navbar"
@@ -88,6 +89,7 @@ const Nav = ({
             <MenuItem
               iconName="log-out"
               text="Log out"
+              onClick={onLogOut}
             />
             <MenuDivider />
             <MenuItem
@@ -123,6 +125,7 @@ Nav.propTypes = {
   requestSetSearchQuery: PropTypes.func.isRequired,
   requestRefresh: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
+  onLogOut: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -146,6 +149,9 @@ const mapDispatchToProps = dispatch => ({
   },
   goTo: (pathname) => {
     dispatch(setRoute(pathname));
+  },
+  onLogOut: () => {
+    dispatch(logOut());
   },
 });
 
