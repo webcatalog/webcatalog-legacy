@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
+  <link rel="canonical" href="https://getwebcatalog.com<%= path %>">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
-  <meta name="description" content="WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.">
-  <meta name="keywords" content="fluid, nativefier, webcatalog, electron, chrome, chromium, notification, native, single site browser, mac, pc, linux, macos, windows 10, ubuntu">
+  <meta name="description" content="<%= description %>">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.">
+  <meta name="twitter:description" content="<%= description %>">
+  <meta property="og:site_name" content="WebCatalog">
+  <meta property="og:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.">
+  <meta property="og:type" content="article">
+  <meta property="og:description" content="<%= description %>">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://getwebcatalog.com<%= path %>">
   <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/public/css/app.css">

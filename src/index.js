@@ -48,6 +48,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use((req, res, next) => {
   res.locals.path = req.path;
   res.locals.user = req.user;
+  res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
 
   next();
 });
