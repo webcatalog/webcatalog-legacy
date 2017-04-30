@@ -70,8 +70,11 @@ app.use('/auth', require('./routes/auth'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
 /* eslint-enable no-unused-vars */
-  console.log(err);
-  res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
+  if (err.message === '404') {
+    return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+  }
+
+  return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
 });
 
 app.use((req, res) => {

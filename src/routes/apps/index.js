@@ -9,7 +9,7 @@ const appsRouter = express.Router();
 
 appsRouter.get('/', (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
-  const limit = 10;
+  const limit = 24;
   const offset = (currentPage - 1) * limit;
 
   const opts = {
@@ -26,7 +26,15 @@ appsRouter.get('/', (req, res, next) => {
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
 
+      console.log(totalPage);
+
+      if (currentPage > totalPage && currentPage > 1) throw new Error('404');
+
+      let path = '/apps';
+      if (opts.where.category) path += `?category=${opts.where.category}`;
+
       res.render('apps/index', {
+        path,
         title: 'Explore WebCatalog Store',
         apps: rows,
         categories,
@@ -42,7 +50,7 @@ appsRouter.get('/', (req, res, next) => {
 appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
   App.find({ where: { id: req.params.id, isActive: true } })
     .then((app) => {
-      if (!app) throw new Error('App does not exist or is not activated.');
+      if (!app) throw new Error('404');
 
       let description = `${app.name} for Mac, Windows & Linux on the WebCatalog Store.`;
       if (app.description) description += ` ${app.description.split('. ')[0]}.`;
