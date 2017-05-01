@@ -42,7 +42,7 @@ downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res, next) 
       },
       isActive: true,
     },
-    attributes: ['id', 'name', 'url'],
+    attributes: ['id', 'name', 'url', 'slug'],
     order: [['installCount', 'DESC']],
   })
   .then(topApps => res.render('downloads/index', { version: process.env.VERSION, platform, dockName, topApps, title: `Download WebCatalog for ${platformName}` }))
