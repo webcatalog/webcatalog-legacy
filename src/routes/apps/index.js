@@ -74,7 +74,7 @@ appsRouter.get('/search', (req, res, next) => {
   }
 
   const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
-  return index.search(req.params.searchQuery, { page: currentPage - 1, hitsPerPage: limit })
+  return index.search(req.query.query, { page: currentPage - 1, hitsPerPage: limit })
     .then(({ hits, nbPages }) =>
       res.render('apps/search', {
         title: `Search Results for "${req.query.query}"`,
