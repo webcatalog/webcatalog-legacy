@@ -6,12 +6,15 @@ import categories from '../../constants/categories';
 
 const appApiRouter = express.Router();
 
+const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'createdAt', 'wikipediaTitle'];
+
 appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
   const limit = 24;
   const offset = (currentPage - 1) * limit;
 
   const opts = {
+    attributes: { exclude: unretrievableAttributes },
     where: { isActive: true },
     offset,
     limit,
@@ -19,6 +22,20 @@ appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, re
 
   if (req.query.category && categories.indexOf(req.query.category) > -1) {
     opts.where.category = req.query.category;
+  }
+
+  switch (req.query.sort) {
+    case 'createdAt': {
+      opts.order = [['createdAt', 'DESC']];
+      break;
+    }
+    case 'name': {
+      opts.order = [['name', 'ASC']];
+      break;
+    }
+    default: {
+      opts.order = [['installCount', 'DESC']];
+    }
   }
 
   App.findAndCountAll(opts)
@@ -36,7 +53,10 @@ appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 appApiRouter.get('/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  App.find({ where: { id: req.params.id, isActive: true } })
+  App.find({
+    attributes: { exclude: unretrievableAttributes },
+    where: { id: req.params.id, isActive: true },
+  })
     .then((app) => {
       if (!app) throw new Error('404');
       return res.json({ app });

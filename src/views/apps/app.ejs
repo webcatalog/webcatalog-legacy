@@ -37,7 +37,7 @@
       <div class="column">
         <div class="content">
           <% if (app.description) { %>
-          <p><%= app.description %> <a href="https://en.wikipedia.org/wiki/<%= encodeURIComponent(app.name) %>" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+          <p><%= app.description %> <a href="https://en.wikipedia.org/wiki/<%= encodeURIComponent(app.wikipediaTitle || app.name) %>" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
           <% } %>
         </div>
       </div>

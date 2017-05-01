@@ -14,19 +14,30 @@
       <div class="column is-one-quarter">
         <aside class="menu">
           <ul class="menu-list">
-            <li><a href="/apps">All</a></li>
+            <li><a href="/apps<% if (sort) { %>?sort=<%= sort %><% } %>">All</a></li>
           </ul>
           <p class="menu-label">
             Categories
           </p>
           <ul class="menu-list">
-            <% categories.forEach(function (category) { %>
-            <li><a class="category" href="/apps?category=<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a></li>
+            <% categories.forEach(function (c) { %>
+            <li><a class="category" href="/apps?category=<%= encodeURIComponent(c) %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
             <% }) %>
           </ul>
         </aside>
       </div>
       <div class="column">
+        <form class="field" action="/apps<% if (category) { %>?category=<%= category %><% } %>">
+          <p class="control">
+            <span class="select">
+              <select name="sort" onchange="this.form.submit()">
+                <option value="installCount" <% if (sort === 'installCount') { %>selected="selected"<% } %>>Most Downloaded</option>
+                <option value="name" <% if (sort === 'name') { %>selected="selected"<% } %>>Name</option>
+                <option value="createdAt" <% if (sort === 'createdAt') { %>selected="selected"<% } %>>Recently Added</option>
+              </select>
+            </span>
+          </p>
+        </form>
         <div class="columns is-multiline">
           <% apps.forEach(function (app) { %>
           <div class="column is-half-tablet is-one-third-desktop">

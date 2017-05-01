@@ -22,6 +22,20 @@ appsRouter.get('/', (req, res, next) => {
     opts.where.category = req.query.category;
   }
 
+  switch (req.query.sort) {
+    case 'createdAt': {
+      opts.order = [['createdAt', 'DESC']];
+      break;
+    }
+    case 'name': {
+      opts.order = [['name', 'ASC']];
+      break;
+    }
+    default: {
+      opts.order = [['installCount', 'DESC']];
+    }
+  }
+
   App.findAndCountAll(opts)
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
@@ -40,6 +54,7 @@ appsRouter.get('/', (req, res, next) => {
         currentPage,
         pages: generatePageList(currentPage, totalPage),
         totalPage,
+        sort: opts.order ? req.query.sort : null,
       });
     })
     .catch(next);

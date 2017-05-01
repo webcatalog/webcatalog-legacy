@@ -129,6 +129,7 @@ app.use((err, req, res, next) => {
         return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
       }
 
+      console.log(err);
       return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
     }
   }
