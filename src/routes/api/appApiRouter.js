@@ -14,7 +14,7 @@ appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, re
   const offset = (currentPage - 1) * limit;
 
   const opts = {
-    attributes: { exclude: unretrievableAttributes },
+    attributes: ['id', 'name', 'url'],
     where: { isActive: true },
     offset,
     limit,
