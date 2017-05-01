@@ -1,4 +1,6 @@
 import express from 'express';
+import fetch from 'node-fetch';
+import marked from 'marked';
 
 const downloadsRouter = express.Router();
 
@@ -27,6 +29,15 @@ downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
     dockName,
     title: `Download WebCatalog for ${platformName}`,
   });
+});
+
+downloadsRouter.get('/release-notes', (req, res, next) => {
+  fetch('https://raw.githubusercontent.com/webcatalog/webcatalog/master/RELEASE_NOTES.md')
+    .then(response => response.text())
+    .then((mdContent) => {
+      res.render('downloads/release-notes', { releaseNotes: marked(mdContent) });
+    })
+    .catch(next);
 });
 
 module.exports = downloadsRouter;
