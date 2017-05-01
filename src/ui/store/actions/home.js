@@ -46,13 +46,14 @@ export const fetchApps = () => (dispatch, getState) => {
     ]));
   })
   .catch((err) => {
-    /* eslint-disable no-console */
-    console.log(err);
-    /* eslint-enable no-console */
     if (err.message === 'Unauthorized') {
       dispatch(logOut());
       return;
     }
+
+    /* eslint-disable no-console */
+    console.log(err);
+    /* eslint-enable no-console */
 
     dispatch({
       type: SET_STATUS,

@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchApps } from '../actions/home';
 import { screenResize } from '../actions/screen';
 import { scanInstalledApps } from '../actions/appManagement';
+import { bootIntercom } from '../actions/intercom';
 
 import Nav from './Nav';
 
@@ -16,10 +16,12 @@ import Installed from './Installed';
 
 class App extends React.Component {
   componentDidMount() {
-    const { requestScanInstalledApps, onResize } = this.props;
+    const { requestScanInstalledApps, requestBootIntercom, onResize } = this.props;
     requestScanInstalledApps();
 
     window.addEventListener('resize', onResize);
+
+    requestBootIntercom();
   }
 
   componentWillUnmount() {
@@ -58,8 +60,9 @@ class App extends React.Component {
 App.propTypes = {
   routeId: PropTypes.string.isRequired,
   token: PropTypes.string,
-  requestScanInstalledApps: PropTypes.func.isRequired,
   onResize: PropTypes.func.isRequired,
+  requestScanInstalledApps: PropTypes.func.isRequired,
+  requestBootIntercom: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -76,11 +79,11 @@ const mapDispatchToProps = dispatch => ({
       isMinimized: remote.getCurrentWindow().isMinimized(),
     }));
   },
-  requestFetchApps: () => {
-    dispatch(fetchApps());
-  },
   requestScanInstalledApps: () => {
     dispatch(scanInstalledApps());
+  },
+  requestBootIntercom: () => {
+    dispatch(bootIntercom());
   },
 });
 
