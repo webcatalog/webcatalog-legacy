@@ -7,7 +7,7 @@ harness('store-test', () => {
     global.app.client
       .windowByIndex(0)
       .waitUntilWindowLoaded()
-      .waitForVisible('.pt-navbar'));
+      .waitForVisible('.logo'));
 }, [
   '--testing=true',
 ]);
