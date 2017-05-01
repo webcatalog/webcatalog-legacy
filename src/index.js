@@ -7,7 +7,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import accepts from 'accepts';
-
+import crypto from 'crypto';
 
 import User from './models/User';
 
@@ -90,9 +90,16 @@ passport.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use((req, res, next) => {
+  res.locals.isProduction = (process.env.NODE_ENV === 'production');
   res.locals.path = req.path;
   res.locals.user = req.user;
   res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
+
+  if (process.env.NODE_ENV === 'production' && req.user) {
+    const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
+    hmac.update(req.user.id);
+    res.locals.intercomUserHash = hmac.digest('hex');
+  }
 
   next();
 });
