@@ -1,8 +1,8 @@
+import algoliasearch from 'algoliasearch';
 import { batchActions } from 'redux-batched-actions';
 
 import { SET_SEARCH_QUERY, SET_SEARCH_HITS, SET_SEARCH_STATUS } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
-import searchAsync from '../helpers/searchAsync';
 
 export const setSearchQuery = query => (dispatch) => {
   dispatch(batchActions([
@@ -27,7 +27,12 @@ export const search = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  searchAsync({ query, params: { hitsPerPage: 100 } })
+  const client = algoliasearch(
+    process.env.ALGOLIASEARCH_APPLICATION_ID,
+    process.env.ALGOLIASEARCH_API_KEY_SEARCH,
+  );
+  const index = client.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+  index.search(query, { hitsPerPage: 48 })
     .then((content) => {
       dispatch(batchActions([
         {

@@ -30,7 +30,7 @@ const Card = ({
   requestUpdateApp,
 }) => (
   <div className="col">
-    <div className="custom-card pt-card pt-elevation-1 pt-interactive" style={{ textAlign: 'center' }}>
+    <div className="pt-card pt-elevation-1 pt-interactive" style={{ textAlign: 'center', padding: '12px 8px' }}>
       <img
         src={getServerUrl(`/s3/${app.get('id')}@128px.webp`)}
         role="presentation"
@@ -41,7 +41,15 @@ const Card = ({
           marginBottom: 8,
         }}
       />
-      <h5>{app.get('name')}</h5>
+      <h5
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          lineHeight: 'normal',
+          whiteSpace: 'nowrap',
+          margin: 0,
+        }}
+      >{app.get('name')}</h5>
       <p>
         <a onClick={() => shell.openExternal(app.get('url'))}>
           {extractDomain(app.get('url'))}

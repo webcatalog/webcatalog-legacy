@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { Menu, MenuItem, Popover, Button, Position } from '@blueprintjs/core';
 
-import { fetchApps } from '../actions/home';
+import { fetchApps, setCategory, setSort } from '../actions/home';
 import { LOADING, FAILED } from '../constants/statuses';
 import categories from '../constants/categories';
 
@@ -57,20 +57,29 @@ class Home extends React.Component {
   }
 
   render() {
+    const { category, sort, requestSetCategory, requestSetSort } = this.props;
+
     return (
       <div
         style={{ flex: 1, overflow: 'auto', paddingBottom: 12, zIndex: 2 }}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, paddingTop: 6 }}>
+        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, padding: '6px 18px' }}>
           <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
             <Popover
               content={(
                 <Menu>
-                  {categories.map(category => (
+                  <MenuItem
+                    key="all"
+                    text="All Categories"
+                    onClick={() => requestSetCategory(null)}
+                  />
+                  {categories.map(c => (
                     <MenuItem
-                      key={category}
-                      text={category}
+                      className="category-text"
+                      key={c}
+                      text={c.replace('+', ' & ')}
+                      onClick={() => requestSetCategory(c)}
                     />
                   ))}
                 </Menu>
@@ -79,7 +88,8 @@ class Home extends React.Component {
             >
               <Button
                 rightIconName="chevron-down"
-                text="All Categories"
+                className="category-text"
+                text={category ? category.replace('+', ' & ') : 'All Categories'}
               />
             </Popover>
             <Popover
@@ -87,21 +97,36 @@ class Home extends React.Component {
                 <Menu>
                   <MenuItem
                     text="Most Downloaded"
+                    onClick={() => requestSetSort('installCount')}
                   />
                   <MenuItem
-                    text="A to Z"
+                    text="Name"
+                    onClick={() => requestSetSort('name')}
                   />
                   <MenuItem
                     text="Recently Added"
+                    onClick={() => requestSetSort('createdAt')}
                   />
                 </Menu>
               )}
               position={Position.BOTTOM_RIGHT}
             >
-              <Button
-                rightIconName="chevron-down"
-                text="Most Downloaded"
-              />
+              <p>
+                <span>Sort by: </span>
+                <Button
+                  rightIconName="chevron-down"
+                  text={(() => {
+                    switch (sort) {
+                      case 'name':
+                        return 'Name';
+                      case 'createdAt':
+                        return 'Recently Added';
+                      default:
+                        return 'Most Downloaded';
+                    }
+                  })()}
+                />
+              </p>
             </Popover>
           </div>
         </div>
@@ -115,18 +140,24 @@ class Home extends React.Component {
 Home.propTypes = {
   status: PropTypes.string.isRequired,
   apps: PropTypes.instanceOf(Immutable.List).isRequired,
+  category: PropTypes.string,
+  sort: PropTypes.string,
   requestFetchApps: PropTypes.func.isRequired,
+  requestSetCategory: PropTypes.func.isRequired,
+  requestSetSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   status: state.home.get('status'),
   apps: state.home.get('apps'),
+  category: state.home.get('category'),
+  sort: state.home.get('sort'),
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestFetchApps: () => {
-    dispatch(fetchApps());
-  },
+  requestFetchApps: () => dispatch(fetchApps()),
+  requestSetCategory: category => dispatch(setCategory(category)),
+  requestSetSort: sort => dispatch(setSort(sort)),
 });
 
 export default connect(

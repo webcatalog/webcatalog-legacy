@@ -1,5 +1,5 @@
 import { batchActions } from 'redux-batched-actions';
-import { SET_STATUS, ADD_APPS, RESET_HOME } from '../constants/actions';
+import { SET_STATUS, ADD_APPS, REMOVE_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 import secureFetch from '../helpers/secureFetch';
 
@@ -12,7 +12,7 @@ export const fetchApps = () => (dispatch, getState) => {
   const { home, auth } = getState();
 
   // All pages have been fetched => stop
-  if (home.get('totalPage') && home.get('currentPage') + 1 === home.get('totalPage')) return;
+  if (home.get('totalPage') && home.get('currentPage') + 1 > home.get('totalPage')) return;
 
   // Prevent redundant requests
   if (fetching) return;
@@ -25,7 +25,11 @@ export const fetchApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  secureFetch(`/api/apps?page=${currentPage}`, auth.get('token'))
+  let path = `/api/apps?page=${currentPage}`;
+  if (home.get('category')) path += `&category=${encodeURIComponent(home.get('category'))}`;
+  if (home.get('sort')) path += `&sort=${home.get('sort')}`;
+
+  secureFetch(path, auth.get('token'))
   .then(response => response.json())
   .then(({ apps, totalPage }) => {
     dispatch(batchActions([
@@ -65,7 +69,23 @@ export const refresh = pathname => ((dispatch, getState) => {
   if (pathname === '/search' && state.search.get('status') !== LOADING) {
     dispatch(search());
   } else if (state.home.get('status') !== LOADING) {
-    dispatch({ type: RESET_HOME });
+    dispatch({ type: REMOVE_RESULTS });
     dispatch(fetchApps());
   }
 });
+
+export const setCategory = category => (dispatch) => {
+  dispatch(batchActions([
+    { type: SET_CATEGORY, category },
+    { type: REMOVE_RESULTS },
+  ]));
+  dispatch(fetchApps());
+};
+
+export const setSort = sort => (dispatch) => {
+  dispatch(batchActions([
+    { type: SET_SORT, sort },
+    { type: REMOVE_RESULTS },
+  ]));
+  dispatch(fetchApps());
+};

@@ -11,6 +11,10 @@ body {
 	background-color: #f5f8fa;
 }
 
+.category-text {
+	text-transform: capitalize;
+}
+
 .logo {
 	height: 96px;
 }
@@ -41,17 +45,6 @@ body {
 @media screen and(max-width: 679px) {
 	.col {
 		width: 49.5%;
-	}
-}
-
-.custom-card {
-	padding: 20px 10px;
-	h5 {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		line-height: normal;
-		white-space: nowrap;
-		margin: 0;
 	}
 }
 

@@ -47,3 +47,5 @@ dist
 .eslintcache
 
 /app
+
+.env

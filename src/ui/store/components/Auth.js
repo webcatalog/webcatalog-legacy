@@ -35,12 +35,14 @@ Auth.propTypes = {
 const mapDispatchToProps = dispatch => ({
   onSignIn: () => {
     let authWindow = new remote.BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 420,
+      height: 492,
       show: false,
-      nodeIntegration: false,
-      sandbox: true,
-      session: remote.session.fromPartition('jwt'),
+      webPreferences: {
+        nodeIntegration: false,
+        sandbox: true,
+        partition: `jwt-${Date.now()}`,
+      },
     });
     const authUrl = getServerUrl('/auth/google?jwt=1');
     authWindow.loadURL(authUrl);

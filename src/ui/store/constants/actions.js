@@ -5,7 +5,9 @@ export const SCREEN_RESIZE = 'SCREEN_RESIZE';
 
 export const SET_STATUS = 'SET_STATUS';
 export const ADD_APPS = 'ADD_APPS';
-export const RESET_HOME = 'RESET_HOME';
+export const REMOVE_RESULTS = 'REMOVE_RESULTS';
+export const SET_CATEGORY = 'SET_CATEGORY';
+export const SET_SORT = 'SET_SORT';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SET_SEARCH_HITS = 'SET_SEARCH_HITS';
