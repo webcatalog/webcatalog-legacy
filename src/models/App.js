@@ -36,8 +36,6 @@ const App = sequelize.define('app', {
   wikipediaTitle: {
     type: Sequelize.STRING,
   },
-}, {
-  freezeTableName: true,
 });
 
 App.sync();

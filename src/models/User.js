@@ -20,8 +20,6 @@ const User = sequelize.define('user', {
   displayName: {
     type: Sequelize.STRING,
   },
-}, {
-  freezeTableName: true,
 });
 
 User.sync();

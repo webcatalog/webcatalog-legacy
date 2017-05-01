@@ -8,8 +8,11 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import accepts from 'accepts';
 import crypto from 'crypto';
+import connectSessionSequelize from 'connect-session-sequelize';
 
+import sequelize from './sequelize';
 import User from './models/User';
+import './models/Session';
 
 const app = express();
 
@@ -27,9 +30,16 @@ app.use(sassMiddleware({
 app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: 3600 * 24 * 30 }));
 
 // passport
+const SequelizeStore = connectSessionSequelize(session.Store);
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave: true,
+  store: new SequelizeStore({
+    db: sequelize,
+    table: 'session',
+    checkExpirationInterval: 15 * 60 * 1000, // interval to cleanup expired sessions
+    expiration: 30 * 24 * 60 * 60 * 1000,  // 1 month
+  }),
+  resave: false,
   saveUninitialized: true,
 }));
 app.use(passport.initialize());
