@@ -64,15 +64,15 @@
         </div>
         <nav class="pagination is-centered">
           <% if (currentPage > 1) { %>
-          <a class="pagination-previous" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage - 1 %>">Previous</a>
+          <a class="pagination-previous" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage - 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Previous</a>
           <% } %>
           <% if (currentPage < totalPage) { %>
-          <a class="pagination-next" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage + 1 %>">Next</a>
+          <a class="pagination-next" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage + 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Next</a>
           <% } %>
           <ul class="pagination-list">
             <% pages.forEach((page) => { %>
             <% if (page > 0) { %>
-            <li><a class="pagination-link <% if (page === currentPage) { %>is-current<% } %>" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= page %>"><%= page %></a></li>
+            <li><a class="pagination-link <% if (page === currentPage) { %>is-current<% } %>" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= page %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= page %></a></li>
             <% } else { %>
               <li><span class="pagination-ellipsis">&hellip;</span></li>
             <% } %>
