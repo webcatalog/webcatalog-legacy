@@ -53,9 +53,10 @@
 <script type="text/javascript" src="/public/js/nav.min.js"></script>
 <script>
   window.intercomSettings = {
-    app_id: "rzjr1fun"<% if (user && isProduction) { %>,
-    name: "<%= user.name %>",
+    app_id: "rzjr1fun"<% if (user) { %>,
+    <% if (user.displayName) { %>name: "<%= user.displayName %>"<% } %>,
     email: "<%= user.email %>",
+    user_id: "<%= user.id %>",
     created_at: new Date("<%= user.createdAt %>").getTime(),
     user_hash: "<%= intercomUserHash %>"<% } %>
   };

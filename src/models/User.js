@@ -17,6 +17,9 @@ const User = sequelize.define('user', {
   isAdmin: {
     type: Sequelize.BOOLEAN,
   },
+  displayName: {
+    type: Sequelize.STRING,
+  },
 }, {
   freezeTableName: true,
 });

@@ -53,6 +53,7 @@ passport.use(new GoogleStrategy(
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
   },
   (accessToken, refreshToken, profile, cb) => {
+    console.log(profile);
     User
       .findOrCreate({
         where: { email: profile.emails[0].value },
@@ -60,9 +61,13 @@ passport.use(new GoogleStrategy(
       })
       .spread((user) => {
         // try to update new profile picture
-        if (user.profilePicture !== profile.photos[0].value) {
+        if (
+          user.profilePicture !== profile.photos[0].value ||
+          user.displayName !== profile.displayName
+        ) {
           user.updateAttributes({
             profilePicture: profile.photos[0].value,
+            displayName: profile.displayName,
           })
           .catch(console.log);
         }
@@ -95,7 +100,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
 
-  if (process.env.NODE_ENV === 'production' && req.user) {
+  if (req.user) {
     const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
     hmac.update(req.user.id);
     res.locals.intercomUserHash = hmac.digest('hex');
