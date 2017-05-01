@@ -9,13 +9,13 @@ const s3 = new S3({
   region: 'us-east-1',
 });
 
-s3Route.get('/:key', (req, res) => {
+s3Route.get('/:key', (req, res, next) => {
   res.setHeader('Cache-Control', `public, max-age=${3600 * 24 * 30}`); // cache 1 month
 
   const imgStream = s3.getObject({
     Bucket: process.env.S3_BUCKET,
     Key: req.params.key,
-  }).createReadStream();
+  }).createReadStream().on('error', next);
 
   imgStream.pipe(res);
 });

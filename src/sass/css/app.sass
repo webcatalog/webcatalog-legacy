@@ -32,15 +32,19 @@ $yellow: #FBC02D
   a
     color: $green !important
 
-.download-mac, .download-windows, .downloads-linux
+.intro
   text-align: center
   +desktop
     text-align: left
     background: url(/public/images/screenshot.png)
     background-size: 600px
     background-repeat: no-repeat
-    background-position-x: calc(100vw - 600px)
+    background-position-x: calc(100vw - 450px)
     background-position-y: 3em
+  +widescreen
+    background-position-x: calc((100vw - 1152px) / 2 + 552px)
+  +fullhd
+    background-position-x: calc((100vw - 1344px) / 2 + 744px)
   .download-button
     margin-top: 6px
     margin-bottom: 6px
