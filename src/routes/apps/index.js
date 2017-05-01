@@ -29,11 +29,11 @@ appsRouter.get('/', (req, res, next) => {
       break;
     }
     case 'name': {
-      opts.order = [['name', 'ASC']];
+      opts.order = [['name', 'ASC'], ['createdAt', 'DESC']];
       break;
     }
     default: {
-      opts.order = [['installCount', 'DESC']];
+      opts.order = [['installCount', 'DESC'], ['createdAt', 'DESC']];
     }
   }
 
