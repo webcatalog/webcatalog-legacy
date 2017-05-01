@@ -2,13 +2,23 @@
 
 <section class="section apps">
   <div class="container">
-    <h1 class="title">
-      <a href="/apps">WebCatalog Store</a>
-      <% if (category) { %>
-      <span> > </span>
-      <a class="category" href="/apps?category=<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a>
-      <% } %>
-    </h1>
+    <div class="is-pulled-left">
+      <h1 class="title ">
+        <a href="/apps">WebCatalog Store</a>
+        <% if (category) { %>
+        <span> > </span>
+        <a class="category" href="/apps?category=<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a>
+        <% } %>
+      </h1>
+    </div>
+    <div class="is-pulled-right">
+      <form class="field is-pulled-right" action="/apps/search">
+        <p class="control">
+          <input class="input" type="text" placeholder="Search..." name="query">
+        </p>
+      </form>
+    </div>
+    <div class="is-clearfix"></div>
     <hr>
     <div class="columns">
       <div class="column is-one-quarter">

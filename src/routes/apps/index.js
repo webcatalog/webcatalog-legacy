@@ -4,6 +4,7 @@ import App from '../../models/App';
 import categories from '../../constants/categories';
 import extractDomain from '../../libs/extractDomain';
 import generatePageList from '../../libs/generatePageList';
+import algoliaClient from '../../algoliaClient';
 
 const appsRouter = express.Router();
 
@@ -57,6 +58,33 @@ appsRouter.get('/', (req, res, next) => {
         sort: opts.order ? req.query.sort : null,
       });
     })
+    .catch(next);
+});
+
+appsRouter.get('/search', (req, res, next) => {
+  const currentPage = parseInt(req.query.page, 10) || 1;
+  const limit = 24;
+
+  if (!req.query.query) {
+    return res.render('apps/search', {
+      title: 'Search',
+      apps: null,
+      searchQuery: req.query.query,
+    });
+  }
+
+  const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+  return index.search(req.params.searchQuery, { page: currentPage - 1, hitsPerPage: limit })
+    .then(({ hits, nbPages }) =>
+      res.render('apps/search', {
+        title: `Search Results for "${req.query.query}"`,
+        apps: hits,
+        currentPage,
+        pages: generatePageList(currentPage, nbPages),
+        totalPage: nbPages,
+        searchQuery: req.query.query,
+      }),
+    )
     .catch(next);
 });
 
