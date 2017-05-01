@@ -2,11 +2,25 @@
 
 <section class="section apps">
   <div class="container">
-    <form class="field" action="/apps/search">
-      <p class="control">
-        <input class="input is-medium" type="text" placeholder="Search..." value="<%= searchQuery %>" name="query">
-      </p>
-    </form>
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title ">
+            <a href="/apps">WebCatalog Store</a>
+          </h1>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <form class="field is-pulled-right" action="/apps/search">
+            <p class="control">
+              <input class="input" type="text" placeholder="Search..." name="query">
+            </p>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <hr>
     <% if (apps) { %>
     <h1 class="title is-3 has-text-centered">Results for <b><%= searchQuery %></b></h1>
     <div class="columns">
