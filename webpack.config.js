@@ -54,6 +54,9 @@ const common = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.VERSION': JSON.stringify(process.env.npm_package_version),
+      'process.env.ALGOLIASEARCH_API_KEY_SEARCH': JSON.stringify(process.env.ALGOLIASEARCH_API_KEY_SEARCH),
+      'process.env.ALGOLIASEARCH_APPLICATION_ID': JSON.stringify(process.env.ALGOLIASEARCH_APPLICATION_ID),
+      'process.env.ALGOLIASEARCH_INDEX_NAME': JSON.stringify(process.env.ALGOLIASEARCH_APPLICATION_ID),
     }),
   ],
 };
