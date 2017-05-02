@@ -9,8 +9,8 @@
     "start.dev": "yarn start.store.dev",
     "start.store.dev": "electron . --development=true",
     "start.store": "electron .",
-    "start.ssb.dev": "electron . --development=true --name=\"Hello\" --url=\"https://davidwalsh.name/demo/notifications-api.php\" --id=facebook-messenger",
-    "start.ssb": "electron . --id=facebook-messenger --url=http://messenger.com/ --name=Shaka",
+    "start.shell.dev": "electron . --development=true --name=\"Hello\" --url=\"https://davidwalsh.name/demo/notifications-api.php\" --id=facebook-messenger",
+    "start.shell": "electron . --id=facebook-messenger --url=http://messenger.com/ --name=Shaka",
     "dev.main": "babel src/main -d app --copy-files --watch",
     "dev.ui": "cross-env NODE_ENV=development webpack -d --watch",
     "dev": "concurrently --kill-others \"yarn dev.main\" \"yarn dev.ui\"",
@@ -77,7 +77,6 @@
     "webpack-merge": "^4.0.0"
   },
   "dependencies": {
-    "about-window": "^1.6.1",
     "ad-block": "^3.0.3",
     "deep-equal": "^1.0.1",
     "electron-settings": "^3.0.14",
@@ -88,6 +87,7 @@
     "jsonfile": "^3.0.0",
     "lodash.camelcase": "^4.3.0",
     "mkdirp": "^0.5.1",
+    "node-fetch": "^1.6.3",
     "semver": "^5.3.0",
     "tmp": "^0.0.31",
     "yargs-parser": "^5.0.0"

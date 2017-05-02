@@ -4,10 +4,10 @@ const clearBrowsingData = require('./clearBrowsingData');
 const showAboutWindow = require('./showAboutWindow');
 
 function createMenu({
-  isDevelopment, isSSB, appName, appId,
+  isDevelopment, isShell, appName, appId,
 }) {
   let template;
-  if (isSSB) {
+  if (isShell) {
     let currentZoom = 1;
     const ZOOM_INTERVAL = 0.1;
 

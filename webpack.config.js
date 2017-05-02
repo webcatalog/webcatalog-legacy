@@ -6,13 +6,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const OUTPUT_DIR = path.resolve(__dirname, 'app/www');
-const SOURCE_DIR = path.resolve(__dirname, 'src/ui');
+const SOURCE_DIR = path.resolve(__dirname, 'src/renderer');
 
 /* eslint-disable no-console */
 const common = {
   entry: {
     store: `${SOURCE_DIR}/store/index.js`,
-    ssb: `${SOURCE_DIR}/ssb/index.js`,
+    shell: `${SOURCE_DIR}/shell/index.js`,
   },
   devtool: 'source-map',
   output: {
@@ -61,7 +61,7 @@ const common = {
 const config = (() => {
   const copyArr = [
     { from: `${SOURCE_DIR}/store/store.html` },
-    { from: `${SOURCE_DIR}/ssb/ssb.html` },
+    { from: `${SOURCE_DIR}/shell/shell.html` },
     { from: `${SOURCE_DIR}/images`, to: `${OUTPUT_DIR}/images` },
   ];
 

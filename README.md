@@ -22,7 +22,7 @@ To run the app for development:
 ```bash
 yarn dev
 yarn start.store.dev # run store app
-yarn start.ssb.dev # run site-specific-browser app
+yarn start.shell.dev # run site-specific-browser app
 ```
 
 To build the app for release:
