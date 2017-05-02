@@ -341,7 +341,7 @@ function createMenu({
   if (process.platform !== 'darwin') {
     helpMenu.submenu.push({
       label: 'About WebCatalog',
-      onClick: () => showAboutWindow(),
+      click: () => showAboutWindow(),
     });
   }
 
@@ -352,7 +352,7 @@ function createMenu({
       submenu: [
         {
           label: 'About WebCatalog',
-          onClick: () => showAboutWindow(),
+          click: () => showAboutWindow(),
         },
         {
           role: 'services',
