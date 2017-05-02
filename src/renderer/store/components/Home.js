@@ -64,7 +64,7 @@ class Home extends React.Component {
         style={{ flex: 1, overflow: 'auto', paddingBottom: 12, zIndex: 2 }}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, padding: '6px 18px' }}>
+        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, padding: '6px 18px', zIndex: 3 }}>
           <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
             <Popover
               content={(
