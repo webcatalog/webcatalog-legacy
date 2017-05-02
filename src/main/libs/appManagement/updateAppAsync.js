@@ -1,10 +1,16 @@
-/* global fetch */
-import installAppAsync from './installAppAsync';
-import uninstallAppAsync from './uninstallAppAsync';
+const secureFetch = require('./secureFetch');
+const installAppAsync = require('./installAppAsync');
+const uninstallAppAsync = require('./uninstallAppAsync');
+
 
 const updateAppAsync = (id, oldName, token) =>
-  uninstallAppAsync(id, oldName, { shouldClearStorageData: false })
-    .then(() => installAppAsync(id, token));
+  secureFetch(`/api/apps/${id}`, token)
+    .then(response => response.json())
+    .then(content => content.app)
+    .then(preloadedApp =>
+      uninstallAppAsync(id, oldName, { shouldClearStorageData: false })
+        .then(() => installAppAsync(id, token, { preloadedApp })),
+    );
 
 
 module.exports = updateAppAsync;
