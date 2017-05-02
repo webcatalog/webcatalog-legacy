@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Menu, MenuItem, MenuDivider, Popover, Button, Position, Classes } from '@blueprintjs/core';
 import classNames from 'classnames';
 
-import { refresh } from '../actions/home';
+import { refresh } from '../actions/refresh';
 import { search, setSearchQuery } from '../actions/search';
 import { setRoute, goBack } from '../actions/route';
 import { logOut } from '../actions/auth';
@@ -74,14 +74,15 @@ const Nav = ({
         text="My Apps"
         onClick={() => goTo('installed')}
       />
+      <Button
+        iconName="refresh"
+        className={Classes.MINIMAL}
+        style={{ WebkitAppRegion: 'no-drag' }}
+        onClick={() => requestRefresh(routeId)}
+      />
       <Popover
         content={(
           <Menu>
-            <MenuItem
-              iconName="refresh"
-              text="Refresh"
-              onClick={() => requestRefresh(routeId)}
-            />
             <MenuItem
               iconName="log-out"
               text="Log out"
@@ -135,15 +136,9 @@ const mapDispatchToProps = dispatch => ({
     }
     dispatch(setSearchQuery(query));
   },
-  requestRefresh: (pathname) => {
-    dispatch(refresh(pathname));
-  },
-  goTo: (pathname) => {
-    dispatch(setRoute(pathname));
-  },
-  onLogOut: () => {
-    dispatch(logOut());
-  },
+  requestRefresh: routeId => dispatch(refresh(routeId)),
+  goTo: routeId => dispatch(setRoute(routeId)),
+  onLogOut: () => dispatch(logOut()),
 });
 
 export default connect(

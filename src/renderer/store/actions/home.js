@@ -3,7 +3,6 @@ import { SET_STATUS, ADD_APPS, REMOVE_RESULTS, SET_CATEGORY, SET_SORT } from '..
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 import secureFetch from '../libs/secureFetch';
 
-import { search } from './search';
 import { logOut } from './auth';
 
 let fetching = false;
@@ -64,16 +63,6 @@ export const fetchApps = () => (dispatch, getState) => {
     fetching = false;
   });
 };
-
-export const refresh = pathname => ((dispatch, getState) => {
-  const state = getState();
-  if (pathname === '/search' && state.search.get('status') !== LOADING) {
-    dispatch(search());
-  } else if (state.home.get('status') !== LOADING) {
-    dispatch({ type: REMOVE_RESULTS });
-    dispatch(fetchApps());
-  }
-});
 
 export const setCategory = category => (dispatch) => {
   dispatch(batchActions([
