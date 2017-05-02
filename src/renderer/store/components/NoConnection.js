@@ -21,7 +21,7 @@ const NoConnection = ({ handleClick }) => (
 );
 
 NoConnection.propTypes = {
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default NoConnection;

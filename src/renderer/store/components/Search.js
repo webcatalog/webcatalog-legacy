@@ -86,11 +86,11 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  status: PropTypes.string,
-  query: PropTypes.string,
+  status: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
   hits: PropTypes.instanceOf(Immutable.List),
-  requestSearch: PropTypes.func,
-  closeSearch: PropTypes.func,
+  requestSearch: PropTypes.func.isRequired,
+  closeSearch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -100,12 +100,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestSearch: () => {
-    dispatch(search());
-  },
-  closeSearch: () => {
-    dispatch(setRoute('home'));
-  },
+  requestSearch: () => dispatch(search()),
+  closeSearch: () => dispatch(setRoute('home')),
 });
 
 export default connect(

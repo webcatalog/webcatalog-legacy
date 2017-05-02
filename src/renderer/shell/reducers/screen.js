@@ -10,10 +10,7 @@ const screen = (state = initialState, action) => {
   switch (action.type) {
     case SCREEN_RESIZE:
       return state
-        .set('screenWidth', action.screenWidth)
-        .set('isFullScreen', action.isFullScreen)
-        .set('isMaximized', action.isMaximized)
-        .set('isMinimized', action.isMinimized);
+        .set('screenWidth', action.screenWidth);
     default:
       return state;
   }

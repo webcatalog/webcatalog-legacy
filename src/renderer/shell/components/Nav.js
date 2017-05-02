@@ -123,12 +123,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestToggleSettingDialog: () => {
-    dispatch(toggleSettingDialog());
-  },
-  requestToggleFindInPageDialog: () => {
-    dispatch(toggleFindInPageDialog());
-  },
+  requestToggleSettingDialog: () => dispatch(toggleSettingDialog()),
+  requestToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
 });
 
 export default connect(

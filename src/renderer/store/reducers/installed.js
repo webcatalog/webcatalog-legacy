@@ -8,7 +8,7 @@ const initialState = Immutable.Map({
   hits: null,
 });
 
-const app = (state = initialState, action) => {
+const installed = (state = initialState, action) => {
   switch (action.type) {
     case SET_INSTALLED_STATUS: {
       return state.set('status', action.status);
@@ -21,4 +21,4 @@ const app = (state = initialState, action) => {
   }
 };
 
-export default app;
+export default installed;

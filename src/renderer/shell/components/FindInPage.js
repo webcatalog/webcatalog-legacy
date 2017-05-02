@@ -93,13 +93,13 @@ class FindInPage extends React.Component {
 }
 
 FindInPage.propTypes = {
-  text: PropTypes.string,
-  activeMatch: PropTypes.number,
-  matches: PropTypes.number,
-  onRequestFind: PropTypes.func,
-  onRequestStopFind: PropTypes.func,
-  onRequestClose: PropTypes.func,
-  onRequestUpdateText: PropTypes.func,
+  text: PropTypes.string.isRequired,
+  activeMatch: PropTypes.number.isRequired,
+  matches: PropTypes.number.isRequired,
+  onRequestFind: PropTypes.func.isRequired,
+  onRequestStopFind: PropTypes.func.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
+  onRequestUpdateText: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -109,12 +109,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onRequestClose: () => {
-    dispatch(toggleFindInPageDialog());
-  },
-  onRequestUpdateText: (text) => {
-    dispatch(updateFindInPageText(text));
-  },
+  onRequestClose: () => dispatch(toggleFindInPageDialog()),
+  onRequestUpdateText: text => dispatch(updateFindInPageText(text)),
 });
 
 export default connect(

@@ -89,11 +89,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onResize: () => {
-    dispatch(screenResize({
-      screenWidth: window.innerWidth,
-    }));
-  },
+  onResize: () => dispatch(screenResize(window.innerWidth)),
   onReceiveToken: token => dispatch(signIn(token)),
   requestBootIntercom: () => dispatch(bootIntercom()),
   requestSetManagedApp: (id, status, app) => dispatch(setManagedApp(id, status, app)),

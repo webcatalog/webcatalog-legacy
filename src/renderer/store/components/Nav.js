@@ -130,7 +130,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setRoute('search'));
   },
   requestSetSearchQuery: (query, routeId) => {
-    if (routeId === 'search') {
+    if (query.length < 1 && routeId === 'search') {
       dispatch(goBack());
     }
     dispatch(setSearchQuery(query));

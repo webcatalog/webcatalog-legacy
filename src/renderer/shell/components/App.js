@@ -297,30 +297,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onResize: () => {
-    dispatch(screenResize(window.innerWidth));
-  },
-  requestUpdateTargetUrl: (targetUrl) => {
-    dispatch(updateTargetUrl(targetUrl));
-  },
-  requestUpdateLoading: (isLoading) => {
-    dispatch(updateLoading(isLoading));
-  },
-  requestUpdateCanGoBack: (canGoBack) => {
-    dispatch(updateCanGoBack(canGoBack));
-  },
-  requestUpdateCanGoForward: (canGoForward) => {
-    dispatch(updateCanGoForward(canGoForward));
-  },
-  requestToggleSettingDialog: () => {
-    dispatch(toggleSettingDialog());
-  },
-  requestToggleFindInPageDialog: () => {
-    dispatch(toggleFindInPageDialog());
-  },
-  requestUpdateFindInPageMatches: (activeMatch, matches) => {
-    dispatch(updateFindInPageMatches(activeMatch, matches));
-  },
+  onResize: () => dispatch(screenResize(window.innerWidth)),
+  requestUpdateTargetUrl: targetUrl => dispatch(updateTargetUrl(targetUrl)),
+  requestUpdateLoading: isLoading => dispatch(updateLoading(isLoading)),
+  requestUpdateCanGoBack: canGoBack => dispatch(updateCanGoBack(canGoBack)),
+  requestUpdateCanGoForward: canGoForward => dispatch(updateCanGoForward(canGoForward)),
+  requestToggleSettingDialog: () => dispatch(toggleSettingDialog()),
+  requestToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
+  requestUpdateFindInPageMatches: (activeMatch, matches) =>
+    dispatch(updateFindInPageMatches(activeMatch, matches)),
   requestGetBehaviors: () => dispatch(getBehaviors()),
 });
 

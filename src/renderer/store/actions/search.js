@@ -6,14 +6,8 @@ import { LOADING, FAILED, DONE } from '../constants/statuses';
 
 export const setSearchQuery = query => (dispatch) => {
   dispatch(batchActions([
-    {
-      type: SET_SEARCH_QUERY,
-      query,
-    },
-    {
-      type: SET_SEARCH_STATUS,
-      status: LOADING,
-    },
+    { type: SET_SEARCH_QUERY, query },
+    { type: SET_SEARCH_STATUS, status: LOADING },
   ]));
 };
 

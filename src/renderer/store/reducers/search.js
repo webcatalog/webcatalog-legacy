@@ -9,7 +9,7 @@ const initialState = Immutable.Map({
   hits: null,
 });
 
-const app = (state = initialState, action) => {
+const search = (state = initialState, action) => {
   switch (action.type) {
     case SET_SEARCH_QUERY: {
       return state.set('query', action.query);
@@ -25,4 +25,4 @@ const app = (state = initialState, action) => {
   }
 };
 
-export default app;
+export default search;
