@@ -96,12 +96,12 @@ const createWindow = () => {
         .catch(() => mainWindow.webContents.send('app-status', id, null));
     });
 
-    ipcMain.on('uninstall-app', (e, id, name, token) => {
+    ipcMain.on('uninstall-app', (e, id, appObj) => {
       mainWindow.webContents.send('app-status', id, 'UNINSTALLING');
 
-      uninstallAppAsync(id, token)
+      uninstallAppAsync(id, appObj.name)
         .then(() => mainWindow.webContents.send('app-status', id, null))
-        .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED'));
+        .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj));
     });
   }
 

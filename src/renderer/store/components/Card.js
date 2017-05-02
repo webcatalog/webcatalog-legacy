@@ -23,7 +23,7 @@ const Card = ({
   app, managedApps, token,
 }) => (
   <div className="col">
-    <div className="pt-card pt-elevation-1" style={{ textAlign: 'center', padding: '12px 8px' }}>
+    <div className="pt-card pt-elevation-1" style={{ textAlign: 'center', padding: '12px 12px' }}>
       <img
         src={getServerUrl(`/s3/${app.get('id')}@128px.webp`)}
         role="presentation"
@@ -74,7 +74,7 @@ const Card = ({
                 text="Update"
                 iconName="download"
                 intent={Intent.SUCCESS}
-                onClick={() => ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']))}
+                onClick={() => ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']), token)}
               />
             ),
             <Button
@@ -83,7 +83,7 @@ const Card = ({
               iconName="trash"
               intent={Intent.DANGER}
               style={{ marginLeft: 6 }}
-              onClick={() => ipcRenderer.send('uninstall-app', app.get('id'), token)}
+              onClick={() => ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject())}
             />,
           ];
         }

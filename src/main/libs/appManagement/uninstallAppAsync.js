@@ -8,14 +8,14 @@ const getAllAppPath = require('./getAllAppPath');
 const deleteFolderRecursive = (folderPath) => {
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach((file) => {
-      const curPath = `${path}/${file}`;
+      const curPath = `${folderPath}/${file}`;
       if (fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);
       } else { // delete file
         fs.unlinkSync(curPath);
       }
     });
-    fs.rmdirSync(path);
+    fs.rmdirSync(folderPath);
   }
 };
 
