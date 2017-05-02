@@ -8,7 +8,6 @@ const settings = require('electron-settings');
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
-const checkForUpdate = require('./libs/checkForUpdate');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
@@ -189,8 +188,6 @@ const createWindow = () => {
       mainWindow.webContents.send('focus');
     });
   }
-  // setup update checking
-  checkForUpdate({ mainWindow, isDevelopment, isTesting });
 
   // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {
