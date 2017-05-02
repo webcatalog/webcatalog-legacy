@@ -16,12 +16,19 @@ appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, re
   const opts = {
     attributes: ['id', 'slug', 'name', 'url', 'version'],
     where: { isActive: true },
-    offset,
-    limit,
   };
 
-  if (req.query.category && categories.indexOf(req.query.category) > -1) {
-    opts.where.category = req.query.category;
+  if (req.query.ids) {
+    opts.where.id = {
+      $in: req.query.ids.split(','),
+    };
+  } else {
+    opts.offset = offset;
+    opts.limit = limit;
+
+    if (req.query.category && categories.indexOf(req.query.category) > -1) {
+      opts.where.category = req.query.category;
+    }
   }
 
   switch (req.query.sort) {
