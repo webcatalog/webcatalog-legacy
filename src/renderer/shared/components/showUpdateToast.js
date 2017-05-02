@@ -5,6 +5,9 @@ import { version as currentVersion } from '../../../../package.json';
 
 import customFetch from '../libs/customFetch';
 
+/* eslint-disable no-console */
+/* eslint-enable no-console */
+
 const showUpdateToast = () =>
   customFetch('https://api.github.com/repos/webcatalog/webcatalog/releases/latest')
     .then((response) => {
@@ -20,6 +23,10 @@ const showUpdateToast = () =>
     .then(({ tag_name }) => {
       const latestVersion = tag_name.substring(1);
 
+      /* eslint-disable no-console */
+      console.log(`Latest version: ${latestVersion}`);
+      /* eslint-enable no-console */
+
       if (semver.gte(currentVersion, latestVersion)) return;
 
       const toaster = Toaster.create({
@@ -34,6 +41,9 @@ const showUpdateToast = () =>
           text: 'Download',
         },
       });
-    });
+    })
+    /* eslint-disable no-console */
+    .catch(console.log);
+    /* eslint-enable no-console */
 
 export default showUpdateToast;
