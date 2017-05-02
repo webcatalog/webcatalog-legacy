@@ -46,7 +46,7 @@ const createWindow = () => {
       mkdirp.sync(allAppPath);
     }
 
-    ipcMain.on('sign-in', () => {
+    ipcMain.on('sign-in', (e) => {
       let authWindow = new BrowserWindow({
         width: 420,
         height: 492,
@@ -64,7 +64,7 @@ const createWindow = () => {
       // Handle the response
       authWindow.webContents.on('did-stop-loading', () => {
         if (/^.*(auth\/google\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
-          mainWindow.webContents.send('token', authWindow.webContents.getTitle());
+          e.sender.send('token', authWindow.webContents.getTitle());
           authWindow.destroy();
         }
       });
@@ -79,38 +79,38 @@ const createWindow = () => {
       openApp(id, name);
     });
 
-    ipcMain.on('scan-installed-apps', () => {
+    ipcMain.on('scan-installed-apps', (e) => {
       scanInstalledAsync()
         .then((installedApps) => {
           installedApps.forEach((installedApp) => {
-            mainWindow.webContents.send('app-status', installedApp.id, 'INSTALLED', installedApp);
+            e.sender.send('app-status', installedApp.id, 'INSTALLED', installedApp);
           });
         })
-        .catch(err => mainWindow.webContents.send('log', err));
+        .catch(err => e.sender.send('log', err));
     });
 
     ipcMain.on('install-app', (e, id, token) => {
-      mainWindow.webContents.send('app-status', id, 'INSTALLING');
+      e.sender.send('app-status', id, 'INSTALLING');
 
       installAppAsync(id, token)
-        .then(appObj => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj))
-        .catch(() => mainWindow.webContents.send('app-status', id, null));
+        .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+        .catch(() => e.sender.send('app-status', id, null));
     });
 
     ipcMain.on('uninstall-app', (e, id, appObj) => {
-      mainWindow.webContents.send('app-status', id, 'UNINSTALLING');
+      e.sender.send('app-status', id, 'UNINSTALLING');
 
       uninstallAppAsync(id, appObj.name)
-        .then(() => mainWindow.webContents.send('app-status', id, null))
-        .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj));
+        .then(() => e.sender.send('app-status', id, null))
+        .catch(() => e.sender.send('app-status', id, 'INSTALLED', appObj));
     });
 
     ipcMain.on('update-app', (e, id, oldAppObj, token) => {
-      mainWindow.webContents.send('app-status', id, 'UPDATING');
+      e.sender.send('app-status', id, 'UPDATING');
 
       updateAppAsync(id, oldAppObj.name, token)
-        .then(appObj => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj))
-        .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED', oldAppObj));
+        .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+        .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
     });
   }
 
@@ -119,7 +119,7 @@ const createWindow = () => {
   });
 
   ipcMain.on('get-setting', (e, name, defaultVal) => {
-    mainWindow.webContents.send('setting', name, settings.get(name, defaultVal));
+    e.sender.send('setting', name, settings.get(name, defaultVal));
   });
 
   ipcMain.on('open-in-browser', (e, browserUrl) => {
@@ -154,8 +154,8 @@ const createWindow = () => {
   mainWindowState.manage(mainWindow);
 
   if (isShell) {
-    ipcMain.on('get-shell-info', () => {
-      mainWindow.webContents.send('shell-info', {
+    ipcMain.on('get-shell-info', (e) => {
+      e.sender.send('shell-info', {
         id: argv.id,
         name: argv.name,
         url: argv.url,
@@ -186,9 +186,9 @@ const createWindow = () => {
     if (swipeToNavigate) {
       mainWindow.on('swipe', (e, direction) => {
         if (direction === 'left') {
-          mainWindow.webContents.send('go-back');
+          e.sender.send('go-back');
         } else if (direction === 'right') {
-          mainWindow.webContents.send('go-forward');
+          e.sender.send('go-forward');
         }
       });
     }
