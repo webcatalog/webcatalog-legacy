@@ -9,11 +9,11 @@ import { signIn } from '../actions/auth';
 import { setManagedApp, removeManagedApp } from '../actions/appManagement';
 
 import Nav from './Nav';
-
 import Auth from './Auth';
 import Home from './Home';
 import Search from './Search';
 import Installed from './Installed';
+import showUpdateToast from '../../shared/components/showUpdateToast';
 
 class App extends React.Component {
   componentDidMount() {
@@ -38,6 +38,7 @@ class App extends React.Component {
     });
 
     requestBootIntercom();
+    showUpdateToast();
   }
 
   componentWillUnmount() {

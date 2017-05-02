@@ -5,16 +5,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import WebView from './WebView';
-import Settings from './Settings';
-import Nav from './Nav';
-import FindInPage from './FindInPage';
-
 import extractDomain from '../libs/extractDomain';
 import { updateTargetUrl, updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
 import { toggleSettingDialog, getBehaviors } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
+
+import WebView from './WebView';
+import Settings from './Settings';
+import Nav from './Nav';
+import FindInPage from './FindInPage';
+import showUpdateToast from '../../shared/components/showUpdateToast';
 
 let didShowNotification = false;
 
@@ -38,6 +39,8 @@ class App extends React.Component {
     const c = this.c;
 
     requestGetBehaviors();
+
+    showUpdateToast();
 
     window.addEventListener('resize', onResize);
 
