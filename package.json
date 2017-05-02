@@ -18,7 +18,7 @@
     "compile.ui": "cross-env NODE_ENV=production webpack -p",
     "compile": "yarn compile.main && yarn compile.ui",
     "package": "node ./packager.js",
-    "lint": "eslint ./src --ext .js --cache",
+    "lint": "eslint ./src --ext .js",
     "dist": "yarn compile && yarn package",
     "test": "mocha ./tests"
   },
