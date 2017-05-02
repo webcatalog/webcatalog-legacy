@@ -22,3 +22,5 @@ export const REMOVE_MANAGED_APP = 'REMOVE_MANAGED_APP';
 
 export const SIGN_IN = 'SIGN_IN';
 export const LOG_OUT = 'LOG_OUT';
+
+export const SET_INSTALLED_APPS = 'SET_INSTALLED_APPS';

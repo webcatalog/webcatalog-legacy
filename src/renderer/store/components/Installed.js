@@ -6,7 +6,15 @@ import { NonIdealState } from '@blueprintjs/core';
 
 import Card from './Card';
 
+import { fetchInstalledApps } from '../actions/installed';
+
 class Installed extends React.Component {
+  componentDidMount() {
+    const { requestFetchInstalledApps } = this.props;
+
+    requestFetchInstalledApps();
+  }
+
   renderList() {
     const { installedApps } = this.props;
 
@@ -28,7 +36,7 @@ class Installed extends React.Component {
           </h5>
         </div>
         <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-          {installedApps.valueSeq().map(o => <Card app={o.get('app')} key={o.get('id')} />)}
+          {installedApps.map(o => <Card app={o} key={o.get('id')} />)}
         </div>
       </div>
     );
@@ -44,14 +52,18 @@ class Installed extends React.Component {
 }
 
 Installed.propTypes = {
-  installedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
+  installedApps: PropTypes.instanceOf(Immutable.List).isRequired,
+  requestFetchInstalledApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  installedApps: state.appManagement.get('managedApps')
-    .filter(app => app.get('status') === 'INSTALLED' || app.get('status') === 'UPDATING'),
+  installedApps: state.installed.get('installedApps'),
+});
+
+const mapDispatchToProps = dispatch => ({
+  requestFetchInstalledApps: () => dispatch(fetchInstalledApps()),
 });
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps, mapDispatchToProps,
 )(Installed);

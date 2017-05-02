@@ -61,20 +61,23 @@ const Card = ({
           );
         }
         if (appStatus === 'INSTALLED') {
+          const shouldUpdate = semver.lt(managedApps.getIn([app.get('id'), 'app', 'shellVersion']), LATEST_SHELL_VERSION)
+                            || app.get('version') > managedApps.getIn([app.get('id'), 'app', 'version']);
+
           return [
-            semver.gte(managedApps.getIn([app.get('id'), 'app', 'shellVersion']), LATEST_SHELL_VERSION) ? (
-              <Button
-                key="open"
-                text="Open"
-                onClick={() => ipcRenderer.send('open-app', app.get('id'), app.get('name'))}
-              />
-            ) : (
+            shouldUpdate ? (
               <Button
                 key="update"
                 text="Update"
                 iconName="download"
                 intent={Intent.SUCCESS}
-                onClick={() => ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']), token)}
+                onClick={() => ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toJS(), token)}
+              />
+            ) : (
+              <Button
+                key="open"
+                text="Open"
+                onClick={() => ipcRenderer.send('open-app', app.get('id'), app.get('name'))}
               />
             ),
             <Button

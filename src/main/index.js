@@ -19,6 +19,7 @@ const scanInstalledAsync = require('./libs/appManagement/scanInstalledAsync');
 const openApp = require('./libs/appManagement/openApp');
 const installAppAsync = require('./libs/appManagement/installAppAsync');
 const uninstallAppAsync = require('./libs/appManagement/uninstallAppAsync');
+const updateAppAsync = require('./libs/appManagement/updateAppAsync');
 
 const isShell = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
@@ -102,6 +103,14 @@ const createWindow = () => {
       uninstallAppAsync(id, appObj.name)
         .then(() => mainWindow.webContents.send('app-status', id, null))
         .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj));
+    });
+
+    ipcMain.on('update-app', (e, id, oldAppObj, token) => {
+      mainWindow.webContents.send('app-status', id, 'UPDATING');
+
+      updateAppAsync(id, oldAppObj.name, token)
+        .then(appObj => mainWindow.webContents.send('app-status', id, 'INSTALLED', appObj))
+        .catch(() => mainWindow.webContents.send('app-status', id, 'INSTALLED', oldAppObj));
     });
   }
 

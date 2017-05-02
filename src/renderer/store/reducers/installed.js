@@ -1,20 +1,15 @@
 import Immutable from 'immutable';
 
-import { SET_INSTALLED_HITS, SET_INSTALLED_STATUS } from '../constants/actions';
-import { LOADING } from '../constants/statuses';
+import { SET_INSTALLED_APPS } from '../constants/actions';
 
 const initialState = Immutable.Map({
-  status: LOADING,
-  hits: null,
+  installedApps: Immutable.List([]),
 });
 
 const installed = (state = initialState, action) => {
   switch (action.type) {
-    case SET_INSTALLED_STATUS: {
-      return state.set('status', action.status);
-    }
-    case SET_INSTALLED_HITS: {
-      return state.set('hits', Immutable.fromJS(action.hits));
+    case SET_INSTALLED_APPS: {
+      return state.set('installedApps', action.installedApps);
     }
     default:
       return state;

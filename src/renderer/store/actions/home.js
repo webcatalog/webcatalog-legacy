@@ -25,11 +25,11 @@ export const fetchApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  let path = `/api/apps?page=${currentPage}`;
-  if (home.get('category')) path += `&category=${encodeURIComponent(home.get('category'))}`;
-  if (home.get('sort')) path += `&sort=${home.get('sort')}`;
+  let requestPath = `/api/apps?page=${currentPage}`;
+  if (home.get('category')) requestPath += `&category=${encodeURIComponent(home.get('category'))}`;
+  if (home.get('sort')) requestPath += `&sort=${home.get('sort')}`;
 
-  secureFetch(path, auth.get('token'))
+  secureFetch(requestPath, auth.get('token'))
   .then(response => response.json())
   .then(({ apps, totalPage }) => {
     dispatch(batchActions([
