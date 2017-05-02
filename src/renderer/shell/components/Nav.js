@@ -79,16 +79,12 @@ const Nav = ({
             <MenuItem
               iconName="delete"
               text="Clear Browsing Data..."
-              onClick={() => {
-                ipcRenderer.send('clear-browsing-data');
-              }}
+              onClick={() => ipcRenderer.send('clear-browsing-data')}
             />
             <MenuItem
               iconName="info-sign"
               text="About"
-              onClick={() => {
-                ipcRenderer.send('show-about-window');
-              }}
+              onClick={() => ipcRenderer.send('show-about-window')}
             />
           </Menu>
         )}

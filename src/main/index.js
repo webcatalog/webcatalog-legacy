@@ -11,6 +11,7 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
+const showAboutWindow = require('./libs/showAboutWindow');
 
 const getAllAppPath = require('./libs/appManagement/getAllAppPath');
 const getServerUrl = require('./libs/appManagement/getServerUrl');
@@ -113,6 +114,8 @@ const createWindow = () => {
         .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
     });
   }
+
+  ipcMain.on('show-about-window', () => showAboutWindow());
 
   ipcMain.on('set-setting', (e, name, val) => {
     settings.set(name, val);

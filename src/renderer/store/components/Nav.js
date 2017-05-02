@@ -92,9 +92,7 @@ const Nav = ({
             <MenuItem
               iconName="info-sign"
               text="About"
-              onClick={() => {
-                ipcRenderer.send('show-about-window');
-              }}
+              onClick={() => ipcRenderer.send('show-about-window')}
             />
           </Menu>
         )}

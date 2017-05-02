@@ -1,6 +1,7 @@
 const { Menu, shell, app } = require('electron');
 const sendMessageToWindow = require('./sendMessageToWindow');
 const clearBrowsingData = require('./clearBrowsingData');
+const showAboutWindow = require('./showAboutWindow');
 
 function createMenu({
   isDevelopment, isShell, appName, appId,
@@ -339,7 +340,8 @@ function createMenu({
 
   if (process.platform !== 'darwin') {
     helpMenu.submenu.push({
-      role: 'about',
+      label: 'About WebCatalog',
+      onClick: () => showAboutWindow(),
     });
   }
 
@@ -349,7 +351,8 @@ function createMenu({
     template.unshift({
       submenu: [
         {
-          role: 'about',
+          label: 'About WebCatalog',
+          onClick: () => showAboutWindow(),
         },
         {
           role: 'services',
