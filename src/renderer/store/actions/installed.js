@@ -9,23 +9,22 @@ import { logOut } from './auth';
 export const fetchInstalledApps = () => (dispatch, getState) => {
   const { appManagement, auth } = getState();
 
-  Promise.resolve()
-    .then(() => {
-      const installedApps = appManagement.get('managedApps').toList().map(x => x.get('app'));
+  const installedApps = appManagement.get('managedApps').toList().map(x => x.get('app'));
 
-      dispatch({
-        type: SET_INSTALLED_APPS,
-        installedApps,
-      });
+  dispatch({
+    type: SET_INSTALLED_APPS,
+    installedApps,
+  });
 
-      let requestPath = '/api/apps?sort=name&ids=';
-      installedApps.forEach((app, i) => {
-        requestPath += app.get('id');
-        if (i < installedApps.size - 1) requestPath += ',';
-      });
+  if (installedApps.size < 1) return;
 
-      return secureFetch(requestPath, auth.get('token'));
-    })
+  let requestPath = '/api/apps?sort=name&ids=';
+  installedApps.forEach((app, i) => {
+    requestPath += app.get('id');
+    if (i < installedApps.size - 1) requestPath += ',';
+  });
+
+  secureFetch(requestPath, auth.get('token'))
     .then(response => response.json())
     .then(({ apps }) => {
       dispatch({

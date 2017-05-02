@@ -77,7 +77,7 @@ const Card = ({
               <Button
                 key="open"
                 text="Open"
-                onClick={() => ipcRenderer.send('open-app', app.get('id'), app.get('name'))}
+                onClick={() => ipcRenderer.send('open-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']))}
               />
             ),
             <Button
