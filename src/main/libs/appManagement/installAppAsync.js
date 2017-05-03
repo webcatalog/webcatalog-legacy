@@ -15,7 +15,9 @@ const installAppAsync = (id, token, opts) =>
         return Object.assign({}, opts.preloadedApp, { iconPath });
       }
 
-      return secureFetch(`/api/apps/${id}`, token)
+      const actionName = (opts && opts.action) ? opts.action : 'install';
+
+      return secureFetch(`/api/apps/${id}?action=${actionName}`, token)
         .then(response => response.json())
         .then(content => Object.assign({}, content.app, { iconPath }));
     })

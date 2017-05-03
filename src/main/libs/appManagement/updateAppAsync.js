@@ -9,7 +9,7 @@ const updateAppAsync = (id, oldName, token) =>
     .then(content => content.app)
     .then(preloadedApp =>
       uninstallAppAsync(id, oldName, { shouldClearStorageData: false })
-        .then(() => installAppAsync(id, token, { preloadedApp })),
+        .then(() => installAppAsync(id, token, { preloadedApp, action: 'update' })),
     );
 
 
