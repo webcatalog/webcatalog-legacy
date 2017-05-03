@@ -9,7 +9,7 @@ import categories from '../../constants/categories';
 
 const appApiRouter = express.Router();
 
-const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'createdAt', 'wikipediaTitle'];
+const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'createdAt'];
 
 appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
