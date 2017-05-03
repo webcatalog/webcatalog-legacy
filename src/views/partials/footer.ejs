@@ -58,7 +58,7 @@
     <% if (user.displayName) { %>name: "<%= user.displayName %>"<% } %>,
     email: "<%= user.email %>",
     user_id: "<%= user.id %>",
-    created_at: <%= new Date(user.createdAt).getTime() / 1000 %>,
+    created_at: <%= Math.round(new Date(user.createdAt).getTime() / 1000) %>,
     user_hash: "<%= intercomUserHash %>"<% } %>
   };
 </script>
