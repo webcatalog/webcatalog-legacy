@@ -1,1 +1,1 @@
-export const LATEST_SHELL_VERSION = '4.1.12';
+export const LATEST_SHELL_VERSION = '5.0.0-beta';

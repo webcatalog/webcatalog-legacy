@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "4.1.12",
+  "version": "5.0.0-beta",
   "description": "WebCatalog, Run any web app natively.",
   "main": "app/index.js",
   "scripts": {

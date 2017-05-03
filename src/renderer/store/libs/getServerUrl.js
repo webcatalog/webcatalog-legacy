@@ -1,5 +1,5 @@
 const getServerUrl = (path) => {
-  const endpoint = 'https://webcatalog-server.herokuapp.com';
+  const endpoint = 'https://getwebcatalog.com';
 
   return `${endpoint}${path}`;
 };
