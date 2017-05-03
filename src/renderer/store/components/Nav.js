@@ -90,6 +90,11 @@ const Nav = ({
             />
             <MenuDivider />
             <MenuItem
+              iconName="globe"
+              text="Website"
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
+            />
+            <MenuItem
               iconName="info-sign"
               text="About"
               onClick={() => ipcRenderer.send('show-about-window')}

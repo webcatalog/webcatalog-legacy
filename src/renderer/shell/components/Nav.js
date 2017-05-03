@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Spinner, Popover, Menu, MenuItem, Position, Classes } from '@blueprintjs/core';
+import { Button, Spinner, Popover, Menu, MenuItem, MenuDivider, Position, Classes } from '@blueprintjs/core';
 
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog } from '../actions/findInPage';
@@ -80,6 +80,12 @@ const Nav = ({
               iconName="delete"
               text="Clear Browsing Data..."
               onClick={() => ipcRenderer.send('clear-browsing-data')}
+            />
+            <MenuDivider />
+            <MenuItem
+              iconName="globe"
+              text="Website"
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
             />
             <MenuItem
               iconName="info-sign"
