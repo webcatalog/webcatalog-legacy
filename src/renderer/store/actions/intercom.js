@@ -9,6 +9,7 @@ export const updateIntercomUser = token => dispatch =>
       email: user.email,
       user_id: user.id,
       user_hash: user.intercomUserHash,
+      signed_up_at: Math.floor(new Date(user.createdAt).getTime() / 1000),
     });
     window.Intercom('boot');
   })
