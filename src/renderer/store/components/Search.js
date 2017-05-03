@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
 import { search } from '../actions/search';
-import { setRoute } from '../actions/route';
+import { goBack } from '../actions/route';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 
 import Loading from './Loading';
@@ -101,7 +101,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   requestSearch: () => dispatch(search()),
-  closeSearch: () => dispatch(setRoute('home')),
+  closeSearch: () => dispatch(goBack()),
 });
 
 export default connect(

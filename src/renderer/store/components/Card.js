@@ -3,14 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { ProgressBar, Button, Intent, Classes } from '@blueprintjs/core';
+import { ProgressBar, Button, Intent } from '@blueprintjs/core';
 import semver from 'semver';
 
 import getServerUrl from '../libs/getServerUrl';
 import { LATEST_SHELL_VERSION } from '../constants/versions';
 
+import { setSingleApp } from '../actions/single';
+import { setRoute } from '../actions/route';
+
 const Card = ({
-  app, managedApps, token,
+  app, managedApps, token, requestLoadSingleApp,
 }) => (
   <div className="col">
     <div className="pt-card pt-elevation-1" style={{ textAlign: 'center', padding: 12, position: 'relative' }}>
@@ -23,6 +26,7 @@ const Card = ({
           width: 64,
           marginBottom: 8,
         }}
+        onClick={() => requestLoadSingleApp(app)}
       />
       <h5
         style={{
@@ -33,17 +37,7 @@ const Card = ({
           margin: '0 0 8px',
         }}
       >
-        {app.get('name')}
-        <Button
-          iconName="info-sign"
-          className={Classes.MINIMAL}
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-          }}
-          onClick={() => ipcRenderer.send('open-in-browser', getServerUrl(`/apps/${app.get('slug')}/id${app.get('id')}`))}
-        />
+        <a onClick={() => requestLoadSingleApp(app)}>{app.get('name')}</a>
       </h5>
       {(() => {
         let appStatus = null;
@@ -105,6 +99,7 @@ Card.propTypes = {
   app: PropTypes.instanceOf(Immutable.Map).isRequired,
   managedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
   token: PropTypes.string.isRequired,
+  requestLoadSingleApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -112,6 +107,13 @@ const mapStateToProps = state => ({
   token: state.auth.get('token'),
 });
 
+const mapDispatchToProps = dispatch => ({
+  requestLoadSingleApp: (app) => {
+    dispatch(setSingleApp(app));
+    dispatch(setRoute('single'));
+  },
+});
+
 export default connect(
-  mapStateToProps,
+  mapStateToProps, mapDispatchToProps,
 )(Card);

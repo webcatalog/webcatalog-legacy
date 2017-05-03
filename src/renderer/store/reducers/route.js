@@ -14,6 +14,11 @@ const route = (state = initialState, action) => {
         .set('lastRouteId', state.get('routeId'))
         .set('routeId', action.routeId);
     case GO_BACK:
+      if (!state.get('lastRouteId')) {
+        return state
+          .set('routeId', 'home');
+      }
+
       return state
         .set('lastRouteId', null)
         .set('routeId', state.get('lastRouteId'));

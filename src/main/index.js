@@ -270,3 +270,12 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+app.on('open-url', (e, protocolUrl) => {
+  if (mainWindow) {
+    if (protocolUrl.startsWith('webcatalog://apps/')) {
+      const id = protocolUrl.substring('webcatalog://apps/'.length);
+      mainWindow.webContents.send('show-single-app', id);
+    }
+  }
+});
