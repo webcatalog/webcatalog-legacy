@@ -144,6 +144,7 @@ app.use((err, req, res, next) => {
         return res.status(404).json({ errors: [{ status: '404', title: 'Page Not Found' }] });
       }
 
+      console.log(err);
       return res.status(500).json({ errors: [{ status: '500', title: 'Internal Server Error' }] });
     }
     default: {

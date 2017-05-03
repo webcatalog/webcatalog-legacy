@@ -16,8 +16,8 @@ const Action = sequelize.define('action', {
   },
 });
 
-Action.belongsTo(App);
-Action.belongsTo(User);
+Action.App = Action.belongsTo(App);
+Action.User = Action.belongsTo(User);
 
 Action.sync();
 
