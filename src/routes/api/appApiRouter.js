@@ -75,7 +75,7 @@ appApiRouter.get('/:id', passport.authenticate('jwt', { session: false }), (req,
           .then((user) => {
             if (!user) throw new Error('Cannot find user');
 
-            return Action.findOne({ where: { appId: app.id } })
+            return Action.findOne({ where: { appId: app.id, userId: user.id } })
               .then((action) => {
                 if (!action) {
                   return app.increment('installCount');
