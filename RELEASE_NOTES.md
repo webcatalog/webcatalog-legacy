@@ -5,6 +5,7 @@
 - Adds live chat support.
 - Improves app discovery
 - Improves security & performance.
+
 **[Read More on Our Official Blog](https://medium.com/webcatalog/introduce-webcatalog-5-a-big-overhaul-1f44d6cc4acd)**
 
 ---
