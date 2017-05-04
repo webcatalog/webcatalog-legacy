@@ -9,7 +9,7 @@
       <div class="column is-4">
         <div class="content">
           <div class="has-text-centered">
-            <p class="category"><a href="/apps?category=<%= encodeURIComponent(app.category) %>"><%= app.category.replace('+', ' & ') %></a></p>
+            <p class="category"><a href="/apps/category/<%= encodeURIComponent(app.category) %>"><%= app.category.replace('+', ' & ') %></a></p>
             <a href="/s3/<%= app.id %>.png">
               <figure class="image is-128x128 app-icon">
                 <picture>

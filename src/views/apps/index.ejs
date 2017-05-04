@@ -9,7 +9,7 @@
             <a href="/apps">WebCatalog Store</a>
             <% if (category) { %>
             <span> > </span>
-            <a class="category" href="/apps?category=<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a>
+            <a class="category" href="/apps/category/<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a>
             <% } %>
           </h1>
         </div>
@@ -36,7 +36,7 @@
           </p>
           <ul class="menu-list">
             <% categories.forEach(function (c) { %>
-            <li><a class="category" href="/apps?category=<%= encodeURIComponent(c) %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
+            <li><a class="category" href="/apps/category/<%= encodeURIComponent(c) %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
             <% }) %>
           </ul>
         </aside>
@@ -60,7 +60,7 @@
               <div class="card-content">
                 <div class="media">
                   <div class="media-content">
-                    <a href="/apps/<%= app.slug %>/id<%= app.id %>">
+                    <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
                       <figure class="image is-64x64 app-icon">
                         <picture>
                           <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
@@ -69,7 +69,7 @@
                         </picture>
                       </figure>
                     </a>
-                    <p class="title is-5 has-text-centered"><a href="/apps/<%= app.slug %>/id<%= app.id %>"><%= app.name %></a></p>
+                    <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
                   </div>
                 </div>
               </div>

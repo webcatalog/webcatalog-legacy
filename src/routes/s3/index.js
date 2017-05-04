@@ -22,8 +22,9 @@ s3Route.get('/:name.:ext', (req, res, next) => {
     Bucket: process.env.S3_BUCKET,
     Key: `${req.params.name}.${req.params.ext}`,
   }, (err, data) => {
-    if (err) next(err);
-    else {
+    if (err) {
+      next(err.code === 'NoSuchKey' ? new Error('404') : err);
+    } else {
       res.setHeader('Last-Modified', data.LastModified);
       res.setHeader('Content-Length', data.ContentLength);
       res.setHeader('ETag', data.ETag);

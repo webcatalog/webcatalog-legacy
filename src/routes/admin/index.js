@@ -154,7 +154,7 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
           const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
           return index.addObject(plainApp)
             .then(() => {
-              res.redirect(`/apps/${app.slug}/id${app.id}`);
+              res.redirect(`/apps/details/${app.slug}/${app.id}`);
             });
         }),
       )
@@ -203,7 +203,7 @@ adminRouter.post('/add', upload.single('icon'), (req, res, next) => {
       const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
       return index.addObject(plainApp)
         .then(() => {
-          res.redirect(`/apps/${app.slug}/id${app.id}`);
+          res.redirect(`/apps/details/${app.slug}/${app.id}`);
         });
     })
     .catch(next);

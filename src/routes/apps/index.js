@@ -8,7 +8,7 @@ import algoliaClient from '../../algoliaClient';
 
 const appsRouter = express.Router();
 
-appsRouter.get('/', (req, res, next) => {
+appsRouter.get(['/', '/category/:category'], (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
   const limit = 24;
   const offset = (currentPage - 1) * limit;
@@ -19,8 +19,8 @@ appsRouter.get('/', (req, res, next) => {
     limit,
   };
 
-  if (req.query.category && categories.indexOf(req.query.category) > -1) {
-    opts.where.category = req.query.category;
+  if (req.params.category && categories.indexOf(req.params.category) > -1) {
+    opts.where.category = req.params.category;
   }
 
   switch (req.query.sort) {
@@ -88,7 +88,7 @@ appsRouter.get('/search', (req, res, next) => {
     .catch(next);
 });
 
-appsRouter.get(['/id:id', '/:slug/id:id'], (req, res, next) => {
+appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
   App.find({ where: { id: req.params.id, isActive: true } })
     .then((app) => {
       if (!app) throw new Error('404');
