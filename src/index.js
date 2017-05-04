@@ -27,7 +27,7 @@ app.use(sassMiddleware({
   indentedSyntax: true,
   prefix: '/public',
 }));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: 3600 * 24 * 30 }));
 
 // passport
 const SequelizeStore = connectSessionSequelize(session.Store);

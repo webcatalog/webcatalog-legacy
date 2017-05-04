@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk';
 import S3 from 'aws-sdk/clients/s3';
 import express from 'express';
 
@@ -39,14 +40,22 @@ s3Route.get('/:name.:ext', (req, res, next) => {
       contentType = 'application/octet-stream';
     }
   }
-  res.setHeader('Content-Type', contentType);
 
-  const imgStream = s3.getObject({
+
+  s3.getObject({
     Bucket: process.env.S3_BUCKET,
     Key: `${req.params.name}.${req.params.ext}`,
-  }).createReadStream().on('error', next);
-
-  imgStream.pipe(res);
+  }, (err, data) => {
+    if (err) next(err);
+    else {
+      res.setHeader('Last-Modified', data.LastModified);
+      res.setHeader('Content-Length', data.ContentLength);
+      res.setHeader('ETag', data.ETag);
+      res.setHeader('Content-Type', data.ContentType);
+      const imgStream = AWS.util.buffer.toStream(data.Body);
+      imgStream.pipe(res);
+    }
+  });
 });
 
 module.exports = s3Route;
