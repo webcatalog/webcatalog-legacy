@@ -126,6 +126,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', require('./routes/downloads'));
+app.use('/sitemap.xml', require('./routes/sitemap.xml'));
 app.use('/apps', require('./routes/apps'));
 app.use('/admin', require('./routes/admin'));
 app.use('/api', require('./routes/api'));

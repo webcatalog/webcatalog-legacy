@@ -9,7 +9,7 @@
             <a href="/apps">WebCatalog Store</a>
             <% if (category) { %>
             <span> > </span>
-            <a class="category" href="/apps/category/<%= encodeURIComponent(category) %>"><%= category.replace('+', ' & ') %></a>
+            <a class="category" href="/apps/category/<%= category %>"><%= category.replace('+', ' & ') %></a>
             <% } %>
           </h1>
         </div>
@@ -36,7 +36,7 @@
           </p>
           <ul class="menu-list">
             <% categories.forEach(function (c) { %>
-            <li><a class="category" href="/apps/category/<%= encodeURIComponent(c) %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
+            <li><a class="category" href="/apps/category/<%= c %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
             <% }) %>
           </ul>
         </aside>
@@ -79,15 +79,15 @@
         </div>
         <nav class="pagination is-centered">
           <% if (currentPage > 1) { %>
-          <a class="pagination-previous" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage - 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Previous</a>
+          <a class="pagination-previous" href="/apps<% if (category) { %>?category=<%= category %>&page=<% } else { %>?page=<% } %><%= currentPage - 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Previous</a>
           <% } %>
           <% if (currentPage < totalPage) { %>
-          <a class="pagination-next" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= currentPage + 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Next</a>
+          <a class="pagination-next" href="/apps<% if (category) { %>?category=<%= category %>&page=<% } else { %>?page=<% } %><%= currentPage + 1 %><% if (sort) { %>&sort=<%= sort %><% } %>">Next</a>
           <% } %>
           <ul class="pagination-list">
             <% pages.forEach((page) => { %>
             <% if (page > 0) { %>
-            <li><a class="pagination-link <% if (page === currentPage) { %>is-current<% } %>" href="/apps<% if (category) { %>?category=<%= encodeURIComponent(category) %>&page=<% } else { %>?page=<% } %><%= page %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= page %></a></li>
+            <li><a class="pagination-link <% if (page === currentPage) { %>is-current<% } %>" href="/apps<% if (category) { %>?category=<%= category %>&page=<% } else { %>?page=<% } %><%= page %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= page %></a></li>
             <% } else { %>
               <li><span class="pagination-ellipsis">&hellip;</span></li>
             <% } %>
