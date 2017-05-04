@@ -29,14 +29,14 @@
       <div class="column is-one-quarter">
         <aside class="menu">
           <ul class="menu-list">
-            <li><a href="/apps<% if (sort) { %>?sort=<%= sort %><% } %>">All</a></li>
+            <li><a <% if (!category) { %>class="is-active"<% } %> href="/apps<% if (sort) { %>?sort=<%= sort %><% } %>">All</a></li>
           </ul>
           <p class="menu-label">
             Categories
           </p>
           <ul class="menu-list">
             <% categories.forEach(function (c) { %>
-            <li><a class="category" href="/apps/category/<%= c %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
+            <li><a class="category<% if (c === category) { %> is-active<% } %>" href="/apps/category/<%= c %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
             <% }) %>
           </ul>
         </aside>
