@@ -18,30 +18,6 @@ s3Route.get('/:name.:ext', (req, res, next) => {
     return;
   }
 
-  let contentType;
-  switch (req.params.ext) {
-    case 'png': {
-      contentType = 'image/png';
-      break;
-    }
-    case 'webp': {
-      contentType = 'image/webp';
-      break;
-    }
-    case 'ico': {
-      contentType = 'image/vnd.microsoft.icon'; // real ico, not favicon image/x-icon
-      break;
-    }
-    case 'icns': {
-      contentType = 'image/icns';
-      break;
-    }
-    default: {
-      contentType = 'application/octet-stream';
-    }
-  }
-
-
   s3.getObject({
     Bucket: process.env.S3_BUCKET,
     Key: `${req.params.name}.${req.params.ext}`,
