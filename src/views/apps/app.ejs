@@ -21,8 +21,36 @@
             </a>
             <h1 class="title"><%= app.name %></h1>
             <h2 class="subtitle is-6"><a href="<%= app.url %>" target="_blank" rel="noopener noreferrer"><%= extractDomain(app.url) %></a></h2>
-            <a class="button is-info open" href="webcatalog://apps/<%= app.id %>">Open in WebCatalog</a>
+            <a class="button is-info open" href="webcatalog://apps/<%= app.id %>">Install with WebCatalog</a>
             <p>Don't have WebCatalog? <a href="/downloads">Download for free.</a></p>
+
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=421147911601047";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-share-button" data-href="<%= encodeURIComponent("https://getwebcatalog.com/apps/details/" + app.slug + "/" + app.id) %>" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent("https://getwebcatalog.com/apps/details/" + app.slug + "/" + app.id) %>&amp;src=sdkpreparse">Share</a></div>
+
+            <script>window.twttr = (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+              if (d.getElementById(id)) return t;
+              js = d.createElement(s);
+              js.id = id;
+              js.src = "https://platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js, fjs);
+
+              t._e = [];
+              t.ready = function(f) {
+                t._e.push(f);
+              };
+
+              return t;
+            }(document, "script", "twitter-wjs"));</script>
+            <div class="twitter-share-button-container"><a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a></div>
 
             <% if (user && user.isAdmin) { %>
             <a class="button" href="/admin/edit/id<%= app.id %>">
