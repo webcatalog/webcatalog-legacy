@@ -16,6 +16,7 @@
   <meta property="og:description" content="<%= description %>">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://getwebcatalog.com<%= path %>">
+  <% if (locals.app) { %><meta property="og:image" content="https://getwebcatalog.com/s3/<%= app.id %>.png"><% } %>
   <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/public/css/app.css">
