@@ -3,15 +3,12 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import accepts from 'accepts';
 import connectSessionSequelize from 'connect-session-sequelize';
 import { SecureMode } from 'intercom-client';
 
+import passport from './passport';
 import sequelize from './sequelize';
-import User from './models/User';
 import './models/Session';
 
 const app = express();
@@ -44,62 +41,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then((user) => {
-      if (!user) return done(new Error('User not found'));
-      return done(null, user);
-    })
-    .catch(err => done(err));
-});
-
-passport.use(new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    console.log(profile);
-    User
-      .findOrCreate({
-        where: { email: profile.emails[0].value },
-        defaults: { profilePicture: profile.photos[0].value },
-      })
-      .spread((user) => {
-        // try to update new profile picture
-        if (
-          user.profilePicture !== profile.photos[0].value ||
-          user.displayName !== profile.displayName
-        ) {
-          user.updateAttributes({
-            profilePicture: profile.photos[0].value,
-            displayName: profile.displayName,
-          })
-          .catch(console.log);
-        }
-
-        cb(null, user);
-      })
-      .catch(cb);
-  },
-));
-
-const jwtOpts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  secretOrKey: process.env.JWT_SECRET,
-  issuer: process.env.JWT_ISSUER,
-  audience: process.env.JWT_AUDIENCE,
-};
-passport.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
-  User.findById(jwtPayload.id)
-    .then(user => done(null, user))
-    .catch(err => done(err, false));
-}));
-
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

@@ -108,3 +108,29 @@ $yellow: #FBC02D
     padding: 0.5rem 0.75em
     a
       color: #7a7a7a !important
+
+.auth
+  +tablet
+    height: 100vh
+    width: 100vw
+    display: flex
+    align-items: center
+    justify-content: center
+    background-color: $blue
+  hr
+    margin-top: 0.5em
+  .box
+    +mobile
+      box-shadow: none
+    +tablet
+      width: 448px
+    .logo img
+      height: 56px
+  .button.oauth-button
+    width: 260px
+    &.google-button
+      background-color: #dd4b39
+    &.facebook-button
+      background-color: #3b5998
+    &.twitter-button
+      background-color: #1da1f2

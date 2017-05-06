@@ -1,0 +1,46 @@
+<% include ../partials/head %>
+
+<div class="auth">
+  <div class="box">
+    <article class="media">
+      <div class="media-content">
+        <div class="content has-text-centered">
+          <a class="logo" href="/">
+            <img src="/public/images/logo.png" alt="WebCatalog" />
+          </a>
+
+          <hr>
+
+          <p>
+            <a class="button is-danger is-medium oauth-button google-button" href="/auth/google">
+              <span class="icon">
+                <i class="fa fa-google"></i>
+              </span>
+              <span>Sign in with Google</span>
+            </a>
+          </p>
+
+          <p>
+            <a class="button is-info is-medium oauth-button facebook-button" href="/auth/facebook">
+              <span class="icon">
+                <i class="fa fa-facebook-official"></i>
+              </span>
+              <span>Sign in with Facebook</span>
+            </a>
+          </p>
+
+          <p>
+            <a class="button is-info is-medium oauth-button twitter-button" href="/auth/twitter">
+              <span class="icon">
+                <i class="fa fa-twitter"></i>
+              </span>
+              <span>Sign in with Twitter</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+
+<% include ../partials/foot %>

@@ -1,125 +1,99 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.</title>
-  <link rel="canonical" href="https://getwebcatalog.com<%= path %>">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= description %>">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.">
-  <meta name="twitter:description" content="<%= description %>">
-  <% if (locals.app) { %><meta name="twitter:image" content="https://getwebcatalog.com/s3/<%= app.id %>.png" /><% } %>
-  <meta property="og:site_name" content="WebCatalog">
-  <meta property="og:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog - An Alternative App Store for your Mac and PC.">
-  <meta property="og:type" content="article">
-  <meta property="og:description" content="<%= description %>">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:url" content="https://getwebcatalog.com<%= path %>">
-  <% if (locals.app) { %><meta property="og:image" content="https://getwebcatalog.com/s3/<%= app.id %>.png"><% } %>
-  <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/public/css/app.css">
-</head>
-<body>
-  <section class="hero is-info">
-    <div class="hero-head">
-      <div class="container">
-        <nav class="nav">
-          <div class="nav-left">
-            <a class="nav-item logo" href="/">
-              <img src="/public/images/logo_white.png" />
-            </a>
+<% include ./head %>
+
+<section class="hero is-info">
+  <div class="hero-head">
+    <div class="container">
+      <nav class="nav">
+        <div class="nav-left">
+          <a class="nav-item logo" href="/">
+            <img src="/public/images/logo_white.png" alt="WebCatalog" />
+          </a>
+        </div>
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <div class="nav-right nav-menu">
+          <a class="nav-item" href="/downloads">
+            Downloads
+          </a>
+          <a class="nav-item" href="/apps">
+            Apps
+          </a>
+          <a class="nav-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
+            Blog
+          </a>
+          <% if (user) { %>
+          <div class="nav-item is-hidden-mobile user-nav-item">
+            <figure class="image is-32x32 profile-picture">
+              <img src="<%= user.profilePicture %>">
+            </figure>
+            <span class="icon">
+              <i class="fa fa-caret-down"></i>
+            </span>
           </div>
-          <span class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <div class="nav-right nav-menu">
-            <a class="nav-item" href="/downloads">
-              Downloads
+          <% if (user && user.isAdmin) { %>
+            <a class="nav-item is-hidden-tablet" href="/admin/add">
+              Add new app
             </a>
-            <a class="nav-item" href="/apps">
-              Apps
-            </a>
-            <a class="nav-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
-              Blog
-            </a>
-            <% if (user) { %>
-            <div class="nav-item is-hidden-mobile user-nav-item">
-              <figure class="image is-32x32 profile-picture">
-                <img src="<%= user.profilePicture %>">
-              </figure>
-              <span class="icon">
-                <i class="fa fa-caret-down"></i>
-              </span>
+          <% } %>
+          <a class="nav-item is-hidden-tablet" href="/me/apps">
+            My apps
+          </a>
+          <a class="nav-item is-hidden-tablet" href="/submit">
+            Submit new app
+          </a>
+          <a class="nav-item is-hidden-tablet" href="/help">
+            Help
+          </a>
+          <a class="nav-item is-hidden-tablet" href="/auth/logout">
+            Sign out
+          </a>
+          <% } else { %>
+          <div class="nav-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button is-white" href="/auth?returnTo=<%= path %>">
+                  <span>Sign in / Sign up</span>
+                </a>
+              </p>
             </div>
-            <% if (user && user.isAdmin) { %>
-              <a class="nav-item is-hidden-tablet" href="/admin/add">
-                Add new app
-              </a>
-            <% } %>
-            <a class="nav-item is-hidden-tablet" href="/me/apps">
+          </div>
+          <% } %>
+        </div>
+      </nav>
+      <div class="box user-dropdown is-hidden-mobile">
+        <ul>
+          <% if (user && user.isAdmin) { %>
+          <li class="nav-item">
+            <a href="/admin/add">
+              Add new app
+            </a>
+          </li>
+          <% } %>
+          <li class="nav-item">
+            <a href="/me/apps">
               My apps
             </a>
-            <a class="nav-item is-hidden-tablet" href="/submit">
+          </li>
+          <li class="nav-item">
+            <a href="/submit">
               Submit new app
             </a>
-            <a class="nav-item is-hidden-tablet" href="/help">
+          </li>
+          <li class="nav-item">
+            <a href="/help">
               Help
             </a>
-            <a class="nav-item is-hidden-tablet" href="/auth/logout">
+          </li>
+          <li class="nav-item">
+            <a href="/auth/logout">
               Log out
             </a>
-            <% } else { %>
-            <div class="nav-item">
-              <div class="field is-grouped">
-                <p class="control">
-                  <a class="button is-danger" href="/auth?returnTo=<%= path %>">
-                    <span class="icon">
-                      <i class="fa fa-google"></i>
-                    </span>
-                    <span>Sign in with Google</span>
-                  </a>
-                </p>
-              </div>
-            </div>
-            <% } %>
-          </div>
-        </nav>
-        <div class="box user-dropdown is-hidden-mobile">
-          <ul>
-            <% if (user && user.isAdmin) { %>
-            <li class="nav-item">
-              <a href="/admin/add">
-                Add new app
-              </a>
-            </li>
-            <% } %>
-            <li class="nav-item">
-              <a href="/me/apps">
-                My apps
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/submit">
-                Submit new app
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/help">
-                Help
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/auth/logout">
-                Log out
-              </a>
-            </li>
-          </ul>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>

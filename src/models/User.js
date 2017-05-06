@@ -20,6 +20,15 @@ const User = sequelize.define('user', {
   displayName: {
     type: Sequelize.STRING,
   },
+  googleId: {
+    type: Sequelize.STRING,
+  },
+  facebookId: {
+    type: Sequelize.STRING,
+  },
+  twitterId: {
+    type: Sequelize.STRING,
+  },
 });
 
 User.sync();
