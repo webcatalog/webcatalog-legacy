@@ -2,9 +2,9 @@ import express from 'express';
 import fetch from 'node-fetch';
 import marked from 'marked';
 
-const downloadsRouter = express.Router();
+const mainRouter = express.Router();
 
-downloadsRouter.get(['/', '/downloads'], (req, res) => {
+mainRouter.get(['/', '/downloads'], (req, res) => {
   const ua = req.headers['user-agent'];
   if (/(Intel|PPC) Mac OS X/.test(ua)) {
     res.redirect('/downloads/mac');
@@ -15,7 +15,7 @@ downloadsRouter.get(['/', '/downloads'], (req, res) => {
   }
 });
 
-downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
+mainRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
   const platform = req.params.platform;
   const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
 
@@ -31,7 +31,7 @@ downloadsRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
   });
 });
 
-downloadsRouter.get('/release-notes', (req, res, next) => {
+mainRouter.get('/release-notes', (req, res, next) => {
   fetch('https://raw.githubusercontent.com/webcatalog/webcatalog/master/RELEASE_NOTES.md')
     .then(response => response.text())
     .then((mdContent) => {
@@ -40,4 +40,12 @@ downloadsRouter.get('/release-notes', (req, res, next) => {
     .catch(next);
 });
 
-module.exports = downloadsRouter;
+mainRouter.get('/support', (req, res) => {
+  res.redirect('/help');
+});
+
+mainRouter.get('/help', (req, res) => {
+  res.render('help/index');
+});
+
+module.exports = mainRouter;
