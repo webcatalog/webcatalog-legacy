@@ -43,11 +43,7 @@ appsRouter.get(['/', '/category/:category'], (req, res, next) => {
 
       if (currentPage > totalPage && currentPage > 1) throw new Error('404');
 
-      let path = '/apps';
-      if (opts.where.category) path += `?category=${opts.where.category}`;
-
       res.render('apps/index', {
-        path,
         title: 'Explore WebCatalog Store',
         apps: rows,
         categories,

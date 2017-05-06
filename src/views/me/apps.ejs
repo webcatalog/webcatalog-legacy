@@ -1,0 +1,65 @@
+<% include ../partials/header %>
+
+<section class="section apps">
+  <div class="container">
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title ">
+            My Apps
+          </h1>
+        </div>
+      </div>
+    </nav>
+    <hr>
+    <% if (apps.length < 1) { %>
+    <div class="content has-text-centered">
+      <h3>You don't have any apps.</h3>
+    </div>
+    <% } else { %>
+    <div class="columns is-multiline">
+      <% apps.forEach(function (app) { %>
+      <div class="column is-one-third-tablet is-one-quarter-desktop">
+        <div class="card app">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
+                  <figure class="image is-64x64 app-icon">
+                    <picture>
+                      <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
+                      <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
+                      <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
+                    </picture>
+                  </figure>
+                </a>
+                <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <nav class="pagination is-centered">
+      <% if (currentPage > 1) { %>
+      <a class="pagination-previous" href="/me/apps?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+      <% if (currentPage < totalPage) { %>
+      <a class="pagination-next" href="/me/apps?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+      <ul class="pagination-list">
+        <% pages.forEach((page) => { %>
+        <% if (page > 0) { %>
+        <li><a class="pagination-link <% if (page === currentPage) { %>is-current<% } %>" href="/me/apps?page=<%= page %>"><%= page %></a></li>
+        <% } else { %>
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+        <% } %>
+        <% }) %>
+      </ul>
+    </nav>
+  </div>
+  <% } %>
+</section>
+
+<% include ../partials/footer %>

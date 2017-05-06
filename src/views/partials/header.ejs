@@ -47,19 +47,25 @@
               Blog
             </a>
             <% if (user) { %>
+            <div class="nav-item is-hidden-mobile user-nav-item">
+              <figure class="image is-32x32 profile-picture">
+                <img src="<%= user.profilePicture %>">
+              </figure>
+              <span class="icon">
+                <i class="fa fa-caret-down"></i>
+              </span>
+            </div>
             <% if (user.isAdmin) { %>
-              <a class="nav-item" href="/admin/add">
+              <a class="nav-item is-hidden-tablet" href="/admin/add">
                 <span class="icon">
                   <i class="fa fa-plus"></i>
                 </span>
               </a>
             <% } %>
-            <div class="nav-item">
-              <figure class="image is-32x32 profile-picture">
-                <img src="<%= user.profilePicture %>">
-              </figure>
-            </div>
-            <a class="nav-item" href="/auth/logout">
+            <a class="nav-item is-hidden-tablet" href="/me/apps">
+              My apps
+            </a>
+            <a class="nav-item is-hidden-tablet" href="/auth/logout">
               Log out
             </a>
             <% } else { %>
@@ -78,6 +84,27 @@
             <% } %>
           </div>
         </nav>
+        <div class="box user-dropdown is-hidden-mobile">
+          <ul>
+            <% if (user.isAdmin) { %>
+            <li class="nav-item">
+              <a href="/admin/add">
+                Add new app
+              </a>
+            </li>
+            <% } %>
+            <li class="nav-item">
+              <a href="/me/apps">
+                My apps
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth/logout">
+                Log out
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
