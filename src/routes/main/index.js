@@ -45,7 +45,7 @@ mainRouter.get('/support', (req, res) => {
 });
 
 mainRouter.get('/help', (req, res) => {
-  res.render('help/index');
+  res.render('help/index', { title: 'WebCatalog Support' });
 });
 
 module.exports = mainRouter;

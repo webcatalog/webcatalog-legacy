@@ -7,8 +7,8 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import accepts from 'accepts';
-import crypto from 'crypto';
 import connectSessionSequelize from 'connect-session-sequelize';
+import { SecureMode } from 'intercom-client';
 
 import sequelize from './sequelize';
 import User from './models/User';
@@ -111,9 +111,8 @@ app.use((req, res, next) => {
   res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
 
   if (req.user) {
-    const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
-    hmac.update(req.user.id);
-    res.locals.intercomUserHash = hmac.digest('hex');
+    res.locals.intercomUserHash =
+      SecureMode.userHash({ secretKey: process.env.INTERCOM_SECRET, identifier: req.user.id });
   }
 
   next();
@@ -133,6 +132,7 @@ app.use('/api', require('./routes/api'));
 app.use('/s3', require('./routes/s3'));
 app.use('/auth', require('./routes/auth'));
 app.use('/me', require('./routes/me'));
+app.use('/submit', require('./routes/submit'));
 
 // Error handler
 /* eslint-disable no-unused-vars */
