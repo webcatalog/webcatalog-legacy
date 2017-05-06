@@ -10,7 +10,6 @@ const categories = [
   'heath+fitness',
   'kids',
   'lifestyle',
-  'magazines+newspapers',
   'medical',
   'music',
   'navigation',
