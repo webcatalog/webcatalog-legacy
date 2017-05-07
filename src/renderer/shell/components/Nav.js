@@ -83,6 +83,11 @@ const Nav = ({
             />
             <MenuDivider />
             <MenuItem
+              iconName="help"
+              text="Help"
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+            />
+            <MenuItem
               iconName="globe"
               text="Website"
               onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}

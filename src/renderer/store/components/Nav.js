@@ -84,11 +84,21 @@ const Nav = ({
         content={(
           <Menu>
             <MenuItem
+              iconName="add"
+              text="Submit new app"
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/submit')}
+            />
+            <MenuItem
               iconName="log-out"
-              text="Log out"
+              text="Sign out"
               onClick={onLogOut}
             />
             <MenuDivider />
+            <MenuItem
+              iconName="help"
+              text="Help"
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+            />
             <MenuItem
               iconName="globe"
               text="Website"

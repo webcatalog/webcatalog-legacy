@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Spinner, ProgressBar, Button, Intent, Classes } from '@blueprintjs/core';
 import semver from 'semver';
 import classNames from 'classnames';
+import { ShareButtons, generateShareIcon } from 'react-share';
 
 import getServerUrl from '../libs/getServerUrl';
 import { LATEST_SHELL_VERSION } from '../constants/versions';
@@ -15,6 +16,25 @@ import { goBack, setRoute } from '../actions/route';
 import { fetchSingleApp } from '../actions/single';
 
 import NoConnection from './NoConnection';
+
+const {
+  FacebookShareButton,
+  GooglePlusShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  PinterestShareButton,
+  VKShareButton,
+  OKShareButton,
+} = ShareButtons;
+
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
+const GooglePlusIcon = generateShareIcon('google');
+const LinkedinIcon = generateShareIcon('linkedin');
+const PinterestIcon = generateShareIcon('pinterest');
+const VKIcon = generateShareIcon('vk');
+const OKIcon = generateShareIcon('ok');
+
 
 class Single extends React.Component {
   componentDidMount() {
@@ -70,9 +90,13 @@ class Single extends React.Component {
       );
     }
 
+    const shareUrl = `https://getwebcatalog.com/apps/details/${app.get('slug')}/${app.get('id')}`;
+    const shareTitle = `${app.get('name')} for Mac, Windows &amp; Linux on the WebCatalog Store | WebCatalog - An Alternative App Store for your Mac and PC.`;
+    const sharePicture = getServerUrl(`/s3/${app.get('id')}.png`);
+
     return (
       <div
-        style={{ flex: 1, overflow: 'auto', padding: 12, textAlign: 'center', position: 'relative' }}
+        style={{ flex: 1, overflow: 'auto', padding: '24px 20px', textAlign: 'center', position: 'relative' }}
       >
         {backButton}
         <img
@@ -193,6 +217,64 @@ class Single extends React.Component {
             {app.get('description')} <a onClick={() => ipcRenderer.send('open-in-browser', `https://en.wikipedia.org/wiki/${encodeURIComponent(wikipediaTitle)}`)}>Wikipedia</a>
           </p>
         ) : null}
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <FacebookShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
+
+          <GooglePlusShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <GooglePlusIcon size={32} round />
+          </GooglePlusShareButton>
+
+          <LinkedinShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <LinkedinIcon size={32} round />
+          </LinkedinShareButton>
+
+          <TwitterShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
+
+          <PinterestShareButton
+            url={shareUrl}
+            title={shareTitle}
+            media={sharePicture}
+          >
+            <PinterestIcon size={32} round />
+          </PinterestShareButton>
+
+          <VKShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <VKIcon size={32} round />
+          </VKShareButton>
+
+          <OKShareButton
+            url={shareUrl}
+            title={shareTitle}
+            picture={sharePicture}
+          >
+            <OKIcon size={32} round />
+          </OKShareButton>
+        </div>
       </div>
     );
   }

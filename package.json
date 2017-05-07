@@ -66,6 +66,7 @@
     "react-addons-css-transition-group": "^15.5.2",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
+    "react-share": "^1.13.2",
     "redux": "^3.6.0",
     "redux-batched-actions": "^0.2.0",
     "redux-thunk": "^2.1.0",

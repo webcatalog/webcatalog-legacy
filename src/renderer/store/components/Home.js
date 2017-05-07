@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -37,7 +38,7 @@ class Home extends React.Component {
     // Show apps if available
     if (apps) {
       return (
-        <div className="grid" style={{ maxWidth: 960, margin: '48px auto 0 auto', zIndex: 1 }}>
+        <div className="grid" style={{ maxWidth: 960, margin: '0 auto', zIndex: 1 }}>
           {apps.map(app => <Card app={app} key={app.get('id')} />)}
         </div>
       );
@@ -129,6 +130,16 @@ class Home extends React.Component {
               </p>
             </Popover>
           </div>
+        </div>
+        <div
+          className="pt-card"
+          style={{ maxWidth: 960, margin: '48px auto 0', textAlign: 'center', padding: 10 }}
+        >
+          <span>Cannot find your favorite app?&#32;</span>
+          <a onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/submit')}>
+            <span className="pt-icon-standard pt-icon-add" />
+            <span>&#32;Submit new app</span>
+          </a>.
         </div>
         {this.renderList()}
         {this.renderStatus()}

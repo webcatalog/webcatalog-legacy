@@ -324,6 +324,12 @@ function createMenu({
     role: 'help',
     submenu: [
       {
+        label: 'Help',
+        click: () => {
+          shell.openExternal('https://getwebcatalog.com/help');
+        },
+      },
+      {
         label: 'Website',
         click: () => {
           shell.openExternal('https://getwebcatalog.com');
