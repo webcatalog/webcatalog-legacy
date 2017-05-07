@@ -62,13 +62,19 @@ const Card = ({
                 text="Update"
                 iconName="download"
                 intent={Intent.SUCCESS}
-                onClick={() => ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toJS(), token)}
+                onClick={() => {
+                  window.Intercom('trackEvent', 'update-app', { app_id: app.get('id') });
+                  ipcRenderer.send('update-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toJS(), token);
+                }}
               />
             ) : (
               <Button
                 key="open"
                 text="Open"
-                onClick={() => ipcRenderer.send('open-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']))}
+                onClick={() => {
+                  window.Intercom('trackEvent', 'open-app', { app_id: app.get('id') });
+                  ipcRenderer.send('open-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']));
+                }}
               />
             ),
             <Button
@@ -77,7 +83,10 @@ const Card = ({
               iconName="trash"
               intent={Intent.DANGER}
               style={{ marginLeft: 6 }}
-              onClick={() => ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject())}
+              onClick={() => {
+                window.Intercom('trackEvent', 'uninstall-app', { app_id: app.get('id') });
+                ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject());
+              }}
             />,
           ];
         }
@@ -87,7 +96,10 @@ const Card = ({
             text="Install"
             iconName="download"
             intent={Intent.PRIMARY}
-            onClick={() => ipcRenderer.send('install-app', app.get('id'), token)}
+            onClick={() => {
+              window.Intercom('trackEvent', 'install-app', { app_id: app.get('id') });
+              ipcRenderer.send('install-app', app.get('id'), token);
+            }}
           />
         );
       })()}

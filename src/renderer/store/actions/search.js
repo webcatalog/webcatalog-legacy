@@ -16,6 +16,8 @@ export const search = () => (dispatch, getState) => {
 
   if (!query || query.length < 1) return;
 
+  window.Intercom('trackEvent', 'search', { query });
+
   dispatch({
     type: SET_SEARCH_STATUS,
     status: LOADING,
