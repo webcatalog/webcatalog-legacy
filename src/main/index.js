@@ -47,10 +47,10 @@ const createWindow = () => {
       mkdirp.sync(allAppPath);
     }
 
-    ipcMain.on('sign-in', (e) => {
+    ipcMain.on('sign-in', (e, method) => {
       let authWindow = new BrowserWindow({
-        width: 420,
-        height: 492,
+        width: 800,
+        height: 600,
         show: false,
         webPreferences: {
           nodeIntegration: false,
@@ -58,13 +58,13 @@ const createWindow = () => {
           partition: `jwt-${Date.now()}`,
         },
       });
-      const authUrl = getServerUrl('/auth/google?jwt=1');
+      const authUrl = getServerUrl(`/auth/${method}?jwt=1`);
       authWindow.loadURL(authUrl);
       authWindow.show();
 
       // Handle the response
       authWindow.webContents.on('did-stop-loading', () => {
-        if (/^.*(auth\/google\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
+        if (/^.*(auth\/(google|facebook|twitter)\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
           e.sender.send('token', authWindow.webContents.getTitle());
           authWindow.destroy();
         }
