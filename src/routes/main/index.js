@@ -32,7 +32,7 @@ mainRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
 });
 
 mainRouter.get('/release-notes', (req, res, next) => {
-  fetch('https://raw.githubusercontent.com/webcatalog/webcatalog/master/RELEASE_NOTES.md')
+  fetch('https://raw.githubusercontent.com/webcatalog/webcatalog/next/RELEASE_NOTES.md')
     .then(response => response.text())
     .then((mdContent) => {
       res.render('downloads/release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
