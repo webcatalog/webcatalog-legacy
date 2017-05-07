@@ -2,14 +2,33 @@
 
 <section class="section app">
   <div class="container">
-    <p class="title"><a href="/apps">WebCatalog Store</a></p>
-    <p class="subtitle"><a href="/downloads">Download WebCatalog</a> to explore and install apps for Mac, Windows & Linux.</p>
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title ">
+            <a href="/apps">WebCatalog Store</a>
+            <% if (app.category) { %>
+            <span> > </span>
+            <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
+            <% } %>
+          </h1>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <form class="field is-pulled-right" action="/apps/search">
+            <p class="control">
+              <input class="input" type="text" placeholder="Search..." name="query">
+            </p>
+          </form>
+        </div>
+      </div>
+    </nav>
     <hr>
     <div class="columns">
       <div class="column is-4">
         <div class="content">
           <div class="has-text-centered">
-            <p class="category"><a href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a></p>
             <a href="/s3/<%= app.id %>.png">
               <figure class="image is-128x128 app-icon">
                 <picture>
