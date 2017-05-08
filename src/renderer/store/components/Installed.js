@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { NonIdealState } from '@blueprintjs/core';
+import { NonIdealState, Button, Classes } from '@blueprintjs/core';
+import classNames from 'classnames';
 
 import Card from './Card';
 
@@ -30,10 +31,20 @@ class Installed extends React.Component {
 
     return (
       <div>
-        <div className="text-container">
-          <h5>
-            <span style={{ lineHeight: '30px' }}>Installed Applications</span>
-          </h5>
+        <div>
+          <Button
+            className={classNames(
+              Classes.ACTIVE,
+              Classes.MINIMAL,
+            )}
+            text="Installed Apps"
+          />
+          <Button
+            className={classNames(
+              Classes.MINIMAL,
+            )}
+            text="My Apps"
+          />
         </div>
         <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
           {installedApps.map(o => <Card app={o} key={o.get('id')} />)}
