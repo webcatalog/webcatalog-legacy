@@ -8,7 +8,6 @@ const settings = require('electron-settings');
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
-const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
 const showAboutWindow = require('./libs/showAboutWindow');
@@ -26,8 +25,6 @@ const isShell = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
 const isTesting = argv.testing === 'true';
 
-setProtocols();
-
 // for Netflix
 if (isShell) {
   const widewine = require('electron-widevinecdm');
@@ -41,6 +38,8 @@ let mainWindow;
 
 const createWindow = () => {
   if (!isShell) {
+    app.setAsDefaultProtocolClient('webcatalog');
+
     // ensure app folder exists
     const allAppPath = getAllAppPath();
     if (!fs.existsSync(allAppPath)) {
@@ -272,9 +271,9 @@ app.on('activate', () => {
 });
 
 app.on('open-url', (e, protocolUrl) => {
-  if (mainWindow) {
+  if (!isShell && mainWindow) {
     if (protocolUrl.startsWith('webcatalog://apps/')) {
-      const id = protocolUrl.substring('webcatalog://apps/'.length);
+      const id = protocolUrl.substring(18);
       mainWindow.webContents.send('show-single-app', id);
     }
   }
