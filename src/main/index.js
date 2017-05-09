@@ -36,102 +36,125 @@ if (isShell) {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-const createWindow = () => {
-  if (!isShell) {
-    app.setAsDefaultProtocolClient('webcatalog');
+if (!isShell) {
+  app.setAsDefaultProtocolClient('webcatalog');
 
-    // ensure app folder exists
-    const allAppPath = getAllAppPath();
-    if (!fs.existsSync(allAppPath)) {
-      mkdirp.sync(allAppPath);
-    }
-
-    ipcMain.on('sign-in', (e, method) => {
-      let authWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        show: false,
-        webPreferences: {
-          nodeIntegration: false,
-          sandbox: true,
-          partition: `jwt-${Date.now()}`,
-        },
-      });
-      const authUrl = getServerUrl(`/auth/${method}?jwt=1`);
-      authWindow.loadURL(authUrl);
-      authWindow.show();
-
-      // Handle the response
-      authWindow.webContents.on('did-stop-loading', () => {
-        if (/^.*(auth\/(google|facebook|twitter)\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
-          e.sender.send('token', authWindow.webContents.getTitle());
-          authWindow.destroy();
-        }
-      });
-
-      // Reset the authWindow on close
-      authWindow.on('close', () => {
-        authWindow = null;
-      }, false);
-    });
-
-    ipcMain.on('open-app', (e, id, name) => {
-      openApp(id, name);
-    });
-
-    ipcMain.on('scan-installed-apps', (e) => {
-      scanInstalledAsync()
-        .then((installedApps) => {
-          installedApps.forEach((installedApp) => {
-            e.sender.send('app-status', installedApp.id, 'INSTALLED', installedApp);
-          });
-        })
-        .catch(err => e.sender.send('log', err));
-    });
-
-    ipcMain.on('install-app', (e, id, token) => {
-      e.sender.send('app-status', id, 'INSTALLING');
-
-      installAppAsync(id, token)
-        .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
-        .catch(() => e.sender.send('app-status', id, null));
-    });
-
-    ipcMain.on('uninstall-app', (e, id, appObj) => {
-      e.sender.send('app-status', id, 'UNINSTALLING');
-
-      uninstallAppAsync(id, appObj.name)
-        .then(() => e.sender.send('app-status', id, null))
-        .catch(() => e.sender.send('app-status', id, 'INSTALLED', appObj));
-    });
-
-    ipcMain.on('update-app', (e, id, oldAppObj, token) => {
-      e.sender.send('app-status', id, 'UPDATING');
-
-      updateAppAsync(id, oldAppObj.name, token)
-        .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
-        .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
-    });
+  // ensure app folder exists
+  const allAppPath = getAllAppPath();
+  if (!fs.existsSync(allAppPath)) {
+    mkdirp.sync(allAppPath);
   }
 
-  ipcMain.on('show-about-window', () => showAboutWindow());
+  ipcMain.on('sign-in', (e, method) => {
+    let authWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      show: false,
+      webPreferences: {
+        nodeIntegration: false,
+        sandbox: true,
+        partition: `jwt-${Date.now()}`,
+      },
+    });
+    const authUrl = getServerUrl(`/auth/${method}?jwt=1`);
+    authWindow.loadURL(authUrl);
+    authWindow.show();
 
-  ipcMain.on('set-setting', (e, name, val) => {
-    settings.set(name, val);
+    // Handle the response
+    authWindow.webContents.on('did-stop-loading', () => {
+      if (/^.*(auth\/(google|facebook|twitter)\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
+        e.sender.send('token', authWindow.webContents.getTitle());
+        authWindow.destroy();
+      }
+    });
+
+    // Reset the authWindow on close
+    authWindow.on('close', () => {
+      authWindow = null;
+    }, false);
   });
 
-  ipcMain.on('get-setting', (e, name, defaultVal) => {
-    e.sender.send('setting', name, settings.get(name, defaultVal));
+  ipcMain.on('open-app', (e, id, name) => {
+    openApp(id, name);
   });
 
-  ipcMain.on('open-in-browser', (e, browserUrl) => {
-    shell.openExternal(browserUrl);
+  ipcMain.on('scan-installed-apps', (e) => {
+    scanInstalledAsync()
+      .then((installedApps) => {
+        installedApps.forEach((installedApp) => {
+          e.sender.send('app-status', installedApp.id, 'INSTALLED', installedApp);
+        });
+      })
+      .catch(err => e.sender.send('log', err));
   });
 
-  ipcMain.on('set-title', (e, title) => {
-    mainWindow.setTitle(title);
+  ipcMain.on('install-app', (e, id, token) => {
+    e.sender.send('app-status', id, 'INSTALLING');
+
+    installAppAsync(id, token)
+      .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+      .catch(() => e.sender.send('app-status', id, null));
   });
 
+  ipcMain.on('uninstall-app', (e, id, appObj) => {
+    e.sender.send('app-status', id, 'UNINSTALLING');
+
+    uninstallAppAsync(id, appObj.name)
+      .then(() => e.sender.send('app-status', id, null))
+      .catch(() => e.sender.send('app-status', id, 'INSTALLED', appObj));
+  });
+
+  ipcMain.on('update-app', (e, id, oldAppObj, token) => {
+    e.sender.send('app-status', id, 'UPDATING');
+
+    updateAppAsync(id, oldAppObj.name, token)
+      .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+      .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
+  });
+} else {
+  ipcMain.on('get-shell-info', (e) => {
+    e.sender.send('shell-info', {
+      id: argv.id,
+      name: argv.name,
+      url: argv.url,
+      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
+      isTesting,
+      isDevelopment,
+    });
+  });
+
+  /* Badge count */
+  // support macos
+  const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
+
+  ipcMain.on('badge', (e, badge) => {
+    setDockBadge(badge);
+  });
+
+  ipcMain.on('clear-browsing-data', () => {
+    clearBrowsingData({ appName: argv.name, appId: argv.id });
+  });
+}
+
+ipcMain.on('show-about-window', () => showAboutWindow());
+
+ipcMain.on('set-setting', (e, name, val) => {
+  settings.set(name, val);
+});
+
+ipcMain.on('get-setting', (e, name, defaultVal) => {
+  e.sender.send('setting', name, settings.get(name, defaultVal));
+});
+
+ipcMain.on('open-in-browser', (e, browserUrl) => {
+  shell.openExternal(browserUrl);
+});
+
+ipcMain.on('set-title', (e, title) => {
+  mainWindow.setTitle(title);
+});
+
+const createWindow = () => {
   const mainWindowState = windowStateKeeper({
     id: isShell ? argv.id : 'webcatalog',
     defaultWidth: isShell ? 1280 : 800,
@@ -156,29 +179,6 @@ const createWindow = () => {
   mainWindowState.manage(mainWindow);
 
   if (isShell) {
-    ipcMain.on('get-shell-info', (e) => {
-      e.sender.send('shell-info', {
-        id: argv.id,
-        name: argv.name,
-        url: argv.url,
-        userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
-        isTesting,
-        isDevelopment,
-      });
-    });
-
-    /* Badge count */
-    // support macos
-    const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
-
-    ipcMain.on('badge', (e, badge) => {
-      setDockBadge(badge);
-    });
-
-    ipcMain.on('clear-browsing-data', () => {
-      clearBrowsingData({ appName: argv.name, appId: argv.id });
-    });
-
     const blockAds = settings.get(`behaviors.${argv.id}.blockAds`, false);
     if (blockAds) {
       registerFiltering(argv.id);
