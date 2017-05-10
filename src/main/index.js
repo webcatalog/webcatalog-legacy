@@ -204,7 +204,7 @@ const createWindow = () => {
   mainWindow.on('close', (e) => {
     // keep window running when close button is hit except when quit on last window is turned on
     if (isShell && process.platform === 'darwin' && !mainWindow.forceClose) {
-      const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, true);
+      const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, false);
       if (!quitOnLastWindow) {
         e.preventDefault();
         mainWindow.hide();
