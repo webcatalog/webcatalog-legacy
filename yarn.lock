@@ -2398,7 +2398,7 @@ electron-widevinecdm@^1.0.2:
     follow-redirects "^1.2.3"
     fs-promise "^2.0.0"
 
-electron@1.6.9:
+electron@^1.6.9:
   version "1.6.9"
   resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.9.tgz#ef63194087677d5569cad51c381a84d31812c80a"
   dependencies:
