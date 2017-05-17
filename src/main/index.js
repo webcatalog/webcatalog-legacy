@@ -62,7 +62,7 @@ if (!isShell) {
 
     // Handle the response
     authWindow.webContents.on('did-stop-loading', () => {
-      if (/^.*(auth\/(google|facebook|twitter)\/callback\?code=).*$/.exec(authWindow.webContents.getURL())) {
+      if (/^.*(auth\/(google|facebook|twitter)\/callback\?).*$/.exec(authWindow.webContents.getURL())) {
         e.sender.send('token', authWindow.webContents.getTitle());
         authWindow.destroy();
       }
