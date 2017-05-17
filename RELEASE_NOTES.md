@@ -1,8 +1,20 @@
+## 5.0.0
+- Uses new branding.
+- Adds accounts system.
+- Adds web interface.
+- Adds live chat support.
+- Adds share buttons.
+- Improves app discovery.
+- Improves security & performance.
+- Fixes bugs.
+
+**[Read More on Our Official Blog](https://medium.com/webcatalog/introduce-webcatalog-5-a-big-overhaul-1f44d6cc4acd)**
+
+---
+
 ## 5.0.0-rc
 - Adds options to sign in with Facebook & Twitter.
 - Adds share buttons.
-
-**[Read More on Our Official Blog](https://medium.com/webcatalog/introduce-webcatalog-5-a-big-overhaul-1f44d6cc4acd)**
 
 ---
 
@@ -11,7 +23,7 @@
 - Adds accounts system.
 - Adds web interface.
 - Adds live chat support.
-- Improves app discovery
+- Improves app discovery.
 - Improves security & performance.
 
 ---
