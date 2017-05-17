@@ -1,0 +1,97 @@
+$icon-font-path: "~@blueprintjs/core/resources/icons";
+
+@import "~@blueprintjs/core/src/blueprint.scss";
+
+html {
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	background-color: #f5f8fa;
+}
+
+.category-text {
+	text-transform: capitalize;
+}
+
+.grid {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.text-container {
+	width: 100%;
+	padding: 12px;
+	text-align: center;
+}
+
+.col {
+	width: 24.5%;
+	padding: 6px;
+}
+
+@media screen and(min-width: 680px) and(max-width: 960px) {
+	.col {
+		width: 33%;
+	}
+}
+
+@media screen and(max-width: 679px) {
+	.col {
+		width: 49.5%;
+	}
+}
+
+.centering_spinner {
+	display: block !important;
+	margin: 0 auto;
+}
+
+.card-progress-bar {
+	text-align: left;
+}
+
+.pt-popover-content {
+	max-height: 300px;
+	overflow: auto;
+}
+
+.pt-non-ideal-state.no-connection {
+  height: auto;
+	margin-top: 36px;
+}
+
+.pt-non-ideal-state-description {
+	margin-top: 5px;
+}
+
+.webview {
+	height: 100%;
+}
+.pt-navbar.pt-tiny .pt-navbar-group {
+	height: 22px;
+}
+.pt-navbar.pt-tiny .pt-button {
+	min-width: 30px;
+	min-height: 22px;
+	line-height: 22px;
+	font-size: 14px;
+	display: none;
+}
+.pt-navbar.pt-tiny:hover .pt-button {
+	display: block;
+}
+.pt-navbar.pt-tiny .pt-spinner {
+	width: 18px;
+	margin-top: 2px;
+}
+.settings-dialog {
+	top: 44px;
+}
+
+.SocialMediaShareButton {
+	float: left;
+	margin-right: 5px;
+}

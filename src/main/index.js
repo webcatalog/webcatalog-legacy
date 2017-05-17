@@ -1,26 +1,32 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
 const settings = require('electron-settings');
-const camelCase = require('lodash.camelcase');
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
-const checkForUpdate = require('./libs/checkForUpdate');
-const setProtocols = require('./libs/setProtocols');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
 const showAboutWindow = require('./libs/showAboutWindow');
 
-const isSSB = argv.url !== undefined && argv.id !== undefined;
+const getAllAppPath = require('./libs/appManagement/getAllAppPath');
+const getServerUrl = require('./libs/appManagement/getServerUrl');
+
+const scanInstalledAsync = require('./libs/appManagement/scanInstalledAsync');
+const openApp = require('./libs/appManagement/openApp');
+const installAppAsync = require('./libs/appManagement/installAppAsync');
+const uninstallAppAsync = require('./libs/appManagement/uninstallAppAsync');
+const updateAppAsync = require('./libs/appManagement/updateAppAsync');
+
+const isShell = argv.url !== undefined && argv.id !== undefined;
 const isDevelopment = argv.development === 'true';
 const isTesting = argv.testing === 'true';
 
-setProtocols();
-
 // for Netflix
-if (isSSB) {
+if (isShell) {
   const widewine = require('electron-widevinecdm');
   // only need DRM in webview
   widewine.load(app);
@@ -30,11 +36,129 @@ if (isSSB) {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+if (!isShell) {
+  app.setAsDefaultProtocolClient('webcatalog');
+
+  // ensure app folder exists
+  const allAppPath = getAllAppPath();
+  if (!fs.existsSync(allAppPath)) {
+    mkdirp.sync(allAppPath);
+  }
+
+  ipcMain.on('sign-in', (e, method) => {
+    let authWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      show: false,
+      webPreferences: {
+        nodeIntegration: false,
+        sandbox: true,
+        partition: `jwt-${Date.now()}`,
+      },
+    });
+    const authUrl = getServerUrl(`/auth/${method}?jwt=1`);
+    authWindow.loadURL(authUrl);
+    authWindow.show();
+
+    // Handle the response
+    authWindow.webContents.on('did-stop-loading', () => {
+      if (/^.*(auth\/(google|facebook|twitter)\/callback\?).*$/.exec(authWindow.webContents.getURL())) {
+        e.sender.send('token', authWindow.webContents.getTitle());
+        authWindow.destroy();
+      }
+    });
+
+    // Reset the authWindow on close
+    authWindow.on('close', () => {
+      authWindow = null;
+    }, false);
+  });
+
+  ipcMain.on('open-app', (e, id, name) => {
+    openApp(id, name);
+  });
+
+  ipcMain.on('scan-installed-apps', (e) => {
+    scanInstalledAsync()
+      .then((installedApps) => {
+        installedApps.forEach((installedApp) => {
+          e.sender.send('app-status', installedApp.id, 'INSTALLED', installedApp);
+        });
+      })
+      .catch(err => e.sender.send('log', err));
+  });
+
+  ipcMain.on('install-app', (e, id, token) => {
+    e.sender.send('app-status', id, 'INSTALLING');
+
+    installAppAsync(id, token)
+      .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+      .catch(() => e.sender.send('app-status', id, null));
+  });
+
+  ipcMain.on('uninstall-app', (e, id, appObj) => {
+    e.sender.send('app-status', id, 'UNINSTALLING');
+
+    uninstallAppAsync(id, appObj.name)
+      .then(() => e.sender.send('app-status', id, null))
+      .catch(() => e.sender.send('app-status', id, 'INSTALLED', appObj));
+  });
+
+  ipcMain.on('update-app', (e, id, oldAppObj, token) => {
+    e.sender.send('app-status', id, 'UPDATING');
+
+    updateAppAsync(id, oldAppObj.name, token)
+      .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
+      .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
+  });
+} else {
+  ipcMain.on('get-shell-info', (e) => {
+    e.sender.send('shell-info', {
+      id: argv.id,
+      name: argv.name,
+      url: argv.url,
+      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
+      isTesting,
+      isDevelopment,
+    });
+  });
+
+  /* Badge count */
+  // support macos
+  const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
+
+  ipcMain.on('badge', (e, badge) => {
+    setDockBadge(badge);
+  });
+
+  ipcMain.on('clear-browsing-data', () => {
+    clearBrowsingData({ appName: argv.name, appId: argv.id });
+  });
+}
+
+ipcMain.on('show-about-window', () => showAboutWindow());
+
+ipcMain.on('set-setting', (e, name, val) => {
+  settings.set(name, val);
+});
+
+ipcMain.on('get-setting', (e, name, defaultVal) => {
+  e.sender.send('setting', name, settings.get(name, defaultVal));
+});
+
+ipcMain.on('open-in-browser', (e, browserUrl) => {
+  shell.openExternal(browserUrl);
+});
+
+ipcMain.on('set-title', (e, title) => {
+  mainWindow.setTitle(title);
+});
+
 const createWindow = () => {
   const mainWindowState = windowStateKeeper({
-    id: isSSB ? argv.id : 'webcatalog',
-    defaultWidth: isSSB ? 1280 : 800,
-    defaultHeight: isSSB ? 800 : 600,
+    id: isShell ? argv.id : 'webcatalog',
+    defaultWidth: isShell ? 1280 : 1024,
+    defaultHeight: isShell ? 800 : 768,
   });
 
   const options = {
@@ -54,44 +178,19 @@ const createWindow = () => {
 
   mainWindowState.manage(mainWindow);
 
-  ipcMain.on('show-about-window', () => {
-    showAboutWindow();
-  });
-
-  if (isSSB) {
-    mainWindow.appInfo = {
-      id: argv.id,
-      name: argv.name,
-      url: argv.url,
-      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
-      isTesting,
-      isDevelopment,
-    };
-
-    /* Badge count */
-    // support macos
-    const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
-
-    ipcMain.on('badge', (e, badge) => {
-      setDockBadge(badge);
-    });
-
-    ipcMain.on('clear-browsing-data', () => {
-      clearBrowsingData({ appName: argv.name, appId: argv.id });
-    });
-
-    const blockAds = settings.get(`behaviors.${camelCase(argv.id)}.blockAds`, false);
+  if (isShell) {
+    const blockAds = settings.get(`behaviors.${argv.id}.blockAds`, false);
     if (blockAds) {
       registerFiltering(argv.id);
     }
 
-    const swipeToNavigate = settings.get(`behaviors.${camelCase(argv.id)}.swipeToNavigate`, true);
+    const swipeToNavigate = settings.get(`behaviors.${argv.id}.swipeToNavigate`, true);
     if (swipeToNavigate) {
       mainWindow.on('swipe', (e, direction) => {
         if (direction === 'left') {
-          mainWindow.webContents.send('go-back');
+          e.sender.send('go-back');
         } else if (direction === 'right') {
-          mainWindow.webContents.send('go-forward');
+          e.sender.send('go-forward');
         }
       });
     }
@@ -99,16 +198,18 @@ const createWindow = () => {
     mainWindow.on('focus', () => {
       mainWindow.webContents.send('focus');
     });
+  } else {
+    mainWindow.webContents.on('new-window', (e, nextUrl) => {
+      e.preventDefault();
+      shell.openExternal(nextUrl);
+    });
   }
-
-  // setup update checking
-  checkForUpdate({ mainWindow, isDevelopment, isTesting });
 
   // Emitted when the close button is clicked.
   mainWindow.on('close', (e) => {
     // keep window running when close button is hit except when quit on last window is turned on
-    if (isSSB && process.platform === 'darwin' && !mainWindow.forceClose) {
-      const quitOnLastWindow = settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`, true);
+    if (isShell && process.platform === 'darwin' && !mainWindow.forceClose) {
+      const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, false);
       if (!quitOnLastWindow) {
         e.preventDefault();
         mainWindow.hide();
@@ -122,10 +223,10 @@ const createWindow = () => {
   });
 
   // create menu
-  if (!(isDevelopment && !isSSB)) {
+  if (!(isDevelopment && !isShell)) {
     createMenu({
       isDevelopment,
-      isSSB,
+      isShell,
       appName: argv.name || 'WebCatalog',
       appId: argv.id,
     });
@@ -133,7 +234,7 @@ const createWindow = () => {
 
   // load window
   const windowUrl = url.format({
-    pathname: path.join(__dirname, 'www', isSSB ? 'ssb.html' : 'store.html'),
+    pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
     protocol: 'file:',
     slashes: true,
   });
@@ -141,9 +242,6 @@ const createWindow = () => {
   mainWindow.loadURL(windowUrl);
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
 // Quit when all windows are closed.
@@ -152,8 +250,8 @@ app.on('window-all-closed', () => {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
-  } else if (isSSB) {
-    const quitOnLastWindow = settings.get(`behaviors.${camelCase(argv.id)}.quitOnLastWindow`, false);
+  } else if (isShell) {
+    const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, false);
     if (quitOnLastWindow) {
       app.quit();
     }
@@ -174,5 +272,14 @@ app.on('activate', () => {
     mainWindow.show();
   } else {
     createWindow();
+  }
+});
+
+app.on('open-url', (e, protocolUrl) => {
+  if (!isShell && mainWindow) {
+    if (protocolUrl.startsWith('webcatalog://apps/')) {
+      const id = protocolUrl.substring(18);
+      mainWindow.webContents.send('show-single-app', id);
+    }
   }
 });

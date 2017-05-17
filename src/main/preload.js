@@ -1,38 +1,62 @@
-/* global window document */
+const { ipcRenderer } = require('electron');
 
-const { remote } = require('electron');
+const getSettingAsync = (name, defaultVal) =>
+  new Promise((resolve, reject) => {
+    const listener = (e, receivedName, val) => {
+      if (receivedName === name) {
+        ipcRenderer.removeListener('settings', listener);
 
-const settings = remote.require('electron-settings');
-const camelCase = remote.require('lodash.camelcase');
+        resolve(val);
+      }
+    };
 
-const argv = remote.getCurrentWindow().appInfo;
+    ipcRenderer.on('setting', listener);
+
+    ipcRenderer.send('get-setting', name, defaultVal);
+
+    setTimeout(() => {
+      reject(new Error('No response from main process after 10 seconds'));
+    }, 10000); // 10 seconds
+  });
 
 window.onload = () => {
   // inject JS
-  const injectedJS = settings.get(`behaviors.${camelCase(argv.id)}.injectedJS`, null);
-  if (!injectedJS || injectedJS.trim().length < 1) return;
+  ipcRenderer.once('shell-info', (e, shellInfo) => {
+    window.shellInfo = shellInfo;
 
-  try {
-    const node = document.createElement('script');
-    node.innerHTML = injectedJS;
-    document.body.appendChild(node);
-  } catch (err) {
-    /* eslint-disable no-console */
-    console.log(err);
-    /* eslint-enable no-console */
-  }
+    document.title = shellInfo.name;
 
-  // inject CSS
-  const injectedCSS = settings.get(`behaviors.${camelCase(argv.id)}.injectedCSS`, null);
-  if (!injectedCSS || injectedCSS.trim().length < 1) return;
+    getSettingAsync(`behaviors.${shellInfo.id}.injectedJS`, null)
+      .then((injectedJS) => {
+        if (!injectedJS || injectedJS.trim().length < 1) return;
 
-  try {
-    const node = document.createElement('style');
-    node.innerHTML = injectedCSS;
-    document.body.appendChild(node);
-  } catch (err) {
-    /* eslint-disable no-console */
-    console.log(err);
-    /* eslint-enable no-console */
-  }
+        try {
+          const node = document.createElement('script');
+          node.innerHTML = injectedJS;
+          document.body.appendChild(node);
+        } catch (err) {
+          /* eslint-disable no-console */
+          console.log(err);
+          /* eslint-enable no-console */
+        }
+      });
+
+    getSettingAsync(`behaviors.${shellInfo.id}.injectedCSS`, null)
+      .then((injectedCSS) => {
+        // inject CSS
+        if (!injectedCSS || injectedCSS.trim().length < 1) return;
+
+        try {
+          const node = document.createElement('style');
+          node.innerHTML = injectedCSS;
+          document.body.appendChild(node);
+        } catch (err) {
+          /* eslint-disable no-console */
+          console.log(err);
+          /* eslint-enable no-console */
+        }
+      });
+  });
+
+  ipcRenderer.send('get-shell-info');
 };
