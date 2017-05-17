@@ -29,15 +29,34 @@ $yellow: #FBC02D
 .footer
   background-color: whitesmoke
   padding: 40px 20px 80px
-  a.footer-item
-    color: $green !important
-    margin-right: 16px
+  ul.footer-items
+    list-style-type: none
+    +tablet
+      display: flex
+      justify-content: center
+    li
+      +tablet
+        float: left
+        margin-right: 16px
+        margin: 0 16px 0 0
+        padding: 0
+      a
+        color: $green !important
+
 
 .intro
   text-align: center
+  &.intro-mac
+    +desktop
+      background-image: url(/public/images/screenshot.png)
+  &.intro-windows
+    +desktop
+      background-image: url(/public/images/screenshot_windows.png)
+  &.intro-linux
+    +desktop
+      background-image: url(/public/images/screenshot_linux.png)
   +desktop
     text-align: left
-    background: url(/public/images/screenshot.png)
     background-size: 600px
     background-repeat: no-repeat
     background-position-x: calc(100vw - 450px)

@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 
 <section class="hero is-info">
-  <div class="hero-body intro">
+  <div class="hero-body intro intro-<%= platform %>">
     <div class="container">
       <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
       </h1>
