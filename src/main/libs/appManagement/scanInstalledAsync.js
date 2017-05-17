@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const getAllAppPath = require('./getAllAppPath');
 const uninstallAppAsync = require('./uninstallAppAsync');
+const sendMessageToWindow = require('../sendMessageToWindow');
 
 const scanInstalledAsync = () =>
   new Promise((resolve, reject) => {
@@ -75,8 +76,7 @@ const scanInstalledAsync = () =>
                   installedApps.push(appInfo);
                 } catch (jsonErr) {
                   /* eslint-disable no-console */
-                  console.log(`Error file: ${fileName}`);
-                  console.log(jsonErr);
+                  sendMessageToWindow('log', `Failed to parse file ${fileName}`);
                   /* eslint-enable no-console */
                 }
               }

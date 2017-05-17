@@ -41,11 +41,15 @@ const uninstallAppAsync = (appId, appName, opts) =>
         case 'win32':
         default: {
           const appPath = path.join(allAppPath, `${appName}.lnk`);
-          fs.unlinkSync(appPath);
+          if (fs.existsSync(appPath)) {
+            fs.unlinkSync(appPath);
+          }
 
           const desktopPath = path.join(app.getPath('home'), 'Desktop');
           const desktopAppPath = path.join(desktopPath, `${appName}.lnk`);
-          fs.unlinkSync(desktopAppPath);
+          if (fs.existsSync(desktopAppPath)) {
+            fs.unlinkSync(desktopAppPath);
+          }
         }
       }
     } catch (err) {

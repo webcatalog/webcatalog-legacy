@@ -31,19 +31,13 @@ class Installed extends React.Component {
 
     return (
       <div>
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className={classNames(
               Classes.ACTIVE,
               Classes.MINIMAL,
             )}
             text="Installed Apps"
-          />
-          <Button
-            className={classNames(
-              Classes.MINIMAL,
-            )}
-            text="My Apps"
           />
         </div>
         <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
@@ -68,7 +62,9 @@ Installed.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  installedApps: state.installed.get('installedApps'),
+  installedApps: state.installed.get('installedApps')
+    .filter(x => state.appManagement.get('managedApps').has(x.get('id')))
+    .sort((a, b) => a.get('name').localeCompare(b.get('name'))),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -157,8 +157,8 @@ ipcMain.on('set-title', (e, title) => {
 const createWindow = () => {
   const mainWindowState = windowStateKeeper({
     id: isShell ? argv.id : 'webcatalog',
-    defaultWidth: isShell ? 1280 : 800,
-    defaultHeight: isShell ? 800 : 600,
+    defaultWidth: isShell ? 1280 : 1024,
+    defaultHeight: isShell ? 800 : 768,
   });
 
   const options = {
