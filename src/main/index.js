@@ -198,6 +198,11 @@ const createWindow = () => {
     mainWindow.on('focus', () => {
       mainWindow.webContents.send('focus');
     });
+  } else {
+    mainWindow.webContents.on('new-window', (e, nextUrl) => {
+      e.preventDefault();
+      shell.openExternal(nextUrl);
+    });
   }
 
   // Emitted when the close button is clicked.
