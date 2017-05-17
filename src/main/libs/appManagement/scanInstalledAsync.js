@@ -70,8 +70,15 @@ const scanInstalledAsync = () =>
               if (wsShortcutErr) {
                 reject(wsShortcutErr);
               } else {
-                const appInfo = JSON.parse(desc);
-                installedApps.push(appInfo);
+                try {
+                  const appInfo = JSON.parse(desc);
+                  installedApps.push(appInfo);
+                } catch (jsonErr) {
+                  /* eslint-disable no-console */
+                  console.log(`Error file: ${fileName}`);
+                  console.log(jsonErr);
+                  /* eslint-enable no-console */
+                }
               }
 
               i += 1;
@@ -85,11 +92,11 @@ const scanInstalledAsync = () =>
   // uninstall < 5.0 apps
   .then(installedApps => installedApps.filter((app) => {
     if (!app.shellVersion) {
-      uninstallAppAsync({
-        appId: app.id,
-        appName: app.name,
-        shouldClearStorageData: true,
-      });
+      uninstallAppAsync(
+        app.id,
+        app.name,
+        { shouldClearStorageData: true },
+      );
 
       return false;
     }
