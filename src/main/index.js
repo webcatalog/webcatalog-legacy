@@ -154,6 +154,10 @@ ipcMain.on('set-title', (e, title) => {
   mainWindow.setTitle(title);
 });
 
+ipcMain.on('isFullScreen', (e) => {
+  e.returnValue = mainWindow.isFullScreen();
+});
+
 const createWindow = () => {
   const mainWindowState = windowStateKeeper({
     id: isShell ? argv.id : 'webcatalog',
