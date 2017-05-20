@@ -143,7 +143,7 @@ ipcMain.on('set-setting', (e, name, val) => {
 });
 
 ipcMain.on('get-setting', (e, name, defaultVal) => {
-  e.sender.send('setting', name, settings.get(name, defaultVal));
+  e.returnValue = settings.get(name, defaultVal);
 });
 
 ipcMain.on('open-in-browser', (e, browserUrl) => {

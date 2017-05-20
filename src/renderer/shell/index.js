@@ -8,7 +8,6 @@ import { FocusStyleManager } from '@blueprintjs/core';
 import App from './components/App';
 import store from './store';
 import defaultSettings from './constants/defaultSettings';
-import getSettingAsync from './libs/getSettingAsync';
 
 import '../shared/styles/main.scss';
 
@@ -30,22 +29,16 @@ const startApp = () => {
 
     document.title = shellInfo.name;
 
-    getSettingAsync(`behaviors.${shellInfo.id}.rememberLastPage`)
-      .then((rememberLastPage) => {
-        if (rememberLastPage) {
-          getSettingAsync(`lastPages.${shellInfo.id}`, shellInfo.url)
-            .then((lastPage) => {
-              if (lastPage) startReact(lastPage);
-              else startReact(shellInfo.url);
-            });
-        } else {
-          getSettingAsync(`behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome)
-            .then((customHome) => {
-              if (customHome) startReact(customHome);
-              else startReact(shellInfo.url);
-            });
-        }
-      });
+    const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`);
+    if (rememberLastPage) {
+      const lastPage = ipcRenderer.sendSync('get-setting', `lastPages.${shellInfo.id}`, shellInfo.url);
+      if (lastPage) startReact(lastPage);
+      else startReact(shellInfo.url);
+    } else {
+      const customHome = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome);
+      if (customHome) startReact(customHome);
+      else startReact(shellInfo.url);
+    }
   });
 
   ipcRenderer.send('get-shell-info');
