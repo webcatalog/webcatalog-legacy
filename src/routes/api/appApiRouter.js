@@ -63,34 +63,38 @@ appApiRouter.get('/', (req, res, next) => {
 
 appApiRouter.get('/:id', (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
-    App.find({
-      attributes: { exclude: unretrievableAttributes },
-      where: { id: req.params.id, isActive: true },
-    })
-    .then((app) => {
-      if (!app) throw new Error('404');
+    if (err) {
+      next(err);
+    } else {
+      App.find({
+        attributes: { exclude: unretrievableAttributes },
+        where: { id: req.params.id, isActive: true },
+      })
+      .then((app) => {
+        if (!app) throw new Error('404');
 
-      if (user && (req.query.action === 'install' || req.query.action === 'update')) {
-        return Action.findOne({ where: { appId: app.id, userId: req.user.id } })
-          .then((action) => {
-            if (!action) {
-              return app.increment('installCount');
-            }
-            return null;
-          })
-          .then(() => Action.create({ actionName: req.query.action }))
-          .then(action =>
-            Promise.all([
-              action.setApp(app),
-              action.setUser(user),
-            ]),
-          )
-          .then(() => res.json({ app }));
-      }
+        if (user && (req.query.action === 'install' || req.query.action === 'update')) {
+          return Action.findOne({ where: { appId: app.id, userId: user.id } })
+            .then((action) => {
+              if (!action) {
+                return app.increment('installCount');
+              }
+              return null;
+            })
+            .then(() => Action.create({ actionName: req.query.action }))
+            .then(action =>
+              Promise.all([
+                action.setApp(app),
+                action.setUser(user),
+              ]),
+            )
+            .then(() => res.json({ app }));
+        }
 
-      return res.json({ app });
-    })
-    .catch(next);
+        return res.json({ app });
+      })
+      .catch(next);
+    }
   })(req, res, next);
 });
 
