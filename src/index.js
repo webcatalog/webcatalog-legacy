@@ -42,6 +42,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// ensure same domain
+app.all(/.*/, (req, res, next) => {
+  const host = req.header('host');
+  if (process.env.NODE_ENV === 'production' && host !== 'getwebcatalog.com') {
+    res.redirect(301, `https://getwebcatalog.com${req.url}`);
+  } else {
+    next();
+  }
+});
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
