@@ -1,3 +1,10 @@
+## 5.1.0
+- Adds option to use the app without signing in.
+- Hides nav bar in fullscreen mode. (Thanks to [dlanileonardo](https://github.com/dlanileonardo))
+- Fixes bugs.
+
+---
+
 ## 5.0.0
 - Uses new branding.
 - Adds accounts system.
