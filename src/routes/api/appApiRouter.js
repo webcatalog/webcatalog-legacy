@@ -1,7 +1,6 @@
 import express from 'express';
 import passport from 'passport';
 
-import User from '../../models/User';
 import App from '../../models/App';
 import Action from '../../models/Action';
 
@@ -11,7 +10,7 @@ const appApiRouter = express.Router();
 
 const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'createdAt'];
 
-appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+appApiRouter.get('/', (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
   const limit = 24;
   const offset = (currentPage - 1) * limit;
@@ -62,40 +61,37 @@ appApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, re
     .catch(next);
 });
 
-appApiRouter.get('/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  App.find({
-    attributes: { exclude: unretrievableAttributes },
-    where: { id: req.params.id, isActive: true },
-  })
+appApiRouter.get('/:id', (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user) => {
+    App.find({
+      attributes: { exclude: unretrievableAttributes },
+      where: { id: req.params.id, isActive: true },
+    })
     .then((app) => {
       if (!app) throw new Error('404');
 
-      if (req.query.action === 'install' || req.query.action === 'update') {
-        return User.findById(req.user.id)
-          .then((user) => {
-            if (!user) throw new Error('Cannot find user');
-
-            return Action.findOne({ where: { appId: app.id, userId: user.id } })
-              .then((action) => {
-                if (!action) {
-                  return app.increment('installCount');
-                }
-                return null;
-              })
-              .then(() => Action.create({ actionName: req.query.action }))
-              .then(action =>
-                Promise.all([
-                  action.setApp(app),
-                  action.setUser(user),
-                ]),
-              );
+      if (user && (req.query.action === 'install' || req.query.action === 'update')) {
+        return Action.findOne({ where: { appId: app.id, userId: req.user.id } })
+          .then((action) => {
+            if (!action) {
+              return app.increment('installCount');
+            }
+            return null;
           })
+          .then(() => Action.create({ actionName: req.query.action }))
+          .then(action =>
+            Promise.all([
+              action.setApp(app),
+              action.setUser(user),
+            ]),
+          )
           .then(() => res.json({ app }));
       }
 
       return res.json({ app });
     })
     .catch(next);
+  })(req, res, next);
 });
 
 module.exports = appApiRouter;
