@@ -296,7 +296,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.get('isOpen'),
   findInPageText: state.findInPage.get('text'),
-  isFullScreen: ipcRenderer.sendSync('isFullScreen'),
+  isFullScreen: state.screen.get('isFullScreen'),
   customHome: state.settings.getIn(['behaviors', 'customHome']),
   targetUrl: state.nav.get('targetUrl'),
 });

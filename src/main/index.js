@@ -154,7 +154,7 @@ ipcMain.on('set-title', (e, title) => {
   mainWindow.setTitle(title);
 });
 
-ipcMain.on('isFullScreen', (e) => {
+ipcMain.on('is-full-screen', (e) => {
   e.returnValue = mainWindow.isFullScreen();
 });
 
