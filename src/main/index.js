@@ -104,7 +104,7 @@ if (!isShell) {
   ipcMain.on('uninstall-app', (e, id, appObj) => {
     e.sender.send('app-status', id, 'UNINSTALLING');
 
-    uninstallAppAsync(id, appObj.name)
+    uninstallAppAsync(id, appObj.name, { shouldClearStorageData: true })
       .then(() => e.sender.send('app-status', id, null))
       .catch(() => e.sender.send('app-status', id, 'INSTALLED', appObj));
   });
