@@ -192,12 +192,12 @@ class App extends React.Component {
 
   render() {
     const {
-      url, findInPageIsOpen, customHome,
+      url, findInPageIsOpen, isFullScreen, customHome,
       requestUpdateLoading, requestUpdateFindInPageMatches,
       targetUrl,
     } = this.props;
 
-    const showNav = process.platform === 'darwin';
+    const showNav = process.platform === 'darwin' && !isFullScreen;
 
     let usedHeight = showNav ? 32 : 0;
     if (findInPageIsOpen) usedHeight += 50;
@@ -279,6 +279,7 @@ App.propTypes = {
   url: PropTypes.string.isRequired,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
+  isFullScreen: PropTypes.bool,
   customHome: PropTypes.string,
   targetUrl: PropTypes.string,
   onResize: PropTypes.func.isRequired,
@@ -295,6 +296,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.get('isOpen'),
   findInPageText: state.findInPage.get('text'),
+  isFullScreen: state.screen.get('isFullScreen'),
   customHome: state.settings.getIn(['behaviors', 'customHome']),
   targetUrl: state.nav.get('targetUrl'),
 });
