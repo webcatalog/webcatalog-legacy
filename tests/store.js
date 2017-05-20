@@ -1,4 +1,4 @@
-/* global describe beforeEach afterEach it */
+/* global it */
 
 const harness = require('./utils/_harness');
 
