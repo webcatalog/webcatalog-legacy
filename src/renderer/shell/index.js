@@ -24,24 +24,21 @@ const startReact = (url) => {
 };
 
 const startApp = () => {
-  ipcRenderer.once('shell-info', (e, shellInfo) => {
-    window.shellInfo = shellInfo;
+  const shellInfo = ipcRenderer.sendSync('get-shell-info');
+  window.shellInfo = shellInfo;
 
-    document.title = shellInfo.name;
+  document.title = shellInfo.name;
 
-    const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`);
-    if (rememberLastPage) {
-      const lastPage = ipcRenderer.sendSync('get-setting', `lastPages.${shellInfo.id}`, shellInfo.url);
-      if (lastPage) startReact(lastPage);
-      else startReact(shellInfo.url);
-    } else {
-      const customHome = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome);
-      if (customHome) startReact(customHome);
-      else startReact(shellInfo.url);
-    }
-  });
-
-  ipcRenderer.send('get-shell-info');
+  const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`);
+  if (rememberLastPage) {
+    const lastPage = ipcRenderer.sendSync('get-setting', `lastPages.${shellInfo.id}`, shellInfo.url);
+    if (lastPage) startReact(lastPage);
+    else startReact(shellInfo.url);
+  } else {
+    const customHome = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome);
+    if (customHome) startReact(customHome);
+    else startReact(shellInfo.url);
+  }
 };
 
 startApp();

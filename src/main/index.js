@@ -118,14 +118,14 @@ if (!isShell) {
   });
 } else {
   ipcMain.on('get-shell-info', (e) => {
-    e.sender.send('shell-info', {
+    e.returnValue = {
       id: argv.id,
       name: argv.name,
       url: argv.url,
       userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
       isTesting,
       isDevelopment,
-    });
+    };
   });
 
   /* Badge count */
