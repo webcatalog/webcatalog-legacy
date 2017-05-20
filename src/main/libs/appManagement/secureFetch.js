@@ -5,10 +5,10 @@ const getServerUrl = require('./getServerUrl');
 const secureFetch = (path, token) =>
   fetch(getServerUrl(path), {
     method: 'GET',
-    headers: {
+    headers: token !== 'anonnymous' ? {
       Accept: 'application/json',
       Authorization: `JWT ${token}`,
-    },
+    } : null,
   })
   .then((response) => {
     if (response.status >= 200 && response.status < 300) {

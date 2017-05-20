@@ -28,7 +28,7 @@ export const fetchSingleApp = id => (dispatch, getState) => {
       dispatch(setSingleApp(Immutable.fromJS(app)));
     })
     .catch((err) => {
-      if (err.message === 'Unauthorized') {
+      if (err.response.status === 401) {
         dispatch(logOut());
         return;
       }

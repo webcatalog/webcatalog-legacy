@@ -45,7 +45,7 @@ export const fetchApps = () => (dispatch, getState) => {
     ]));
   })
   .catch((err) => {
-    if (err.message === 'Unauthorized') {
+    if (err.response.status === 401) {
       dispatch(logOut());
       return;
     }

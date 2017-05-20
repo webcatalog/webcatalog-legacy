@@ -11,7 +11,7 @@ import { setRoute, goBack } from '../actions/route';
 import { logOut } from '../actions/auth';
 
 const Nav = ({
-  query, routeId,
+  query, routeId, signedIn,
   requestSearch, requestSetSearchQuery, requestRefresh,
   goTo, onLogOut,
 }) => (
@@ -89,8 +89,8 @@ const Nav = ({
               onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/submit')}
             />
             <MenuItem
-              iconName="log-out"
-              text="Sign out"
+              iconName={signedIn ? 'log-out' : 'log-in'}
+              text={signedIn ? 'Sign out' : 'Sign in'}
               onClick={onLogOut}
             />
             <MenuDivider />
@@ -126,6 +126,7 @@ const Nav = ({
 Nav.propTypes = {
   query: PropTypes.string.isRequired,
   routeId: PropTypes.string.isRequired,
+  signedIn: PropTypes.bool.isRequired,
   requestSearch: PropTypes.func.isRequired,
   requestSetSearchQuery: PropTypes.func.isRequired,
   requestRefresh: PropTypes.func.isRequired,
@@ -136,6 +137,7 @@ Nav.propTypes = {
 const mapStateToProps = state => ({
   query: state.search.get('query'),
   routeId: state.route.get('routeId'),
+  signedIn: state.auth.get('token') !== 'anonnymous',
 });
 
 const mapDispatchToProps = dispatch => ({

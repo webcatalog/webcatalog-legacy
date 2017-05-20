@@ -89,6 +89,9 @@ const Auth = () => (
           </svg>
           Sign in with Twitter
         </button>,
+        <div key="anonnymous" style={{ textAlign: 'center', padding: '10px 0' }}>
+          <a onClick={() => ipcRenderer.send('sign-in', 'anonnymous')}>Continue without Signing in</a>
+        </div>,
       ]}
     />
   </div>
