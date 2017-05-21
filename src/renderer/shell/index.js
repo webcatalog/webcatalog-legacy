@@ -32,12 +32,10 @@ const startApp = () => {
   const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`, defaultSettings.rememberLastPage);
   if (rememberLastPage) {
     const lastPage = ipcRenderer.sendSync('get-setting', `lastPages.${shellInfo.id}`, shellInfo.url);
-    if (lastPage) startReact(lastPage);
-    else startReact(shellInfo.url);
+    startReact(lastPage);
   } else {
     const customHome = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome);
-    if (customHome) startReact(customHome);
-    else startReact(shellInfo.url);
+    startReact(customHome);
   }
 };
 
