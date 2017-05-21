@@ -19,7 +19,7 @@ before_script:
 - yarn lint
 script:
 - yarn dist
-- yarn test
+- ./scripts/test.sh
 env:
   global:
   - ALGOLIASEARCH_INDEX_NAME=apps
