@@ -98,7 +98,10 @@ if (!isShell) {
 
     installAppAsync(id, token)
       .then(appObj => e.sender.send('app-status', id, 'INSTALLED', appObj))
-      .catch(() => e.sender.send('app-status', id, null));
+      .catch((err) => {
+        e.sender.send('log', err);
+        e.sender.send('app-status', id, null);
+      });
   });
 
   ipcMain.on('uninstall-app', (e, id, appObj) => {

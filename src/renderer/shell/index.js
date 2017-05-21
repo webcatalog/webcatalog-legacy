@@ -29,7 +29,7 @@ const startApp = () => {
 
   document.title = shellInfo.name;
 
-  const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`);
+  const rememberLastPage = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.rememberLastPage`, defaultSettings.rememberLastPage);
   if (rememberLastPage) {
     const lastPage = ipcRenderer.sendSync('get-setting', `lastPages.${shellInfo.id}`, shellInfo.url);
     if (lastPage) startReact(lastPage);
