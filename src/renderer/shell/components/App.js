@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* global Notification */
 import { ipcRenderer, clipboard } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -16,8 +15,6 @@ import Settings from './Settings';
 import Nav from './Nav';
 import FindInPage from './FindInPage';
 import showUpdateToast from '../../shared/components/showUpdateToast';
-
-let didShowNotification = false;
 
 class App extends React.Component {
   constructor() {
@@ -87,12 +84,6 @@ class App extends React.Component {
     ipcRenderer.on('copy-url', () => {
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
-    });
-
-    ipcRenderer.on('focus', () => {
-      didShowNotification = false;
-
-      c.focus();
     });
   }
 
@@ -173,16 +164,6 @@ class App extends React.Component {
     const newBadge = match ? match[1] : '';
 
     ipcRenderer.send('badge', newBadge);
-
-    if (newBadge !== '' && didShowNotification === false && require('electron').remote.getCurrentWindow().isFocused() === false) {
-      /* eslint-disable no-unused-vars */
-      const notif = new Notification(window.shellInfo.name, {
-        body: 'You have a notification.',
-      });
-      /* eslint-enable no-unused-vars */
-      // to prevent multiple notification like blinking titlebar
-      didShowNotification = true;
-    }
   }
 
   handleUpdateTargetUrl({ url }) {
