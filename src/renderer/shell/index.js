@@ -35,7 +35,7 @@ const startApp = () => {
     startReact(lastPage);
   } else {
     const customHome = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.customHome`, defaultSettings.customHome);
-    startReact(customHome);
+    startReact(customHome || shellInfo.url);
   }
 };
 
