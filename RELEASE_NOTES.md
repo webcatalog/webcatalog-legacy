@@ -1,3 +1,8 @@
+## 5.1.1
+- Fixes a critical bug.
+
+---
+
 ## 5.1.0
 - Adds option to use the app without signing in.
 - Hides nav bar in fullscreen mode. (Thanks to [dlanileonardo](https://github.com/dlanileonardo))
