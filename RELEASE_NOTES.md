@@ -1,3 +1,10 @@
+## 5.2.0
+- Adds option to use custom user agent.
+- Adds confirmation dialog when uninstalling app.
+- Fixes bugs.
+
+---
+
 ## 5.1.1
 - Fixes a critical bug.
 
