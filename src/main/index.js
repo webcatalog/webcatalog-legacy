@@ -120,12 +120,14 @@ if (!isShell) {
       .catch(() => e.sender.send('app-status', id, 'INSTALLED', oldAppObj));
   });
 } else {
+  const customUserAgent = settings.get(`behaviors.${argv.id}.customUserAgent`, null);
+
   ipcMain.on('get-shell-info', (e) => {
     e.returnValue = {
       id: argv.id,
       name: argv.name,
       url: argv.url,
-      userAgent: mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
+      userAgent: customUserAgent || mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
       isTesting,
       isDevelopment,
     };

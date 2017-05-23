@@ -7,7 +7,7 @@ import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
-  blockAds, customHome, injectedCSS, injectedJS,
+  blockAds, customHome, injectedCSS, injectedJS, customUserAgent,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -143,6 +143,115 @@ const Settings = ({
           </p>
         </div>
       </div>
+
+      <div className="pt-form-group">
+        <label className="pt-label" htmlFor="customHome">
+          Custom User Agent
+        </label>
+        <div className="pt-form-content">
+          <input
+            className="pt-input"
+            style={{ width: 300 }}
+            type="url"
+            placeholder="Custom User Agent"
+            value={customUserAgent || ''}
+            required
+            onChange={(e) => {
+              const val = e.target.value;
+              requestSetBehavior('customUserAgent', val);
+            }}
+          />
+          <p className="pt-form-helper-text">
+            <a
+              onClick={() => {
+                let val;
+                switch (process.platform) {
+                  case 'win32':
+                    val = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
+                    break;
+                  case 'darwin':
+                    val = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
+                    break;
+                  default:
+                    val = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
+                }
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Chrome 57
+            </a>
+            <span> | </span>
+            <a
+              onClick={() => {
+                let val;
+                switch (process.platform) {
+                  case 'win32':
+                    val = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0';
+                    break;
+                  case 'darwin':
+                    val = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:53.0) Gecko/20100101 Firefox/53.0';
+                    break;
+                  default:
+                    val = 'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:53.0) Gecko/20100101 Firefox/53.0';
+                }
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Firefox 53
+            </a>
+            <span> | </span>
+            <a
+              onClick={() => {
+                const val = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko';
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              IE 11
+            </a>
+            <span> | </span>
+            <a
+              onClick={() => {
+                const val = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063';
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Edge 15
+            </a>
+            <span> | </span>
+            <a
+              onClick={() => {
+                const val = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.1 Safari/603.1.30';
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Safari 10.1
+            </a>
+          </p>
+          <p className="pt-form-helper-text">
+            <a
+              onClick={() => {
+                const val = 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5x build/mtc19t applewebkit/537.36 (KHTML, like Gecko) Chrome/51.0.2702.81 Mobile Safari/537.36';
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Chrome for Android 51
+            </a>
+            <span> | </span>
+            <a
+              onClick={() => {
+                const val = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1';
+                requestSetBehavior('customUserAgent', val);
+              }}
+            >
+              Safari Mobile 10
+            </a>
+          </p>
+          <p className="pt-form-helper-text">
+            Set a custom user agent.
+            Restart is required. Leave it blank to use default user agent.
+          </p>
+        </div>
+      </div>
     </div>
     <div className="pt-dialog-footer">
       <div className="pt-dialog-footer-actions">
@@ -161,6 +270,7 @@ Settings.propTypes = {
   customHome: PropTypes.string,
   injectedCSS: PropTypes.string,
   injectedJS: PropTypes.string,
+  customUserAgent: PropTypes.string,
   requestToggleSettingDialog: PropTypes.func.isRequired,
   requestSetBehavior: PropTypes.func.isRequired,
 };
@@ -174,6 +284,7 @@ const mapStateToProps = state => ({
   customHome: state.settings.getIn(['behaviors', 'customHome']),
   injectedCSS: state.settings.getIn(['behaviors', 'injectedCSS']),
   injectedJS: state.settings.getIn(['behaviors', 'injectedJS']),
+  customUserAgent: state.settings.getIn(['behaviors', 'customUserAgent']),
 });
 
 const mapDispatchToProps = dispatch => ({
