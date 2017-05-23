@@ -45,7 +45,7 @@ export const fetchApps = () => (dispatch, getState) => {
     ]));
   })
   .catch((err) => {
-    if (err.response.status === 401) {
+    if (err && err.response && err.response.status === 401) {
       dispatch(logOut());
       return;
     }

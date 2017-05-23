@@ -3,8 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { ProgressBar, Button, Intent } from '@blueprintjs/core';
+import { ProgressBar, Button, Intent, Popover, Position, Classes } from '@blueprintjs/core';
 import semver from 'semver';
+import classNames from 'classnames';
 
 import getServerUrl from '../libs/getServerUrl';
 import { LATEST_SHELL_VERSION } from '../constants/versions';
@@ -77,17 +78,37 @@ const Card = ({
                 }}
               />
             ),
-            <Button
+            <Popover
               key="uninstall"
-              text="Uninstall"
-              iconName="trash"
-              intent={Intent.DANGER}
-              style={{ marginLeft: 6 }}
-              onClick={() => {
-                window.Intercom('trackEvent', 'uninstall-app', { app_id: app.get('id') });
-                ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject());
-              }}
-            />,
+              content={(
+                <div>
+                  <h5>Are you sure?</h5>
+                  <p>
+                    All of your browsing data will be removed and cannot be recovered.
+                  </p>
+                  <Button
+                    text="Yes, I'm sure"
+                    iconName="trash"
+                    intent={Intent.DANGER}
+                    style={{ marginRight: 6 }}
+                    onClick={() => {
+                      window.Intercom('trackEvent', 'uninstall-app', { app_id: app.get('id') });
+                      ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject());
+                    }}
+                  />
+                  <button className={classNames(Classes.BUTTON, Classes.POPOVER_DISMISS)}>Cancel</button>
+                </div>
+              )}
+              position={Position.RIGHT}
+              popoverClassName="pt-popover-content-sizing"
+            >
+              <Button
+                text="Uninstall"
+                iconName="trash"
+                intent={Intent.DANGER}
+                style={{ marginLeft: 6 }}
+              />
+            </Popover>,
           ];
         }
         return (

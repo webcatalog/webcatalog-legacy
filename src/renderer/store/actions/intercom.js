@@ -15,7 +15,7 @@ export const updateIntercomUser = token => (dispatch) => {
       window.Intercom('boot');
     })
     .catch((err) => {
-      if (err.response.status === 401) {
+      if (err && err.response && err.response.status === 401) {
         dispatch(logOut());
         return;
       }
