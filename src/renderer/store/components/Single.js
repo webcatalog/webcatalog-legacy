@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { Spinner, ProgressBar, Button, Intent, Classes } from '@blueprintjs/core';
+import { Spinner, ProgressBar, Button, Intent, Classes, Popover, Position } from '@blueprintjs/core';
 import semver from 'semver';
 import classNames from 'classnames';
 import { ShareButtons, generateShareIcon } from 'react-share';
@@ -154,15 +154,39 @@ class Single extends React.Component {
                   onClick={() => ipcRenderer.send('open-app', app.get('id'), managedApps.getIn([app.get('id'), 'app', 'name']))}
                 />
               ),
-              <Button
+              <Popover
                 key="uninstall"
-                text="Uninstall"
-                iconName="trash"
-                className={Classes.LARGE}
-                intent={Intent.DANGER}
-                style={{ marginLeft: 6 }}
-                onClick={() => ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject())}
-              />,
+                content={(
+                  <div>
+                    <h5>Are you sure?</h5>
+                    <p>
+                      All of your browsing data will be removed and cannot be recovered.
+                    </p>
+                    <Button
+                      text="Yes, I'm sure"
+                      iconName="trash"
+                      intent={Intent.DANGER}
+                      style={{ marginRight: 6 }}
+                      onClick={() => {
+                        window.Intercom('trackEvent', 'uninstall-app', { app_id: app.get('id') });
+                        ipcRenderer.send('uninstall-app', app.get('id'), managedApps.getIn([app.get('id'), 'app']).toObject());
+                      }}
+                    />
+                    <button className={classNames(Classes.BUTTON, Classes.POPOVER_DISMISS)}>Cancel</button>
+                  </div>
+                )}
+                position={Position.BOTTOM}
+                popoverClassName="pt-popover-content-sizing"
+              >
+                <Button
+                  key="uninstall"
+                  text="Uninstall"
+                  iconName="trash"
+                  className={Classes.LARGE}
+                  intent={Intent.DANGER}
+                  style={{ marginLeft: 6 }}
+                />
+              </Popover>,
             ];
           }
           return (

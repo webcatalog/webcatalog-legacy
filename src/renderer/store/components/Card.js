@@ -99,7 +99,7 @@ const Card = ({
                   <button className={classNames(Classes.BUTTON, Classes.POPOVER_DISMISS)}>Cancel</button>
                 </div>
               )}
-              position={Position.RIGHT}
+              position={Position.BOTTOM}
               popoverClassName="pt-popover-content-sizing"
             >
               <Button
