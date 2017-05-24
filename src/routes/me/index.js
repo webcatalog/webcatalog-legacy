@@ -10,15 +10,18 @@ import generatePageList from '../../libs/generatePageList';
 const meRouter = express.Router();
 
 meRouter.get(['/apps'], ensureLoggedIn, (req, res, next) => {
+  const currentPage = parseInt(req.query.page, 10) || 1;
+  const limit = 24;
+  const offset = (currentPage - 1) * limit;
+
   Action.findAll({
-    attributes: [[sequelize.fn('DISTINCT', sequelize.col('appId')), 'appId']],
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('appId')), 'appId'], 'createdAt'],
     where: { userId: req.user.id },
+    offset,
+    limit,
+    order: [['createdAt', 'DESC']],
   })
   .then((actions) => {
-    const currentPage = parseInt(req.query.page, 10) || 1;
-    const limit = 24;
-    const offset = (currentPage - 1) * limit;
-
     const opts = {
       where: {
         isActive: true,
@@ -26,9 +29,6 @@ meRouter.get(['/apps'], ensureLoggedIn, (req, res, next) => {
           $in: actions.map(action => action.appId),
         },
       },
-      order: [['name', 'ASC']],
-      offset,
-      limit,
     };
 
     return App.findAndCountAll(opts)
