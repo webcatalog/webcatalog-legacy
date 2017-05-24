@@ -16,6 +16,7 @@ import Auth from './Auth';
 import Home from './Home';
 import Search from './Search';
 import Installed from './Installed';
+import MyApps from './MyApps';
 import Single from './Single';
 import showUpdateToast from '../../shared/components/showUpdateToast';
 
@@ -74,6 +75,8 @@ class App extends React.Component {
               return <Search />;
             case 'installed':
               return <Installed />;
+            case 'my-apps':
+              return <MyApps />;
             case 'single':
               return <Single />;
             default:

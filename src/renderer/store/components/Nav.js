@@ -67,7 +67,7 @@ const Nav = ({
       <Button
         iconName="tag"
         className={classNames(
-          { [Classes.ACTIVE]: (routeId === 'installed') },
+          { [Classes.ACTIVE]: (routeId === 'installed' || routeId === 'my-apps') },
           Classes.MINIMAL,
         )}
         style={{ WebkitAppRegion: 'no-drag' }}

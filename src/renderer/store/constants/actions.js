@@ -3,11 +3,15 @@ export const GO_BACK = 'GO_BACK';
 
 export const SCREEN_RESIZE = 'SCREEN_RESIZE';
 
-export const SET_STATUS = 'SET_STATUS';
-export const ADD_APPS = 'ADD_APPS';
-export const REMOVE_RESULTS = 'REMOVE_RESULTS';
+export const SET_HOME_STATUS = 'SET_HOME_STATUS';
+export const ADD_HOME_APPS = 'ADD_HOME_APPS';
+export const REMOVE_HOME_RESULTS = 'REMOVE_HOME_RESULTS';
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const SET_SORT = 'SET_SORT';
+
+export const SET_MY_APPS_STATUS = 'SET_MY_APPS_STATUS';
+export const ADD_MY_APPS_APPS = 'ADD_MY_APPS_APPS';
+export const REMOVE_MY_APPS_RESULTS = 'REMOVE_MY_APPS_RESULTS';
 
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const SET_SEARCH_HITS = 'SET_SEARCH_HITS';

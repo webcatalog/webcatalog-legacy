@@ -8,6 +8,7 @@ import search from './search';
 import installed from './installed';
 import auth from './auth';
 import single from './single';
+import myApps from './myApps';
 
 const rootReducer = combineReducers({
   route,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   installed,
   auth,
   single,
+  myApps,
 });
 
 export default rootReducer;

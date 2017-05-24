@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import { SET_HOME_STATUS, ADD_HOME_APPS, REMOVE_HOME_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
+import { SET_MY_APPS_STATUS, ADD_MY_APPS_APPS, REMOVE_MY_APPS_RESULTS } from '../constants/actions';
 import { LOADING } from '../constants/statuses';
 
 const initialState = Immutable.Map({
@@ -9,16 +9,14 @@ const initialState = Immutable.Map({
   currentPage: 0,
   totalPage: null,
   appStatus: Immutable.Map({}),
-  category: null,
-  sort: null,
 });
 
-const home = (state = initialState, action) => {
+const myApps = (state = initialState, action) => {
   switch (action.type) {
-    case SET_HOME_STATUS: {
+    case SET_MY_APPS_STATUS: {
       return state.set('status', action.status);
     }
-    case ADD_HOME_APPS: {
+    case ADD_MY_APPS_APPS: {
       const chunk = Immutable.fromJS(action.chunk);
 
       return state
@@ -26,20 +24,12 @@ const home = (state = initialState, action) => {
         .set('currentPage', action.currentPage)
         .set('totalPage', action.totalPage);
     }
-    case REMOVE_HOME_RESULTS: {
-      return initialState
-        .set('category', state.get('category'))
-        .set('sort', state.get('sort'));
-    }
-    case SET_CATEGORY: {
-      return state.set('category', action.category);
-    }
-    case SET_SORT: {
-      return state.set('sort', action.sort);
+    case REMOVE_MY_APPS_RESULTS: {
+      return initialState;
     }
     default:
       return state;
   }
 };
 
-export default home;
+export default myApps;

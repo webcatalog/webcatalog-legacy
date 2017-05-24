@@ -1,5 +1,5 @@
 import { batchActions } from 'redux-batched-actions';
-import { SET_STATUS, ADD_APPS, REMOVE_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
+import { SET_HOME_STATUS, ADD_HOME_APPS, REMOVE_HOME_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 import secureFetch from '../libs/secureFetch';
 
@@ -20,7 +20,7 @@ export const fetchApps = () => (dispatch, getState) => {
   const currentPage = home.get('currentPage') + 1;
 
   dispatch({
-    type: SET_STATUS,
+    type: SET_HOME_STATUS,
     status: LOADING,
   });
 
@@ -33,11 +33,11 @@ export const fetchApps = () => (dispatch, getState) => {
   .then(({ apps, totalPage }) => {
     dispatch(batchActions([
       {
-        type: SET_STATUS,
+        type: SET_HOME_STATUS,
         status: DONE,
       },
       {
-        type: ADD_APPS,
+        type: ADD_HOME_APPS,
         chunk: apps,
         currentPage,
         totalPage,
@@ -55,7 +55,7 @@ export const fetchApps = () => (dispatch, getState) => {
     /* eslint-enable no-console */
 
     dispatch({
-      type: SET_STATUS,
+      type: SET_HOME_STATUS,
       status: FAILED,
     });
   })
@@ -67,7 +67,7 @@ export const fetchApps = () => (dispatch, getState) => {
 export const setCategory = category => (dispatch) => {
   dispatch(batchActions([
     { type: SET_CATEGORY, category },
-    { type: REMOVE_RESULTS },
+    { type: REMOVE_HOME_RESULTS },
   ]));
   dispatch(fetchApps());
 };
@@ -75,7 +75,7 @@ export const setCategory = category => (dispatch) => {
 export const setSort = sort => (dispatch) => {
   dispatch(batchActions([
     { type: SET_SORT, sort },
-    { type: REMOVE_RESULTS },
+    { type: REMOVE_HOME_RESULTS },
   ]));
   dispatch(fetchApps());
 };
