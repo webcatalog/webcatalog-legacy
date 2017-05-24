@@ -1,4 +1,5 @@
 ## 5.2.0
+- Adds My Apps page.
 - Adds option to use custom user agent.
 - Adds confirmation dialog when uninstalling app.
 - Fixes bugs.
