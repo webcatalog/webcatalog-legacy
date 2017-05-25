@@ -1,11 +1,15 @@
 import { batchActions } from 'redux-batched-actions';
-import { SET_MY_APPS_STATUS, ADD_MY_APPS_APPS } from '../constants/actions';
+import { SET_MY_APPS_STATUS, ADD_MY_APPS_APPS, REMOVE_MY_APPS_RESULTS } from '../constants/actions';
 import { LOADING, FAILED, DONE } from '../constants/statuses';
 import secureFetch from '../libs/secureFetch';
 
 import { logOut } from './auth';
 
 let fetching = false;
+
+export const removeMyAppsResults = () => ({
+  type: REMOVE_MY_APPS_RESULTS,
+});
 
 export const fetchMyApps = () => (dispatch, getState) => {
   const { myApps, auth } = getState();

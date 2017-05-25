@@ -11,14 +11,15 @@ import Card from './Card';
 import Loading from './Loading';
 import NoConnection from './NoConnection';
 
-import { fetchMyApps } from '../actions/myApps';
+import { removeMyAppsResults, fetchMyApps } from '../actions/myApps';
 import { setRoute } from '../actions/route';
 import { logOut } from '../actions/auth';
 
 class MyApps extends React.Component {
   componentDidMount() {
-    const { requestFetchMyApps } = this.props;
+    const { requestFetchMyApps, requestResetMyApps } = this.props;
 
+    requestResetMyApps();
     requestFetchMyApps();
 
     const el = this.scrollContainer;
@@ -96,7 +97,7 @@ class MyApps extends React.Component {
         </div>
         {signedIn ? [
           <div key="list">{this.renderList()}</div>,
-          <div key="status">this.renderStatus()</div>,
+          <div key="status">{this.renderStatus()}</div>,
         ] : (
           <NonIdealState
             visual="error"
@@ -124,6 +125,7 @@ MyApps.propTypes = {
   status: PropTypes.string.isRequired,
   signedIn: PropTypes.bool.isRequired,
   requestFetchMyApps: PropTypes.func.isRequired,
+  requestResetMyApps: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
   handleSignInClick: PropTypes.func.isRequired,
 };
@@ -135,6 +137,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  requestResetMyApps: () => dispatch(removeMyAppsResults()),
   requestFetchMyApps: () => dispatch(fetchMyApps()),
   goTo: routeId => dispatch(setRoute(routeId)),
   handleSignInClick: () => dispatch(logOut()),
