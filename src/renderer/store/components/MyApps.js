@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { NonIdealState, Button, Classes } from '@blueprintjs/core';
+import { NonIdealState, Button, Classes, Intent } from '@blueprintjs/core';
 import classNames from 'classnames';
 
 import { LOADING, FAILED, DONE } from '../constants/statuses';
@@ -13,6 +13,7 @@ import NoConnection from './NoConnection';
 
 import { fetchMyApps } from '../actions/myApps';
 import { setRoute } from '../actions/route';
+import { logOut } from '../actions/auth';
 
 class MyApps extends React.Component {
   componentDidMount() {
@@ -45,7 +46,9 @@ class MyApps extends React.Component {
   }
 
   renderList() {
-    const { status, myApps, goTo } = this.props;
+    const {
+      status, myApps,
+    } = this.props;
 
     if (status === DONE && myApps.size < 1) {
       return (
@@ -59,6 +62,21 @@ class MyApps extends React.Component {
 
     return (
       <div>
+        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
+          {myApps.map(o => <Card app={o} key={o.get('id')} />)}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { signedIn, goTo, handleSignInClick } = this.props;
+
+    return (
+      <div
+        style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className={classNames(
@@ -76,21 +94,26 @@ class MyApps extends React.Component {
             onClick={() => goTo('my')}
           />
         </div>
-        <div className="grid" style={{ maxWidth: 960, margin: '0 auto' }}>
-          {myApps.map(o => <Card app={o} key={o.get('id')} />)}
-        </div>
-      </div>
-    );
-  }
-
-  render() {
-    return (
-      <div
-        style={{ flex: 1, overflow: 'auto', paddingTop: 12, paddingBottom: 12 }}
-        ref={(container) => { this.scrollContainer = container; }}
-      >
-        {this.renderList()}
-        {this.renderStatus()}
+        {signedIn ? [
+          <div key="list">{this.renderList()}</div>,
+          <div key="status">this.renderStatus()</div>,
+        ] : (
+          <NonIdealState
+            visual="error"
+            className="no-connection"
+            title="You need to sign in."
+            description="Please sign in and try again."
+            action={(
+              <Button
+                iconName="log-in"
+                intent={Intent.PRIMARY}
+                className={Classes.LARGE}
+                text="Sign in"
+                onClick={handleSignInClick}
+              />
+            )}
+          />
+        )}
       </div>
     );
   }
@@ -99,18 +122,22 @@ class MyApps extends React.Component {
 MyApps.propTypes = {
   myApps: PropTypes.instanceOf(Immutable.List).isRequired,
   status: PropTypes.string.isRequired,
+  signedIn: PropTypes.bool.isRequired,
   requestFetchMyApps: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
+  handleSignInClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   myApps: state.myApps.get('apps'),
   status: state.myApps.get('status'),
+  signedIn: !(!state.auth.get('token') || state.auth.get('token') === 'anonnymous'),
 });
 
 const mapDispatchToProps = dispatch => ({
   requestFetchMyApps: () => dispatch(fetchMyApps()),
   goTo: routeId => dispatch(setRoute(routeId)),
+  handleSignInClick: () => dispatch(logOut()),
 });
 
 export default connect(
