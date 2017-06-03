@@ -1,3 +1,8 @@
+## 5.2.1
+- Fixes bugs.
+
+---
+
 ## 5.2.0
 - Adds My Apps page.
 - Adds option to use custom user agent.
