@@ -45,13 +45,14 @@ const common = {
       },
     ],
   },
-  target: 'electron-renderer',
+  target: 'web',
   plugins: [
     new ExtractTextPlugin({
       filename: 'main.css',
       allChunks: true,
     }),
     new webpack.DefinePlugin({
+      'process.platform': JSON.stringify(process.platform),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.VERSION': JSON.stringify(process.env.npm_package_version),
       'process.env.ALGOLIASEARCH_API_KEY_SEARCH': JSON.stringify(process.env.ALGOLIASEARCH_API_KEY_SEARCH),

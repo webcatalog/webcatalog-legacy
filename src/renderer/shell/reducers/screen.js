@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-import { ipcRenderer } from 'electron';
 
 import { SCREEN_RESIZE } from '../constants/actions';
 

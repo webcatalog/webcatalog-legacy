@@ -1,6 +1,5 @@
 import React from 'react';
 import { NonIdealState } from '@blueprintjs/core';
-import { ipcRenderer } from 'electron';
 
 /* esint-disabled */
 

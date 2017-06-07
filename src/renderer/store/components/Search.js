@@ -1,4 +1,3 @@
-import { shell } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -47,7 +46,7 @@ class Search extends React.Component {
           <div className="text-container">
             <p>powered by</p>
             <p>
-              <a onClick={() => shell.openExternal('https://www.algolia.com')}>
+              <a onClick={() => ipcRenderer('open-in-browser', 'https://www.algolia.com')}>
                 <img
                   src="images/Algolia_logo_bg-white.svg"
                   alt="Algolia"

@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';

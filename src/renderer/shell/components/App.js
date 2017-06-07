@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { ipcRenderer, clipboard } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -215,7 +214,7 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
-            preload="../preload.js"
+            preload="../webview_preload.js"
             // enable nodeintegration in testing mode (mainly for Spectron)
             nodeintegration={window.shellInfo.isTesting}
             useragent={window.shellInfo.userAgent}

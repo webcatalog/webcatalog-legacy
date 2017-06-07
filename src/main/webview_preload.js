@@ -1,5 +1,8 @@
 const { ipcRenderer } = require('electron');
 
+window.global = {};
+window.ipcRenderer = ipcRenderer;
+
 window.onload = () => {
   // inject JS
   const shellInfo = ipcRenderer.sendSync('get-shell-info');

@@ -1,5 +1,3 @@
-import { ipcRenderer } from 'electron';
-
 import { REMOVE_HOME_RESULTS, REMOVE_MY_APPS_RESULTS } from '../constants/actions';
 import { LOADING } from '../constants/statuses';
 

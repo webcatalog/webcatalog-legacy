@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import { Toaster, Position, Intent } from '@blueprintjs/core';
 import semver from 'semver';
 import { version as currentVersion } from '../../../../package.json';

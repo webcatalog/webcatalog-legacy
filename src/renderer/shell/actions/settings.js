@@ -1,5 +1,3 @@
-import { ipcRenderer } from 'electron';
-
 import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS } from '../constants/actions';
 import defaultSettings from '../constants/defaultSettings';
 

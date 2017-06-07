@@ -186,6 +186,11 @@ const createWindow = () => {
     titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
     frame: true,
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
+    webPreferences: {
+      nodeIntegration: false,
+      webviewTag: true,
+      preload: path.join(__dirname, 'main_preload.js'),
+    },
   };
 
   mainWindow = new BrowserWindow(options);
