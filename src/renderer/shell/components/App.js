@@ -2,9 +2,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NonIdealState, Button, Intent, Classes } from '@blueprintjs/core';
 
 import extractDomain from '../libs/extractDomain';
-import { updateTargetUrl, updateLoading, updateCanGoBack, updateCanGoForward } from '../actions/nav';
+import {
+  updateTargetUrl,
+  updateIsFailed,
+  updateIsLoading,
+  updateCanGoBack,
+  updateCanGoForward,
+} from '../actions/nav';
 import { toggleSettingDialog, getBehaviors } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
@@ -19,6 +26,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.handleNewWindow = this.handleNewWindow.bind(this);
+    this.handleDidFailLoad = this.handleDidFailLoad.bind(this);
     this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
     this.handleDidGetRedirectRequest = this.handleDidGetRedirectRequest.bind(this);
     this.handleUpdateTargetUrl = this.handleUpdateTargetUrl.bind(this);
@@ -118,8 +126,6 @@ class App extends React.Component {
     const curDomain = extractDomain(window.shellInfo.url);
     const nextDomain = extractDomain(nextUrl);
 
-    console.log(nextDomain);
-
     // open new window
     if (
       nextDomain === null
@@ -142,13 +148,24 @@ class App extends React.Component {
     ipcRenderer.send('open-in-browser', nextUrl);
   }
 
+  handleDidFailLoad(e) {
+    // errorCode -3: cancelling
+    console.log('Error: ', e);
+    if (e.isMainFrame && e.errorCode < 0 && e.errorCode !== -3) {
+      const { requestUpdateIsFailed } = this.props;
+      requestUpdateIsFailed(true);
+    }
+  }
+
   handleDidStopLoading() {
     const {
-      requestUpdateLoading, requestUpdateCanGoBack, requestUpdateCanGoForward,
+      requestUpdateIsLoading,
+      requestUpdateCanGoBack,
+      requestUpdateCanGoForward,
     } = this.props;
     const c = this.c;
 
-    requestUpdateLoading(false);
+    requestUpdateIsLoading(false);
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
@@ -172,8 +189,14 @@ class App extends React.Component {
 
   render() {
     const {
-      url, findInPageIsOpen, isFullScreen, customHome,
-      requestUpdateLoading, requestUpdateFindInPageMatches,
+      url,
+      findInPageIsOpen,
+      isFailed,
+      isFullScreen,
+      customHome,
+      requestUpdateIsFailed,
+      requestUpdateIsLoading,
+      requestUpdateFindInPageMatches,
       targetUrl,
     } = this.props;
 
@@ -188,6 +211,36 @@ class App extends React.Component {
           height: '100vh',
         }}
       >
+        {isFailed ? (
+          <div
+            style={{
+              height: '100vh',
+              width: '100vw',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <NonIdealState
+              visual="error"
+              className="no-connection"
+              title="Internet Connection"
+              description="Please check your Internet connection and try again."
+              action={(
+                <Button
+                  iconName="repeat"
+                  intent={Intent.PRIMARY}
+                  className={Classes.LARGE}
+                  text="Try Again"
+                  onClick={() => {
+                    requestUpdateIsFailed(false);
+                    this.c.reload();
+                  }}
+                />
+              )}
+            />
+          </div>
+        ) : null}
         {showNav ? (
           <Nav
             onHomeButtonClick={() => this.c.loadURL(customHome || window.shellInfo.url)}
@@ -220,8 +273,9 @@ class App extends React.Component {
             useragent={window.shellInfo.userAgent}
             partition={`persist:${window.shellInfo.id}`}
             onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
+            onDidFailLoad={this.handleDidFailLoad}
             onNewWindow={this.handleNewWindow}
-            onDidStartLoading={() => requestUpdateLoading(true)}
+            onDidStartLoading={() => requestUpdateIsLoading(true)}
             onDidStopLoading={this.handleDidStopLoading}
             onFoundInPage={({ result }) => {
               requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
@@ -260,11 +314,13 @@ App.propTypes = {
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFullScreen: PropTypes.bool,
+  isFailed: PropTypes.bool,
   customHome: PropTypes.string,
   targetUrl: PropTypes.string,
   onResize: PropTypes.func.isRequired,
   requestUpdateTargetUrl: PropTypes.func.isRequired,
-  requestUpdateLoading: PropTypes.func.isRequired,
+  requestUpdateIsFailed: PropTypes.func.isRequired,
+  requestUpdateIsLoading: PropTypes.func.isRequired,
   requestUpdateCanGoBack: PropTypes.func.isRequired,
   requestUpdateCanGoForward: PropTypes.func.isRequired,
   requestToggleSettingDialog: PropTypes.func.isRequired,
@@ -277,6 +333,7 @@ const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.get('isOpen'),
   findInPageText: state.findInPage.get('text'),
   isFullScreen: state.screen.get('isFullScreen'),
+  isFailed: state.nav.get('isFailed'),
   customHome: state.settings.getIn(['behaviors', 'customHome']),
   targetUrl: state.nav.get('targetUrl'),
 });
@@ -284,7 +341,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onResize: () => dispatch(screenResize(window.innerWidth)),
   requestUpdateTargetUrl: targetUrl => dispatch(updateTargetUrl(targetUrl)),
-  requestUpdateLoading: isLoading => dispatch(updateLoading(isLoading)),
+  requestUpdateIsFailed: isFailed => dispatch(updateIsFailed(isFailed)),
+  requestUpdateIsLoading: isLoading => dispatch(updateIsLoading(isLoading)),
   requestUpdateCanGoBack: canGoBack => dispatch(updateCanGoBack(canGoBack)),
   requestUpdateCanGoForward: canGoForward => dispatch(updateCanGoForward(canGoForward)),
   requestToggleSettingDialog: () => dispatch(toggleSettingDialog()),

@@ -1,6 +1,7 @@
 import {
   UPDATE_TARGET_URL,
-  UPDATE_LOADING,
+  UPDATE_IS_FAILED,
+  UPDATE_IS_LOADING,
   UPDATE_CAN_GO_BACK,
   UPDATE_CAN_GO_FORWARD,
 } from '../constants/actions';
@@ -10,10 +11,16 @@ export const updateTargetUrl = targetUrl => ({
   targetUrl,
 });
 
-export const updateLoading = isLoading => ({
-  type: UPDATE_LOADING,
+export const updateIsLoading = isLoading => ({
+  type: UPDATE_IS_LOADING,
   isLoading,
 });
+
+export const updateIsFailed = isFailed => ({
+  type: UPDATE_IS_FAILED,
+  isFailed,
+});
+
 
 export const updateCanGoBack = canGoBack => ({
   type: UPDATE_CAN_GO_BACK,
