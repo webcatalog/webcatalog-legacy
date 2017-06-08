@@ -26,7 +26,8 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       paddingLeft: process.platform === 'darwin' ? 80 : null,
-      backgroundColor: '#CED9E0',
+      backgroundColor: '#e8e6e8',
+      backgroundImage: 'linear-gradient(to bottom,#e8e6e8 0,#d1cfd1 100%)',
       height: NAV_HEIGHT,
     }}
   >
