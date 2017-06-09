@@ -277,14 +277,14 @@ Settings.propTypes = {
 
 const mapStateToProps = state => ({
   isOpen: state.settings.get('isOpen'),
-  swipeToNavigate: state.settings.getIn(['behaviors', 'swipeToNavigate']),
-  rememberLastPage: state.settings.getIn(['behaviors', 'rememberLastPage']),
-  quitOnLastWindow: state.settings.getIn(['behaviors', 'quitOnLastWindow']),
-  blockAds: state.settings.getIn(['behaviors', 'blockAds']),
-  customHome: state.settings.getIn(['behaviors', 'customHome']),
-  injectedCSS: state.settings.getIn(['behaviors', 'injectedCSS']),
-  injectedJS: state.settings.getIn(['behaviors', 'injectedJS']),
-  customUserAgent: state.settings.getIn(['behaviors', 'customUserAgent']),
+  swipeToNavigate: state.settings.get('swipeToNavigate'),
+  rememberLastPage: state.settings.get('rememberLastPage'),
+  quitOnLastWindow: state.settings.get('quitOnLastWindow'),
+  blockAds: state.settings.get('blockAds'),
+  customHome: state.settings.get('customHome'),
+  injectedCSS: state.settings.get('injectedCSS'),
+  injectedJS: state.settings.get('injectedJS'),
+  customUserAgent: state.settings.get('customUserAgent'),
 });
 
 const mapDispatchToProps = dispatch => ({

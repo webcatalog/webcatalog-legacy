@@ -26,7 +26,7 @@ const LeftNav = ({
   >
     {tabs.map((tab, tabIndex) => (
       <div
-        key={tab.hashCode()}
+        key={tab.get('id')}
         style={{
           width: '100%',
           textAlign: 'center',
@@ -47,7 +47,7 @@ const LeftNav = ({
             userSelect: 'none',
             cursor: 'default',
           }}
-          onClick={() => requestSetActiveTab(tabIndex)}
+          onClick={() => requestSetActiveTab(tab.get('id'))}
         >
           {tabIndex + 1}
         </div>

@@ -5,9 +5,15 @@ import defaultSettings from '../constants/defaultSettings';
 
 const initialState = Immutable.fromJS({
   isOpen: false,
-  behaviors: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}`, defaultSettings),
+  swipeToNavigate: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.swipeToNavigate`, defaultSettings.swipeToNavigate),
+  rememberLastPage: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.rememberLastPage`, defaultSettings.rememberLastPage),
+  quitOnLastWindow: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.quitOnLastWindow`, defaultSettings.quitOnLastWindow),
+  blockAds: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.blockAds`, defaultSettings.blockAds),
+  customHome: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.customHome`, defaultSettings.customHome),
+  injectedCSS: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.injectedCSS`, defaultSettings.injectedCSS),
+  injectedJS: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.injectedJS`, defaultSettings.injectedJS),
+  customUserAgent: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.customUserAgent`, defaultSettings.customUserAgent),
 });
-
 
 const settings = (state = initialState, action) => {
   switch (action.type) {

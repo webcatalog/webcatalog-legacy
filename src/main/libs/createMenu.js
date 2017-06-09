@@ -13,6 +13,24 @@ function createMenu({
 
     template = [
       {
+        label: 'Tabs',
+        submenu: [
+          {
+            label: 'New Tab',
+            accelerator: 'CmdOrCtrl+T',
+            click: () => {
+              sendMessageToWindow('new-tab');
+            },
+          },
+          {
+            label: 'Close Tab',
+            click: () => {
+              sendMessageToWindow('close-tab');
+            },
+          },
+        ],
+      },
+      {
         label: 'Navigate',
         submenu: [
           {
@@ -206,7 +224,7 @@ function createMenu({
     ];
 
     if (isDevelopment) {
-      template[2].submenu.push(
+      template[3].submenu.push(
         {
           type: 'separator',
         },
@@ -385,7 +403,7 @@ function createMenu({
         },
       ],
     });
-    template[3].submenu.push(
+    template[4].submenu.push(
       {
         type: 'separator',
       },
