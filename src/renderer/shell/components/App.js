@@ -20,7 +20,7 @@ import { screenResize } from '../actions/screen';
 import {
   addTab,
   closeTab,
-  setactiveTabId,
+  setActiveTab,
   setTabLastURL,
 } from '../actions/tabs';
 
@@ -242,7 +242,7 @@ class App extends React.Component {
   renderHotkeys() {
     const {
       tabs,
-      requestSetactiveTabId,
+      requestSetActiveTab,
     } = this.props;
 
     return (
@@ -253,7 +253,7 @@ class App extends React.Component {
             global
             combo={`mod + ${tabIndex + 1}`}
             label={`Tab ${tabIndex + 1}`}
-            onKeyDown={() => requestSetactiveTabId(tab.get('id'))}
+            onKeyDown={() => requestSetActiveTab(tab.get('id'))}
           />
         ))}
       </Hotkeys>
@@ -427,7 +427,7 @@ App.propTypes = {
   requestUpdateFindInPageMatches: PropTypes.func.isRequired,
   requestAddTab: PropTypes.func.isRequired,
   requestCloseTab: PropTypes.func.isRequired,
-  requestSetactiveTabId: PropTypes.func.isRequired,
+  requestSetActiveTab: PropTypes.func.isRequired,
   requestSetTabLastUrl: PropTypes.func.isRequired,
 };
 
@@ -461,7 +461,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateFindInPageMatches(activeMatch, matches)),
   requestAddTab: () => dispatch(addTab()),
   requestCloseTab: tabIndex => dispatch(closeTab(tabIndex)),
-  requestSetactiveTabId: isActive => dispatch(setactiveTabId(isActive)),
+  requestSetActiveTab: isActive => dispatch(setActiveTab(isActive)),
   requestSetTabLastUrl: (tabIndex, lastUrl) => dispatch(setTabLastURL(tabIndex, lastUrl)),
 });
 
