@@ -17,5 +17,6 @@
     "react/require-default-props": [0],
     "global-require": [0],
     "max-len": [0]
-  }
+  },
+  "parser": "babel-eslint"
 }
