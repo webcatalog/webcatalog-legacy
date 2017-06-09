@@ -1,6 +1,6 @@
 import { SIGN_IN, LOG_OUT } from '../constants/actions';
 
-import { updateIntercomUser, shutdownIntercom, bootIntercom } from './intercom';
+import { shutdownIntercom, bootIntercom } from './intercom';
 
 export const signIn = token => (dispatch) => {
   dispatch({
@@ -8,12 +8,11 @@ export const signIn = token => (dispatch) => {
     token,
   });
 
-  dispatch(updateIntercomUser(token));
+  dispatch(bootIntercom());
 };
 
 export const logOut = () => (dispatch) => {
   dispatch({ type: LOG_OUT });
 
   dispatch(shutdownIntercom());
-  dispatch(bootIntercom());
 };
