@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
@@ -34,4 +34,43 @@ window.onload = () => {
       /* eslint-enable no-console */
     }
   }
+
+  // Inspect element
+  // Importing this adds a right-click menu with 'Inspect Element' option
+  let rightClickPosition = null;
+
+  const { Menu, MenuItem } = remote;
+  const menu = new Menu();
+  menu.append(new MenuItem({
+    label: 'Back',
+    click: () => {
+      remote.getCurrentWindow().send('go-back');
+    },
+  }));
+  menu.append(new MenuItem({
+    label: 'Forward',
+    click: () => {
+      remote.getCurrentWindow().send('go-forward');
+    },
+  }));
+  menu.append(new MenuItem({
+    label: 'Reload',
+    click: () => {
+      remote.getCurrentWindow().send('reload');
+    },
+  }));
+  menu.append(new MenuItem({ type: 'separator' }));
+  menu.append(new MenuItem({
+    label: 'Inspect Element',
+    click: () => {
+      const { webContents } = remote;
+      webContents.getFocusedWebContents().inspectElement(rightClickPosition.x, rightClickPosition.y);
+    },
+  }));
+
+  window.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    rightClickPosition = { x: e.x, y: e.y };
+    menu.popup(remote.getCurrentWindow());
+  }, false);
 };
