@@ -1,11 +1,11 @@
 import Immutable from 'immutable';
 
-import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR, SET_BEHAVIORS } from '../constants/actions';
+import { TOGGLE_SETTING_DIALOG, SET_BEHAVIOR } from '../constants/actions';
 import defaultSettings from '../constants/defaultSettings';
 
 const initialState = Immutable.fromJS({
   isOpen: false,
-  behaviors: defaultSettings,
+  behaviors: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}`, defaultSettings),
 });
 
 
@@ -16,9 +16,6 @@ const settings = (state = initialState, action) => {
     }
     case SET_BEHAVIOR: {
       return state.setIn(['behaviors', action.behaviorName], action.behaviorVal);
-    }
-    case SET_BEHAVIORS: {
-      return state.set('behaviors', Immutable.Map(action.behaviors));
     }
     default:
       return state;

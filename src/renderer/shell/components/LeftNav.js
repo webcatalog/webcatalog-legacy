@@ -44,6 +44,8 @@ const LeftNav = ({
             fontSize: 30,
             lineHeight: '42px',
             textAlign: 'center',
+            userSelect: 'none',
+            cursor: 'default',
           }}
           onClick={() => requestSetActiveTab(tabIndex)}
         >

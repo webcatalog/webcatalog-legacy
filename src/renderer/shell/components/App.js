@@ -14,12 +14,13 @@ import {
   updateCanGoBack,
   updateCanGoForward,
 } from '../actions/nav';
-import { toggleSettingDialog, getBehaviors } from '../actions/settings';
+import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
 import {
   addTab,
   setActiveTab,
+  setTabLastURL,
 } from '../actions/tabs';
 
 import LeftNav from './LeftNav';
@@ -48,13 +49,10 @@ class App extends React.Component {
       requestToggleSettingDialog,
       requestToggleFindInPageDialog,
       requestUpdateFindInPageMatches,
-      requestGetBehaviors,
       onResize,
     } = this.props;
 
     const c = this.c[activeTab];
-
-    requestGetBehaviors();
 
     showUpdateToast();
 
@@ -194,6 +192,7 @@ class App extends React.Component {
       requestUpdateIsLoading,
       requestUpdateCanGoBack,
       requestUpdateCanGoForward,
+      requestSetTabLastUrl,
     } = this.props;
 
     const c = this.c[activeTab];
@@ -202,7 +201,7 @@ class App extends React.Component {
     requestUpdateCanGoBack(c.canGoBack());
     requestUpdateCanGoForward(c.canGoForward());
 
-    ipcRenderer.send('set-setting', `lastPages.${window.shellInfo.id}`, c.getURL());
+    requestSetTabLastUrl(activeTab, c.getURL());
   }
 
   handlePageTitleUpdated({ title }) {
@@ -255,11 +254,11 @@ class App extends React.Component {
 
   render() {
     const {
-      url,
       findInPageIsOpen,
       isFailed,
       isFullScreen,
       customHome,
+      rememberLastPage,
       tabs,
       activeTab,
       requestUpdateIsFailed,
@@ -349,7 +348,7 @@ class App extends React.Component {
               <WebView
                 key={tab.get('createdAt')}
                 ref={(c) => { this.c[tabIndex] = c; }}
-                src={url}
+                src={rememberLastPage ? (tab.get('lastUrl') || customHome || window.shellInfo.url) : (customHome || window.shellInfo.url)}
                 style={{ height: '100%', width: '100%', display: !tab.get('isActive') ? 'none' : null }}
                 className="webview"
                 plugins
@@ -400,12 +399,12 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  url: PropTypes.string.isRequired,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFullScreen: PropTypes.bool,
   isFailed: PropTypes.bool,
   customHome: PropTypes.string,
+  rememberLastPage: PropTypes.bool,
   targetUrl: PropTypes.string,
   tabs: PropTypes.instanceOf(Immutable.List),
   activeTab: PropTypes.number,
@@ -418,9 +417,9 @@ App.propTypes = {
   requestToggleSettingDialog: PropTypes.func.isRequired,
   requestToggleFindInPageDialog: PropTypes.func.isRequired,
   requestUpdateFindInPageMatches: PropTypes.func.isRequired,
-  requestGetBehaviors: PropTypes.func.isRequired,
   requestAddTab: PropTypes.func.isRequired,
   requestSetActiveTab: PropTypes.func.isRequired,
+  requestSetTabLastUrl: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -439,6 +438,7 @@ const mapStateToProps = (state) => {
     isFullScreen: state.screen.get('isFullScreen'),
     isFailed: state.nav.get('isFailed'),
     customHome: state.settings.getIn(['behaviors', 'customHome']),
+    rememberLastPage: state.settings.getIn(['behaviors', 'rememberLastPage']),
     targetUrl: state.nav.get('targetUrl'),
     tabs,
     activeTab,
@@ -456,9 +456,9 @@ const mapDispatchToProps = dispatch => ({
   requestToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
   requestUpdateFindInPageMatches: (activeMatch, matches) =>
     dispatch(updateFindInPageMatches(activeMatch, matches)),
-  requestGetBehaviors: () => dispatch(getBehaviors()),
   requestAddTab: () => dispatch(addTab()),
   requestSetActiveTab: isActive => dispatch(setActiveTab(isActive)),
+  requestSetTabLastUrl: (tabIndex, lastUrl) => dispatch(setTabLastURL(tabIndex, lastUrl)),
 });
 
 export default connect(
