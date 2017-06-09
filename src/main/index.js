@@ -188,7 +188,8 @@ const createWindow = () => {
     frame: true,
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
     webPreferences: {
-      nodeIntegration: false,
+      // enable nodeintegration in testing mode (mainly for Spectron)
+      nodeIntegration: isTesting,
       webviewTag: true,
       preload: path.join(__dirname, 'main_preload.js'),
     },
