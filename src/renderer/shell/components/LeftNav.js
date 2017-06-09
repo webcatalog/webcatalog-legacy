@@ -34,12 +34,13 @@ const LeftNav = ({
         }}
       >
         <div
+          className="circle-hover"
           style={{
             height: 42,
             width: 42,
             borderRadius: 21,
-            backgroundColor: tab.get('isActive') ? '#5C7080' : '#fff',
-            color: tab.get('isActive') ? '#fff' : '#182026',
+            backgroundColor: tab.get('isActive') ? '#fff' : '#5C7080',
+            color: tab.get('isActive') ? '#182026' : '#fff',
             margin: '0 auto',
             fontSize: 30,
             lineHeight: '42px',
@@ -64,22 +65,39 @@ const LeftNav = ({
     {tabs.size < 9 ? (
       <div
         style={{
-          height: 42,
-          width: 42,
-          borderRadius: 21,
-          backgroundColor: '#fff',
-          margin: '0 auto',
+          width: '100%',
           textAlign: 'center',
+          marginBottom: 12,
         }}
       >
-        <span
-          className="pt-icon-large pt-icon-plus"
+        <div
+          className="circle-hover"
           style={{
-            fontSize: 30,
-            lineHeight: '42px',
+            height: 42,
+            width: 42,
+            borderRadius: 21,
+            backgroundColor: '#5C7080',
+            margin: '0 auto',
+            textAlign: 'center',
           }}
-          onClick={() => requestAddTab()}
-        />
+        >
+          <span
+            className="pt-icon-large pt-icon-plus"
+            style={{
+              fontSize: 30,
+              lineHeight: '42px',
+            }}
+            onClick={() => requestAddTab()}
+          />
+        </div>
+        <div
+          style={{
+            fontSize: 14,
+            color: '#fff',
+          }}
+        >
+          ⌘T
+        </div>
       </div>
     ) : null}
   </div>

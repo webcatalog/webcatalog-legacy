@@ -9,7 +9,7 @@
     "start.dev": "yarn start.store.dev",
     "start.store.dev": "electron . --development=true",
     "start.store": "electron .",
-    "start.shell.dev": "electron . --development=true --name=\"Hello\" --url=\"https://davidwalsh.name/demo/notifications-api.php\" --id=514234",
+    "start.shell.dev": "electron . --development=true --name=\"Hello\" --url=\"https://davidwalsh.name/demo/notifications-api.php\" --id=324443",
     "start.shell": "electron . --id=facebook-messenger --url=http://messenger.com/ --name=Shaka",
     "dev.main": "babel src/main -d app --copy-files --watch",
     "dev.ui": "cross-env NODE_ENV=development webpack -d --watch",

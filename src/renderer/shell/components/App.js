@@ -46,7 +46,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const {
-      activeTabId,
       requestToggleSettingDialog,
       requestToggleFindInPageDialog,
       requestUpdateFindInPageMatches,
@@ -60,7 +59,7 @@ class App extends React.Component {
     window.addEventListener('resize', onResize);
 
     ipcRenderer.on('toggle-dev-tools', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.openDevTools();
     });
 
@@ -70,7 +69,7 @@ class App extends React.Component {
 
     ipcRenderer.on('toggle-find-in-page-dialog', () => {
       if (this.props.findInPageIsOpen) {
-        const c = this.webViews[activeTabId];
+        const c = this.webViews[this.props.activeTabId];
         c.stopFindInPage('clearSelection');
         requestUpdateFindInPageMatches(0, 0);
       }
@@ -78,37 +77,37 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('change-zoom', (event, message) => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.setZoomFactor(message);
     });
 
     ipcRenderer.on('reload', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.reload();
     });
 
     ipcRenderer.on('go-back', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.goBack();
     });
 
     ipcRenderer.on('go-forward', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.goForward();
     });
 
     ipcRenderer.on('go-home', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.loadURL(this.props.customHome || window.shellInfo.url);
     });
 
     ipcRenderer.on('go-to-url', (e, url) => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       c.loadURL(url);
     });
 
     ipcRenderer.on('copy-url', () => {
-      const c = this.webViews[activeTabId];
+      const c = this.webViews[this.props.activeTabId];
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
     });
@@ -118,7 +117,7 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('close-tab', () => {
-      requestCloseTab(activeTabId);
+      requestCloseTab(this.props.activeTabId);
     });
   }
 

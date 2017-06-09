@@ -68,17 +68,17 @@ const settings = (state = initialState, action) => {
         return state;
       }
 
-      let newActiveTab = 0;
+      let newActiveTabId = 0;
 
       const newList = state.get('list')
         .filter((tab, tabIndex) => {
           if (tab.get('id') === action.tabId) {
-            newActiveTab = tabIndex !== 0 ? tabIndex - 1 : 0;
+            newActiveTabId = tabIndex > 0 ? tabIndex - 1 : 0;
             return false;
           }
           return true;
         })
-        .setIn([newActiveTab, 'isActive'], true);
+        .setIn([newActiveTabId, 'isActive'], true);
 
       const newState = state.set('list', newList);
 
