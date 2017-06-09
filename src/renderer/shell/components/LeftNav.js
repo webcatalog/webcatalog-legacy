@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import {
   addTab,
-  setActiveTab,
+  updateActiveTab,
 } from '../actions/tabs';
 
 const LeftNav = ({
@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   requestAddTab: () => dispatch(addTab()),
-  requestSetActiveTab: isActive => dispatch(setActiveTab(isActive)),
+  requestSetActiveTab: isActive => dispatch(updateActiveTab(isActive)),
 });
 
 export default connect(

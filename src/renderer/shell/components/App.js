@@ -20,8 +20,8 @@ import { screenResize } from '../actions/screen';
 import {
   addTab,
   closeTab,
-  setActiveTab,
-  setTabLastURL,
+  updateActiveTab,
+  updateTabLastURL,
 } from '../actions/tabs';
 
 import LeftNav from './LeftNav';
@@ -217,8 +217,8 @@ class App extends React.Component {
     const c = this.webViews[activeTabId];
 
     requestUpdateIsLoading(false);
-    requestUpdateCanGoBack(c.canGoBack());
-    requestUpdateCanGoForward(c.canGoForward());
+    requestUpdateCanGoBack(activeTabId, c.canGoBack());
+    requestUpdateCanGoForward(activeTabId, c.canGoForward());
 
     requestSetTabLastUrl(activeTabId, c.getURL());
   }
@@ -452,16 +452,16 @@ const mapDispatchToProps = dispatch => ({
   requestUpdateTargetUrl: targetUrl => dispatch(updateTargetUrl(targetUrl)),
   requestUpdateIsFailed: isFailed => dispatch(updateIsFailed(isFailed)),
   requestUpdateIsLoading: isLoading => dispatch(updateIsLoading(isLoading)),
-  requestUpdateCanGoBack: canGoBack => dispatch(updateCanGoBack(canGoBack)),
-  requestUpdateCanGoForward: canGoForward => dispatch(updateCanGoForward(canGoForward)),
+  requestUpdateCanGoBack: (tabId, canGoBack) => dispatch(updateCanGoBack(tabId, canGoBack)),
+  requestUpdateCanGoForward: (tabId, canGoForward) => dispatch(updateCanGoForward(tabId, canGoForward)),
   requestToggleSettingDialog: () => dispatch(toggleSettingDialog()),
   requestToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
   requestUpdateFindInPageMatches: (activeMatch, matches) =>
     dispatch(updateFindInPageMatches(activeMatch, matches)),
   requestAddTab: () => dispatch(addTab()),
-  requestCloseTab: tabIndex => dispatch(closeTab(tabIndex)),
-  requestSetActiveTab: isActive => dispatch(setActiveTab(isActive)),
-  requestSetTabLastUrl: (tabIndex, lastUrl) => dispatch(setTabLastURL(tabIndex, lastUrl)),
+  requestCloseTab: tabId => dispatch(closeTab(tabId)),
+  requestSetActiveTab: isActive => dispatch(updateActiveTab(isActive)),
+  requestSetTabLastUrl: (tabId, lastUrl) => dispatch(updateTabLastURL(tabId, lastUrl)),
 });
 
 export default connect(

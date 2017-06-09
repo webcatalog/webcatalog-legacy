@@ -125,8 +125,8 @@ Nav.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state.nav.get('isLoading'),
-  canGoBack: state.nav.get('canGoBack'),
-  canGoForward: state.nav.get('canGoForward'),
+  canGoBack: Boolean(state.tabs.get('list').find(tab => tab.get('isActive')).get('canGoBack')),
+  canGoForward: Boolean(state.tabs.get('list').find(tab => tab.get('isActive')).get('canGoBack')),
 });
 
 const mapDispatchToProps = dispatch => ({

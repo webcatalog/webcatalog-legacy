@@ -4,8 +4,6 @@ import {
   UPDATE_TARGET_URL,
   UPDATE_IS_FAILED,
   UPDATE_IS_LOADING,
-  UPDATE_CAN_GO_BACK,
-  UPDATE_CAN_GO_FORWARD,
 } from '../constants/actions';
 
 const initialState = Immutable.Map({
@@ -26,12 +24,6 @@ const nav = (state = initialState, action) => {
     }
     case UPDATE_IS_LOADING: {
       return state.set('isLoading', action.isLoading);
-    }
-    case UPDATE_CAN_GO_BACK: {
-      return state.set('canGoBack', action.canGoBack);
-    }
-    case UPDATE_CAN_GO_FORWARD: {
-      return state.set('canGoForward', action.canGoForward);
     }
     default:
       return state;

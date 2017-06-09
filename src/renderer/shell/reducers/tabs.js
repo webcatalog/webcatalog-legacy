@@ -3,8 +3,10 @@ import Immutable from 'immutable';
 import {
   ADD_TAB,
   CLOSE_TAB,
-  SET_ACTIVE_TAB,
-  SET_TAB_LAST_URL,
+  UPDATE_ACTIVE_TAB,
+  UPDATE_TAB_LAST_URL,
+  UPDATE_CAN_GO_BACK,
+  UPDATE_CAN_GO_FORWARD,
 } from '../constants/actions';
 
 const jsState = ipcRenderer.sendSync('get-setting', `tabs.${window.shellInfo.id}`, {
@@ -15,13 +17,16 @@ const jsState = ipcRenderer.sendSync('get-setting', `tabs.${window.shellInfo.id}
       name: null,
     },
   ],
-});
+}).map(tab => Object.assign({}, tab, {
+  canGoBack: null,
+  canGoForward: null,
+}));
 
 const initialState = Immutable.fromJS(jsState);
 
 const settings = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ACTIVE_TAB: {
+    case UPDATE_ACTIVE_TAB: {
       const newState = state.set('list', state.get('list').map((tab) => {
         if (tab.get('id') !== action.tabId) return tab.set('isActive', false);
 
@@ -32,7 +37,7 @@ const settings = (state = initialState, action) => {
 
       return newState;
     }
-    case SET_TAB_LAST_URL: {
+    case UPDATE_TAB_LAST_URL: {
       const tabIndex = state.get('list').findIndex(tab => tab.get('id') === action.tabId);
 
       const newState = state.set('list', state.get('list')
@@ -83,6 +88,22 @@ const settings = (state = initialState, action) => {
       const newState = state.set('list', newList);
 
       ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, newState.toJS());
+
+      return newState;
+    }
+    case UPDATE_CAN_GO_BACK: {
+      const tabIndex = state.get('list').findIndex(tab => tab.get('id') === action.tabId);
+
+      const newState = state.set('list', state.get('list')
+        .setIn([tabIndex, 'canGoBack'], action.canGoBack));
+
+      return newState;
+    }
+    case UPDATE_CAN_GO_FORWARD: {
+      const tabIndex = state.get('list').findIndex(tab => tab.get('id') === action.tabId);
+
+      const newState = state.set('list', state.get('list')
+        .setIn([tabIndex, 'canGoForward'], action.canGoForward));
 
       return newState;
     }
