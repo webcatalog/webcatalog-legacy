@@ -254,7 +254,11 @@ const createWindow = () => {
   }
 
   // load window
-  const windowUrl = url.format({
+  const windowUrl = isDevelopment ? url.format({
+    pathname: `localhost:3000/${isShell ? 'shell.html' : 'store.html'}`,
+    protocol: 'http:',
+    slashes: true,
+  }) : url.format({
     pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
     protocol: 'file:',
     slashes: true,

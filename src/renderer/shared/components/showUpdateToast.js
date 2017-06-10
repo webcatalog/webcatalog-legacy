@@ -1,6 +1,5 @@
 import { Toaster, Position, Intent } from '@blueprintjs/core';
 import semver from 'semver';
-import { version as currentVersion } from '../../../../package.json';
 
 import customFetch from '../libs/customFetch';
 
@@ -26,7 +25,7 @@ const showUpdateToast = () =>
       console.log(`Latest version: ${latestVersion}`);
       /* eslint-enable no-console */
 
-      if (semver.gte(currentVersion, latestVersion)) return;
+      if (semver.gte(process.env.VERSION, latestVersion)) return;
 
       const toaster = Toaster.create({
         position: Position.BOTTOM_LEFT,

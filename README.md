@@ -6,10 +6,10 @@
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). It works similarly to [Fluid](http://fluidapp.com/) and [Nativefier](https://github.com/jiahaog/nativefier) but offers more features and an user-friendly user interface.
+WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). 
 
 ## Development
-1. Install [Node.js 6+](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
+1. Install [Node.js 7](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
 
 2. Run
 ```bash

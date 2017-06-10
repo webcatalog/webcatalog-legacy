@@ -274,7 +274,7 @@ class App extends React.Component {
       targetUrl,
     } = this.props;
 
-    const showNav = process.platform === 'darwin' && !isFullScreen;
+    const showNav = process.env.PLATFORM === 'darwin' && !isFullScreen;
 
     let usedHeight = showNav ? 32 : 0;
     if (findInPageIsOpen) usedHeight += 50;

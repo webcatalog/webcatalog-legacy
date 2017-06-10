@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>WebCatalog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
     <div id="app"></div>
@@ -12,6 +11,5 @@
       const shellInfo = ipcRenderer.sendSync('get-shell-info');
       window.shellInfo = shellInfo;
     </script>
-    <script src="shell.bundle.js"></script>
   </body>
 </html>

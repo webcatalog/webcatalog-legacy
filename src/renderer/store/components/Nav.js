@@ -21,7 +21,7 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       flexBasis: 50,
-      paddingLeft: (process.platform === 'darwin') ? 80 : null,
+      paddingLeft: (process.env.PLATFORM === 'darwin') ? 80 : null,
       zIndex: 1000,
     }}
   >

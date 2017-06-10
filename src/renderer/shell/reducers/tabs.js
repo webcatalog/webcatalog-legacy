@@ -17,10 +17,7 @@ const jsState = ipcRenderer.sendSync('get-setting', `tabs.${window.shellInfo.id}
       name: null,
     },
   ],
-}).map(tab => Object.assign({}, tab, {
-  canGoBack: null,
-  canGoForward: null,
-}));
+});
 
 const initialState = Immutable.fromJS(jsState);
 
