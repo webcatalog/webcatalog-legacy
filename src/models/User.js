@@ -29,6 +29,12 @@ const User = sequelize.define('user', {
   twitterId: {
     type: Sequelize.STRING,
   },
+  password: {
+    type: Sequelize.STRING,
+  },
+  salt: {
+    type: Sequelize.STRING,
+  },
 });
 
 User.sync();

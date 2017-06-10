@@ -2,9 +2,12 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
 import User from './models/User';
+
+import generateHashAsync from './libs/generateHashAsync';
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -128,6 +131,23 @@ passport.use(new TwitterStrategy(
         cb(null, user);
       })
       .catch(cb);
+  },
+));
+
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'email',
+    passwordField: 'password',
+    session: false,
+  },
+  (email, password, done) => {
+    User.findOne({ email })
+      .then((user) => {
+        if (!user) { return done(null, false); }
+        if (!user.verifyPassword(password)) { return done(null, false); }
+        return done(null, user);
+      })
+      .catch(done);
   },
 ));
 
