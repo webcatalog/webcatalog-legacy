@@ -349,7 +349,7 @@ class App extends React.Component {
           />
         ) : null}
         <div style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100vw', display: 'flex' }}>
-          <LeftNav />
+          {tabs.size > 1 ? <LeftNav /> : null}
           <div style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100%' }}>
             {tabs.map(tab => (
               <WebView
