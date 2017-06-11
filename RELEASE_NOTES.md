@@ -1,3 +1,11 @@
+## 6.0.0-beta
+- Adds connection error notice.
+- Disables nodeIntegration in renderer to improve security.
+- Adds tab support #62 #87 .
+- Adds right-click menu #102.
+
+---
+
 ## 5.2.1
 - Fixes bugs.
 
