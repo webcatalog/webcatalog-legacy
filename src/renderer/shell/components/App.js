@@ -361,7 +361,7 @@ class App extends React.Component {
                 plugins
                 allowpopups
                 autoresize
-                preload="../webview_preload.js"
+                preload={window.shellInfo.preload}
                 // enable nodeintegration in testing mode (mainly for Spectron)
                 nodeintegration={window.shellInfo.isTesting}
                 useragent={window.shellInfo.userAgent}

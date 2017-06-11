@@ -131,6 +131,7 @@ if (!isShell) {
       userAgent: customUserAgent || mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
       isTesting,
       isDevelopment,
+      preload: path.join(__dirname, 'webview_preload.js'),
     };
   });
 
