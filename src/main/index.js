@@ -189,7 +189,7 @@ const createWindow = () => {
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
     webPreferences: {
       // enable nodeintegration in testing mode (mainly for Spectron)
-      nodeIntegration: isTesting,
+      nodeIntegration: false,
       webviewTag: true,
       preload: path.join(__dirname, 'main_preload.js'),
     },
@@ -253,18 +253,33 @@ const createWindow = () => {
     });
   }
 
-  // load window
-  const windowUrl = isDevelopment ? url.format({
-    pathname: `localhost:3000/${isShell ? 'shell.html' : 'store.html'}`,
-    protocol: 'http:',
-    slashes: true,
-  }) : url.format({
-    pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
-    protocol: 'file:',
-    slashes: true,
-  });
+  if (isDevelopment) {
+    const request = require('request');
 
-  mainWindow.loadURL(windowUrl);
+    const devHTMLUrl = `http://localhost:3000/${isShell ? 'shell.html' : 'store.html'}`;
+
+    const HTMLPath = path.join(app.getPath('appData'), 'tmp.html');
+
+    const HTMLUrl = url.format({
+      pathname: HTMLPath,
+      protocol: 'file:',
+      slashes: true,
+    });
+
+    request(devHTMLUrl)
+      .pipe(fs.createWriteStream(HTMLPath))
+      .on('finish', () => {
+        mainWindow.loadURL(HTMLUrl);
+      });
+  } else {
+    // load window
+    const HTMLUrl = url.format({
+      pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
+      protocol: 'file:',
+      slashes: true,
+    });
+    mainWindow.loadURL(HTMLUrl);
+  }
 };
 
 app.on('ready', createWindow);

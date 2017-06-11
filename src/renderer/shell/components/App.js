@@ -11,8 +11,6 @@ import {
   updateTargetUrl,
   updateIsFailed,
   updateIsLoading,
-  updateCanGoBack,
-  updateCanGoForward,
 } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
@@ -22,6 +20,8 @@ import {
   closeTab,
   updateActiveTab,
   updateTabLastURL,
+  updateCanGoBack,
+  updateCanGoForward,
 } from '../actions/tabs';
 
 import LeftNav from './LeftNav';

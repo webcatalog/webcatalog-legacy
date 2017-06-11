@@ -21,6 +21,15 @@ const jsState = ipcRenderer.sendSync('get-setting', `tabs.${window.shellInfo.id}
 
 const initialState = Immutable.fromJS(jsState);
 
+const saveToElectronSetting = (state) => {
+  const strippedState = state.set('list',
+    state.get('list')
+      .map(tab => tab.remove('canGoBack').remove('canGoForward')),
+  );
+
+  ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, strippedState.toJS());
+};
+
 const settings = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_ACTIVE_TAB: {
@@ -30,7 +39,7 @@ const settings = (state = initialState, action) => {
         return tab.set('isActive', true);
       }));
 
-      ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, newState.toJS());
+      saveToElectronSetting(newState);
 
       return newState;
     }
@@ -40,7 +49,7 @@ const settings = (state = initialState, action) => {
       const newState = state.set('list', state.get('list')
         .setIn([tabIndex, 'lastUrl'], action.lastUrl));
 
-      ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, newState.toJS());
+      saveToElectronSetting(newState);
 
       return newState;
     }
@@ -59,7 +68,7 @@ const settings = (state = initialState, action) => {
 
       const newState = state.set('list', newList);
 
-      ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, newState.toJS());
+      saveToElectronSetting(newState);
 
       return newState;
     }
@@ -84,7 +93,7 @@ const settings = (state = initialState, action) => {
 
       const newState = state.set('list', newList);
 
-      ipcRenderer.send('set-setting', `tabs.${window.shellInfo.id}`, newState.toJS());
+      saveToElectronSetting(newState);
 
       return newState;
     }

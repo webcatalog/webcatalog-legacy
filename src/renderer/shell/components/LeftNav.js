@@ -40,7 +40,7 @@ const LeftNav = ({
             width: 42,
             borderRadius: 21,
             backgroundColor: tab.get('isActive') ? '#fff' : '#5C7080',
-            color: tab.get('isActive') ? '#182026' : '#fff',
+            color: '#182026',
             margin: '0 auto',
             fontSize: 30,
             lineHeight: '42px',
@@ -77,6 +77,7 @@ const LeftNav = ({
             width: 42,
             borderRadius: 21,
             backgroundColor: '#5C7080',
+            color: '#182026',
             margin: '0 auto',
             textAlign: 'center',
           }}

@@ -13,7 +13,7 @@ const paths = require('./paths');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-const publicPath = '/';
+const publicPath = 'http://localhost:3000/';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
@@ -47,7 +47,7 @@ module.exports = {
       // the line below with these two lines if you prefer the stock client:
       // require.resolve('webpack-dev-server/client') + '?/',
       // require.resolve('webpack/hot/dev-server'),
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      // require.resolve('react-dev-utils/webpackHotDevClient'),
       // We ship a few polyfills by default:
       require.resolve('./polyfills'),
       // Errors should be considered fatal in development
@@ -69,7 +69,7 @@ module.exports = {
       // the line below with these two lines if you prefer the stock client:
       // require.resolve('webpack-dev-server/client') + '?/',
       // require.resolve('webpack/hot/dev-server'),
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      // require.resolve('react-dev-utils/webpackHotDevClient'),
       // We ship a few polyfills by default:
       require.resolve('./polyfills'),
       // Errors should be considered fatal in development
