@@ -135,11 +135,16 @@ class App extends React.Component {
       c.findInPage(findInPageText, { forward: true });
     }
 
+    // https://github.com/electron/electron/issues/5110#issuecomment-208991872
     if (prevProps.activeTabId !== activeTabId) {
       if (this.webViews[prevProps.activeTabId]) {
-        this.webViews[prevProps.activeTabId].c.style.display = 'none';
+        this.webViews[prevProps.activeTabId].c.style.flex = '0 1';
+        this.webViews[prevProps.activeTabId].c.style.width = '0';
+        this.webViews[prevProps.activeTabId].c.style.height = '0';
       }
-      this.webViews[activeTabId].c.style.display = null;
+      this.webViews[activeTabId].c.style.flex = null;
+      this.webViews[activeTabId].c.style.width = '100%';
+      this.webViews[activeTabId].c.style.height = '100%';
     }
   }
 
@@ -356,7 +361,11 @@ class App extends React.Component {
                 key={tab.get('id')}
                 ref={(c) => { this.webViews[tab.get('id')] = c; }}
                 src={rememberLastPage ? (tab.get('lastUrl') || customHome || window.shellInfo.url) : (customHome || window.shellInfo.url)}
-                style={{ height: '100%', width: '100%', display: !tab.get('isActive') ? 'none' : null }}
+                style={{
+                  height: !tab.get('isActive') ? 0 : '100%',
+                  width: !tab.get('isActive') ? 0 : '100%',
+                  flex: !tab.get('isActive') ? '0 1' : null,
+                }}
                 className="webview"
                 plugins
                 allowpopups
