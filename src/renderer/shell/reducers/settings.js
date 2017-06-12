@@ -21,7 +21,7 @@ const settings = (state = initialState, action) => {
       return state.set('isOpen', !state.get('isOpen'));
     }
     case SET_BEHAVIOR: {
-      return state.setIn(['behaviors', action.behaviorName], action.behaviorVal);
+      return state.set(action.behaviorName, action.behaviorVal);
     }
     default:
       return state;
