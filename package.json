@@ -4,6 +4,7 @@
   "description": "WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.",
   "main": "app/index.js",
   "scripts": {
+    "postinstall": "install-app-deps && node src/main/libs/adblock/updateEasyList.js",
     "start": "yarn start.store",
     "start.dev": "yarn start.store.dev",
     "start.store.dev": "electron . --development=true",
