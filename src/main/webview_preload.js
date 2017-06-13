@@ -9,32 +9,6 @@ window.onload = () => {
 
   document.title = shellInfo.name;
 
-  const injectedJS = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.injectedJS`, null);
-  if (injectedJS && injectedJS.trim().length > 0) {
-    try {
-      const node = document.createElement('script');
-      node.innerHTML = injectedJS;
-      document.body.appendChild(node);
-    } catch (err) {
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
-    }
-  }
-
-  const injectedCSS = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.injectedCSS`, null);
-  if (injectedCSS && injectedCSS.trim().length > 0) {
-    try {
-      const node = document.createElement('style');
-      node.innerHTML = injectedCSS;
-      document.body.appendChild(node);
-    } catch (err) {
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
-    }
-  }
-
   // Inspect element
   // Importing this adds a right-click menu with 'Inspect Element' option
   let rightClickPosition = null;
@@ -68,9 +42,35 @@ window.onload = () => {
     },
   }));
 
-  window.addEventListener('contextmenu', (e) => {
+  window.oncontextmenu = (e) => {
     e.preventDefault();
     rightClickPosition = { x: e.x, y: e.y };
     menu.popup(remote.getCurrentWindow());
-  }, false);
+  };
+
+  const injectedJS = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.injectedJS`, null);
+  if (injectedJS && injectedJS.trim().length > 0) {
+    try {
+      const node = document.createElement('script');
+      node.innerHTML = injectedJS;
+      document.body.appendChild(node);
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    }
+  }
+
+  const injectedCSS = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.injectedCSS`, null);
+  if (injectedCSS && injectedCSS.trim().length > 0) {
+    try {
+      const node = document.createElement('style');
+      node.innerHTML = injectedCSS;
+      document.body.appendChild(node);
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    }
+  }
 };
