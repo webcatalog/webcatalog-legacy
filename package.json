@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "6.0.0-beta",
+  "version": "6.0.0-beta.2",
   "description": "WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.",
   "main": "app/index.js",
   "scripts": {

@@ -1,3 +1,8 @@
+## 6.0.0-beta.2
+- Fixes bugs.
+
+---
+
 ## 6.0.0-beta
 - Adds connection error notice.
 - Disables nodeIntegration in renderer to improve security.
