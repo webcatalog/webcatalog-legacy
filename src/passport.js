@@ -4,10 +4,9 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import bcrypt from 'bcryptjs';
 
 import User from './models/User';
-
-import generateHashAsync from './libs/generateHashAsync';
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -138,16 +137,19 @@ passport.use(new LocalStrategy(
   {
     usernameField: 'email',
     passwordField: 'password',
-    session: false,
   },
-  (email, password, done) => {
+  (email, password, cb) => {
     User.findOne({ email })
       .then((user) => {
-        if (!user) { return done(null, false); }
-        if (!user.verifyPassword(password)) { return done(null, false); }
-        return done(null, user);
+        if (!user) { return cb(null, false); }
+
+        return bcrypt.compare(password, user.password).then((isValid) => {
+          if (isValid === true) return cb(null, user);
+
+          return cb(null, false);
+        });
       })
-      .catch(done);
+      .catch(cb);
   },
 ));
 

@@ -11,13 +11,13 @@
 
           <hr>
 
-          <% if (locals.loginErr) { %>
+          <% if (locals.emailError) { %>
           <div class="notification is-danger">
-            <%= loginErr %>
+            <%= emailError %>
           </div>
           <% } %>
 
-          <form action="/auth" method="post">
+          <form action="/auth/sign-up" method="post">
             <p class="control">
               <input class="input" type="email" required placeholder="Email" name="email" value="<% if (locals.email) { %><%= email %><% } %>">
             </p>
@@ -26,19 +26,15 @@
               <input class="input" type="password" pattern=".{6,}" title="Password must have at least 6 characters" required placeholder="Password" name="password">
             </p>
 
-            <p class="control">
+            <p>
               <button class="button" type="submit">
-                <span>Sign in</span>
+                <span>Create My Account</span>
               </button>
             </p>
           </form>
 
           <p class="content is-small">
-            Don't have an account? <a href="/auth/sign-up">Join for free</a>
-          </p>
-
-          <p class="content is-small">
-            <a href="/auth/reset-password">Forgot password?</a>
+            Have an account? <a href="/auth">Sign in</a>
           </p>
 
           <hr>
@@ -48,7 +44,7 @@
               <span class="icon">
                 <i class="fa fa-google"></i>
               </span>
-              <span>Sign in with Google</span>
+              <span>Sign up with Google</span>
             </a>
           </p>
 
@@ -57,7 +53,7 @@
               <span class="icon">
                 <i class="fa fa-facebook-official"></i>
               </span>
-              <span>Sign in with Facebook</span>
+              <span>Sign up with Facebook</span>
             </a>
           </p>
 
@@ -66,7 +62,7 @@
               <span class="icon">
                 <i class="fa fa-twitter"></i>
               </span>
-              <span>Sign in with Twitter</span>
+              <span>Sign up with Twitter</span>
             </a>
           </p>
         </div>

@@ -2,7 +2,7 @@
 <script>
   window.intercomSettings = {
     app_id: "rzjr1fun"<% if (user) { %>,
-    <% if (user.displayName) { %>name: "<%= user.displayName %>"<% } %>,
+    <% if (user.displayName) { %>name: "<%= user.displayName %>",<% } %>
     email: "<%= user.email %>",
     user_id: "<%= user.id %>",
     signed_up_at: <%= Math.floor(new Date(user.createdAt).getTime() / 1000) %>,

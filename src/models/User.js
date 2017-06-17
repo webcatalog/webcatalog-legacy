@@ -32,8 +32,9 @@ const User = sequelize.define('user', {
   password: {
     type: Sequelize.STRING,
   },
-  salt: {
-    type: Sequelize.STRING,
+  verified: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: () => true,
   },
 });
 

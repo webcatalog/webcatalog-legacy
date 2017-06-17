@@ -6,6 +6,7 @@ import session from 'express-session';
 import accepts from 'accepts';
 import connectSessionSequelize from 'connect-session-sequelize';
 import { SecureMode } from 'intercom-client';
+import md5 from 'md5';
 
 import passport from './passport';
 import sequelize from './sequelize';
@@ -38,6 +39,12 @@ app.use(session({
   }),
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 month
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,7 +65,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use((req, res, next) => {
   res.locals.isProduction = (process.env.NODE_ENV === 'production');
   res.locals.path = req.path;
+
+  if (req.user && !req.user.profilePicture) {
+    const gravatarHash = md5(req.user.email.trim().toLowerCase());
+    req.user.profilePicture = `https://www.gravatar.com/avatar/${gravatarHash}.jpg?s=64`;
+  }
   res.locals.user = req.user;
+
   res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
 
   if (req.user) {
