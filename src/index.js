@@ -25,7 +25,9 @@ app.use(sassMiddleware({
   indentedSyntax: true,
   prefix: '/public',
 }));
-app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: '30days' }));
+
+// app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: '30days' }));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // passport
 const SequelizeStore = connectSessionSequelize(session.Store);
