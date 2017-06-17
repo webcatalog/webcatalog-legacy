@@ -1,52 +1,34 @@
 <% include ../partials/header %>
+<% include ../partials/search %>
 
 <section class="section apps">
   <div class="container">
-    <nav class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <h1 class="title ">
-            <a href="/apps">WebCatalog Store</a>
-          </h1>
-        </div>
-      </div>
-      <div class="level-right">
-        <div class="level-item">
-          <form class="field is-pulled-right" action="/apps/search">
-            <p class="control">
-              <input class="input" type="text" placeholder="Search..." name="query">
-            </p>
-          </form>
-        </div>
-      </div>
-    </nav>
-    <hr>
     <% if (apps) { %>
     <h1 class="title is-3 has-text-centered">Results for <b><%= searchQuery %></b></h1>
     <div class="columns">
       <div class="column">
         <div class="columns is-multiline">
           <% apps.forEach(function (app) { %>
-          <div class="column is-one-third-tablet is-one-quarter-desktop">
-            <div class="card app">
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
-                      <figure class="image is-64x64 app-icon">
-                        <picture>
-                          <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
-                          <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
-                          <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
-                        </picture>
-                      </figure>
-                    </a>
-                    <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
+            <div class="column is-half-tablet is-one-quarter-desktop">
+              <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
+                <div class="card app">
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <figure class="image is-64x64 app-icon">
+                          <picture>
+                            <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
+                            <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
+                            <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
+                          </picture>
+                        </figure>
+                        <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
-          </div>
           <% }) %>
         </div>
         <nav class="pagination is-centered">

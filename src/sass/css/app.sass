@@ -8,10 +8,23 @@ $red: #D32F2F
 $turquoise: #00796B
 $yellow: #FBC02D
 
+$primary: $blue
+
+// Use the new serif family
+$family-primary: "Roboto", san-serif
+
 @import "../../../node_modules/bulma/bulma"
+
+$paper_1: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px
+
+body, .section
+  background-color: #F5F5F5
 
 .hero.error
   min-height: 100vh
+
+.hero .nav
+  box-shadow: none !important
 
 .nav-item
   &.logo
@@ -27,8 +40,12 @@ $yellow: #FBC02D
       border-radius: 16px
 
 .footer
-  background-color: whitesmoke
+  background-color: $blue
   padding: 40px 20px 80px
+  p, a
+    color: #fff !important
+  a:hover
+    text-decoration: underline
   ul.footer-items
     list-style-type: none
     +tablet
@@ -40,31 +57,15 @@ $yellow: #FBC02D
         margin-right: 16px
         margin: 0 16px 0 0
         padding: 0
-      a
-        color: $green !important
 
 
 .intro
-  text-align: center
-  &.intro-mac
-    +desktop
-      background-image: url(/public/images/screenshot_mac.png)
-  &.intro-windows
-    +desktop
-      background-image: url(/public/images/screenshot_windows.png)
-  &.intro-linux
-    +desktop
-      background-image: url(/public/images/screenshot_linux.png)
-  +desktop
-    text-align: left
-    background-size: 600px
-    background-repeat: no-repeat
-    background-position-x: calc(100vw - 450px)
-    background-position-y: 3em
-  +widescreen
-    background-position-x: calc((100vw - 1152px) / 2 + 552px)
-  +fullhd
-    background-position-x: calc((100vw - 1344px) / 2 + 744px)
+  min-height: calc(100vh - 256px)
+  display: flex
+  align-items: center
+  justify-content: center
+  .title
+    margin-top: 64px
   .download-button
     margin-top: 6px
     margin-bottom: 6px
@@ -132,17 +133,17 @@ $yellow: #FBC02D
     display: flex
     align-items: center
     justify-content: center
-    background-color: $blue
   hr
     margin-top: 0.5em
   .box
+    box-shadow: $paper_1
     +mobile
       box-shadow: none
     +tablet
-      width: 448px
+      width: 320px
     .logo img
       height: 56px
-  .button.oauth-button
+  .button
     width: 260px
     &.google-button
       background-color: #dd4b39
@@ -150,6 +151,49 @@ $yellow: #FBC02D
       background-color: #3b5998
     &.twitter-button
       background-color: #1da1f2
+  .control
+    width: 260px
+    margin: 0 auto
+  p
+
 
 .category
   text-transform: capitalize
+
+.hero-head
+  box-shadow: $paper_1
+
+.hero.is-info .nav
+  box-shadow: none
+  height: 64px
+
+.nav-toggle
+  height: 64px
+  width: 64px
+
+.title
+  font-weight: 400
+
+.screenshot
+  max-width: 640px
+  @media screen and (max-width: 640px)
+    max-width: 100%
+
+.button, .message, .card
+  transition: box-shadow 0.3s ease-in-out
+  &:hover
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px
+
+.message, .pagination-previous, .pagination-next, .pagination-link, .pagination-ellipsis
+  background-color: #fff
+
+.search-box
+  background: rgba(255, 255, 255, 0.2)
+  border: none
+  font-size: 16px
+  height: 42px
+  color: #fff !important
+  text-align: center
+  color: #fff
+  &::placeholder
+    color: rgba(255, 255, 255, 0.6)

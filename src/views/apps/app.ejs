@@ -1,4 +1,5 @@
 <% include ../partials/header %>
+<% include ../partials/search %>
 
 <section class="section app">
   <div class="container">
@@ -12,15 +13,6 @@
             <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
             <% } %>
           </h1>
-        </div>
-      </div>
-      <div class="level-right">
-        <div class="level-item">
-          <form class="field is-pulled-right" action="/apps/search">
-            <p class="control">
-              <input class="input" type="text" placeholder="Search..." name="query">
-            </p>
-          </form>
         </div>
       </div>
     </nav>

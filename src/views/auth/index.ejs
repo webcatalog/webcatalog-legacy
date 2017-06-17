@@ -11,8 +11,32 @@
 
           <hr>
 
+          <p class="control">
+            <input class="input" type="text" placeholder="Email">
+          </p>
+
+          <p class="control">
+            <input class="input" type="text" placeholder="Password">
+          </p>
+
           <p>
-            <a class="button is-danger is-medium oauth-button google-button" href="/auth/google">
+            <button class="button" type="submit">
+              <span>Sign in</span>
+            </button>
+          </p>
+
+          <p class="content is-small">
+            Don't have an account? <a href="/auth/signup">Join for free</a>
+          </p>
+
+          <p class="content is-small">
+            <a href="/auth/resetpassword">Forgot password?</a>
+          </p>
+
+          <hr>
+
+          <p>
+            <a class="button is-danger oauth-button google-button" href="/auth/google">
               <span class="icon">
                 <i class="fa fa-google"></i>
               </span>
@@ -21,7 +45,7 @@
           </p>
 
           <p>
-            <a class="button is-info is-medium oauth-button facebook-button" href="/auth/facebook">
+            <a class="button is-info oauth-button facebook-button" href="/auth/facebook">
               <span class="icon">
                 <i class="fa fa-facebook-official"></i>
               </span>
@@ -30,7 +54,7 @@
           </p>
 
           <p>
-            <a class="button is-info is-medium oauth-button twitter-button" href="/auth/twitter">
+            <a class="button is-info oauth-button twitter-button" href="/auth/twitter">
               <span class="icon">
                 <i class="fa fa-twitter"></i>
               </span>

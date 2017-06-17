@@ -2,7 +2,7 @@
 
 <section class="hero is-info">
   <div class="hero-body intro intro-<%= platform %>">
-    <div class="container">
+    <div class="container has-text-centered">
       <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
       </h1>
       <p class="subtitle" style="margin-top: -1em">
@@ -15,13 +15,17 @@
         <span>&nbsp;Download for macOS</span>
       </a>
       <% } else if (platform === "linux") { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
         <i class="fa fa-linux"></i>
         <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
       </a><br/>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
+      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
         <i class="fa fa-linux"></i>
         <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
+      </a><br/>
+      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-linux"></i>
+        <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
       </a>
       <% } else { %>
       <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
@@ -51,6 +55,14 @@
           Looking for the <a href="/downloads/mac">Mac</a> or <a href="/downloads/linux">Linux</a> desktop apps?
         <% } %>
       </p>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-info">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <img class="screenshot" src="/public/images/screenshot_mac.png" />
     </div>
   </div>
 </section>

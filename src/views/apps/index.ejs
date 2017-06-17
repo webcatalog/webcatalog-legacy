@@ -1,11 +1,12 @@
 <% include ../partials/header %>
+<% include ../partials/search %>
 
 <section class="section apps">
   <div class="container">
     <nav class="level">
       <div class="level-left">
         <div class="level-item">
-          <h1 class="title ">
+          <h1 class="title">
             <a href="/apps">WebCatalog Store</a>
             <% if (category) { %>
             <span> > </span>
@@ -16,9 +17,15 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <form class="field is-pulled-right" action="/apps/search">
+          <form class="field" action="/apps<% if (category) { %>/category/<%= category %><% } %>">
             <p class="control">
-              <input class="input" type="text" placeholder="Search..." name="query">
+              <span class="select">
+                <select name="sort" onchange="this.form.submit()">
+                  <option value="installCount" <% if (sort === 'installCount') { %>selected="selected"<% } %>>Most Downloaded</option>
+                  <option value="name" <% if (sort === 'name') { %>selected="selected"<% } %>>Name</option>
+                  <option value="createdAt" <% if (sort === 'createdAt') { %>selected="selected"<% } %>>Recently Added</option>
+                </select>
+              </span>
             </p>
           </form>
         </div>
@@ -42,25 +49,14 @@
         </aside>
       </div>
       <div class="column">
-        <form class="field" action="/apps<% if (category) { %>/category/<%= category %><% } %>">
-          <p class="control">
-            <span class="select">
-              <select name="sort" onchange="this.form.submit()">
-                <option value="installCount" <% if (sort === 'installCount') { %>selected="selected"<% } %>>Most Downloaded</option>
-                <option value="name" <% if (sort === 'name') { %>selected="selected"<% } %>>Name</option>
-                <option value="createdAt" <% if (sort === 'createdAt') { %>selected="selected"<% } %>>Recently Added</option>
-              </select>
-            </span>
-          </p>
-        </form>
         <div class="columns is-multiline">
           <% apps.forEach(function (app) { %>
           <div class="column is-half-tablet is-one-third-desktop">
-            <div class="card app">
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
+            <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
+              <div class="card app">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
                       <figure class="image is-64x64 app-icon">
                         <picture>
                           <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
@@ -68,12 +64,12 @@
                           <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
                         </picture>
                       </figure>
-                    </a>
-                    <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
+                      <p class="title is-5 has-text-centered"><a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a></p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
           <% }) %>
         </div>
