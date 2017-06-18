@@ -50,7 +50,16 @@ authRouter.post('/',
   beforeAuthMiddleware,
   (req, res, next) => {
     passport.authenticate('local', (err, user) => {
-      if (err) { return next(err); }
+      if (err) {
+        if (err.message === 'NO_PASSWORD') {
+          return res.render('auth/index', {
+            title: 'Sign in to WebCatalog',
+            email: req.body.email,
+            loginErr: 'You haven\'t set up a WebCatalog password yet.',
+          });
+        }
+        return next(err);
+      }
 
       if (!user) {
         return res.render('auth/index', {

@@ -23,9 +23,6 @@ body, .section
 .hero.error
   min-height: 100vh
 
-.hero .nav
-  box-shadow: none !important
-
 .nav-item
   &.logo
     padding-top: 0
@@ -128,8 +125,9 @@ body, .section
 
 .auth
   +tablet
-    height: 100vh
+    min-height: 100vh
     width: 100vw
+    padding: 12px 0
     display: flex
     align-items: center
     justify-content: center
@@ -167,9 +165,10 @@ body, .section
 .hero-head
   box-shadow: $paper_1
 
-.hero.is-info .nav
+.hero .nav
   box-shadow: none
   height: 64px
+  box-shadow: none !important
 
 .nav-toggle
   height: 64px

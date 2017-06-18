@@ -109,19 +109,19 @@ app.use((err, req, res, next) => {
   switch (accept.type(['json', 'html'])) {
     case 'json': {
       if (err.message === '404') {
-        return res.status(404).json({ errors: [{ status: '404', title: 'Page Not Found' }] });
+        return res.status(404).json({ errors: [{ status: '404', errorMessage: 'Page Not Found' }] });
       }
 
       console.log(err);
-      return res.status(500).json({ errors: [{ status: '500', title: 'Internal Server Error' }] });
+      return res.status(500).json({ errors: [{ status: '500', errorMessage: 'Internal Server Error' }] });
     }
     default: {
       if (err.message === '404') {
-        return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+        return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found', title: '404 - Page Not Found' });
       }
 
       console.log(err);
-      return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error' });
+      return res.status(500).render('error', { errorCode: 500, errorMessage: 'Internal Server Error', title: '500 - Internal Server Error' });
     }
   }
 });
@@ -131,10 +131,10 @@ app.use((req, res) => {
 
   switch (accept.type(['json', 'html'])) {
     case 'json': {
-      return res.status(404).json({ errors: [{ status: '404', title: 'Page Not Found' }] });
+      return res.status(404).json({ errors: [{ status: '404', errorMessage: 'Page Not Found' }] });
     }
     default: {
-      return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found' });
+      return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found', title: '404 - Page Not Found' });
     }
   }
 });
