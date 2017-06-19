@@ -18,7 +18,7 @@
   "dependencies": {
     "accepts": "^1.3.3",
     "algoliasearch": "^3.22.1",
-    "aws-sdk": "^2.45.0",
+    "aws-sdk": "^2.72.0",
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2016": "^6.24.1",
@@ -36,6 +36,7 @@
     "multer": "^1.3.0",
     "node-fetch": "^1.6.3",
     "node-sass-middleware": "^0.11.0",
+    "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",

@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+import aws from 'aws-sdk';
 import S3 from 'aws-sdk/clients/s3';
 import express from 'express';
 
@@ -29,7 +29,7 @@ s3Route.get('/:name.:ext', (req, res, next) => {
       res.setHeader('Content-Length', data.ContentLength);
       res.setHeader('ETag', data.ETag);
       res.setHeader('Content-Type', data.ContentType);
-      const imgStream = AWS.util.buffer.toStream(data.Body);
+      const imgStream = aws.util.buffer.toStream(data.Body);
       imgStream.pipe(res);
     }
   });
