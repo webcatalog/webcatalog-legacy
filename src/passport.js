@@ -139,7 +139,7 @@ passport.use(new LocalStrategy(
     passwordField: 'password',
   },
   (email, password, cb) => {
-    User.findOne({ email })
+    User.findOne({ where: { email } })
       .then((user) => {
         if (!user) { return cb(null, false); }
 
