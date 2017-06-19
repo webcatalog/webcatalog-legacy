@@ -68,8 +68,9 @@ if (!isShell) {
 
     // Handle the response
     authWindow.webContents.on('did-stop-loading', () => {
-      if (/^.*(auth\/(google|facebook|twitter)\/callback\?).*$/.exec(authWindow.webContents.getURL())) {
-        e.sender.send('token', authWindow.webContents.getTitle());
+      const title = authWindow.webContents.getTitle();
+      if (title.length === 233) {
+        e.sender.send('token', title);
         authWindow.destroy();
       }
     });
@@ -183,7 +184,7 @@ const createWindow = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minWidth: 500,
-    minHeight: 400,
+    minHeight: isShell ? 400 : 600,
     title: argv.name || 'WebCatalog',
     titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
     frame: true,
