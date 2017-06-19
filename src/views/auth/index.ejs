@@ -17,7 +17,7 @@
           </div>
           <% } %>
 
-          <form action="/auth" method="post">
+          <form method="post">
             <p class="control">
               <input class="input" type="email" required placeholder="Email" name="email" value="<% if (locals.email) { %><%= email %><% } %>">
             </p>

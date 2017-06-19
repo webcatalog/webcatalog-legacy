@@ -162,13 +162,13 @@ body, .section
 .category
   text-transform: capitalize
 
-.hero-head
-  box-shadow: $paper_1
-
-.hero .nav
-  box-shadow: none
-  height: 64px
-  box-shadow: none !important
+.hero.top-nav
+  .hero-head
+    box-shadow: $paper_1
+  .nav
+    box-shadow: none
+    height: 64px
+    box-shadow: none !important
 
 .nav-toggle
   height: 64px
@@ -200,3 +200,8 @@ body, .section
   color: #fff
   &::placeholder
     color: rgba(255, 255, 255, 0.6)
+
+.verify-email
+  padding: 12px 0
+  a:hover
+    text-decoration: underline

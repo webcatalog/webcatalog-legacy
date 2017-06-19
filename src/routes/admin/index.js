@@ -106,13 +106,13 @@ adminRouter.get('/add', ensureIsAdmin, (req, res) => {
   res.render('admin/add', { title: 'Add New App', categories });
 });
 
-adminRouter.get('/edit/id:id', (req, res, next) => {
+adminRouter.get('/edit/id:id', ensureIsAdmin, (req, res, next) => {
   App.findById(req.params.id)
     .then(app => res.render('admin/edit', { title: `Edit ${app.name}`, categories, app }))
     .catch(next);
 });
 
-adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
+adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
   if (!req.body) return next(new Error('Request is not valid.'));
 
   if (!req.body.name || !req.body.url || !req.body.category) {
@@ -161,7 +161,7 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
       .catch(next);
 });
 
-adminRouter.post('/add', upload.single('icon'), (req, res, next) => {
+adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file) return next(new Error('Request is not valid.'));
 
   if (!req.body.name || !req.body.url || !req.body.category) {

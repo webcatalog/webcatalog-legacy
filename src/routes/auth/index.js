@@ -2,9 +2,11 @@ import express from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 import User from '../../models/User';
 import isEmail from '../../libs/isEmail';
+import ensureLoggedIn from '../../middlewares/ensureLoggedIn';
 
 const authRouter = express.Router();
 
@@ -107,7 +109,7 @@ authRouter.post('/sign-up', beforeAuthMiddleware, (req, res, next) => {
           User.create({
             email: req.body.email,
             password: hash,
-            verified: false,
+            isVerified: false,
           }),
         )
         .then(createdUser => new Promise((resolve, reject) => {
@@ -123,6 +125,144 @@ authRouter.post('/sign-up', beforeAuthMiddleware, (req, res, next) => {
     })
     .catch(next);
 }, afterAuthMiddleware);
+
+authRouter.get('/reset-password', beforeAuthMiddleware, (req, res) => {
+  res.render('auth/reset-password-request', { title: 'Reset Password' });
+});
+
+authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
+  if (!req.body) return next(new Error('Request is not valid.'));
+
+  if (!req.body.email || !isEmail(req.body.email)) {
+    return next(new Error('Request is not valid.'));
+  }
+
+  return User.findOne({ where: { email: req.body.email } })
+    .then((user) => {
+      if (user) {
+        return crypto.randomBytes(20, (err, buf) => {
+          if (err) {
+            return next(err);
+          }
+
+          const token = buf.toString('hex');
+
+          return user.updateAttributes({
+            resetPasswordToken: token,
+            resetPasswordExpires: Date.now() + (3600000 * 7), // 7 days,
+          })
+          .then(() => res.render('auth/info', {
+            title: 'Reset Password',
+            infoMessage: `An e-mail has been sent to ${req.body.email} with instructions on resetting your password.`,
+          }));
+        });
+      }
+
+      return res.render('auth/reset-password-request', {
+        title: 'Reset Password',
+        emailError: 'The email you provided is not associated with an active WebCatalog account.',
+      });
+    });
+});
+
+authRouter.get('/reset-password/:token', beforeAuthMiddleware, (req, res, next) => {
+  User.findOne({
+    where: {
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() },
+    },
+  })
+  .then((user) => {
+    if (!user) {
+      return next(new Error('Token is invalid'));
+    }
+
+    return res.render('auth/reset-password-reset', {
+      title: 'Reset Password',
+    });
+  });
+});
+
+authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next) => {
+  if (!req.body) return next(new Error('Request is not valid.'));
+
+  if (!req.body.password) {
+    return next(new Error('Request is not valid.'));
+  }
+
+  return User.findOne({
+    where: {
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() },
+    },
+  })
+  .then((user) => {
+    if (!user) {
+      return next(new Error('Token is expired or invalid.'));
+    }
+
+    return bcrypt.hash(req.body.password, 10)
+      .then(hash =>
+        user.updateAttributes({
+          password: hash,
+          resetPasswordToken: null,
+          resetPasswordExpires: null, // 7 days,
+        }),
+      )
+      .then(() => new Promise((resolve, reject) => {
+        req.logIn(user, (loginErr) => {
+          if (loginErr) {
+            reject(loginErr);
+            return;
+          }
+          resolve();
+        });
+      }))
+      .then(() => next());
+  })
+  .catch(next);
+}, afterAuthMiddleware);
+
+authRouter.get('/verify', ensureLoggedIn, (req, res, next) => {
+  crypto.randomBytes(20, (err, buf) => {
+    if (err) {
+      return next(err);
+    }
+
+    const token = buf.toString('hex');
+
+    return req.user.updateAttributes({
+      verifyToken: token,
+    })
+    .then(() => res.render('auth/info', {
+      title: 'Verify Email',
+      infoMessage: `An e-mail has been sent to ${req.user.email} with instructions on verifying your account.`,
+    }))
+    .catch(next);
+  });
+});
+
+authRouter.get('/verify/:token', beforeAuthMiddleware, (req, res, next) => {
+  User.findOne({
+    where: {
+      verifyToken: req.params.token,
+    },
+  })
+  .then((user) => {
+    if (!user) {
+      return next(new Error('Token is invalid.'));
+    }
+
+    return user.updateAttributes({
+      isVerified: true,
+    })
+    .then(() => res.render('auth/info', {
+      title: 'Verify Email',
+      infoMessage: 'Congrats! Your account is now verified.',
+    }));
+  })
+  .catch(next);
+});
 
 authRouter.get('/google',
   beforeAuthMiddleware,

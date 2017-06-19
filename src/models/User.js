@@ -32,9 +32,18 @@ const User = sequelize.define('user', {
   password: {
     type: Sequelize.STRING,
   },
-  verified: {
+  isVerified: {
     type: Sequelize.BOOLEAN,
     defaultValue: () => true,
+  },
+  resetPasswordToken: {
+    type: Sequelize.STRING,
+  },
+  resetPasswordExpires: {
+    type: Sequelize.DATE,
+  },
+  verifyToken: {
+    type: Sequelize.STRING,
   },
 });
 

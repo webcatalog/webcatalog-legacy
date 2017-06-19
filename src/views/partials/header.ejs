@@ -1,6 +1,17 @@
 <% include ./head %>
 
-<section class="hero is-info">
+<% if (user && !user.isVerified) { %>
+<section class="hero is-danger verify-email">
+  <div class="hero-head">
+    <div class="container has-text-centered">
+      Your account is not verified. Please check your email for further instructions.
+      (<a href="/auth/verify">Resend verification email</a>)
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="hero is-info top-nav">
   <div class="hero-head">
     <div class="container">
       <nav class="nav">
