@@ -8,27 +8,9 @@
     <div class="columns">
       <div class="column">
         <div class="columns is-multiline">
+          <% var appCardClassName = "is-half-tablet is-one-quarter-desktop" %>
           <% apps.forEach(function (app) { %>
-            <div class="column is-half-tablet is-one-quarter-desktop">
-              <a href="/apps/details/<%= app.slug %>/<%= app.id %>">
-                <div class="card app">
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-content">
-                        <figure class="image is-64x64 app-icon">
-                          <picture>
-                            <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
-                            <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
-                            <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
-                          </picture>
-                        </figure>
-                        <p class="title is-5 has-text-centered"><%= app.name %></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
+          <% include ../partials/app-card %>
           <% }) %>
         </div>
         <nav class="pagination is-centered">
