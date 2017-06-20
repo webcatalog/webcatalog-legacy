@@ -18,7 +18,7 @@ const Settings = ({
     className="settings-dialog"
   >
     <div className="pt-dialog-body">
-      {(process.platform === 'darwin') ? (
+      {(process.env.PLATFORM === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -39,7 +39,7 @@ const Settings = ({
         </div>
       ) : null}
 
-      {(process.platform === 'darwin') ? (
+      {(process.env.PLATFORM === 'darwin') ? (
         <div className="pt-form-group">
           <div className="pt-form-content">
             <Switch
@@ -165,7 +165,7 @@ const Settings = ({
             <a
               onClick={() => {
                 let val;
-                switch (process.platform) {
+                switch (process.env.PLATFORM) {
                   case 'win32':
                     val = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
                     break;
@@ -184,7 +184,7 @@ const Settings = ({
             <a
               onClick={() => {
                 let val;
-                switch (process.platform) {
+                switch (process.env.PLATFORM) {
                   case 'win32':
                     val = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0';
                     break;
@@ -277,14 +277,14 @@ Settings.propTypes = {
 
 const mapStateToProps = state => ({
   isOpen: state.settings.get('isOpen'),
-  swipeToNavigate: state.settings.getIn(['behaviors', 'swipeToNavigate']),
-  rememberLastPage: state.settings.getIn(['behaviors', 'rememberLastPage']),
-  quitOnLastWindow: state.settings.getIn(['behaviors', 'quitOnLastWindow']),
-  blockAds: state.settings.getIn(['behaviors', 'blockAds']),
-  customHome: state.settings.getIn(['behaviors', 'customHome']),
-  injectedCSS: state.settings.getIn(['behaviors', 'injectedCSS']),
-  injectedJS: state.settings.getIn(['behaviors', 'injectedJS']),
-  customUserAgent: state.settings.getIn(['behaviors', 'customUserAgent']),
+  swipeToNavigate: state.settings.get('swipeToNavigate'),
+  rememberLastPage: state.settings.get('rememberLastPage'),
+  quitOnLastWindow: state.settings.get('quitOnLastWindow'),
+  blockAds: state.settings.get('blockAds'),
+  customHome: state.settings.get('customHome'),
+  injectedCSS: state.settings.get('injectedCSS'),
+  injectedJS: state.settings.get('injectedJS'),
+  customUserAgent: state.settings.get('customUserAgent'),
 });
 
 const mapDispatchToProps = dispatch => ({

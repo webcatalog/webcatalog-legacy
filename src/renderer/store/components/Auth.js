@@ -1,21 +1,39 @@
 import React from 'react';
 import { NonIdealState } from '@blueprintjs/core';
-import { ipcRenderer } from 'electron';
 
 /* esint-disabled */
 
 const Auth = () => (
-  <div style={{ flex: 1, WebkitUserSelect: 'none', WebkitAppRegion: 'drag' }}>
+  <div style={{ flex: 1, WebkitUserSelect: 'none', WebkitAppRegion: 'drag', textAlign: 'center' }}>
     <NonIdealState
       visual={<img src="images/logo.png" alt="WebCatalog" style={{ height: 64 }} />}
       title="Sign in to Continue"
       description="We do not sell or share your information with anyone else."
       action={[
         <button
+          key="local"
+          type="button"
+          className="pt-button pt-large"
+          style={{ width: 250, display: 'block', margin: '15px auto 0 auto' }}
+          onClick={() => ipcRenderer.send('sign-in', '')}
+        >
+          <span
+            className="pt-icon-standard pt-icon-lock"
+            style={{
+              float: 'left',
+              fontSize: 20,
+              fill: '#fff',
+              marginTop: 10,
+              marginRight: 10,
+            }}
+          />
+          Sign in with Email
+        </button>,
+        <button
           key="google"
           type="button"
           className="pt-button pt-intent-danger pt-large"
-          style={{ width: 250, display: 'block', backgroundColor: '#dd4b39', marginTop: 15 }}
+          style={{ width: 250, display: 'block', backgroundColor: '#dd4b39', margin: '10px auto 0 auto' }}
           onClick={() => ipcRenderer.send('sign-in', 'google')}
         >
           <svg
@@ -41,7 +59,7 @@ const Auth = () => (
           key="facebook"
           type="button"
           className="pt-button pt-intent-danger pt-large"
-          style={{ width: 250, display: 'block', backgroundColor: '#3b5998', marginTop: 10 }}
+          style={{ width: 250, display: 'block', backgroundColor: '#3b5998', margin: '10px auto 0 auto' }}
           onClick={() => ipcRenderer.send('sign-in', 'facebook')}
         >
           <svg
@@ -67,7 +85,7 @@ const Auth = () => (
           key="twitter"
           type="button"
           className="pt-button pt-intent-danger pt-large"
-          style={{ width: 250, display: 'block', backgroundColor: '#1da1f2', marginTop: 10 }}
+          style={{ width: 250, display: 'block', backgroundColor: '#1da1f2', margin: '10px auto 0 auto' }}
           onClick={() => ipcRenderer.send('sign-in', 'twitter')}
         >
           <svg
@@ -89,8 +107,8 @@ const Auth = () => (
           </svg>
           Sign in with Twitter
         </button>,
-        <div key="anonnymous" style={{ textAlign: 'center', padding: '10px 0' }}>
-          <a onClick={() => ipcRenderer.send('sign-in', 'anonnymous')}>Continue without Signing in</a>
+        <div key="anonnymous" style={{ padding: '10px 0' }}>
+          <a onClick={() => ipcRenderer.send('sign-in', 'anonnymous')}>Continue without Signing in (not recommended)</a>
         </div>,
       ]}
     />

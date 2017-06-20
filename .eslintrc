@@ -2,7 +2,10 @@
   "extends": "airbnb",
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "ipcRenderer": true,
+    "clipboard": true,
+    "webFrame": true,
   },
   "rules": {
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
@@ -14,5 +17,6 @@
     "react/require-default-props": [0],
     "global-require": [0],
     "max-len": [0]
-  }
+  },
+  "parser": "babel-eslint"
 }

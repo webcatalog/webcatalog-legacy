@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,7 +21,7 @@ const Nav = ({
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
       flexBasis: 50,
-      paddingLeft: (process.platform === 'darwin') ? 80 : null,
+      paddingLeft: (process.env.PLATFORM === 'darwin') ? 80 : null,
       zIndex: 1000,
     }}
   >

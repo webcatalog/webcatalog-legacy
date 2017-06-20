@@ -1,3 +1,22 @@
+## 6.0.0-beta.3
+- Fixes bugs.
+- Adds option to sign in with email.
+
+---
+
+## 6.0.0-beta.2
+- Fixes bugs.
+
+---
+
+## 6.0.0-beta
+- Adds connection error notice.
+- Disables nodeIntegration in renderer to improve security.
+- Adds tab support #62 #87 .
+- Adds right-click menu #102.
+
+---
+
 ## 5.2.1
 - Fixes bugs.
 

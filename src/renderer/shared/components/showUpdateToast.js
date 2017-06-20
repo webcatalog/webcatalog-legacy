@@ -1,7 +1,5 @@
-import { ipcRenderer } from 'electron';
 import { Toaster, Position, Intent } from '@blueprintjs/core';
 import semver from 'semver';
-import { version as currentVersion } from '../../../../package.json';
 
 import customFetch from '../libs/customFetch';
 
@@ -10,15 +8,6 @@ import customFetch from '../libs/customFetch';
 
 const showUpdateToast = () =>
   customFetch('https://api.github.com/repos/webcatalog/webcatalog/releases/latest')
-    .then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      }
-
-      const error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    })
     .then(response => response.json())
     .then(({ tag_name }) => {
       const latestVersion = tag_name.substring(1);
@@ -27,7 +16,7 @@ const showUpdateToast = () =>
       console.log(`Latest version: ${latestVersion}`);
       /* eslint-enable no-console */
 
-      if (semver.gte(currentVersion, latestVersion)) return;
+      if (semver.gte(process.env.VERSION, latestVersion)) return;
 
       const toaster = Toaster.create({
         position: Position.BOTTOM_LEFT,

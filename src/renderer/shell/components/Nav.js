@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -26,8 +25,9 @@ const Nav = ({
       display: 'flex',
       WebkitUserSelect: 'none',
       WebkitAppRegion: 'drag',
-      paddingLeft: process.platform === 'darwin' ? 80 : null,
-      backgroundColor: '#CED9E0',
+      paddingLeft: process.env.PLATFORM === 'darwin' ? 80 : null,
+      backgroundColor: '#e8e6e8',
+      backgroundImage: 'linear-gradient(to bottom,#e8e6e8 0,#d1cfd1 100%)',
       height: NAV_HEIGHT,
     }}
   >
@@ -125,8 +125,8 @@ Nav.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state.nav.get('isLoading'),
-  canGoBack: state.nav.get('canGoBack'),
-  canGoForward: state.nav.get('canGoForward'),
+  canGoBack: Boolean(state.tabs.get('list').find(tab => tab.get('isActive')).get('canGoBack')),
+  canGoForward: Boolean(state.tabs.get('list').find(tab => tab.get('isActive')).get('canGoForward')),
 });
 
 const mapDispatchToProps = dispatch => ({

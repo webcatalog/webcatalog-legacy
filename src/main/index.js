@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
@@ -11,6 +11,7 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
 const showAboutWindow = require('./libs/showAboutWindow');
+const sendMessageToWindow = require('./libs/sendMessageToWindow');
 
 const getAllAppPath = require('./libs/appManagement/getAllAppPath');
 const getServerUrl = require('./libs/appManagement/getServerUrl');
@@ -56,7 +57,8 @@ if (!isShell) {
       height: 600,
       show: false,
       webPreferences: {
-        nodeIntegration: false,
+        // enable nodeintegration in testing mode (mainly for Spectron)
+        nodeIntegration: isTesting,
         sandbox: true,
         partition: `jwt-${Date.now()}`,
       },
@@ -67,8 +69,9 @@ if (!isShell) {
 
     // Handle the response
     authWindow.webContents.on('did-stop-loading', () => {
-      if (/^.*(auth\/(google|facebook|twitter)\/callback\?).*$/.exec(authWindow.webContents.getURL())) {
-        e.sender.send('token', authWindow.webContents.getTitle());
+      const title = authWindow.webContents.getTitle();
+      if (title.length === 233) {
+        e.sender.send('token', title);
         authWindow.destroy();
       }
     });
@@ -130,6 +133,7 @@ if (!isShell) {
       userAgent: customUserAgent || mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
       isTesting,
       isDevelopment,
+      preload: path.join(__dirname, 'webview_preload.js'),
     };
   });
 
@@ -145,6 +149,18 @@ if (!isShell) {
     clearBrowsingData({ appName: argv.name, appId: argv.id });
   });
 }
+
+ipcMain.on('clear-partition', (e, partition) => {
+  const s = session.fromPartition(partition);
+  s.clearStorageData((err) => {
+    if (err) {
+      sendMessageToWindow('log', `Clearing browsing data err: ${err.message}`);
+      return;
+    }
+    sendMessageToWindow('log', `Browsing data of partition ${partition} cleared.`);
+    sendMessageToWindow('reload');
+  });
+});
 
 ipcMain.on('show-about-window', () => showAboutWindow());
 
@@ -181,11 +197,17 @@ const createWindow = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minWidth: 500,
-    minHeight: 400,
+    minHeight: isShell ? 400 : 600,
     title: argv.name || 'WebCatalog',
     titleBarStyle: (process.platform === 'darwin') ? 'hidden' : 'default',
     frame: true,
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
+    webPreferences: {
+      // enable nodeintegration in testing mode (mainly for Spectron)
+      nodeIntegration: isTesting,
+      webviewTag: true,
+      preload: path.join(__dirname, 'main_preload.js'),
+    },
   };
 
   mainWindow = new BrowserWindow(options);
@@ -246,14 +268,33 @@ const createWindow = () => {
     });
   }
 
-  // load window
-  const windowUrl = url.format({
-    pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
-    protocol: 'file:',
-    slashes: true,
-  });
+  if (isDevelopment) {
+    const request = require('request');
 
-  mainWindow.loadURL(windowUrl);
+    const devHTMLUrl = `http://localhost:3000/${isShell ? 'shell.html' : 'store.html'}`;
+
+    const HTMLPath = path.join(app.getPath('appData'), 'tmp.html');
+
+    const HTMLUrl = url.format({
+      pathname: HTMLPath,
+      protocol: 'file:',
+      slashes: true,
+    });
+
+    request(devHTMLUrl)
+      .pipe(fs.createWriteStream(HTMLPath))
+      .on('finish', () => {
+        mainWindow.loadURL(HTMLUrl);
+      });
+  } else {
+    // load window
+    const HTMLUrl = url.format({
+      pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
+      protocol: 'file:',
+      slashes: true,
+    });
+    mainWindow.loadURL(HTMLUrl);
+  }
 };
 
 app.on('ready', createWindow);
