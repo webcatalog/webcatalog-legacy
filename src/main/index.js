@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, session } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const path = require('path');
 const url = require('url');
@@ -11,6 +11,7 @@ const windowStateKeeper = require('./libs/windowStateKeeper');
 const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
 const showAboutWindow = require('./libs/showAboutWindow');
+const sendMessageToWindow = require('./libs/sendMessageToWindow');
 
 const getAllAppPath = require('./libs/appManagement/getAllAppPath');
 const getServerUrl = require('./libs/appManagement/getServerUrl');
@@ -148,6 +149,18 @@ if (!isShell) {
     clearBrowsingData({ appName: argv.name, appId: argv.id });
   });
 }
+
+ipcMain.on('clear-partition', (e, partition) => {
+  const s = session.fromPartition(partition);
+  s.clearStorageData((err) => {
+    if (err) {
+      sendMessageToWindow('log', `Clearing browsing data err: ${err.message}`);
+      return;
+    }
+    sendMessageToWindow('log', `Browsing data of partition ${partition} cleared.`);
+    sendMessageToWindow('reload');
+  });
+});
 
 ipcMain.on('show-about-window', () => showAboutWindow());
 

@@ -10,14 +10,21 @@ const clearBrowsingData = ({ appName, appId }) => {
     message: `This will clear all data (cookies, local storage etc) from ${appName}. Are you sure you wish to proceed?`,
   }, (response) => {
     if (response === 0) {
-      const s = session.fromPartition(`persist:${appId}`);
-      s.clearStorageData((err) => {
-        if (err) {
-          sendMessageToWindow('log', `Clearing browsing data err: ${err.message}`);
-          return;
-        }
-        sendMessageToWindow('log', `Browsing data of ${appId} cleared.`);
-        sendMessageToWindow('reload');
+      const partitions = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(i =>
+        ((i === 0) ? `persist:${appId}` : `persist:${appId}_${i}`),
+      );
+
+      partitions.forEach((partition) => {
+        const s = session.fromPartition(partition);
+        if (!s) return;
+        s.clearStorageData((err) => {
+          if (err) {
+            sendMessageToWindow('log', `Clearing browsing data err: ${err.message}`);
+            return;
+          }
+          sendMessageToWindow('log', `Browsing data of ${appId} cleared.`);
+          sendMessageToWindow('reload');
+        });
       });
     }
   });

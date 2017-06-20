@@ -374,7 +374,7 @@ class App extends React.Component {
                 // enable nodeintegration in testing mode (mainly for Spectron)
                 nodeintegration={window.shellInfo.isTesting}
                 useragent={window.shellInfo.userAgent}
-                partition={`persist:${window.shellInfo.id}_${tab.get('id')}`}
+                partition={tab.get('partition')}
                 onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
                 onDidFailLoad={this.handleDidFailLoad}
                 onNewWindow={this.handleNewWindow}
