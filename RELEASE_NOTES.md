@@ -1,3 +1,9 @@
+## 6.0.0-beta.3
+- Fixes bugs.
+- Adds option to sign in with email.
+
+---
+
 ## 6.0.0-beta.2
 - Fixes bugs.
 
