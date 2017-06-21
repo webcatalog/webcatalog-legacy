@@ -21,7 +21,7 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   leftNav: {
     backgroundColor: theme.palette.background.default,
-    flexBasis: 96,
+    flexBasis: 80,
     display: 'flex',
     flexDirection: 'column',
     paddingTop: process.env.PLATFORM === 'darwin' ? theme.spacing.unit * 5 : theme.spacing.unit,
@@ -29,6 +29,8 @@ const styleSheet = createStyleSheet('App', theme => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     boxSizing: 'border-box',
+    WebkitUserSelect: 'none',
+    WebkitAppRegion: 'drag',
   },
   tabContainer: {
     flex: 1,
@@ -47,11 +49,12 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   webNavContainer: {
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   webNavIconButtonRoot: {
-    height: 36,
-    width: 36,
+    height: 28,
+    width: 28,
   },
   webNavIconButtonIcon: {
     height: 20,

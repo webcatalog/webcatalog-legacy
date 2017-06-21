@@ -43,6 +43,11 @@ const createWindow = () => {
     defaultHeight: 768,
   });
 
+  let titleBarStyle = 'default';
+  if (process.platform === 'darwin') {
+    titleBarStyle = isShell ? 'hiddenInset' : 'hidden';
+  }
+
   const options = {
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -51,7 +56,7 @@ const createWindow = () => {
     minWidth: 500,
     minHeight: isShell ? 400 : 600,
     title: argv.name || 'WebCatalog',
-    titleBarStyle: isShell && process.platform === 'darwin' ? 'hiddenInset' : 'default',
+    titleBarStyle,
     frame: true,
     icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
     webPreferences: {

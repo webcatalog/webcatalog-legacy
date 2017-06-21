@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { blue } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -12,10 +13,29 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 
 import Home from './Home';
 
+const titleBarHeight = process.env.PLATFORM === 'darwin' ? 21 : 0;
+
 const styleSheet = createStyleSheet('App', theme => ({
   root: {
     width: '100vw',
     overflow: 'hidden',
+  },
+
+  fakeTitleBar: {
+    backgroundColor: blue[700],
+    width: '100vw',
+    height: titleBarHeight,
+    position: 'fixed',
+    top: 0,
+    left: 'auto',
+    right: 0,
+    zIndex: 1100,
+    WebkitUserSelect: 'none',
+    WebkitAppRegion: 'drag',
+  },
+
+  appBar: {
+    top: titleBarHeight,
   },
 
   title: {
@@ -27,42 +47,6 @@ const styleSheet = createStyleSheet('App', theme => ({
     marginTop: theme.spacing.unit * 8,
     marginBottom: theme.spacing.unit * 4,
   },
-
-  paperGrid: {
-    width: '100%',
-    paddingTop: theme.spacing.unit * 4,
-  },
-
-  paper: {
-    width: 200,
-    textAlign: 'center',
-    paddingTop: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 4,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    boxSizing: 'border-box',
-  },
-
-  paperIcon: {
-    width: 80,
-    height: 80,
-  },
-
-  titleText: {
-    fontWeight: 500,
-    lineHeight: 1,
-    marginTop: theme.spacing.unit,
-  },
-
-  domainText: {
-    fontWeight: 400,
-    lineHeight: 1,
-    marginBottom: theme.spacing.unit,
-  },
-
-  rightButton: {
-    marginLeft: theme.spacing.unit,
-  },
 }));
 
 const App = (props) => {
@@ -72,7 +56,8 @@ const App = (props) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <div className={classes.fakeTitleBar} />
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography type="title" color="inherit" className={classes.title}>Explore</Typography>
           <IconButton color="contrast" aria-label="Search">
