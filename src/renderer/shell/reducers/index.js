@@ -1,17 +1,17 @@
-import { combineReducers } from 'redux';
-
-import nav from './nav';
-import settings from './settings';
-import findInPage from './findInPage';
-import screen from './screen';
-import tabs from './tabs';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 const rootReducer = combineReducers({
-  nav,
-  settings,
-  findInPage,
-  screen,
-  tabs,
 });
 
-export default rootReducer;
+const configureStore = initialState =>
+  createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(thunkMiddleware),
+  );
+
+// init store
+const store = configureStore();
+
+export default store;

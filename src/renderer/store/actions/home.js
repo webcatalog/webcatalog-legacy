@@ -1,52 +1,55 @@
-import { batchActions } from 'redux-batched-actions';
-import { SET_HOME_STATUS, ADD_HOME_APPS, REMOVE_HOME_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
-import { LOADING, FAILED, DONE } from '../constants/statuses';
-import secureFetch from '../libs/secureFetch';
-
-import { logOut } from './auth';
+import {
+  SET_HOME_STATUS,
+  ADD_HOME_APPS,
+  RESET_HOME_APPS,
+  SET_HOME_CATEGORY,
+  SET_HOME_SORT_BY,
+} from '../constants/actions';
+import {
+  LOADING,
+  FAILED,
+  DONE,
+} from '../constants/statuses';
 
 let fetching = false;
 
 export const fetchApps = () => (dispatch, getState) => {
-  const { home, auth } = getState();
+  const { home } = getState();
 
   // All pages have been fetched => stop
-  if (home.get('totalPage') && home.get('currentPage') + 1 > home.get('totalPage')) return;
+  if (home.totalPage && home.currentPage + 1 > home.totalPage) return;
 
   // Prevent redundant requests
   if (fetching) return;
   fetching = true;
 
-  const currentPage = home.get('currentPage') + 1;
+  const currentPage = home.currentPage + 1;
 
   dispatch({
     type: SET_HOME_STATUS,
     status: LOADING,
   });
 
-  let requestPath = `/api/apps?page=${currentPage}`;
-  if (home.get('category')) requestPath += `&category=${encodeURIComponent(home.get('category'))}`;
-  if (home.get('sort')) requestPath += `&sort=${home.get('sort')}`;
+  let requestPath = `https://getwebcatalog.com/api/apps?page=${currentPage}`;
+  if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
+  if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
 
-  secureFetch(requestPath, auth.get('token'))
+  fetch(requestPath)
   .then(response => response.json())
-  .then(({ apps, totalPage }) => {
-    dispatch(batchActions([
-      {
-        type: SET_HOME_STATUS,
-        status: DONE,
-      },
-      {
+  .then(({ apps, totalPage }) =>
+    Promise.all([
+      dispatch({ type: SET_HOME_STATUS, status: DONE }),
+      dispatch({
         type: ADD_HOME_APPS,
         chunk: apps,
         currentPage,
         totalPage,
-      },
-    ]));
-  })
+      }),
+    ]),
+  )
   .catch((err) => {
     if (err && err.response && err.response.status === 401) {
-      dispatch(logOut());
+      // dispatch(logOut());
       return;
     }
 
@@ -65,17 +68,15 @@ export const fetchApps = () => (dispatch, getState) => {
 };
 
 export const setCategory = category => (dispatch) => {
-  dispatch(batchActions([
-    { type: SET_CATEGORY, category },
-    { type: REMOVE_HOME_RESULTS },
-  ]));
+  dispatch({ type: SET_HOME_CATEGORY, category });
+  dispatch({ type: RESET_HOME_APPS });
+
   dispatch(fetchApps());
 };
 
-export const setSort = sort => (dispatch) => {
-  dispatch(batchActions([
-    { type: SET_SORT, sort },
-    { type: REMOVE_HOME_RESULTS },
-  ]));
+export const setSortBy = sortBy => (dispatch) => {
+  dispatch({ type: SET_HOME_SORT_BY, sortBy });
+  dispatch({ type: RESET_HOME_APPS });
+
   dispatch(fetchApps());
 };

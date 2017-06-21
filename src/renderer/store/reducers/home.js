@@ -1,41 +1,54 @@
-import Immutable from 'immutable';
-
-import { SET_HOME_STATUS, ADD_HOME_APPS, REMOVE_HOME_RESULTS, SET_CATEGORY, SET_SORT } from '../constants/actions';
 import { LOADING } from '../constants/statuses';
+import {
+  SET_HOME_STATUS,
+  ADD_HOME_APPS,
+  RESET_HOME_APPS,
+  SET_HOME_CATEGORY,
+  SET_HOME_SORT_BY,
+} from '../constants/actions';
 
-const initialState = Immutable.Map({
+const initialState = {
   status: LOADING,
-  apps: Immutable.List([]),
+  apps: [],
   currentPage: 0,
   totalPage: null,
-  appStatus: Immutable.Map({}),
+  appStatus: {},
   category: null,
-  sort: null,
-});
+  sortBy: null,
+};
 
 const home = (state = initialState, action) => {
   switch (action.type) {
     case SET_HOME_STATUS: {
-      return state.set('status', action.status);
+      const { status } = action;
+      return Object.assign({}, state, {
+        status,
+      });
     }
     case ADD_HOME_APPS: {
-      const chunk = Immutable.fromJS(action.chunk);
+      const { chunk, currentPage, totalPage } = action;
 
-      return state
-        .set('apps', state.get('apps').concat(Immutable.fromJS(chunk)))
-        .set('currentPage', action.currentPage)
-        .set('totalPage', action.totalPage);
+      return Object.assign({}, state, {
+        apps: state.apps.concat(chunk),
+        currentPage,
+        totalPage,
+      });
     }
-    case REMOVE_HOME_RESULTS: {
-      return initialState
-        .set('category', state.get('category'))
-        .set('sort', state.get('sort'));
+    case RESET_HOME_APPS: {
+      // Keep category and sort option
+      const { category, sortBy } = state;
+
+      return Object.assign({}, initialState, {
+        category, sortBy,
+      });
     }
-    case SET_CATEGORY: {
-      return state.set('category', action.category);
+    case SET_HOME_CATEGORY: {
+      const { category } = action;
+      return Object.assign({}, state, { category });
     }
-    case SET_SORT: {
-      return state.set('sort', action.sort);
+    case SET_HOME_SORT_BY: {
+      const { sortBy } = action;
+      return Object.assign({}, state, { sortBy });
     }
     default:
       return state;

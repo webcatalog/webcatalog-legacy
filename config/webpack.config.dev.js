@@ -216,6 +216,7 @@ module.exports = {
                   options: {
                     ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
                     plugins: () => [
+                      // eslint-disable-next-line
                       require('postcss-flexbugs-fixes'),
                       autoprefixer({
                         browsers: [
@@ -259,6 +260,7 @@ module.exports = {
                   options: {
                     ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
                     plugins: () => [
+                      // eslint-disable-next-line
                       require('postcss-flexbugs-fixes'),
                       autoprefixer({
                         browsers: [

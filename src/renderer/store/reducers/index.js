@@ -1,25 +1,20 @@
-import { combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
-import route from './route';
-import screen from './screen';
-import appManagement from './appManagement';
 import home from './home';
-import search from './search';
-import installed from './installed';
-import auth from './auth';
-import single from './single';
-import myApps from './myApps';
 
 const rootReducer = combineReducers({
-  route,
-  screen,
-  appManagement,
   home,
-  search,
-  installed,
-  auth,
-  single,
-  myApps,
 });
 
-export default rootReducer;
+const configureStore = initialState =>
+  createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(thunkMiddleware),
+  );
+
+// init store
+const store = configureStore();
+
+export default store;

@@ -1,175 +1,126 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import { Menu, MenuItem, Popover, Button, Position } from '@blueprintjs/core';
 
-import { fetchApps, setCategory, setSort } from '../actions/home';
-import { LOADING, FAILED } from '../constants/statuses';
-import categories from '../constants/categories';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 
-import Loading from './Loading';
-import NoConnection from './NoConnection';
-import Card from './Card';
+import {
+  fetchApps,
+  setCategory,
+  setSortBy,
+} from '../actions/home';
+import extractHostname from '../tools/extractHostname';
+
+const styleSheet = createStyleSheet('Home', theme => ({
+  paperGrid: {
+    width: '100%',
+    paddingTop: theme.spacing.unit * 4,
+  },
+
+  paper: {
+    width: 200,
+    textAlign: 'center',
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    boxSizing: 'border-box',
+  },
+
+  paperIcon: {
+    width: 64,
+    height: 64,
+  },
+
+  titleText: {
+    fontWeight: 500,
+    lineHeight: 1.5,
+    marginTop: theme.spacing.unit,
+  },
+
+  domainText: {
+    fontWeight: 400,
+    lineHeight: 1,
+    marginBottom: theme.spacing.unit,
+  },
+
+  rightButton: {
+    marginLeft: theme.spacing.unit,
+  },
+}));
 
 class Home extends React.Component {
   componentDidMount() {
-    const { requestFetchApps } = this.props;
-    requestFetchApps();
-
-    const el = this.scrollContainer;
-
-    el.onscroll = () => {
-      // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        requestFetchApps();
-      }
-    };
-  }
-
-  componentWillUnmount() {
-    this.scrollContainer.onscroll = null;
-  }
-
-  renderList() {
-    const { apps } = this.props;
-
-    // Show apps if available
-    if (apps) {
-      return (
-        <div className="grid" style={{ maxWidth: 960, margin: '0 auto', zIndex: 1 }}>
-          {apps.map(app => <Card app={app} key={app.get('id')} />)}
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderStatus() {
-    const {
-      status, requestFetchApps,
-    } = this.props;
-    if (status === LOADING) return <Loading />;
-    if (status === FAILED) return <NoConnection handleClick={() => requestFetchApps()} />;
-
-    return null;
+    const { onFetchApps } = this.props;
+    onFetchApps();
   }
 
   render() {
-    const { category, sort, requestSetCategory, requestSetSort } = this.props;
+    const {
+      classes,
+      apps,
+    } = this.props;
 
     return (
-      <div
-        style={{ flex: 1, overflow: 'auto', paddingBottom: 12, zIndex: 2 }}
-        ref={(container) => { this.scrollContainer = container; }}
-      >
-        <div style={{ width: '100%', position: 'fixed', backgroundColor: '#D8E1E8', height: 42, padding: '6px 18px', zIndex: 3 }}>
-          <div style={{ width: '100%', maxWidth: 960, margin: '0px auto 6px', display: 'flex', justifyContent: 'space-between', padding: '0 6px' }}>
-            <Popover
-              content={(
-                <Menu>
-                  <MenuItem
-                    key="all"
-                    text="All Categories"
-                    onClick={() => requestSetCategory(null)}
-                  />
-                  {categories.map(c => (
-                    <MenuItem
-                      className="category-text"
-                      key={c}
-                      text={c.replace('+', ' & ')}
-                      onClick={() => requestSetCategory(c)}
-                    />
-                  ))}
-                </Menu>
-              )}
-              position={Position.BOTTOM_LEFT}
-            >
-              <Button
-                rightIconName="chevron-down"
-                className="category-text"
-                text={category ? category.replace('+', ' & ') : 'All Categories'}
-              />
-            </Popover>
-            <Popover
-              content={(
-                <Menu>
-                  <MenuItem
-                    text="Most Downloaded"
-                    onClick={() => requestSetSort('installCount')}
-                  />
-                  <MenuItem
-                    text="Name"
-                    onClick={() => requestSetSort('name')}
-                  />
-                  <MenuItem
-                    text="Recently Added"
-                    onClick={() => requestSetSort('createdAt')}
-                  />
-                </Menu>
-              )}
-              position={Position.BOTTOM_RIGHT}
-            >
-              <p>
-                <span>Sort by: </span>
-                <Button
-                  rightIconName="chevron-down"
-                  text={(() => {
-                    switch (sort) {
-                      case 'name':
-                        return 'Name';
-                      case 'createdAt':
-                        return 'Recently Added';
-                      default:
-                        return 'Most Downloaded';
-                    }
-                  })()}
-                />
-              </p>
-            </Popover>
-          </div>
-        </div>
-        <div
-          className="pt-card"
-          style={{ maxWidth: 960, margin: '48px auto 0', textAlign: 'center', padding: 10 }}
-        >
-          <span>Cannot find your favorite app?&#32;</span>
-          <a onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/submit')}>
-            <span className="pt-icon-standard pt-icon-add" />
-            <span>&#32;Submit new app</span>
-          </a>.
-        </div>
-        {this.renderList()}
-        {this.renderStatus()}
-      </div>
+      <Grid container className={classes.paperGrid}>
+        <Grid item xs={12}>
+          <Grid container justify="center" gutter={16}>
+            {apps.map(app => (
+              <Grid key={app.id} item>
+                <Paper className={classes.paper}>
+                  <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
+                  <Typography type="subheading" color="inherit" className={classes.titleText}>
+                    {app.name}
+                  </Typography>
+                  <Typography type="body2" color="inherit" className={classes.domainText}>
+                    {extractHostname(app.url)}
+                  </Typography>
+                  <Button dense color="primary">Open</Button>
+                  <Button dense color="accent" className={classes.rightButton}>Uninstall</Button>
+                </Paper>
+              </Grid>
+              ),
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }
 
+Home.defaultProps = {
+  category: null,
+  sortBy: null,
+};
+
 Home.propTypes = {
-  status: PropTypes.string.isRequired,
-  apps: PropTypes.instanceOf(Immutable.List).isRequired,
-  category: PropTypes.string,
-  sort: PropTypes.string,
-  requestFetchApps: PropTypes.func.isRequired,
-  requestSetCategory: PropTypes.func.isRequired,
-  requestSetSort: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+
+  // status: PropTypes.string.isRequired,
+  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // category: PropTypes.string,
+  // sortBy: PropTypes.string,
+
+  onFetchApps: PropTypes.func.isRequired,
+  // onSetCategory: PropTypes.func.isRequired,
+  // onSetSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  status: state.home.get('status'),
-  apps: state.home.get('apps'),
-  category: state.home.get('category'),
-  sort: state.home.get('sort'),
+  status: state.home.status,
+  apps: state.home.apps,
+  category: state.home.category,
+  sortBy: state.home.sortBy,
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestFetchApps: () => dispatch(fetchApps()),
-  requestSetCategory: category => dispatch(setCategory(category)),
-  requestSetSort: sort => dispatch(setSort(sort)),
+  onFetchApps: () => dispatch(fetchApps()),
+  onSetCategory: category => dispatch(setCategory(category)),
+  onSetSortBy: sortBy => dispatch(setSortBy(sortBy)),
 });
 
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));

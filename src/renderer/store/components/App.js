@@ -1,120 +1,104 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Immutable from 'immutable';
 
-import { screenResize } from '../actions/screen';
-import { bootIntercom } from '../actions/intercom';
-import { signIn } from '../actions/auth';
-import { setManagedApp, removeManagedApp } from '../actions/appManagement';
-import { setSingleApp } from '../actions/single';
-import { setRoute } from '../actions/route';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import SearchIcon from 'material-ui-icons/Search';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
 
-import Nav from './Nav';
-import Auth from './Auth';
 import Home from './Home';
-import Search from './Search';
-import Installed from './Installed';
-import MyApps from './MyApps';
-import Single from './Single';
-import showUpdateToast from '../../shared/components/showUpdateToast';
 
-class App extends React.Component {
-  componentDidMount() {
-    const {
-      requestBootIntercom,
-      requestSetManagedApp, requestRemoveManagedApp,
-      requestLoadSingleApp,
-      onResize, onReceiveToken,
-    } = this.props;
+const styleSheet = createStyleSheet('App', theme => ({
+  root: {
+    width: '100vw',
+    overflow: 'hidden',
+  },
 
-    window.addEventListener('resize', onResize);
+  title: {
+    flex: 1,
+    userSelect: 'none',
+  },
 
-    ipcRenderer.send('scan-installed-apps');
+  content: {
+    marginTop: theme.spacing.unit * 8,
+    marginBottom: theme.spacing.unit * 4,
+  },
 
-    ipcRenderer.on('token', (e, token) => {
-      onReceiveToken(token);
-    });
+  paperGrid: {
+    width: '100%',
+    paddingTop: theme.spacing.unit * 4,
+  },
 
-    ipcRenderer.on('app-status', (e, id, status, app) => {
-      if (status === null) return requestRemoveManagedApp(id);
+  paper: {
+    width: 200,
+    textAlign: 'center',
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    boxSizing: 'border-box',
+  },
 
-      return requestSetManagedApp(id, status, app);
-    });
+  paperIcon: {
+    width: 80,
+    height: 80,
+  },
 
-    ipcRenderer.on('show-single-app', (e, id) => {
-      requestLoadSingleApp(Immutable.Map({ id }));
-    });
+  titleText: {
+    fontWeight: 500,
+    lineHeight: 1,
+    marginTop: theme.spacing.unit,
+  },
 
-    requestBootIntercom();
-    showUpdateToast();
-  }
+  domainText: {
+    fontWeight: 400,
+    lineHeight: 1,
+    marginBottom: theme.spacing.unit,
+  },
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.props.onResize);
-  }
+  rightButton: {
+    marginLeft: theme.spacing.unit,
+  },
+}));
 
-  render() {
-    const { token, routeId } = this.props;
+const App = (props) => {
+  const {
+    classes,
+  } = props;
 
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {token ? <Nav /> : null}
-        {(() => {
-          if (!token) return <Auth />;
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Typography type="title" color="inherit" className={classes.title}>Explore</Typography>
+          <IconButton color="contrast" aria-label="Search">
+            <SearchIcon />
+          </IconButton>
+          <IconButton color="contrast" aria-label="More">
+            <MoreVertIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
 
-          switch (routeId) {
-            case 'search':
-              return <Search />;
-            case 'installed':
-              return <Installed />;
-            case 'my-apps':
-              return <MyApps />;
-            case 'single':
-              return <Single />;
-            default:
-              return <Home />;
-          }
-        })()}
+      <div className={classes.content}>
+        <Home />
       </div>
-    );
-  }
-}
-
-App.propTypes = {
-  routeId: PropTypes.string.isRequired,
-  token: PropTypes.string,
-  onResize: PropTypes.func.isRequired,
-  onReceiveToken: PropTypes.func.isRequired,
-  requestBootIntercom: PropTypes.func.isRequired,
-  requestSetManagedApp: PropTypes.func.isRequired,
-  requestRemoveManagedApp: PropTypes.func.isRequired,
-  requestLoadSingleApp: PropTypes.func.isRequired,
+    </div>
+  );
 };
 
-const mapStateToProps = state => ({
-  routeId: state.route.get('routeId'),
-  token: state.auth.get('token'),
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = () => ({
 });
 
-const mapDispatchToProps = dispatch => ({
-  onResize: () => dispatch(screenResize(window.innerWidth)),
-  onReceiveToken: token => dispatch(signIn(token)),
-  requestBootIntercom: () => dispatch(bootIntercom()),
-  requestSetManagedApp: (id, status, app) => dispatch(setManagedApp(id, status, app)),
-  requestRemoveManagedApp: id => dispatch(removeManagedApp(id)),
-  requestLoadSingleApp: (app) => {
-    dispatch(setSingleApp(app));
-    dispatch(setRoute('single'));
-  },
+const mapDispatchToProps = () => ({
 });
 
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

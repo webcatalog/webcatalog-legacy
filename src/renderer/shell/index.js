@@ -1,21 +1,34 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { FocusStyleManager } from '@blueprintjs/core';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import createPalette from 'material-ui/styles/palette';
+import { blue, red, pink } from 'material-ui/styles/colors';
+
+import 'typeface-roboto/index.css';
+
+import '../shared.css';
+
+import store from './reducers';
 
 import App from './components/App';
-import store from './store';
-import '../shared/styles/main.scss';
 
-// http://blueprintjs.com/docs/#a11y.focus
-FocusStyleManager.onlyShowFocusOnTabs();
 
-render(
+const theme = createMuiTheme({
+  palette: createPalette({
+    type: 'dark', // Switching the dark mode
+    primary: blue, // Purple and green play nicely together.
+    accent: pink,
+    error: red,
+  }),
+});
+
+ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('app'),
 );
-
-document.title = window.shellInfo.name;

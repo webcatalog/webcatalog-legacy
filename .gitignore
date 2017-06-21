@@ -49,3 +49,5 @@ dist
 /app
 
 .env
+
+_src

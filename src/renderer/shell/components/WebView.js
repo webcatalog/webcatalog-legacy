@@ -164,16 +164,22 @@ class ElectronWebView extends React.Component {
   }
 
   render() {
-    return <div ref={(c) => { this.c = c; }} style={this.props.style || {}} />;
+    return <div ref={(c) => { this.c = c; }} className={this.props.parentClassName} />;
   }
 }
 
+ElectronWebView.defaultProps = {
+  parentClassName: '',
+  className: '',
+};
+
 ElectronWebView.propTypes = Object.assign({
+  parentClassName: PropTypes.string,
   className: PropTypes.string,
-  style: PropTypes.object,
 }, props);
 
 events.forEach((event) => {
+  // eslint-disable-next-line
   ElectronWebView.propTypes[camelCase(`on-${event}`)] = PropTypes.func;
 });
 

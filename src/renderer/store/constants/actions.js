@@ -1,33 +1,6 @@
-export const SET_ROUTE = 'SET_ROUTE';
-export const GO_BACK = 'GO_BACK';
-
-export const SCREEN_RESIZE = 'SCREEN_RESIZE';
-
+// Home
 export const SET_HOME_STATUS = 'SET_HOME_STATUS';
 export const ADD_HOME_APPS = 'ADD_HOME_APPS';
-export const REMOVE_HOME_RESULTS = 'REMOVE_HOME_RESULTS';
-export const SET_CATEGORY = 'SET_CATEGORY';
-export const SET_SORT = 'SET_SORT';
-
-export const SET_MY_APPS_STATUS = 'SET_MY_APPS_STATUS';
-export const ADD_MY_APPS_APPS = 'ADD_MY_APPS_APPS';
-export const REMOVE_MY_APPS_RESULTS = 'REMOVE_MY_APPS_RESULTS';
-
-export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
-export const SET_SEARCH_HITS = 'SET_SEARCH_HITS';
-export const SET_SEARCH_STATUS = 'SET_SEARCH_STATUS';
-
-export const TOGGLE_CUSTOM_DIALOG = 'TOGGLE_CUSTOM_DIALOG';
-export const SET_CUSTOM_VALUE = 'SET_CUSTOM_VALUE';
-export const SET_CUSTOM_STATUS = 'SET_CUSTOM_STATUS';
-
-export const SET_MANAGED_APP = 'SET_MANAGED_APP';
-export const REMOVE_MANAGED_APP = 'REMOVE_MANAGED_APP';
-
-export const SIGN_IN = 'SIGN_IN';
-export const LOG_OUT = 'LOG_OUT';
-
-export const SET_INSTALLED_APPS = 'SET_INSTALLED_APPS';
-
-export const SET_SINGLE_APP = 'SET_SINGLE_APP';
-export const SET_SINGLE_IS_FAILED = 'SET_SINGLE_IS_FAILED';
+export const RESET_HOME_APPS = 'RESET_HOME_APPS';
+export const SET_HOME_CATEGORY = 'SET_HOME_CATEGORY';
+export const SET_HOME_SORT_BY = 'SET_HOME_SORT_BY';
