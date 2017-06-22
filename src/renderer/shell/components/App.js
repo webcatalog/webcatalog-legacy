@@ -3,14 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import IconButton from 'material-ui/IconButton';
-import HomeIcon from 'material-ui-icons/Home';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
 import { grey } from 'material-ui/styles/colors';
-
 
 import Tabs from './Tabs';
 import WebView from './WebView';
+import WebNav from './WebNav';
 
 const styleSheet = createStyleSheet('App', theme => ({
   root: {
@@ -65,14 +62,7 @@ const App = (props) => {
       <div className={classes.leftNav}>
         <div className={classes.leftNavBlank} />
         <Tabs />
-        <div className={classes.webNavContainer}>
-          <IconButton aria-label="Home" className={classes.webNavIconButtonRoot}>
-            <HomeIcon className={classes.webNavIconButtonIcon} />
-          </IconButton>
-          <IconButton aria-label="More" className={classes.webNavIconButtonRoot}>
-            <MoreVertIcon className={classes.webNavIconButtonIcon} />
-          </IconButton>
-        </div>
+        <WebNav />
       </div>
       <WebView
         parentClassName={classes.webviewContainer}

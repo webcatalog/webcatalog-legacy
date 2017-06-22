@@ -122,7 +122,7 @@ const Tabs = (props) => {
             onClick={() => onSetActiveTab(tab.id)}
             onContextMenu={() => onRemoveTab(tab.id)}
           >
-            {i + 1}
+            {tab.id + 1}
           </Avatar>
           <span>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
         </div>
