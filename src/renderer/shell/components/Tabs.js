@@ -16,6 +16,20 @@ const styleSheet = createStyleSheet('Tabs', theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    overflowY: 'auto',
+  },
+  tab: {
+    textAlign: 'center',
+    color: 'rgba(255, 255, 255, 0.7)',
+
+    '&:hover': {
+      color: '#fff',
+    },
+  },
+  activeTab: {
+    color: '#fff',
   },
   tabAvatar: {
     color: '#fff',
@@ -89,30 +103,42 @@ const Tabs = (props) => {
     tabs,
 
     onAddTab,
-    // onRemoveTab,
+    onRemoveTab,
     onSetActiveTab,
   } = props;
 
   return (
     <div className={classes.tabContainer}>
-      {tabs.map(tab => (
-        <Avatar
+      {tabs.map((tab, i) => (
+        <div
           key={`tab_${tab.id}`}
-          className={classnames(
-            classes.tabAvatar,
-            { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
-          )}
-          onClick={() => onSetActiveTab(tab.id)}
+          className={classnames(classes.tab, { [classes.activeTab]: tab.isActive })}
         >
-          {tab.id + 1}
-        </Avatar>
+          <Avatar
+            className={classnames(
+              classes.tabAvatar,
+              { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
+            )}
+            onClick={() => onSetActiveTab(tab.id)}
+            onContextMenu={() => onRemoveTab(tab.id)}
+          >
+            {i + 1}
+          </Avatar>
+          <span>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
+        </div>
       ))}
-      <Avatar
-        className={classes.tabAvatar}
-        onClick={() => onAddTab()}
-      >
-        <AddCircleIcon />
-      </Avatar>
+
+      {tabs.length < 9 ? (
+        <div className={classes.tab}>
+          <Avatar
+            className={classes.tabAvatar}
+            onClick={() => onAddTab()}
+          >
+            <AddCircleIcon />
+          </Avatar>
+        </div>
+      ) : null}
+
     </div>
   );
 };
@@ -123,7 +149,7 @@ Tabs.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.object).isRequired,
 
   onAddTab: PropTypes.func.isRequired,
-  // onRemoveTab: PropTypes.func.isRequired,
+  onRemoveTab: PropTypes.func.isRequired,
   onSetActiveTab: PropTypes.func.isRequired,
 };
 

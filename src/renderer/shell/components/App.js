@@ -6,6 +6,8 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui-icons/Home';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
+import { grey } from 'material-ui/styles/colors';
+
 
 import Tabs from './Tabs';
 import WebView from './WebView';
@@ -18,22 +20,25 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   leftNav: {
     backgroundColor: theme.palette.background.default,
-    flexBasis: 80,
-    width: 80,
+    flexBasis: 88,
+    width: 88,
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: process.env.PLATFORM === 'darwin' ? theme.spacing.unit * 5 : theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
     boxSizing: 'border-box',
     WebkitUserSelect: 'none',
     WebkitAppRegion: 'drag',
+  },
+  leftNavBlank: {
+    height: process.env.PLATFORM === 'darwin' ? theme.spacing.unit * 4 : theme.spacing.unit,
   },
   webNavContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: 40,
+    padding: theme.spacing.unit,
+    boxSizing: 'border-box',
+    borderTop: `1px solid ${grey[500]}`,
   },
   webNavIconButtonRoot: {
     height: 28,
@@ -58,6 +63,7 @@ const App = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.leftNav}>
+        <div className={classes.leftNavBlank} />
         <Tabs />
         <div className={classes.webNavContainer}>
           <IconButton aria-label="Home" className={classes.webNavIconButtonRoot}>
