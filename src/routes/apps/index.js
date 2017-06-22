@@ -92,11 +92,23 @@ appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
       let description = `${app.name} for Mac, Windows & Linux on the WebCatalog Store.`;
       if (app.description) description += ` ${app.description.split('. ')[0]}.`;
 
+      const ua = req.headers['user-agent'];
+      let platform = 'mobile';
+      if (/(Intel|PPC) Mac OS X/.test(ua)) {
+        platform = 'mac';
+      } else if (/(Linux x86_64|Linux i686)/.test(ua)) {
+        platform = 'linux';
+      } else {
+        platform = 'windows';
+      }
+
       res.render('apps/app', {
         title: `${app.name} for Mac, Windows & Linux on the WebCatalog Store`,
         description,
         app,
         extractDomain,
+        platform,
+        version: process.env.VERSION,
       });
     })
     .catch(next);

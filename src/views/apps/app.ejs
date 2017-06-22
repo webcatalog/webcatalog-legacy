@@ -9,7 +9,7 @@
           <h1 class="title ">
             <a href="/apps">WebCatalog Store</a>
             <% if (app.category) { %>
-             > 
+             >
             <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
             <% } %>
           </h1>
@@ -32,8 +32,6 @@
             </a>
             <h1 class="title"><%= app.name %></h1>
             <h2 class="subtitle is-6"><a href="<%= app.url %>" target="_blank" rel="noopener noreferrer"><%= extractDomain(app.url) %></a></h2>
-            <a class="button is-info open" href="webcatalog://apps/<%= app.id %>">Install with WebCatalog</a>
-            <p>Don't have WebCatalog? <a href="/downloads">Download for free.</a></p>
 
             <div id="fb-root"></div>
             <script>(function(d, s, id) {
@@ -75,20 +73,37 @@
       </div>
       <div class="column">
         <div class="content">
+          <h2>How to Install <%= app.name %> on Your <%= platform === 'mac' ? 'Mac' : platform === 'linux' ? 'Linux Machine' : 'PC' %></h2>
+
+          <ol>
+            <li><a href="/downloads" target="_blank">Download the installation file.</a></li>
+            <% if (platform === 'windows') { %>
+            <li>If prompted, click <b>Run</b> or <b>Save</b>.</li>
+            <li>If you chose <b>Save</b>, double-click the download to start installing.</li>
+            <li>Start <b>WebCatalog</b> from your desktop.</li>
+            <% } %>
+            <% if (platform === 'mac') { %>
+            <li>Open the file called <b>WebCatalog-<%= version %>.dmg</b>.</li>
+            <li>In the window that opens, find <b>WebCatalog</b> icon.</li>
+            <li>Drag <b>WebCatalog</b> to the <b>Applications</b> folder.</li>
+            <li>Start <b>WebCatalog</b> from your Launchpad.</li>
+            <% } %>
+            <% if (platform === 'linux') { %>
+            <li>To open the package, click <b>OK</b>.</li>
+            <li>Click <b>Install Package.</b></li>
+            <li>Start <b>WebCatalog</b>.</li>
+            <% } %>
+            <li>Type <b><%= app.name %></b> in the search box to look for the app.</li>
+            <li>Locate <b><%= app.name %></b> in the search results.</li>
+            <li>Click <b>Install</b>.</li>
+            <li>Click <b>Open</b> to start <b><%= app.name %></b>.</li>
+          </ol>
+
+          <hr/>
+
           <% if (app.description) { %>
           <p><%= app.description %> <a href="https://en.wikipedia.org/wiki/<%= encodeURIComponent(app.wikipediaTitle || app.name) %>" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
           <% } %>
-
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <!-- Single -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-3770617531645838"
-               data-ad-slot="9512124102"
-               data-ad-format="auto"></ins>
-          <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
         </div>
       </div>
     </div>

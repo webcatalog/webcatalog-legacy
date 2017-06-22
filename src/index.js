@@ -97,7 +97,6 @@ app.use('/admin', require('./routes/admin'));
 app.use('/api', require('./routes/api'));
 app.use('/s3', require('./routes/s3'));
 app.use('/auth', require('./routes/auth'));
-app.use('/me', require('./routes/me'));
 app.use('/submit', require('./routes/submit'));
 
 // Error handler
