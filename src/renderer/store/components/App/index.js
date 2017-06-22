@@ -9,9 +9,9 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui-icons/Search';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
 
-import Home from './Home';
+import MoreMenuButton from './MoreMenuButton';
+import Home from '../Home';
 
 const titleBarHeight = process.env.PLATFORM === 'darwin' ? 21 : 0;
 
@@ -63,9 +63,7 @@ const App = (props) => {
           <IconButton color="contrast" aria-label="Search">
             <SearchIcon />
           </IconButton>
-          <IconButton color="contrast" aria-label="More">
-            <MoreVertIcon />
-          </IconButton>
+          <MoreMenuButton />
         </Toolbar>
       </AppBar>
 

@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui-icons/Home';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
 import { grey } from 'material-ui/styles/colors';
-// import Menu, { MenuItem } from 'material-ui/Menu';
 
-import EnhancedMenu from './EnhancedMenu';
+import MoreMenuButton from './MoreMenuButton';
 
 const styleSheet = createStyleSheet('WebNav', theme => ({
   container: {
@@ -38,14 +36,10 @@ const WebNav = (props) => {
       <IconButton aria-label="Home" className={classes.iconButtonRoot}>
         <HomeIcon className={classes.iconButtonIcon} />
       </IconButton>
-      <EnhancedMenu>
-        <IconButton
-          aria-label="More"
-          className={classes.iconButtonRoot}
-        >
-          <MoreVertIcon className={classes.iconButtonIcon} />
-        </IconButton>
-      </EnhancedMenu>
+      <MoreMenuButton
+        iconButtonClassName={classes.iconButtonRoot}
+        iconClassName={classes.iconButtonIcon}
+      />
     </div>
   );
 };

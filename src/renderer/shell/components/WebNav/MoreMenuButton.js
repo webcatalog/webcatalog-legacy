@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
 
-class EnhancedMenu extends React.Component {
+class MoreMenuButton extends React.Component {
   constructor() {
     super();
 
@@ -26,18 +28,13 @@ class EnhancedMenu extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { iconButtonClassName, iconClassName } = this.props;
 
     return (
       <div>
-        {React.cloneElement(
-          children,
-          {
-            // 'aria-owns': 'simple-menu',
-            'aria-haspopup': true,
-            onClick: this.handleClick,
-          },
-        )}
+        <IconButton aria-label="More" className={iconButtonClassName} onClick={this.handleClick}>
+          <MoreVertIcon className={iconClassName} />
+        </IconButton>
         <Menu
           anchorEl={this.state.anchorEl}
           open={this.state.open}
@@ -55,8 +52,9 @@ class EnhancedMenu extends React.Component {
   }
 }
 
-EnhancedMenu.propTypes = {
-  children: PropTypes.element.isRequired,
+MoreMenuButton.propTypes = {
+  iconButtonClassName: PropTypes.string.isRequired,
+  iconClassName: PropTypes.string.isRequired,
 };
 
-export default EnhancedMenu;
+export default MoreMenuButton;
