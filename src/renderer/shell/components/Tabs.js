@@ -140,7 +140,7 @@ const Tabs = (props) => {
   return (
     <div className={classes.tabContainer}>
       {tabs.map((tab, i) => {
-        const defaultY = 72 * i;
+        const defaultY = TAB_HEIGHT * i;
 
         const handleStop = (e, { node, y }) => {
           // remove stay on top trick
@@ -148,11 +148,11 @@ const Tabs = (props) => {
           node.style.zIndex = null;
 
           const d = Math.abs(defaultY - y);
-          const count = d > TAB_HEIGHT / 2 ?
+          const count = d > (TAB_HEIGHT / 2) ?
             Math.floor((d - (TAB_HEIGHT / 2)) / TAB_HEIGHT) + 1 : 1;
 
 
-          if (d > 24) {
+          if (d > TAB_HEIGHT / 2) {
             let secondI = i;
             if (defaultY > y) {
               secondI = i - count > -1 ? i - count : 0;
@@ -160,7 +160,9 @@ const Tabs = (props) => {
               secondI = i + count < tabs.length ? i + count : tabs.length - 1;
             }
 
-            onSwapTab(i, secondI);
+            if (i !== secondI) {
+              onSwapTab(i, secondI);
+            }
           }
         };
 
@@ -168,7 +170,7 @@ const Tabs = (props) => {
           <Draggable
             key={`tab_${tab.id}`}
             axis="y"
-            position={{ x: 0, y: 80 * i }}
+            position={{ x: 0, y: TAB_HEIGHT * i }}
             onStart={handleDrag}
             onDrag={handleDrag}
             onStop={handleStop}
