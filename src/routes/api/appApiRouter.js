@@ -12,8 +12,12 @@ const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'creat
 
 appApiRouter.get('/', (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
-  const limit = 24;
+  const limit = parseInt(req.query.limit, 10) || 24;
   const offset = (currentPage - 1) * limit;
+
+  if (limit > 50) {
+    return next(new Error('Maximum limit: 50'));
+  }
 
   const opts = {
     attributes: ['id', 'slug', 'name', 'url', 'version'],
@@ -47,7 +51,7 @@ appApiRouter.get('/', (req, res, next) => {
     }
   }
 
-  App.findAndCountAll(opts)
+  return App.findAndCountAll(opts)
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
 
