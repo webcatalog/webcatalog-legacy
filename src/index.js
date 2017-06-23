@@ -51,10 +51,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ensure same domain
+// ensure non-www
 app.all(/.*/, (req, res, next) => {
   const host = req.header('host');
-  if (process.env.NODE_ENV === 'production' && host !== 'www.getwebcatalog.com') {
+  if (process.env.NODE_ENV === 'production' && host === 'www.getwebcatalog.com') {
     res.redirect(301, `https://getwebcatalog.com${req.url}`);
   } else {
     next();
