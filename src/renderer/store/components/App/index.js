@@ -15,39 +15,28 @@ import Home from '../Home';
 
 const titleBarHeight = process.env.PLATFORM === 'darwin' ? 21 : 0;
 
-const styleSheet = createStyleSheet('App', theme => ({
+const styleSheet = createStyleSheet('App', {
   root: {
     width: '100vw',
+    height: '100vh',
     overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
   },
 
   fakeTitleBar: {
     backgroundColor: blue[700],
     width: '100vw',
     height: titleBarHeight,
-    position: 'fixed',
-    top: 0,
-    left: 'auto',
-    right: 0,
-    zIndex: 1100,
     WebkitUserSelect: 'none',
     WebkitAppRegion: 'drag',
-  },
-
-  appBar: {
-    top: titleBarHeight,
   },
 
   title: {
     flex: 1,
     userSelect: 'none',
   },
-
-  content: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 4,
-  },
-}));
+});
 
 const App = (props) => {
   const {
@@ -57,7 +46,7 @@ const App = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.fakeTitleBar} />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="static">
         <Toolbar>
           <Typography type="title" color="inherit" className={classes.title}>Explore</Typography>
           <IconButton color="contrast" aria-label="Search">
@@ -67,9 +56,7 @@ const App = (props) => {
         </Toolbar>
       </AppBar>
 
-      <div className={classes.content}>
-        <Home />
-      </div>
+      <Home />
     </div>
   );
 };

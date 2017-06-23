@@ -16,9 +16,14 @@ import {
 import extractHostname from '../tools/extractHostname';
 
 const styleSheet = createStyleSheet('Home', theme => ({
-  paperGrid: {
-    width: '100%',
-    paddingTop: theme.spacing.unit * 4,
+  scrollContainer: {
+    flex: 1,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    overflow: 'auto',
+    boxSizing: 'border-box',
   },
 
   paper: {
@@ -57,6 +62,15 @@ class Home extends React.Component {
   componentDidMount() {
     const { onFetchApps } = this.props;
     onFetchApps();
+
+    const el = this.scrollContainer;
+
+    el.onscroll = () => {
+      // Plus 300 to run ahead.
+      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+        onFetchApps();
+      }
+    };
   }
 
   render() {
@@ -66,28 +80,33 @@ class Home extends React.Component {
     } = this.props;
 
     return (
-      <Grid container className={classes.paperGrid}>
-        <Grid item xs={12}>
-          <Grid container justify="center" gutter={16}>
-            {apps.map(app => (
-              <Grid key={app.id} item>
-                <Paper className={classes.paper}>
-                  <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
-                  <Typography type="subheading" color="inherit" className={classes.titleText}>
-                    {app.name}
-                  </Typography>
-                  <Typography type="body2" color="inherit" className={classes.domainText}>
-                    {extractHostname(app.url)}
-                  </Typography>
-                  <Button dense color="primary">Open</Button>
-                  <Button dense color="accent" className={classes.rightButton}>Uninstall</Button>
-                </Paper>
-              </Grid>
-              ),
-            )}
+      <div
+        className={classes.scrollContainer}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center" gutter={16}>
+              {apps.map(app => (
+                <Grid key={app.id} item>
+                  <Paper className={classes.paper}>
+                    <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
+                    <Typography type="subheading" color="inherit" className={classes.titleText}>
+                      {app.name}
+                    </Typography>
+                    <Typography type="body2" color="inherit" className={classes.domainText}>
+                      {extractHostname(app.url)}
+                    </Typography>
+                    <Button dense color="primary">Open</Button>
+                    <Button dense color="accent" className={classes.rightButton}>Uninstall</Button>
+                  </Paper>
+                </Grid>
+                ),
+              )}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }

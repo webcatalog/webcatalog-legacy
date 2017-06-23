@@ -30,7 +30,7 @@ export const fetchApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  let requestPath = `https://getwebcatalog.com/api/apps?page=${currentPage}`;
+  let requestPath = `https://getwebcatalog.com/api/apps?limit=30&page=${currentPage}`;
   if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
   if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
 
