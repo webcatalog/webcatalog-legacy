@@ -39,15 +39,24 @@ appApiRouter.get('/', (req, res, next) => {
 
   switch (req.query.sort) {
     case 'createdAt': {
-      opts.order = [['createdAt', 'DESC']];
+      // default DESC
+      const direction = req.query.order === 'asc' ? 'ASC' : 'DESC';
+
+      opts.order = [['createdAt', direction]];
       break;
     }
     case 'name': {
-      opts.order = [['name', 'ASC'], ['createdAt', 'DESC']];
+      // default ASC
+      const direction = req.query.order === 'desc' ? 'DESC' : 'ASC';
+
+      opts.order = [['name', direction], ['createdAt', 'DESC']];
       break;
     }
     default: {
-      opts.order = [['installCount', 'DESC'], ['createdAt', 'DESC']];
+      // default DESC
+      const direction = req.query.order === 'asc' ? 'ASC' : 'DESC';
+
+      opts.order = [['installCount', direction], ['createdAt', 'DESC']];
     }
   }
 
