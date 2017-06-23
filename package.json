@@ -102,6 +102,7 @@
     "lodash.camelcase": "^4.3.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.1",
+    "react-draggable": "^2.2.6",
     "request": "^2.81.0",
     "semver": "^5.3.0",
     "tmp": "^0.0.31",

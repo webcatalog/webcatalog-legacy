@@ -1,6 +1,7 @@
 import {
   ADD_TAB,
   REMOVE_TAB,
+  SWAP_TAB,
   SET_ACTIVE_TAB,
   // SET_TAB_LAST_URL,
   // SET_TAB_CAN_GO_BACK,
@@ -74,6 +75,20 @@ const settings = (state = initialState, action) => {
       return Object.assign({}, state, {
         tabs: filteredTabs.length > 0 ? filteredTabs : [createTab()],
       });
+    }
+    case SWAP_TAB: {
+      const tabs = state.tabs;
+
+      const x = action.firstIndex;
+      const y = action.secondIndex;
+
+      const b = Object.assign({}, tabs[x]);
+
+      tabs[x] = Object.assign({}, tabs[y]);
+
+      tabs[y] = b;
+
+      return Object.assign({}, state, { tabs: tabs.slice() });
     }
     case SET_ACTIVE_TAB: {
       const tabs = state.tabs

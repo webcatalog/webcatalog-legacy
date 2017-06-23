@@ -1,4 +1,5 @@
 import React from 'react';
+import Draggable from 'react-draggable';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -8,14 +9,20 @@ import { blue, red, pink, purple, deepPurple, teal, green, deepOrange, brown, gr
 import Avatar from 'material-ui/Avatar';
 import AddCircleIcon from 'material-ui-icons/Add';
 
-import { addTab, removeTab, setActiveTab } from '../actions/root';
+import {
+  addTab,
+  removeTab,
+  swapTab,
+  setActiveTab,
+} from '../actions/root';
 
 const styleSheet = createStyleSheet('Tabs', theme => ({
   tabContainer: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    position: 'relative',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
     paddingTop: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
     overflowY: 'auto',
@@ -23,6 +30,16 @@ const styleSheet = createStyleSheet('Tabs', theme => ({
   tab: {
     textAlign: 'center',
     color: 'rgba(255, 255, 255, 0.7)',
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+
+    width: '100%',
+    height: 80,
+
+    padding: theme.spacing.unit,
+    boxSizing: 'border-box',
 
     '&:hover': {
       color: '#fff',
@@ -35,11 +52,11 @@ const styleSheet = createStyleSheet('Tabs', theme => ({
     color: '#fff',
     height: 48,
     width: 48,
-    marginTop: theme.spacing.unit,
-    cursor: 'pointer',
     '&:hover': {
       backgroundColor: grey[800],
     },
+    margin: '0 auto',
+    WebkitAppRegion: 'no-drag',
   },
   blueActiveTabAvatar: {
     backgroundColor: blue[500],
@@ -95,7 +112,17 @@ const styleSheet = createStyleSheet('Tabs', theme => ({
       backgroundColor: brown[700],
     },
   },
+  tabShortcutText: {
+    height: 16,
+    lineHeight: '16px',
+  },
 }));
+
+const handleDrag = (e, { node }) => {
+  // stay on top
+  // eslint-disable-next-line
+  node.style.zIndex = 1000;
+};
 
 const Tabs = (props) => {
   const {
@@ -104,32 +131,64 @@ const Tabs = (props) => {
 
     onAddTab,
     onRemoveTab,
+    onSwapTab,
     onSetActiveTab,
   } = props;
 
   return (
     <div className={classes.tabContainer}>
-      {tabs.map((tab, i) => (
-        <div
-          key={`tab_${tab.id}`}
-          className={classnames(classes.tab, { [classes.activeTab]: tab.isActive })}
-        >
-          <Avatar
-            className={classnames(
-              classes.tabAvatar,
-              { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
-            )}
-            onClick={() => onSetActiveTab(tab.id)}
-            onContextMenu={() => onRemoveTab(tab.id)}
+      {tabs.map((tab, i) => {
+        const defaultY = 72 * i;
+
+        const handleStop = (e, { node, y }) => {
+          // remove stay on top trick
+          // eslint-disable-next-line
+          node.style.zIndex = null;
+
+          const d = Math.abs(defaultY - y);
+          const count = d > 32 ? Math.floor((d - 32) / 80) + 1 : 1;
+
+
+          if (d > 24) {
+            let secondI = i;
+            if (defaultY > y) {
+              secondI = i - count > -1 ? i - count : 0;
+            } else {
+              secondI = i + count < tabs.length ? i + count : tabs.length - 1;
+            }
+
+            onSwapTab(i, secondI);
+          }
+        };
+
+        return (
+          <Draggable
+            key={`tab_${tab.id}`}
+            axis="y"
+            position={{ x: 0, y: 80 * i }}
+            onStart={handleDrag}
+            onDrag={handleDrag}
+            onStop={handleStop}
           >
-            {tab.id + 1}
-          </Avatar>
-          <span>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
-        </div>
-      ))}
+            <div className={classnames(classes.tab, { [classes.activeTab]: tab.isActive })}>
+              <Avatar
+                className={classnames(
+                  classes.tabAvatar,
+                  { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
+                )}
+                onClick={() => onSetActiveTab(tab.id)}
+                onContextMenu={() => onRemoveTab(tab.id)}
+              >
+                {tab.id + 1}
+              </Avatar>
+              <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
+            </div>
+          </Draggable>
+        );
+      })}
 
       {tabs.length < 9 ? (
-        <div className={classes.tab}>
+        <div className={classes.tab} style={{ top: tabs.length * 80 }}>
           <Avatar
             className={classes.tabAvatar}
             onClick={() => onAddTab()}
@@ -150,6 +209,7 @@ Tabs.propTypes = {
 
   onAddTab: PropTypes.func.isRequired,
   onRemoveTab: PropTypes.func.isRequired,
+  onSwapTab: PropTypes.func.isRequired,
   onSetActiveTab: PropTypes.func.isRequired,
 };
 
@@ -160,6 +220,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onAddTab: () => dispatch(addTab()),
   onRemoveTab: id => dispatch(removeTab(id)),
+  onSwapTab: (firstIndex, secondIndex) => dispatch(swapTab(firstIndex, secondIndex)),
   onSetActiveTab: id => dispatch(setActiveTab(id)),
 });
 

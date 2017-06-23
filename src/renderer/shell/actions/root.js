@@ -1,6 +1,7 @@
 import {
   ADD_TAB,
   REMOVE_TAB,
+  SWAP_TAB,
   SET_ACTIVE_TAB,
   // SET_TAB_LAST_URL,
   // SET_TAB_CAN_GO_BACK,
@@ -14,6 +15,12 @@ export const addTab = () => ({
 export const removeTab = id => ({
   type: REMOVE_TAB,
   id,
+});
+
+export const swapTab = (firstIndex, secondIndex) => ({
+  type: SWAP_TAB,
+  firstIndex,
+  secondIndex,
 });
 
 export const setActiveTab = id => ({
