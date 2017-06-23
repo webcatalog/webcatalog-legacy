@@ -6,7 +6,7 @@
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). 
+WebCatalog is a desktop app which allows users to install and run any web app natively. (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). 
 
 ## Development
 1. Install [Node.js 7](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
@@ -14,7 +14,7 @@ WebCatalog is a desktop app which allows users to install and run any web app na
 2. Run
 ```bash
 git clone https://github.com/webcatalog/webcatalog.git
-cd desktop
+cd webcatalog
 yarn
 ```
 
