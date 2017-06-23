@@ -6,6 +6,7 @@ const path = require('path');
 const argv = require('yargs-parser')(process.argv.slice(1));
 
 const windowStateKeeper = require('./libs/windowStateKeeper');
+const createMenu = require('./libs/createMenu');
 
 
 // Development mode
@@ -16,7 +17,6 @@ const isTesting = argv.testing === 'true';
 
 // Call the app binary with url & id argument to activate webshell mode.
 const isShell = argv.url !== undefined && argv.id !== undefined;
-
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -34,6 +34,7 @@ ipcMain.on('get-shell-info', (e) => {
     preload: path.join(__dirname, 'webview_preload.js'),
   };
 });
+
 
 const createWindow = () => {
   // Keep window size and restore on startup
@@ -72,6 +73,9 @@ const createWindow = () => {
 
   // link window with window size management lib
   mainWindowState.manage(mainWindow);
+
+  // load menu
+  createMenu();
 
   if (isDevelopment) {
     // Download the file from webpack dev server to reproduce production more accurately.
