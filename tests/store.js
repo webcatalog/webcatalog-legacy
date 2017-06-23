@@ -7,7 +7,7 @@ harness('store-test', () => {
     global.app.client
       .windowByIndex(0)
       .waitUntilWindowLoaded()
-      .waitForVisible('.pt-button'));
+      .waitForVisible('[class^="App-root"]'));
 }, [
   '--testing=true',
 ]);
