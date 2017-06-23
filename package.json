@@ -66,6 +66,7 @@
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-alpha.3",
     "mocha": "^3.4.2",
+    "mousetrap": "^1.6.1",
     "node-sass": "^4.5.3",
     "postcss-flexbugs-fixes": "^3.0.0",
     "postcss-loader": "^2.0.5",

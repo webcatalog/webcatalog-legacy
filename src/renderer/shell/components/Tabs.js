@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import Mousetrap from 'mousetrap';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { blue, red, pink, purple, deepPurple, teal, green, deepOrange, brown, grey } from 'material-ui/styles/colors';
@@ -126,86 +127,115 @@ const handleDrag = (e, { node }) => {
   node.style.zIndex = 1000;
 };
 
-const Tabs = (props) => {
-  const {
-    classes,
-    tabs,
+class Tabs extends React.Component {
+  componentDidMount() {
+    const { onSetActiveTab, onAddTab } = this.props;
 
-    onAddTab,
-    onRemoveTab,
-    onSwapTab,
-    onSetActiveTab,
-  } = props;
+    // tab shortcut
+    for (let i = 0; i < 9; i += 1) {
+      Mousetrap.bind([`command+${i + 1}`, `ctrl+${i + 1}`], () => {
+        const { tabs } = this.props;
 
-  return (
-    <div className={classes.tabContainer}>
-      {tabs.map((tab, i) => {
-        const defaultY = TAB_HEIGHT * i;
+        if (tabs[i]) {
+          onSetActiveTab(tabs[i].id);
+        }
+      });
+    }
 
-        const handleStop = (e, { node, y }) => {
-          // remove stay on top trick
-          // eslint-disable-next-line
-          node.style.zIndex = null;
+    Mousetrap.bind(['command+t', 'ctrl+t'], () => onAddTab());
+  }
 
-          const d = Math.abs(defaultY - y);
-          const count = d > (TAB_HEIGHT / 2) ?
-            Math.floor((d - (TAB_HEIGHT / 2)) / TAB_HEIGHT) + 1 : 1;
+  // eslint-disable-next-line
+  componentWillUnmount() {
+    for (let i = 0; i < 9; i += 1) {
+      Mousetrap.unbind([`command+${i + 1}`, `ctrl+${i + 1}`]);
+    }
+
+    Mousetrap.unbind(['command+t', 'ctrl+t']);
+  }
+
+  render() {
+    const {
+      classes,
+      tabs,
+
+      onAddTab,
+      onRemoveTab,
+      onSwapTab,
+      onSetActiveTab,
+    } = this.props;
+
+    return (
+      <div className={classes.tabContainer}>
+        {tabs.map((tab, i) => {
+          const defaultY = TAB_HEIGHT * i;
+
+          const handleStop = (e, { node, y }) => {
+            // remove stay on top trick
+            // eslint-disable-next-line
+            node.style.zIndex = null;
+
+            const d = Math.abs(defaultY - y);
+            const count = d > (TAB_HEIGHT / 2) ?
+              Math.floor((d - (TAB_HEIGHT / 2)) / TAB_HEIGHT) + 1 : 1;
 
 
-          if (d > TAB_HEIGHT / 2) {
-            let secondI = i;
-            if (defaultY > y) {
-              secondI = i - count > -1 ? i - count : 0;
-            } else {
-              secondI = i + count < tabs.length ? i + count : tabs.length - 1;
+            if (d > TAB_HEIGHT / 2) {
+              let secondI = i;
+              if (defaultY > y) {
+                secondI = i - count > -1 ? i - count : 0;
+              } else {
+                secondI = i + count < tabs.length ? i + count : tabs.length - 1;
+              }
+
+              if (i !== secondI) {
+                onSwapTab(i, secondI);
+              }
             }
+          };
 
-            if (i !== secondI) {
-              onSwapTab(i, secondI);
-            }
-          }
-        };
+          return (
+            <Draggable
+              key={`tab_${tab.id}`}
+              axis="y"
+              position={{ x: 0, y: TAB_HEIGHT * i }}
+              onStart={handleDrag}
+              onDrag={handleDrag}
+              onStop={handleStop}
+            >
+              <div className={classnames(classes.tab, { [classes.activeTab]: tab.isActive })}>
+                <Avatar
+                  className={classnames(
+                    classes.tabAvatar,
+                    { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
+                  )}
+                  onClick={() => onSetActiveTab(tab.id)}
+                  onContextMenu={() => onRemoveTab(tab.id)}
+                >
+                  {tab.id + 1}
+                </Avatar>
+                <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
+              </div>
+            </Draggable>
+          );
+        })}
 
-        return (
-          <Draggable
-            key={`tab_${tab.id}`}
-            axis="y"
-            position={{ x: 0, y: TAB_HEIGHT * i }}
-            onStart={handleDrag}
-            onDrag={handleDrag}
-            onStop={handleStop}
-          >
-            <div className={classnames(classes.tab, { [classes.activeTab]: tab.isActive })}>
-              <Avatar
-                className={classnames(
-                  classes.tabAvatar,
-                  { [classes[`${tab.color}ActiveTabAvatar`]]: tab.isActive },
-                )}
-                onClick={() => onSetActiveTab(tab.id)}
-                onContextMenu={() => onRemoveTab(tab.id)}
-              >
-                {tab.id + 1}
-              </Avatar>
-              <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
-            </div>
-          </Draggable>
-        );
-      })}
+        {tabs.length < 9 ? (
+          <div className={classes.tab} style={{ top: tabs.length * 80 }}>
+            <Avatar
+              className={classes.tabAvatar}
+              onClick={() => onAddTab()}
+            >
+              <AddCircleIcon />
+            </Avatar>
+            <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}T</span>
+          </div>
+        ) : null}
 
-      {tabs.length < 9 ? (
-        <div className={classes.tab} style={{ top: tabs.length * 80 }}>
-          <Avatar
-            className={classes.tabAvatar}
-            onClick={() => onAddTab()}
-          >
-            <AddCircleIcon />
-          </Avatar>
-        </div>
-      ) : null}
-
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 Tabs.propTypes = {
   classes: PropTypes.object.isRequired,
