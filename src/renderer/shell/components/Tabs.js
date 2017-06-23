@@ -16,6 +16,8 @@ import {
   setActiveTab,
 } from '../actions/root';
 
+const TAB_HEIGHT = 80;
+
 const styleSheet = createStyleSheet('Tabs', theme => ({
   tabContainer: {
     flex: 1,
@@ -36,7 +38,7 @@ const styleSheet = createStyleSheet('Tabs', theme => ({
     left: 0,
 
     width: '100%',
-    height: 80,
+    height: TAB_HEIGHT,
 
     padding: theme.spacing.unit,
     boxSizing: 'border-box',
@@ -146,7 +148,8 @@ const Tabs = (props) => {
           node.style.zIndex = null;
 
           const d = Math.abs(defaultY - y);
-          const count = d > 32 ? Math.floor((d - 32) / 80) + 1 : 1;
+          const count = d > TAB_HEIGHT / 2 ?
+            Math.floor((d - (TAB_HEIGHT / 2)) / TAB_HEIGHT) + 1 : 1;
 
 
           if (d > 24) {
