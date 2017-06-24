@@ -5,7 +5,7 @@ import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 import accepts from 'accepts';
 import connectSessionSequelize from 'connect-session-sequelize';
-import { SecureMode } from 'intercom-client';
+import { IdentityVerification } from 'intercom-client';
 import md5 from 'md5';
 
 import passport from './passport';
@@ -78,7 +78,10 @@ app.use((req, res, next) => {
 
   if (req.user) {
     res.locals.intercomUserHash =
-      SecureMode.userHash({ secretKey: process.env.INTERCOM_SECRET, identifier: req.user.id });
+      IdentityVerification.userHash({
+        secretKey: process.env.INTERCOM_SECRET,
+        identifier: req.user.id,
+      });
   }
 
   next();
