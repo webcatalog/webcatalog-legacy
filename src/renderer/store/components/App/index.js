@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui-icons/Search';
 
 import MoreMenuButton from './MoreMenuButton';
+import SortMenuButton from './SortMenuButton';
 import Home from '../Home';
 
 const titleBarHeight = process.env.PLATFORM === 'darwin' ? 21 : 0;
@@ -41,17 +42,53 @@ const styleSheet = createStyleSheet('App', {
 const App = (props) => {
   const {
     classes,
+    sortBy,
+    sortOrder,
   } = props;
+
+  const renderTitleElement = () => {
+    let titleText;
+    if (sortBy) {
+      switch (sortBy) {
+        case 'installCount': {
+          titleText = sortOrder === 'asc' ? 'Least popular apps' : 'Most popular apps';
+          break;
+        }
+        case 'name': {
+          titleText = sortOrder === 'asc' ? 'Apps by name (A-Z)' : 'Apps by name (Z-A)';
+          break;
+        }
+        case 'createdAt': {
+          titleText = 'Most recently added apps';
+          break;
+        }
+        default: break;
+      }
+    } else {
+      titleText = 'Apps';
+    }
+
+    return (
+      <Typography
+        type="title"
+        color="inherit"
+        className={classes.title}
+      >
+        {titleText}
+      </Typography>
+    );
+  };
 
   return (
     <div className={classes.root}>
       <div className={classes.fakeTitleBar} />
       <AppBar position="static">
         <Toolbar>
-          <Typography type="title" color="inherit" className={classes.title}>Explore</Typography>
+          {renderTitleElement()}
           <IconButton color="contrast" aria-label="Search">
             <SearchIcon />
           </IconButton>
+          <SortMenuButton />
           <MoreMenuButton />
         </Toolbar>
       </AppBar>
@@ -61,11 +98,20 @@ const App = (props) => {
   );
 };
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
+App.defaultProps = {
+  sortBy: null,
+  sortOrder: null,
 };
 
-const mapStateToProps = () => ({
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+  sortBy: PropTypes.string,
+  sortOrder: PropTypes.string,
+};
+
+const mapStateToProps = state => ({
+  sortBy: state.home.sortBy,
+  sortOrder: state.home.sortOrder,
 });
 
 const mapDispatchToProps = () => ({
