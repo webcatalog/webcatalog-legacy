@@ -1,9 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import auth from './auth';
 import home from './home';
 
 const rootReducer = combineReducers({
+  auth,
   home,
 });
 
