@@ -5,9 +5,6 @@
       "url": "https://github.com/ello/heroku-buildpack-apt"
     },
     {
-      "url": "https://github.com/quanglam2807/heroku-buildpack-imagemagick"
-    },
-    {
       "url": "heroku/nodejs"
     }
   ]
