@@ -312,25 +312,6 @@ authRouter.get(
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   afterAuthMiddleware);
 
-authRouter.get('/facebook',
-  beforeAuthMiddleware,
-  passport.authenticate('facebook', { scope: ['email'] }));
-
-authRouter.get(
-  '/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/auth/facebook' }),
-  afterAuthMiddleware);
-
-authRouter.get('/twitter',
-  beforeAuthMiddleware,
-  passport.authenticate('twitter'));
-
-authRouter.get(
-  '/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/auth/twitter' }),
-  afterAuthMiddleware);
-
-
 authRouter.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');

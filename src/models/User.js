@@ -23,12 +23,6 @@ const User = sequelize.define('user', {
   googleId: {
     type: Sequelize.STRING,
   },
-  facebookId: {
-    type: Sequelize.STRING,
-  },
-  twitterId: {
-    type: Sequelize.STRING,
-  },
   password: {
     type: Sequelize.STRING,
   },
