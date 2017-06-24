@@ -15,8 +15,8 @@ const initialState = {
   totalPage: null,
   appStatus: {},
   category: null,
-  sortBy: null,
-  sortOrder: null,
+  sortBy: 'installCount',
+  sortOrder: 'desc',
 };
 
 const home = (state = initialState, action) => {

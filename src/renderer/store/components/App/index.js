@@ -48,24 +48,20 @@ const App = (props) => {
 
   const renderTitleElement = () => {
     let titleText;
-    if (sortBy) {
-      switch (sortBy) {
-        case 'installCount': {
-          titleText = sortOrder === 'asc' ? 'Least popular apps' : 'Most popular apps';
-          break;
-        }
-        case 'name': {
-          titleText = sortOrder === 'asc' ? 'Apps by name (A-Z)' : 'Apps by name (Z-A)';
-          break;
-        }
-        case 'createdAt': {
-          titleText = 'Most recently added apps';
-          break;
-        }
-        default: break;
+    switch (sortBy) {
+      case 'installCount': {
+        titleText = sortOrder === 'asc' ? 'Least popular apps' : 'Most popular apps';
+        break;
       }
-    } else {
-      titleText = 'Apps';
+      case 'name': {
+        titleText = sortOrder === 'asc' ? 'Apps by name (A-Z)' : 'Apps by name (Z-A)';
+        break;
+      }
+      case 'createdAt': {
+        titleText = 'Most recently added apps';
+        break;
+      }
+      default: break;
     }
 
     return (
