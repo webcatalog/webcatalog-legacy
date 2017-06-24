@@ -4,6 +4,7 @@ import {
   RESET_HOME_APPS,
   SET_HOME_CATEGORY,
   SET_HOME_SORT_BY,
+  SET_HOME_SORT_ORDER,
 } from '../constants/actions';
 import {
   LOADING,
@@ -33,6 +34,7 @@ export const fetchApps = () => (dispatch, getState) => {
   let requestPath = `https://getwebcatalog.com/api/apps?limit=30&page=${currentPage}`;
   if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
   if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
+  if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
 
   fetch(requestPath)
   .then(response => response.json())
@@ -74,9 +76,11 @@ export const setCategory = category => (dispatch) => {
   dispatch(fetchApps());
 };
 
-export const setSortBy = sortBy => (dispatch) => {
+export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
+  dispatch({ type: SET_HOME_SORT_ORDER, sortOrder });
   dispatch({ type: SET_HOME_SORT_BY, sortBy });
   dispatch({ type: RESET_HOME_APPS });
 
   dispatch(fetchApps());
 };
+

@@ -4,3 +4,4 @@ export const ADD_HOME_APPS = 'ADD_HOME_APPS';
 export const RESET_HOME_APPS = 'RESET_HOME_APPS';
 export const SET_HOME_CATEGORY = 'SET_HOME_CATEGORY';
 export const SET_HOME_SORT_BY = 'SET_HOME_SORT_BY';
+export const SET_HOME_SORT_ORDER = 'SET_HOME_SORT_ORDER';

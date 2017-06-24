@@ -5,6 +5,7 @@ import {
   RESET_HOME_APPS,
   SET_HOME_CATEGORY,
   SET_HOME_SORT_BY,
+  SET_HOME_SORT_ORDER,
 } from '../constants/actions';
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   totalPage: null,
   appStatus: {},
   category: null,
-  sortBy: null,
+  sortBy: 'installCount',
+  sortOrder: 'desc',
 };
 
 const home = (state = initialState, action) => {
@@ -36,10 +38,10 @@ const home = (state = initialState, action) => {
     }
     case RESET_HOME_APPS: {
       // Keep category and sort option
-      const { category, sortBy } = state;
+      const { category, sortBy, sortOrder } = state;
 
       return Object.assign({}, initialState, {
-        category, sortBy,
+        category, sortBy, sortOrder,
       });
     }
     case SET_HOME_CATEGORY: {
@@ -49,6 +51,10 @@ const home = (state = initialState, action) => {
     case SET_HOME_SORT_BY: {
       const { sortBy } = action;
       return Object.assign({}, state, { sortBy });
+    }
+    case SET_HOME_SORT_ORDER: {
+      const { sortOrder } = action;
+      return Object.assign({}, state, { sortOrder });
     }
     default:
       return state;
