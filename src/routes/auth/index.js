@@ -20,6 +20,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const beforeAuthMiddleware = (req, res, next) => {
+  if (req.user) {
+    return res.redirect(req.query.returnTo || '/');
+  }
+
   if (req.query.returnTo) {
     req.session.returnTo = req.query.returnTo;
   }
@@ -28,7 +32,10 @@ const beforeAuthMiddleware = (req, res, next) => {
     req.session.useJWT = true;
   }
 
-  next();
+  // hide Intercom
+  res.locals.showIntercom = false;
+
+  return next();
 };
 
 const afterAuthMiddleware = (req, res) => {
