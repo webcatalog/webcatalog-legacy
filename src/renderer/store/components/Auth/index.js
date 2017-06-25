@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -137,7 +138,7 @@ const Auth = (props) => {
 
         <Divider className={classes.divider} />
 
-        <Button raised className={classes.googleButton}>
+        <Button raised className={classes.googleButton} onClick={() => ipcRenderer.send('sign-in-with-google')}>
           <GoogleIcon />
           <span className={classes.oauthText}>Sign in with Google</span>
         </Button>
