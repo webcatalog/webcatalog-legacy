@@ -12,10 +12,6 @@ const categories = [
     singularLabel: 'business',
     value: 'business',
   }, {
-    label: 'Catalog',
-    singularLabel: 'catalog',
-    value: 'catalogs',
-  }, {
     label: 'Education',
     singularLabel: 'education',
     value: 'education',
