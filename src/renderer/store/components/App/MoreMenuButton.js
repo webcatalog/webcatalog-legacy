@@ -25,7 +25,10 @@ class MoreMenuButton extends React.Component {
   }
 
   handleClick(e) {
-    this.setState({ open: true, anchorEl: e.currentTarget });
+    this.setState({
+      open: true,
+      anchorEl: e.currentTarget,
+    });
   }
 
   handleRequestClose() {
@@ -35,13 +38,17 @@ class MoreMenuButton extends React.Component {
   render() {
     return (
       <div>
-        <IconButton aria-label="More" color="contrast" onClick={this.handleClick}>
+        <IconButton
+          aria-label="More"
+          color="contrast"
+          onClick={this.handleClick}
+        >
           <MoreVertIcon />
         </IconButton>
         <Menu
           anchorEl={this.state.anchorEl}
-          open={this.state.open}
           onRequestClose={this.handleRequestClose}
+          open={this.state.open}
         >
           <ListItem button onClick={this.handleRequestClose}>
             <ListItemIcon><ArrowBackIcon /></ListItemIcon>
