@@ -10,6 +10,7 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui-icons/Search';
 
+import Auth from '../Auth';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import Home from '../Home';
@@ -42,6 +43,7 @@ const styleSheet = createStyleSheet('App', {
 const App = (props) => {
   const {
     classes,
+    isLoggedIn,
     sortBy,
     sortOrder,
   } = props;
@@ -77,19 +79,22 @@ const App = (props) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.fakeTitleBar} />
-      <AppBar position="static">
-        <Toolbar>
-          {renderTitleElement()}
-          <IconButton color="contrast" aria-label="Search">
-            <SearchIcon />
-          </IconButton>
-          <SortMenuButton />
-          <MoreMenuButton />
-        </Toolbar>
-      </AppBar>
+      {isLoggedIn ? [
+        <div className={classes.fakeTitleBar} key="fakeTitleBar" />,
+        <AppBar position="static" key="appBar">
+          <Toolbar>
+            {renderTitleElement()}
+            <IconButton color="contrast" aria-label="Search">
+              <SearchIcon />
+            </IconButton>
+            <SortMenuButton />
+            <MoreMenuButton />
+          </Toolbar>
+        </AppBar>,
+        <Home key="routes" />,
+      ] : <Auth />}
 
-      <Home />
+
     </div>
   );
 };
@@ -101,11 +106,13 @@ App.defaultProps = {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string,
   sortOrder: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
+  isLoggedIn: Boolean(state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
 });

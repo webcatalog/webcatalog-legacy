@@ -1,3 +1,6 @@
+// Auth
+export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
+
 // Home
 export const SET_HOME_STATUS = 'SET_HOME_STATUS';
 export const ADD_HOME_APPS = 'ADD_HOME_APPS';
