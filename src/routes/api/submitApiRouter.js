@@ -1,17 +1,14 @@
 import express from 'express';
+import passport from 'passport';
 import { Client as IntercomClient } from 'intercom-client';
 
-import ensureLoggedIn from '../../middlewares/ensureLoggedIn';
-
-const submitRouter = express.Router();
+const submitApiRouter = express.Router();
 
 const intercomClient = new IntercomClient({ token: process.env.INTERCOM_ACCESS_TOKEN });
 
-submitRouter.get('/', ensureLoggedIn, (req, res) => {
-  res.render('submit/index', { title: 'Submit New App' });
-});
+submitApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  console.log(req.body);
 
-submitRouter.post('/', ensureLoggedIn, (req, res, next) => {
   if (!req.body) return next(new Error('Request is not valid.'));
 
   if (!req.body.name || !req.body.url) {
@@ -33,8 +30,10 @@ submitRouter.post('/', ensureLoggedIn, (req, res, next) => {
   // eslint-disable-next-line no-unused-vars
   return intercomClient.messages.create(message, (err, response) => {
     if (err) return next(err);
-    return res.render('submit/success', { title: 'Submit New App' });
+
+    return res.json({ success: true });
   });
 });
 
-module.exports = submitRouter;
+
+module.exports = submitApiRouter;
