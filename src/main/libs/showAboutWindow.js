@@ -5,7 +5,7 @@ const openAboutWindow = require('about-window').default;
 const showAboutWindow = () => {
   openAboutWindow({
     icon_path: path.join(__dirname, '..', 'www', 'images', 'icon.1024x1024.png'),
-    copyright: `Copyright © 2016 - ${new Date().getFullYear()} Quang Lam`,
+    copyright: `Copyright © 2016 - ${new Date().getFullYear()} WebCatalog Team`,
     win_options: {
       minWidth: 400,
       minHeight: 400,
