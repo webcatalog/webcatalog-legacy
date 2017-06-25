@@ -12,7 +12,12 @@ import '../shared/shared.css';
 
 import store from './reducers';
 
+// listeners to communicate with main process
+import loadListeners from './loadListeners';
+
 import App from './components/App';
+
+loadListeners(store);
 
 const theme = createMuiTheme({
   palette: createPalette({
