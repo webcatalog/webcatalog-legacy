@@ -310,7 +310,7 @@ class App extends React.Component {
               }}
               onPageTitleUpdated={this.handlePageTitleUpdated}
               onUpdateTargetUrl={this.handleUpdateTargetUrl}
-              onDidFailLoad={this.handleDidStopLoading}
+              onDidFailLoad={this.handleDidFailLoad}
             />
           </div>
         </div>
