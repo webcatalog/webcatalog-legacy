@@ -28,7 +28,7 @@
     "email": "quang.lam2807@gmail.com",
     "url": "https://quanglam.me"
   },
-  "license": "MIT",
+  "license": "Apache License, Version 2.0",
   "devDependencies": {
     "@blueprintjs/core": "^1.19.0",
     "algoliasearch": "^3.23.0",
