@@ -2,36 +2,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NonIdealState, Button, Intent, Classes, Hotkey, Hotkeys, HotkeysTarget } from '@blueprintjs/core';
-
-import Immutable from 'immutable';
+import { NonIdealState, Button, Intent, Classes } from '@blueprintjs/core';
 
 import extractDomain from '../libs/extractDomain';
 import {
   updateTargetUrl,
   updateIsFailed,
   updateIsLoading,
+  updateCanGoBack,
+  updateCanGoForward,
 } from '../actions/nav';
 import { toggleSettingDialog } from '../actions/settings';
 import { toggleFindInPageDialog, updateFindInPageMatches } from '../actions/findInPage';
 import { screenResize } from '../actions/screen';
-import {
-  addTab,
-  closeTab,
-  updateActiveTab,
-  updateTabLastURL,
-  updateCanGoBack,
-  updateCanGoForward,
-} from '../actions/tabs';
 
-import LeftNav from './LeftNav';
 import WebView from './WebView';
 import Settings from './Settings';
 import Nav from './Nav';
 import FindInPage from './FindInPage';
 import showUpdateToast from '../../shared/components/showUpdateToast';
 
-@HotkeysTarget
 class App extends React.Component {
   constructor() {
     super();
@@ -40,8 +30,6 @@ class App extends React.Component {
     this.handleDidStopLoading = this.handleDidStopLoading.bind(this);
     this.handleDidGetRedirectRequest = this.handleDidGetRedirectRequest.bind(this);
     this.handleUpdateTargetUrl = this.handleUpdateTargetUrl.bind(this);
-
-    this.webViews = {};
   }
 
   componentDidMount() {
@@ -49,8 +37,6 @@ class App extends React.Component {
       requestToggleSettingDialog,
       requestToggleFindInPageDialog,
       requestUpdateFindInPageMatches,
-      requestAddTab,
-      requestCloseTab,
       onResize,
     } = this.props;
 
@@ -59,7 +45,7 @@ class App extends React.Component {
     window.addEventListener('resize', onResize);
 
     ipcRenderer.on('toggle-dev-tools', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.openDevTools();
     });
 
@@ -69,7 +55,7 @@ class App extends React.Component {
 
     ipcRenderer.on('toggle-find-in-page-dialog', () => {
       if (this.props.findInPageIsOpen) {
-        const c = this.webViews[this.props.activeTabId];
+        const c = this.webView;
         c.stopFindInPage('clearSelection');
         requestUpdateFindInPageMatches(0, 0);
       }
@@ -77,74 +63,53 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('change-zoom', (event, message) => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.setZoomFactor(message);
     });
 
     ipcRenderer.on('reload', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.reload();
     });
 
     ipcRenderer.on('go-back', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.goBack();
     });
 
     ipcRenderer.on('go-forward', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.goForward();
     });
 
     ipcRenderer.on('go-home', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.loadURL(this.props.customHome || window.shellInfo.url);
     });
 
     ipcRenderer.on('go-to-url', (e, url) => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       c.loadURL(url);
     });
 
     ipcRenderer.on('copy-url', () => {
-      const c = this.webViews[this.props.activeTabId];
+      const c = this.webView;
       const currentURL = c.getURL();
       clipboard.writeText(currentURL);
     });
-
-    ipcRenderer.on('new-tab', () => {
-      requestAddTab();
-    });
-
-    ipcRenderer.on('close-tab', () => {
-      requestCloseTab(this.props.activeTabId);
-    });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const {
-      activeTabId,
       findInPageIsOpen,
       findInPageText,
     } = this.props;
 
-    const c = this.webViews[activeTabId];
+    const c = this.webView;
 
     // Restart search if text is available
     if (findInPageIsOpen && findInPageText.length > 0) {
       c.findInPage(findInPageText, { forward: true });
-    }
-
-    // https://github.com/electron/electron/issues/5110#issuecomment-208991872
-    if (prevProps.activeTabId !== activeTabId) {
-      if (this.webViews[prevProps.activeTabId]) {
-        this.webViews[prevProps.activeTabId].c.style.flex = '0 1';
-        this.webViews[prevProps.activeTabId].c.style.width = '0';
-        this.webViews[prevProps.activeTabId].c.style.height = '0';
-      }
-      this.webViews[activeTabId].c.style.flex = null;
-      this.webViews[activeTabId].c.style.width = '100%';
-      this.webViews[activeTabId].c.style.height = '100%';
     }
   }
 
@@ -153,11 +118,7 @@ class App extends React.Component {
   }
 
   handleDidGetRedirectRequest(e) {
-    const {
-      activeTabId,
-    } = this.props;
-
-    const c = this.webViews[activeTabId];
+    const c = this.webView;
 
     const { newURL, isMainFrame } = e;
     // https://github.com/webcatalog/webcatalog/issues/42
@@ -168,11 +129,9 @@ class App extends React.Component {
   }
 
   handleNewWindow(e) {
-    const { activeTabId } = this.props;
-
     const nextUrl = e.url;
 
-    const c = this.webViews[activeTabId];
+    const c = this.webView;
 
     console.log(`newWindow: ${nextUrl}`);
     // open external url in browser if domain doesn't match.
@@ -212,20 +171,18 @@ class App extends React.Component {
 
   handleDidStopLoading() {
     const {
-      activeTabId,
       requestUpdateIsLoading,
       requestUpdateCanGoBack,
       requestUpdateCanGoForward,
-      requestSetTabLastUrl,
     } = this.props;
 
-    const c = this.webViews[activeTabId];
+    const c = this.webView;
 
     requestUpdateIsLoading(false);
-    requestUpdateCanGoBack(activeTabId, c.canGoBack());
-    requestUpdateCanGoForward(activeTabId, c.canGoForward());
+    requestUpdateCanGoBack(c.canGoBack());
+    requestUpdateCanGoForward(c.canGoForward());
 
-    requestSetTabLastUrl(activeTabId, c.getURL());
+    ipcRenderer.send('set-setting', `lastPages.${window.shellInfo.id}`, c.getURL());
   }
 
   handlePageTitleUpdated({ title }) {
@@ -243,36 +200,13 @@ class App extends React.Component {
     requestUpdateTargetUrl(url);
   }
 
-  renderHotkeys() {
-    const {
-      tabs,
-      requestSetActiveTab,
-    } = this.props;
-
-    return (
-      <Hotkeys>
-        {tabs.map((tab, tabIndex) => (
-          <Hotkey
-            key={tab.get('id')}
-            global
-            combo={`mod + ${tabIndex + 1}`}
-            label={`Tab ${tabIndex + 1}`}
-            onKeyDown={() => requestSetActiveTab(tab.get('id'))}
-          />
-        ))}
-      </Hotkeys>
-    );
-  }
-
   render() {
     const {
+      url,
       findInPageIsOpen,
       isFailed,
       isFullScreen,
       customHome,
-      rememberLastPage,
-      tabs,
-      activeTabId,
       requestUpdateIsFailed,
       requestUpdateIsLoading,
       requestUpdateFindInPageMatches,
@@ -313,7 +247,7 @@ class App extends React.Component {
                   text="Try Again"
                   onClick={() => {
                     requestUpdateIsFailed(false);
-                    this.webViews.reload();
+                    this.webView.reload();
                   }}
                 />
               )}
@@ -323,19 +257,19 @@ class App extends React.Component {
         {showNav ? (
           <Nav
             onHomeButtonClick={() => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.loadURL(customHome || window.shellInfo.url);
             }}
             onBackButtonClick={() => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.goBack();
             }}
             onForwardButtonClick={() => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.goForward();
             }}
             onRefreshButtonClick={() => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.reload();
             }}
           />
@@ -343,50 +277,41 @@ class App extends React.Component {
         {findInPageIsOpen ? (
           <FindInPage
             onRequestFind={(text, forward) => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.findInPage(text, { forward });
             }}
             onRequestStopFind={() => {
-              const c = this.webViews[activeTabId];
+              const c = this.webView;
               c.stopFindInPage('clearSelection');
               requestUpdateFindInPageMatches(0, 0);
             }}
           />
         ) : null}
         <div style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100vw', display: 'flex' }}>
-          {tabs.size > 1 ? <LeftNav /> : null}
           <div style={{ height: `calc(100vh - ${usedHeight}px)`, width: '100%' }}>
-            {tabs.map(tab => (
-              <WebView
-                key={tab.get('id')}
-                ref={(c) => { this.webViews[tab.get('id')] = c; }}
-                src={rememberLastPage ? (tab.get('lastUrl') || customHome || window.shellInfo.url) : (customHome || window.shellInfo.url)}
-                style={{
-                  height: !tab.get('isActive') ? 0 : '100%',
-                  width: !tab.get('isActive') ? 0 : '100%',
-                  flex: !tab.get('isActive') ? '0 1' : null,
-                }}
-                className="webview"
-                plugins
-                allowpopups
-                autoresize
-                preload={window.shellInfo.preload}
-                // enable nodeintegration in testing mode (mainly for Spectron)
-                nodeintegration={window.shellInfo.isTesting}
-                useragent={window.shellInfo.userAgent}
-                partition={tab.get('partition')}
-                onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
-                onDidFailLoad={this.handleDidFailLoad}
-                onNewWindow={this.handleNewWindow}
-                onDidStartLoading={() => requestUpdateIsLoading(true)}
-                onDidStopLoading={this.handleDidStopLoading}
-                onFoundInPage={({ result }) => {
-                  requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
-                }}
-                onPageTitleUpdated={this.handlePageTitleUpdated}
-                onUpdateTargetUrl={this.handleUpdateTargetUrl}
-              />
-            ))}
+            <WebView
+              ref={(c) => { this.webView = c; }}
+              src={url}
+              style={{ height: '100%', width: '100%' }}
+              className="webview"
+              plugins
+              allowpopups
+              autoresize
+              preload="../preload.js"
+              nodeintegration={window.shellInfo.isTesting}
+              useragent={window.shellInfo.userAgent}
+              partition={`persist:${window.shellInfo.id}`}
+              onDidGetRedirectRequest={this.handleDidGetRedirectRequest}
+              onNewWindow={this.handleNewWindow}
+              onDidStartLoading={() => requestUpdateIsLoading(true)}
+              onDidStopLoading={this.handleDidStopLoading}
+              onFoundInPage={({ result }) => {
+                requestUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches);
+              }}
+              onPageTitleUpdated={this.handlePageTitleUpdated}
+              onUpdateTargetUrl={this.handleUpdateTargetUrl}
+              onDidFailLoad={this.handleDidStopLoading}
+            />
           </div>
         </div>
         <div
@@ -415,15 +340,13 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  url: PropTypes.string.isRequired,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFullScreen: PropTypes.bool,
   isFailed: PropTypes.bool,
   customHome: PropTypes.string,
-  rememberLastPage: PropTypes.bool,
   targetUrl: PropTypes.string,
-  tabs: PropTypes.instanceOf(Immutable.List),
-  activeTabId: PropTypes.string,
   onResize: PropTypes.func.isRequired,
   requestUpdateTargetUrl: PropTypes.func.isRequired,
   requestUpdateIsFailed: PropTypes.func.isRequired,
@@ -433,44 +356,29 @@ App.propTypes = {
   requestToggleSettingDialog: PropTypes.func.isRequired,
   requestToggleFindInPageDialog: PropTypes.func.isRequired,
   requestUpdateFindInPageMatches: PropTypes.func.isRequired,
-  requestAddTab: PropTypes.func.isRequired,
-  requestCloseTab: PropTypes.func.isRequired,
-  requestSetActiveTab: PropTypes.func.isRequired,
-  requestSetTabLastUrl: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const tabs = state.tabs.get('list');
-  const activeTab = tabs.find(tab => tab.get('isActive'));
-
-  return {
-    findInPageIsOpen: state.findInPage.get('isOpen'),
-    findInPageText: state.findInPage.get('text'),
-    isFullScreen: state.screen.get('isFullScreen'),
-    isFailed: state.nav.get('isFailed'),
-    customHome: state.settings.get('customHome'),
-    rememberLastPage: state.settings.get('rememberLastPage'),
-    targetUrl: state.nav.get('targetUrl'),
-    tabs,
-    activeTabId: activeTab.get('id'),
-  };
-};
+const mapStateToProps = state => ({
+  findInPageIsOpen: state.findInPage.get('isOpen'),
+  findInPageText: state.findInPage.get('text'),
+  isFullScreen: state.screen.get('isFullScreen'),
+  isFailed: state.nav.get('isFailed'),
+  customHome: state.settings.get('customHome'),
+  rememberLastPage: state.settings.get('rememberLastPage'),
+  targetUrl: state.nav.get('targetUrl'),
+});
 
 const mapDispatchToProps = dispatch => ({
   onResize: () => dispatch(screenResize(window.innerWidth)),
   requestUpdateTargetUrl: targetUrl => dispatch(updateTargetUrl(targetUrl)),
   requestUpdateIsFailed: isFailed => dispatch(updateIsFailed(isFailed)),
   requestUpdateIsLoading: isLoading => dispatch(updateIsLoading(isLoading)),
-  requestUpdateCanGoBack: (tabId, canGoBack) => dispatch(updateCanGoBack(tabId, canGoBack)),
-  requestUpdateCanGoForward: (tabId, canGoForward) => dispatch(updateCanGoForward(tabId, canGoForward)),
+  requestUpdateCanGoBack: canGoBack => dispatch(updateCanGoBack(canGoBack)),
+  requestUpdateCanGoForward: canGoForward => dispatch(updateCanGoForward(canGoForward)),
   requestToggleSettingDialog: () => dispatch(toggleSettingDialog()),
   requestToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
   requestUpdateFindInPageMatches: (activeMatch, matches) =>
     dispatch(updateFindInPageMatches(activeMatch, matches)),
-  requestAddTab: () => dispatch(addTab()),
-  requestCloseTab: tabId => dispatch(closeTab(tabId)),
-  requestSetActiveTab: isActive => dispatch(updateActiveTab(isActive)),
-  requestSetTabLastUrl: (tabId, lastUrl) => dispatch(updateTabLastURL(tabId, lastUrl)),
 });
 
 export default connect(
