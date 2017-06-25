@@ -7,7 +7,7 @@ import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
   isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
-  blockAds, customHome, injectedCSS, injectedJS, customUserAgent,
+  customHome, injectedCSS, injectedJS, customUserAgent,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
   <Dialog
@@ -50,19 +50,6 @@ const Settings = ({
           </div>
         </div>
       ) : null}
-
-      <div className="pt-form-group">
-        <div className="pt-form-content">
-          <Switch
-            checked={blockAds}
-            label="Block ads & tracking"
-            onChange={e => requestSetBehavior('blockAds', e.target.checked)}
-          />
-          <p className="pt-form-helper-text">
-            Restart is required.
-          </p>
-        </div>
-      </div>
 
       <div className="pt-form-group">
         <div className="pt-form-content">
@@ -266,7 +253,6 @@ Settings.propTypes = {
   swipeToNavigate: PropTypes.bool.isRequired,
   quitOnLastWindow: PropTypes.bool.isRequired,
   rememberLastPage: PropTypes.bool.isRequired,
-  blockAds: PropTypes.bool.isRequired,
   customHome: PropTypes.string,
   injectedCSS: PropTypes.string,
   injectedJS: PropTypes.string,
@@ -280,7 +266,6 @@ const mapStateToProps = state => ({
   swipeToNavigate: state.settings.get('swipeToNavigate'),
   rememberLastPage: state.settings.get('rememberLastPage'),
   quitOnLastWindow: state.settings.get('quitOnLastWindow'),
-  blockAds: state.settings.get('blockAds'),
   customHome: state.settings.get('customHome'),
   injectedCSS: state.settings.get('injectedCSS'),
   injectedJS: state.settings.get('injectedJS'),

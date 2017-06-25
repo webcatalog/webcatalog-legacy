@@ -8,7 +8,6 @@ const settings = require('electron-settings');
 
 const createMenu = require('./libs/createMenu');
 const windowStateKeeper = require('./libs/windowStateKeeper');
-const registerFiltering = require('./libs/adblock/registerFiltering');
 const clearBrowsingData = require('./libs/clearBrowsingData');
 const showAboutWindow = require('./libs/showAboutWindow');
 const sendMessageToWindow = require('./libs/sendMessageToWindow');
@@ -215,11 +214,6 @@ const createWindow = () => {
   mainWindowState.manage(mainWindow);
 
   if (isShell) {
-    const blockAds = settings.get(`behaviors.${argv.id}.blockAds`, false);
-    if (blockAds) {
-      registerFiltering(argv.id);
-    }
-
     const swipeToNavigate = settings.get(`behaviors.${argv.id}.swipeToNavigate`, true);
     if (swipeToNavigate) {
       mainWindow.on('swipe', (e, direction) => {
