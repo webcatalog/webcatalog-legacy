@@ -1,3 +1,18 @@
+## 6.0.0-rc
+- Removes ad blocker.
+- Removes quit on last window option (macOS).
+- Removes tab support.
+- Removes Facebook authentication.
+- Removes Twitter authentication.
+
+---
+
+## 6.0.0-beta.3
+- Fixes bugs.
+- Adds option to sign in with email.
+
+---
+
 ## 6.0.0-beta.3
 - Fixes bugs.
 - Adds option to sign in with email.
