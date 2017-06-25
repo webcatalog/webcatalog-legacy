@@ -4,7 +4,7 @@ import secureFetch from '../libs/secureFetch';
 export const bootIntercom = () => (dispatch, getState) => {
   const { auth } = getState();
 
-  if (auth.get('token') && auth.get('token') !== 'anonnymous') {
+  if (auth.get('token')) {
     secureFetch('/api/user', auth.get('token'))
     .then(response => response.json())
     .then(({ user }) => {

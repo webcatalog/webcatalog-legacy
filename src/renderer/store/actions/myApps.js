@@ -14,7 +14,7 @@ export const removeMyAppsResults = () => ({
 export const fetchMyApps = () => (dispatch, getState) => {
   const { myApps, auth } = getState();
 
-  if (!auth.get('token') || auth.get('token') === 'anonnymous') {
+  if (!auth.get('token')) {
     return;
   }
 

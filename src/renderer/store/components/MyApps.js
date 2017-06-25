@@ -133,7 +133,7 @@ MyApps.propTypes = {
 const mapStateToProps = state => ({
   myApps: state.myApps.get('apps'),
   status: state.myApps.get('status'),
-  signedIn: !(!state.auth.get('token') || state.auth.get('token') === 'anonnymous'),
+  signedIn: Boolean(state.auth.get('token') && state.auth.get('token') !== 'anonnymous'),
 });
 
 const mapDispatchToProps = dispatch => ({
