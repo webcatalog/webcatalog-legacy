@@ -236,16 +236,7 @@ const createWindow = () => {
   }
 
   // Emitted when the close button is clicked.
-  mainWindow.on('close', (e) => {
-    // keep window running when close button is hit except when quit on last window is turned on
-    if (isShell && process.platform === 'darwin' && !mainWindow.forceClose) {
-      const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, false);
-      if (!quitOnLastWindow) {
-        e.preventDefault();
-        mainWindow.hide();
-        return;
-      }
-    }
+  mainWindow.on('close', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -299,11 +290,6 @@ app.on('window-all-closed', () => {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
-  } else if (isShell) {
-    const quitOnLastWindow = settings.get(`behaviors.${argv.id}.quitOnLastWindow`, false);
-    if (quitOnLastWindow) {
-      app.quit();
-    }
   }
 });
 

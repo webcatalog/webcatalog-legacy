@@ -6,7 +6,7 @@ import { Dialog, Button, Intent, Switch } from '@blueprintjs/core';
 import { toggleSettingDialog, setBehavior } from '../actions/settings';
 
 const Settings = ({
-  isOpen, swipeToNavigate, rememberLastPage, quitOnLastWindow,
+  isOpen, swipeToNavigate, rememberLastPage,
   customHome, injectedCSS, injectedJS, customUserAgent,
   requestToggleSettingDialog, requestSetBehavior,
 }) => (
@@ -35,18 +35,6 @@ const Settings = ({
               <strong>Swipe with two or three fingers</strong>.
               <span> Restart is required.</span>
             </p>
-          </div>
-        </div>
-      ) : null}
-
-      {(process.env.PLATFORM === 'darwin') ? (
-        <div className="pt-form-group">
-          <div className="pt-form-content">
-            <Switch
-              checked={quitOnLastWindow}
-              label="Quit when last window is closed"
-              onChange={e => requestSetBehavior('quitOnLastWindow', e.target.checked)}
-            />
           </div>
         </div>
       ) : null}
@@ -251,7 +239,6 @@ const Settings = ({
 Settings.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
-  quitOnLastWindow: PropTypes.bool.isRequired,
   rememberLastPage: PropTypes.bool.isRequired,
   customHome: PropTypes.string,
   injectedCSS: PropTypes.string,
@@ -265,7 +252,6 @@ const mapStateToProps = state => ({
   isOpen: state.settings.get('isOpen'),
   swipeToNavigate: state.settings.get('swipeToNavigate'),
   rememberLastPage: state.settings.get('rememberLastPage'),
-  quitOnLastWindow: state.settings.get('quitOnLastWindow'),
   customHome: state.settings.get('customHome'),
   injectedCSS: state.settings.get('injectedCSS'),
   injectedJS: state.settings.get('injectedJS'),

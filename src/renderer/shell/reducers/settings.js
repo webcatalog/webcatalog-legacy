@@ -7,7 +7,6 @@ const initialState = Immutable.fromJS({
   isOpen: false,
   swipeToNavigate: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.swipeToNavigate`, defaultSettings.swipeToNavigate),
   rememberLastPage: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.rememberLastPage`, defaultSettings.rememberLastPage),
-  quitOnLastWindow: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.quitOnLastWindow`, defaultSettings.quitOnLastWindow),
   customHome: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.customHome`, defaultSettings.customHome),
   injectedCSS: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.injectedCSS`, defaultSettings.injectedCSS),
   injectedJS: ipcRenderer.sendSync('get-setting', `behaviors.${window.shellInfo.id}.injectedJS`, defaultSettings.injectedJS),
