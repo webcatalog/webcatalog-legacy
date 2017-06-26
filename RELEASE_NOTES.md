@@ -1,3 +1,15 @@
+## 6.0.0
+- Adds connection error notice.
+- Adds right-click menu.
+- Removes ad blocker.
+- Removes quit on last window option (macOS).
+- Removes tab support.
+- Removes Facebook authentication.
+- Removes Twitter authentication.
+- Improves security.
+
+---
+
 ## 6.0.0-rc
 - Removes ad blocker.
 - Removes quit on last window option (macOS).
