@@ -1,0 +1,10 @@
+{
+  "name": "electron-quick-start",
+  "main": "main/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^1.7.3"
+  }
+}
