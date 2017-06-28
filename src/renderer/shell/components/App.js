@@ -297,7 +297,7 @@ class App extends React.Component {
               plugins
               allowpopups
               autoresize
-              preload="../preload.js"
+              preload="../webview_preload.js"
               nodeintegration={window.shellInfo.isTesting}
               useragent={window.shellInfo.userAgent}
               partition={`persist:${window.shellInfo.id}`}
