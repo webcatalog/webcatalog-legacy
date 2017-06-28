@@ -3,20 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { grey } from 'material-ui/styles/colors';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Typography from 'material-ui/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
+import TextField from 'material-ui/TextField';
 
 import logoPng from '../../images/logo.png';
 
+import { setAuthEmail, setAuthPassword } from '../../actions/auth';
+
 const GOOGLE_BRAND_COLOR = '#fff';
-const FACEBOOK_BRAND_COLOR = '#3b5998';
-const TWITTER_BRAND_COLOR = '#1da1f2';
 
 const styleSheet = createStyleSheet('Auth', theme => ({
   root: {
@@ -29,9 +28,9 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     WebkitAppRegion: 'drag',
   },
   card: {
-    width: 360,
+    width: 320,
     minHeight: 400,
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 3,
     boxSizing: 'border-box',
     textAlign: 'center',
     WebkitAppRegion: 'no-drag',
@@ -49,14 +48,19 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     height: 64,
     width: 252,
   },
+  textField: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left',
+  },
   signInButton: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 2,
     width: '100%',
   },
   divider: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 4,
   },
   oauthText: {
     flex: 1,
@@ -74,24 +78,6 @@ const styleSheet = createStyleSheet('Auth', theme => ({
       backgroundColor: GOOGLE_BRAND_COLOR,
     },
   },
-  facebookButton: {
-    color: theme.palette.getContrastText(FACEBOOK_BRAND_COLOR),
-    backgroundColor: FACEBOOK_BRAND_COLOR,
-    width: '100%',
-    marginTop: theme.spacing.unit,
-    '&:hover': {
-      backgroundColor: FACEBOOK_BRAND_COLOR,
-    },
-  },
-  twitterButton: {
-    color: '#fff', // Twitter always uses white text.
-    backgroundColor: TWITTER_BRAND_COLOR,
-    width: '100%',
-    marginTop: theme.spacing.unit,
-    '&:hover': {
-      backgroundColor: TWITTER_BRAND_COLOR,
-    },
-  },
 }));
 
 /* eslint-disable max-len */
@@ -106,7 +92,15 @@ const GoogleIcon = () => (
 /* eslint-enable max-len */
 
 const Auth = (props) => {
-  const { classes } = props;
+  const {
+    classes,
+    email,
+    emailErr,
+    onSetEmail,
+    onSetPassword,
+    password,
+    passwordErr,
+  } = props;
 
   return (
     <div className={classes.root}>
@@ -114,27 +108,32 @@ const Auth = (props) => {
         <img src={logoPng} alt="WebCatalog" className={classes.logo} />
 
         <TextField
+          className={classes.textField}
+          error={Boolean(emailErr)}
+          helperText={emailErr}
           id="email"
           label="Email"
-          value={null}
-          onChange={null}
-          marginForm
+          onChange={event => onSetEmail(event.target.value)}
+          type="email"
+          value={email}
         />
 
         <TextField
+          className={classes.textField}
+          error={Boolean(passwordErr)}
+          helperText={passwordErr}
           id="password"
           label="Password"
-          value={null}
-          onChange={null}
-          marginForm
+          onChange={event => onSetPassword(event.target.value)}
+          type="password"
+          value={password}
         />
 
         <Button raised color="primary" className={classes.signInButton}>Sign in</Button>
 
-        <Typography type="body1" component="p">
-          Don&#39;t have an account?
-        </Typography>
-        <Button dense>Create an account</Button>
+        <Button>Create an account</Button>
+
+        <Button>Forgot your password?</Button>
 
         <Divider className={classes.divider} />
 
@@ -147,17 +146,31 @@ const Auth = (props) => {
   );
 };
 
+Auth.defaultProps = {
+  emailErr: null,
+  passwordErr: null,
+};
+
 Auth.propTypes = {
   classes: PropTypes.object.isRequired,
+  email: PropTypes.string.isRequired,
+  emailErr: PropTypes.string,
+  onSetEmail: PropTypes.func.isRequired,
+  onSetPassword: PropTypes.func.isRequired,
+  password: PropTypes.string.isRequired,
+  passwordErr: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: Boolean(state.auth.token),
-  sortBy: state.home.sortBy,
-  sortOrder: state.home.sortOrder,
+  email: state.auth.email,
+  emailErr: state.auth.emailErr,
+  password: state.auth.password,
+  passwordErr: state.auth.passwordErr,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onSetEmail: email => dispatch(setAuthEmail(email)),
+  onSetPassword: password => dispatch(setAuthPassword(password)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Auth));
