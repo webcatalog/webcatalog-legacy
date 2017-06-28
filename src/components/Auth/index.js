@@ -12,7 +12,7 @@ import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
 
-import logoPng from '../../../public/images/logo.png';
+import logoPng from '../../images/logo.png';
 
 const GOOGLE_BRAND_COLOR = '#fff';
 const FACEBOOK_BRAND_COLOR = '#3b5998';
