@@ -8,7 +8,7 @@ import { blue, red, pink } from 'material-ui/styles/colors';
 
 import 'typeface-roboto/index.css';
 
-import '../shared/shared.css';
+import './index.css';
 
 import store from './reducers';
 

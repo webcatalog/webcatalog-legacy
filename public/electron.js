@@ -2,10 +2,9 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const fs = require('fs');
 const url = require('url');
 const path = require('path');
-
+const windowStateKeeper = require('electron-window-state');
 const argv = require('yargs-parser')(process.argv.slice(1));
 
-const windowStateKeeper = require('./libs/windowStateKeeper');
 const createMenu = require('./libs/createMenu');
 const loadListeners = require('./libs/loadListeners');
 
@@ -14,9 +13,6 @@ const isDevelopment = argv.development === 'true';
 
 // Spectron mode
 const isTesting = argv.testing === 'true';
-
-// Call the app binary with url & id argument to activate webshell mode.
-const isShell = argv.url !== undefined && argv.id !== undefined;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -42,14 +38,14 @@ ipcMain.on('get-shell-info', (e) => {
 const createWindow = () => {
   // Keep window size and restore on startup
   const mainWindowState = windowStateKeeper({
-    id: isShell ? argv.id : 'webcatalog', // Store window size of store and every web shell seperately
+    id: 'webcatalog', // Store window size of store and every web shell seperately
     defaultWidth: 1024,
     defaultHeight: 768,
   });
 
   let titleBarStyle = 'default';
   if (process.platform === 'darwin') {
-    titleBarStyle = isShell ? 'hiddenInset' : 'hidden';
+    titleBarStyle = 'hidden';
   }
 
   const options = {
@@ -82,32 +78,28 @@ const createWindow = () => {
 
   if (isDevelopment) {
     // Download the file from webpack dev server to reproduce production more accurately.
-    const devHTMLUrl = `http://localhost:3000/${isShell ? 'shell.html' : 'store.html'}`;
+    const devHTMLUrl = 'http://localhost:3000/store.html';
 
-    if (isShell) {
-      mainWindow.loadURL(devHTMLUrl);
-    } else {
-      // eslint-disable-next-line
-      const request = require('request');
+    // eslint-disable-next-line
+    const request = require('request');
 
-      const HTMLPath = path.join(app.getPath('appData'), 'tmp.html');
+    const HTMLPath = path.join(app.getPath('appData'), 'tmp.html');
 
-      const HTMLUrl = url.format({
-        pathname: HTMLPath,
-        protocol: 'file:',
-        slashes: true,
+    const HTMLUrl = url.format({
+      pathname: HTMLPath,
+      protocol: 'file:',
+      slashes: true,
+    });
+
+    request(devHTMLUrl)
+      .pipe(fs.createWriteStream(HTMLPath))
+      .on('finish', () => {
+        mainWindow.loadURL(HTMLUrl);
       });
-
-      request(devHTMLUrl)
-        .pipe(fs.createWriteStream(HTMLPath))
-        .on('finish', () => {
-          mainWindow.loadURL(HTMLUrl);
-        });
-    }
   } else {
     // load window
     const HTMLUrl = url.format({
-      pathname: path.join(__dirname, 'www', isShell ? 'shell.html' : 'store.html'),
+      pathname: path.join(__dirname, '..', 'build', 'index.html'),
       protocol: 'file:',
       slashes: true,
     });
