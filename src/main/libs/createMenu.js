@@ -13,24 +13,6 @@ function createMenu({
 
     template = [
       {
-        label: 'Tabs',
-        submenu: [
-          {
-            label: 'New Tab',
-            accelerator: 'CmdOrCtrl+T',
-            click: () => {
-              sendMessageToWindow('new-tab');
-            },
-          },
-          {
-            label: 'Close Tab',
-            click: () => {
-              sendMessageToWindow('close-tab');
-            },
-          },
-        ],
-      },
-      {
         label: 'Navigate',
         submenu: [
           {
