@@ -26,7 +26,7 @@ const styleSheet = createStyleSheet('App', theme => ({
     WebkitAppRegion: 'drag',
   },
   leftNavBlank: {
-    height: process.env.PLATFORM === 'darwin' ? theme.spacing.unit * 4 : theme.spacing.unit,
+    height: window.PLATFORM === 'darwin' ? theme.spacing.unit * 4 : theme.spacing.unit,
   },
   webNavContainer: {
     display: 'flex',

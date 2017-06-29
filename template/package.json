@@ -1,10 +1,30 @@
 {
-  "name": "electron-quick-start",
-  "main": "main/index.js",
+  "main": "public/electron.js",
   "scripts": {
-    "start": "electron ."
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "electron": "^1.7.3"
+    "concurrently": "^3.5.0",
+    "electron": "^1.7.3",
+    "material-ui": "next",
+    "material-ui-icons": "^1.0.0-alpha.19",
+    "mousetrap": "^1.6.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-draggable": "^2.2.6",
+    "react-redux": "^5.0.5",
+    "react-scripts": "1.0.7",
+    "redux": "^3.7.1",
+    "redux-thunk": "^2.2.0",
+    "typeface-roboto": "^0.0.29",
+    "wait-on": "^2.0.2"
+  },
+  "homepage": "./",
+  "dependencies": {
+    "electron-is-dev": "^0.1.2"
   }
 }

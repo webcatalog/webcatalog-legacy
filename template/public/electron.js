@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const url = require('url');
+
+const isDev = require('electron-is-dev');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,14 +10,19 @@ let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
+    webPreferences: {
+      nodeIntegration: false,
+      webviewTag: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '..', 'build', 'index.html'),
-    protocol: 'file:',
-    slashes: true,
-  }));
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, 'index.html')}`);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

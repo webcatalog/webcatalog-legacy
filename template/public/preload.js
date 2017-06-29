@@ -1,0 +1,1 @@
+window.PLATFORM = process.platform;

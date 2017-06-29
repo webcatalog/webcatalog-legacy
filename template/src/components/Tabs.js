@@ -215,7 +215,7 @@ class Tabs extends React.Component {
                 >
                   {tab.id + 1}
                 </Avatar>
-                <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
+                <span className={classes.tabShortcutText}>{window.PLATFORM === 'darwin' ? '⌘' : '^'}{i + 1}</span>
               </div>
             </Draggable>
           );
@@ -229,7 +229,7 @@ class Tabs extends React.Component {
             >
               <AddCircleIcon />
             </Avatar>
-            <span className={classes.tabShortcutText}>{process.env.PLATFORM === 'darwin' ? '⌘' : '^'}T</span>
+            <span className={classes.tabShortcutText}>{window.PLATFORM === 'darwin' ? '⌘' : '^'}T</span>
           </div>
         ) : null}
 

@@ -7,9 +7,6 @@
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "license": "MIT",
   "scripts": {
-    "install": "yarn run install:renderer",
-    "install:renderer": "cd renderer && yarn",
-    "build:renderer": "cd renderer && npm run build",
     "lint": "eslint ./src ./renderer/src"
   },
   "devDependencies": {
