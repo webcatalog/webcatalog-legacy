@@ -1,7 +1,10 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
+const argv = require('yargs-parser')(process.argv.slice(1));
 const isDev = require('electron-is-dev');
+
+const isTesting = argv.testing === 'true'; // Spectron mode
 
 const createMenu = require('./libs/createMenu');
 const loadListeners = require('./libs/loadListeners');
@@ -30,7 +33,7 @@ const createWindow = () => {
     title: 'WebCatalog',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: isTesting, // only needed for testing
       webviewTag: true,
       preload: path.join(__dirname, 'preload.js'),
     },
