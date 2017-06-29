@@ -1,3 +1,5 @@
+<img src="build-resources/icon.png" height="128" width="128" alt="WebCatalog" />
+
 # WebCatalog
 
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
@@ -6,26 +8,17 @@
 #### Homepage: https://getwebcatalog.com
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively. (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). 
+WebCatalog is a desktop app which allows users to install and run any web app natively.
 
 ## Development
-1. Install [Node.js 7](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
+Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com). Then,
 
-2. Run
 ```bash
 git clone https://github.com/webcatalog/webcatalog.git
 cd webcatalog
 yarn
 ```
 
-To run the app for development:
-```bash
-yarn dev
-yarn start.store.dev # run store app
-yarn start.shell.dev # run site-specific-browser app
-```
+To run the app for development: `yarn electron-dev`
 
-To build the app for release:
-```bash
-yarn dist
-```
+To build the app for release: `yarn dist`

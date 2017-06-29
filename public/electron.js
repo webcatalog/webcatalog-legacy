@@ -1,18 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const fs = require('fs');
-const url = require('url');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
-const argv = require('yargs-parser')(process.argv.slice(1));
+const isDev = require('electron-is-dev');
 
 const createMenu = require('./libs/createMenu');
 const loadListeners = require('./libs/loadListeners');
-
-// Development mode
-const isDevelopment = argv.development === 'true';
-
-// Spectron mode
-const isTesting = argv.testing === 'true';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -21,32 +13,12 @@ let mainWindow;
 // load ipcMain listeners
 loadListeners();
 
-// load ipcMain events
-ipcMain.on('get-shell-info', (e) => {
-  e.returnValue = {
-    id: argv.id,
-    name: argv.name,
-    url: argv.url,
-    userAgent: mainWindow && mainWindow.webContents.getUserAgent().replace(`Electron/${process.versions.electron}`, ''), // make browser think SSB is a browser
-    isTesting,
-    isDevelopment,
-    preload: path.join(__dirname, 'webview_preload.js'),
-  };
-});
-
-
 const createWindow = () => {
   // Keep window size and restore on startup
   const mainWindowState = windowStateKeeper({
-    id: 'webcatalog', // Store window size of store and every web shell seperately
     defaultWidth: 1024,
     defaultHeight: 768,
   });
-
-  let titleBarStyle = 'default';
-  if (process.platform === 'darwin') {
-    titleBarStyle = 'hidden';
-  }
 
   const options = {
     x: mainWindowState.x,
@@ -55,15 +27,12 @@ const createWindow = () => {
     height: mainWindowState.height,
     minWidth: 320,
     minHeight: 568,
-    title: argv.name || 'WebCatalog',
-    titleBarStyle,
-    frame: true,
-    icon: process.platform === 'linux' ? `~/.icons/webcatalog/${argv.id}.png` : null,
+    title: 'WebCatalog',
+    titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     webPreferences: {
-      // enable nodeintegration in testing mode (mainly for Spectron)
-      nodeIntegration: isTesting,
+      nodeIntegration: false,
       webviewTag: true,
-      preload: path.join(__dirname, 'main_preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   };
 
@@ -76,35 +45,7 @@ const createWindow = () => {
   // load menu
   createMenu();
 
-  if (isDevelopment) {
-    // Download the file from webpack dev server to reproduce production more accurately.
-    const devHTMLUrl = 'http://localhost:3000/store.html';
-
-    // eslint-disable-next-line
-    const request = require('request');
-
-    const HTMLPath = path.join(app.getPath('appData'), 'tmp.html');
-
-    const HTMLUrl = url.format({
-      pathname: HTMLPath,
-      protocol: 'file:',
-      slashes: true,
-    });
-
-    request(devHTMLUrl)
-      .pipe(fs.createWriteStream(HTMLPath))
-      .on('finish', () => {
-        mainWindow.loadURL(HTMLUrl);
-      });
-  } else {
-    // load window
-    const HTMLUrl = url.format({
-      pathname: path.join(__dirname, '..', 'build', 'index.html'),
-      protocol: 'file:',
-      slashes: true,
-    });
-    mainWindow.loadURL(HTMLUrl);
-  }
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, 'index.html')}`);
 
   // Emitted when the close button is clicked.
   mainWindow.on('close', () => {
