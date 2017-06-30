@@ -1,3 +1,8 @@
+## 6.0.1
+- Fixes bugs.
+
+---
+
 ## 6.0.0
 - Adds connection error notice.
 - Adds right-click menu.
