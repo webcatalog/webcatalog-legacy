@@ -1,7 +1,6 @@
 const categories = [
   'books',
   'business',
-  'catalogs',
   'education',
   'entertainment',
   'finance',
