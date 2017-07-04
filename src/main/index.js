@@ -46,6 +46,11 @@ if (!isShell) {
   }
 
   ipcMain.on('sign-in', (e, method) => {
+    if (method === 'anonnymous') {
+      e.sender.send('token', 'anonnymous');
+      return;
+    }
+
     let authWindow = new BrowserWindow({
       width: 800,
       height: 600,

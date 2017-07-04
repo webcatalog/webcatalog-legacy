@@ -5,10 +5,10 @@ const secureFetch = (path, token) => {
   const request = new window.Request(
     getServerUrl(path),
     {
-      headers: new window.Headers({
+      headers: token !== 'anonnymous' ? new window.Headers({
         Accept: 'application/json',
         Authorization: `JWT ${token}`,
-      }),
+      }) : null,
     },
   );
 

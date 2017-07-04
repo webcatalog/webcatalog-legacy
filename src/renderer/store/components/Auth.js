@@ -55,6 +55,9 @@ const Auth = () => (
           </svg>
           Continue with Google
         </button>,
+        <div key="anonnymous" style={{ textAlign: 'center', padding: '10px 0' }}>
+          <a onClick={() => ipcRenderer.send('sign-in', 'anonnymous')}>Continue without Signing in (not recommended)</a>
+        </div>,
       ]}
     />
   </div>
