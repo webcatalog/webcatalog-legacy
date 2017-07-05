@@ -20,7 +20,7 @@
     "email": "quang.lam2807@gmail.com",
     "url": "https://quanglam.me"
   },
-  "license": "MIT",
+  "license": "MPL-2.0",
   "dependencies": {
     "electron-is-dev": "^0.1.2",
     "electron-window-state": "^4.1.1",
