@@ -1,19 +1,22 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
 
+import DialogAbout from './Dialogs/About';
+import DialogSubmitApp from './Dialogs/SubmitApp';
+import extractHostname from '../tools/extractHostname';
 import {
   fetchApps,
   setCategory,
   setSortBy,
 } from '../actions/home';
-import extractHostname from '../tools/extractHostname';
 
 const styleSheet = createStyleSheet('Home', theme => ({
   scrollContainer: {
@@ -79,11 +82,17 @@ class Home extends React.Component {
       apps,
     } = this.props;
 
+    const dialogs = [
+      <DialogAbout />,
+      <DialogSubmitApp />,
+    ];
+
     return (
       <div
         className={classes.scrollContainer}
         ref={(container) => { this.scrollContainer = container; }}
       >
+        {dialogs}
         <Grid container>
           <Grid item xs={12}>
             <Grid container justify="center" gutter={16}>
