@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
     "start": "react-scripts start",
-    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "pack": "yarn build && electron-builder --dir",
     "dist": "yarn build && electron-builder",
     "test": "mocha ./tests"
@@ -62,6 +62,7 @@
     "windows-shortcuts": "^0.1.5"
   },
   "homepage": "./",
+  "proxy": "https://getwebcatalog.com",
   "build": {
     "appId": "com.webcatalog.app",
     "directories": {

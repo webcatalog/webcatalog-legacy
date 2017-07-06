@@ -11,6 +11,7 @@ import {
   FAILED,
   DONE,
 } from '../constants/statuses';
+import fetchApi from '../utils/fetchApi';
 
 let fetching = false;
 
@@ -31,12 +32,12 @@ export const fetchApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  let requestPath = `https://getwebcatalog.com/api/apps?limit=30&page=${currentPage}`;
+  let requestPath = `/apps?limit=30&page=${currentPage}`;
   if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
   if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
   if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
 
-  fetch(requestPath)
+  fetchApi(requestPath)
   .then(response => response.json())
   .then(({ apps, totalPage }) =>
     Promise.all([
@@ -83,4 +84,3 @@ export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
 
   dispatch(fetchApps());
 };
-
