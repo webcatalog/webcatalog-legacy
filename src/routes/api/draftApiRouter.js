@@ -2,11 +2,11 @@ import express from 'express';
 import passport from 'passport';
 import { Client as IntercomClient } from 'intercom-client';
 
-const submitApiRouter = express.Router();
+const draftApiRouter = express.Router();
 
 const intercomClient = new IntercomClient({ token: process.env.INTERCOM_ACCESS_TOKEN });
 
-submitApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   console.log(req.body);
 
   if (!req.body) return next(new Error('Request is not valid.'));
@@ -36,4 +36,4 @@ submitApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req
 });
 
 
-module.exports = submitApiRouter;
+module.exports = draftApiRouter;
