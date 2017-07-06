@@ -113,11 +113,11 @@ app.use((err, req, res, next) => {
   switch (accept.type(['json', 'html'])) {
     case 'json': {
       if (err.message === '404') {
-        return res.status(404).json({ errors: [{ status: '404', errorMessage: 'Page Not Found' }] });
+        return res.status(404).json({ error: { code: 'not_found', message: 'Page Not Found' } });
       }
 
       console.log(err);
-      return res.status(500).json({ errors: [{ status: '500', errorMessage: 'Internal Server Error' }] });
+      return res.status(500).json({ error: { code: 'internal_server_error', message: 'Internal Server Error' } });
     }
     default: {
       if (err.message === '404') {
@@ -135,7 +135,7 @@ app.use((req, res) => {
 
   switch (accept.type(['json', 'html'])) {
     case 'json': {
-      return res.status(404).json({ errors: [{ status: '404', errorMessage: 'Page Not Found' }] });
+      return res.status(404).json({ error: { code: 'not_found', message: 'Page Not Found' } });
     }
     default: {
       return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page Not Found', title: '404 - Page Not Found' });
