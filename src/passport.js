@@ -65,7 +65,7 @@ passport.use(new LocalStrategy(
       .then((user) => {
         if (!user) { return cb(null, false); }
 
-        if (!user.password || user.password.length < 1) return cb(new Error('NO_PASSWORD'), false);
+        if (!user.password || user.password.length < 1) return cb(new Error('no_password'), false);
 
         return bcrypt.compare(password, user.password).then((isValid) => {
           if (isValid === true) return cb(null, user);
