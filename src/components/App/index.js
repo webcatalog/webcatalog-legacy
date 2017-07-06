@@ -18,7 +18,7 @@ import Home from '../Home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 
-const titleBarHeight = process.env.PLATFORM === 'darwin' ? 21 : 0;
+const titleBarHeight = window.platform === 'darwin' ? 24 : 0;
 
 const styleSheet = createStyleSheet('App', {
   root: {
@@ -117,7 +117,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: Boolean(state.auth.token),
+  isLoggedIn: Boolean(true || state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
 });

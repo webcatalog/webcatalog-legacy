@@ -4,4 +4,6 @@ const { ipcRenderer, webFrame } = require('electron');
 webFrame.setVisualZoomLevelLimits(1, 1);
 webFrame.setLayoutZoomLevelLimits(1, 1);
 
+window.platform = process.platform;
+
 window.ipcRenderer = ipcRenderer;
