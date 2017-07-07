@@ -30,6 +30,9 @@ const title = {
   padding: '0 16px',
   flex: 1,
   userSelect: 'none',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
 };
 const styleSheet = createStyleSheet('App', {
   root: {
