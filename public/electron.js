@@ -28,7 +28,7 @@ const createWindow = () => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 320,
+    minWidth: 480,
     minHeight: 568,
     title: 'WebCatalog',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',

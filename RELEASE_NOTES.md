@@ -1,3 +1,13 @@
+## 6.1.0
+- Adds back option to use the app without signing in.
+
+---
+
+## 6.0.1
+- Fixes bugs.
+
+---
+
 ## 6.0.0
 - Adds connection error notice.
 - Adds right-click menu.
