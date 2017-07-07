@@ -47,7 +47,7 @@ const About = (props) => {
       open={open}
       transition={<Slide direction="down" />}
     >
-      <DialogTitle>Submit new app</DialogTitle>
+      <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         Test
       </DialogContent>

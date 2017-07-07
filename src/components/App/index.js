@@ -11,6 +11,7 @@ import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
 import MenuIcon from 'material-ui-icons/Menu';
 import RefreshIcon from 'material-ui-icons/Refresh';
+import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { blue, grey } from 'material-ui/styles/colors';
@@ -63,6 +64,9 @@ const styleSheet = createStyleSheet('App', {
     position: 'absolute',
     zIndex: 2,
   },
+  searchAppBar: {
+    paddingTop: 24,
+  },
   input: {
     font: 'inherit',
     border: 0,
@@ -87,11 +91,17 @@ class App extends React.Component {
     super();
 
     this.state = {
+      isDrawerOpen: false,
       isSearchBarOpen: false,
     };
 
+    this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
   }
+
+  handleToggleDrawer() {
+    this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+  };
 
   handleToggleSearchBar() {
     this.setState({ isSearchBarOpen: !this.state.isSearchBarOpen });
@@ -144,8 +154,15 @@ class App extends React.Component {
       <div className={classes.root}>
         {isLoggedIn ? [
           <div className={classes.fakeTitleBar} key="fakeTitleBar" />,
+          <Drawer
+            open={this.state.isDrawerOpen}
+            onRequestClose={this.handleToggleDrawer}
+            onClick={this.handleToggleDrawer}
+          >
+            test
+          </Drawer>,
           <Slide in={isSearchBarOpen} className={classes.searchBar}>
-            <AppBar color="default" position="static" key="searchBar">
+            <AppBar color="default" position="static" key="searchBar" className={classes.searchAppBar}>
               <Toolbar className={classes.toolbar}>
                 <IconButton
                   color={grey[100]}
@@ -177,7 +194,7 @@ class App extends React.Component {
           </Slide>,
           <AppBar position="static" key="appBar" className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <IconButton color="contrast" aria-label="Menu">
+              <IconButton color="contrast" aria-label="Menu" onClick={() => this.handleToggleDrawer()}>
                 <MenuIcon />
               </IconButton>
               {renderTitleElement()}
