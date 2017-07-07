@@ -4,9 +4,9 @@ matrix:
   include:
   - os: osx
     osx_image: xcode8.3
-    node_js: 7
+    node_js: 8
   - os: linux
-    node_js: 7
+    node_js: 8
     env:
     - CC=clang CXX=clang++ npm_config_clang=1
     compiler: clang
