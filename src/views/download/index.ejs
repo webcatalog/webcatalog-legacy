@@ -10,28 +10,38 @@
       </p>
 
       <% if (platform === "mac") { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-apple"></i>
-        <span>&nbsp;Download for macOS</span>
-      </a>
+      <p>
+        <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-apple"></i>
+          <span>&nbsp;Download for macOS</span>
+        </a>
+      </p>
       <% } else if (platform === "linux") { %>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
-      </a><br/>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
-      </a><br/>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
-      </a>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
+        </a>
+      </p>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
+        </a>
+      </p>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
+        </a>
+      </p>
       <% } else { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-windows"></i>
-        <span>&nbsp;Download for Windows</span>
-      </a>
+      <p>
+        <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-windows"></i>
+          <span>&nbsp;Download for Windows</span>
+        </a>
+      </p>
       <% } %>
 
       <p>
@@ -193,30 +203,42 @@
   <div class="container">
     <div class="content has-text-centered">
       <h2 class="title">Try now! It's free!</h2>
+
       <% if (platform === "mac") { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-apple"></i>
-        <span>&nbsp;Download for macOS</span>
-      </a>
+      <p>
+        <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-apple"></i>
+          <span>&nbsp;Download for macOS</span>
+        </a>
+      </p>
       <% } else if (platform === "linux") { %>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
-      </a><br/>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
-      </a><br/>
-      <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-linux"></i>
-        <span>&nbsp;Download 64 bit .pacman (For Fedora)</span>
-      </a>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
+        </a>
+      </p>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.rpm" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
+        </a>
+      </p>
+      <p>
+        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-linux"></i>
+          <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
+        </a>
+      </p>
       <% } else { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
-        <i class="fa fa-windows"></i>
-        <span>&nbsp;Download for Windows</span>
-      </a>
+      <p>
+        <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+          <i class="fa fa-windows"></i>
+          <span>&nbsp;Download for Windows</span>
+        </a>
+      </p>
       <% } %>
+
       <p>
         <% if (platform === "mac") { %>
           macOS 10.9+.
