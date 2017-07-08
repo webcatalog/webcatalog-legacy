@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Slide from 'material-ui/transitions/Slide';
+import Fade from 'material-ui/transitions/Fade';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
 import MenuIcon from 'material-ui-icons/Menu';
 import RefreshIcon from 'material-ui-icons/Refresh';
+import { CircularProgress } from 'material-ui/Progress';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -87,6 +90,20 @@ const styleSheet = createStyleSheet('App', {
       color: grey[400],
     },
   },
+  circularProgressContainer: {
+    width: '100%',
+    top: 100,
+    position: 'absolute',
+    justifyContent: 'center',
+    display: 'flex',
+    zIndex: 1,
+  },
+  circularProgressPaper: {
+    width: 32,
+    height: 32,
+    borderRadius: '100%',
+    padding: 6,
+  },
 });
 
 class App extends React.Component {
@@ -104,7 +121,7 @@ class App extends React.Component {
 
   handleToggleDrawer() {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
-  };
+  }
 
   handleToggleSearchBar() {
     this.setState({ isSearchBarOpen: !this.state.isSearchBarOpen });
@@ -114,6 +131,7 @@ class App extends React.Component {
     const {
       category,
       classes,
+      isGettingApps,
       isLoggedIn,
       sortBy,
       sortOrder,
@@ -153,6 +171,8 @@ class App extends React.Component {
       );
     };
 
+    console.log('isGettingApps:', isGettingApps);
+
     return (
       <div className={classes.root}>
         {isLoggedIn ? [
@@ -165,7 +185,12 @@ class App extends React.Component {
             test
           </Drawer>,
           <Slide in={isSearchBarOpen} className={classes.searchBar}>
-            <AppBar color="default" position="static" key="searchBar" className={classes.searchAppBar}>
+            <AppBar
+              color="default"
+              position="static"
+              key="searchBar"
+              className={classes.searchAppBar}
+            >
               <Toolbar className={classes.toolbar}>
                 <IconButton
                   color={grey[100]}
@@ -180,7 +205,11 @@ class App extends React.Component {
                   type="title"
                 >
                   <input
+<<<<<<< HEAD
                     autofocus
+=======
+                    autoFocus
+>>>>>>> Adds loading status
                     placeholder="Search apps"
                     className={classes.input}
                   />
@@ -197,7 +226,11 @@ class App extends React.Component {
           </Slide>,
           <AppBar position="static" key="appBar" className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <IconButton color="contrast" aria-label="Menu" onClick={() => this.handleToggleDrawer()}>
+              <IconButton
+                color="contrast"
+                aria-label="Menu"
+                onClick={() => this.handleToggleDrawer()}
+              >
                 <MenuIcon />
               </IconButton>
               {renderTitleElement()}
@@ -216,6 +249,13 @@ class App extends React.Component {
               <MoreMenuButton />
             </Toolbar>
           </AppBar>,
+          <Fade in={isGettingApps}>
+            <div className={classes.circularProgressContainer}>
+              <Paper className={classes.circularProgressPaper} elevation={10}>
+                <CircularProgress size={32} />
+              </Paper>
+            </div>
+          </Fade>,
           <Home key="routes" />,
         ] : <Auth />}
       </div>
@@ -230,6 +270,7 @@ App.defaultProps = {
 App.propTypes = {
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  isGettingApps: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
@@ -241,6 +282,7 @@ const mapStateToProps = state => ({
   // isLoggedIn: Boolean(true || state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
+  isGettingApps: state.home.isGettingApps,
 });
 
 const mapDispatchToProps = () => ({

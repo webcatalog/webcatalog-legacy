@@ -15,6 +15,9 @@ export const SET_HOME_STATUS = 'SET_HOME_STATUS';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
+export const APPS_GET_REQUEST = 'APPS_GET_REQUEST';
+export const APPS_GET_SUCCESS = 'APPS_GET_SUCCESS';
+
 // Dialogs
 // About Dialog
 export const DIALOG_ABOUT_CLOSE = 'DIALOG_ABOUT_CLOSE';

@@ -5,6 +5,8 @@ import {
   SET_HOME_CATEGORY,
   SET_HOME_SORT_BY,
   SET_HOME_SORT_ORDER,
+  APPS_GET_REQUEST,
+  APPS_GET_SUCCESS,
 } from '../constants/actions';
 import {
   LOADING,
@@ -27,6 +29,7 @@ export const fetchApps = () => (dispatch, getState) => {
 
   const currentPage = home.currentPage + 1;
 
+  dispatch({ type: APPS_GET_REQUEST });
   dispatch({
     type: SET_HOME_STATUS,
     status: LOADING,
@@ -38,9 +41,13 @@ export const fetchApps = () => (dispatch, getState) => {
   if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
 
   fetchApi(requestPath)
-  .then(response => response.json())
+  .then((response) => {
+    dispatch({ type: APPS_GET_SUCCESS });
+    return response.json();
+  })
   .then(({ apps, totalPage }) =>
     Promise.all([
+      dispatch({ type: APPS_GET_SUCCESS }),
       dispatch({ type: SET_HOME_STATUS, status: DONE }),
       dispatch({
         type: ADD_HOME_APPS,

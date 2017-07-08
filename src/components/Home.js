@@ -145,49 +145,49 @@ class Home extends React.Component {
           <Grid item xs={12}>
             <Grid container justify="center" gutter={24}>
               {apps.map(app => (
-              <Grid key={app.id} item>
-                <Card className={classes.card}>
-                  <CardContent className={classes.cardContent}>
-                    <IconButton
-                      className={classes.moreIcon}
-                      aria-label="More"
-                      onClick={() => {}}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                    <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
-                    <Typography type="subheading" className={classes.appName}>
-                      {app.name}
-                    </Typography>
-                    <Typography type="heading2" color="secondary">
-                      {extractHostname(app.url)}
-                    </Typography>
-                  </CardContent>
-                  <CardActions className={classes.cardActions}>
-                    <IconButton
-                      className={classes.iconButton}
-                      aria-label="Install"
-                      onClick={() => {}}
-                    >
-                      <AddBoxIcon />
-                    </IconButton>
-                    <IconButton
-                      className={classes.iconButton}
-                      aria-label="Open"
-                      onClick={() => {}}
-                    >
-                      <ExitToAppIcon />
-                    </IconButton>
-                    <IconButton
-                      className={classes.iconButton}
-                      aria-label="Uninstall"
-                      onClick={() => {}}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </CardActions>
-                </Card>
-              </Grid>
+                <Grid key={app.id} item>
+                  <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                      <IconButton
+                        className={classes.moreIcon}
+                        aria-label="More"
+                        onClick={() => {}}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                      <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
+                      <Typography type="subheading" className={classes.appName}>
+                        {app.name}
+                      </Typography>
+                      <Typography type="heading2" color="secondary">
+                        {extractHostname(app.url)}
+                      </Typography>
+                    </CardContent>
+                    <CardActions className={classes.cardActions}>
+                      <IconButton
+                        className={classes.iconButton}
+                        aria-label="Install"
+                        onClick={() => {}}
+                      >
+                        <AddBoxIcon />
+                      </IconButton>
+                      <IconButton
+                        className={classes.iconButton}
+                        aria-label="Open"
+                        onClick={() => {}}
+                      >
+                        <ExitToAppIcon />
+                      </IconButton>
+                      <IconButton
+                        className={classes.iconButton}
+                        aria-label="Uninstall"
+                        onClick={() => {}}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
                 ),
               )}
             </Grid>
