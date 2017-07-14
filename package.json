@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "WebCatalog Server",
   "engines": {
-    "node": "6"
+    "node": "8"
   },
   "main": "src/index.js",
   "scripts": {
