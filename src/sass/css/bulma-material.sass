@@ -7,8 +7,18 @@ $purple: #7B1FA2
 $red: #D32F2F
 $turquoise: #00796B
 $yellow: #FBC02D
+$black: #000
 
 $primary: $blue
+
+$navbar-background: $blue
+$navbar-dropdown-arrow: #fff
+$navbar-height: 64px
+$navbar-item: #fff
+$navbar-item-hover-background: #1565C0
+
+$navbar-dropdown-background: #1565C0
+$navbar-dropdown-item-hover-background: #0D47A1
 
 // Use the new serif family
 $family-primary: "Roboto", san-serif
@@ -21,49 +31,45 @@ body, .section
   background-color: #F5F5F5
 
 .hero.top-nav
-  .hero-head
-    box-shadow: $paper_1
-  .nav
-    box-shadow: none
-    height: 64px
-    box-shadow: none !important
-  .nav-toggle
-    height: 64px
-    width: 64px
-  .nav-item
-    &.logo
-      padding-top: 0
-      padding-bottom: 0
-      img
-        max-height: 52px
+  .navbar
+    .navbar-burger
+      span
+        background-color: #fff
+      &:hover
+        background-color: $navbar-item-hover-background
+    .navbar-item
+      &.logo
+        padding-top: 0
+        padding-bottom: 0
+        img
+          max-height: 52px
 
-    .image.profile-picture
-      margin-right: 8px
-      img
-        max-height: inherit
-        border-radius: 16px
+      .image.profile-picture
+        margin-right: 8px
+        img
+          max-height: inherit
+          border-radius: 16px
 
 
 .title
   font-weight: 400
 
 .footer
-  background-color: $primary
-  padding: 40px 20px 80px
+  background-color: #212121
   p, a
     color: #fff !important
   a:hover
     text-decoration: underline
   ul.footer-items
     list-style-type: none
+    margin-left: 0
     +tablet
       display: flex
       justify-content: center
     li
       +tablet
         float: left
-        margin-right: 16px
-        margin: 0 16px 0 0
+        margin: 0 20px 0 0
         padding: 0
 
 

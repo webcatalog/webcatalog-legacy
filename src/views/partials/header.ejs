@@ -14,87 +14,73 @@
 <section class="hero is-info top-nav">
   <div class="hero-head">
     <div class="container">
-      <nav class="nav">
-        <div class="nav-left">
-          <a class="nav-item logo" href="/">
+      <nav class="navbar">
+        <div class="navbar-brand">
+          <a class="navbar-item logo" href="/">
             <img src="/public/images/logo_white.png" alt="WebCatalog" />
           </a>
+
+          <span class="navbar-burger burger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </div>
-        <span class="nav-toggle">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <div class="nav-right nav-menu">
-          <div class="nav-item">
-            <div class="field is-grouped">
-              <p class="control">
-                <a class="button is-white" href="/download">
-                  Download
-                </a>
-              </p>
+        <div class="navbar-menu">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="field is-grouped">
+                <p class="control">
+                  <a class="button is-white" href="/download">
+                    Download
+                  </a>
+                </p>
+              </div>
             </div>
-          </div>
-          <a class="nav-item" href="/apps">
-            Explore
-          </a>
-          <a class="nav-item" href="/help">
-            Help
-          </a>
-          <a class="nav-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
-            Blog
-          </a>
-          <% if (user) { %>
-          <div class="nav-item is-hidden-mobile user-nav-item">
-            <figure class="image is-32x32 profile-picture">
-              <img src="<%= user.profilePicture %>">
-            </figure>
-            <span class="icon">
-              <i class="fa fa-caret-down"></i>
-            </span>
-          </div>
-          <% if (user && user.isAdmin) { %>
-            <a class="nav-item is-hidden-tablet" href="/admin/add">
-              Add new app
+            <a class="navbar-item" href="/apps">
+              Explore
             </a>
-          <% } %>
-          <a class="nav-item is-hidden-tablet" href="/submit">
-            Submit new app
-          </a>
-          <a class="nav-item is-hidden-tablet" href="/help">
-            Help
-          </a>
-          <a class="nav-item is-hidden-tablet" href="/auth/logout">
-            Sign out
-          </a>
-          <% } else { %>
-          <a class="nav-item" href="/auth?returnTo=<%= path %>">
-            Sign in
-          </a>
-          <% } %>
+            <a class="navbar-item" href="/help">
+              Help
+            </a>
+            <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
+              Blog
+            </a>
+            <% if (user) { %>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                <figure class="image is-32x32 profile-picture">
+                  <img src="<%= user.profilePicture %>">
+                </figure>
+
+                Account
+              </a>
+
+              <div class="navbar-dropdown">
+                <% if (user && user.isAdmin) { %>
+                  <a class="navbar-item" href="/admin/add">
+                    Add new app
+                  </a>
+                <% } %>
+                <a class="navbar-item" href="/submit">
+                  Submit new app
+                </a>
+                <a class="navbar-item" href="/help">
+                  Help
+                </a>
+                <a class="navbar-item" href="/auth/logout">
+                  Sign out
+                </a>
+              </div>
+            </div>
+            <% } else { %>
+            <a class="navbar-item" href="/auth?returnTo=<%= path %>">
+              Sign in
+            </a>
+            <% } %>
+          </div>
         </div>
       </nav>
-      <div class="box user-dropdown is-hidden-mobile">
-        <ul>
-          <% if (user && user.isAdmin) { %>
-          <li class="nav-item">
-            <a href="/admin/add">
-              Add new app
-            </a>
-          </li>
-          <% } %>
-          <li class="nav-item">
-            <a href="/submit">
-              Submit new app
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/auth/logout">
-              Log out
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </section>
