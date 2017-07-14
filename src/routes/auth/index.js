@@ -288,7 +288,7 @@ authRouter.get('/verify', ensureLoggedIn, (req, res, next) => {
     .catch(next);
 });
 
-authRouter.get('/verify/:token', beforeAuthMiddleware, (req, res, next) => {
+authRouter.get('/verify/:token', (req, res, next) => {
   User.findOne({
     where: {
       verifyToken: req.params.token,
