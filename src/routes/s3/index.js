@@ -11,11 +11,13 @@ const s3 = new S3({
 });
 
 s3Route.get('/:name.:ext', (req, res, next) => {
-  res.setHeader('Cache-Control', `public, max-age=${3600 * 24 * 30}`); // cache 1 month
-
   if (['png', 'webp', 'icns', 'ico'].indexOf(req.params.ext) < 0) {
     next(new Error('404'));
     return;
+  }
+
+  if (['png', 'webp'].indexOf(req.params.ext) > -1) {
+    res.setHeader('Cache-Control', `public, max-age=${3600 * 24 * 30}`); // cache 1 month
   }
 
   s3.getObject({
