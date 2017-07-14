@@ -67,6 +67,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use((req, res, next) => {
   res.locals.isProduction = (process.env.NODE_ENV === 'production');
   res.locals.path = req.path;
+  res.locals.sourceVersion = process.env.SOURCE_VERSION || 'localhost';
 
   if (req.user && !req.user.profilePicture) {
     const gravatarHash = md5(req.user.email.trim().toLowerCase());
