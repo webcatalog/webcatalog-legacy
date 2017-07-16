@@ -15,7 +15,7 @@ authApiRouter.post('/',
         return next(new Error('wrong_password'));
       }
 
-      const payload = { id: req.user.id };
+      const payload = { id: user.id };
       const token = jwt.sign(
         payload,
         process.env.JWT_SECRET,
