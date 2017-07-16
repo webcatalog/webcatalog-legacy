@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import errors from 'throw.js';
 
 const authApiRouter = express.Router();
 
@@ -12,7 +13,7 @@ authApiRouter.post('/',
       }
 
       if (!user) {
-        return next(new Error('wrong_password'));
+        return next(new errors.CustomError('wrong_password', 'Incorrect password.'));
       }
 
       const payload = { id: user.id };

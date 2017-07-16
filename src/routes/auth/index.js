@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import aws from 'aws-sdk';
+import errors from 'throw.js';
 
 import User from '../../models/User';
 import isEmail from '../../libs/isEmail';
@@ -130,14 +131,14 @@ authRouter.get('/sign-up', beforeAuthMiddleware, (req, res) => {
 });
 
 authRouter.post('/sign-up', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new Error('Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.email || !req.body.password || !isEmail(req.body.email)) {
-    return next(new Error('Request is not valid.'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   if (req.body.password.length < 6) {
-    return next(new Error('Password must have at least 6 characters.'));
+    return next(new errors.CustomError('bad_request', 'Password must have at least 6 characters.'));
   }
 
   return User.findOne({ where: { email: req.body.email } })
@@ -181,10 +182,10 @@ authRouter.get('/reset-password', beforeAuthMiddleware, (req, res) => {
 });
 
 authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new Error('Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.email || !isEmail(req.body.email)) {
-    return next(new Error('Request is not valid.'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   return User.findOne({ where: { email: req.body.email } })
@@ -229,7 +230,7 @@ authRouter.get('/reset-password/:token', beforeAuthMiddleware, (req, res, next) 
   })
   .then((user) => {
     if (!user) {
-      return next(new Error('Token is invalid'));
+      return next(new errors.BadRequest('Token is invalid'));
     }
 
     return res.render('auth/reset-password-reset', {
@@ -240,10 +241,10 @@ authRouter.get('/reset-password/:token', beforeAuthMiddleware, (req, res, next) 
 });
 
 authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new Error('Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.password) {
-    return next(new Error('Request is not valid.'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   return User.findOne({
@@ -254,7 +255,7 @@ authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next)
   })
   .then((user) => {
     if (!user) {
-      return next(new Error('Token is expired or invalid.'));
+      return next(new errors.CustomError('bad_request', 'Token is expired or invalid.'));
     }
 
     return bcrypt.hash(req.body.password, 10)
@@ -296,7 +297,7 @@ authRouter.get('/verify/:token', (req, res, next) => {
   })
   .then((user) => {
     if (!user) {
-      return next(new Error('Token is invalid.'));
+      return next(new errors.BadRequest('bad_request', 'Token is invalid.'));
     }
 
     return user.updateAttributes({

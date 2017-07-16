@@ -4049,6 +4049,10 @@ through@2, through@^2.3.6, through@~2.3, through@~2.3.1, through@~2.3.4:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
+throw.js@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/throw.js/-/throw.js-3.0.1.tgz#fbacd71e18422b94ddbb15c5d28bc04a61d380c7"
+
 timed-out@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-2.0.0.tgz#f38b0ae81d3747d628001f41dafc652ace671c0a"

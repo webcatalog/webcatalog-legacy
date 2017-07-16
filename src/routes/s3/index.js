@@ -1,6 +1,7 @@
 import aws from 'aws-sdk';
 import S3 from 'aws-sdk/clients/s3';
 import express from 'express';
+import errors from 'throw.js';
 
 const s3Route = express.Router();
 
@@ -12,7 +13,7 @@ const s3 = new S3({
 
 s3Route.get('/:name.:ext', (req, res, next) => {
   if (['png', 'webp', 'icns', 'ico'].indexOf(req.params.ext) < 0) {
-    next(new Error('404'));
+    next(new errors.NotFound());
     return;
   }
 
@@ -25,7 +26,7 @@ s3Route.get('/:name.:ext', (req, res, next) => {
     Key: `${req.params.name}.${req.params.ext}`,
   }, (err, data) => {
     if (err) {
-      next(err.code === 'NoSuchKey' ? new Error('404') : err);
+      next(err.code === 'NoSuchKey' ? new errors.NotFound() : err);
     } else {
       res.setHeader('Last-Modified', data.LastModified);
       res.setHeader('Content-Length', data.ContentLength);

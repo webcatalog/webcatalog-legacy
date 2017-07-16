@@ -4,6 +4,7 @@ import s3 from 's3';
 import sharp from 'sharp';
 import slug from 'slug';
 import fetch from 'node-fetch';
+import errors from 'throw.js';
 
 import App from '../../models/App';
 import categories from '../../constants/categories';
@@ -113,7 +114,7 @@ adminRouter.get('/edit/id:id', ensureIsAdmin, (req, res, next) => {
 });
 
 adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
-  if (!req.body) return next(new Error('Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.name || !req.body.url || !req.body.category) {
     return res.send('Please fill in all fields.');
@@ -162,7 +163,7 @@ adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res,
 });
 
 adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
-  if (!req.body || !req.file) return next(new Error('Request is not valid.'));
+  if (!req.body || !req.file) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.name || !req.body.url || !req.body.category) {
     return res.send('Please fill in all fields.');

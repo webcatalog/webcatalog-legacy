@@ -1,3 +1,5 @@
+import errors from 'throw.js';
+
 const ensureIsAdmin = (req, res, next) => {
   if (!req.isAuthenticated || !req.isAuthenticated()) {
     if (req.session) {
@@ -7,7 +9,7 @@ const ensureIsAdmin = (req, res, next) => {
   }
 
   if (!req.user.isAdmin) {
-    return next(new Error('Not admin'));
+    return next(new errors.CustomError('admin_only', 'Admin permission is required.'));
   }
 
   return next();

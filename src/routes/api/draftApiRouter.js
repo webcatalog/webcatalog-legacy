@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport';
+import errors from 'throw.js';
 import { Client as IntercomClient } from 'intercom-client';
 
 const draftApiRouter = express.Router();
@@ -9,10 +10,10 @@ const intercomClient = new IntercomClient({ token: process.env.INTERCOM_ACCESS_T
 draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   console.log(req.body);
 
-  if (!req.body) return next(new Error('Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('bad_request'));
 
   if (!req.body.name || !req.body.url) {
-    return next(new Error('Request is not valid.'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   const message = {

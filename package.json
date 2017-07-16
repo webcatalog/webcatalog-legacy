@@ -47,7 +47,8 @@
     "sequelize": "^4.3.2",
     "sharp": "^0.18.2",
     "shelljs": "^0.7.8",
-    "slug": "^0.9.1"
+    "slug": "^0.9.1",
+    "throw.js": "^3.0.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

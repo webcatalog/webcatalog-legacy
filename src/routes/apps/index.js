@@ -1,4 +1,5 @@
 import express from 'express';
+import errors from 'throw.js';
 
 import App from '../../models/App';
 import categories from '../../constants/categories';
@@ -41,7 +42,7 @@ appsRouter.get(['/', '/category/:category'], (req, res, next) => {
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
 
-      if (currentPage > totalPage && currentPage > 1) throw new Error('404');
+      if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
       res.render('apps/index', {
         title: 'Explore WebCatalog Store',
@@ -87,7 +88,7 @@ appsRouter.get('/search', (req, res, next) => {
 appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
   App.find({ where: { id: req.params.id, isActive: true } })
     .then((app) => {
-      if (!app) throw new Error('404');
+      if (!app) throw new errors.NotFound();
 
       let description = `${app.name} for Mac, Windows & Linux on the WebCatalog Store.`;
       if (app.description) description += ` ${app.description.split('. ')[0]}.`;

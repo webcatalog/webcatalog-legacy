@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import sequelize from 'sequelize';
 import crypto from 'crypto';
+import errors from 'throw.js';
 
 import App from '../../models/App';
 import Action from '../../models/Action';
@@ -50,7 +51,7 @@ userApiRouter.get('/apps', passport.authenticate('jwt', { session: false }), (re
       .then(({ rows, count }) => {
         const totalPage = Math.ceil(count / limit);
 
-        if (currentPage > totalPage && currentPage > 1) throw new Error('404');
+        if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
         return res.json({
           apps: rows,

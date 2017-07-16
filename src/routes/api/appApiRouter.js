@@ -5,6 +5,7 @@ import s3 from 's3';
 import sharp from 'sharp';
 import slug from 'slug';
 import fetch from 'node-fetch';
+import errors from 'throw.js';
 
 import convertToIcns from '../../libs/convertToIcns';
 import convertToIco from '../../libs/convertToIco';
@@ -23,7 +24,7 @@ appApiRouter.get('/', (req, res, next) => {
   const offset = (currentPage - 1) * limit;
 
   if (limit > 50) {
-    return next(new Error('Maximum limit: 50'));
+    return next(new errors.BadRequest('bad_request', 'Maximum limit: 50'));
   }
 
   const opts = {
@@ -71,7 +72,7 @@ appApiRouter.get('/', (req, res, next) => {
     .then(({ rows, count }) => {
       const totalPage = Math.ceil(count / limit);
 
-      if (currentPage > totalPage && currentPage > 1) throw new Error('404');
+      if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
       return res.json({
         apps: rows,
@@ -91,7 +92,7 @@ appApiRouter.get('/:id', (req, res, next) => {
         where: { id: req.params.id, isActive: true },
       })
       .then((app) => {
-        if (!app) throw new Error('404');
+        if (!app) throw new errors.NotFound();
 
         if (user && (req.query.action === 'install' || req.query.action === 'update')) {
           return Action.findOne({ where: { appId: app.id, userId: user.id } })
@@ -204,17 +205,17 @@ const compileUploadImagesAsync = (fileName, appId) =>
 
 appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.body.name || !req.body.url || !req.body.category) {
-    return next(new Error('bad_request.'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   return App.findById(req.params.id)
     .then((app) => {
       if (!app.userId && !req.user.isAdmin) {
-        return Promise.reject(new Error('admin_only'));
+        return Promise.reject(new errors.CustomError('admin_only', 'Admin permission is required.'));
       }
 
       if (app.userId && app.userId !== req.user.id) {
-        return Promise.reject(new Error('bad_request'));
+        return Promise.reject(new errors.BadRequest('bad_request'));
       }
 
       return Promise.resolve()
@@ -261,13 +262,13 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
 
 appApiRouter.post('/', passport.authenticate('jwt', { session: false }), upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file || !req.body.name || !req.body.url || !req.body.category) {
-    return next(new Error('bad_request'));
+    return next(new errors.BadRequest('bad_request'));
   }
 
   const wikipediaTitle = req.body.wikipediaTitle || req.body.name;
 
   if (req.body.public && !req.user.isAdmin) {
-    return next(new Error('admin_only'));
+    return next(new errors.CustomError('admin_only', 'Admin permission is required.'));
   }
 
   return fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(wikipediaTitle)}`)
