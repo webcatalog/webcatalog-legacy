@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { grey } from 'material-ui/styles/colors';
+import { grey, fullWhite } from 'material-ui/styles/colors';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
@@ -26,22 +26,19 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     justifyContent: 'center',
     WebkitUserSelect: 'none',
     WebkitAppRegion: 'drag',
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor: fullWhite,
+    },
   },
   card: {
-    width: 320,
+    width: 360,
     minHeight: 400,
     padding: theme.spacing.unit * 3,
     boxSizing: 'border-box',
     textAlign: 'center',
     WebkitAppRegion: 'no-drag',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      WebkitUserSelect: 'none',
-      WebkitAppRegion: 'drag',
+    [theme.breakpoints.down('sm')]: {
+      boxShadow: 'none',
     },
   },
   logo: {
@@ -107,33 +104,62 @@ const Auth = (props) => {
       <Paper className={classes.card} elevation={4}>
         <img src={logoPng} alt="WebCatalog" className={classes.logo} />
 
-        <TextField
-          className={classes.textField}
-          error={Boolean(emailErr)}
-          helperText={emailErr}
-          id="email"
-          label="Email"
-          onChange={event => onSetEmail(event.target.value)}
-          type="email"
-          value={email}
-        />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
 
-        <TextField
-          className={classes.textField}
-          error={Boolean(passwordErr)}
-          helperText={passwordErr}
-          id="password"
-          label="Password"
-          onChange={event => onSetPassword(event.target.value)}
-          type="password"
-          value={password}
-        />
+            // If there are errors but error variables are not set, then set & revalidate.
+            if ((email.length < 1 && !emailErr) || (password.length < 1 && !passwordErr)) {
+              onSetEmail(email);
+              onSetPassword(password);
 
-        <Button raised color="primary" className={classes.signInButton}>Sign in</Button>
+              return;
+            }
 
-        <Button>Create an account</Button>
+            if (!emailErr && !passwordErr) {
+              ipcRenderer.send('sign-in-with-password', email, password);
+            }
+          }}
+        >
+          <TextField
+            className={classes.textField}
+            error={Boolean(emailErr)}
+            helperText={emailErr}
+            id="email"
+            label="Email"
+            onChange={event => onSetEmail(event.target.value)}
+            type="email"
+            value={email}
+          />
 
-        <Button>Forgot your password?</Button>
+          <TextField
+            className={classes.textField}
+            error={Boolean(passwordErr)}
+            helperText={passwordErr}
+            id="password"
+            label="Password"
+            onChange={event => onSetPassword(event.target.value)}
+            type="password"
+            value={password}
+          />
+
+          <Button
+            raised
+            color="primary"
+            className={classes.signInButton}
+            type="submit"
+          >
+            Sign in
+          </Button>
+        </form>
+
+        <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/sign-up')}>
+          Create an account
+        </Button>
+
+        <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/reset-password')}>
+          Forgot your password?
+        </Button>
 
         <Divider className={classes.divider} />
 

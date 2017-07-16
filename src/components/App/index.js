@@ -17,6 +17,7 @@ import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
+import EnhancedSnackbar from './EnhancedSnackbar';
 
 const titleBarHeight = window.platform === 'darwin' ? 24 : 0;
 
@@ -100,6 +101,7 @@ const App = (props) => {
         </AppBar>,
         <Home key="routes" />,
       ] : <Auth />}
+      <EnhancedSnackbar />
     </div>
   );
 };

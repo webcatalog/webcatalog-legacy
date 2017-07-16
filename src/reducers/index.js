@@ -3,10 +3,12 @@ import thunkMiddleware from 'redux-thunk';
 
 import auth from './auth';
 import home from './home';
+import snackbar from './snackbar';
 
 const rootReducer = combineReducers({
   auth,
   home,
+  snackbar,
 });
 
 const configureStore = initialState =>
