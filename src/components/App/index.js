@@ -117,7 +117,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: Boolean(true || state.auth.token),
+  isLoggedIn: Boolean(state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
 });
