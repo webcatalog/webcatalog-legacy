@@ -1,11 +1,36 @@
+const fs = require('fs-extra');
+const path = require('path');
+const rp = require('request-promise');
 const {
+  app,
   BrowserWindow,
   ipcMain,
-  shell,
 } = require('electron');
-const rp = require('request-promise');
 
-const loadListeners = () => {
+const configPath = path.resolve(app.getPath('home'), '.webcatalogrc');
+
+const writeTokenToDiskAsync = token => fs.writeJson(configPath, { token });
+
+const loadAuthListeners = () => {
+  ipcMain.on('log-out', (e) => {
+    fs.remove(configPath)
+      .then(() => {
+        e.sender.send('set-auth-token', null);
+      })
+      // eslint-disable-next-line
+      .catch(console.log);
+  });
+
+  ipcMain.on('read-token-from-disk', (e) => {
+    // Try to load token
+    fs.readJson(configPath)
+      .then((token) => {
+        e.sender.send('set-auth-token', token);
+      })
+      // eslint-disable-next-line
+      .catch(console.log);
+  });
+
   ipcMain.on('sign-in-with-password', (e, email, password) => {
     const options = {
       method: 'POST',
@@ -19,8 +44,15 @@ const loadListeners = () => {
 
     rp(options)
       .then((parsedResponse) => {
-        const { jwt } = parsedResponse;
-        e.sender.send('set-auth-token', jwt);
+        const token = parsedResponse.jwt;
+
+        writeTokenToDiskAsync(token)
+          .catch((err) => {
+            // eslint-disable-next-line
+            console.log(err);
+          });
+
+        e.sender.send('set-auth-token', token);
       })
       .catch((err) => {
         const code = err.error && err.error.error && err.error.error.code ? err.error.error.code : 'no_connection';
@@ -53,7 +85,15 @@ const loadListeners = () => {
     // Handle the response
     authWindow.webContents.on('did-stop-loading', () => {
       if (/^.*(auth\/(google)\/callback\?).*$/.exec(authWindow.webContents.getURL())) {
-        e.sender.send('set-auth-token', authWindow.webContents.getTitle());
+        const token = authWindow.webContents.getTitle();
+
+        writeTokenToDiskAsync(token)
+          .catch((err) => {
+            // eslint-disable-next-line
+            console.log(err);
+          });
+
+        e.sender.send('set-auth-token', token);
         authWindow.destroy();
       }
     });
@@ -63,10 +103,6 @@ const loadListeners = () => {
       authWindow = null;
     }, false);
   });
-
-  ipcMain.on('open-in-browser', (e, browserUrl) => {
-    shell.openExternal(browserUrl);
-  });
 };
 
-module.exports = loadListeners;
+module.exports = loadAuthListeners;

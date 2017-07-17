@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -26,6 +27,8 @@ const theme = createMuiTheme({
     error: red,
   }),
 });
+
+ipcRenderer.send('read-token-from-disk');
 
 ReactDOM.render(
   <Provider store={store}>

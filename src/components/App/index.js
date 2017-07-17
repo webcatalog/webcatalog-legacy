@@ -19,7 +19,7 @@ import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import EnhancedSnackbar from './EnhancedSnackbar';
 
-const titleBarHeight = window.platform === 'darwin' ? 24 : 0;
+const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
 const styleSheet = createStyleSheet('App', {
   root: {
