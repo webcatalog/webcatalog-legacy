@@ -1,13 +1,13 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
-const windowStateKeeper = require('electron-window-state');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const isDev = require('electron-is-dev');
+const path = require('path');
+const windowStateKeeper = require('electron-window-state');
 
 const isTesting = argv.testing === 'true'; // Spectron mode
 
 const createMenu = require('./libs/createMenu');
-const loadListeners = require('./libs/loadListeners');
+const loadListeners = require('./listeners');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

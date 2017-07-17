@@ -1,10 +1,16 @@
 // Auth
+export const SET_AUTH_EMAIL = 'SET_AUTH_EMAIL';
+export const SET_AUTH_PASSWORD = 'SET_AUTH_PASSWORD';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 
 // Home
-export const SET_HOME_STATUS = 'SET_HOME_STATUS';
 export const ADD_HOME_APPS = 'ADD_HOME_APPS';
 export const RESET_HOME_APPS = 'RESET_HOME_APPS';
 export const SET_HOME_CATEGORY = 'SET_HOME_CATEGORY';
 export const SET_HOME_SORT_BY = 'SET_HOME_SORT_BY';
 export const SET_HOME_SORT_ORDER = 'SET_HOME_SORT_ORDER';
+export const SET_HOME_STATUS = 'SET_HOME_STATUS';
+
+// Snackbar
+export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';

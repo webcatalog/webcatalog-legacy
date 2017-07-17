@@ -17,8 +17,9 @@ import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
+import EnhancedSnackbar from './EnhancedSnackbar';
 
-const titleBarHeight = window.platform === 'darwin' ? 24 : 0;
+const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
 const styleSheet = createStyleSheet('App', {
   root: {
@@ -100,6 +101,7 @@ const App = (props) => {
         </AppBar>,
         <Home key="routes" />,
       ] : <Auth />}
+      <EnhancedSnackbar />
     </div>
   );
 };
@@ -117,7 +119,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: Boolean(true || state.auth.token),
+  isLoggedIn: Boolean(state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
 });
