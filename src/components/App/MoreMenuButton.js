@@ -20,7 +20,6 @@ const MoreMenuButton = () => (
       <IconButton
         aria-label="More"
         color="contrast"
-        onClick={this.handleClick}
       >
         <MoreVertIcon />
       </IconButton>

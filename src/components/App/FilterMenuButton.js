@@ -5,75 +5,44 @@ import { connect } from 'react-redux';
 
 import FilterListIcon from 'material-ui-icons/FilterList';
 import IconButton from 'material-ui/IconButton';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import { MenuItem } from 'material-ui/Menu';
+
+import EnhancedMenu from '../shared/EnhancedMenu';
 
 import categories from '../../constants/categories';
 import { setCategory } from '../../actions/home';
 
-class FilterMenuButton extends React.Component {
-  constructor() {
-    super();
+const FilterMenuButton = (props) => {
+  const {
+    category,
+    onSetCategory,
+  } = props;
 
-    this.state = {
-      anchorEl: undefined,
-      open: false,
-    };
+  const categoryItemElements = categories.map(c => (
+    <MenuItem
+      key={c.value}
+      onClick={() => onSetCategory(c.value)}
+      selected={category === c.value}
+    >
+      {c.label}
+    </MenuItem>
+  ));
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
-  }
-
-  handleClick(e) {
-    this.setState({
-      open: true,
-      anchorEl: e.currentTarget,
-    });
-  }
-
-  handleRequestClose() {
-    this.setState({ open: false });
-  }
-
-  handleSetCategory(category) {
-    this.setState(
-      { open: false },
-      () => this.props.onSetCategory(category),
-    );
-  }
-
-  render() {
-    const { category } = this.props;
-
-    const categoryItemElement = categories.map(c => (
-      <MenuItem
-        key={c.value}
-        onClick={() => this.handleSetCategory(c.value)}
-        selected={category === c.value}
-      >
-        {c.label}
-      </MenuItem>
-    ));
-
-    return (
-      <div>
+  return (
+    <EnhancedMenu
+      buttonElement={(
         <IconButton
           aria-label="More"
           color="contrast"
-          onClick={this.handleClick}
         >
           <FilterListIcon />
         </IconButton>
-        <Menu
-          anchorEl={this.state.anchorEl}
-          onRequestClose={this.handleRequestClose}
-          open={this.state.open}
-        >
-          {categoryItemElement}
-        </Menu>
-      </div>
-    );
-  }
-}
+      )}
+    >
+      {categoryItemElements}
+    </EnhancedMenu>
+  );
+};
 
 FilterMenuButton.defaultProps = {
   category: null,
