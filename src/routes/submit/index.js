@@ -22,7 +22,7 @@ submitRouter.post('/', ensureLoggedIn, (req, res, next) => {
   const message = {
     from: {
       type: 'user',
-      id: req.user.id,
+      user_id: req.user.id,
       email: req.user.email,
     },
     body: `App Submission (${new Date()}):
