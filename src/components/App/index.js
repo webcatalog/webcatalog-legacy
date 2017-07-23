@@ -16,19 +16,18 @@ import { CircularProgress } from 'material-ui/Progress';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import { blue, grey } from 'material-ui/styles/colors';
+import { grey } from 'material-ui/styles/colors';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import Auth from '../Auth';
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
+import FakeTitleBar from '../shared/FakeTitleBar';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
 import RefreshButton from './RefreshButton';
-
-const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
 const title = {
   padding: '0 16px',
@@ -47,13 +46,6 @@ const styleSheet = createStyleSheet('App', {
     width: '100vw',
   },
 
-  fakeTitleBar: {
-    backgroundColor: blue[700],
-    height: titleBarHeight,
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
-    width: '100vw',
-  },
   toolbar: {
     padding: '0 12px',
   },
@@ -74,7 +66,12 @@ const styleSheet = createStyleSheet('App', {
     position: 'absolute',
     zIndex: 2,
   },
+  searchAppBarOpen: {
+    // boxShadow: 'none',
+    paddingTop: 24,
+  },
   searchAppBar: {
+    boxShadow: 'none',
     paddingTop: 24,
   },
   input: {
@@ -188,7 +185,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         {isLoggedIn ? [
-          <div className={classes.fakeTitleBar} key="fakeTitleBar" />,
+          <FakeTitleBar />,
           <Drawer
             open={this.state.isDrawerOpen}
             onRequestClose={this.handleToggleDrawer}
@@ -205,7 +202,7 @@ class App extends React.Component {
                 color="default"
                 position="static"
                 key="searchBar"
-                className={classes.searchAppBar}
+                className={isSearchBarOpen ? classes.searchAppBarOpen : classes.searchAppBar}
               >
                 <Toolbar className={classes.toolbar}>
                   <IconButton

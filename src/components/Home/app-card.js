@@ -18,6 +18,7 @@ import { MenuItem } from 'material-ui/Menu';
 import EnhancedMenu from '../shared/EnhancedMenu';
 import extractHostname from '../../tools/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../actions/dialogs/confirm-uninstall-app';
+import { open as openAppDetailsDialog } from '../../actions/dialogs/app-details';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
@@ -114,12 +115,22 @@ const AppCard = (props) => {
     app,
     classes,
     onOpenConfirmUninstallAppDialog,
+    onOpenAppDetailsDialog,
   } = props;
+
+  const handleOpenAppDetailsDialog = () => {
+    const {
+      name,
+      url,
+    } = props.app;
+
+    onOpenAppDetailsDialog({ name, url });
+  };
 
   return (
     <Grid key={app.id} item>
       <Card className={classes.card}>
-        <CardContent className={classes.cardContent} onClick={this.handleToggleView}>
+        <CardContent className={classes.cardContent}>
           <EnhancedMenu
             buttonElement={(
               <IconButton
@@ -132,7 +143,7 @@ const AppCard = (props) => {
             )}
           >
             <MenuItem className={classes.hiddenMenuItem} selected />
-            <MenuItem onClick={this.handleToggleView}>View details</MenuItem>
+            <MenuItem onClick={handleOpenAppDetailsDialog}>View details</MenuItem>
             <MenuItem onClick={() => {}}>Go to site</MenuItem>
           </EnhancedMenu>
           <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
@@ -178,6 +189,7 @@ AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
+  onOpenAppDetailsDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () => ({
@@ -185,6 +197,7 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = dispatch => ({
   onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
+  onOpenAppDetailsDialog: form => dispatch(openAppDetailsDialog(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppCard));

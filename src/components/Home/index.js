@@ -11,6 +11,7 @@ import AppCard from './app-card';
 import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
+import DialogAppDetails from '../Dialogs/AppDetails';
 import { fetchApps } from '../../actions/home';
 
 const styleSheet = createStyleSheet('Home', theme => ({
@@ -102,6 +103,7 @@ class Home extends React.Component {
       <DialogAbout />,
       <DialogSubmitApp />,
       <DialogConfirmUninstallApp />,
+      <DialogAppDetails />,
     ];
 
     return (
