@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from 'material-ui/Button';
 import AddBoxIcon from 'material-ui-icons/AddBox';
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
@@ -12,7 +11,6 @@ import IconButton from 'material-ui/IconButton';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { grey } from 'material-ui/styles/colors';
-import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
@@ -112,27 +110,6 @@ class Home extends React.Component {
       <DialogSubmitApp />,
       <DialogConfirmUninstallApp />,
     ];
-
-    const app = {
-      id: 1,
-      url: 'url',
-    };
-    const temp = (
-      <Grid key={app.id} item>
-        <Paper className={classes.paper}>
-          <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
-          <Typography type="subheading" color="inherit" className={classes.titleText}>
-            {app.name}
-          </Typography>
-          <Typography type="body2" color="inherit" className={classes.domainText}>
-            {extractHostname(app.url)}
-            {app.description}
-          </Typography>
-          <Button dense color="primary">Open</Button>
-          <Button dense color="accent" className={classes.rightButton}>Uninstall</Button>
-        </Paper>
-      </Grid>
-    );
 
     return (
       <div

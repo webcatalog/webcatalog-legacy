@@ -66,6 +66,9 @@ const styleSheet = createStyleSheet('App', {
   appBar: {
     zIndex: 1,
   },
+  appBarContainer: {
+    width: '100%',
+  },
   searchBar: {
     boxShadow: 'none',
     position: 'absolute',
@@ -116,6 +119,7 @@ class App extends React.Component {
       isSearchBarOpen: false,
     };
 
+    this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
   }
@@ -125,7 +129,16 @@ class App extends React.Component {
   }
 
   handleToggleSearchBar() {
-    this.setState({ isSearchBarOpen: !this.state.isSearchBarOpen });
+    const { isSearchBarOpen } = this.state;
+    if (!isSearchBarOpen) {
+      document.addEventListener('click', this.handleOutsideAppbarClick, false);
+    } else document.removeEventListener('click', this.handleOutsideAppbarClick, false);
+
+    this.setState({ isSearchBarOpen: !isSearchBarOpen });
+  }
+
+  handleOutsideAppbarClick(e) {
+    if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
   }
 
   render() {
@@ -184,40 +197,45 @@ class App extends React.Component {
             test
           </Drawer>,
           <Slide in={isSearchBarOpen} className={classes.searchBar}>
-            <AppBar
-              color="default"
-              position="static"
-              key="searchBar"
-              className={classes.searchAppBar}
+            <div
+              className={classes.appBarContainer}
+              ref={(appBar) => { this.appBar = appBar; }}
             >
-              <Toolbar className={classes.toolbar}>
-                <IconButton
-                  color={grey[100]}
-                  aria-label="Menu"
-                  onClick={() => this.handleToggleSearchBar()}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-                <Typography
-                  className={classes.searchBarText}
-                  color="inherit"
-                  type="title"
-                >
-                  <input
-                    autofocus
-                    placeholder="Search apps"
-                    className={classes.input}
-                  />
-                </Typography>
-                <IconButton
-                  color={grey[100]}
-                  aria-label="Close"
-                  onClick={() => this.handleToggleSearchBar()}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
+              <AppBar
+                color="default"
+                position="static"
+                key="searchBar"
+                className={classes.searchAppBar}
+              >
+                <Toolbar className={classes.toolbar}>
+                  <IconButton
+                    color={grey[100]}
+                    aria-label="Menu"
+                    onClick={() => this.handleToggleSearchBar()}
+                  >
+                    <ArrowBackIcon />
+                  </IconButton>
+                  <Typography
+                    className={classes.searchBarText}
+                    color="inherit"
+                    type="title"
+                  >
+                    <input
+                      autofocus
+                      placeholder="Search apps"
+                      className={classes.input}
+                    />
+                  </Typography>
+                  <IconButton
+                    color={grey[100]}
+                    aria-label="Close"
+                    onClick={() => this.handleToggleSearchBar()}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Toolbar>
+              </AppBar>
+            </div>
           </Slide>,
           <AppBar position="static" key="appBar" className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
