@@ -18,12 +18,10 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import DialogAbout from './Dialogs/About';
 import DialogSubmitApp from './Dialogs/SubmitApp';
+import DialogConfirmUninstallApp from './Dialogs/ConfirmUninstallApp';
 import extractHostname from '../tools/extractHostname';
-import {
-  fetchApps,
-  setCategory,
-  setSortBy,
-} from '../actions/home';
+import { fetchApps } from '../actions/home';
+import { open as openConfirmUninstallAppDialog } from '../actions/dialogs/confirm-uninstall-app';
 
 const styleSheet = createStyleSheet('Home', theme => ({
   scrollContainer: {
@@ -106,11 +104,13 @@ class Home extends React.Component {
     const {
       classes,
       apps,
+      onOpenConfirmUninstallAppDialog,
     } = this.props;
 
     const dialogs = [
       <DialogAbout />,
       <DialogSubmitApp />,
+      <DialogConfirmUninstallApp />,
     ];
 
     const app = {
@@ -133,7 +133,6 @@ class Home extends React.Component {
         </Paper>
       </Grid>
     );
-    console.log(temp);
 
     return (
       <div
@@ -181,7 +180,7 @@ class Home extends React.Component {
                       <IconButton
                         className={classes.iconButton}
                         aria-label="Uninstall"
-                        onClick={() => {}}
+                        onClick={() => onOpenConfirmUninstallAppDialog({ appName: app.name })}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -205,15 +204,9 @@ Home.defaultProps = {
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
-
-  // status: PropTypes.string.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // category: PropTypes.string,
-  // sortBy: PropTypes.string,
-
   onFetchApps: PropTypes.func.isRequired,
-  // onSetCategory: PropTypes.func.isRequired,
-  // onSetSort: PropTypes.func.isRequired,
+  onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -225,8 +218,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
-  onSetCategory: category => dispatch(setCategory(category)),
-  onSetSortBy: sortBy => dispatch(setSortBy(sortBy)),
+  onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));
