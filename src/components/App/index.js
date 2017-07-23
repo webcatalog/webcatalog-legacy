@@ -26,6 +26,7 @@ import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
+import EnhancedSnackBar from './EnhancedSnackbar';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
@@ -254,6 +255,7 @@ class App extends React.Component {
           </Fade>,
           <Home key="routes" />,
         ] : <Auth />}
+        <EnhancedSnackBar />
       </div>
     );
   }

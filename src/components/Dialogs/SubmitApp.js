@@ -58,6 +58,7 @@ const SubmitApp = (props) => {
 
   return (
     <Dialog
+      ignoreBackdropClick={isSaving}
       className={classes.root}
       onRequestClose={onClose}
       open={open}

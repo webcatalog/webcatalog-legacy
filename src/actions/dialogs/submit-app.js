@@ -1,3 +1,5 @@
+import { openSnackbar } from '../../actions/snackbar';
+
 import {
   DIALOG_SUBMIT_APP_CLOSE,
   DIALOG_SUBMIT_APP_FORM_UPDATE,
@@ -29,6 +31,10 @@ export const save = () =>
     dispatch({ type: DIALOG_SUBMIT_APP_SAVE_REQUEST });
     setTimeout(() => {
       dispatch({ type: DIALOG_SUBMIT_APP_SAVE_SUCCESS });
+      dispatch(openSnackbar(
+        'Thanks! Your app has been submitted for review!',
+        'Got it!',
+      ));
       dispatch({ type: DIALOG_SUBMIT_APP_CLOSE });
     }, 1000);
   };

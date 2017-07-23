@@ -9,6 +9,7 @@ import { closeSnackbar } from '../../actions/snackbar';
 
 const EnhancedSnackbar = (props) => {
   const {
+    actionText,
     open,
     message,
     onCloseSnackbar,
@@ -21,27 +22,29 @@ const EnhancedSnackbar = (props) => {
         horizontal: 'center',
       }}
       open={open}
-      autoHideDuration={6e3}
+      autoHideDuration={20e3}
       onRequestClose={onCloseSnackbar}
       SnackbarContentProps={{
         'aria-describedby': 'message-id',
       }}
       message={message}
-      action={(
+      action={
         <Button color="accent" dense onClick={onCloseSnackbar}>
-          Close
+          {actionText}
         </Button>
-      )}
+      }
     />
   );
 };
 
 const mapStateToProps = state => ({
+  actionText: state.snackbar.actionText,
   open: state.snackbar.open,
   message: state.snackbar.message,
 });
 
 EnhancedSnackbar.propTypes = {
+  actionText: PropTypes.element.isRequired,
   open: PropTypes.bool.isRequired,
   message: PropTypes.bool.isRequired,
   onCloseSnackbar: PropTypes.func.isRequired,
