@@ -12,7 +12,6 @@ import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
 import MenuIcon from 'material-ui-icons/Menu';
-import RefreshIcon from 'material-ui-icons/Refresh';
 import { CircularProgress } from 'material-ui/Progress';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
@@ -24,10 +23,10 @@ import Auth from '../Auth';
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
-import { fetchApps } from '../../actions/home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
+import RefreshButton from './RefreshButton';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
@@ -137,7 +136,6 @@ class App extends React.Component {
       isLoggedIn,
       sortBy,
       sortOrder,
-      onFetchApps,
     } = this.props;
 
     const { isSearchBarOpen } = this.state;
@@ -240,13 +238,7 @@ class App extends React.Component {
               </IconButton>
               <SortMenuButton />
               <FilterMenuButton />
-              <IconButton
-                color="contrast"
-                aria-label="Refresh"
-                onClick={onFetchApps}
-              >
-                <RefreshIcon />
-              </IconButton>
+              <RefreshButton />
               <MoreMenuButton />
             </Toolbar>
           </AppBar>,
@@ -276,7 +268,6 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
-  onFetchApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -288,8 +279,7 @@ const mapStateToProps = state => ({
   isGettingApps: state.home.isGettingApps,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onFetchApps: () => dispatch(fetchApps()),
+const mapDispatchToProps = () => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));
