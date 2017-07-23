@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import Fade from 'material-ui/transitions/Fade';
 import Slide from 'material-ui/transitions/Slide';
 import { LinearProgress } from 'material-ui/Progress';
@@ -15,6 +14,7 @@ import {
 import Dialog, {
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 
@@ -53,7 +53,7 @@ const ConfirmUninstallApp = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="down" />}
+      transition={Slide}
     >
       <Fade in={isSaving}>
         <LinearProgress className={classes.linearProgress} />
@@ -61,9 +61,9 @@ const ConfirmUninstallApp = (props) => {
 
       <DialogTitle className={classes.title}>Uninstall {appName}?</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <Typography type="subheading" color="secondary">
+        <DialogContentText>
           All of your browsing data for {appName} will be removed and can&apos;t be recovered.
-        </Typography>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
