@@ -54,7 +54,7 @@ const SubmitApp = (props) => {
     url,
   } = props;
 
-  const saveButtonText = isSaving ? 'Saving...' : 'Save';
+  const saveButtonText = isSaving ? 'Submitting...' : 'Submit';
 
   return (
     <Dialog
@@ -68,7 +68,7 @@ const SubmitApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Submit new app</DialogTitle>
+      <DialogTitle>Submit app</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <TextField
           className={classes.textField}

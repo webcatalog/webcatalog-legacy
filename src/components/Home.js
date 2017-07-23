@@ -97,7 +97,7 @@ class Home extends React.Component {
     el.onscroll = () => {
       // Plus 300 to run ahead.
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onFetchApps();
+        onFetchApps({ next: true });
       }
     };
   }
@@ -224,7 +224,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchApps: () => dispatch(fetchApps()),
+  onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
   onSetCategory: category => dispatch(setCategory(category)),
   onSetSortBy: sortBy => dispatch(setSortBy(sortBy)),
 });

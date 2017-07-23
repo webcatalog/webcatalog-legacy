@@ -24,6 +24,7 @@ import Auth from '../Auth';
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
+import { fetchApps } from '../../actions/home';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
@@ -136,6 +137,7 @@ class App extends React.Component {
       isLoggedIn,
       sortBy,
       sortOrder,
+      onFetchApps,
     } = this.props;
 
     const { isSearchBarOpen } = this.state;
@@ -171,8 +173,6 @@ class App extends React.Component {
         </Typography>
       );
     };
-
-    console.log('isGettingApps:', isGettingApps);
 
     return (
       <div className={classes.root}>
@@ -240,7 +240,11 @@ class App extends React.Component {
               </IconButton>
               <SortMenuButton />
               <FilterMenuButton />
-              <IconButton color="contrast" aria-label="Refresh">
+              <IconButton
+                color="contrast"
+                aria-label="Refresh"
+                onClick={onFetchApps}
+              >
                 <RefreshIcon />
               </IconButton>
               <MoreMenuButton />
@@ -272,6 +276,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
+  onFetchApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -283,7 +288,8 @@ const mapStateToProps = state => ({
   isGettingApps: state.home.isGettingApps,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onFetchApps: () => dispatch(fetchApps()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

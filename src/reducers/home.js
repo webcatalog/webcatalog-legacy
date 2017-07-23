@@ -13,7 +13,7 @@ import {
 const initialState = {
   status: LOADING,
   apps: [],
-  currentPage: 0,
+  currentPage: 1,
   totalPage: null,
   appStatus: {},
   category: null,
