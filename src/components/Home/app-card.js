@@ -13,9 +13,7 @@ import Grid from 'material-ui/Grid';
 import { grey } from 'material-ui/styles/colors';
 import Typography from 'material-ui/Typography';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import { MenuItem } from 'material-ui/Menu';
 
-import EnhancedMenu from '../shared/EnhancedMenu';
 import extractHostname from '../../tools/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../actions/dialogs/confirm-uninstall-app';
 import { open as openAppDetailsDialog } from '../../actions/dialogs/app-details';
@@ -102,7 +100,7 @@ const styleSheet = createStyleSheet('Home', (theme) => {
 
     moreIconMenu: {
       position: 'absolute',
-      transform: 'translate(58px, -16px)',
+      transform: 'translate(82px, -16px)',
     },
     hiddenMenuItem: {
       display: 'none',
@@ -131,21 +129,14 @@ const AppCard = (props) => {
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <EnhancedMenu
-            buttonElement={(
-              <IconButton
-                aria-label="More"
-                color="primary"
-                className={classes.moreIconMenu}
-              >
-                <MoreVertIcon />
-              </IconButton>
-            )}
+          <IconButton
+            aria-label="More"
+            color="primary"
+            onClick={handleOpenAppDetailsDialog}
+            className={classes.moreIconMenu}
           >
-            <MenuItem className={classes.hiddenMenuItem} selected />
-            <MenuItem onClick={handleOpenAppDetailsDialog}>View details</MenuItem>
-            <MenuItem onClick={() => {}}>Go to site</MenuItem>
-          </EnhancedMenu>
+            <MoreVertIcon />
+          </IconButton>
           <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
