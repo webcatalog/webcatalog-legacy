@@ -205,11 +205,7 @@ class App extends React.Component {
                   type="title"
                 >
                   <input
-<<<<<<< HEAD
                     autofocus
-=======
-                    autoFocus
->>>>>>> Adds loading status
                     placeholder="Search apps"
                     className={classes.input}
                   />
