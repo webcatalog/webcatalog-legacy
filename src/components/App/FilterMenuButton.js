@@ -27,12 +27,14 @@ const FilterMenuButton = (props) => {
     </MenuItem>
   ));
 
+  const iconButtonColor = category ? 'primary' : 'contrast';
+
   return (
     <EnhancedMenu
       buttonElement={(
         <IconButton
           aria-label="More"
-          color="contrast"
+          color={iconButtonColor}
         >
           <FilterListIcon />
         </IconButton>
