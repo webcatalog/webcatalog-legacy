@@ -7,9 +7,9 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-import CloseIcon from 'material-ui-icons/Close';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 
-import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
 import {
   createStyleSheet,
@@ -27,17 +27,27 @@ const styleSheet = createStyleSheet('AppDetails', {
   linearProgress: {
     opacity: 0,
   },
+
+  toolbar: {
+    padding: '0 12px',
+  },
   dialogContent: {
     maxWidth: 288,
   },
-  title: {
-    marginRight: 24,
-  },
   appBar: {
     position: 'relative',
+    zIndex: 1,
   },
   flex: {
     flex: 1,
+  },
+  title: {
+    padding: '0 16px',
+    flex: 1,
+    userSelect: 'none',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
 });
 
@@ -59,17 +69,29 @@ const AppDetails = (props) => {
       transition={<Slide direction="up" />}
     >
       <FakeTitleBar />
-      <AppBar className={classes.appBar}>
-        <Toolbar>
-          <IconButton color="contrast" onClick={onClose} aria-label="Close">
-            <CloseIcon />
+      <AppBar position="static" key="appBar" className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            color="contrast"
+            aria-label="Menu"
+            onClick={onClose}
+          >
+            <ArrowBackIcon />
           </IconButton>
-          <Typography type="title" color="inherit" className={classes.flex}>
+          <Typography
+            className={classes.title}
+            color="inherit"
+            type="title"
+          >
             {name}
           </Typography>
-          <Button color="contrast" onClick={onClose}>
-            Close
-          </Button>
+          <IconButton
+            color="contrast"
+            aria-label="Search"
+            onClick={onClose}
+          >
+            <MoreVertIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <DialogContent className={classes.dialogContent}>
