@@ -1,5 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { app, BrowserWindow } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+} = require('electron');
 const path = require('path');
 
 const isDev = require('electron-is-dev');
@@ -7,6 +12,76 @@ const isDev = require('electron-is-dev');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+ipcMain.on('is-full-screen', (e) => {
+  if (mainWindow) {
+    e.returnValue = mainWindow.isFullScreen();
+  }
+});
+
+function getMenuTemplate() {
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { role: 'selectall' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'togglefullscreen' },
+        { type: 'separator' },
+        { role: 'toggledevtools' },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Find In Page...',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => {
+            mainWindow.webContents.send('toggle-find-in-page-dialog');
+          },
+        },
+      ],
+    },
+    {
+      role: 'window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'close' },
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Report an Issue...',
+        },
+      ],
+    },
+  ];
+
+  if (!mainWindow) {
+    template[3].submenu.push({
+      type: 'separator',
+    });
+  }
+
+  return template;
+}
+
+function initMenu() {
+  const menu = Menu.buildFromTemplate(getMenuTemplate());
+  Menu.setApplicationMenu(menu);
+}
 
 const createWindow = () => {
   // Create the browser window.
@@ -22,7 +97,7 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, 'index.html')}`);
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, '..', 'build', 'index.html')}`);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -34,6 +109,8 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  initMenu();
 };
 
 // This method will be called when Electron has finished

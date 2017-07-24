@@ -4032,7 +4032,7 @@ material-ui-icons@^1.0.0-alpha.19:
   dependencies:
     recompose "^0.23.5"
 
-material-ui@next:
+material-ui@1.0.0-alpha.20:
   version "1.0.0-alpha.20"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-alpha.20.tgz#36d4d41e869b9ed0bcacc1dac78a450d2d8ad0b6"
   dependencies:

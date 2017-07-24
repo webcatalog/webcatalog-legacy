@@ -40,6 +40,8 @@ fetchLocal('./webApp.json')
       }),
     });
 
+    document.title = shellInfo.name;
+
     ReactDOM.render(
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>

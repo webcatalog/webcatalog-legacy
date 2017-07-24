@@ -1,5 +1,8 @@
 {
-  "main": "public/electron.js",
+  "name": "Molecule",
+  "main": "main/electron.js",
+  "version": "1.0.0",
+  "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "start": "react-scripts start",
@@ -10,7 +13,7 @@
   "devDependencies": {
     "concurrently": "^3.5.0",
     "electron": "^1.7.3",
-    "material-ui": "next",
+    "material-ui": "1.0.0-alpha.20",
     "material-ui-icons": "^1.0.0-alpha.19",
     "mousetrap": "^1.6.1",
     "react": "^15.6.1",

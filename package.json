@@ -1,12 +1,15 @@
 {
   "name": "molecule",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
-  "license": "MIT",
   "scripts": {
+    "install:client": "cd app && yarn",
+    "dev": "babel-node src",
+    "start": "node lib",
+    "build": "babel src --out-dir lib",
     "lint": "eslint ./src ./renderer/src"
   },
   "devDependencies": {
@@ -17,5 +20,10 @@
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0"
+  },
+  "dependencies": {
+    "electron-packager": "^8.7.2",
+    "fs-extra": "^4.0.0",
+    "tmp": "^0.0.31"
   }
 }
