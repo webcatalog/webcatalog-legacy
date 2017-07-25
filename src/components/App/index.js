@@ -8,6 +8,13 @@ import Fade from 'material-ui/transitions/Fade';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
+import AddBoxIcon from 'material-ui-icons/AddBox';
+import Divider from 'material-ui/Divider';
+import HelpIcon from 'material-ui-icons/Help';
+import Avatar from 'material-ui/Avatar';
+import InfoIcon from 'material-ui-icons/Info';
+import PublicIcon from 'material-ui-icons/Public';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
@@ -29,7 +36,11 @@ import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
 import RefreshButton from './RefreshButton';
 
+import { open as openDialogAbout } from '../../actions/dialogs/about';
+import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app';
+
 const title = {
+  lineHeight: 1.5,
   padding: '0 16px',
   flex: 1,
   userSelect: 'none',
@@ -74,6 +85,10 @@ const styleSheet = createStyleSheet('App', {
     boxShadow: 'none',
     paddingTop: 24,
   },
+  list: {
+    width: 304,
+    flex: 'initial',
+  },
   input: {
     font: 'inherit',
     border: 0,
@@ -105,6 +120,42 @@ const styleSheet = createStyleSheet('App', {
     borderRadius: '100%',
     padding: 6,
   },
+  listContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  avatar: {
+    margin: 16,
+    marginBottom: 8,
+    width: 60,
+    height: 60,
+    fontSize: 28,
+    cursor: 'default',
+  },
+  nameDetails: {
+    cursor: 'default',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: 16,
+    marginBottom: 20,
+    fontSize: 15,
+  },
+  nameDetailsName: {
+    fontWeight: 500,
+    marginBottom: 2,
+    color: grey[800],
+  },
+  nameDetailsEmail: {
+    color: grey[600],
+  },
+  headerDivider: {
+    marginBottom: 8,
+  },
+  headerContainer: {
+    backgroundColor: grey[200],
+  },
 });
 
 class App extends React.Component {
@@ -119,6 +170,8 @@ class App extends React.Component {
     this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
+    this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
+    this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
 
   handleToggleDrawer() {
@@ -136,6 +189,14 @@ class App extends React.Component {
 
   handleOutsideAppbarClick(e) {
     if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
+  }
+
+  handleOpenDialogAbout() {
+    this.props.onOpenDialogAbout();
+  }
+
+  handleOpenDialogSubmitApp() {
+    this.props.onOpenDialogSubmitApp();
   }
 
   render() {
@@ -182,6 +243,26 @@ class App extends React.Component {
       );
     };
 
+    const temp = (
+      <div className={classes.headerContainer}>
+        <Avatar className={classes.avatar}>Q</Avatar>
+        <div className={classes.nameDetails}>
+          <div className={classes.nameDetailsName}>
+            Quang Lam
+          </div>
+          <div className={classes.nameDetailsEmail}>
+            quang@getwebcatalog.com
+          </div>
+        </div>
+      </div>
+    );
+
+    const temp2 = (
+      <MoreMenuButton />
+    );
+
+    console.log(temp, temp2);
+
     return (
       <div className={classes.root}>
         {isLoggedIn ? [
@@ -191,7 +272,29 @@ class App extends React.Component {
             onRequestClose={this.handleToggleDrawer}
             onClick={this.handleToggleDrawer}
           >
-            test
+            <FakeTitleBar isColorDisabled />
+            <div className={classes.listContainer}>
+              <List className={classes.list} disablePadding>
+                {temp}
+                <Divider className={classes.headerDivider} />
+                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                  <ListItemIcon><AddBoxIcon /></ListItemIcon>
+                  <ListItemText primary="Submit app" />
+                </ListItem>
+                <ListItem button onClick={this.handleRequestClose}>
+                  <ListItemIcon><HelpIcon /></ListItemIcon>
+                  <ListItemText primary="Help" />
+                </ListItem>
+                <ListItem button onClick={this.handleRequestClose}>
+                  <ListItemIcon><PublicIcon /></ListItemIcon>
+                  <ListItemText primary="Website" />
+                </ListItem>
+                <ListItem button onClick={this.handleOpenDialogAbout}>
+                  <ListItemIcon><InfoIcon /></ListItemIcon>
+                  <ListItemText primary="About" />
+                </ListItem>
+              </List>
+            </div>
           </Drawer>,
           <Slide in={isSearchBarOpen} className={classes.searchBar}>
             <div
@@ -253,7 +356,6 @@ class App extends React.Component {
               <SortMenuButton />
               <FilterMenuButton />
               <RefreshButton />
-              <MoreMenuButton />
             </Toolbar>
           </AppBar>,
           <Fade in={isGettingApps}>
@@ -282,6 +384,8 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
+  onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogSubmitApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -293,7 +397,9 @@ const mapStateToProps = state => ({
   isGettingApps: state.home.isGettingApps,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onOpenDialogAbout: () => dispatch(openDialogAbout()),
+  onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));
