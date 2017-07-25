@@ -60,6 +60,8 @@ About.defaultProps = {
 
 About.propTypes = {
   open: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

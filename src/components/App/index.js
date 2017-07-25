@@ -218,7 +218,6 @@ class App extends React.Component {
                     type="title"
                   >
                     <input
-                      autofocus
                       placeholder="Search apps"
                       className={classes.input}
                     />
