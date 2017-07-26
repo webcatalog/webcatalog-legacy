@@ -1,37 +1,40 @@
 import { openSnackbar } from '../../snackbar/actions';
 
 import {
-  dialogSubmitAppClose,
-  dialogSubmitAppOpen,
-  dialogSubmitAppFormUpdate,
-  dialogSubmitAppSaveRequest,
-  dialogSubmitAppSaveSuccess,
-} from './action-creators';
+  DIALOG_SUBMIT_APP_CLOSE,
+  DIALOG_SUBMIT_APP_FORM_UPDATE,
+  DIALOG_SUBMIT_APP_OPEN,
+  DIALOG_SUBMIT_APP_SAVE_REQUEST,
+  DIALOG_SUBMIT_APP_SAVE_SUCCESS,
+} from '../../../../constants/actions';
 
 export const close = () =>
   (dispatch) => {
-    dispatch(dialogSubmitAppClose());
+    dispatch({ type: DIALOG_SUBMIT_APP_CLOSE });
   };
 
 export const formUpdate = changes =>
   (dispatch) => {
-    dispatch(dialogSubmitAppFormUpdate(changes));
+    dispatch({
+      type: DIALOG_SUBMIT_APP_FORM_UPDATE,
+      changes,
+    });
   };
 
 export const open = () =>
   (dispatch) => {
-    dispatch(dialogSubmitAppOpen());
+    dispatch({ type: DIALOG_SUBMIT_APP_OPEN });
   };
 
 export const save = () =>
   (dispatch) => {
-    dispatch(dialogSubmitAppSaveRequest());
+    dispatch({ type: DIALOG_SUBMIT_APP_SAVE_REQUEST });
     setTimeout(() => {
-      dispatch(dialogSubmitAppSaveSuccess());
+      dispatch({ type: DIALOG_SUBMIT_APP_SAVE_SUCCESS });
       dispatch(openSnackbar(
         'Thanks! Your app has been submitted for review!',
         'Got it!',
       ));
-      dispatch(dialogSubmitAppClose());
+      dispatch({ type: DIALOG_SUBMIT_APP_CLOSE });
     }, 1000);
   };
