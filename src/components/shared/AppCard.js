@@ -16,8 +16,8 @@ import Typography from 'material-ui/Typography';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import extractHostname from '../../tools/extractHostname';
-import { open as openConfirmUninstallAppDialog } from '../../actions/dialogs/confirm-uninstall-app';
-import { open as openAppDetailsDialog } from '../../actions/dialogs/app-details';
+import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+import { open as openAppDetailsDialog } from '../../state/ui/dialogs/app-details/actions';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {

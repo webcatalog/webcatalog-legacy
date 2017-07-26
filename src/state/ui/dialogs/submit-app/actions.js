@@ -1,4 +1,4 @@
-import { openSnackbar } from '../../actions/snackbar';
+import { openSnackbar } from '../../snackbar/actions';
 
 import {
   DIALOG_SUBMIT_APP_CLOSE,
@@ -6,7 +6,7 @@ import {
   DIALOG_SUBMIT_APP_OPEN,
   DIALOG_SUBMIT_APP_SAVE_REQUEST,
   DIALOG_SUBMIT_APP_SAVE_SUCCESS,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 export const close = () =>
   (dispatch) => {

@@ -1,7 +1,7 @@
 import {
   DIALOG_ABOUT_CLOSE,
   DIALOG_ABOUT_OPEN,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 export const close = () => ({ type: DIALOG_ABOUT_CLOSE });
 

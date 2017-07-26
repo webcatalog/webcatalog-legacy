@@ -12,8 +12,8 @@ import Menu from 'material-ui/Menu';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
-import { open as openDialogAbout } from '../../actions/dialogs/about';
-import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app';
+import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
+import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 
 class MoreMenuButton extends React.Component {
   constructor() {

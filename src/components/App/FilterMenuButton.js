@@ -9,7 +9,7 @@ import { MenuItem } from 'material-ui/Menu';
 import EnhancedMenu from '../shared/EnhancedMenu';
 
 import categories from '../../constants/categories';
-import { setCategory } from '../../actions/home';
+import { setCategory } from '../../state/home/actions';
 
 const FilterMenuButton = (props) => {
   const {

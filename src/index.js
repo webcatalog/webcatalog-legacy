@@ -13,7 +13,7 @@ import 'typeface-roboto/index.css';
 
 import './index.css';
 
-import store from './reducers';
+import store from './state';
 
 // listeners to communicate with main process
 import loadListeners from './loadListeners';

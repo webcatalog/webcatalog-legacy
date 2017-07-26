@@ -5,7 +5,7 @@ import {
   DIALOG_CONFIRM_UNINSTALL_APP_OPEN,
   DIALOG_CONFIRM_UNINSTALL_APP_SAVE_REQUEST,
   DIALOG_CONFIRM_UNINSTALL_APP_SAVE_SUCCESS,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 const form = (state = {}, action) => {
   switch (action.type) {

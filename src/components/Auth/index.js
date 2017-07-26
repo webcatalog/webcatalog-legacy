@@ -12,9 +12,9 @@ import Paper from 'material-ui/Paper';
 import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
 
-import logoPng from '../../images/logo.png';
+import logoPng from '../../assets/logo.png';
 
-import { setAuthEmail, setAuthPassword } from '../../actions/auth';
+import { setAuthEmail, setAuthPassword } from '../../state/auth/actions';
 
 const GOOGLE_BRAND_COLOR = '#fff';
 const { fullWhite } = common;

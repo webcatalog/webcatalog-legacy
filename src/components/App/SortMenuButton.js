@@ -10,7 +10,7 @@ import EnhancedMenu from '../shared/EnhancedMenu';
 
 import {
   setSortBy,
-} from '../../actions/home';
+} from '../../state/home/actions';
 
 const SortMenuButton = (props) => {
   const {

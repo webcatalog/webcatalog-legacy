@@ -1,4 +1,4 @@
-import { LOADING } from '../constants/statuses';
+import { LOADING } from '../../constants/statuses';
 import {
   SET_HOME_STATUS,
   ADD_HOME_APPS,
@@ -8,7 +8,7 @@ import {
   SET_HOME_SORT_ORDER,
   APPS_GET_REQUEST,
   APPS_GET_SUCCESS,
-} from '../constants/actions';
+} from '../../constants/actions';
 
 const initialState = {
   status: LOADING,

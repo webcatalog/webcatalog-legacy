@@ -13,7 +13,7 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 
-import { close } from '../../actions/dialogs/about';
+import { close } from '../../state/ui/dialogs/about/actions';
 
 const styleSheet = createStyleSheet('About', {
   linearProgress: {
@@ -66,8 +66,8 @@ About.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  open: state.dialogs.about.open,
   updaterStatus: state.updater.status,
+  open: state.ui.dialogs.about.open,
 });
 
 const mapDispatchToProps = dispatch => ({

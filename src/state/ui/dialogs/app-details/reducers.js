@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import {
   DIALOG_APP_DETAILS_CLOSE,
   DIALOG_APP_DETAILS_OPEN,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 const form = (state = {}, action) => {
   switch (action.type) {

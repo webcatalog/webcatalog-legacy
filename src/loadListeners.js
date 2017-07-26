@@ -2,7 +2,7 @@
 
 import {
   setAuthToken,
-} from './actions/auth';
+} from './state/auth/actions';
 
 import {
   setManagedApp,
@@ -15,7 +15,7 @@ import {
 
 import {
   openSnackbar,
-} from './actions/snackbar';
+} from './state/ui/snackbar/actions';
 
 const loadListeners = (store) => {
   ipcRenderer.on('set-auth-token', (e, token) => {

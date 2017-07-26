@@ -1,11 +1,11 @@
-import { openSnackbar } from '../../actions/snackbar';
+import { openSnackbar } from '../../snackbar/actions';
 
 import {
   DIALOG_CONFIRM_UNINSTALL_APP_CLOSE,
   DIALOG_CONFIRM_UNINSTALL_APP_OPEN,
   DIALOG_CONFIRM_UNINSTALL_APP_SAVE_REQUEST,
   DIALOG_CONFIRM_UNINSTALL_APP_SAVE_SUCCESS,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 export const close = () =>
   (dispatch) => {

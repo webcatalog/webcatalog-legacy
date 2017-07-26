@@ -6,7 +6,7 @@ import {
   DIALOG_SUBMIT_APP_OPEN,
   DIALOG_SUBMIT_APP_SAVE_REQUEST,
   DIALOG_SUBMIT_APP_SAVE_SUCCESS,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 // Submit App Dialog
 const initialForm = {

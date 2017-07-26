@@ -1,20 +1,18 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import auth from './auth';
-import core from './core';
-import dialogs from './dialogs';
-import home from './home';
-import snackbar from './snackbar';
-import updater from './updater';
+import auth from './auth/reducers';
+import home from './home/reducers';
+import ui from './ui/reducers';
+import updater from '../actions/updater';
+import core from '../actions/core';
 
 const rootReducer = combineReducers({
   auth,
-  core,
-  dialogs,
   home,
-  snackbar,
+  ui,
   updater,
+  core,
 });
 
 const configureStore = initialState =>

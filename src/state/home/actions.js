@@ -7,13 +7,13 @@ import {
   SET_HOME_SORT_ORDER,
   APPS_GET_REQUEST,
   APPS_GET_SUCCESS,
-} from '../constants/actions';
+} from '../../constants/actions';
 import {
   LOADING,
   FAILED,
   DONE,
-} from '../constants/statuses';
-import { apiGet } from './api';
+} from '../../constants/statuses';
+import { apiGet } from '../../actions/api';
 
 let fetching = false;
 

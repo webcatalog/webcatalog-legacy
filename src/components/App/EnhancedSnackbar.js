@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 
-import { closeSnackbar } from '../../actions/snackbar';
+import { closeSnackbar } from '../../state/ui/snackbar/actions';
 
 const EnhancedSnackbar = (props) => {
   const {
@@ -38,9 +38,9 @@ const EnhancedSnackbar = (props) => {
 };
 
 const mapStateToProps = state => ({
-  actionText: state.snackbar.actionText,
-  open: state.snackbar.open,
-  message: state.snackbar.message,
+  actionText: state.ui.snackbar.actionText,
+  open: state.ui.snackbar.open,
+  message: state.ui.snackbar.message,
 });
 
 EnhancedSnackbar.propTypes = {

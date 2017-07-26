@@ -1,7 +1,7 @@
 import {
   OPEN_SNACKBAR,
   CLOSE_SNACKBAR,
-} from '../constants/actions';
+} from '../../../constants/actions';
 
 const initialState = {
   open: false,

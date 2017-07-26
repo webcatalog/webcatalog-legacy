@@ -1,7 +1,7 @@
 import {
   DIALOG_APP_DETAILS_CLOSE,
   DIALOG_APP_DETAILS_OPEN,
-} from '../../constants/actions';
+} from '../../../../constants/actions';
 
 export const close = () =>
   (dispatch) => {
