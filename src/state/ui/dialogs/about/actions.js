@@ -1,13 +1,10 @@
 import {
-  DIALOG_ABOUT_CLOSE,
-  DIALOG_ABOUT_OPEN,
-} from '../../../../constants/actions';
+  dialogAboutClose,
+  dialogAboutOpen,
+} from './action-creators';
 
 export const close = () =>
-  (dispatch) => {
-    dispatch({ type: DIALOG_ABOUT_CLOSE });
-  };
+  dispatch => dispatch(dialogAboutClose());
+
 export const open = () =>
-  (dispatch) => {
-    dispatch({ type: DIALOG_ABOUT_OPEN });
-  };
+  dispatch => dispatch(dialogAboutOpen());

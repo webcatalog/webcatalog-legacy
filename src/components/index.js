@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import grey from 'material-ui/colors/blue';
+import grey from 'material-ui/colors/grey';
+
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppBar from './AppBar';

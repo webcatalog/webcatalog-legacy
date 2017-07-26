@@ -1,14 +1,10 @@
 import {
-  OPEN_SNACKBAR,
-  CLOSE_SNACKBAR,
-} from '../../../constants/actions';
+  snackbarClose,
+  snackbarOpen,
+} from './action-creators';
 
-export const openSnackbar = (message, actionText) => ({
-  type: OPEN_SNACKBAR,
-  message,
-  actionText,
-});
+export const closeSnackbar = () =>
+  dispatch => dispatch(snackbarClose());
 
-export const closeSnackbar = () => ({
-  type: CLOSE_SNACKBAR,
-});
+export const openSnackbar = (message, actionText) =>
+  dispatch => dispatch(snackbarOpen(message, actionText));

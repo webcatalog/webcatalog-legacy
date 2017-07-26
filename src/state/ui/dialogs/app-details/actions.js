@@ -1,17 +1,14 @@
 import {
-  DIALOG_APP_DETAILS_CLOSE,
-  DIALOG_APP_DETAILS_OPEN,
-} from '../../../../constants/actions';
+  dialogAppDetailsClose,
+  dialogAppDetailsOpen,
+} from './action-creators';
 
 export const close = () =>
   (dispatch) => {
-    dispatch({ type: DIALOG_APP_DETAILS_CLOSE });
+    dispatch(dialogAppDetailsClose());
   };
 
 export const open = form =>
   (dispatch) => {
-    dispatch({
-      type: DIALOG_APP_DETAILS_OPEN,
-      form,
-    });
+    dispatch(dialogAppDetailsOpen(form));
   };

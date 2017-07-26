@@ -1,31 +1,28 @@
 import { openSnackbar } from '../../snackbar/actions';
 
 import {
-  DIALOG_CONFIRM_UNINSTALL_APP_CLOSE,
-  DIALOG_CONFIRM_UNINSTALL_APP_OPEN,
-  DIALOG_CONFIRM_UNINSTALL_APP_SAVE_REQUEST,
-  DIALOG_CONFIRM_UNINSTALL_APP_SAVE_SUCCESS,
-} from '../../../../constants/actions';
+  dialogConfirmUninstallAppClose,
+  dialogConfirmUninstallAppOpen,
+  dialogConfirmUninstallAppSaveRequest,
+  dialogConfirmUninstallAppSaveSuccess,
+} from './action-creators';
 
 export const close = () =>
   (dispatch) => {
-    dispatch({ type: DIALOG_CONFIRM_UNINSTALL_APP_CLOSE });
+    dispatch(dialogConfirmUninstallAppClose());
   };
 
 export const open = form =>
   (dispatch) => {
-    dispatch({
-      type: DIALOG_CONFIRM_UNINSTALL_APP_OPEN,
-      form,
-    });
+    dispatch(dialogConfirmUninstallAppOpen(form));
   };
 
 export const save = () =>
   (dispatch) => {
-    dispatch({ type: DIALOG_CONFIRM_UNINSTALL_APP_SAVE_REQUEST });
+    dispatch(dialogConfirmUninstallAppSaveRequest());
     setTimeout(() => {
-      dispatch({ type: DIALOG_CONFIRM_UNINSTALL_APP_SAVE_SUCCESS });
+      dispatch(dialogConfirmUninstallAppSaveSuccess());
       dispatch(openSnackbar('Your app has been successfully uninstalled.'));
-      dispatch({ type: DIALOG_CONFIRM_UNINSTALL_APP_CLOSE });
+      dispatch(close());
     }, 1000);
   };
