@@ -6,13 +6,20 @@
     <nav class="level">
       <div class="level-left">
         <div class="level-item">
-          <h1 class="title ">
-            <a href="/apps">WebCatalog Store</a>
-            <% if (app.category) { %>
-             >
-            <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
-            <% } %>
-          </h1>
+          <nav class="breadcrumb is-medium">
+            <ul>
+              <li><a href="/">WebCatalog</a></li>
+              <li><a href="/apps">Apps</a></li>
+              <% if (app.category) { %>
+              <li>
+                <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
+              </li>
+              <% } %>
+              <li>
+                <a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </nav>

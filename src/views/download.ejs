@@ -1,4 +1,4 @@
-<% include ../partials/header %>
+<% include ./partials/header %>
 
 <section class="hero is-info">
   <div class="hero-body intro intro-<%= platform %>">
@@ -67,7 +67,46 @@
   </div>
 </section>
 
-<section class="section hero is-dark featured-apps">
+<section class="section hero is-dark features">
+  <div class="container">
+    <div class="content has-text-centered">
+      <h2 class="title">Why WebCatalog?</h1>
+
+      <div class="columns is-multiline is-desktop">
+        <div class="column is-one-third-desktop">
+          <span class="icon is-large">
+            <i class="fa fa-bell"></i>
+          </span>
+          <p class="title is-4">Notifications</p>
+          <p class="subtitle is-6">
+            Stay up-to-date with desktop notifications.
+          </p>
+        </div>
+        <div class="column is-one-third-desktop">
+          <span class="icon is-large">
+            <i class="fa fa-line-chart"></i>
+          </span>
+          <p class="title is-4">Productivity</p>
+          <p class="subtitle is-6">
+            Launch from your <%= dockName %>. <% if (platform === "windows") { %>Alt+Tab. Snap Assist<% } else { %>Freely configure the windows<% } %>.
+          </p>
+        </div>
+        <div class="column is-one-third-desktop">
+          <span class="icon is-large">
+            <i class="fa fa-user-secret"></i>
+          </span>
+          <p class="title is-4">Privacy</p>
+          <p class="subtitle is-6">
+            Each app runs within an isolated container.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero featured-apps">
   <div class="container">
     <div class="content has-text-centered">
       <h2 class="title">The Apps You Love, On Your Mac & PC</h2>
@@ -148,61 +187,10 @@
   </div>
 </section>
 
-<section class="section hero features">
-  <div class="container">
-    <div class="content has-text-centered">
-      <h2 class="title">Why WebCatalog?</h1>
-
-      <div class="columns is-multiline is-desktop">
-        <div class="column is-half-desktop">
-          <div class="message">
-            <div class="message-body has-text-centered">
-              <span class="icon is-large">
-                <i class="fa fa-bell"></i>
-              </span>
-              <p class="title is-4">Notifications</p>
-              <p class="subtitle is-6">
-                Stay up-to-date with desktop notifications.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="column is-half-desktop">
-          <div class="message">
-            <div class="message-body has-text-centered">
-              <span class="icon is-large">
-                <i class="fa fa-line-chart"></i>
-              </span>
-              <p class="title is-4">Productivity</p>
-              <p class="subtitle is-6">
-                Launch from your <%= dockName %>. <% if (platform === "windows") { %>Alt+Tab. Snap Assist<% } else { %>Freely configure the windows<% } %>.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <div class="message">
-            <div class="message-body has-text-centered">
-              <span class="icon is-large">
-                <i class="fa fa-user-secret"></i>
-              </span>
-              <p class="title is-4">Privacy</p>
-              <p class="subtitle is-6">
-                Each app runs within an isolated container.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
 <section class="section hero is-dark download">
   <div class="container">
     <div class="content has-text-centered">
-      <h2 class="title">Try now! It's free!</h2>
+      <h2 class="title">Try now! It's free.</h2>
 
       <% if (platform === "mac") { %>
       <p>
@@ -251,4 +239,4 @@
   </div>
 </section>
 
-<% include ../partials/footer %>
+<% include ./partials/footer %>

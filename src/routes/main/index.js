@@ -29,7 +29,7 @@ mainRouter.get('/download/:platform(mac|windows|linux)', (req, res) => {
   if (platform === 'windows') dockName = 'taskbar';
   if (platform === 'linux') dockName = 'launcher';
 
-  res.render('download/index', {
+  res.render('download', {
     version: process.env.VERSION,
     platform,
     dockName,
@@ -41,7 +41,7 @@ mainRouter.get('/release-notes', (req, res, next) => {
   fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/RELEASE_NOTES.md`)
     .then(response => response.text())
     .then((mdContent) => {
-      res.render('download/release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
+      res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
     })
     .catch(next);
 });
@@ -51,7 +51,11 @@ mainRouter.get('/support', (req, res) => {
 });
 
 mainRouter.get('/help', (req, res) => {
-  res.render('help/index', { title: 'WebCatalog Support' });
+  res.render('help', { title: 'Support' });
+});
+
+mainRouter.get('/team', (req, res) => {
+  res.render('team', { title: 'Team' });
 });
 
 module.exports = mainRouter;
