@@ -7,8 +7,13 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import AppCard from '../Shared/AppCard';
+import AppCard from './AppCard';
+import DialogAbout from '../Dialogs/About';
+import DialogSubmitApp from '../Dialogs/SubmitApp';
+import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
+import DialogAppDetails from '../Dialogs/AppDetails';
 import { fetchApps } from '../../state/home/actions';
+import LoadingSpinner from './LoadingSpinner';
 
 const styleSheet = createStyleSheet('Home', theme => ({
   scrollContainer: {
@@ -95,18 +100,31 @@ class Home extends React.Component {
       apps,
     } = this.props;
 
+    const dialogs = [
+      <DialogAbout />,
+      <DialogSubmitApp />,
+      <DialogConfirmUninstallApp />,
+      <DialogAppDetails />,
+    ];
+
+    const temp = <LoadingSpinner />;
+    console.log(temp);
+
     return (
-      <div
-        className={classes.scrollContainer}
-        ref={(container) => { this.scrollContainer = container; }}
-      >
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid container justify="center" gutter={24}>
-              {apps.map(app => <AppCard app={app} />)}
+      <div>
+        <div
+          className={classes.scrollContainer}
+          ref={(container) => { this.scrollContainer = container; }}
+        >
+          {dialogs}
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify="center" gutter={24}>
+                {apps.map(app => <AppCard app={app} />)}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     );
   }

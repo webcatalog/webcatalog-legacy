@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 import Slide from 'material-ui/transitions/Slide';
-import Fade from 'material-ui/transitions/Fade';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import Paper from 'material-ui/Paper';
 import AddBoxIcon from 'material-ui-icons/AddBox';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import Divider from 'material-ui/Divider';
@@ -22,26 +20,17 @@ import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
 import MenuIcon from 'material-ui-icons/Menu';
-import { CircularProgress } from 'material-ui/Progress';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import Auth from '../Auth';
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
-import Home from '../Home';
 import FakeTitleBar from '../Shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
-import EnhancedSnackBar from './EnhancedSnackbar';
 import RefreshButton from './RefreshButton';
-
-import DialogAbout from '../Dialogs/About';
-import DialogSubmitApp from '../Dialogs/SubmitApp';
-import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
-import DialogAppDetails from '../Dialogs/AppDetails';
 
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
@@ -56,14 +45,6 @@ const title = {
   textOverflow: 'ellipsis',
 };
 const styleSheet = createStyleSheet('App', {
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    overflow: 'hidden',
-    width: '100vw',
-  },
-
   toolbar: {
     padding: '0 12px',
   },
@@ -78,6 +59,7 @@ const styleSheet = createStyleSheet('App', {
   },
   appBarContainer: {
     width: '100%',
+    // marginTop: -24,
   },
   searchBar: {
     boxShadow: 'none',
@@ -85,10 +67,13 @@ const styleSheet = createStyleSheet('App', {
     zIndex: 2,
   },
   searchAppBarOpen: {
+    marginTop: -44,
     // boxShadow: 'none',
     paddingTop: 24,
+    // marginTop: -44,
   },
   searchAppBar: {
+    marginTop: -44,
     boxShadow: 'none',
     paddingTop: 24,
   },
@@ -215,8 +200,6 @@ class App extends React.Component {
     const {
       category,
       classes,
-      isGettingApps,
-      isLoggedIn,
       sortBy,
       sortOrder,
     } = this.props;
@@ -269,129 +252,110 @@ class App extends React.Component {
       </div>
     );
 
-    const dialogs = [
-      <DialogAbout />,
-      <DialogSubmitApp />,
-      <DialogConfirmUninstallApp />,
-      <DialogAppDetails />,
-    ];
-
-
     return (
-      <div className={classes.root}>
-        {isLoggedIn ? [
-          dialogs,
-          <FakeTitleBar />,
-          <Drawer
-            open={this.state.isDrawerOpen}
-            onRequestClose={this.handleToggleDrawer}
-            onClick={this.handleToggleDrawer}
+      <div>
+        <FakeTitleBar />
+        <Drawer
+          open={this.state.isDrawerOpen}
+          onRequestClose={this.handleToggleDrawer}
+          onClick={this.handleToggleDrawer}
+        >
+          <FakeTitleBar isColorDisabled />
+          <div className={classes.listContainer}>
+            <List className={classes.list} disablePadding>
+              {temp}
+              <Divider />
+              <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+                <ListItemText primary="Account" />
+              </ListItem>
+              <ListItem button onClick={() => ipcRenderer.send('log-out')}>
+                <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                <ListItemIcon><AddBoxIcon /></ListItemIcon>
+                <ListItemText primary="Submit app" />
+              </ListItem>
+              <ListItem button onClick={this.handleRequestClose}>
+                <ListItemIcon><HelpIcon /></ListItemIcon>
+                <ListItemText primary="Help" />
+              </ListItem>
+              <ListItem button onClick={this.handleRequestClose}>
+                <ListItemIcon><PublicIcon /></ListItemIcon>
+                <ListItemText primary="Website" />
+              </ListItem>
+              <ListItem button onClick={this.handleRequestClose}>
+                <ListItemIcon><InfoIcon /></ListItemIcon>
+                <ListItemText primary="About" />
+              </ListItem>
+            </List>
+          </div>
+        </Drawer>
+        <Slide in={isSearchBarOpen} className={classes.searchBar}>
+          <div
+            className={classes.appBarContainer}
+            ref={(appBar) => { this.appBar = appBar; }}
           >
             <FakeTitleBar isColorDisabled />
-            <div className={classes.listContainer}>
-              <List className={classes.list} disablePadding>
-                {temp}
-                <Divider />
-                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
-                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                  <ListItemText primary="Account" />
-                </ListItem>
-                <ListItem button onClick={() => ipcRenderer.send('log-out')}>
-                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                  <ListItemText primary="Logout" />
-                </ListItem>
-                <Divider />
-                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
-                  <ListItemIcon><AddBoxIcon /></ListItemIcon>
-                  <ListItemText primary="Submit app" />
-                </ListItem>
-                <ListItem button onClick={this.handleRequestClose}>
-                  <ListItemIcon><HelpIcon /></ListItemIcon>
-                  <ListItemText primary="Help" />
-                </ListItem>
-                <ListItem button onClick={this.handleRequestClose}>
-                  <ListItemIcon><PublicIcon /></ListItemIcon>
-                  <ListItemText primary="Website" />
-                </ListItem>
-                <ListItem button onClick={this.handleOpenDialogAbout}>
-                  <ListItemIcon><InfoIcon /></ListItemIcon>
-                  <ListItemText primary="About" />
-                </ListItem>
-              </List>
-            </div>
-          </Drawer>,
-          <Slide in={isSearchBarOpen} className={classes.searchBar}>
-            <div
-              className={classes.appBarContainer}
-              ref={(appBar) => { this.appBar = appBar; }}
+            <AppBar
+              color="default"
+              position="static"
+              key="searchBar"
+              className={isSearchBarOpen ? classes.searchAppBarOpen : classes.searchAppBar}
             >
-              <AppBar
-                color="default"
-                position="static"
-                key="searchBar"
-                className={isSearchBarOpen ? classes.searchAppBarOpen : classes.searchAppBar}
-              >
-                <Toolbar className={classes.toolbar}>
-                  <IconButton
-                    color={grey[100]}
-                    aria-label="Menu"
-                    onClick={() => this.handleToggleSearchBar()}
-                  >
-                    <ArrowBackIcon />
-                  </IconButton>
-                  <Typography
-                    className={classes.searchBarText}
-                    color="inherit"
-                    type="title"
-                  >
-                    <input
-                      placeholder="Search apps"
-                      className={classes.input}
-                    />
-                  </Typography>
-                  <IconButton
-                    color={grey[100]}
-                    aria-label="Close"
-                    onClick={() => this.handleToggleSearchBar()}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Toolbar>
-              </AppBar>
-            </div>
-          </Slide>,
-          <AppBar position="static" key="appBar" className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              <IconButton
-                color="contrast"
-                aria-label="Menu"
-                onClick={() => this.handleToggleDrawer()}
-              >
-                <MenuIcon />
-              </IconButton>
-              {renderTitleElement()}
-              <IconButton
-                color="contrast"
-                aria-label="Search"
-                onClick={() => this.handleToggleSearchBar()}
-              >
-                <SearchIcon />
-              </IconButton>
-              <SortMenuButton />
-              <FilterMenuButton />
-              <RefreshButton />
-            </Toolbar>
-          </AppBar>,
-          <Fade in={isGettingApps}>
-            <div className={classes.circularProgressContainer}>
-              <Paper className={classes.circularProgressPaper} elevation={10}>
-                <CircularProgress size={32} />
-              </Paper>
-            </div>
-          </Fade>,
-          <Home key="routes" />,
-        ] : <Auth />}
-        <EnhancedSnackBar />
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  color={grey[100]}
+                  aria-label="Menu"
+                  onClick={() => this.handleToggleSearchBar()}
+                >
+                  <ArrowBackIcon />
+                </IconButton>
+                <Typography
+                  className={classes.searchBarText}
+                  color="inherit"
+                  type="title"
+                >
+                  <input
+                    placeholder="Search apps"
+                    className={classes.input}
+                  />
+                </Typography>
+                <IconButton
+                  color={grey[100]}
+                  aria-label="Close"
+                  onClick={() => this.handleToggleSearchBar()}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </div>
+        </Slide>
+        <AppBar position="static" key="appBar" className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              color="contrast"
+              aria-label="Menu"
+              onClick={() => this.handleToggleDrawer()}
+            >
+              <MenuIcon />
+            </IconButton>
+            {renderTitleElement()}
+            <IconButton
+              color="contrast"
+              aria-label="Search"
+              onClick={() => this.handleToggleSearchBar()}
+            >
+              <SearchIcon />
+            </IconButton>
+            <SortMenuButton />
+            <FilterMenuButton />
+            <RefreshButton />
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }
@@ -404,8 +368,6 @@ App.defaultProps = {
 App.propTypes = {
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  isGettingApps: PropTypes.bool.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
