@@ -1,14 +1,17 @@
+/* global ipcRenderer */
 import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 import Slide from 'material-ui/transitions/Slide';
 import Fade from 'material-ui/transitions/Fade';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import AddBoxIcon from 'material-ui-icons/AddBox';
+import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import Divider from 'material-ui/Divider';
 import HelpIcon from 'material-ui-icons/Help';
 import Avatar from 'material-ui/Avatar';
@@ -139,12 +142,11 @@ const styleSheet = createStyleSheet('App', {
     display: 'flex',
     flexDirection: 'column',
     margin: 16,
-    marginBottom: 20,
+    marginBottom: 16,
     fontSize: 15,
   },
   nameDetailsName: {
     fontWeight: 500,
-    marginBottom: 2,
     color: grey[800],
   },
   nameDetailsEmail: {
@@ -154,7 +156,7 @@ const styleSheet = createStyleSheet('App', {
     marginBottom: 8,
   },
   headerContainer: {
-    backgroundColor: grey[200],
+    // backgroundColor: grey[200],
   },
 });
 
@@ -276,7 +278,16 @@ class App extends React.Component {
             <div className={classes.listContainer}>
               <List className={classes.list} disablePadding>
                 {temp}
-                <Divider className={classes.headerDivider} />
+                <Divider />
+                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+                  <ListItemText primary="Account" />
+                </ListItem>
+                <ListItem button onClick={() => ipcRenderer.send('log-out')}>
+                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+                <Divider />
                 <ListItem button onClick={this.handleOpenDialogSubmitApp}>
                   <ListItemIcon><AddBoxIcon /></ListItemIcon>
                   <ListItemText primary="Submit app" />
@@ -289,7 +300,7 @@ class App extends React.Component {
                   <ListItemIcon><PublicIcon /></ListItemIcon>
                   <ListItemText primary="Website" />
                 </ListItem>
-                <ListItem button onClick={this.handleOpenDialogAbout}>
+                <ListItem button onClick={this.handleRequestClose}>
                   <ListItemIcon><InfoIcon /></ListItemIcon>
                   <ListItemText primary="About" />
                 </ListItem>
@@ -390,8 +401,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.home.category,
-  isLoggedIn: 1,
-  // isLoggedIn: Boolean(true || state.auth.token),
+  isLoggedIn: state.auth.token,
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
   isGettingApps: state.home.isGettingApps,
