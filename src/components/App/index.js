@@ -1,26 +1,56 @@
+/* global ipcRenderer */
 import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
+import Slide from 'material-ui/transitions/Slide';
+import Fade from 'material-ui/transitions/Fade';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
+import AddBoxIcon from 'material-ui-icons/AddBox';
+import AccountCircleIcon from 'material-ui-icons/AccountCircle';
+import Divider from 'material-ui/Divider';
+import HelpIcon from 'material-ui-icons/Help';
+import Avatar from 'material-ui/Avatar';
+import InfoIcon from 'material-ui-icons/Info';
+import PublicIcon from 'material-ui-icons/Public';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
+import CloseIcon from 'material-ui-icons/Close';
+import MenuIcon from 'material-ui-icons/Menu';
+import { CircularProgress } from 'material-ui/Progress';
+import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import { blue } from 'material-ui/styles/colors';
+import { grey } from 'material-ui/styles/colors';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import Auth from '../Auth';
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
+import FakeTitleBar from '../shared/FakeTitleBar';
 import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
-import EnhancedSnackbar from './EnhancedSnackbar';
+import EnhancedSnackBar from './EnhancedSnackbar';
+import RefreshButton from './RefreshButton';
 
-const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
+import { open as openDialogAbout } from '../../actions/dialogs/about';
+import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app';
 
+const title = {
+  lineHeight: 1.5,
+  padding: '0 16px',
+  flex: 1,
+  userSelect: 'none',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+};
 const styleSheet = createStyleSheet('App', {
   root: {
     display: 'flex',
@@ -30,81 +60,329 @@ const styleSheet = createStyleSheet('App', {
     width: '100vw',
   },
 
-  fakeTitleBar: {
-    backgroundColor: blue[700],
-    height: titleBarHeight,
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
-    width: '100vw',
+  toolbar: {
+    padding: '0 12px',
   },
-
-  title: {
+  title,
+  searchBarText: {
+    ...title,
+    fontWeight: 'normal',
+    fontSize: 21,
+  },
+  appBar: {
+    zIndex: 1,
+  },
+  appBarContainer: {
+    width: '100%',
+  },
+  searchBar: {
+    boxShadow: 'none',
+    position: 'absolute',
+    zIndex: 2,
+  },
+  searchAppBarOpen: {
+    // boxShadow: 'none',
+    paddingTop: 24,
+  },
+  searchAppBar: {
+    boxShadow: 'none',
+    paddingTop: 24,
+  },
+  list: {
+    width: 304,
+    flex: 'initial',
+  },
+  input: {
+    font: 'inherit',
+    border: 0,
+    display: 'block',
+    verticalAlign: 'middle',
+    whiteSpace: 'normal',
+    background: 'none',
+    margin: 0, // Reset for Safari
+    color: 'inherit',
+    width: '100%',
+    '&:focus': {
+      outline: 0,
+    },
+    '&::placeholder': {
+      color: grey[400],
+    },
+  },
+  circularProgressContainer: {
+    width: '100%',
+    top: 100,
+    position: 'absolute',
+    justifyContent: 'center',
+    display: 'flex',
+    zIndex: 1,
+  },
+  circularProgressPaper: {
+    width: 32,
+    height: 32,
+    borderRadius: '100%',
+    padding: 6,
+  },
+  listContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     flex: 1,
-    userSelect: 'none',
+  },
+  avatar: {
+    margin: 16,
+    marginBottom: 8,
+    width: 60,
+    height: 60,
+    fontSize: 28,
+    cursor: 'default',
+  },
+  nameDetails: {
+    cursor: 'default',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: 16,
+    marginBottom: 16,
+    fontSize: 15,
+  },
+  nameDetailsName: {
+    fontWeight: 500,
+    color: grey[800],
+  },
+  nameDetailsEmail: {
+    color: grey[600],
+  },
+  headerDivider: {
+    marginBottom: 8,
+  },
+  headerContainer: {
+    // backgroundColor: grey[200],
   },
 });
 
-const App = (props) => {
-  const {
-    category,
-    classes,
-    isLoggedIn,
-    sortBy,
-    sortOrder,
-  } = props;
+class App extends React.Component {
+  constructor() {
+    super();
 
-  const renderTitleElement = () => {
-    const appString = category ? `${getSingularLabel(category)} apps` : 'apps';
+    this.state = {
+      isDrawerOpen: false,
+      isSearchBarOpen: false,
+    };
 
-    let titleText;
-    switch (sortBy) {
-      case 'installCount': {
-        titleText = sortOrder === 'asc' ? `Least popular ${appString}` : `Most popular ${appString}`;
-        break;
+    this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
+    this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
+    this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
+    this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
+    this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
+  }
+
+  handleToggleDrawer() {
+    this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+  }
+
+  handleToggleSearchBar() {
+    const { isSearchBarOpen } = this.state;
+    if (!isSearchBarOpen) {
+      document.addEventListener('click', this.handleOutsideAppbarClick, false);
+    } else document.removeEventListener('click', this.handleOutsideAppbarClick, false);
+
+    this.setState({ isSearchBarOpen: !isSearchBarOpen });
+  }
+
+  handleOutsideAppbarClick(e) {
+    if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
+  }
+
+  handleOpenDialogAbout() {
+    this.props.onOpenDialogAbout();
+  }
+
+  handleOpenDialogSubmitApp() {
+    this.props.onOpenDialogSubmitApp();
+  }
+
+  render() {
+    const {
+      category,
+      classes,
+      isGettingApps,
+      isLoggedIn,
+      sortBy,
+      sortOrder,
+    } = this.props;
+
+    const { isSearchBarOpen } = this.state;
+
+    const renderTitleElement = () => {
+      const appString = category ? `${getSingularLabel(category)} apps` : 'apps';
+
+      let titleText;
+      switch (sortBy) {
+        case 'installCount': {
+          titleText = sortOrder === 'asc' ? `Least popular ${appString}` : `Most popular ${appString}`;
+          break;
+        }
+        case 'name': {
+          titleText = sortOrder === 'asc' ? `${appString} by name (A-Z)` : `${appString} by name (Z-A)`;
+          break;
+        }
+        case 'createdAt': {
+          titleText = `Most recently added ${appString}`;
+          break;
+        }
+        default: break;
       }
-      case 'name': {
-        titleText = sortOrder === 'asc' ? `${appString} by name (A-Z)` : `${appString} by name (Z-A)`;
-        break;
-      }
-      case 'createdAt': {
-        titleText = `Most recently added ${appString}`;
-        break;
-      }
-      default: break;
-    }
+      titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1);
+
+      return (
+        <Typography
+          className={classes.title}
+          color="inherit"
+          type="title"
+        >
+          {titleText}
+        </Typography>
+      );
+    };
+
+    const temp = (
+      <div className={classes.headerContainer}>
+        <Avatar className={classes.avatar}>Q</Avatar>
+        <div className={classes.nameDetails}>
+          <div className={classes.nameDetailsName}>
+            Quang Lam
+          </div>
+          <div className={classes.nameDetailsEmail}>
+            quang@getwebcatalog.com
+          </div>
+        </div>
+      </div>
+    );
+
+    const temp2 = (
+      <MoreMenuButton />
+    );
+
+    console.log(temp, temp2);
 
     return (
-      <Typography
-        className={classes.title}
-        color="inherit"
-        type="title"
-      >
-        {titleText}
-      </Typography>
+      <div className={classes.root}>
+        {isLoggedIn ? [
+          <FakeTitleBar />,
+          <Drawer
+            open={this.state.isDrawerOpen}
+            onRequestClose={this.handleToggleDrawer}
+            onClick={this.handleToggleDrawer}
+          >
+            <FakeTitleBar isColorDisabled />
+            <div className={classes.listContainer}>
+              <List className={classes.list} disablePadding>
+                {temp}
+                <Divider />
+                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+                  <ListItemText primary="Account" />
+                </ListItem>
+                <ListItem button onClick={() => ipcRenderer.send('log-out')}>
+                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+                <Divider />
+                <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+                  <ListItemIcon><AddBoxIcon /></ListItemIcon>
+                  <ListItemText primary="Submit app" />
+                </ListItem>
+                <ListItem button onClick={this.handleRequestClose}>
+                  <ListItemIcon><HelpIcon /></ListItemIcon>
+                  <ListItemText primary="Help" />
+                </ListItem>
+                <ListItem button onClick={this.handleRequestClose}>
+                  <ListItemIcon><PublicIcon /></ListItemIcon>
+                  <ListItemText primary="Website" />
+                </ListItem>
+                <ListItem button onClick={this.handleRequestClose}>
+                  <ListItemIcon><InfoIcon /></ListItemIcon>
+                  <ListItemText primary="About" />
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>,
+          <Slide in={isSearchBarOpen} className={classes.searchBar}>
+            <div
+              className={classes.appBarContainer}
+              ref={(appBar) => { this.appBar = appBar; }}
+            >
+              <AppBar
+                color="default"
+                position="static"
+                key="searchBar"
+                className={isSearchBarOpen ? classes.searchAppBarOpen : classes.searchAppBar}
+              >
+                <Toolbar className={classes.toolbar}>
+                  <IconButton
+                    color={grey[100]}
+                    aria-label="Menu"
+                    onClick={() => this.handleToggleSearchBar()}
+                  >
+                    <ArrowBackIcon />
+                  </IconButton>
+                  <Typography
+                    className={classes.searchBarText}
+                    color="inherit"
+                    type="title"
+                  >
+                    <input
+                      placeholder="Search apps"
+                      className={classes.input}
+                    />
+                  </Typography>
+                  <IconButton
+                    color={grey[100]}
+                    aria-label="Close"
+                    onClick={() => this.handleToggleSearchBar()}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Toolbar>
+              </AppBar>
+            </div>
+          </Slide>,
+          <AppBar position="static" key="appBar" className={classes.appBar}>
+            <Toolbar className={classes.toolbar}>
+              <IconButton
+                color="contrast"
+                aria-label="Menu"
+                onClick={() => this.handleToggleDrawer()}
+              >
+                <MenuIcon />
+              </IconButton>
+              {renderTitleElement()}
+              <IconButton
+                color="contrast"
+                aria-label="Search"
+                onClick={() => this.handleToggleSearchBar()}
+              >
+                <SearchIcon />
+              </IconButton>
+              <SortMenuButton />
+              <FilterMenuButton />
+              <RefreshButton />
+            </Toolbar>
+          </AppBar>,
+          <Fade in={isGettingApps}>
+            <div className={classes.circularProgressContainer}>
+              <Paper className={classes.circularProgressPaper} elevation={10}>
+                <CircularProgress size={32} />
+              </Paper>
+            </div>
+          </Fade>,
+          <Home key="routes" />,
+        ] : <Auth />}
+        <EnhancedSnackBar />
+      </div>
     );
-  };
-
-  return (
-    <div className={classes.root}>
-      {isLoggedIn ? [
-        <div className={classes.fakeTitleBar} key="fakeTitleBar" />,
-        <AppBar position="static" key="appBar">
-          <Toolbar>
-            {renderTitleElement()}
-            <IconButton color="contrast" aria-label="Search">
-              <SearchIcon />
-            </IconButton>
-            <SortMenuButton />
-            <FilterMenuButton />
-            <MoreMenuButton />
-          </Toolbar>
-        </AppBar>,
-        <Home key="routes" />,
-      ] : <Auth />}
-      <EnhancedSnackbar />
-    </div>
-  );
-};
+  }
+}
 
 App.defaultProps = {
   category: null,
@@ -113,18 +391,25 @@ App.defaultProps = {
 App.propTypes = {
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  isGettingApps: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortOrder: PropTypes.string.isRequired,
+  onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogSubmitApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: Boolean(state.auth.token),
+  category: state.home.category,
+  isLoggedIn: state.auth.token,
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
+  isGettingApps: state.home.isGettingApps,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onOpenDialogAbout: () => dispatch(openDialogAbout()),
+  onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

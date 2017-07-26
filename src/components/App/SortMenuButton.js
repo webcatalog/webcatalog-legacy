@@ -19,10 +19,12 @@ const SortMenuButton = (props) => {
     onSetSortBy,
   } = props;
 
+  const iconButtonColor = sortBy !== 'installCount' ? 'primary' : 'contrast';
+
   return (
     <EnhancedMenu
       buttonElement={(
-        <IconButton aria-label="More" color="contrast">
+        <IconButton aria-label="More" color={iconButtonColor}>
           <SortIcon />
         </IconButton>
       )}

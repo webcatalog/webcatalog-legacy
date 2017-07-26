@@ -6,17 +6,20 @@ import {
   SET_HOME_CATEGORY,
   SET_HOME_SORT_BY,
   SET_HOME_SORT_ORDER,
+  APPS_GET_REQUEST,
+  APPS_GET_SUCCESS,
 } from '../constants/actions';
 
 const initialState = {
   status: LOADING,
   apps: [],
-  currentPage: 0,
+  currentPage: 1,
   totalPage: null,
   appStatus: {},
   category: null,
   sortBy: 'installCount',
   sortOrder: 'desc',
+  isGettingApps: false,
 };
 
 const home = (state = initialState, action) => {
@@ -55,6 +58,12 @@ const home = (state = initialState, action) => {
     case SET_HOME_SORT_ORDER: {
       const { sortOrder } = action;
       return Object.assign({}, state, { sortOrder });
+    }
+    case APPS_GET_REQUEST: {
+      return Object.assign({}, state, { isGettingApps: true });
+    }
+    case APPS_GET_SUCCESS: {
+      return Object.assign({}, state, { isGettingApps: false });
     }
     default:
       return state;

@@ -5,6 +5,8 @@ import {
   SET_HOME_CATEGORY,
   SET_HOME_SORT_BY,
   SET_HOME_SORT_ORDER,
+  APPS_GET_REQUEST,
+  APPS_GET_SUCCESS,
 } from '../constants/actions';
 import {
   LOADING,
@@ -15,60 +17,68 @@ import fetchApi from '../utils/fetchApi';
 
 let fetching = false;
 
-export const fetchApps = () => (dispatch, getState) => {
-  const { home } = getState();
 
-  // All pages have been fetched => stop
-  if (home.totalPage && home.currentPage + 1 > home.totalPage) return;
+export const fetchApps = ({ next = false } = {}) =>
+  (dispatch, getState) => {
+    const { home } = getState();
 
-  // Prevent redundant requests
-  if (fetching) return;
-  fetching = true;
+    // All pages have been fetched => stop
+    if (home.totalPage && home.currentPage + 1 > home.totalPage) return;
 
-  const currentPage = home.currentPage + 1;
+    // Prevent redundant requests
+    if (fetching) return;
+    fetching = true;
 
-  dispatch({
-    type: SET_HOME_STATUS,
-    status: LOADING,
-  });
+    // We increment the page if we pass in the 'next' parameter
+    const currentPage = next ? home.currentPage + 1 : home.currentPage;
 
-  let requestPath = `/apps?limit=30&page=${currentPage}`;
-  if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
-  if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
-  if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
-
-  fetchApi(requestPath)
-  .then(response => response.json())
-  .then(({ apps, totalPage }) =>
-    Promise.all([
-      dispatch({ type: SET_HOME_STATUS, status: DONE }),
-      dispatch({
-        type: ADD_HOME_APPS,
-        chunk: apps,
-        currentPage,
-        totalPage,
-      }),
-    ]),
-  )
-  .catch((err) => {
-    if (err && err.response && err.response.status === 401) {
-      // dispatch(logOut());
-      return;
-    }
-
-    /* eslint-disable no-console */
-    console.log(err);
-    /* eslint-enable no-console */
-
+    dispatch({ type: APPS_GET_REQUEST });
     dispatch({
       type: SET_HOME_STATUS,
-      status: FAILED,
+      status: LOADING,
     });
-  })
-  .then(() => {
-    fetching = false;
-  });
-};
+
+    let requestPath = `/apps?limit=30&page=${currentPage}`;
+    if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
+    if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
+    if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
+
+    fetchApi(requestPath)
+    .then((response) => {
+      dispatch({ type: APPS_GET_SUCCESS });
+      return response.json();
+    })
+    .then(({ apps, totalPage }) =>
+      Promise.all([
+        dispatch({ type: APPS_GET_SUCCESS }),
+        dispatch({ type: SET_HOME_STATUS, status: DONE }),
+        dispatch({
+          type: ADD_HOME_APPS,
+          chunk: apps,
+          currentPage,
+          totalPage,
+        }),
+      ]),
+    )
+    .catch((err) => {
+      if (err && err.response && err.response.status === 401) {
+        // dispatch(logOut());
+        return;
+      }
+
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+
+      dispatch({
+        type: SET_HOME_STATUS,
+        status: FAILED,
+      });
+    })
+    .then(() => {
+      fetching = false;
+    });
+  };
 
 export const setCategory = category => (dispatch) => {
   dispatch({ type: SET_HOME_CATEGORY, category });

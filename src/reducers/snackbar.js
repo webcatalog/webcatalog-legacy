@@ -6,6 +6,7 @@ import {
 const initialState = {
   open: false,
   message: null,
+  actionText: 'Close',
 };
 
 const snackbar = (state = initialState, action) => {
@@ -14,6 +15,7 @@ const snackbar = (state = initialState, action) => {
       return Object.assign({}, state, {
         open: true,
         message: action.message,
+        actionText: action.actionText || initialState.actionText,
       });
     }
     case CLOSE_SNACKBAR: {

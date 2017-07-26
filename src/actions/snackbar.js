@@ -3,9 +3,10 @@ import {
   CLOSE_SNACKBAR,
 } from '../constants/actions';
 
-export const openSnackbar = message => ({
+export const openSnackbar = (message, actionText) => ({
   type: OPEN_SNACKBAR,
   message,
+  actionText,
 });
 
 export const closeSnackbar = () => ({
