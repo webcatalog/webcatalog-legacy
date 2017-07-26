@@ -204,7 +204,7 @@ const compileUploadImagesAsync = (fileName, appId) =>
     });
 
 appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upload.single('icon'), (req, res, next) => {
-  if (!req.body || !req.body.name || !req.body.url || !req.body.category) {
+  if (!req.body) {
     return next(new errors.BadRequest('bad_request'));
   }
 
@@ -224,7 +224,7 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
 
           return compileUploadImagesAsync(req.file.filename, app.id);
         })
-        .then(() => fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.wikipediaTitle || req.body.name)}`))
+        .then(() => fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(req.body.wikipediaTitle || req.body.name || app.wikipediaTitle || app.name)}`))
         .then(response => response.json())
         .then((content) => {
           const pageId = Object.keys(content.query.pages);
@@ -232,18 +232,23 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
 
           return content.query.pages[pageId].extract;
         })
-        .then(description =>
-          app.updateAttributes({
-            slug: slug(req.body.name, { lower: true }),
-            name: req.body.name,
-            url: req.body.url,
-            category: req.body.category,
+        .then((description) => {
+          const newAttributes = {};
+          if (req.body.name) {
+            newAttributes.slug = slug(req.body.name, { lower: true });
+            newAttributes.name = req.body.name;
+          }
+          if (req.body.url) newAttributes.url = req.body.url;
+          if (req.body.category) newAttributes.category = req.body.category;
+          if (req.body.wikipediaTitle) newAttributes.wikipediaTitle = req.body.wikipediaTitle;
+
+          return app.updateAttributes({
+            ...newAttributes,
+            description,
             isActive: true,
             version: Date.now().toString(),
-            description,
-            wikipediaTitle: req.body.wikipediaTitle,
-          }),
-        )
+          });
+        })
         .then(() => {
           const plainApp = app.get({ plain: true });
           plainApp.objectID = plainApp.id;
