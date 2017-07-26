@@ -4,10 +4,12 @@ import sequelize from 'sequelize';
 import crypto from 'crypto';
 import errors from 'throw.js';
 
+import User from '../../models/User';
 import App from '../../models/App';
 import Action from '../../models/Action';
 
 const userApiRouter = express.Router();
+
 
 userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
@@ -22,6 +24,38 @@ userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, r
       intercomUserHash: hmac.digest('hex'),
     },
   });
+});
+
+userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  if (!req.body) {
+    return next(new errors.BadRequest('bad_request'));
+  }
+
+  return User.findById(req.user.id)
+    .then((user) => {
+      const newAttributes = {};
+      if (req.body.email) {
+        newAttributes.email = req.body.email;
+        newAttributes.isVerified = false;
+      }
+      if (req.body.displayName) newAttributes.displayName = req.body.displayName;
+
+      return user.updateAttributes(newAttributes)
+        .then(() => {
+          const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
+          hmac.update(user.id);
+
+          res.json({
+            user: {
+              id: user.id,
+              email: user.email,
+              displayName: user.displayName,
+              profilePicture: user.profilePicture,
+              intercomUserHash: hmac.digest('hex'),
+            },
+          });
+        });
+    });
 });
 
 userApiRouter.get('/apps', passport.authenticate('jwt', { session: false }), (req, res, next) => {
