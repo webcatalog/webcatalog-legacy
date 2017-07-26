@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { grey, fullWhite } from 'material-ui/styles/colors';
+import common from 'material-ui/colors/common';
+import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
@@ -16,6 +17,7 @@ import logoPng from '../../images/logo.png';
 import { setAuthEmail, setAuthPassword } from '../../actions/auth';
 
 const GOOGLE_BRAND_COLOR = '#fff';
+const { fullWhite } = common;
 
 const styleSheet = createStyleSheet('Auth', theme => ({
   root: {

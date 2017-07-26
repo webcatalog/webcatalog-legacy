@@ -26,7 +26,7 @@ import { CircularProgress } from 'material-ui/Progress';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import { grey } from 'material-ui/styles/colors';
+import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import Auth from '../Auth';
@@ -34,7 +34,6 @@ import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
 import Home from '../Home';
 import FakeTitleBar from '../shared/FakeTitleBar';
-import MoreMenuButton from './MoreMenuButton';
 import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
 import RefreshButton from './RefreshButton';
@@ -259,11 +258,6 @@ class App extends React.Component {
       </div>
     );
 
-    const temp2 = (
-      <MoreMenuButton />
-    );
-
-    console.log(temp, temp2);
 
     return (
       <div className={classes.root}>

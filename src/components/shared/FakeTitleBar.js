@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { blue } from 'material-ui/styles/colors';
+import blue from 'material-ui/colors/blue';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;

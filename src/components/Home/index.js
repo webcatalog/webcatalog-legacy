@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Grid from 'material-ui/Grid';
-import { grey } from 'material-ui/styles/colors';
+import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCard from './app-card';
