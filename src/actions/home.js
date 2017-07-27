@@ -44,40 +44,40 @@ export const fetchApps = ({ next = false } = {}) =>
     if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
 
     fetchApi(requestPath)
-    .then((response) => {
-      dispatch({ type: APPS_GET_SUCCESS });
-      return response.json();
-    })
-    .then(({ apps, totalPage }) =>
-      Promise.all([
-        dispatch({ type: APPS_GET_SUCCESS }),
-        dispatch({ type: SET_HOME_STATUS, status: DONE }),
+      .then((response) => {
+        dispatch({ type: APPS_GET_SUCCESS });
+        return response.json();
+      })
+      .then(({ apps, totalPage }) =>
+        Promise.all([
+          dispatch({ type: APPS_GET_SUCCESS }),
+          dispatch({ type: SET_HOME_STATUS, status: DONE }),
+          dispatch({
+            type: ADD_HOME_APPS,
+            chunk: apps,
+            currentPage,
+            totalPage,
+          }),
+        ]),
+      )
+      .catch((err) => {
+        if (err && err.response && err.response.status === 401) {
+          // dispatch(logOut());
+          return;
+        }
+
+        /* eslint-disable no-console */
+        console.log(err);
+        /* eslint-enable no-console */
+
         dispatch({
-          type: ADD_HOME_APPS,
-          chunk: apps,
-          currentPage,
-          totalPage,
-        }),
-      ]),
-    )
-    .catch((err) => {
-      if (err && err.response && err.response.status === 401) {
-        // dispatch(logOut());
-        return;
-      }
-
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
-
-      dispatch({
-        type: SET_HOME_STATUS,
-        status: FAILED,
+          type: SET_HOME_STATUS,
+          status: FAILED,
+        });
+      })
+      .then(() => {
+        fetching = false;
       });
-    })
-    .then(() => {
-      fetching = false;
-    });
   };
 
 export const setCategory = category => (dispatch) => {

@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppDetails));
+connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppDetails));

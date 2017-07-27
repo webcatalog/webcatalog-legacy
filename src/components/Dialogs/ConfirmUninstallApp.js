@@ -119,4 +119,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(ConfirmUninstallApp));
+connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(ConfirmUninstallApp));

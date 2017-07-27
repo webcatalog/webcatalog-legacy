@@ -72,5 +72,4 @@ const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(close()),
 });
 
-export default
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(About));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(About));

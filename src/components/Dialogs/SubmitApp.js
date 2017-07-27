@@ -141,5 +141,4 @@ const mapDispatchToProps = dispatch => ({
   onSave: () => dispatch(save()),
 });
 
-export default
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(SubmitApp));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(SubmitApp));
