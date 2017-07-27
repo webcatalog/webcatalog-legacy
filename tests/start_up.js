@@ -7,7 +7,7 @@ harness('store-test', () => {
     global.app.client
       .windowByIndex(0)
       .waitUntilWindowLoaded()
-      .waitForVisible('[class^="App-root"]'));
+      .waitForVisible('[class^="c1"]'));
 }, [
   '--testing=true',
 ]);
