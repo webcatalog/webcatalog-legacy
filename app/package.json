@@ -1,7 +1,7 @@
 {
   "name": "Molecule",
   "main": "main/electron.js",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
-    "electron": "^1.7.3",
+    "electron": "^1.7.5",
     "material-ui": "1.0.0-alpha.20",
     "material-ui-icons": "^1.0.0-alpha.19",
     "mousetrap": "^1.6.1",
@@ -29,5 +29,10 @@
   "homepage": "./",
   "dependencies": {
     "electron-is-dev": "^0.1.2"
+  },
+  "webApp": {
+    "id": "asana",
+    "url": "https://asana.com",
+    "name": "Asana"
   }
 }

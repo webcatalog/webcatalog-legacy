@@ -21,15 +21,18 @@ const createAppAsync = (id, name, url, icon, out) =>
 
       return fs.copy(appDir, tmpDir)
         .then(() => {
-          const webAppJsonPath = path.resolve(tmpDir, 'build', 'webApp.json');
-          return fs.readJson(webAppJsonPath)
-            .then((webAppTemplate) => {
-              const webApp = Object.assign({}, webAppTemplate, {
-                id,
-                name,
-                url,
+          const packageJsonPath = path.resolve(tmpDir, 'package.json');
+          return fs.readJson(packageJsonPath)
+            .then((packageJsonTemplate) => {
+              const packageJson = Object.assign({}, packageJsonTemplate, {
+                name: id,
+                webApp: {
+                  id,
+                  name,
+                  url,
+                },
               });
-              return fs.writeJson(webAppJsonPath, webApp);
+              return fs.writeJson(packageJsonPath, packageJson);
             })
             .then(() => createTmpDirAsync())
             .then(outTmpDir =>

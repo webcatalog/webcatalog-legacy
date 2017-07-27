@@ -88,11 +88,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
     webPreferences: {
       nodeIntegration: false,
-      webviewTag: true,
       preload: path.join(__dirname, 'preload.js'),
+      webviewTag: true,
     },
   });
 

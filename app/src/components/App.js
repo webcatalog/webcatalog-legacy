@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 
 import { grey } from 'material-ui/styles/colors';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
@@ -22,10 +21,7 @@ import {
 } from '../actions/nav';
 import { screenResize } from '../actions/screen';
 
-
-import Tabs from './Tabs';
 import WebView from './WebView';
-import WebNav from './WebNav';
 import FindInPage from './FindInPage';
 
 const styleSheet = createStyleSheet('App', theme => ({
@@ -49,6 +45,12 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   leftNavBlankFullScreen: {
     height: theme.spacing.unit,
+  },
+  rightContent: {
+    flex: 1,
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
   },
   webNavContainer: {
     display: 'flex',
@@ -232,7 +234,6 @@ class App extends React.Component {
       handleUpdateIsLoading,
       handleUpdateTargetUrl,
       isFailed,
-      isFullScreen,
     } = this.props;
 
     const {
@@ -259,17 +260,7 @@ class App extends React.Component {
             </button>
           </div>
         )}
-        <div className={classes.leftNav}>
-          <div
-            className={classnames(
-              classes.leftNavBlank,
-              { [classes.leftNavBlankFullScreen]: isFullScreen },
-            )}
-          />
-          <Tabs />
-          <WebNav />
-        </div>
-        <div>
+        <div className={classes.rightContent}>
           {findInPageIsOpen && (
             <FindInPage
               onRequestFind={(text, forward) => {
@@ -290,6 +281,9 @@ class App extends React.Component {
             plugins
             allowpopups
             autoresize
+            partition="persist:app"
+            nodeintegration={false}
+            webpreferences="nativeWindowOpen=yes"
             src={window.shellInfo.url}
             onDidFailLoad={onDidFailLoad}
             onDidStartLoading={() => handleUpdateIsLoading(true)}
@@ -297,8 +291,10 @@ class App extends React.Component {
             onFoundInPage={({ result }) =>
               handleUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
             onNewWindow={onNewWindow}
-            onPageTitleUpdated={({ url }) => handleUpdateTargetUrl(url)}
-            onUpdateTargetUrl={({ title }) => {
+            onPageTitleUpdated={({ url, title }) => {
+              document.title = title;
+              handleUpdateTargetUrl(url);
+
               ipcRenderer.send('set-title', title);
 
               const itemCountRegex = /[([{](\d*?)[}\])]/;
@@ -323,7 +319,6 @@ App.defaultProps = {
 App.propTypes = {
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
-  isFullScreen: PropTypes.bool,
   isFailed: PropTypes.bool,
   customHome: PropTypes.string,
   classes: PropTypes.object.isRequired,
@@ -340,7 +335,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
-  isFullScreen: state.screen.isFullScreen || false,
+  isFullScreen: state.screen.isFullScreen,
   isFailed: false && state.nav.isFailed,
   customHome: state.settings.customHome,
   rememberLastPage: state.settings.rememberLastPage,

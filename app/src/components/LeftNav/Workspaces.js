@@ -16,7 +16,7 @@ import {
   removeTab,
   setActiveTab,
   swapTab,
-} from '../actions/root';
+} from '../../actions/root';
 
 const TAB_HEIGHT = 80;
 
@@ -240,9 +240,7 @@ class Tabs extends React.Component {
 
 Tabs.propTypes = {
   classes: PropTypes.object.isRequired,
-
   tabs: PropTypes.arrayOf(PropTypes.object).isRequired,
-
   onAddTab: PropTypes.func.isRequired,
   onRemoveTab: PropTypes.func.isRequired,
   onSwapTab: PropTypes.func.isRequired,
