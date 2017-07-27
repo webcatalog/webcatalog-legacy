@@ -1,10 +1,10 @@
 import {
-  dialogAboutClose,
-  dialogAboutOpen,
+  dialogAccountClose,
+  dialogAccountOpen,
 } from './action-creators';
 
 export const close = () =>
-  dispatch => dispatch(dialogAboutClose());
+  dispatch => dispatch(dialogAccountClose());
 
 export const open = () =>
-  dispatch => dispatch(dialogAboutOpen());
+  dispatch => dispatch(dialogAccountOpen());

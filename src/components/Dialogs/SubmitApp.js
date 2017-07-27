@@ -62,7 +62,7 @@ const SubmitApp = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="down" />}
+      transition={<Slide direction="left" />}
     >
       <Fade in={isSaving}>
         <LinearProgress className={classes.linearProgress} />

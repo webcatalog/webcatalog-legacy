@@ -32,6 +32,7 @@ import FakeTitleBar from '../Shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
 
+import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 
@@ -161,6 +162,7 @@ class App extends React.Component {
     this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
+    this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
     this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
     this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
@@ -186,6 +188,10 @@ class App extends React.Component {
 
   handleOutsideAppbarClick(e) {
     if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
+  }
+
+  handleOpenDialogAccount() {
+    this.props.onOpenDialogAccount();
   }
 
   handleOpenDialogAbout() {
@@ -265,7 +271,7 @@ class App extends React.Component {
             <List className={classes.list} disablePadding>
               {temp}
               <Divider />
-              <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+              <ListItem button onClick={this.handleOpenDialogAccount}>
                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                 <ListItemText primary="Account" />
               </ListItem>
@@ -372,6 +378,7 @@ App.propTypes = {
   sortOrder: PropTypes.string.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
+  onOpenDialogAccount: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -385,6 +392,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onOpenDialogAbout: () => dispatch(openDialogAbout()),
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
+  onOpenDialogAccount: () => dispatch(openDialogAccount()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

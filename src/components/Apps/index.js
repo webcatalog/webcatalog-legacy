@@ -7,7 +7,8 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import AppCard from '../shared/AppCard';
+import AppCard from './AppCard';
+import DialogAccount from '../Dialogs/Account';
 import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
@@ -113,6 +114,7 @@ class Home extends React.Component {
       <DialogSubmitApp />,
       <DialogConfirmUninstallApp />,
       <DialogAppDetails />,
+      <DialogAccount />,
     ];
 
     const temp = <LoadingSpinner />;

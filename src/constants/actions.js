@@ -34,6 +34,9 @@ export const APPS_GET_REQUEST = 'APPS_GET_REQUEST';
 export const APPS_GET_SUCCESS = 'APPS_GET_SUCCESS';
 
 // Dialogs
+// Account Dialog
+export const DIALOG_ACCOUNT_CLOSE = 'DIALOG_ACCOUNT_CLOSE';
+export const DIALOG_ACCOUNT_OPEN = 'DIALOG_ACCOUNT_OPEN';
 // About Dialog
 export const DIALOG_ABOUT_CLOSE = 'DIALOG_ABOUT_CLOSE';
 export const DIALOG_ABOUT_OPEN = 'DIALOG_ABOUT_OPEN';
