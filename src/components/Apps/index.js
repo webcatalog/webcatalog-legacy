@@ -14,6 +14,11 @@ import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
 import { fetchApps } from '../../state/home/actions';
 import LoadingSpinner from './LoadingSpinner';
+import {
+  getUser,
+  postUser,
+  patchUser,
+} from '../../state/user/actions';
 
 const styleSheet = createStyleSheet('Home', theme => ({
   scrollContainer: {
@@ -98,6 +103,9 @@ class Home extends React.Component {
     const {
       classes,
       apps,
+      onGetUser,
+      onPostUser,
+      onPatchUser,
     } = this.props;
 
     const dialogs = [
@@ -112,6 +120,9 @@ class Home extends React.Component {
 
     return (
       <div>
+        <div onClick={onGetUser}>GET</div>
+        <div onClick={onPostUser}>POST</div>
+        <div onClick={onPatchUser}>PATCH</div>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
@@ -139,6 +150,9 @@ Home.propTypes = {
   classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFetchApps: PropTypes.func.isRequired,
+  onGetUser: PropTypes.func.isRequired,
+  onPostUser: PropTypes.func.isRequired,
+  onPatchUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -150,6 +164,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
+  onGetUser: () => dispatch(getUser()),
+  onPostUser: () => dispatch(postUser()),
+  onPatchUser: () => dispatch(patchUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));

@@ -6,6 +6,7 @@ import home from './home/reducers';
 import ui from './ui/reducers';
 import updater from '../reducers/updater';
 import core from '../reducers/core';
+import user from './user/reducers';
 
 const rootReducer = combineReducers({
   auth,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   ui,
   updater,
   core,
+  user,
 });
 
 const configureStore = initialState =>
