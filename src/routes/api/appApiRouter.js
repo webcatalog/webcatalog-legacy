@@ -242,12 +242,11 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
           if (req.body.category) newAttributes.category = req.body.category;
           if (req.body.wikipediaTitle) newAttributes.wikipediaTitle = req.body.wikipediaTitle;
 
-          return app.updateAttributes({
-            ...newAttributes,
+          return app.updateAttributes(Object.assign({}, newAttributes, {
             description,
             isActive: true,
             version: Date.now().toString(),
-          });
+          }));
         })
         .then(() => {
           const plainApp = app.get({ plain: true });
