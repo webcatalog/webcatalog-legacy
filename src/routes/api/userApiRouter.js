@@ -63,6 +63,7 @@ userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, r
       displayName: req.user.displayName,
       profilePicture: req.user.profilePicture,
       intercomUserHash: hmac.digest('hex'),
+      hasPassword: Boolean(req.user.password),
     },
   });
 });
@@ -93,6 +94,7 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               intercomUserHash: hmac.digest('hex'),
+              hasPassword: Boolean(user.password),
             },
           });
         });
@@ -139,6 +141,7 @@ userApiRouter.post('/', (req, res, next) => {
           displayName: user.displayName,
           profilePicture: user.profilePicture,
           intercomUserHash: hmac.digest('hex'),
+          hasPassword: Boolean(user.password),
         },
       });
     })
@@ -172,6 +175,7 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               intercomUserHash: hmac.digest('hex'),
+              hasPassword: Boolean(user.password),
             },
           });
         });
