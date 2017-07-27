@@ -13,7 +13,7 @@ import {
   FAILED,
   DONE,
 } from '../constants/statuses';
-import fetchApi from '../utils/fetchApi';
+import { apiGet } from './api';
 
 let fetching = false;
 
@@ -43,7 +43,7 @@ export const fetchApps = ({ next = false } = {}) =>
     if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
     if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
 
-    fetchApi(requestPath)
+    dispatch(apiGet(requestPath))
       .then((response) => {
         dispatch({ type: APPS_GET_SUCCESS });
         return response.json();
