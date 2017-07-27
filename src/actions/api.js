@@ -12,7 +12,7 @@ const apiRequest = (endpoint, method, body) =>
         'Content-Type': 'application/json',
       };
 
-      if (token !== 'anonnymous') headers.Authorization = `JWT ${token}`;
+      if (token && token !== 'anonnymous') headers.Authorization = `JWT ${token}`;
 
       const opts = {
         method,
