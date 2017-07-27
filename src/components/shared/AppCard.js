@@ -204,7 +204,7 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  const status = state.core.managedApps[app.id].status || 'NOT_INSTALLED';
+  const status = state.core.managedApps[app.id] ? state.core.managedApps[app.id].status : 'NOT_INSTALLED';
 
   return { status };
 };
