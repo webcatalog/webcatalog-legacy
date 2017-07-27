@@ -8,9 +8,8 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCard from '../shared/AppCard';
-import { fetchApps } from '../../actions/home';
 
-const styleSheet = createStyleSheet('Home', theme => ({
+const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -43,8 +42,6 @@ const styleSheet = createStyleSheet('Home', theme => ({
   cardContent: {
     position: 'relative',
     backgroundColor: grey[100],
-    // height: 100,
-    // flex
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -74,64 +71,46 @@ const styleSheet = createStyleSheet('Home', theme => ({
   },
 }));
 
-class Home extends React.Component {
-  componentDidMount() {
-    const { onFetchApps } = this.props;
-    onFetchApps();
+const Installed = (props) => {
+  const {
+    classes,
+    apps,
+  } = props;
 
-    const el = this.scrollContainer;
-
-    el.onscroll = () => {
-      // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onFetchApps({ next: true });
-      }
-    };
-  }
-
-  render() {
-    const {
-      classes,
-      apps,
-    } = this.props;
-
-    return (
-      <div
-        className={classes.scrollContainer}
-        ref={(container) => { this.scrollContainer = container; }}
-      >
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid container justify="center" gutter={24}>
-              {apps.map(app => <AppCard app={app} />)}
-            </Grid>
+  return (
+    <div
+      className={classes.scrollContainer}
+    >
+      <Grid container>
+        <Grid item xs={12}>
+          <Grid container justify="center" gutter={24}>
+            {apps.map(app => <AppCard app={app} />)}
           </Grid>
         </Grid>
-      </div>
-    );
-  }
-}
-
-Home.defaultProps = {
-  category: null,
-  sortBy: null,
+      </Grid>
+    </div>
+  );
 };
 
-Home.propTypes = {
+Installed.propTypes = {
   classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFetchApps: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  status: state.home.status,
-  apps: state.home.apps,
-  category: state.home.category,
-  sortBy: state.home.sortBy,
-});
+const mapStateToProps = (state) => {
+  const { managedApps } = state.core;
+  const apps = [];
+  Object.keys(managedApps).forEach((id) => {
+    const { status, app } = managedApps[id];
+    const acceptedStatuses = ['INSTALLED', 'UPDATING', 'INSTALLING'];
+    if (acceptedStatuses.indexOf(status) > -1) {
+      apps.push(app);
+    }
+  });
 
-const mapDispatchToProps = dispatch => ({
-  onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
-});
+  return { apps };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Installed));

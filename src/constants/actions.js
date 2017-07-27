@@ -3,6 +3,10 @@ export const SET_AUTH_EMAIL = 'SET_AUTH_EMAIL';
 export const SET_AUTH_PASSWORD = 'SET_AUTH_PASSWORD';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 
+// Core
+export const SET_MANAGED_APP = 'SET_MANAGED_APP';
+export const REMOVE_MANAGED_APP = 'REMOVE_MANAGED_APP';
+
 // Home
 export const ADD_HOME_APPS = 'ADD_HOME_APPS';
 export const RESET_HOME_APPS = 'RESET_HOME_APPS';

@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import React from 'react';
 
 import PropTypes from 'prop-types';
@@ -22,8 +23,6 @@ const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
     position: 'relative',
     backgroundColor: grey[100],
-    // height: 100,
-    // flex
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -112,6 +111,7 @@ const AppCard = (props) => {
   const {
     app,
     classes,
+    status,
     onOpenConfirmUninstallAppDialog,
     onOpenAppDetailsDialog,
   } = props;
@@ -123,6 +123,43 @@ const AppCard = (props) => {
     } = props.app;
 
     onOpenAppDetailsDialog({ name, url });
+  };
+
+  const renderActions = () => {
+    switch (status) {
+      case 'INSTALLED': {
+        return [
+          <IconButton
+            key="open"
+            className={classes.iconButton}
+            aria-label="Open"
+            onClick={() => ipcRenderer.send('open-app', app.id, app.name)}
+          >
+            <ExitToAppIcon />
+          </IconButton>,
+          <IconButton
+            key="uninstall"
+            className={classes.iconButton}
+            aria-label="Uninstall"
+            onClick={() => onOpenConfirmUninstallAppDialog({ appName: app.name })}
+          >
+            <DeleteIcon />
+          </IconButton>,
+        ];
+      }
+      default: {
+        return [
+          <IconButton
+            key="install"
+            className={classes.iconButton}
+            aria-label="Install"
+            onClick={() => {}}
+          >
+            <AddBoxIcon />
+          </IconButton>,
+        ];
+      }
+    }
   };
 
   return (
@@ -146,27 +183,7 @@ const AppCard = (props) => {
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <IconButton
-            className={classes.iconButton}
-            aria-label="Install"
-            onClick={() => {}}
-          >
-            <AddBoxIcon />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            aria-label="Open"
-            onClick={() => {}}
-          >
-            <ExitToAppIcon />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            aria-label="Uninstall"
-            onClick={() => onOpenConfirmUninstallAppDialog({ appName: app.name })}
-          >
-            <DeleteIcon />
-          </IconButton>
+          {renderActions()}
         </CardActions>
       </Card>
     </Grid>
@@ -179,12 +196,18 @@ AppCard.defaultProps = {
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
   onOpenAppDetailsDialog: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = () => ({
-});
+const mapStateToProps = (state, ownProps) => {
+  const { app } = ownProps;
+
+  const status = state.core.managedApps[app.id].status || 'NOT_INSTALLED';
+
+  return { status };
+};
 
 const mapDispatchToProps = dispatch => ({
   onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),

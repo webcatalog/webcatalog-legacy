@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import Slide from 'material-ui/transitions/Slide';
 import { LinearProgress } from 'material-ui/Progress';
 import {
   createStyleSheet,
@@ -53,7 +52,7 @@ const ConfirmUninstallApp = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={Slide}
+      transition={Fade}
     >
       <Fade in={isSaving}>
         <LinearProgress className={classes.linearProgress} />

@@ -38,6 +38,11 @@ import SortMenuButton from './SortMenuButton';
 import EnhancedSnackBar from './EnhancedSnackbar';
 import RefreshButton from './RefreshButton';
 
+import DialogAbout from '../Dialogs/About';
+import DialogSubmitApp from '../Dialogs/SubmitApp';
+import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
+import DialogAppDetails from '../Dialogs/AppDetails';
+
 import { open as openDialogAbout } from '../../actions/dialogs/about';
 import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app';
 
@@ -175,6 +180,11 @@ class App extends React.Component {
     this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
 
+  componentDidMount() {
+    // start checking for installed apps only when the app is loaded.
+    ipcRenderer.send('scan-installed-apps');
+  }
+
   handleToggleDrawer() {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
   }
@@ -258,10 +268,18 @@ class App extends React.Component {
       </div>
     );
 
+    const dialogs = [
+      <DialogAbout />,
+      <DialogSubmitApp />,
+      <DialogConfirmUninstallApp />,
+      <DialogAppDetails />,
+    ];
+
 
     return (
       <div className={classes.root}>
         {isLoggedIn ? [
+          dialogs,
           <FakeTitleBar />,
           <Drawer
             open={this.state.isDrawerOpen}
@@ -395,7 +413,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.home.category,
-  isLoggedIn: state.auth.token,
+  isLoggedIn: Boolean(state.auth.token),
   sortBy: state.home.sortBy,
   sortOrder: state.home.sortOrder,
   isGettingApps: state.home.isGettingApps,
