@@ -15,6 +15,9 @@ export const SET_HOME_SORT_BY = 'SET_HOME_SORT_BY';
 export const SET_HOME_SORT_ORDER = 'SET_HOME_SORT_ORDER';
 export const SET_HOME_STATUS = 'SET_HOME_STATUS';
 
+// updater
+export const SET_UPDATER_STATUS = 'SET_UPDATER_STATUS';
+
 // Snackbar
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';

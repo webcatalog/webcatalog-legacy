@@ -6,6 +6,7 @@ import core from './core';
 import dialogs from './dialogs';
 import home from './home';
 import snackbar from './snackbar';
+import updater from './updater';
 
 const rootReducer = combineReducers({
   auth,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   dialogs,
   home,
   snackbar,
+  updater,
 });
 
 const configureStore = initialState =>

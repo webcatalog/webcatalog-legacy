@@ -183,6 +183,7 @@ class App extends React.Component {
   componentDidMount() {
     // start checking for installed apps only when the app is loaded.
     ipcRenderer.send('scan-installed-apps');
+    ipcRenderer.send('check-for-updates');
   }
 
   handleToggleDrawer() {
@@ -312,7 +313,7 @@ class App extends React.Component {
                   <ListItemIcon><PublicIcon /></ListItemIcon>
                   <ListItemText primary="Website" />
                 </ListItem>
-                <ListItem button onClick={this.handleRequestClose}>
+                <ListItem button onClick={this.handleOpenDialogAbout}>
                   <ListItemIcon><InfoIcon /></ListItemIcon>
                   <ListItemText primary="About" />
                 </ListItem>

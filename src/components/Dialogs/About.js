@@ -38,6 +38,7 @@ const About = (props) => {
     classes,
     onClose,
     open,
+    updaterStatus,
   } = props;
 
   return (
@@ -49,23 +50,24 @@ const About = (props) => {
     >
       <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        Test
+        {updaterStatus}
       </DialogContent>
     </Dialog>
   );
 };
 
-About.defaultProps = {
-};
+About.defaultProps = {};
 
 About.propTypes = {
-  open: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  updaterStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   open: state.dialogs.about.open,
+  updaterStatus: state.updater.status,
 });
 
 const mapDispatchToProps = dispatch => ({
