@@ -286,7 +286,7 @@ class App extends React.Component {
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary="Website" />
               </ListItem>
-              <ListItem button onClick={this.handleRequestClose}>
+              <ListItem button onClick={this.handleOpenDialogAbout}>
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
               </ListItem>

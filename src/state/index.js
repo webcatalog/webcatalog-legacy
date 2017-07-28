@@ -4,8 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import auth from './auth/reducers';
 import home from './home/reducers';
 import ui from './ui/reducers';
-import updater from '../actions/updater';
-import core from '../actions/core';
+import updater from '../reducers/updater';
+import core from '../reducers/core';
 
 const rootReducer = combineReducers({
   auth,
