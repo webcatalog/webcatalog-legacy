@@ -13,12 +13,12 @@ import 'typeface-roboto/index.css';
 
 import './index.css';
 
-import store from './reducers';
+import store from './state';
 
 // listeners to communicate with main process
 import loadListeners from './loadListeners';
 
-import App from './components/App';
+import Components from './components';
 
 loadListeners(store);
 
@@ -35,7 +35,7 @@ ipcRenderer.send('read-token-from-disk');
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <App />
+      <Components />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('app'),

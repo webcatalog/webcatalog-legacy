@@ -21,7 +21,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 
 import FakeTitleBar from '../shared/FakeTitleBar';
-import { close } from '../../actions/dialogs/app-details';
+import { close } from '../../state/ui/dialogs/app-details/actions';
 
 const styleSheet = createStyleSheet('AppDetails', {
   linearProgress: {
@@ -119,7 +119,7 @@ const mapStateToProps = (state) => {
   const {
     open,
     form,
-  } = state.dialogs.appDetails;
+  } = state.ui.dialogs.appDetails;
 
   const {
     name,
