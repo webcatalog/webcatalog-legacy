@@ -62,9 +62,9 @@ class MoreMenuButton extends React.Component {
   }
 
   handleOpenConfirmUninstallAppDialog() {
-    const { name } = this.props;
+    const { app } = this.props;
     this.handleRequestClose();
-    this.props.onOpenConfirmUninstallAppDialog({ appName: name });
+    this.props.onOpenConfirmUninstallAppDialog({ app });
   }
 
   handleOpenApp() {
@@ -143,6 +143,7 @@ MoreMenuButton.defaultProps = {
 };
 
 MoreMenuButton.propTypes = {
+  app: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isInstalled: PropTypes.bool.isRequired,

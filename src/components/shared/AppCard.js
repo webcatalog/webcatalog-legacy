@@ -149,6 +149,7 @@ const AppCard = (props) => {
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
           <AppCardMoreMenuButton
+            app={app}
             isInstalled={isInstalled}
             id={app.id}
             name={app.name}

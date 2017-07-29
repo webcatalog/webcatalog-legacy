@@ -36,7 +36,7 @@ const styleSheet = createStyleSheet('ConfirmUninstallApp', {
 
 const ConfirmUninstallApp = (props) => {
   const {
-    appName,
+    app,
     isSaving,
     classes,
     onSave,
@@ -58,10 +58,10 @@ const ConfirmUninstallApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle className={classes.title}>Uninstall {appName}?</DialogTitle>
+      <DialogTitle className={classes.title}>Uninstall {app.name}?</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>
-          All of your browsing data for {appName} will be removed and can&apos;t be recovered.
+          All of your browsing data for {app.name} will be removed and can&apos;t be recovered.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -84,6 +84,7 @@ const ConfirmUninstallApp = (props) => {
 };
 
 ConfirmUninstallApp.defaultProps = {
+  app: { name: '' },
   open: false,
 };
 
@@ -93,7 +94,7 @@ ConfirmUninstallApp.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  appName: PropTypes.string.isRequired,
+  app: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
@@ -103,12 +104,12 @@ const mapStateToProps = (state) => {
     form,
   } = state.ui.dialogs.confirmUninstallApp;
 
-  const { appName } = form;
+  const { app } = form;
 
   return {
     isSaving,
     open,
-    appName,
+    app,
   };
 };
 

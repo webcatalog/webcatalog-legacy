@@ -153,7 +153,7 @@ Apps.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state:', state);
+  console.log('state:', state.user.apps.managed);
   return {
     apps: state.apps.apiData.apps,
     category: state.apps.queryParams.category,
