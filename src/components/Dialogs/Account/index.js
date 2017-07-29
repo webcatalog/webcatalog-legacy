@@ -49,8 +49,8 @@ const styleSheet = createStyleSheet('Account', {
   },
   dialogContentText: {
     padding: 24,
-    width: 300,
-    height: 300,
+    width: 224,
+    height: 320,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
