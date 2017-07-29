@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { fetchApps } from '../../state/home/actions';
+import { getApps } from '../../state/home/actions';
 
 const styleSheet = createStyleSheet('RefreshButton', {
   root: {
@@ -17,14 +17,14 @@ const styleSheet = createStyleSheet('RefreshButton', {
 const RefreshButton = (props) => {
   const {
     classes,
-    onFetchApps,
+    onGetApps,
   } = props;
 
   return (
     <IconButton
       color="contrast"
       aria-label="Refresh"
-      onClick={onFetchApps}
+      onClick={onGetApps}
       className={classes.root}
     >
       <RefreshIcon />
@@ -37,14 +37,14 @@ RefreshButton.defaultProps = {
 
 RefreshButton.propTypes = {
   classes: PropTypes.object.isRequired,
-  onFetchApps: PropTypes.func.isRequired,
+  onGetApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchApps: () => dispatch(fetchApps({ next: false })),
+  onGetApps: () => dispatch(getApps({ next: false })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(RefreshButton));

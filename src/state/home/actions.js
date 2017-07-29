@@ -18,7 +18,7 @@ import { apiGet } from '../../actions/api';
 let fetching = false;
 
 
-export const fetchApps = ({ next = false } = {}) =>
+export const getApps = ({ next = false } = {}) =>
   (dispatch, getState) => {
     const { home } = getState();
 
@@ -84,7 +84,7 @@ export const setCategory = category => (dispatch) => {
   dispatch({ type: SET_HOME_CATEGORY, category });
   dispatch({ type: RESET_HOME_APPS });
 
-  dispatch(fetchApps());
+  dispatch(getApps());
 };
 
 export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
@@ -92,5 +92,5 @@ export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
   dispatch({ type: SET_HOME_SORT_BY, sortBy });
   dispatch({ type: RESET_HOME_APPS });
 
-  dispatch(fetchApps());
+  dispatch(getApps());
 };

@@ -13,7 +13,7 @@ import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
-import { fetchApps } from '../../state/home/actions';
+import { getApps } from '../../state/home/actions';
 import LoadingSpinner from './LoadingSpinner';
 import {
   getUser,
@@ -87,15 +87,15 @@ const styleSheet = createStyleSheet('Home', theme => ({
 
 class Home extends React.Component {
   componentDidMount() {
-    const { onFetchApps } = this.props;
-    onFetchApps();
+    const { onGetApps } = this.props;
+    onGetApps();
 
     const el = this.scrollContainer;
 
     el.onscroll = () => {
       // Plus 300 to run ahead.
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onFetchApps({ next: true });
+        onGetApps({ next: true });
       }
     };
   }
@@ -151,7 +151,7 @@ Home.defaultProps = {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFetchApps: PropTypes.func.isRequired,
+  onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
   onPostUser: PropTypes.func.isRequired,
   onPatchUser: PropTypes.func.isRequired,
@@ -165,7 +165,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
+  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
   onGetUser: () => dispatch(getUser()),
   onPostUser: () => dispatch(postUser()),
   onPatchUser: () => dispatch(patchUser()),
