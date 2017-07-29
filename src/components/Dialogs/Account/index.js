@@ -133,5 +133,4 @@ const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(close()),
 });
 
-export default
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Account));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Account));

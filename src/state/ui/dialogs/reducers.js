@@ -7,7 +7,7 @@ import confirmUninstallApp from './confirm-uninstall-app/reducers';
 import appDetails from './app-details/reducers';
 
 export default combineReducers({
-	account,
+  account,
   about,
   submitApp,
   confirmUninstallApp,
