@@ -22,17 +22,20 @@ let fetching = false;
 
 export const getApps = ({ next = false } = {}) =>
   (dispatch, getState) => {
-    const { home } = getState();
+    const {
+      apiData,
+      queryParams,
+    } = getState().apps;
 
     // All pages have been fetched => stop
-    if (home.totalPage && home.currentPage + 1 > home.totalPage) return;
+    if (apiData.totalPage && apiData.currentPage + 1 > apiData.totalPage) return;
 
     // Prevent redundant requests
     if (fetching) return;
     fetching = true;
 
     // We increment the page if we pass in the 'next' parameter
-    const currentPage = next ? home.currentPage + 1 : home.currentPage;
+    const currentPage = next ? apiData.currentPage + 1 : apiData.currentPage;
 
     dispatch(appsGetRequest());
     dispatch({
@@ -41,9 +44,9 @@ export const getApps = ({ next = false } = {}) =>
     });
 
     let requestPath = `/apps?limit=30&page=${currentPage}`;
-    if (home.category) requestPath += `&category=${encodeURIComponent(home.category)}`;
-    if (home.sortBy) requestPath += `&sort=${home.sortBy}`;
-    if (home.sortOrder) requestPath += `&order=${home.sortOrder}`;
+    if (queryParams.category) requestPath += `&category=${encodeURIComponent(queryParams.category)}`;
+    if (queryParams.sortBy) requestPath += `&sort=${queryParams.sortBy}`;
+    if (queryParams.sortOrder) requestPath += `&order=${queryParams.sortOrder}`;
 
     dispatch(apiGet(requestPath))
       .then((response) => {

@@ -10,7 +10,7 @@ import EnhancedMenu from '../Shared/EnhancedMenu';
 
 import {
   setSortBy,
-} from '../../state/home/actions';
+} from '../../state/apps/actions';
 
 const SortMenuButton = (props) => {
   const {
@@ -75,8 +75,8 @@ SortMenuButton.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sortBy: state.home.sortBy,
-  sortOrder: state.home.sortOrder,
+  sortBy: state.apps.queryParams.sortBy,
+  sortOrder: state.apps.queryParams.sortOrder,
 });
 
 const mapDispatchToProps = dispatch => ({

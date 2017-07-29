@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { getApps } from '../../state/home/actions';
+import { getApps } from '../../state/apps/actions';
 
 const styleSheet = createStyleSheet('RefreshButton', {
   root: {

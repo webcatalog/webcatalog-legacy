@@ -382,11 +382,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.home.category,
+  category: state.apps.queryParams.category,
   isLoggedIn: Boolean(state.auth.token),
-  sortBy: state.home.sortBy,
-  sortOrder: state.home.sortOrder,
-  isGettingApps: state.home.isGettingApps,
+  sortBy: state.apps.queryParams.sortBy,
+  sortOrder: state.apps.queryParams.sortOrder,
 });
 
 const mapDispatchToProps = dispatch => ({

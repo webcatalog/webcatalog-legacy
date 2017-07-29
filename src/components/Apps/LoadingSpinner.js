@@ -28,11 +28,11 @@ const styleSheet = createStyleSheet('App', {
 const LoadingSpinner = (props) => {
   const {
     classes,
-    isGettingApps,
+    isGetting,
   } = props;
 
   return (
-    <Fade in={isGettingApps}>
+    <Fade in={isGetting}>
       <div className={classes.circularProgressContainer}>
         <Paper className={classes.circularProgressPaper} elevation={10}>
           <CircularProgress size={32} />
@@ -47,11 +47,11 @@ LoadingSpinner.defaultProps = {
 
 LoadingSpinner.propTypes = {
   classes: PropTypes.object.isRequired,
-  isGettingApps: PropTypes.bool.isRequired,
+  isGetting: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isGettingApps: state.home.isGettingApps,
+  isGetting: state.apps.isGetting,
 });
 
 const mapDispatchToProps = () => ({

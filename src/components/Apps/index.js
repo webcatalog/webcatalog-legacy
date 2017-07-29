@@ -13,18 +13,14 @@ import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
-import { getApps } from '../../state/home/actions';
-import LoadingSpinner from './LoadingSpinner';
 import {
   getUser,
   postUser,
   patchUser,
 } from '../../state/user/actions';
-import {
-  getApps as getApps2,
-} from '../../state/apps/actions';
+import { getApps } from '../../state/apps/actions';
 
-const styleSheet = createStyleSheet('Home', theme => ({
+const styleSheet = createStyleSheet('Apps', theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -88,7 +84,7 @@ const styleSheet = createStyleSheet('Home', theme => ({
   },
 }));
 
-class Home extends React.Component {
+class Apps extends React.Component {
   componentDidMount() {
     const { onGetApps } = this.props;
     onGetApps();
@@ -110,7 +106,7 @@ class Home extends React.Component {
       onGetUser,
       onPostUser,
       onPatchUser,
-      onGetApps2,
+      onGetApps,
     } = this.props;
 
     const dialogs = [
@@ -121,15 +117,12 @@ class Home extends React.Component {
       <DialogAccount />,
     ];
 
-    const temp = <LoadingSpinner />;
-    console.log(temp);
-
     return (
       <div>
         <div onClick={onGetUser}>GET</div>
         <div onClick={onPostUser}>POST</div>
         <div onClick={onPatchUser}>PATCH</div>
-        <div onClick={onGetApps2}>GET APPS</div>
+        <div onClick={onGetApps}>GET APPS</div>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
@@ -148,36 +141,31 @@ class Home extends React.Component {
   }
 }
 
-Home.defaultProps = {
+Apps.defaultProps = {
   category: null,
   sortBy: null,
 };
 
-Home.propTypes = {
+Apps.propTypes = {
   classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
   onPostUser: PropTypes.func.isRequired,
   onPatchUser: PropTypes.func.isRequired,
-  onGetApps2: PropTypes.func.isRequired,
+  onGetApps: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  console.log('apps:', state.apps);
-  return {
-    apps: state.apps.apiData.apps,
-    category: state.home.category,
-    sortBy: state.home.sortBy,
-  };
-};
+const mapStateToProps = state => ({
+  apps: state.apps.apiData.apps,
+  category: state.apps.queryParams.category,
+  sortBy: state.apps.queryParams.sortBy,
+});
 
 const mapDispatchToProps = dispatch => ({
-  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
   onGetUser: () => dispatch(getUser()),
   onPostUser: () => dispatch(postUser()),
   onPatchUser: () => dispatch(patchUser()),
-  onGetApps2: optionsObject => dispatch(getApps2(optionsObject)),
+  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));

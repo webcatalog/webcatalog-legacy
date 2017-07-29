@@ -155,7 +155,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.home.category,
+  category: state.apps.queryParams.category,
   isLoggedIn: state.auth.token,
 });
 
