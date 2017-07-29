@@ -7,6 +7,14 @@ export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const SET_MANAGED_APP = 'SET_MANAGED_APP';
 export const REMOVE_MANAGED_APP = 'REMOVE_MANAGED_APP';
 
+// Apps
+export const APPS_GET_REQUEST = 'APPS_GET_REQUEST';
+export const APPS_GET_SUCCESS = 'APPS_GET_SUCCESS';
+export const APPS_SET_CATEGORY = 'APPS_SET_CATEGORY';
+export const APPS_SET_SORT_BY = 'APPS_SET_SORT_BY';
+export const APPS_SET_SORT_ORDER = 'APPS_SET_SORT_ORDER';
+export const APPS_RESET = 'APPS_RESET';
+
 // User
 export const USER_GET_REQUEST = 'USER_GET_REQUEST';
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
@@ -29,9 +37,6 @@ export const SET_UPDATER_STATUS = 'SET_UPDATER_STATUS';
 // Snackbar
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
-
-export const APPS_GET_REQUEST = 'APPS_GET_REQUEST';
-export const APPS_GET_SUCCESS = 'APPS_GET_SUCCESS';
 
 // Dialogs
 // Account Dialog
