@@ -15,21 +15,21 @@ import {
 export const getUser = () =>
   (dispatch) => {
     dispatch(userGetRequest());
-    return apiGet('/user')
+    return dispatch(apiGet('/user'))
       .then(res => dispatch(userGetSuccess(res)));
   };
 
 export const postUser = () =>
   (dispatch) => {
     dispatch(userPostRequest());
-    return apiPost('/user', {})
+    return dispatch(apiPost('/user', {}))
       .then(res => dispatch(userPostSuccess(res)));
   };
 
 export const patchUser = () =>
   (dispatch) => {
     dispatch(userPatchRequest());
-    return apiPatch('/user', {})
+    return dispatch(apiPatch('/user', {}))
       .then(res => dispatch(userPatchSuccess(res)));
   };
 

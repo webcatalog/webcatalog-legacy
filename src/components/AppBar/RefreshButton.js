@@ -44,7 +44,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchApps: () => dispatch(fetchApps()),
+  onFetchApps: () => dispatch(fetchApps({ next: false })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(RefreshButton));

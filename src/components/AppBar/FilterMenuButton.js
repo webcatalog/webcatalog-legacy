@@ -27,7 +27,7 @@ const FilterMenuButton = (props) => {
     </MenuItem>
   ));
 
-  const iconButtonColor = category ? 'primary' : 'contrast';
+  const iconButtonColor = category ? 'default' : 'contrast';
 
   return (
     <EnhancedMenu

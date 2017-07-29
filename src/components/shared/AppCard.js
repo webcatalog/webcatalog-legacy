@@ -168,7 +168,7 @@ const AppCard = (props) => {
         <CardContent className={classes.cardContent}>
           <IconButton
             aria-label="More"
-            color="primary"
+            color="default"
             onClick={handleOpenAppDetailsDialog}
             className={classes.moreIconMenu}
           >
