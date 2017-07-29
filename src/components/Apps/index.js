@@ -13,11 +13,7 @@ import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
-import {
-  getUser,
-  postUser,
-  patchUser,
-} from '../../state/user/actions';
+import { getUserApps } from '../../state/user/apps/actions';
 import { getApps } from '../../state/apps/actions';
 
 const styleSheet = createStyleSheet('Apps', theme => ({
@@ -88,10 +84,10 @@ class Apps extends React.Component {
   componentDidMount() {
     const {
       onGetApps,
-      onGetUser,
+      onGetUserApps,
     } = this.props;
 
-    onGetUser();
+    onGetUserApps();
     onGetApps();
 
     const el = this.scrollContainer;
@@ -108,10 +104,7 @@ class Apps extends React.Component {
     const {
       classes,
       apps,
-      onGetUser,
-      onPostUser,
-      onPatchUser,
-      onGetApps,
+      onGetUserApps,
     } = this.props;
 
     const dialogs = [
@@ -124,10 +117,7 @@ class Apps extends React.Component {
 
     return (
       <div>
-        <div onClick={onGetUser}>GET</div>
-        <div onClick={onPostUser}>POST</div>
-        <div onClick={onPatchUser}>PATCH</div>
-        <div onClick={onGetApps}>GET APPS</div>
+        <div onClick={onGetUserApps}>GET USER APPS</div>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
@@ -154,9 +144,7 @@ Apps.defaultProps = {
 Apps.propTypes = {
   classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onGetUser: PropTypes.func.isRequired,
-  onPostUser: PropTypes.func.isRequired,
-  onPatchUser: PropTypes.func.isRequired,
+  onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
 };
 
@@ -170,9 +158,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onGetUser: () => dispatch(getUser()),
-  onPostUser: () => dispatch(postUser()),
-  onPatchUser: () => dispatch(patchUser()),
+  onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
 });
 
