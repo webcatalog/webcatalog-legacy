@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
 import { light } from 'material-ui/styles/palette';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import PaymentIcon from 'material-ui-icons/Payment';
@@ -39,7 +41,11 @@ const styleSheet = createStyleSheet('Account', {
   },
   dialogContentText: {
     padding: 24,
-    maxWidth: 300,
+    width: 300,
+    height: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   appBar: {
     position: 'relative',
@@ -61,6 +67,13 @@ const styleSheet = createStyleSheet('Account', {
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
+  textField: {
+    width: '100%',
+  },
+  formFooter: {
+    alignSelf: 'flex-end',
+    transform: 'translate(16px, 16px)',
+  },
 });
 
 const Account = (props) => {
@@ -68,6 +81,9 @@ const Account = (props) => {
     classes,
     onClose,
     open,
+    displayName,
+    email,
+    profilePicture,
   } = props;
 
   return (
@@ -101,7 +117,40 @@ const Account = (props) => {
           </ListItem>
         </List>
         <DialogContentText className={classes.dialogContentText}>
-          {'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+          <div>
+            <TextField
+              className={classes.textField}
+              disabled={false}
+              id="displayName"
+              label="Display Name"
+              marginForm
+              onChange={() => {}}
+              placeholder="e.g. John"
+              value={displayName}
+            />
+            <br />
+            <br />
+            <TextField
+              className={classes.textField}
+              disabled={false}
+              id="email"
+              label="Email"
+              marginForm
+              onChange={() => {}}
+              // placeholder="e.g. john@getwebcatalog.com"
+              value={email}
+            />
+            <br />
+            {profilePicture}
+          </div>
+          <div className={classes.formFooter}>
+            <Button
+              color="primary"
+              onClick={() => {}}
+            >
+              Save
+            </Button>
+          </div>
         </DialogContentText>
       </DialogContent>
     </Dialog>
@@ -116,6 +165,9 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  displayName: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  profilePicture: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -123,9 +175,20 @@ const mapStateToProps = (state) => {
     open,
   } = state.ui.dialogs.account;
 
+  const {
+    displayName,
+    email,
+    profilePicture,
+  } = state.user.apiData;
+
   return {
     // open: true,
     open,
+    // displayName,
+    displayName: 'John Doe',
+    // email,
+    email: 'markandrewx@gmail.com',
+    profilePicture,
   };
 };
 

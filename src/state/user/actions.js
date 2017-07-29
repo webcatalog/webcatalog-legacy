@@ -16,13 +16,15 @@ export const getUser = () =>
   (dispatch) => {
     dispatch(userGetRequest());
     return dispatch(apiGet('/user'))
-      .then(res => dispatch(userGetSuccess(res)));
+      .then(res => res.json())
+      .then(res => dispatch(userGetSuccess({ ...res.user })));
   };
 
 export const postUser = () =>
   (dispatch) => {
     dispatch(userPostRequest());
     return dispatch(apiPost('/user', {}))
+      .then(res => res.json())
       .then(res => dispatch(userPostSuccess(res)));
   };
 
@@ -30,6 +32,7 @@ export const patchUser = () =>
   (dispatch) => {
     dispatch(userPatchRequest());
     return dispatch(apiPatch('/user', {}))
+      .then(res => res.json())
       .then(res => dispatch(userPatchSuccess(res)));
   };
 

@@ -86,7 +86,12 @@ const styleSheet = createStyleSheet('Apps', theme => ({
 
 class Apps extends React.Component {
   componentDidMount() {
-    const { onGetApps } = this.props;
+    const {
+      onGetApps,
+      onGetUser,
+    } = this.props;
+
+    onGetUser();
     onGetApps();
 
     const el = this.scrollContainer;
