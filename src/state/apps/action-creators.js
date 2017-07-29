@@ -1,6 +1,7 @@
 import {
   APPS_GET_REQUEST,
   APPS_GET_SUCCESS,
+  APPS_SET_PAGE,
   APPS_SET_CATEGORY,
   APPS_SET_SORT_BY,
   APPS_SET_SORT_ORDER,
@@ -11,8 +12,14 @@ export const appsGetRequest = () => ({
   type: APPS_GET_REQUEST,
 });
 
-export const appsGetSuccess = () => ({
+export const appsGetSuccess = res => ({
   type: APPS_GET_SUCCESS,
+  res,
+});
+
+export const appsSetPage = page => ({
+  type: APPS_SET_PAGE,
+  page,
 });
 
 export const appsSetCategory = category => ({

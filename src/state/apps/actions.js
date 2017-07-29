@@ -1,94 +1,58 @@
 import {
-  SET_HOME_STATUS,
-  ADD_HOME_APPS,
-} from '../../constants/actions';
-import {
   appsGetRequest,
   appsGetSuccess,
+  appsSetPage,
   appsSetCategory,
   appsSetSortBy,
   appsSetSortOrder,
   appsReset,
 } from './action-creators';
-import {
-  LOADING,
-  FAILED,
-  DONE,
-} from '../../constants/statuses';
 import { apiGet } from '../../actions/api';
 
-let fetching = false;
+const buildQueryParamsUrl = (url, queryParams) => {
+  let queryParamsPath = url;
 
+  if (queryParams.category) queryParamsPath += `&category=${encodeURIComponent(queryParams.category)}`;
+  if (queryParams.sortBy) queryParamsPath += `&sort=${queryParams.sortBy}`;
+  if (queryParams.sortOrder) queryParamsPath += `&order=${queryParams.sortOrder}`;
+
+  return queryParamsPath;
+};
 
 export const getApps = ({ next = false } = {}) =>
   (dispatch, getState) => {
+    const state = getState();
+
     const {
       apiData,
       queryParams,
-    } = getState().apps;
+    } = state.apps;
 
-    // All pages have been fetched => stop
-    if (apiData.totalPage && apiData.currentPage + 1 > apiData.totalPage) return;
+    const totalPage = apiData.totalPage;
+    const page = queryParams.page;
 
-    // Prevent redundant requests
-    if (fetching) return;
-    fetching = true;
+    // If all pages have already been fetched, we stop
+    if (totalPage && page + 1 > totalPage) return;
 
-    // We increment the page if we pass in the 'next' parameter
-    const currentPage = next ? apiData.currentPage + 1 : apiData.currentPage;
+    // If we pass in the 'next' parameter, we increment the page
+    const currentPage = next ? page + 1 : page;
 
     dispatch(appsGetRequest());
-    dispatch({
-      type: SET_HOME_STATUS,
-      status: LOADING,
-    });
-
-    let requestPath = `/apps?limit=30&page=${currentPage}`;
-    if (queryParams.category) requestPath += `&category=${encodeURIComponent(queryParams.category)}`;
-    if (queryParams.sortBy) requestPath += `&sort=${queryParams.sortBy}`;
-    if (queryParams.sortOrder) requestPath += `&order=${queryParams.sortOrder}`;
-
-    dispatch(apiGet(requestPath))
-      .then((response) => {
-        dispatch(appsGetSuccess());
-        return response.json();
-      })
-      .then(({ apps, totalPage }) =>
-        Promise.all([
-          dispatch(appsGetSuccess()),
-          dispatch({ type: SET_HOME_STATUS, status: DONE }),
-          dispatch({
-            type: ADD_HOME_APPS,
-            chunk: apps,
-            currentPage,
-            totalPage,
-          }),
-        ]),
-      )
-      .catch((err) => {
-        if (err && err.response && err.response.status === 401) {
-          // dispatch(logOut());
-          return;
-        }
-
-        /* eslint-disable no-console */
-        console.log(err);
-        /* eslint-enable no-console */
-
-        dispatch({
-          type: SET_HOME_STATUS,
-          status: FAILED,
-        });
-      })
-      .then(() => {
-        fetching = false;
-      });
+    dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=30&page=${currentPage}`, queryParams)))
+      .then(res => res.json())
+      .then(res => dispatch(appsGetSuccess(res)))
+      .catch(() => {});
   };
+
+export const setPage = page => (dispatch) => {
+  dispatch(appsSetPage(page));
+  dispatch(appsReset());
+  dispatch(getApps());
+};
 
 export const setCategory = category => (dispatch) => {
   dispatch(appsSetCategory(category));
   dispatch(appsReset());
-
   dispatch(getApps());
 };
 
@@ -96,6 +60,5 @@ export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
   dispatch(appsSetSortOrder(sortOrder));
   dispatch(appsSetSortBy(sortBy));
   dispatch(appsReset());
-
   dispatch(getApps());
 };
