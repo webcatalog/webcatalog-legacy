@@ -6,7 +6,7 @@ const openApp = require('../libs/openApp');
 const scanInstalledAsync = require('../libs/scanInstalledAsync');
 const uninstallAppAsync = require('../libs/uninstallAppAsync');
 
-const loadCoreListeners = () => {
+const loadUserAppsManagedListeners = () => {
   ipcMain.on('scan-installed-apps', (e) => {
     scanInstalledAsync()
       .then((installedApps) => {
@@ -30,4 +30,4 @@ const loadCoreListeners = () => {
   });
 };
 
-module.exports = loadCoreListeners;
+module.exports = loadUserAppsManagedListeners;

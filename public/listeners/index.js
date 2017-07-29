@@ -4,12 +4,12 @@ const {
 } = require('electron');
 
 const loadAuthListeners = require('./auth');
-const loadCoreListeners = require('./core');
+const loadUsedAppsManagedListeners = require('./user-apps-managed');
 const loadUpdaterListeners = require('./updater');
 
 const loadListeners = () => {
   loadAuthListeners();
-  loadCoreListeners();
+  loadUsedAppsManagedListeners();
   loadUpdaterListeners();
 
   ipcMain.on('open-in-browser', (e, browserUrl) => {

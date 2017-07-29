@@ -29,6 +29,7 @@ class MoreMenuButton extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleInstall = this.handleInstall.bind(this);
     this.handleOpenApp = this.handleOpenApp.bind(this);
     this.handleOpenAppDetailsDialog = this.handleOpenAppDetailsDialog.bind(this);
     this.handleOpenConfirmUninstallAppDialog = this.handleOpenConfirmUninstallAppDialog.bind(this);
@@ -56,6 +57,10 @@ class MoreMenuButton extends React.Component {
     this.props.onOpenAppDetailsDialog({ name, url });
   }
 
+  handleInstall() {
+    this.handleRequestClose();
+  }
+
   handleOpenConfirmUninstallAppDialog() {
     const { name } = this.props;
     this.handleRequestClose();
@@ -69,7 +74,48 @@ class MoreMenuButton extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      isInstalled,
+    } = this.props;
+
+    const menuElements = [
+      <ListItem
+        button
+        onClick={this.handleOpenAppDetailsDialog}
+      >
+        <ListItemText primary="More info" />
+      </ListItem>,
+    ];
+
+    if (isInstalled) {
+      menuElements.push(
+        <ListItem
+          button
+          onClick={this.handleOpenApp}
+        >
+          <ListItemText primary="Open" />
+        </ListItem>,
+      );
+
+      menuElements.push(
+        <ListItem
+          button
+          onClick={this.handleOpenConfirmUninstallAppDialog}
+        >
+          <ListItemText primary="Uninstall" />
+        </ListItem>,
+      );
+    } else {
+      menuElements.push(
+        <ListItem
+          button
+          onClick={this.handleInstall}
+        >
+          <ListItemText primary="Install" />
+        </ListItem>,
+      );
+    }
 
     return (
       <div>
@@ -86,24 +132,7 @@ class MoreMenuButton extends React.Component {
           onRequestClose={this.handleRequestClose}
           open={this.state.open}
         >
-          <ListItem
-            button
-            onClick={this.handleOpenAppDetailsDialog}
-          >
-            <ListItemText primary="More info" />
-          </ListItem>
-          <ListItem
-            button
-            onClick={this.handleOpenApp}
-          >
-            <ListItemText primary="Open" />
-          </ListItem>
-          <ListItem
-            button
-            onClick={this.handleOpenConfirmUninstallAppDialog}
-          >
-            <ListItemText primary="Uninstall" />
-          </ListItem>
+          {menuElements}
         </Menu>
       </div>
     );
@@ -115,6 +144,7 @@ MoreMenuButton.defaultProps = {
 
 MoreMenuButton.propTypes = {
   name: PropTypes.string.isRequired,
+  isInstalled: PropTypes.bool.isRequired,
   url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   onOpenApp: PropTypes.func.isRequired,

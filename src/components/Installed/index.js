@@ -98,7 +98,7 @@ Installed.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { managedApps } = state.core;
+  const { managedApps } = state.user.apps.managed.apps;
   const apps = [];
   Object.keys(managedApps).forEach((id) => {
     const { status, app } = managedApps[id];

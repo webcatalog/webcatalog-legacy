@@ -149,6 +149,7 @@ const AppCard = (props) => {
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
           <AppCardMoreMenuButton
+            isInstalled={isInstalled}
             name={app.name}
             url={app.url}
             onOpenApp={handleOpenApp}
@@ -181,7 +182,7 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  const status = state.core.managedApps[app.id] ? state.core.managedApps[app.id].status : 'NOT_INSTALLED';
+  const status = state.user.apps.managed[app.id] ? state.user.apps.managed[app.id].status : 'NOT_INSTALLED';
 
   return {
     isInstalled: status === 'INSTALLED',

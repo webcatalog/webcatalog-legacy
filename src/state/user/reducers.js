@@ -9,6 +9,8 @@ import {
   USER_PATCH_SUCCESS,
 } from '../../constants/actions';
 
+import apps from './apps/reducers';
+
 const apiData = (state = false, action) => {
   switch (action.type) {
     case USER_GET_SUCCESS: return action.res;
@@ -45,4 +47,5 @@ export default combineReducers({
   isGetting,
   isPosting,
   isPatching,
+  apps,
 });
