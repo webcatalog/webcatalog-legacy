@@ -124,13 +124,17 @@ const AppCard = (props) => {
     status,
   } = props;
 
+  const handleOpenApp = () => {
+    ipcRenderer.send('open-app', app.id, app.name);
+  };
+
   const renderActions = () => {
     switch (status) {
       case 'INSTALLED': {
         return [
           <Button
             className={classes.buttonInstalled}
-            onClick={() => ipcRenderer.send('open-app', app.id, app.name)}
+            onClick={handleOpenApp}
           >
             <CheckBoxIcon color="inherit" />
             <span className={classes.buttonText}>Installed</span>
@@ -152,7 +156,11 @@ const AppCard = (props) => {
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <AppCardMoreMenuButton app={app} />
+          <AppCardMoreMenuButton
+            name={app.name}
+            url={app.url}
+            onOpenApp={handleOpenApp}
+          />
           <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}

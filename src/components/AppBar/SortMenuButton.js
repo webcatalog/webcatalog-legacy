@@ -19,7 +19,7 @@ const SortMenuButton = (props) => {
     onSetSortBy,
   } = props;
 
-  const iconButtonColor = sortBy !== 'installCount' ? 'default' : 'contrast';
+  const iconButtonColor = sortBy === 'installCount' && sortOrder === 'desc' ? 'contrast' : 'default';
 
   return (
     <EnhancedMenu

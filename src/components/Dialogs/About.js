@@ -46,7 +46,7 @@ const About = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="down" />}
+      transition={<Slide direction="left" />}
     >
       <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>

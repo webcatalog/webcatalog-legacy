@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -28,6 +29,7 @@ class MoreMenuButton extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleOpenApp = this.handleOpenApp.bind(this);
     this.handleOpenAppDetailsDialog = this.handleOpenAppDetailsDialog.bind(this);
     this.handleOpenConfirmUninstallAppDialog = this.handleOpenConfirmUninstallAppDialog.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -60,6 +62,12 @@ class MoreMenuButton extends React.Component {
     this.props.onOpenConfirmUninstallAppDialog({ appName: name });
   }
 
+  handleOpenApp() {
+    const { onOpenApp } = this.props;
+    this.handleRequestClose();
+    onOpenApp();
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -78,10 +86,22 @@ class MoreMenuButton extends React.Component {
           onRequestClose={this.handleRequestClose}
           open={this.state.open}
         >
-          <ListItem button onClick={this.handleOpenAppDetailsDialog}>
+          <ListItem
+            button
+            onClick={this.handleOpenAppDetailsDialog}
+          >
             <ListItemText primary="More info" />
           </ListItem>
-          <ListItem button onClick={this.handleOpenConfirmUninstallAppDialog}>
+          <ListItem
+            button
+            onClick={this.handleOpenApp}
+          >
+            <ListItemText primary="Open" />
+          </ListItem>
+          <ListItem
+            button
+            onClick={this.handleOpenConfirmUninstallAppDialog}
+          >
             <ListItemText primary="Uninstall" />
           </ListItem>
         </Menu>
@@ -97,13 +117,12 @@ MoreMenuButton.propTypes = {
   name: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  onOpenApp: PropTypes.func.isRequired,
   onOpenAppDetailsDialog: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  name: ownProps.app.name,
-  url: ownProps.app.url,
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
