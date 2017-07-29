@@ -8,7 +8,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppBar from './AppBar';
 import Login from './Login';
 import Apps from './Apps';
-import EnhancedSnackBar from './shared/EnhancedSnackbar';
+import EnhancedSnackBar from './Shared/EnhancedSnackbar';
 
 const title = {
   lineHeight: 1.5,
