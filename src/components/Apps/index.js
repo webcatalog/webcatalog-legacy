@@ -14,6 +14,7 @@ import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
 import { getUserApps } from '../../state/user/apps/actions';
+import { getAppDetails } from '../../state/apps/details/actions';
 import { getApps } from '../../state/apps/actions';
 
 const styleSheet = createStyleSheet('Apps', theme => ({
@@ -105,6 +106,7 @@ class Apps extends React.Component {
       classes,
       apps,
       onGetUserApps,
+      onGetAppDetails,
     } = this.props;
 
     const dialogs = [
@@ -118,6 +120,7 @@ class Apps extends React.Component {
     return (
       <div>
         <div onClick={onGetUserApps}>GET USER APPS</div>
+        <div onClick={() => onGetAppDetails('2cb45715-b3a5-4676-82fe-4488797290e2')}>GET APP DETAILS</div>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
@@ -146,10 +149,11 @@ Apps.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
+  onGetAppDetails: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  console.log('user:', state.user);
+  console.log('state:', state);
   return {
     apps: state.apps.apiData.apps,
     category: state.apps.queryParams.category,
@@ -160,6 +164,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
+  onGetAppDetails: id => dispatch(getAppDetails(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));

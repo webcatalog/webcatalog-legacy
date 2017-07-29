@@ -150,6 +150,7 @@ const AppCard = (props) => {
         <CardContent className={classes.cardContent}>
           <AppCardMoreMenuButton
             isInstalled={isInstalled}
+            id={app.id}
             name={app.name}
             url={app.url}
             onOpenApp={handleOpenApp}

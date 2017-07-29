@@ -49,12 +49,12 @@ class MoreMenuButton extends React.Component {
 
   handleOpenAppDetailsDialog() {
     const {
+      id,
       name,
-      url,
     } = this.props;
 
     this.handleRequestClose();
-    this.props.onOpenAppDetailsDialog({ name, url });
+    this.props.onOpenAppDetailsDialog({ id, name });
   }
 
   handleInstall() {
@@ -143,9 +143,9 @@ MoreMenuButton.defaultProps = {
 };
 
 MoreMenuButton.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isInstalled: PropTypes.bool.isRequired,
-  url: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   onOpenApp: PropTypes.func.isRequired,
   onOpenAppDetailsDialog: PropTypes.func.isRequired,
