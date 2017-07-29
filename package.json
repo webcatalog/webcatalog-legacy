@@ -1,5 +1,5 @@
 {
-  "name": "molecule",
+  "name": "@webcatalog/molecule",
   "version": "0.1.0",
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
@@ -9,7 +9,9 @@
     "install:client": "cd app && yarn",
     "dev": "babel-node src",
     "start": "node lib",
-    "build": "babel src --out-dir lib",
+    "build": "npm run build:main && npm run build:app",
+    "build:main": "babel src --out-dir lib",
+    "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./renderer/src"
   },
   "devDependencies": {

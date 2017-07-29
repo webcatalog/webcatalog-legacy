@@ -63,4 +63,4 @@ typings/
 # Custom
 lib
 dist
-app/build
+app/src
