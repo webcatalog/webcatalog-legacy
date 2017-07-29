@@ -36,6 +36,9 @@ export const MANAGED_APP_REMOVE = 'MANAGED_APP_REMOVE';
 // updater
 export const SET_UPDATER_STATUS = 'SET_UPDATER_STATUS';
 
+// App Bar
+export const APP_BAR_CHANGE_TAB = 'APP_BAR_CHANGE_TAB';
+
 // Snackbar
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';

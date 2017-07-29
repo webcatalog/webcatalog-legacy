@@ -108,8 +108,6 @@ class Apps extends React.Component {
     const {
       classes,
       apps,
-      onGetUserApps,
-      onGetAppDetails,
     } = this.props;
 
     const dialogs = [
@@ -122,8 +120,6 @@ class Apps extends React.Component {
 
     return (
       <div>
-        <div onClick={onGetUserApps}>GET USER APPS</div>
-        <div onClick={() => onGetAppDetails('2cb45715-b3a5-4676-82fe-4488797290e2')}>GET APP DETAILS</div>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
@@ -153,7 +149,6 @@ Apps.propTypes = {
   onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
-  onGetAppDetails: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
