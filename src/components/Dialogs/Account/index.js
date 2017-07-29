@@ -3,13 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
 import { light } from 'material-ui/styles/palette';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import PaymentIcon from 'material-ui-icons/Payment';
-import MoreHorizIcon from 'material-ui-icons/MoreHoriz';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import LockIcon from 'material-ui-icons/Lock';
+import { MenuItem } from 'material-ui/Menu';
+import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 
 import Slide from 'material-ui/transitions/Slide';
 import {
@@ -22,7 +20,17 @@ import Dialog, {
   DialogContentText,
 } from 'material-ui/Dialog';
 
-import { close } from '../../../state/ui/dialogs/account/actions';
+import {
+  close,
+  sectionChange,
+} from '../../../state/ui/dialogs/account/actions';
+
+import { SECTIONS } from '../../../state/ui/dialogs/account/constants';
+import { isSectionActive as isSectionActiveSelector }
+  from '../../../state/ui/dialogs/account/utils';
+
+import Profile from './profile';
+import Password from './password';
 
 const styleSheet = createStyleSheet('Account', {
   linearProgress: {
@@ -81,10 +89,14 @@ const Account = (props) => {
     classes,
     onClose,
     open,
-    displayName,
-    email,
-    profilePicture,
+    onSectionChange,
+    isProfileActive,
+    isPasswordActive,
   } = props;
+
+  let contentElement;
+  if (isProfileActive) contentElement = <Profile />
+  else contentElement = <Password />
 
   return (
     <Dialog
@@ -97,60 +109,29 @@ const Account = (props) => {
       <DialogTitle className={classes.dialogTitle}>Account</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <List className={classes.list}>
-          <ListItem button>
+          <MenuItem
+            selected={isProfileActive}
+            button
+            onClick={() => onSectionChange(SECTIONS.PROFILE)}
+          >
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
-          </ListItem>
-          <ListItem button>
+          </MenuItem>
+          <MenuItem
+            selected={isPasswordActive}
+            button
+            onClick={() => onSectionChange(SECTIONS.PASSWORD)}
+          >
             <ListItemIcon>
-              <PaymentIcon />
+              <LockIcon />
             </ListItemIcon>
-            <ListItemText primary="Billing" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <MoreHorizIcon />
-            </ListItemIcon>
-            <ListItemText primary="Other" />
-          </ListItem>
+            <ListItemText primary="Password" />
+          </MenuItem>
         </List>
         <DialogContentText className={classes.dialogContentText}>
-          <div>
-            <TextField
-              className={classes.textField}
-              disabled={false}
-              id="displayName"
-              label="Display Name"
-              marginForm
-              onChange={() => {}}
-              placeholder="e.g. John"
-              value={displayName}
-            />
-            <br />
-            <br />
-            <TextField
-              className={classes.textField}
-              disabled={false}
-              id="email"
-              label="Email"
-              marginForm
-              onChange={() => {}}
-              // placeholder="e.g. john@getwebcatalog.com"
-              value={email}
-            />
-            <br />
-            {profilePicture}
-          </div>
-          <div className={classes.formFooter}>
-            <Button
-              color="primary"
-              onClick={() => {}}
-            >
-              Save
-            </Button>
-          </div>
+          {contentElement}
         </DialogContentText>
       </DialogContent>
     </Dialog>
@@ -165,35 +146,25 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  displayName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  profilePicture: PropTypes.string.isRequired,
+  onSectionChange: PropTypes.func.isRequired,
+  isProfileActive: PropTypes.bool.isRequired,
+  isPasswordActive: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const {
-    open,
-  } = state.ui.dialogs.account;
-
-  const {
-    displayName,
-    email,
-    profilePicture,
-  } = state.user.apiData;
+  const { open } = state.ui.dialogs.account;
 
   return {
     // open: true,
     open,
-    // displayName,
-    displayName: 'John Doe',
-    // email,
-    email: 'markandrewx@gmail.com',
-    profilePicture,
+    isProfileActive: isSectionActiveSelector(state, SECTIONS.PROFILE),
+    isPasswordActive: isSectionActiveSelector(state, SECTIONS.PASSWORD),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(close()),
+  onSectionChange: section => dispatch(sectionChange(section)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Account));

@@ -1,10 +1,34 @@
 import {
-  dialogAboutClose,
-  dialogAboutOpen,
+  dialogAccountClose,
+  dialogAccountOpen,
+  dialogAccountSectionChange,
 } from './action-creators';
 
+import { formUpdate as profileFormUpdate } from './profile/actions';
+
+const initializeProfileForm = () =>
+  (dispatch, getState) => {
+    const {
+      displayName,
+      email,
+    } = getState().user.apiData;
+
+    const initializeData = {
+      displayName,
+      email,
+    };
+
+    dispatch(profileFormUpdate(initializeData));
+  };
+
 export const close = () =>
-  dispatch => dispatch(dialogAboutClose());
+  dispatch => dispatch(dialogAccountClose());
 
 export const open = () =>
-  dispatch => dispatch(dialogAboutOpen());
+  (dispatch) => {
+    dispatch(initializeProfileForm());
+    dispatch(dialogAccountOpen());
+  };
+
+export const sectionChange = section =>
+  dispatch => dispatch(dialogAccountSectionChange(section));

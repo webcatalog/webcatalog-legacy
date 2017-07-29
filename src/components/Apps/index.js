@@ -13,6 +13,7 @@ import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
+import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
 import { getApps } from '../../state/apps/actions';
@@ -86,8 +87,10 @@ class Apps extends React.Component {
     const {
       onGetApps,
       onGetUserApps,
+      onGetUser,
     } = this.props;
 
+    onGetUser();
     onGetUserApps();
     onGetApps();
 
@@ -149,11 +152,12 @@ Apps.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
+  onGetUser: PropTypes.func.isRequired,
   onGetAppDetails: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  console.log('state:', state.user.apps.managed);
+  console.log('state:', state);
   return {
     apps: state.apps.apiData.apps,
     category: state.apps.queryParams.category,
@@ -162,6 +166,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  onGetUser: () => dispatch(getUser()),
   onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
   onGetAppDetails: id => dispatch(getAppDetails(id)),

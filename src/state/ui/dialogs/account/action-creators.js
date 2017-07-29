@@ -1,12 +1,18 @@
 import {
-  DIALOG_ABOUT_CLOSE,
-  DIALOG_ABOUT_OPEN,
+  DIALOG_ACCOUNT_CLOSE,
+  DIALOG_ACCOUNT_OPEN,
+  DIALOG_ACCOUNT_SECTION_CHANGE,
 } from '../../../../constants/actions';
 
-export const dialogAboutClose = () => ({
-  type: DIALOG_ABOUT_CLOSE,
+export const dialogAccountClose = () => ({
+  type: DIALOG_ACCOUNT_CLOSE,
 });
 
-export const dialogAboutOpen = () => ({
-  type: DIALOG_ABOUT_OPEN,
+export const dialogAccountOpen = () => ({
+  type: DIALOG_ACCOUNT_OPEN,
+});
+
+export const dialogAccountSectionChange = section => ({
+  type: DIALOG_ACCOUNT_SECTION_CHANGE,
+  section,
 });
