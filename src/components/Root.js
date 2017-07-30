@@ -33,16 +33,15 @@ const App = (props) => {
     ? <Apps key="alls" />
     : <MyApps key="myApps" />;
 
-  const element = isLoggedIn
-    ? (
-      <div className={classes.root}>
-        <AppBar />
-        {appsElement}
-        <EnhancedSnackBar />
-      </div>
-    ) : <Login />;
-
-  return element;
+  return (
+    <div className={classes.root}>
+      {isLoggedIn ? [
+        <AppBar />,
+        appsElement,
+      ] : <Login />}
+      <EnhancedSnackBar />
+    </div>
+  );
 };
 
 App.defaultProps = {

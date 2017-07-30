@@ -18,7 +18,7 @@ import store from './state';
 // listeners to communicate with main process
 import loadListeners from './loadListeners';
 
-import Components from './components';
+import Components from './components/Root';
 
 loadListeners(store);
 
