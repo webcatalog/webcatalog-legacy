@@ -20,7 +20,7 @@ import Dialog, {
   DialogContentText,
 } from 'material-ui/Dialog';
 
-import FakeTitleBar from '../Shared/FakeTitleBar';
+import FakeTitleBar from '../shared/FakeTitleBar';
 import { close } from '../../state/ui/dialogs/app-details/actions';
 
 const styleSheet = createStyleSheet('AppDetails', {

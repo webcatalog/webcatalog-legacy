@@ -31,7 +31,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import FilterMenuButton from './FilterMenuButton';
 import getSingularLabel from '../../utils/categories';
-import FakeTitleBar from '../Shared/FakeTitleBar';
+import FakeTitleBar from '../shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
 

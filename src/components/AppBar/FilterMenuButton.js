@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import IconButton from 'material-ui/IconButton';
 import { MenuItem } from 'material-ui/Menu';
-import EnhancedMenu from '../Shared/EnhancedMenu';
+import EnhancedMenu from '../shared/EnhancedMenu';
 
 import categories from '../../constants/categories';
 import { setCategory } from '../../state/apps/actions';

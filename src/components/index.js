@@ -11,7 +11,7 @@ import AppBar from './AppBar';
 import Login from './Login';
 import Apps from './Apps';
 import MyApps from './MyApps';
-import EnhancedSnackBar from './Shared/EnhancedSnackbar';
+import EnhancedSnackBar from './shared/EnhancedSnackbar';
 
 const title = {
   lineHeight: 1.5,

@@ -7,7 +7,7 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import AppCard from '../Shared/AppCard';
+import AppCard from '../shared/AppCard';
 
 const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {

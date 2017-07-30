@@ -6,7 +6,7 @@ import { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
 import SortIcon from 'material-ui-icons/Sort';
 
-import EnhancedMenu from '../Shared/EnhancedMenu';
+import EnhancedMenu from '../shared/EnhancedMenu';
 
 import {
   setSortBy,
