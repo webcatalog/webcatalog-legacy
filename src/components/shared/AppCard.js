@@ -19,6 +19,10 @@ import AppCardMoreMenuButton from './AppCardMoreMenuButton';
 
 import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+import {
+  INSTALLED,
+  NOT_INSTALLED,
+} from '../../constants/appStatuses';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
@@ -195,10 +199,11 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  const status = state.user.apps.managed[app.id] ? state.user.apps.managed[app.id].status : 'NOT_INSTALLED';
+  const status = state.user.apps.managed[app.id] ?
+    state.user.apps.managed[app.id].status : NOT_INSTALLED;
 
   return {
-    isInstalled: status === 'INSTALLED',
+    isInstalled: status === INSTALLED,
   };
 };
 
