@@ -159,15 +159,12 @@ MyApps.propTypes = {
   onGetUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  console.log('state:', state);
-  return {
-    userApps: state.user.apps.apiData.apps,
-    isGetting: state.user.apps.isGetting,
-    category: state.apps.queryParams.category,
-    sortBy: state.apps.queryParams.sortBy,
-  };
-};
+const mapStateToProps = state => ({
+  userApps: state.user.apps.apiData.apps,
+  isGetting: state.user.apps.isGetting,
+  category: state.apps.queryParams.category,
+  sortBy: state.apps.queryParams.sortBy,
+});
 
 const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser()),
