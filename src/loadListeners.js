@@ -16,6 +16,10 @@ import {
 import {
   openSnackbar,
 } from './state/ui/snackbar/actions';
+import {
+  open as openDialogAbout,
+} from './state/ui/dialogs/about/actions';
+
 
 const loadListeners = (store) => {
   ipcRenderer.on('set-auth-token', (e, token) => {
@@ -36,6 +40,10 @@ const loadListeners = (store) => {
     store.dispatch(setUpdaterStatus(status));
     // eslint-disable-next-line
     console.log(info);
+  });
+
+  ipcRenderer.on('open-about-dialog', () => {
+    store.dispatch(openDialogAbout());
   });
 };
 

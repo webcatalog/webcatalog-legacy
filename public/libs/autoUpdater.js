@@ -3,7 +3,7 @@ const { autoUpdater } = require('electron-updater');
 const sendMessageToWindow = require('./sendMessageToWindow');
 
 autoUpdater.on('checking-for-update', () => {
-  sendMessageToWindow('set-updater-status', 'CHECKING_FOR_UPDATE');
+  sendMessageToWindow('set-updater-status', 'CHECKING_FOR_UPDATES');
 });
 
 autoUpdater.on('update-available', (info) => {

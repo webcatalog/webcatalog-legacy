@@ -1,4 +1,10 @@
-const { app, Menu, shell } = require('electron');
+const {
+  app,
+  Menu,
+  shell,
+} = require('electron');
+
+const sendMessageToWindow = require('./sendMessageToWindow');
 
 const createMenu = () => {
   const template = [
@@ -47,7 +53,10 @@ const createMenu = () => {
     template.unshift({
       label: app.getName(),
       submenu: [
-        { role: 'about' },
+        {
+          label: 'About WebCatalog',
+          click: () => sendMessageToWindow('open-about-dialog'),
+        },
         { type: 'separator' },
         { role: 'services', submenu: [] },
         { type: 'separator' },

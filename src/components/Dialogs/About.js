@@ -1,8 +1,10 @@
+/* global ipcRenderer */
 import React from 'react';
-
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import {
   createStyleSheet,
@@ -14,8 +16,27 @@ import Dialog, {
 } from 'material-ui/Dialog';
 
 import { close } from '../../state/ui/dialogs/about/actions';
-
 import iconSvg from '../../assets/icon.svg';
+import {
+  CHECKING_FOR_UPDATES,
+  UPDATE_AVAILABLE,
+  UPDATE_DOWNLOADED,
+  UPDATE_ERROR,
+  UPDATE_NOT_AVAILABLE,
+  UPDATE_PROGRESS,
+} from '../../constants/updaterStatuses';
+import {
+  STRING_CHECK_FOR_UPDATES,
+  STRING_CHECKING_FOR_UPDATES,
+  STRING_PRIVACY_POLICY,
+  STRING_QUIT_AND_INSTALL,
+  STRING_RELEASE_NOTES,
+  STRING_UPDATE_AVAILABLE,
+  STRING_UPDATE_DOWNLOADED,
+  STRING_UPDATE_ERROR,
+  STRING_UPDATE_NOT_AVAILABLE,
+  STRING_UPDATE_PROGRESS,
+} from '../../constants/strings';
 
 const styleSheet = createStyleSheet('About', {
   linearProgress: {
@@ -44,6 +65,31 @@ const About = (props) => {
     updaterStatus,
   } = props;
 
+  let updaterStatusMessage;
+  switch (updaterStatus) {
+    case CHECKING_FOR_UPDATES:
+      updaterStatusMessage = STRING_CHECKING_FOR_UPDATES;
+      break;
+    case UPDATE_AVAILABLE:
+      updaterStatusMessage = STRING_UPDATE_AVAILABLE;
+      break;
+    case UPDATE_ERROR:
+      updaterStatusMessage = STRING_UPDATE_ERROR;
+      break;
+    case UPDATE_PROGRESS:
+      updaterStatusMessage = STRING_UPDATE_PROGRESS;
+      break;
+    case UPDATE_DOWNLOADED:
+      updaterStatusMessage = STRING_UPDATE_DOWNLOADED;
+      break;
+    case UPDATE_NOT_AVAILABLE:
+    default:
+      updaterStatusMessage = STRING_UPDATE_NOT_AVAILABLE;
+  }
+
+  const isUpdaterRunning = updaterStatus === CHECKING_FOR_UPDATES
+    || updaterStatus === UPDATE_PROGRESS;
+
   return (
     <Dialog
       className={classes.root}
@@ -54,7 +100,44 @@ const About = (props) => {
       <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <img src={iconSvg} alt="WebCatalog" />
-        {updaterStatus}
+        <p>WebCatalog</p>
+        <p>Version {window.version}</p>
+
+        <Button
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/release-notes')}
+        >
+          {STRING_RELEASE_NOTES}
+        </Button>
+
+        <Button
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/privacy')}
+        >
+          {STRING_PRIVACY_POLICY}
+        </Button>
+
+        <Divider />
+
+        <p>{updaterStatusMessage}</p>
+
+        {updaterStatus === UPDATE_DOWNLOADED ? (
+          <Button
+            raised
+            color="primary"
+            onClick={() => ipcRenderer.send('quit-and-install')}
+          >
+            {STRING_QUIT_AND_INSTALL}
+          </Button>
+        ) : (
+          <Button
+            raised
+            color="primary"
+            disabled={isUpdaterRunning}
+            onClick={() => ipcRenderer.send('check-for-updates')}
+          >
+            {STRING_CHECK_FOR_UPDATES}
+          </Button>
+        )}
+
       </DialogContent>
     </Dialog>
   );

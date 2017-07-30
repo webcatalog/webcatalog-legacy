@@ -1,0 +1,10 @@
+export const STRING_CHECK_FOR_UPDATES = 'Check for updates';
+export const STRING_CHECKING_FOR_UPDATES = 'Checking for updates...';
+export const STRING_PRIVACY_POLICY = 'Privacy Policy';
+export const STRING_QUIT_AND_INSTALL = 'Quit & install';
+export const STRING_RELEASE_NOTES = 'Release Notes';
+export const STRING_UPDATE_AVAILABLE = 'An update is available.';
+export const STRING_UPDATE_DOWNLOADED = 'An update is downloaded and ready to install.';
+export const STRING_UPDATE_ERROR = 'Failed to check for updates.';
+export const STRING_UPDATE_NOT_AVAILABLE = 'You have the latest version.';
+export const STRING_UPDATE_PROGRESS = 'Downloading the lastest version...';
