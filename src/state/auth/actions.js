@@ -4,12 +4,10 @@ import {
   SET_AUTH_PASSWORD,
 } from '../../constants/actions';
 
-/* eslint-disable import/prefer-default-export */
 export const setAuthToken = token => ({
   type: SET_AUTH_TOKEN,
   token,
 });
-
 
 export const setAuthEmail = email => ({
   type: SET_AUTH_EMAIL,
