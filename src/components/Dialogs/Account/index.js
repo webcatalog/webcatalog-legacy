@@ -107,8 +107,8 @@ const Account = (props) => {
   } = props;
 
   let contentElement;
-  if (isProfileActive) contentElement = <Profile />
-  else contentElement = <Password />
+  if (isProfileActive) contentElement = <Profile />;
+  else contentElement = <Password />;
 
   return (
     <Dialog
