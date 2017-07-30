@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_UPDATER_STATUS } from '../constants/actions';
+import { SET_UPDATER_STATUS } from '../../constants/actions';
 
 const status = (state = 'UPDATE_NOT_AVAILABLE', action) => {
   switch (action.type) {

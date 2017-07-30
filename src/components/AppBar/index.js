@@ -30,7 +30,7 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import FilterMenuButton from './FilterMenuButton';
-import getSingularLabel from '../../utils/categories';
+import getSingularLabel from '../../utils/getSingularLabel';
 import FakeTitleBar from '../shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
@@ -41,10 +41,13 @@ import {
 } from '../../state/ui/routes/selectors';
 
 import { changeRoute } from '../../state/ui/routes/actions';
-import { APPS } from '../../state/ui/routes/constants';
 import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
+import {
+  ROUTE_APPS,
+  ROUTE_MY_APPS,
+} from '../../constants/routes';
 
 const title = {
   lineHeight: 1.5,
@@ -301,7 +304,7 @@ class App extends React.Component {
               <MenuItem
                 selected={isViewingAllApps}
                 button
-                onClick={() => onChangeRoute(APPS.ALL)}
+                onClick={() => onChangeRoute(ROUTE_APPS)}
                 className={isViewingAllApps ? classes.menuItemSelected : classes.menuItem}
               >
                 <ListItemIcon><AppsIcon /></ListItemIcon>
@@ -310,7 +313,7 @@ class App extends React.Component {
               <MenuItem
                 selected={isViewingMyApps}
                 button
-                onClick={() => onChangeRoute(APPS.MY_APPS)}
+                onClick={() => onChangeRoute(ROUTE_MY_APPS)}
                 className={isViewingMyApps ? classes.menuItemSelected : classes.menuItem}
               >
                 <ListItemIcon><ExitToAppIcon /></ListItemIcon>

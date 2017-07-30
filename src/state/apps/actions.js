@@ -7,7 +7,7 @@ import {
   appsSetSortOrder,
   appsReset,
 } from './action-creators';
-import { apiGet } from '../../actions/api';
+import { apiGet } from '../api';
 
 const buildQueryParamsUrl = (url, queryParams) => {
   let queryParamsPath = url;

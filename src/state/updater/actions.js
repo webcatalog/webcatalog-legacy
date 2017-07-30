@@ -1,6 +1,6 @@
 import {
   SET_UPDATER_STATUS,
-} from '../constants/actions';
+} from '../../constants/actions';
 
 // eslint-disable-next-line
 export const setUpdaterStatus = status => ({

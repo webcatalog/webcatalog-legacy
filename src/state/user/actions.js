@@ -10,7 +10,7 @@ import {
   apiGet,
   apiPost,
   apiPatch,
-} from '../../actions/api';
+} from '../api';
 
 export const getUser = () =>
   (dispatch) => {

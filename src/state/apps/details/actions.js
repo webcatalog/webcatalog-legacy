@@ -2,7 +2,7 @@ import {
   appsDetailsGetRequest,
   appsDetailsGetSuccess,
 } from './action-creators';
-import { apiGet } from '../../../actions/api';
+import { apiGet } from '../../api';
 
 export const getAppDetails = () =>
   (dispatch, getState) => {

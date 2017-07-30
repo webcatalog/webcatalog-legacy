@@ -3,7 +3,7 @@ import {
   userAppsGetSuccess,
 } from './action-creators';
 
-import { apiGet } from '../../../actions/api';
+import { apiGet } from '../../api';
 
 export const getUserApps = () =>
   (dispatch) => {

@@ -17,7 +17,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCardMoreMenuButton from './AppCardMoreMenuButton';
 
-import extractHostname from '../../tools/extractHostname';
+import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
@@ -77,7 +77,7 @@ const styleSheet = createStyleSheet('Home', (theme) => {
     },
     paperIcon: {
       width: 72,
-      height: 'auto',
+      height: 72,
     },
 
     cardContent: {

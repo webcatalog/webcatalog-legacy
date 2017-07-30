@@ -4,7 +4,7 @@ import {
   SET_AUTH_PASSWORD,
 } from '../../constants/actions';
 
-import isEmail from '../../tools/isEmail';
+import isEmail from '../../utils/isEmail';
 
 const initialState = {
   authToken: null,

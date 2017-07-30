@@ -11,7 +11,7 @@ import {
 
 import {
   setUpdaterStatus,
-} from './actions/updater';
+} from './state/updater/actions';
 
 import {
   openSnackbar,

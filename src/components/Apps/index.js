@@ -119,23 +119,20 @@ class Apps extends React.Component {
       <DialogAccount />,
     ];
 
-    if (isGetting) return <div>loading</div>;
-
     return (
-      <div>
-        <div
-          className={classes.scrollContainer}
-          ref={(container) => { this.scrollContainer = container; }}
-        >
-          {dialogs}
-          <Grid container>
-            <Grid item xs={12}>
-              <Grid container justify="center" gutter={24}>
-                {apps.map(app => <AppCard app={app} />)}
-              </Grid>
+      <div
+        className={classes.scrollContainer}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
+        {dialogs}
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center" gutter={24}>
+              {apps.map(app => <AppCard app={app} />)}
             </Grid>
           </Grid>
-        </div>
+        </Grid>
+        {isGetting && (<div>loading</div>)}
       </div>
     );
   }

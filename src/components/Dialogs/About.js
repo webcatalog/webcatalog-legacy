@@ -15,6 +15,8 @@ import Dialog, {
 
 import { close } from '../../state/ui/dialogs/about/actions';
 
+import iconSvg from '../../assets/icon.svg';
+
 const styleSheet = createStyleSheet('About', {
   linearProgress: {
     opacity: 0,
@@ -27,6 +29,7 @@ const styleSheet = createStyleSheet('About', {
   },
   dialogContent: {
     minWidth: 240,
+    textAlign: 'center',
   },
   textField: {
     width: '100%',
@@ -50,6 +53,7 @@ const About = (props) => {
     >
       <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>
+        <img src={iconSvg} alt="WebCatalog" />
         {updaterStatus}
       </DialogContent>
     </Dialog>
