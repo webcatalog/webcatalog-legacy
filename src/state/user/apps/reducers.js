@@ -7,7 +7,11 @@ import {
 
 import managed from './managed/reducers';
 
-const apiData = (state = {}, action) => {
+const apiDataInitialState = {
+  apps: [],
+  totalPage: 0,
+};
+const apiData = (state = apiDataInitialState, action) => {
   switch (action.type) {
     case USER_APPS_GET_SUCCESS: return action.res;
     default: return state;

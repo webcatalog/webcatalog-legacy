@@ -18,7 +18,7 @@ import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
 import { getApps } from '../../state/apps/actions';
 
-const styleSheet = createStyleSheet('Apps', theme => ({
+const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -82,24 +82,28 @@ const styleSheet = createStyleSheet('Apps', theme => ({
   },
 }));
 
-class Apps extends React.Component {
-  componentDidMount() {
+class MyApps extends React.Component {
+  constructor(props) {
+    super(props);
+
     const {
       onGetApps,
       onGetUserApps,
       onGetUser,
-    } = this.props;
+    } = props;
 
     onGetUser();
     onGetUserApps();
     onGetApps();
+  }
 
+  componentDidMount() {
     const el = this.scrollContainer;
 
     el.onscroll = () => {
       // Plus 300 to run ahead.
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onGetApps({ next: true });
+        this.props.onGetApps({ next: true });
       }
     };
   }
@@ -108,7 +112,7 @@ class Apps extends React.Component {
     const {
       isGetting,
       classes,
-      apps,
+      userApps,
     } = this.props;
 
     const dialogs = [
@@ -131,7 +135,7 @@ class Apps extends React.Component {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justify="center" gutter={24}>
-                {apps.map(app => <AppCard app={app} />)}
+                {userApps.map(app => <AppCard app={app} />)}
               </Grid>
             </Grid>
           </Grid>
@@ -141,15 +145,15 @@ class Apps extends React.Component {
   }
 }
 
-Apps.defaultProps = {
+MyApps.defaultProps = {
   category: null,
   sortBy: null,
 };
 
-Apps.propTypes = {
+MyApps.propTypes = {
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
-  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userApps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
@@ -158,8 +162,8 @@ Apps.propTypes = {
 const mapStateToProps = (state) => {
   console.log('state:', state);
   return {
-    isGetting: state.apps.isGetting,
-    apps: state.apps.apiData.apps,
+    userApps: state.user.apps.apiData.apps,
+    isGetting: state.user.apps.isGetting,
     category: state.apps.queryParams.category,
     sortBy: state.apps.queryParams.sortBy,
   };
@@ -172,4 +176,4 @@ const mapDispatchToProps = dispatch => ({
   onGetAppDetails: id => dispatch(getAppDetails(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(MyApps));

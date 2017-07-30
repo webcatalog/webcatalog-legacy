@@ -15,7 +15,7 @@ import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/co
 const styleSheet = createStyleSheet('MoreMenuButton', {
   iconButton: {
     position: 'absolute',
-    transform: 'translate(57px, -17px)',
+    transform: 'translate(79px, -17px)',
   },
 });
 

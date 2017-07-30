@@ -20,6 +20,7 @@ import Dialog, {
   DialogContentText,
 } from 'material-ui/Dialog';
 
+import grey from 'material-ui/colors/grey';
 import {
   close,
   sectionChange,
@@ -82,6 +83,17 @@ const styleSheet = createStyleSheet('Account', {
     alignSelf: 'flex-end',
     transform: 'translate(16px, 16px)',
   },
+  menuItem: {
+    '&:hover': {
+      background: grey[300],
+    },
+  },
+  menuItemSelected: {
+    extend: 'menuItem',
+    '&:hover': {
+      background: grey[400],
+    },
+  },
 });
 
 const Account = (props) => {
@@ -113,6 +125,7 @@ const Account = (props) => {
             selected={isProfileActive}
             button
             onClick={() => onSectionChange(SECTIONS.PROFILE)}
+            className={classes[`${isProfileActive ? 'menuItemSelected' : 'menuItem'}`]}
           >
             <ListItemIcon>
               <AccountCircleIcon />
@@ -123,6 +136,7 @@ const Account = (props) => {
             selected={isPasswordActive}
             button
             onClick={() => onSectionChange(SECTIONS.PASSWORD)}
+            className={classes[`${isPasswordActive ? 'menuItemSelected' : 'menuItem'}`]}
           >
             <ListItemIcon>
               <LockIcon />

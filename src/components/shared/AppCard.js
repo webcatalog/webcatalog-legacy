@@ -4,8 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AddBoxIcon from 'material-ui-icons/AddBox';
-import CheckBoxIcon from 'material-ui-icons/CheckBox';
+import GetAppIcon from 'material-ui-icons/GetApp';
+import DeleteIcon from 'material-ui-icons/Delete';
+import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
@@ -17,6 +18,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppCardMoreMenuButton from './AppCardMoreMenuButton';
 
 import extractHostname from '../../tools/extractHostname';
+import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
@@ -54,7 +56,7 @@ const styleSheet = createStyleSheet('Home', (theme) => {
     },
 
     card: {
-      width: 200,
+      width: 240,
       boxSizing: 'border-box',
     },
 
@@ -68,18 +70,16 @@ const styleSheet = createStyleSheet('Home', (theme) => {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
+      fontSize: 16,
     },
-
+    appUrl: {
+      fontSize: 14,
+    },
     paperIcon: {
-      width: 60,
+      width: 72,
       height: 'auto',
     },
 
-    titleText: {
-      fontWeight: 500,
-      lineHeight: 1.5,
-      marginTop: theme.spacing.unit,
-    },
     cardContent: {
       ...cardContentDefaults,
     },
@@ -122,6 +122,7 @@ const AppCard = (props) => {
     app,
     classes,
     isInstalled,
+    onOpenConfirmUninstallAppDialog,
   } = props;
 
   const handleOpenApp = () => {
@@ -130,16 +131,25 @@ const AppCard = (props) => {
 
   const actionsElement = isInstalled
     ? (
-      <Button
-        className={classes.buttonInstalled}
-        onClick={handleOpenApp}
-      >
-        <CheckBoxIcon color="inherit" />
-        <span className={classes.buttonText}>Installed</span>
-      </Button>
+      <div>
+        <Button
+          className={classes.buttonInstalled}
+          onClick={handleOpenApp}
+        >
+          <ExitToAppIcon color="inherit" />
+          <span className={classes.buttonText}>Open</span>
+        </Button>
+        <Button
+          className={classes.buttonInstalled}
+          onClick={() => onOpenConfirmUninstallAppDialog({ app })}
+        >
+          <DeleteIcon color="inherit" />
+          <span className={classes.buttonText}>Uninstall</span>
+        </Button>
+      </div>
     ) : (
       <Button className={classes.button}>
-        <AddBoxIcon color="inherit" />
+        <GetAppIcon color="inherit" />
         <span className={classes.buttonText}>Install</span>
       </Button>
     );
@@ -160,7 +170,7 @@ const AppCard = (props) => {
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
-          <Typography type="heading2" color="secondary">
+          <Typography type="heading2" color="secondary" className={classes.appUrl}>
             {extractHostname(app.url)}
           </Typography>
         </CardContent>
@@ -179,6 +189,7 @@ AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   isInstalled: PropTypes.bool.isRequired,
+  onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -191,7 +202,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppCard));
