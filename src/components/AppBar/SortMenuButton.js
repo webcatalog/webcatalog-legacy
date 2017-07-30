@@ -10,7 +10,7 @@ import EnhancedMenu from '../shared/EnhancedMenu';
 
 import {
   setSortBy,
-} from '../../state/home/actions';
+} from '../../state/apps/actions';
 
 const SortMenuButton = (props) => {
   const {
@@ -19,7 +19,7 @@ const SortMenuButton = (props) => {
     onSetSortBy,
   } = props;
 
-  const iconButtonColor = sortBy !== 'installCount' ? 'primary' : 'contrast';
+  const iconButtonColor = sortBy === 'installCount' && sortOrder === 'desc' ? 'contrast' : 'default';
 
   return (
     <EnhancedMenu
@@ -75,8 +75,8 @@ SortMenuButton.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sortBy: state.home.sortBy,
-  sortOrder: state.home.sortOrder,
+  sortBy: state.apps.queryParams.sortBy,
+  sortOrder: state.apps.queryParams.sortOrder,
 });
 
 const mapDispatchToProps = dispatch => ({

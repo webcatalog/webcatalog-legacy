@@ -10,12 +10,15 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import AddBoxIcon from 'material-ui-icons/AddBox';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
+import AppsIcon from 'material-ui-icons/Apps';
+import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import Divider from 'material-ui/Divider';
 import HelpIcon from 'material-ui-icons/Help';
 import Avatar from 'material-ui/Avatar';
 import InfoIcon from 'material-ui-icons/Info';
 import PublicIcon from 'material-ui-icons/Public';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { MenuItem } from 'material-ui/Menu';
+import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
 import CloseIcon from 'material-ui-icons/Close';
@@ -32,6 +35,14 @@ import FakeTitleBar from '../shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
 
+import {
+  isViewingAllApps as isViewingAllAppsSelector,
+  isViewingMyApps as isViewingMyAppsSelector,
+} from '../../state/ui/routes/selectors';
+
+import { changeRoute } from '../../state/ui/routes/actions';
+import { APPS } from '../../state/ui/routes/constants';
+import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 
@@ -69,13 +80,16 @@ const styleSheet = createStyleSheet('App', {
   searchAppBarOpen: {
     marginTop: -44,
     // boxShadow: 'none',
-    paddingTop: 24,
+    paddingTop: 22,
     // marginTop: -44,
   },
   searchAppBar: {
     marginTop: -44,
     boxShadow: 'none',
     paddingTop: 24,
+  },
+  indicator: {
+    height: 3,
   },
   list: {
     width: 304,
@@ -147,6 +161,17 @@ const styleSheet = createStyleSheet('App', {
   headerContainer: {
     // backgroundColor: grey[200],
   },
+  menuItem: {
+    '&:hover': {
+      background: grey[300],
+    },
+  },
+  menuItemSelected: {
+    extend: 'menuItem',
+    '&:hover': {
+      background: grey[400],
+    },
+  },
 });
 
 class App extends React.Component {
@@ -161,6 +186,7 @@ class App extends React.Component {
     this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
+    this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
     this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
     this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
@@ -188,6 +214,10 @@ class App extends React.Component {
     if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
   }
 
+  handleOpenDialogAccount() {
+    this.props.onOpenDialogAccount();
+  }
+
   handleOpenDialogAbout() {
     this.props.onOpenDialogAbout();
   }
@@ -202,6 +232,9 @@ class App extends React.Component {
       classes,
       sortBy,
       sortOrder,
+      onChangeRoute,
+      isViewingAllApps,
+      isViewingMyApps,
     } = this.props;
 
     const { isSearchBarOpen } = this.state;
@@ -265,31 +298,50 @@ class App extends React.Component {
             <List className={classes.list} disablePadding>
               {temp}
               <Divider />
-              <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+              <MenuItem
+                selected={isViewingAllApps}
+                button
+                onClick={() => onChangeRoute(APPS.ALL)}
+                className={isViewingAllApps ? classes.menuItemSelected : classes.menuItem}
+              >
+                <ListItemIcon><AppsIcon /></ListItemIcon>
+                <ListItemText primary="Apps" />
+              </MenuItem>
+              <MenuItem
+                selected={isViewingMyApps}
+                button
+                onClick={() => onChangeRoute(APPS.MY_APPS)}
+                className={isViewingMyApps ? classes.menuItemSelected : classes.menuItem}
+              >
+                <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                <ListItemText primary="My apps" />
+              </MenuItem>
+              <Divider />
+              <MenuItem button onClick={this.handleOpenDialogAccount}>
                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                 <ListItemText primary="Account" />
-              </ListItem>
-              <ListItem button onClick={() => ipcRenderer.send('log-out')}>
-                <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={this.handleOpenDialogSubmitApp}>
+              </MenuItem>
+              <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
                 <ListItemIcon><AddBoxIcon /></ListItemIcon>
                 <ListItemText primary="Submit app" />
-              </ListItem>
-              <ListItem button onClick={this.handleRequestClose}>
+              </MenuItem>
+              <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
+                <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+                <ListItemText primary="Logout" />
+              </MenuItem>
+              <Divider />
+              <MenuItem button onClick={this.handleRequestClose}>
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary="Help" />
-              </ListItem>
-              <ListItem button onClick={this.handleRequestClose}>
+              </MenuItem>
+              <MenuItem button onClick={this.handleRequestClose}>
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary="Website" />
-              </ListItem>
-              <ListItem button onClick={this.handleOpenDialogAbout}>
+              </MenuItem>
+              <MenuItem button onClick={this.handleOpenDialogAbout}>
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
-              </ListItem>
+              </MenuItem>
             </List>
           </div>
         </Drawer>
@@ -372,19 +424,26 @@ App.propTypes = {
   sortOrder: PropTypes.string.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
+  onOpenDialogAccount: PropTypes.func.isRequired,
+  onChangeRoute: PropTypes.func.isRequired,
+  isViewingAllApps: PropTypes.bool.isRequired,
+  isViewingMyApps: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  category: state.home.category,
+  category: state.apps.queryParams.category,
   isLoggedIn: Boolean(state.auth.token),
-  sortBy: state.home.sortBy,
-  sortOrder: state.home.sortOrder,
-  isGettingApps: state.home.isGettingApps,
+  sortBy: state.apps.queryParams.sortBy,
+  isViewingAllApps: isViewingAllAppsSelector(state),
+  isViewingMyApps: isViewingMyAppsSelector(state),
+  sortOrder: state.apps.queryParams.sortOrder,
 });
 
 const mapDispatchToProps = dispatch => ({
   onOpenDialogAbout: () => dispatch(openDialogAbout()),
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
+  onOpenDialogAccount: () => dispatch(openDialogAccount()),
+  onChangeRoute: route => dispatch(changeRoute(route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

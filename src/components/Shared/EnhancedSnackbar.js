@@ -33,8 +33,7 @@ const EnhancedSnackbar = (props) => {
           {actionText}
         </Button>
       }
-    >
-    </Snackbar>
+    />
   );
 };
 

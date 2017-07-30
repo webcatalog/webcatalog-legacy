@@ -7,7 +7,7 @@ import {
 import {
   setManagedApp,
   removeManagedApp,
-} from './actions/core';
+} from './state/user/apps/managed/actions';
 
 import {
   setUpdaterStatus,

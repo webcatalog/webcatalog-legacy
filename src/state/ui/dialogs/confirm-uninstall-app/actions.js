@@ -1,3 +1,4 @@
+/* global ipcRenderer */
 import { openSnackbar } from '../../snackbar/actions';
 
 import {
@@ -18,8 +19,11 @@ export const open = form =>
   };
 
 export const save = () =>
-  (dispatch) => {
+  (dispatch, getState) => {
+    const { app } = getState().ui.dialogs.confirmUninstallApp.form;
+
     dispatch(dialogConfirmUninstallAppSaveRequest());
+    ipcRenderer.send('uninstall-app', app.id, app);
     setTimeout(() => {
       dispatch(dialogConfirmUninstallAppSaveSuccess());
       dispatch(openSnackbar('Your app has been successfully uninstalled.'));

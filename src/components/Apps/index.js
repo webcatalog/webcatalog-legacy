@@ -8,14 +8,17 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCard from '../shared/AppCard';
+import DialogAccount from '../Dialogs/Account';
 import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
-import { fetchApps } from '../../state/home/actions';
-import LoadingSpinner from './LoadingSpinner';
+import { getUser } from '../../state/user/actions';
+import { getUserApps } from '../../state/user/apps/actions';
+import { getAppDetails } from '../../state/apps/details/actions';
+import { getApps } from '../../state/apps/actions';
 
-const styleSheet = createStyleSheet('Home', theme => ({
+const styleSheet = createStyleSheet('Apps', theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -79,23 +82,31 @@ const styleSheet = createStyleSheet('Home', theme => ({
   },
 }));
 
-class Home extends React.Component {
+class Apps extends React.Component {
   componentDidMount() {
-    const { onFetchApps } = this.props;
-    onFetchApps();
+    const {
+      onGetApps,
+      onGetUserApps,
+      onGetUser,
+    } = this.props;
+
+    onGetUser();
+    onGetUserApps();
+    onGetApps();
 
     const el = this.scrollContainer;
 
     el.onscroll = () => {
       // Plus 300 to run ahead.
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onFetchApps({ next: true });
+        onGetApps({ next: true });
       }
     };
   }
 
   render() {
     const {
+      isGetting,
       classes,
       apps,
     } = this.props;
@@ -105,10 +116,10 @@ class Home extends React.Component {
       <DialogSubmitApp />,
       <DialogConfirmUninstallApp />,
       <DialogAppDetails />,
+      <DialogAccount />,
     ];
 
-    const temp = <LoadingSpinner />;
-    console.log(temp);
+    if (isGetting) return <div>loading</div>;
 
     return (
       <div>
@@ -130,26 +141,35 @@ class Home extends React.Component {
   }
 }
 
-Home.defaultProps = {
+Apps.defaultProps = {
   category: null,
   sortBy: null,
 };
 
-Home.propTypes = {
+Apps.propTypes = {
   classes: PropTypes.object.isRequired,
+  isGetting: PropTypes.bool.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFetchApps: PropTypes.func.isRequired,
+  onGetUserApps: PropTypes.func.isRequired,
+  onGetApps: PropTypes.func.isRequired,
+  onGetUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  status: state.home.status,
-  apps: state.home.apps,
-  category: state.home.category,
-  sortBy: state.home.sortBy,
-});
+const mapStateToProps = (state) => {
+  console.log('state:', state);
+  return {
+    isGetting: state.apps.isGetting,
+    apps: state.apps.apiData.apps,
+    category: state.apps.queryParams.category,
+    sortBy: state.apps.queryParams.sortBy,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
-  onFetchApps: optionsObject => dispatch(fetchApps(optionsObject)),
+  onGetUser: () => dispatch(getUser()),
+  onGetUserApps: () => dispatch(getUserApps()),
+  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
+  onGetAppDetails: id => dispatch(getAppDetails(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));

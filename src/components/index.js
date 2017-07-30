@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import grey from 'material-ui/colors/blue';
+import grey from 'material-ui/colors/grey';
+
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+
+import { isViewingAllApps as isViewingAllAppsSelector } from '../state/ui/routes/selectors';
 
 import AppBar from './AppBar';
 import Login from './Login';
 import Apps from './Apps';
+import MyApps from './MyApps';
 import EnhancedSnackBar from './shared/EnhancedSnackbar';
 
 const title = {
@@ -130,13 +134,18 @@ const styleSheet = createStyleSheet('App', {
 const App = (props) => {
   const {
     isLoggedIn,
+    isViewingAllApps,
   } = props;
+
+  const appsElement = isViewingAllApps
+    ? <Apps key="alls" />
+    : <MyApps key="myApps" />;
 
   const element = isLoggedIn
     ? (
       <div>
         <AppBar />
-        <Apps key="routes" />
+        {appsElement}
         <EnhancedSnackBar />
       </div>
     ) : <Login />;
@@ -150,11 +159,13 @@ App.defaultProps = {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
+  isViewingAllApps: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  category: state.home.category,
+  category: state.apps.queryParams.category,
+  isViewingAllApps: isViewingAllAppsSelector(state),
   isLoggedIn: state.auth.token,
 });
 

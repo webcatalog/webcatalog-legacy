@@ -34,6 +34,10 @@ const styleSheet = createStyleSheet('AppDetails', {
   dialogContent: {
     maxWidth: 288,
   },
+  dialogContentText: {
+    maxHeight: 300,
+    height: 300,
+  },
   appBar: {
     position: 'relative',
     zIndex: 1,
@@ -53,11 +57,11 @@ const styleSheet = createStyleSheet('AppDetails', {
 
 const AppDetails = (props) => {
   const {
+    description,
     classes,
     onClose,
     open,
     name,
-    url,
   } = props;
 
   return (
@@ -95,8 +99,8 @@ const AppDetails = (props) => {
         </Toolbar>
       </AppBar>
       <DialogContent className={classes.dialogContent}>
-        <DialogContentText>
-          {url}
+        <DialogContentText className={classes.dialogContentText}>
+          {description}
         </DialogContentText>
       </DialogContent>
     </Dialog>
@@ -109,10 +113,10 @@ AppDetails.defaultProps = {
 
 AppDetails.propTypes = {
   classes: PropTypes.object.isRequired,
+  description: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -121,15 +125,13 @@ const mapStateToProps = (state) => {
     form,
   } = state.ui.dialogs.appDetails;
 
-  const {
-    name,
-    url,
-  } = form;
+  const { description } = state.apps.details.apiData;
+
 
   return {
     open,
-    name,
-    url,
+    description,
+    name: form.name,
   };
 };
 

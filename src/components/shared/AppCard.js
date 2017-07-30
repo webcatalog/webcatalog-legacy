@@ -4,20 +4,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AddBoxIcon from 'material-ui-icons/AddBox';
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
+import GetAppIcon from 'material-ui-icons/GetApp';
 import DeleteIcon from 'material-ui-icons/Delete';
-import IconButton from 'material-ui/IconButton';
+import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
+import blue from 'material-ui/colors/blue';
 import Typography from 'material-ui/Typography';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
+import AppCardMoreMenuButton from './AppCardMoreMenuButton';
+
 import extractHostname from '../../tools/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
-import { open as openAppDetailsDialog } from '../../state/ui/dialogs/app-details/actions';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
@@ -29,13 +30,23 @@ const styleSheet = createStyleSheet('Home', (theme) => {
   };
 
   return {
+    button: {
+      color: grey[600],
+    },
+    buttonInstalled: {
+      color: blue[500],
+    },
     scrollContainer: {
       flex: 1,
       padding: 36,
       overflow: 'auto',
       boxSizing: 'border-box',
     },
-
+    buttonText: {
+      fontSize: 12,
+      marginLeft: 6,
+      transform: 'translateY(-1px)',
+    },
     cardHeader: {
       alignItems: 'center',
       display: 'flex',
@@ -45,7 +56,7 @@ const styleSheet = createStyleSheet('Home', (theme) => {
     },
 
     card: {
-      width: 200,
+      width: 240,
       boxSizing: 'border-box',
     },
 
@@ -59,18 +70,16 @@ const styleSheet = createStyleSheet('Home', (theme) => {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
+      fontSize: 16,
     },
-
+    appUrl: {
+      fontSize: 14,
+    },
     paperIcon: {
-      width: 60,
+      width: 72,
       height: 'auto',
     },
 
-    titleText: {
-      fontWeight: 500,
-      lineHeight: 1.5,
-      marginTop: theme.spacing.unit,
-    },
     cardContent: {
       ...cardContentDefaults,
     },
@@ -88,6 +97,7 @@ const styleSheet = createStyleSheet('Home', (theme) => {
     },
     cardActions: {
       justifyContent: 'center',
+      overflow: 'hidden',
     },
 
     rightButton: {
@@ -111,79 +121,61 @@ const AppCard = (props) => {
   const {
     app,
     classes,
-    status,
+    isInstalled,
     onOpenConfirmUninstallAppDialog,
-    onOpenAppDetailsDialog,
   } = props;
 
-  const handleOpenAppDetailsDialog = () => {
-    const {
-      name,
-      url,
-    } = props.app;
-
-    onOpenAppDetailsDialog({ name, url });
+  const handleOpenApp = () => {
+    ipcRenderer.send('open-app', app.id, app.name);
   };
 
-  const renderActions = () => {
-    switch (status) {
-      case 'INSTALLED': {
-        return [
-          <IconButton
-            key="open"
-            className={classes.iconButton}
-            aria-label="Open"
-            onClick={() => ipcRenderer.send('open-app', app.id, app.name)}
-          >
-            <ExitToAppIcon />
-          </IconButton>,
-          <IconButton
-            key="uninstall"
-            className={classes.iconButton}
-            aria-label="Uninstall"
-            onClick={() => onOpenConfirmUninstallAppDialog({ appName: app.name })}
-          >
-            <DeleteIcon />
-          </IconButton>,
-        ];
-      }
-      default: {
-        return [
-          <IconButton
-            key="install"
-            className={classes.iconButton}
-            aria-label="Install"
-            onClick={() => {}}
-          >
-            <AddBoxIcon />
-          </IconButton>,
-        ];
-      }
-    }
-  };
+  const actionsElement = isInstalled
+    ? (
+      <div>
+        <Button
+          className={classes.buttonInstalled}
+          onClick={handleOpenApp}
+        >
+          <ExitToAppIcon color="inherit" />
+          <span className={classes.buttonText}>Open</span>
+        </Button>
+        <Button
+          className={classes.buttonInstalled}
+          onClick={() => onOpenConfirmUninstallAppDialog({ app })}
+        >
+          <DeleteIcon color="inherit" />
+          <span className={classes.buttonText}>Uninstall</span>
+        </Button>
+      </div>
+    ) : (
+      <Button className={classes.button}>
+        <GetAppIcon color="inherit" />
+        <span className={classes.buttonText}>Install</span>
+      </Button>
+    );
 
   return (
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <IconButton
-            aria-label="More"
-            color="primary"
-            onClick={handleOpenAppDetailsDialog}
-            className={classes.moreIconMenu}
-          >
-            <MoreVertIcon />
-          </IconButton>
+          <AppCardMoreMenuButton
+            app={app}
+            isInstalled={isInstalled}
+            id={app.id}
+            name={app.name}
+            url={app.url}
+            onOpenApp={handleOpenApp}
+          />
           <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
-          <Typography type="heading2" color="secondary">
+          <Typography type="heading2" color="secondary" className={classes.appUrl}>
             {extractHostname(app.url)}
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          {renderActions()}
+          {actionsElement}
         </CardActions>
       </Card>
     </Grid>
@@ -196,22 +188,22 @@ AppCard.defaultProps = {
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired,
+  isInstalled: PropTypes.bool.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
-  onOpenAppDetailsDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  const status = state.core.managedApps[app.id] ? state.core.managedApps[app.id].status : 'NOT_INSTALLED';
+  const status = state.user.apps.managed[app.id] ? state.user.apps.managed[app.id].status : 'NOT_INSTALLED';
 
-  return { status };
+  return {
+    isInstalled: status === 'INSTALLED',
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
   onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
-  onOpenAppDetailsDialog: form => dispatch(openAppDetailsDialog(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppCard));
