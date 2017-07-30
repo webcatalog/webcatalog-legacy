@@ -30,13 +30,15 @@ const theme = createMuiTheme({
   }),
 });
 
-ipcRenderer.send('read-token-from-disk');
+ipcRenderer.once('set-auth-token', () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <Components />
+      </MuiThemeProvider>
+    </Provider>,
+    document.getElementById('app'),
+  );
+});
 
-ReactDOM.render(
-  <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
-      <Components />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('app'),
-);
+ipcRenderer.send('read-token-from-disk');

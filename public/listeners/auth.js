@@ -28,7 +28,9 @@ const loadAuthListeners = () => {
         e.sender.send('set-auth-token', token);
       })
       // eslint-disable-next-line
-      .catch(console.log);
+      .catch(() => {
+        e.sender.send('set-auth-token', null);
+      });
   });
 
   ipcMain.on('sign-in-with-password', (e, email, password) => {
