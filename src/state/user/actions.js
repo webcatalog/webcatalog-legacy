@@ -5,6 +5,8 @@ import {
   userPostSuccess,
   userPatchRequest,
   userPatchSuccess,
+  userPatchPasswordRequest,
+  userPatchPasswordSuccess,
 } from './action-creators';
 import {
   apiGet,
@@ -36,6 +38,16 @@ export const patchUser = changes =>
       .then(() => {
         dispatch(userPatchSuccess());
         dispatch(getUser());
+      });
+  };
+
+export const patchUserPassword = changes =>
+  (dispatch) => {
+    dispatch(userPatchPasswordRequest());
+    return dispatch(apiPatch('/user/password', changes))
+      .then(res => res.json())
+      .then(() => {
+        dispatch(userPatchPasswordSuccess());
       });
   };
 

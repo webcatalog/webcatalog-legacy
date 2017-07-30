@@ -8,9 +8,8 @@ import {
 } from '../../../../../constants/actions';
 
 const formInitialState = {
-  oldPassword: '',
-  newPassword: '',
-  confirmNewPassword: '',
+  currentPassword: '',
+  password: '',
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {
