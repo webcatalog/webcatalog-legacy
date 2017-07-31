@@ -53,11 +53,14 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  category: state.apps.queryParams.category,
-  isViewingAllApps: isViewingAllAppsSelector(state),
-  isLoggedIn: Boolean(state.auth.token),
-});
+const mapStateToProps = state => {
+  console.log('state:', state);
+  return {
+    category: state.apps.queryParams.category,
+    isViewingAllApps: isViewingAllAppsSelector(state),
+    isLoggedIn: Boolean(state.auth.token),
+  };
+};
 
 const mapDispatchToProps = () => ({
 });

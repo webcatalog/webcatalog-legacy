@@ -131,7 +131,7 @@ class MyApps extends React.Component {
     if (!userApps.length) {
       element = (
         <EmptyState Icon={AppsIcon}>
-          You haven&apos;t installed any apps yet
+          No installed apps
         </EmptyState>
       );
     } else {

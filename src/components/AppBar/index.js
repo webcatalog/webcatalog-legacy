@@ -59,6 +59,9 @@ const title = {
   textOverflow: 'ellipsis',
 };
 const styleSheet = createStyleSheet('App', {
+  root: {
+    zIndex: 1,
+  },
   toolbar: {
     padding: '0 12px',
   },
@@ -291,7 +294,7 @@ class App extends React.Component {
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <FakeTitleBar />
         <Drawer
           open={this.state.isDrawerOpen}
@@ -335,11 +338,17 @@ class App extends React.Component {
                 <ListItemText primary="Logout" />
               </MenuItem>
               <Divider />
-              <MenuItem button onClick={this.handleRequestClose}>
+              <MenuItem
+                button
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+              >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary="Help" />
               </MenuItem>
-              <MenuItem button onClick={this.handleRequestClose}>
+              <MenuItem
+                button 
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
+              >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary="Website" />
               </MenuItem>
