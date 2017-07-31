@@ -8,6 +8,8 @@ import {
   dialogSubmitAppSaveSuccess,
 } from './action-creators';
 
+import { postDraft } from '../../../drafts/actions';
+
 export const close = () =>
   (dispatch) => {
     dispatch(dialogSubmitAppClose());
@@ -24,14 +26,16 @@ export const open = () =>
   };
 
 export const save = () =>
-  (dispatch) => {
+  (dispatch, getState) => {
+    const data = getState().ui.dialogs.submitApp.form;
     dispatch(dialogSubmitAppSaveRequest());
-    setTimeout(() => {
-      dispatch(dialogSubmitAppSaveSuccess());
-      dispatch(openSnackbar(
-        'Thanks! Your app has been submitted for review!',
-        'Got it!',
-      ));
-      dispatch(dialogSubmitAppClose());
-    }, 1000);
+    return dispatch(postDraft(data))
+      .then(() => {
+        dispatch(dialogSubmitAppSaveSuccess());
+        dispatch(openSnackbar(
+          'Your app has been submitted for review!',
+          'Got it!',
+        ));
+        dispatch(dialogSubmitAppClose());
+      });
   };

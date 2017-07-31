@@ -7,6 +7,7 @@ import local from './local/reducers';
 import ui from './ui/reducers';
 import updater from './updater/reducers';
 import user from './user/reducers';
+import drafts from './drafts/reducers';
 
 const rootReducer = combineReducers({
   apps,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   ui,
   updater,
   user,
+  drafts,
 });
 
 const configureStore = initialState =>

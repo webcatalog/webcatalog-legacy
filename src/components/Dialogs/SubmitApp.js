@@ -81,6 +81,7 @@ const SubmitApp = (props) => {
           value={name}
         />
         <br />
+        <br />
         <TextField
           className={classes.textField}
           disabled={isSaving}
