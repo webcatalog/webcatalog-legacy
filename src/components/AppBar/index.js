@@ -231,6 +231,8 @@ class App extends React.Component {
 
   render() {
     const {
+      displayName,
+      email,
       category,
       classes,
       sortBy,
@@ -279,10 +281,10 @@ class App extends React.Component {
         <Avatar className={classes.avatar}>Q</Avatar>
         <div className={classes.nameDetails}>
           <div className={classes.nameDetailsName}>
-            Quang Lam
+            {displayName}
           </div>
           <div className={classes.nameDetailsEmail}>
-            quang@getwebcatalog.com
+            {email}
           </div>
         </div>
       </div>
@@ -417,10 +419,13 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
+  displayName: 'Unnamed user',
   category: null,
 };
 
 App.propTypes = {
+  displayName: PropTypes.string,
+  email: PropTypes.string.isRequired,
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   sortBy: PropTypes.string.isRequired,
@@ -434,6 +439,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  displayName: state.user.apiData.displayName,
+  email: state.user.apiData.email,
   category: state.apps.queryParams.category,
   isLoggedIn: Boolean(state.auth.token),
   sortBy: state.apps.queryParams.sortBy,
