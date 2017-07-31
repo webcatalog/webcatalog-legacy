@@ -7,6 +7,7 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
+import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
 import DialogAccount from '../Dialogs/Account';
 import DialogAbout from '../Dialogs/About';
@@ -17,6 +18,8 @@ import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
 import { getApps } from '../../state/apps/actions';
+
+import EmptyState from './EmptyState';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {
@@ -102,7 +105,7 @@ class MyApps extends React.Component {
 
     el.onscroll = () => {
       // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+      if (this.props.userApps && (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight)) {
         this.props.onGetApps({ next: true });
       }
     };
@@ -123,15 +126,18 @@ class MyApps extends React.Component {
       <DialogAccount />,
     ];
 
-    if (isGetting) return <div>loading</div>;
-
-    return (
-      <div>
-        <div
-          className={classes.scrollContainer}
-          ref={(container) => { this.scrollContainer = container; }}
-        >
-          {dialogs}
+    let element;
+    if (isGetting) element = <div>loading</div>;
+    if (!userApps.length) {
+      element = (
+        <EmptyState Icon={AppsIcon}>
+          You haven&apos;t installed any apps yet
+        </EmptyState>
+      );
+    } else {
+      element = (
+        <div>
+         {dialogs}
           <Grid container>
             <Grid item xs={12}>
               <Grid container justify="center" gutter={24}>
@@ -140,6 +146,15 @@ class MyApps extends React.Component {
             </Grid>
           </Grid>
         </div>
+      );
+    }
+
+    return (
+      <div
+        className={classes.scrollContainer}
+        ref={(container) => { this.scrollContainer = container; }}
+      >
+        {element}
       </div>
     );
   }
