@@ -28,12 +28,15 @@ export const postUser = () =>
       .then(res => dispatch(userPostSuccess(res)));
   };
 
-export const patchUser = () =>
+export const patchUser = changes =>
   (dispatch) => {
     dispatch(userPatchRequest());
-    return dispatch(apiPatch('/user', {}))
+    return dispatch(apiPatch('/user', changes))
       .then(res => res.json())
-      .then(res => dispatch(userPatchSuccess(res)));
+      .then(() => {
+        dispatch(userPatchSuccess());
+        dispatch(getUser());
+      });
   };
 
 export default {

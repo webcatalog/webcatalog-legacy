@@ -6,17 +6,21 @@ import {
   dialogAccountProfileSaveSuccess,
 } from './action-creators';
 
+import { patchUser } from '../../../../user/actions';
+
 export const formUpdate = changes =>
   dispatch => dispatch(dialogAccountProfileFormUpdate(changes));
 
 export const save = () =>
-  (dispatch) => {
+  (dispatch, getState) => {
+    const changes = getState().ui.dialogs.account.profile.form;
     dispatch(dialogAccountProfileSaveRequest());
-    setTimeout(() => {
-      dispatch(dialogAccountProfileSaveSuccess());
-      dispatch(openSnackbar(
-        'Your profile has been saved!',
-        'Close',
-      ));
-    }, 1000);
+    return dispatch(patchUser(changes))
+      .then(() => {
+        dispatch(dialogAccountProfileSaveSuccess());
+        dispatch(openSnackbar(
+          'Your profile has been saved!',
+          'Close',
+        ));
+      });
   };
