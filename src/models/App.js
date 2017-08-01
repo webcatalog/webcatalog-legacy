@@ -38,6 +38,18 @@ const App = sequelize.define('app', {
   wikipediaTitle: {
     type: Sequelize.STRING,
   },
+}, {
+  getterMethods: {
+    pngIconUrl() {
+      return `https://getwebcatalog.com/s3/${this.id}.png`;
+    },
+    icnsIconUrl() {
+      return `https://getwebcatalog.com/s3/${this.id}.icns`;
+    },
+    icoIconUrl() {
+      return `https://getwebcatalog.com/s3/${this.id}.ico`;
+    },
+  },
 });
 
 App.User = App.belongsTo(User);
