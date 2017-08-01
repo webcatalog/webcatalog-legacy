@@ -28,10 +28,12 @@ export const save = () =>
     uninstallAppAsync(app.id, app.name)
       .then(() => {
         dispatch(dialogConfirmUninstallAppSaveSuccess());
-        dispatch(openSnackbar('Your app has been successfully uninstalled.'));
+        dispatch(openSnackbar(`${app.name} has been successfully uninstalled.`));
         dispatch(close());
       })
       .catch((err) => {
+        dispatch(dialogConfirmUninstallAppSaveSuccess());
+        dispatch(openSnackbar(`We're sorry. WebCatalog has failed to uninstall ${app.name}.`));
         // eslint-disable-next-line
         console.log(err);
       });
