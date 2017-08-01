@@ -37,9 +37,9 @@ const Password = (props) => {
   const {
     classes,
     isSaving,
-    oldPassword,
-    newPassword,
-    confirmNewPassword,
+    currentPassword,
+    password,
+    confirmPassword,
     onFormUpdate,
     onSave,
   } = props;
@@ -51,36 +51,36 @@ const Password = (props) => {
           autoFocus
           className={classes.textField}
           disabled={isSaving}
-          id="oldPassword"
-          label="Old Password"
+          id="currentPassword"
+          label="Current password"
           marginForm
-          onChange={e => onFormUpdate({ oldPassword: e.target.value })}
+          onChange={e => onFormUpdate({ currentPassword: e.target.value })}
           placeholder="Enter your current password"
-          value={oldPassword}
+          value={currentPassword}
         />
         <br />
         <br />
         <TextField
           className={classes.textField}
           disabled={isSaving}
-          id="newPassword"
+          id="password"
           label="New Password"
           marginForm
-          onChange={e => onFormUpdate({ newPassword: e.target.value })}
+          onChange={e => onFormUpdate({ password: e.target.value })}
           placeholder="Enter your new password"
-          value={newPassword}
+          value={password}
         />
         <br />
         <br />
         <TextField
           className={classes.textField}
           disabled={isSaving}
-          id="confirmNewPassword"
+          id="confirmPassword"
           label="Confirm New Password"
           marginForm
-          onChange={e => onFormUpdate({ confirmNewPassword: e.target.value })}
+          onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
           placeholder="Confirm your new password"
-          value={confirmNewPassword}
+          value={confirmPassword}
         />
       </div>
       <div className={classes.formFooter}>
@@ -101,27 +101,27 @@ Password.defaultProps = {
 
 Password.propTypes = {
   classes: PropTypes.object.isRequired,
-  oldPassword: PropTypes.string.isRequired,
+  currentPassword: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  newPassword: PropTypes.string.isRequired,
-  confirmNewPassword: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  confirmPassword: PropTypes.string.isRequired,
   onFormUpdate: PropTypes.bool.isRequired,
   onSave: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const {
-    oldPassword,
-    newPassword,
-    confirmNewPassword,
+    currentPassword,
+    password,
+    confirmPassword,
   } = state.ui.dialogs.account.password.form;
 
   const { isSaving } = state.ui.dialogs.account.password;
 
   return {
-    oldPassword,
-    newPassword,
-    confirmNewPassword,
+    currentPassword,
+    password,
+    confirmPassword,
     isSaving,
   };
 };

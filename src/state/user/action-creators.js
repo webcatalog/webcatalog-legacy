@@ -5,6 +5,8 @@ import {
   USER_POST_SUCCESS,
   USER_PATCH_REQUEST,
   USER_PATCH_SUCCESS,
+  USER_PATCH_PASSWORD_REQUEST,
+  USER_PATCH_PASSWORD_SUCCESS,
 } from '../../constants/actions';
 
 export const userGetRequest = () => ({
@@ -30,4 +32,12 @@ export const userPatchRequest = () => ({
 
 export const userPatchSuccess = () => ({
   type: USER_PATCH_SUCCESS,
+});
+
+export const userPatchPasswordRequest = () => ({
+  type: USER_PATCH_PASSWORD_REQUEST,
+});
+
+export const userPatchPasswordSuccess = () => ({
+  type: USER_PATCH_PASSWORD_SUCCESS,
 });
