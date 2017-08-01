@@ -1,6 +1,6 @@
 {
   "name": "@webcatalog/molecule",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
@@ -12,7 +12,8 @@
     "build": "npm run build:main && npm run build:app",
     "build:main": "babel src --out-dir lib",
     "build:app": "cd app && npm run build",
-    "lint": "eslint ./src ./renderer/src"
+    "lint": "eslint ./src ./renderer/src",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
