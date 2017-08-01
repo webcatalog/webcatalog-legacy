@@ -21,33 +21,27 @@ const styleSheet = createStyleSheet('EmptyState', {
   },
 });
 
-class EmptyState extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const EmptyState = (props) => {
+  const {
+    classes,
+    Icon,
+    children,
+  } = props;
 
-  render() {
-    const {
-      classes,
-      Icon,
-      children,
-    } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Icon className={classes.icon} color={grey[400]} />
-        <br />
-        <Typography
-          className={classes.title}
-          color="inherit"
-          type="subheading"
-        >
-          {children}
-        </Typography>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classes.root}>
+      <Icon className={classes.icon} color={grey[400]} />
+      <br />
+      <Typography
+        className={classes.title}
+        color="inherit"
+        type="subheading"
+      >
+        {children}
+      </Typography>
+    </div>
+  );
+};
 
 EmptyState.propTypes = {
   classes: PropTypes.object.isRequired,

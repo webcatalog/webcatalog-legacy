@@ -8,7 +8,7 @@ import {
   dialogFeedbackSaveSuccess,
 } from './action-creators';
 
-import { postDraft } from '../../../drafts/actions';
+import { postFeedback } from '../../../feedback/actions';
 
 export const close = () =>
   (dispatch) => {
@@ -29,7 +29,7 @@ export const save = () =>
   (dispatch, getState) => {
     const data = getState().ui.dialogs.feedback.form;
     dispatch(dialogFeedbackSaveRequest());
-    return dispatch(postDraft(data))
+    return dispatch(postFeedback(data))
       .then(() => {
         dispatch(dialogFeedbackSaveSuccess());
         dispatch(openSnackbar(

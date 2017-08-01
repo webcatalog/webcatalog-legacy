@@ -4,7 +4,7 @@ import {
 } from './action-creators';
 import { apiPost } from '../api';
 
-export const postDraft = (data) =>
+export const postDraft = data =>
   (dispatch) => {
     dispatch(draftsPostRequest());
     return dispatch(apiPost('/drafts', data))

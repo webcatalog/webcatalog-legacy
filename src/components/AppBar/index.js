@@ -9,6 +9,7 @@ import Slide from 'material-ui/transitions/Slide';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import AddBoxIcon from 'material-ui-icons/AddBox';
+import FeedbackIcon from 'material-ui-icons/Feedback';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AppsIcon from 'material-ui-icons/Apps';
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
@@ -42,6 +43,7 @@ import {
 
 import { changeRoute } from '../../state/ui/routes/actions';
 import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
+import { open as openDialogFeedback } from '../../state/ui/dialogs/feedback/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 import {
@@ -243,6 +245,7 @@ class App extends React.Component {
       onChangeRoute,
       isViewingAllApps,
       isViewingMyApps,
+      onOpenDialogFeedback,
     } = this.props;
 
     const { isSearchBarOpen } = this.state;
@@ -346,7 +349,14 @@ class App extends React.Component {
                 <ListItemText primary="Help" />
               </MenuItem>
               <MenuItem
-                button 
+                button
+                onClick={onOpenDialogFeedback}
+              >
+                <ListItemIcon><FeedbackIcon /></ListItemIcon>
+                <ListItemText primary="Send feedback" />
+              </MenuItem>
+              <MenuItem
+                button
                 onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
               >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
@@ -442,6 +452,7 @@ App.propTypes = {
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
+  onOpenDialogFeedback: PropTypes.func.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   isViewingAllApps: PropTypes.bool.isRequired,
   isViewingMyApps: PropTypes.bool.isRequired,
@@ -462,6 +473,7 @@ const mapDispatchToProps = dispatch => ({
   onOpenDialogAbout: () => dispatch(openDialogAbout()),
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
   onOpenDialogAccount: () => dispatch(openDialogAccount()),
+  onOpenDialogFeedback: () => dispatch(openDialogFeedback()),
   onChangeRoute: route => dispatch(changeRoute(route)),
 });
 

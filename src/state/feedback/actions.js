@@ -4,7 +4,7 @@ import {
 } from './action-creators';
 import { apiPost } from '../api';
 
-export const postFeedback = (data) =>
+export const postFeedback = data =>
   (dispatch) => {
     dispatch(feedbackPostRequest());
     return dispatch(apiPost('/feedback', data))

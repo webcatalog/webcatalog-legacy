@@ -53,7 +53,8 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
+  // Please leave this for testing purposes
   console.log('state:', state);
   return {
     category: state.apps.queryParams.category,

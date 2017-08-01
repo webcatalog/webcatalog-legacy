@@ -14,6 +14,7 @@ import DialogAbout from '../Dialogs/About';
 import DialogSubmitApp from '../Dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
 import DialogAppDetails from '../Dialogs/AppDetails';
+import DialogFeedback from '../Dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
@@ -124,6 +125,7 @@ class MyApps extends React.Component {
       <DialogConfirmUninstallApp />,
       <DialogAppDetails />,
       <DialogAccount />,
+      <DialogFeedback />,
     ];
 
     let element;
@@ -137,7 +139,7 @@ class MyApps extends React.Component {
     } else {
       element = (
         <div>
-         {dialogs}
+          {dialogs}
           <Grid container>
             <Grid item xs={12}>
               <Grid container justify="center" gutter={24}>
