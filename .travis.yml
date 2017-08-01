@@ -16,6 +16,9 @@ addons:
     packages:
     - rpm
     - bsdtar
+before_install:
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+- npm whoami
 before_script:
 - yarn lint
 script:
