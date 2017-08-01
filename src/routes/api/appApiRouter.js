@@ -24,7 +24,7 @@ appApiRouter.get('/', (req, res, next) => {
   const offset = (currentPage - 1) * limit;
 
   if (limit > 50) {
-    return next(new errors.BadRequest('bad_request', 'Maximum limit: 50'));
+    return next(new errors.BadRequest('Maximum limit: 50'));
   }
 
   const opts = {
@@ -205,17 +205,17 @@ const compileUploadImagesAsync = (fileName, appId) =>
 
 appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upload.single('icon'), (req, res, next) => {
   if (!req.body) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   return App.findById(req.params.id)
     .then((app) => {
       if (!app.userId && !req.user.isAdmin) {
-        return Promise.reject(new errors.CustomError('admin_only', 'Admin permission is required.'));
+        return Promise.reject(new errors.CustomError('AdminOnly', 'Admin permission is required.'));
       }
 
       if (app.userId && app.userId !== req.user.id) {
-        return Promise.reject(new errors.BadRequest('bad_request'));
+        return Promise.reject(new errors.BadRequest());
       }
 
       return Promise.resolve()
@@ -266,13 +266,13 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
 
 appApiRouter.post('/', passport.authenticate('jwt', { session: false }), upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file || !req.body.name || !req.body.url || !req.body.category) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   const wikipediaTitle = req.body.wikipediaTitle || req.body.name;
 
   if (req.body.public && !req.user.isAdmin) {
-    return next(new errors.CustomError('admin_only', 'Admin permission is required.'));
+    return next(new errors.CustomError('AdminOnly', 'Admin permission is required.'));
   }
 
   return fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${encodeURIComponent(wikipediaTitle)}`)

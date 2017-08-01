@@ -70,7 +70,7 @@ userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, r
 
 userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   if (!req.body) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   return User.findById(req.user.id)
@@ -103,14 +103,14 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
 });
 
 userApiRouter.patch('/password', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
-  if (!req.body.email || !req.body.password) {
-    return next(new errors.BadRequest('bad_request'));
+  if (!req.body.currentPassword || !req.body.password) {
+    return next(new errors.BadRequest());
   }
 
   if (req.body.password.length < 6) {
-    return next(new errors.CustomError('bad_request', 'Password must have at least 6 characters.'));
+    return next(new errors.BadRequest('Password must have at least 6 characters.'));
   }
 
   return User.findById(req.user.id)
@@ -124,7 +124,7 @@ userApiRouter.patch('/password', passport.authenticate('jwt', { session: false }
         })
         .then((isValid) => {
           if (isValid === false) {
-            return Promise.reject(new errors.CustomError('wrong_password', 'Incorrect password.'));
+            return Promise.reject(new errors.CustomError('WrongPassword', 'Incorrect password.'));
           }
 
           const newAttributes = {
@@ -132,11 +132,9 @@ userApiRouter.patch('/password', passport.authenticate('jwt', { session: false }
           };
 
           return user.updateAttributes(newAttributes)
-            .then(() => {
-              res.json({
-                success: true,
-              });
-            });
+            .then(() => res.json({
+              success: true,
+            }));
         }),
     )
     .catch(next);
@@ -144,10 +142,10 @@ userApiRouter.patch('/password', passport.authenticate('jwt', { session: false }
 
 
 userApiRouter.post('/', (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.email || !req.body.password || !isEmail(req.body.email)) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   if (req.body.password.length < 6) {
@@ -193,7 +191,7 @@ userApiRouter.post('/', (req, res, next) => {
 
 userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   if (!req.body) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   return User.findById(req.user.id)

@@ -13,7 +13,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   User.findById(id)
     .then((user) => {
-      if (!user) return done(new errors.CustomError('user_not_found', 'User not found'));
+      if (!user) return done(new errors.CustomError('UserNotFound', 'User not found'));
       return done(null, user);
     })
     .catch(err => done(err));
@@ -66,7 +66,7 @@ passport.use(new LocalStrategy(
       .then((user) => {
         if (!user) { return cb(null, false); }
 
-        if (!user.password || user.password.length < 1) return cb(new errors.CustomError('no_password', 'User doesn\'t have password.'), false);
+        if (!user.password || user.password.length < 1) return cb(new errors.CustomError('NoPassword', 'User doesn\'t have password.'), false);
 
         return bcrypt.compare(password, user.password).then((isValid) => {
           if (isValid === true) return cb(null, user);

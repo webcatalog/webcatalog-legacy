@@ -13,7 +13,7 @@ authApiRouter.post('/',
       }
 
       if (!user) {
-        return next(new errors.CustomError('wrong_password', 'Incorrect password.'));
+        return next(new errors.CustomError('UserNotFound'));
       }
 
       const payload = { id: user.id };

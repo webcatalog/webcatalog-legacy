@@ -131,14 +131,14 @@ authRouter.get('/sign-up', beforeAuthMiddleware, (req, res) => {
 });
 
 authRouter.post('/sign-up', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.email || !req.body.password || !isEmail(req.body.email)) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   if (req.body.password.length < 6) {
-    return next(new errors.CustomError('bad_request', 'Password must have at least 6 characters.'));
+    return next(new errors.BadRequest('Password must have at least 6 characters.'));
   }
 
   return User.findOne({ where: { email: req.body.email } })
@@ -182,10 +182,10 @@ authRouter.get('/reset-password', beforeAuthMiddleware, (req, res) => {
 });
 
 authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.email || !isEmail(req.body.email)) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   return User.findOne({ where: { email: req.body.email } })
@@ -241,10 +241,10 @@ authRouter.get('/reset-password/:token', beforeAuthMiddleware, (req, res, next) 
 });
 
 authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.password) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   return User.findOne({
@@ -255,7 +255,7 @@ authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next)
   })
   .then((user) => {
     if (!user) {
-      return next(new errors.CustomError('bad_request', 'Token is expired or invalid.'));
+      return next(new errors.BadRequest('Token is expired or invalid.'));
     }
 
     return bcrypt.hash(req.body.password, 10)
@@ -297,7 +297,7 @@ authRouter.get('/verify/:token', (req, res, next) => {
   })
   .then((user) => {
     if (!user) {
-      return next(new errors.BadRequest('bad_request', 'Token is invalid.'));
+      return next(new errors.BadRequest('Token is invalid.'));
     }
 
     return user.updateAttributes({

@@ -10,10 +10,10 @@ const intercomClient = new IntercomClient({ token: process.env.INTERCOM_ACCESS_T
 draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   console.log(req.body);
 
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.name || !req.body.url) {
-    return next(new errors.BadRequest('bad_request'));
+    return next(new errors.BadRequest());
   }
 
   const message = {

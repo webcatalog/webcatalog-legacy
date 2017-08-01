@@ -114,7 +114,7 @@ adminRouter.get('/edit/id:id', ensureIsAdmin, (req, res, next) => {
 });
 
 adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request'));
+  if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.name || !req.body.url || !req.body.category) {
     return res.send('Please fill in all fields.');
@@ -163,7 +163,7 @@ adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res,
 });
 
 adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
-  if (!req.body || !req.file) return next(new errors.BadRequest('bad_request'));
+  if (!req.body || !req.file) return next(new errors.BadRequest());
 
   if (!req.body.name || !req.body.url || !req.body.category) {
     return res.send('Please fill in all fields.');

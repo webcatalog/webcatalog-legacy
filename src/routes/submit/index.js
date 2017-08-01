@@ -13,10 +13,10 @@ submitRouter.get('/', ensureLoggedIn, (req, res) => {
 });
 
 submitRouter.post('/', ensureLoggedIn, (req, res, next) => {
-  if (!req.body) return next(new errors.BadRequest('bad_request', 'Request is not valid.'));
+  if (!req.body) return next(new errors.BadRequest('Request is not valid.'));
 
   if (!req.body.name || !req.body.url) {
-    return next(new errors.BadRequest('bad_request', 'Request is not valid.'));
+    return next(new errors.BadRequest('Request is not valid.'));
   }
 
   const message = {
