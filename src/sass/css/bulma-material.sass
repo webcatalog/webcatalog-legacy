@@ -15,7 +15,7 @@ $navbar-background: $blue
 $navbar-dropdown-arrow: #fff
 $navbar-height: 64px
 $navbar-item: #fff
-$navbar-item-hover-background: #1565C0
+$navbar-item-hover-background: transparent
 
 $navbar-dropdown-background: #1565C0
 $navbar-dropdown-item-hover-background: #0D47A1
@@ -38,6 +38,8 @@ body, .section
       &:hover
         background-color: $navbar-item-hover-background
     .navbar-item
+      &:hover
+        text-decoration: underline
       &.logo
         padding-top: 0
         padding-bottom: 0
