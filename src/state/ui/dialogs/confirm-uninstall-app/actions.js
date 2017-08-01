@@ -1,5 +1,6 @@
-/* global ipcRenderer */
 import { openSnackbar } from '../../snackbar/actions';
+
+import uninstallAppAsync from '../../../../utils/uninstallAppAsync';
 
 import {
   dialogConfirmUninstallAppClose,
@@ -24,17 +25,14 @@ export const save = () =>
 
     dispatch(dialogConfirmUninstallAppSaveRequest());
 
-    const listener = (e, id, status) => {
-      if (id === app.id && status === null) {
+    uninstallAppAsync(app.id, app.name)
+      .then(() => {
         dispatch(dialogConfirmUninstallAppSaveSuccess());
         dispatch(openSnackbar('Your app has been successfully uninstalled.'));
         dispatch(close());
-
-        ipcRenderer.removeListener('set-managed-app', listener);
-      }
-    };
-
-    ipcRenderer.on('set-managed-app', listener);
-
-    ipcRenderer.send('uninstall-app', app.id, app);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line
+        console.log(err);
+      });
   };

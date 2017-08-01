@@ -7,11 +7,13 @@ const appsInitialState = {};
 const apps = (state = appsInitialState, action) => {
   switch (action.type) {
     case MANAGED_APP_SET: {
-      const updatedManagedApps = state;
+      const updatedManagedApps = Object.assign({}, state);
+
+      const currentManageApp = updatedManagedApps[action.id] || {};
 
       updatedManagedApps[action.id] = {
         status: action.status,
-        app: action.app,
+        app: action.app || currentManageApp.app,
       };
 
       return { ...state, ...updatedManagedApps };

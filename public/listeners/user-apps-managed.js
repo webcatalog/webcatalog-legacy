@@ -21,12 +21,12 @@ const loadUserAppsManagedListeners = () => {
     openApp(id, name);
   });
 
-  ipcMain.on('uninstall-app', (e, id, appObj) => {
+  ipcMain.on('uninstall-app', (e, id, name) => {
     e.sender.send('set-managed-app', id, 'UNINSTALLING');
 
-    uninstallAppAsync(id, appObj.name, { shouldClearStorageData: true })
+    uninstallAppAsync(id, name, { shouldClearStorageData: true })
       .then(() => e.sender.send('set-managed-app', id, null))
-      .catch(() => e.sender.send('set-managed-app', id, 'INSTALLED', appObj));
+      .catch(() => e.sender.send('set-managed-app', id, 'INSTALLED'));
   });
 };
 
