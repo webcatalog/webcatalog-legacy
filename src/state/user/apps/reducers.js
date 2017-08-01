@@ -5,8 +5,6 @@ import {
   USER_APPS_GET_SUCCESS,
 } from '../../../constants/actions';
 
-import managed from './managed/reducers';
-
 const apiDataInitialState = {
   apps: [],
   totalPage: 0,
@@ -29,5 +27,4 @@ const isGetting = (state = false, action) => {
 export default combineReducers({
   apiData,
   isGetting,
-  managed,
 });

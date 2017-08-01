@@ -1,18 +1,20 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import apps from './apps/reducers';
 import auth from './auth/reducers';
+import local from './local/reducers';
 import ui from './ui/reducers';
 import updater from './updater/reducers';
 import user from './user/reducers';
-import apps from './apps/reducers';
 
 const rootReducer = combineReducers({
+  apps,
   auth,
+  local,
   ui,
   updater,
   user,
-  apps,
 });
 
 const configureStore = initialState =>

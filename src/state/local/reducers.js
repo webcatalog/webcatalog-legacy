@@ -1,12 +1,14 @@
+import { combineReducers } from 'redux';
+
 import {
-  MANAGED_APP_SET,
-  MANAGED_APP_REMOVE,
-} from '../../../../constants/actions';
+  LOCAL_APP_SET,
+  LOCAL_APP_REMOVE,
+} from '../../constants/actions';
 
 const appsInitialState = {};
 const apps = (state = appsInitialState, action) => {
   switch (action.type) {
-    case MANAGED_APP_SET: {
+    case LOCAL_APP_SET: {
       const updatedManagedApps = Object.assign({}, state);
 
       const currentManageApp = updatedManagedApps[action.id] || {};
@@ -18,7 +20,7 @@ const apps = (state = appsInitialState, action) => {
 
       return { ...state, ...updatedManagedApps };
     }
-    case MANAGED_APP_REMOVE: {
+    case LOCAL_APP_REMOVE: {
       const updatedManagedApps = state;
 
       delete updatedManagedApps[action.id];
@@ -30,4 +32,6 @@ const apps = (state = appsInitialState, action) => {
   }
 };
 
-export default apps;
+export default combineReducers({
+  apps,
+});

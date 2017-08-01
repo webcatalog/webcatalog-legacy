@@ -6,12 +6,12 @@ const openApp = require('../libs/openApp');
 const scanInstalledAsync = require('../libs/scanInstalledAsync');
 const uninstallAppAsync = require('../libs/uninstallAppAsync');
 
-const loadUserAppsManagedListeners = () => {
+const loadLocalListeners = () => {
   ipcMain.on('scan-installed-apps', (e) => {
     scanInstalledAsync()
       .then((installedApps) => {
         installedApps.forEach((installedApp) => {
-          e.sender.send('set-managed-app', installedApp.id, 'INSTALLED', installedApp);
+          e.sender.send('set-local-app', installedApp.id, 'INSTALLED', installedApp);
         });
       })
       .catch(err => e.sender.send('log', err));
@@ -22,12 +22,12 @@ const loadUserAppsManagedListeners = () => {
   });
 
   ipcMain.on('uninstall-app', (e, id, name) => {
-    e.sender.send('set-managed-app', id, 'UNINSTALLING');
+    e.sender.send('set-local-app', id, 'UNINSTALLING');
 
     uninstallAppAsync(id, name, { shouldClearStorageData: true })
-      .then(() => e.sender.send('set-managed-app', id, null))
-      .catch(() => e.sender.send('set-managed-app', id, 'INSTALLED'));
+      .then(() => e.sender.send('set-local-app', id, null))
+      .catch(() => e.sender.send('set-local-app', id, 'INSTALLED'));
   });
 };
 
-module.exports = loadUserAppsManagedListeners;
+module.exports = loadLocalListeners;

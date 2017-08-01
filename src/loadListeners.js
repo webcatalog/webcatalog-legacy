@@ -5,9 +5,9 @@ import {
 } from './state/auth/actions';
 
 import {
-  setManagedApp,
-  removeManagedApp,
-} from './state/user/apps/managed/actions';
+  setLocalApp,
+  removeLocalApp,
+} from './state/local/actions';
 
 import {
   setUpdaterStatus,
@@ -30,10 +30,10 @@ const loadListeners = (store) => {
     store.dispatch(openSnackbar(message));
   });
 
-  ipcRenderer.on('set-managed-app', (e, id, status, app) => {
-    if (!status) return store.dispatch(removeManagedApp(id));
+  ipcRenderer.on('set-local-app', (e, id, status, app) => {
+    if (!status) return store.dispatch(removeLocalApp(id));
 
-    return store.dispatch(setManagedApp(id, status, app));
+    return store.dispatch(setLocalApp(id, status, app));
   });
 
   ipcRenderer.on('set-updater-status', (e, status, info) => {

@@ -7,11 +7,11 @@ const uninstallAppAsync = (id, name) =>
         if (id === receivedId && receivedStatus === null) {
           resolve();
 
-          ipcRenderer.removeListener('set-managed-app', listener);
+          ipcRenderer.removeListener('set-local-app', listener);
         }
       };
 
-      ipcRenderer.on('set-managed-app', listener);
+      ipcRenderer.on('set-local-app', listener);
 
       ipcRenderer.send('uninstall-app', id, name);
     } catch (err) {
