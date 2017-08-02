@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import blue from 'material-ui/colors/blue';
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -38,9 +37,6 @@ const styleSheet = createStyleSheet('Home', (theme) => {
   return {
     button: {
       color: grey[600],
-    },
-    buttonInstalled: {
-      color: blue[500],
     },
     scrollContainer: {
       flex: 1,
@@ -143,14 +139,14 @@ const AppCard = (props) => {
       return (
         <div>
           <Button
-            className={classes.buttonInstalled}
+            className={classes.button}
             onClick={handleOpenApp}
           >
             <ExitToAppIcon color="inherit" />
             <span className={classes.buttonText}>Open</span>
           </Button>
           <Button
-            className={classes.buttonInstalled}
+            className={classes.button}
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
             <DeleteIcon color="inherit" />

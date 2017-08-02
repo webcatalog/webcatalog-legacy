@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import { LinearProgress } from 'material-ui/Progress';
 import {
   createStyleSheet,
   withStyles,
@@ -72,8 +72,8 @@ const ConfirmUninstallApp = (props) => {
           Cancel
         </Button>
         <Button
+          color="accent"
           disabled={isSaving}
-          color="primary"
           onClick={onSave}
         >
           {saveButtonText}
