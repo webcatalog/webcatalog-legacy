@@ -19,6 +19,10 @@ const buildQueryParamsUrl = (url, queryParams) => {
   return queryParamsPath;
 };
 
+export const setPage = page => (dispatch) => {
+  dispatch(appsSetPage(page));
+};
+
 export const getApps = ({ next = false } = {}) =>
   (dispatch, getState) => {
     const state = getState();
@@ -41,14 +45,9 @@ export const getApps = ({ next = false } = {}) =>
     dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=30&page=${currentPage}`, queryParams)))
       .then(res => res.json())
       .then(res => dispatch(appsGetSuccess(res)))
+      .then(() => dispatch(setPage(currentPage)))
       .catch(() => {});
   };
-
-export const setPage = page => (dispatch) => {
-  dispatch(appsSetPage(page));
-  dispatch(appsReset());
-  dispatch(getApps());
-};
 
 export const setCategory = category => (dispatch) => {
   dispatch(appsSetCategory(category));

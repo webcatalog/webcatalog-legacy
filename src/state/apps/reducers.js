@@ -55,7 +55,10 @@ const apiDataInitialState = {
 };
 const apiData = (state = apiDataInitialState, action) => {
   switch (action.type) {
-    case APPS_GET_SUCCESS: return { ...state, ...action.res };
+    case APPS_GET_SUCCESS: return {
+      apps: state.apps.concat(action.res.apps),
+      totalPage: action.res.totalPage,
+    };
     case APPS_RESET: {
       const { category, sortBy, sortOrder } = state;
       return { ...apiDataInitialState, ...{ category, sortBy, sortOrder } };
