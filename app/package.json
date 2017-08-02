@@ -1,7 +1,7 @@
 {
   "name": "Molecule",
   "main": "main/electron.js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",

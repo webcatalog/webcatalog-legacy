@@ -17,12 +17,16 @@ const execAsync = command =>
   });
 
 const copyAsync = (src, dist) =>
-  execAsync(`mkdir -p ${dist}`)
-    .then(() => execAsync(`cp -r ${src}/* ${dist}`));
+  execAsync(`mkdir -p "${dist}"`)
+    // eslint-disable-next-line
+    .then(() => console.log(`cp -r "${src}"/* ${dist}`))
+    .then(() => execAsync(`cp -r "${src}"/* ${dist}`));
 
 const moveAsync = (src, dist) =>
-  execAsync(`mkdir -p ${dist}`)
-    .then(() => execAsync(`mv ${src}/* ${dist}`));
+  execAsync(`mkdir -p "${dist}"`)
+    // eslint-disable-next-line
+    .then(() => console.log(`mv "${src}"/* "${dist}"`))
+    .then(() => execAsync(`mv "${src}"/* "${dist}"`));
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
