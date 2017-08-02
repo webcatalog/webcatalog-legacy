@@ -17,7 +17,7 @@ const createTmpDirAsync = () =>
 const createAppAsync = (id, name, url, icon, out) =>
   createTmpDirAsync()
     .then((tmpDir) => {
-      const appDir = path.resolve(__dirname, '..', 'app');
+      const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
 
       return fs.copy(appDir, tmpDir)
         .then(() => {
