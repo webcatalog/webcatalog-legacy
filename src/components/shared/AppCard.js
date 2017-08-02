@@ -4,25 +4,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import GetAppIcon from 'material-ui-icons/GetApp';
-import DeleteIcon from 'material-ui-icons/Delete';
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import blue from 'material-ui/colors/blue';
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Grid from 'material-ui/Grid';
+import DeleteIcon from 'material-ui-icons/Delete';
+import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+import GetAppIcon from 'material-ui-icons/GetApp';
 import grey from 'material-ui/colors/grey';
-import blue from 'material-ui/colors/blue';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCardMoreMenuButton from './AppCardMoreMenuButton';
 
 import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+import { installApp } from '../../state/local/actions';
 import {
-  INSTALLED,
-  NOT_INSTALLED,
-} from '../../constants/appStatuses';
+  isInstalled as isInstalledUtil,
+  isUninstalling as isUninstallingUtil,
+  isInstalling as isInstallingUtil,
+} from '../../state/local/utils';
 
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
@@ -126,6 +128,9 @@ const AppCard = (props) => {
     app,
     classes,
     isInstalled,
+    isInstalling,
+    isUninstalling,
+    onInstallApp,
     onOpenConfirmUninstallAppDialog,
   } = props;
 
@@ -133,30 +138,42 @@ const AppCard = (props) => {
     ipcRenderer.send('open-app', app.id, app.name);
   };
 
-  const actionsElement = isInstalled
-    ? (
-      <div>
-        <Button
-          className={classes.buttonInstalled}
-          onClick={handleOpenApp}
-        >
-          <ExitToAppIcon color="inherit" />
-          <span className={classes.buttonText}>Open</span>
-        </Button>
-        <Button
-          className={classes.buttonInstalled}
-          onClick={() => onOpenConfirmUninstallAppDialog({ app })}
-        >
-          <DeleteIcon color="inherit" />
-          <span className={classes.buttonText}>Uninstall</span>
-        </Button>
-      </div>
-    ) : (
-      <Button className={classes.button}>
+  const renderActionsElement = () => {
+    if (isInstalled) {
+      return (
+        <div>
+          <Button
+            className={classes.buttonInstalled}
+            onClick={handleOpenApp}
+          >
+            <ExitToAppIcon color="inherit" />
+            <span className={classes.buttonText}>Open</span>
+          </Button>
+          <Button
+            className={classes.buttonInstalled}
+            onClick={() => onOpenConfirmUninstallAppDialog({ app })}
+          >
+            <DeleteIcon color="inherit" />
+            <span className={classes.buttonText}>Uninstall</span>
+          </Button>
+        </div>
+      );
+    }
+
+    if (isInstalling || isUninstalling) {
+      return (<div>Loading...</div>);
+    }
+
+    return (
+      <Button
+        className={classes.button}
+        onClick={() => onInstallApp(app.id, app.name)}
+      >
         <GetAppIcon color="inherit" />
         <span className={classes.buttonText}>Install</span>
       </Button>
     );
+  };
 
   return (
     <Grid key={app.id} item>
@@ -179,7 +196,7 @@ const AppCard = (props) => {
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          {actionsElement}
+          {renderActionsElement()}
         </CardActions>
       </Card>
     </Grid>
@@ -193,21 +210,24 @@ AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   isInstalled: PropTypes.bool.isRequired,
+  isInstalling: PropTypes.bool.isRequired,
+  isUninstalling: PropTypes.bool.isRequired,
+  onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  const status = state.local.apps[app.id] ?
-    state.local.apps[app.id].status : NOT_INSTALLED;
-
   return {
-    isInstalled: status === INSTALLED,
+    isInstalled: isInstalledUtil(state, app.id),
+    isInstalling: isInstallingUtil(state, app.id),
+    isUninstalling: isUninstallingUtil(state, app.id),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  onInstallApp: (id, name) => dispatch(installApp(id, name)),
   onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
 });
 

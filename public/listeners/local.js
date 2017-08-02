@@ -5,6 +5,7 @@ const {
 const openApp = require('../libs/openApp');
 const scanInstalledAsync = require('../libs/scanInstalledAsync');
 const uninstallAppAsync = require('../libs/uninstallAppAsync');
+const installAppAsync = require('../libs/installAppAsync');
 
 const loadLocalListeners = () => {
   ipcMain.on('scan-installed-apps', (e) => {
@@ -26,7 +27,21 @@ const loadLocalListeners = () => {
 
     uninstallAppAsync(id, name, { shouldClearStorageData: true })
       .then(() => e.sender.send('set-local-app', id, null))
-      .catch(() => e.sender.send('set-local-app', id, 'INSTALLED'));
+      .catch((err) => {
+        e.sender.send('log', err);
+        e.sender.send('set-local-app', id, 'INSTALLED');
+      });
+  });
+
+  ipcMain.on('install-app', (e, appObj) => {
+    e.sender.send('set-local-app', appObj.id, 'INSTALLING');
+
+    installAppAsync(appObj)
+      .then(() => e.sender.send('set-local-app', appObj.id, 'INSTALLED'))
+      .catch((err) => {
+        e.sender.send('log', err);
+        e.sender.send('set-local-app', appObj.id, null);
+      });
   });
 };
 

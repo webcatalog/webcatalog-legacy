@@ -22,6 +22,11 @@ import {
 
 
 const loadListeners = (store) => {
+  ipcRenderer.on('log', (e, message) => {
+    // eslint-disable-next-line
+    console.log(message);
+  });
+
   ipcRenderer.on('set-auth-token', (e, token) => {
     store.dispatch(setAuthToken(token));
   });

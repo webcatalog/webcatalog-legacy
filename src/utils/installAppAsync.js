@@ -1,18 +1,18 @@
 /* global ipcRenderer */
 import { INSTALLED } from '../constants/appStatuses';
 
-const uninstallAppAsync = (id, name) =>
+const installAppAsync = appObj =>
   new Promise((resolve, reject) => {
     try {
       const listener = (e, receivedId, receivedStatus) => {
-        if (id === receivedId) {
-          if (receivedStatus === null) {
+        if (appObj.id === receivedId) {
+          if (receivedStatus === INSTALLED) {
             resolve();
             ipcRenderer.removeListener('set-local-app', listener);
           }
 
-          if (receivedStatus === INSTALLED) {
-            reject(new Error('Uninstalling failed.'));
+          if (receivedStatus === null) {
+            reject(new Error('Installing failed.'));
             ipcRenderer.removeListener('set-local-app', listener);
           }
         }
@@ -20,10 +20,10 @@ const uninstallAppAsync = (id, name) =>
 
       ipcRenderer.on('set-local-app', listener);
 
-      ipcRenderer.send('uninstall-app', id, name);
+      ipcRenderer.send('install-app', appObj);
     } catch (err) {
       reject(err);
     }
   });
 
-export default uninstallAppAsync;
+export default installAppAsync;
