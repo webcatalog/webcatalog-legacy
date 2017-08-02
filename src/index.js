@@ -1,7 +1,28 @@
+const exec = require('child_process').exec;
 const fs = require('fs-extra');
 const packager = require('electron-packager');
 const path = require('path');
 const tmp = require('tmp');
+
+const execAsync = command =>
+  new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      resolve(stdout, stderr);
+    });
+  });
+
+const copyAsync = (src, dist) =>
+  execAsync(`mkdir -p ${dist}`)
+    .then(() => execAsync(`cp -r ${src}/* ${dist}`));
+
+const moveAsync = (src, dist) =>
+  execAsync(`mkdir -p ${dist}`)
+    .then(() => execAsync(`mv ${src}/* ${dist}`));
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
@@ -19,7 +40,7 @@ const createAppAsync = (id, name, url, icon, out) =>
     .then((tmpDir) => {
       const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
 
-      return fs.copy(appDir, tmpDir)
+      return copyAsync(appDir, tmpDir)
         .then(() => {
           const packageJsonPath = path.resolve(tmpDir, 'package.json');
           return fs.readJson(packageJsonPath)
@@ -64,10 +85,9 @@ const createAppAsync = (id, name, url, icon, out) =>
                 }
               }
 
-              return fs.move(
+              return moveAsync(
                 path.resolve(appPaths[0], binaryFileName),
                 path.resolve(out, binaryFileName),
-                { overwrite: true },
               );
             });
         });

@@ -11,4 +11,4 @@ createAppAsync(
   path.resolve(__dirname, 'dist'),
 )
 .then(() => console.log('ok'))
-.then(err => console.log(err));
+.catch(err => console.log(err));
