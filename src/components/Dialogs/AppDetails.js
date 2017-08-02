@@ -108,15 +108,17 @@ const AppDetails = (props) => {
 };
 
 AppDetails.defaultProps = {
+  name: null,
+  description: null,
   open: false,
 };
 
 AppDetails.propTypes = {
   classes: PropTypes.object.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

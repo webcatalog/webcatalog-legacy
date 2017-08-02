@@ -35,10 +35,9 @@ const App = (props) => {
 
   return (
     <div className={classes.root}>
-      {isLoggedIn ? [
-        <AppBar />,
-        appsElement,
-      ] : <Login />}
+      {isLoggedIn && <AppBar />}
+      {isLoggedIn && appsElement}
+      {!isLoggedIn && <Login />}
       <EnhancedSnackBar />
     </div>
   );

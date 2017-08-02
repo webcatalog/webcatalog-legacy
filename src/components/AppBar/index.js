@@ -362,7 +362,7 @@ class App extends React.Component {
             >
               <Toolbar className={classes.toolbar}>
                 <IconButton
-                  color={grey[100]}
+                  color="default"
                   aria-label="Menu"
                   onClick={() => this.handleToggleSearchBar()}
                 >
@@ -379,7 +379,7 @@ class App extends React.Component {
                   />
                 </Typography>
                 <IconButton
-                  color={grey[100]}
+                  color="default"
                   aria-label="Close"
                   onClick={() => this.handleToggleSearchBar()}
                 >

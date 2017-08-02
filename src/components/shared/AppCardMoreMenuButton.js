@@ -81,6 +81,7 @@ class MoreMenuButton extends React.Component {
     const menuElements = [
       <ListItem
         button
+        key="moreInfo"
         onClick={this.handleOpenAppDetailsDialog}
       >
         <ListItemText primary="More info" />
@@ -91,6 +92,7 @@ class MoreMenuButton extends React.Component {
       menuElements.push(
         <ListItem
           button
+          key="open"
           onClick={this.handleOpenApp}
         >
           <ListItemText primary="Open" />
@@ -100,6 +102,7 @@ class MoreMenuButton extends React.Component {
       menuElements.push(
         <ListItem
           button
+          key="uninstall"
           onClick={this.handleOpenConfirmUninstallAppDialog}
         >
           <ListItemText primary="Uninstall" />
@@ -109,6 +112,7 @@ class MoreMenuButton extends React.Component {
       menuElements.push(
         <ListItem
           button
+          key="install"
           onClick={this.handleInstall}
         >
           <ListItemText primary="Install" />

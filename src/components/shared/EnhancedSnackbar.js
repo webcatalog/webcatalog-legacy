@@ -43,10 +43,17 @@ const mapStateToProps = state => ({
   message: state.ui.snackbar.message,
 });
 
+EnhancedSnackbar.defaultProps = {
+  message: '',
+};
+
 EnhancedSnackbar.propTypes = {
-  actionText: PropTypes.element.isRequired,
+  actionText: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   open: PropTypes.bool.isRequired,
-  message: PropTypes.bool.isRequired,
+  message: PropTypes.string,
   onCloseSnackbar: PropTypes.func.isRequired,
 };
 

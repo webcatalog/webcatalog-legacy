@@ -23,6 +23,7 @@ const SortMenuButton = (props) => {
 
   return (
     <EnhancedMenu
+      id="sortMenuButton"
       buttonElement={(
         <IconButton aria-label="More" color={iconButtonColor}>
           <SortIcon />

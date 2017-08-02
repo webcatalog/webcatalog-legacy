@@ -31,6 +31,7 @@ const FilterMenuButton = (props) => {
 
   return (
     <EnhancedMenu
+      id="filterMenuButton"
       buttonElement={(
         <IconButton
           aria-label="More"
@@ -50,7 +51,7 @@ FilterMenuButton.defaultProps = {
 };
 
 FilterMenuButton.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string,
   onSetCategory: PropTypes.func.isRequired,
 };
 

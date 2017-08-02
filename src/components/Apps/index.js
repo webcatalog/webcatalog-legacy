@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Grid from 'material-ui/Grid';
-import grey from 'material-ui/colors/grey';
+import { LinearProgress } from 'material-ui/Progress';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 
 import AppCard from '../shared/AppCard';
 import DialogAccount from '../Dialogs/Account';
@@ -18,67 +18,15 @@ import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
 import { getApps } from '../../state/apps/actions';
 
-const styleSheet = createStyleSheet('Apps', theme => ({
+const styleSheet = createStyleSheet('Apps', () => ({
+  grid: {
+    marginBottom: 16,
+  },
   scrollContainer: {
     flex: 1,
     padding: 36,
     overflow: 'auto',
     boxSizing: 'border-box',
-  },
-
-  card: {
-    width: 200,
-    boxSizing: 'border-box',
-  },
-
-  appName: {
-    marginTop: 16,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-
-  paperIcon: {
-    width: 60,
-    height: 'auto',
-  },
-
-  titleText: {
-    fontWeight: 500,
-    lineHeight: 1.5,
-    marginTop: theme.spacing.unit,
-  },
-  cardContent: {
-    position: 'relative',
-    backgroundColor: grey[100],
-    // height: 100,
-    // flex
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  domainText: {
-    fontWeight: 400,
-    lineHeight: 1,
-    marginBottom: theme.spacing.unit,
-  },
-  cardActions: {
-    justifyContent: 'center',
-  },
-
-  rightButton: {
-    marginLeft: theme.spacing.unit,
-  },
-  iconButton: {
-    margin: 0,
-  },
-
-  moreIconMenu: {
-    position: 'absolute',
-    transform: 'translate(58px, -16px)',
-  },
-  hiddenMenuItem: {
-    display: 'none',
   },
 }));
 
@@ -111,28 +59,24 @@ class Apps extends React.Component {
       apps,
     } = this.props;
 
-    const dialogs = [
-      <DialogAbout />,
-      <DialogSubmitApp />,
-      <DialogConfirmUninstallApp />,
-      <DialogAppDetails />,
-      <DialogAccount />,
-    ];
-
     return (
       <div
         className={classes.scrollContainer}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        {dialogs}
-        <Grid container>
+        <DialogAbout />
+        <DialogSubmitApp />
+        <DialogConfirmUninstallApp />
+        <DialogAppDetails />
+        <DialogAccount />
+        <Grid container className={classes.grid}>
           <Grid item xs={12}>
             <Grid container justify="center" gutter={24}>
-              {apps.map(app => <AppCard app={app} />)}
+              {apps.map(app => <AppCard key={app.id} app={app} />)}
             </Grid>
           </Grid>
         </Grid>
-        {isGetting && (<div>loading</div>)}
+        {isGetting && (<LinearProgress />)}
       </div>
     );
   }
