@@ -4,7 +4,7 @@
   "description": "WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.",
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && node hacky.js",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
@@ -58,6 +58,7 @@
     "react-scripts": "^1.0.10",
     "redux": "^3.7.2",
     "redux-thunk": "^2.1.0",
+    "replace-in-file": "^2.5.3",
     "request": "^2.81.0",
     "spectron": "^3.7.2",
     "typeface-roboto": "^0.0.31",
@@ -70,6 +71,9 @@
   "proxy": "https://getwebcatalog.com",
   "build": {
     "appId": "com.webcatalog.app",
+    "asarUnpack": [
+      "node_modules/@webcatalog/molecule/app/**/*"
+    ],
     "directories": {
       "buildResources": "build-resources"
     },
