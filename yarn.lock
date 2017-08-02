@@ -1067,7 +1067,7 @@ babel-runtime@6.23.0, babel-runtime@~6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0:
+babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
@@ -5037,11 +5037,11 @@ material-ui-icons@^1.0.0-alpha.19:
   dependencies:
     recompose "^0.23.5"
 
-material-ui@^1.0.0-beta.2:
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-beta.2.tgz#92b36180be67153bc23b73a240ca354f741010eb"
+material-ui@1.0.0-beta.3:
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-beta.3.tgz#95f2fb33dfa6b42f18a5e5d5dc2dbeffa97b790d"
   dependencies:
-    babel-runtime "^6.23.0"
+    babel-runtime "^6.25.0"
     brcast "^2.0.1"
     classnames "^2.2.5"
     deepmerge "^1.5.0"
@@ -5053,9 +5053,9 @@ material-ui@^1.0.0-beta.2:
     lodash "^4.17.4"
     prop-types "^15.5.10"
     react-event-listener "^0.4.5"
-    react-jss "^7.0.1"
+    react-jss "^7.0.2"
     react-scrollbar-size "^2.0.0"
-    react-transition-group "^1.2.0"
+    react-transition-group "^2.2.0"
     recompose "^0.24.0"
     scroll "^2.0.0"
     warning "^3.0.0"
@@ -6160,7 +6160,7 @@ promise@7.1.1, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -6319,7 +6319,7 @@ react-event-listener@^0.4.5:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-jss@^7.0.1:
+react-jss@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/react-jss/-/react-jss-7.0.2.tgz#1939c8c41980dadadf25204953136fbdb6bd1ade"
   dependencies:
@@ -6392,14 +6392,15 @@ react-scrollbar-size@^2.0.0:
     prop-types "^15.5.10"
     react-event-listener "^0.4.5"
 
-react-transition-group@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.0.tgz#b51fc921b0c3835a7ef7c571c79fc82c73e9204f"
+react-transition-group@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.0.tgz#793bf8cb15bfe91b3101b24bce1c1d2891659575"
   dependencies:
     chain-function "^1.0.0"
+    classnames "^2.2.5"
     dom-helpers "^3.2.0"
     loose-envify "^1.3.1"
-    prop-types "^15.5.6"
+    prop-types "^15.5.8"
     warning "^3.0.0"
 
 react@^15.5.4, react@^15.6.1:
