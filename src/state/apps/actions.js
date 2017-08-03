@@ -29,8 +29,11 @@ export const getApps = ({ next = false } = {}) =>
 
     const {
       apiData,
+      isGetting,
       queryParams,
     } = state.apps;
+
+    if (isGetting) return;
 
     const totalPage = apiData.totalPage;
     const page = queryParams.page;
