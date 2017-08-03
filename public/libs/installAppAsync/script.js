@@ -1,4 +1,5 @@
 const fs = require('fs');
+// eslint-disable-next-line
 const originalFs = require('original-fs');
 
 Object.keys(originalFs).forEach((methodName) => {

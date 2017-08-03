@@ -1,4 +1,5 @@
 const { app, session } = require('electron');
+// eslint-disable-next-line
 const fs = require('original-fs');
 const os = require('os');
 const path = require('path');
