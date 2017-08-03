@@ -1,5 +1,5 @@
 const { app, session } = require('electron');
-const fs = require('fs');
+const fs = require('original-fs');
 const os = require('os');
 const path = require('path');
 
