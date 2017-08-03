@@ -183,7 +183,7 @@ const AppCard = (props) => {
             url={app.url}
             onOpenApp={handleOpenApp}
           />
-          <img src={`https://getwebcatalog.com/s3/${app.id}.webp`} alt="Messenger" className={classes.paperIcon} />
+          <img src={`https://getwebcatalog.com/s3/${app.id}@128px.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
