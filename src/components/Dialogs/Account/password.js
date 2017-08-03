@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
-
-import TextField from 'material-ui/TextField';
+import Input from 'material-ui/Input';
+import InputLabel from 'material-ui/Input/InputLabel';
+import FormControl from 'material-ui/Form/FormControl';
+import FormHelperText from 'material-ui/Form/FormHelperText';
 
 import {
   createStyleSheet,
@@ -18,7 +20,7 @@ import {
 } from '../../../state/ui/dialogs/account/password/actions';
 
 const styleSheet = createStyleSheet('Password', {
-  textField: {
+  formControl: {
     width: '100%',
   },
   root: {
@@ -38,8 +40,11 @@ const Password = (props) => {
     classes,
     isSaving,
     currentPassword,
+    currentPasswordError,
     password,
+    passwordError,
     confirmPassword,
+    confirmPasswordError,
     onFormUpdate,
     onSave,
   } = props;
@@ -47,41 +52,40 @@ const Password = (props) => {
   return (
     <div className={classes.root}>
       <div>
-        <TextField
-          autoFocus
-          className={classes.textField}
-          disabled={isSaving}
-          id="currentPassword"
-          label="Current password"
-          marginForm
-          onChange={e => onFormUpdate({ currentPassword: e.target.value })}
-          placeholder="Enter your current password"
-          value={currentPassword}
-        />
+        <FormControl className={classes.formControl} error={currentPasswordError}>
+          <InputLabel htmlFor="currentPassword">Current Password</InputLabel>
+          <Input
+            type="password"
+            id="currentPassword"
+            value={currentPassword}
+            onChange={e => onFormUpdate({ currentPassword: e.target.value })}
+          />
+          {currentPasswordError ? <FormHelperText>{currentPasswordError}</FormHelperText> : null}
+        </FormControl>
         <br />
         <br />
-        <TextField
-          className={classes.textField}
-          disabled={isSaving}
-          id="password"
-          label="New Password"
-          marginForm
-          onChange={e => onFormUpdate({ password: e.target.value })}
-          placeholder="Enter your new password"
-          value={password}
-        />
+        <FormControl className={classes.formControl} error={passwordError}>
+          <InputLabel htmlFor="password">New Password</InputLabel>
+          <Input
+            type="password"
+            id="password"
+            value={password}
+            onChange={e => onFormUpdate({ password: e.target.value })}
+          />
+          {passwordError ? <FormHelperText>{passwordError}</FormHelperText> : null}
+        </FormControl>
         <br />
         <br />
-        <TextField
-          className={classes.textField}
-          disabled={isSaving}
-          id="confirmPassword"
-          label="Confirm New Password"
-          marginForm
-          onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
-          placeholder="Confirm your new password"
-          value={confirmPassword}
-        />
+        <FormControl className={classes.formControl} error={confirmPasswordError}>
+          <InputLabel htmlFor="confirmPassword">Confirm New Password</InputLabel>
+          <Input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
+          />
+          {confirmPasswordError ? <FormHelperText>{confirmPasswordError}</FormHelperText> : null}
+        </FormControl>
       </div>
       <div className={classes.formFooter}>
         <Button
@@ -102,9 +106,12 @@ Password.defaultProps = {
 Password.propTypes = {
   classes: PropTypes.object.isRequired,
   currentPassword: PropTypes.string.isRequired,
+  currentPasswordError: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   password: PropTypes.string.isRequired,
+  passwordError: PropTypes.string.isRequired,
   confirmPassword: PropTypes.string.isRequired,
+  confirmPasswordError: PropTypes.string.isRequired,
   onFormUpdate: PropTypes.bool.isRequired,
   onSave: PropTypes.bool.isRequired,
 };
@@ -112,16 +119,22 @@ Password.propTypes = {
 const mapStateToProps = (state) => {
   const {
     currentPassword,
+    currentPasswordError,
     password,
+    passwordError,
     confirmPassword,
+    confirmPasswordError,
   } = state.ui.dialogs.account.password.form;
 
   const { isSaving } = state.ui.dialogs.account.password;
 
   return {
     currentPassword,
+    currentPasswordError,
     password,
+    passwordError,
     confirmPassword,
+    confirmPasswordError,
     isSaving,
   };
 };
