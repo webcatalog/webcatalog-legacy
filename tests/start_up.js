@@ -2,6 +2,8 @@
 
 const harness = require('./utils/_harness');
 
+if (process.platform !== 'darwin') process.exit(0);
+
 harness('store-test', () => {
   it('Load store', () =>
     global.app.client
