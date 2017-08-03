@@ -8,13 +8,17 @@ import {
 
 import { patchUserPassword } from '../../../../user/actions';
 
-const validate = (changes) => {
+const validate = (changes, state) => {
   const {
     currentPassword,
     password,
     confirmPassword,
   } = changes;
 
+  const {
+    password: statePassword,
+    confirmPassword: stateConfirmPassword,
+  } = state.ui.dialogs.account.password.form;
 
   const newChanges = changes;
 
@@ -28,12 +32,14 @@ const validate = (changes) => {
     const key = password;
     if (key.length === 0) newChanges.passwordError = 'Enter a new password';
     else if (key.length < 6) newChanges.passwordError = 'Must be at least 6 characters';
+    else if (stateConfirmPassword !== '' && key !== stateConfirmPassword) newChanges.passwordError = 'Confirm password must match';
   }
 
   if (confirmPassword || confirmPassword === '') {
     const key = confirmPassword;
     if (key.length === 0) newChanges.confirmPasswordError = 'Confirm your new password';
     else if (key.length < 6) newChanges.confirmPasswordError = 'Must be at least 6 characters';
+    else if (statePassword !== '' && key !== statePassword) newChanges.passwordError = 'Password must match';
   }
 
   if (newChanges.currentPasswordError
@@ -50,8 +56,8 @@ const validate = (changes) => {
 };
 
 export const formUpdate = changes =>
-  (dispatch) => {
-    const validateChanges = validate(changes);
+  (dispatch, getState) => {
+    const validateChanges = validate(changes, getState());
     console.log('validateChanges:', validateChanges);
     dispatch(dialogAccountPasswordFormUpdate(validateChanges));
   };
