@@ -1,12 +1,13 @@
 {
   "name": "@webcatalog/molecule",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "install:client": "cd app && yarn --production=true",
+    "install:client:full": "cd app && yarn",
     "install": "npm run install:client",
     "dev": "babel-node src",
     "start": "node lib",
@@ -14,7 +15,7 @@
     "build:main": "babel src --out-dir lib",
     "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./renderer/src",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run install:client:full && npm run build",
     "test": "babel-node test"
   },
   "devDependencies": {
