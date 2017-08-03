@@ -24,6 +24,8 @@ switch (process.platform) {
   }
 }
 
+if (process.platform !== 'darwin') process.exit(0);
+
 const opts = {
   targets,
   config: {
