@@ -10,6 +10,7 @@ import {
 const formInitialState = {
   displayName: '',
   email: '',
+  emailError: null,
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {

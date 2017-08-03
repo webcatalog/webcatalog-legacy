@@ -1,25 +1,21 @@
 import { combineReducers } from 'redux';
 
 import {
-  DIALOG_SUBMIT_APP_CLOSE,
-  DIALOG_SUBMIT_APP_FORM_UPDATE,
-  DIALOG_SUBMIT_APP_OPEN,
-  DIALOG_SUBMIT_APP_SAVE_REQUEST,
-  DIALOG_SUBMIT_APP_SAVE_SUCCESS,
+  DIALOG_FEEDBACK_CLOSE,
+  DIALOG_FEEDBACK_FORM_UPDATE,
+  DIALOG_FEEDBACK_OPEN,
+  DIALOG_FEEDBACK_SAVE_REQUEST,
+  DIALOG_FEEDBACK_SAVE_SUCCESS,
 } from '../../../../constants/actions';
 
-// Submit App Dialog
 const initialForm = {
-  name: '',
-  nameError: null,
-  url: '',
-  urlError: null,
+  content: null,
+  contentError: null,
 };
-
 const form = (state = initialForm, action) => {
   switch (action.type) {
-    case DIALOG_SUBMIT_APP_CLOSE: return initialForm;
-    case DIALOG_SUBMIT_APP_FORM_UPDATE: {
+    case DIALOG_FEEDBACK_CLOSE: return initialForm;
+    case DIALOG_FEEDBACK_FORM_UPDATE: {
       const { changes } = action;
       return Object.assign({}, state, changes);
     }
@@ -29,16 +25,16 @@ const form = (state = initialForm, action) => {
 
 const isSaving = (state = false, action) => {
   switch (action.type) {
-    case DIALOG_SUBMIT_APP_SAVE_REQUEST: return true;
-    case DIALOG_SUBMIT_APP_SAVE_SUCCESS: return false;
+    case DIALOG_FEEDBACK_SAVE_REQUEST: return true;
+    case DIALOG_FEEDBACK_SAVE_SUCCESS: return false;
     default: return state;
   }
 };
 
 const open = (state = false, action) => {
   switch (action.type) {
-    case DIALOG_SUBMIT_APP_CLOSE: return false;
-    case DIALOG_SUBMIT_APP_OPEN: return true;
+    case DIALOG_FEEDBACK_CLOSE: return false;
+    case DIALOG_FEEDBACK_OPEN: return true;
     default: return state;
   }
 };

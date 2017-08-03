@@ -9,7 +9,11 @@ import {
 
 const formInitialState = {
   currentPassword: '',
+  currentPasswordError: null,
   password: '',
+  passwordError: null,
+  confirmPassword: '',
+  confirmPasswordError: null,
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {

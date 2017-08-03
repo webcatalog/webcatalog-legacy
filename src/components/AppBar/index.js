@@ -9,6 +9,7 @@ import Slide from 'material-ui/transitions/Slide';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import AddBoxIcon from 'material-ui-icons/AddBox';
+import FeedbackIcon from 'material-ui-icons/Feedback';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AppsIcon from 'material-ui-icons/Apps';
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
@@ -42,6 +43,7 @@ import {
 
 import { changeRoute } from '../../state/ui/routes/actions';
 import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
+import { open as openDialogFeedback } from '../../state/ui/dialogs/feedback/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 import {
@@ -59,6 +61,9 @@ const title = {
   textOverflow: 'ellipsis',
 };
 const styleSheet = createStyleSheet('App', {
+  root: {
+    zIndex: 1,
+  },
   toolbar: {
     padding: '0 12px',
   },
@@ -231,6 +236,8 @@ class App extends React.Component {
 
   render() {
     const {
+      displayName,
+      email,
       category,
       classes,
       sortBy,
@@ -238,6 +245,7 @@ class App extends React.Component {
       onChangeRoute,
       isViewingAllApps,
       isViewingMyApps,
+      onOpenDialogFeedback,
     } = this.props;
 
     const { isSearchBarOpen } = this.state;
@@ -279,17 +287,17 @@ class App extends React.Component {
         <Avatar className={classes.avatar}>Q</Avatar>
         <div className={classes.nameDetails}>
           <div className={classes.nameDetailsName}>
-            Quang Lam
+            {displayName}
           </div>
           <div className={classes.nameDetailsEmail}>
-            quang@getwebcatalog.com
+            {email}
           </div>
         </div>
       </div>
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <FakeTitleBar />
         <Drawer
           open={this.state.isDrawerOpen}
@@ -333,11 +341,24 @@ class App extends React.Component {
                 <ListItemText primary="Logout" />
               </MenuItem>
               <Divider />
-              <MenuItem button onClick={this.handleRequestClose}>
+              <MenuItem
+                button
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+              >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary="Help" />
               </MenuItem>
-              <MenuItem button onClick={this.handleRequestClose}>
+              <MenuItem
+                button
+                onClick={onOpenDialogFeedback}
+              >
+                <ListItemIcon><FeedbackIcon /></ListItemIcon>
+                <ListItemText primary="Send feedback" />
+              </MenuItem>
+              <MenuItem
+                button
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
+              >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary="Website" />
               </MenuItem>
@@ -417,10 +438,13 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
+  displayName: 'Unnamed user',
   category: null,
 };
 
 App.propTypes = {
+  displayName: PropTypes.string,
+  email: PropTypes.string.isRequired,
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   sortBy: PropTypes.string.isRequired,
@@ -428,12 +452,15 @@ App.propTypes = {
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
+  onOpenDialogFeedback: PropTypes.func.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   isViewingAllApps: PropTypes.bool.isRequired,
   isViewingMyApps: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  displayName: state.user.apiData.displayName,
+  email: state.user.apiData.email,
   category: state.apps.queryParams.category,
   isLoggedIn: Boolean(state.auth.token),
   sortBy: state.apps.queryParams.sortBy,
@@ -446,6 +473,7 @@ const mapDispatchToProps = dispatch => ({
   onOpenDialogAbout: () => dispatch(openDialogAbout()),
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
   onOpenDialogAccount: () => dispatch(openDialogAccount()),
+  onOpenDialogFeedback: () => dispatch(openDialogFeedback()),
   onChangeRoute: route => dispatch(changeRoute(route)),
 });
 

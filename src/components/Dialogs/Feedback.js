@@ -26,9 +26,9 @@ import {
   close,
   formUpdate,
   save,
-} from '../../state/ui/dialogs/submit-app/actions';
+} from '../../state/ui/dialogs/feedback/actions';
 
-const styleSheet = createStyleSheet('SubmitApp', {
+const styleSheet = createStyleSheet('Feedback', {
   linearProgress: {
     opacity: 0,
   },
@@ -46,21 +46,19 @@ const styleSheet = createStyleSheet('SubmitApp', {
   },
 });
 
-const SubmitApp = (props) => {
+const Feedback = (props) => {
   const {
     isSaving,
     classes,
-    name,
-    nameError,
+    content,
+    contentError,
     onSave,
     onClose,
     onFormUpdate,
     open,
-    url,
-    urlError,
   } = props;
 
-  const saveButtonText = isSaving ? 'Submitting...' : 'Submit';
+  const saveButtonText = isSaving ? 'Sending...' : 'Send';
 
   return (
     <Dialog
@@ -74,29 +72,17 @@ const SubmitApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Submit app</DialogTitle>
+      <DialogTitle>Send feedback</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <FormControl className={classes.formControl} error={nameError}>
-          <InputLabel htmlFor="name">Name</InputLabel>
+        <FormControl className={classes.formControl} error={contentError}>
+          <InputLabel htmlFor="content">Current Password</InputLabel>
           <Input
-            placeholder="e.g. Gmail"
-            id="name"
-            value={name}
-            onChange={e => onFormUpdate({ name: e.target.value })}
+            placeholder="Enter your feedback"
+            id="content"
+            value={content}
+            onChange={e => onFormUpdate({ content: e.target.value })}
           />
-          {nameError ? <FormHelperText>{nameError}</FormHelperText> : null}
-        </FormControl>
-        <br />
-        <br />
-        <FormControl className={classes.formControl} error={urlError}>
-          <InputLabel htmlFor="url">URL</InputLabel>
-          <Input
-            placeholder="e.g. gmail.com"
-            id="url"
-            value={url}
-            onChange={e => onFormUpdate({ url: e.target.value })}
-          />
-          {urlError ? <FormHelperText>{urlError}</FormHelperText> : null}
+          {contentError ? <FormHelperText>{contentError}</FormHelperText> : null}
         </FormControl>
       </DialogContent>
       <DialogActions>
@@ -118,32 +104,27 @@ const SubmitApp = (props) => {
   );
 };
 
-SubmitApp.defaultProps = {
-  name: '',
+Feedback.defaultProps = {
+  content: '',
   open: false,
-  url: '',
 };
 
-SubmitApp.propTypes = {
+Feedback.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  name: PropTypes.string,
-  nameError: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  contentError: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  url: PropTypes.string,
-  urlError: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isSaving: state.ui.dialogs.submitApp.isSaving,
-  name: state.ui.dialogs.submitApp.form.name,
-  nameError: state.ui.dialogs.submitApp.form.nameError,
-  open: state.ui.dialogs.submitApp.open,
-  url: state.ui.dialogs.submitApp.form.url,
-  urlError: state.ui.dialogs.submitApp.form.urlError,
+  isSaving: state.ui.dialogs.feedback.isSaving,
+  content: state.ui.dialogs.feedback.form.content,
+  contentError: state.ui.dialogs.feedback.form.contentError,
+  open: state.ui.dialogs.feedback.open,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -152,4 +133,4 @@ const mapDispatchToProps = dispatch => ({
   onSave: () => dispatch(save()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(SubmitApp));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Feedback));
