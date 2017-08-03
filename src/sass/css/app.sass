@@ -1,44 +1,112 @@
-@import "./bulma-material"
+@charset "utf-8"
+
+$blue: #1976D2
+$green: #388E3C
+$orange: #E64A19
+$purple: #7B1FA2
+$red: #D32F2F
+$turquoise: #00796B
+$yellow: #FBC02D
+$black: #000
+
+$primary: $blue
+
+$navbar-height: 64px
+
+$navbar-dropdown-background: #1565C0
+$navbar-dropdown-item-hover-background: #0D47A1
+
+// Use the new serif family
+$family-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif
+
+@import "../../../node_modules/bulma/bulma"
+
+html
+  background-color: $blue
+
+body
+  background-color: #fff
+
+.navbar
+  .navbar-item
+    &.logo
+      padding-top: 0
+      padding-bottom: 0
+      img
+        max-height: 48px
+
+    .image.profile-picture
+      margin-right: 8px
+      img
+        max-height: inherit
+        border-radius: 16px
+
+
+.title
+  font-weight: 400
+
+.subtitle
+  font-weight: 300
+
+.main-content
+  width: 100%
+  min-height: calc(100vh - 128px)
+  display: table
+
+.footer
+  min-height: 64px
+  padding: 24px 12px
+  box-sizing: border-box
+  background-color: #fff
+  +tablet
+    padding: 0
+  ul.footer-items
+    list-style-type: none
+    margin-left: 0
+    margin-top: 0
+    +tablet
+      display: flex
+      justify-content: center
+    li
+      +tablet
+        float: left
+        padding: 0
+        margin: 0
+        &:not(:last-child)
+          margin-right: 36px
+
+
+.card
+  transition: box-shadow 0.3s ease-in-out
+  &:hover
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px
 
 .hero.error
   min-height: 100vh
 
 .intro
-  min-height: calc(100vh - 64px)
-  display: flex
-  align-items: center
-  justify-content: center
-  .download-button
-    margin-top: 6px
-    margin-bottom: 6px
-  a:not(.button)
-    &:hover
-      text-decoration: underline
-  .other-platforms
-    margin-top: 36px
-    a
-      font-weight: 600
-
-.section.download
-  border-top: 1px solid #dbdbdb
-  .content
-    color: #fff
-  .download-button
-    margin-top: 6px
-    margin-bottom: 6px
+  display: table-cell
+  height: 100%
+  .hero-body
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    .download-button
+      margin-top: 6px
+      margin-bottom: 6px
+    a:not(.button)
+      &:hover
+        text-decoration: underline
+    .other-platforms
+      margin-top: 36px
+      a
+        font-weight: 600
 
 .section.apps
   .card.app
     .image.app-icon
       margin: 0 auto 6px
-
-.section.featured-apps
-  .app-icon img
-    height: 64px
-    width: 64px
-  .button.see-more
-    margin-top: 16px
-    margin-bottom: 16px
 
 .section.app
   .content
@@ -53,6 +121,7 @@
   margin-top: 6px
 
 .auth
+  background-color: $blue
   +tablet
     min-height: 100vh
     width: 100vw
@@ -63,7 +132,6 @@
   hr
     margin-top: 0.5em
   .box
-    box-shadow: $paper_1
     +mobile
       box-shadow: none
     +tablet
@@ -99,17 +167,6 @@
   max-width: 640px
   @media screen and (max-width: 640px)
     max-width: 100%
-
-.search-box
-  background: rgba(255, 255, 255, 0.2)
-  border: none
-  font-size: 16px
-  height: 42px
-  color: #fff !important
-  text-align: center
-  color: #fff
-  &::placeholder
-    color: rgba(255, 255, 255, 0.6)
 
 .verify-email
   padding: 12px 0

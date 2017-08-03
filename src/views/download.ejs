@@ -1,7 +1,7 @@
 <% include ./partials/header %>
 
-<section class="hero is-info">
-  <div class="hero-body intro intro-<%= platform %>">
+<section class="hero intro intro-<%= platform %>">
+  <div class="hero-body">
     <div class="container has-text-centered">
       <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
       </h1>
@@ -63,44 +63,6 @@
           Looking for the <a href="/download/mac">Mac</a> or <a href="/download/linux">Linux</a> desktop apps?
         <% } %>
       </p>
-    </div>
-  </div>
-</section>
-
-<section class="section hero is-dark features">
-  <div class="container">
-    <div class="content has-text-centered">
-      <h2 class="title">Why WebCatalog?</h1>
-
-      <div class="columns is-multiline is-desktop">
-        <div class="column is-one-third-desktop">
-          <span class="icon is-large">
-            <i class="fa fa-bell"></i>
-          </span>
-          <p class="title is-4">Notifications</p>
-          <p class="subtitle is-6">
-            Stay up-to-date with desktop notifications.
-          </p>
-        </div>
-        <div class="column is-one-third-desktop">
-          <span class="icon is-large">
-            <i class="fa fa-line-chart"></i>
-          </span>
-          <p class="title is-4">Productivity</p>
-          <p class="subtitle is-6">
-            Work less, do more.
-          </p>
-        </div>
-        <div class="column is-one-third-desktop">
-          <span class="icon is-large">
-            <i class="fa fa-user-secret"></i>
-          </span>
-          <p class="title is-4">Privacy</p>
-          <p class="subtitle is-6">
-            Each app runs within an isolated container.
-          </p>
-        </div>
-      </div>
     </div>
   </div>
 </section>

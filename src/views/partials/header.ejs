@@ -11,76 +11,68 @@
 </section>
 <% } %>
 
-<section class="hero is-info top-nav">
-  <div class="hero-head">
-    <div class="container">
-      <nav class="navbar">
-        <div class="navbar-brand">
-          <a class="navbar-item logo" href="/">
-            <img src="/public/images/logo_white.png" alt="WebCatalog" />
-          </a>
+<div class="container">
+  <nav class="navbar is-transparent">
+    <div class="navbar-brand">
+      <a class="navbar-item logo" href="/">
+        <img src="/public/images/logo.png" alt="WebCatalog" />
+      </a>
 
-          <span class="navbar-burger burger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="field is-grouped">
-                <p class="control">
-                  <a class="button is-white" href="/download">
-                    Download
-                  </a>
-                </p>
-              </div>
-            </div>
-            <a class="navbar-item" href="/apps">
-              Explore
-            </a>
-            <a class="navbar-item" href="/help">
-              Help
-            </a>
-            <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
-              Blog
-            </a>
-            <% if (user) { %>
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                <figure class="image is-32x32 profile-picture">
-                  <img src="<%= user.profilePicture %>">
-                </figure>
-
-                Account
+      <span class="navbar-burger burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="field is-grouped">
+            <p class="control">
+              <a class="button is-success" href="/download">
+                Download
               </a>
-
-              <div class="navbar-dropdown">
-                <% if (user && user.isAdmin) { %>
-                  <a class="navbar-item" href="/admin/add">
-                    Add new app
-                  </a>
-                <% } %>
-                <a class="navbar-item" href="/submit">
-                  Submit new app
-                </a>
-                <a class="navbar-item" href="/help">
-                  Help
-                </a>
-                <a class="navbar-item" href="/auth/logout">
-                  Sign out
-                </a>
-              </div>
-            </div>
-            <% } else { %>
-            <a class="navbar-item" href="/auth?returnTo=<%= path %>">
-              Sign in
-            </a>
-            <% } %>
+            </p>
           </div>
         </div>
-      </nav>
+        <a class="navbar-item" href="/apps">
+          Apps
+        </a>
+        <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
+          Blog
+        </a>
+        <% if (user) { %>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <figure class="image is-32x32 profile-picture">
+              <img src="<%= user.profilePicture %>">
+            </figure>
+
+            Account
+          </a>
+
+          <div class="navbar-dropdown">
+            <% if (user && user.isAdmin) { %>
+              <a class="navbar-item" href="/admin/add">
+                Add new app
+              </a>
+            <% } %>
+            <a class="navbar-item" href="/submit">
+              Submit new app
+            </a>
+            <a class="navbar-item" href="/auth/logout">
+              Sign out
+            </a>
+          </div>
+        </div>
+        <% } else { %>
+        <a class="navbar-item" href="/auth?returnTo=<%= path %>">
+          Log in
+        </a>
+        <% } %>
+      </div>
     </div>
-  </div>
-</section>
+  </nav>
+</div>
+
+<div class="main-content">
