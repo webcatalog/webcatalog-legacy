@@ -10,6 +10,7 @@ import {
 
 const initialForm = {
   content: null,
+  contentError: null,
 };
 const form = (state = initialForm, action) => {
   switch (action.type) {

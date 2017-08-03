@@ -56,6 +56,7 @@ const Password = (props) => {
           <InputLabel htmlFor="currentPassword">Current Password</InputLabel>
           <Input
             type="password"
+            placeholder="Enter your current password"
             id="currentPassword"
             value={currentPassword}
             onChange={e => onFormUpdate({ currentPassword: e.target.value })}
@@ -69,6 +70,7 @@ const Password = (props) => {
           <Input
             type="password"
             id="password"
+            placeholder="Enter your new password"
             value={password}
             onChange={e => onFormUpdate({ password: e.target.value })}
           />
@@ -80,6 +82,7 @@ const Password = (props) => {
           <InputLabel htmlFor="confirmPassword">Confirm New Password</InputLabel>
           <Input
             type="password"
+            placeholder="Confirm your new password"
             id="confirmPassword"
             value={confirmPassword}
             onChange={e => onFormUpdate({ confirmPassword: e.target.value })}

@@ -6,8 +6,12 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
 import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
 import { LinearProgress } from 'material-ui/Progress';
+import Input from 'material-ui/Input';
+import InputLabel from 'material-ui/Input/InputLabel';
+import FormControl from 'material-ui/Form/FormControl';
+import FormHelperText from 'material-ui/Form/FormHelperText';
+
 import {
   createStyleSheet,
   withStyles,
@@ -37,7 +41,7 @@ const styleSheet = createStyleSheet('SubmitApp', {
   dialogContent: {
     minWidth: 240,
   },
-  textField: {
+  formControl: {
     width: '100%',
   },
 });
@@ -47,11 +51,13 @@ const SubmitApp = (props) => {
     isSaving,
     classes,
     name,
+    nameError,
     onSave,
     onClose,
     onFormUpdate,
     open,
     url,
+    urlError,
   } = props;
 
   const saveButtonText = isSaving ? 'Submitting...' : 'Submit';
@@ -70,28 +76,28 @@ const SubmitApp = (props) => {
 
       <DialogTitle>Submit app</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <TextField
-          className={classes.textField}
-          disabled={isSaving}
-          id="name"
-          label="Name"
-          marginForm
-          onChange={e => onFormUpdate({ name: e.target.value })}
-          placeholder="e.g. Gmail"
-          value={name}
-        />
+        <FormControl className={classes.formControl} error={nameError}>
+          <InputLabel htmlFor="name">Name</InputLabel>
+          <Input
+            placeholder="e.g. Gmail"
+            id="name"
+            value={name}
+            onChange={e => onFormUpdate({ name: e.target.value })}
+          />
+          {nameError ? <FormHelperText>{nameError}</FormHelperText> : null}
+        </FormControl>
         <br />
         <br />
-        <TextField
-          className={classes.textField}
-          disabled={isSaving}
-          id="url"
-          label="URL"
-          marginForm
-          onChange={e => onFormUpdate({ url: e.target.value })}
-          placeholder="e.g. gmail.com"
-          value={url}
-        />
+        <FormControl className={classes.formControl} error={urlError}>
+          <InputLabel htmlFor="url">URL</InputLabel>
+          <Input
+            placeholder="e.g. gmail.com"
+            id="url"
+            value={url}
+            onChange={e => onFormUpdate({ url: e.target.value })}
+          />
+          {urlError ? <FormHelperText>{urlError}</FormHelperText> : null}
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button
@@ -122,18 +128,22 @@ SubmitApp.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
   name: PropTypes.string,
+  nameError: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
+  urlError: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   isSaving: state.ui.dialogs.submitApp.isSaving,
   name: state.ui.dialogs.submitApp.form.name,
+  nameError: state.ui.dialogs.submitApp.form.nameError,
   open: state.ui.dialogs.submitApp.open,
   url: state.ui.dialogs.submitApp.form.url,
+  urlError: state.ui.dialogs.submitApp.form.urlError,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,14 +10,38 @@ import {
 
 import { postFeedback } from '../../../feedback/actions';
 
+const hasErrors = (validatedChanges) => {
+  if (validatedChanges.contentError) {
+    return true;
+  }
+  return false;
+};
+
+const validate = (data) => {
+  const {
+    content,
+  } = data;
+
+  const newData = data;
+
+  if (content || content === '') {
+    const key = content;
+    if (key.length > 1000) newData.contentError = 'Must be under 1000 characters';
+    else newData.contentError = null;
+  }
+
+  return newData;
+};
+
 export const close = () =>
   (dispatch) => {
     dispatch(dialogFeedbackClose());
   };
 
 export const formUpdate = changes =>
-  (dispatch) => {
-    dispatch(dialogFeedbackFormUpdate(changes));
+  (dispatch, getState) => {
+    const validatedChanges = validate(changes, getState());
+    dispatch(dialogFeedbackFormUpdate(validatedChanges));
   };
 
 export const open = () =>
@@ -28,6 +52,12 @@ export const open = () =>
 export const save = () =>
   (dispatch, getState) => {
     const data = getState().ui.dialogs.feedback.form;
+
+    const validatedChanges = validate(data, getState());
+    if (hasErrors(validatedChanges)) {
+      return dispatch(formUpdate(validatedChanges));
+    }
+
     dispatch(dialogFeedbackSaveRequest());
     return dispatch(postFeedback(data))
       .then(() => {

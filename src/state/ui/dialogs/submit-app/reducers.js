@@ -10,8 +10,10 @@ import {
 
 // Submit App Dialog
 const initialForm = {
-  name: null,
-  url: null,
+  name: '',
+  nameError: null,
+  url: '',
+  urlError: null,
 };
 
 const form = (state = initialForm, action) => {

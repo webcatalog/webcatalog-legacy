@@ -6,8 +6,12 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
 import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
 import { LinearProgress } from 'material-ui/Progress';
+import Input from 'material-ui/Input';
+import InputLabel from 'material-ui/Input/InputLabel';
+import FormControl from 'material-ui/Form/FormControl';
+import FormHelperText from 'material-ui/Form/FormHelperText';
+
 import {
   createStyleSheet,
   withStyles,
@@ -37,7 +41,7 @@ const styleSheet = createStyleSheet('Feedback', {
   dialogContent: {
     minWidth: 240,
   },
-  textField: {
+  formControl: {
     width: '100%',
   },
 });
@@ -47,6 +51,7 @@ const Feedback = (props) => {
     isSaving,
     classes,
     content,
+    contentError,
     onSave,
     onClose,
     onFormUpdate,
@@ -69,15 +74,16 @@ const Feedback = (props) => {
 
       <DialogTitle>Send feedback</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <TextField
-          className={classes.textField}
-          disabled={isSaving}
-          id="content"
-          label="Feedback"
-          marginForm
-          onChange={e => onFormUpdate({ content: e.target.value })}
-          value={content}
-        />
+        <FormControl className={classes.formControl} error={contentError}>
+          <InputLabel htmlFor="content">Current Password</InputLabel>
+          <Input
+            placeholder="Enter your feedback"
+            id="content"
+            value={content}
+            onChange={e => onFormUpdate({ content: e.target.value })}
+          />
+          {contentError ? <FormHelperText>{contentError}</FormHelperText> : null}
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button
@@ -107,6 +113,7 @@ Feedback.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
   content: PropTypes.string,
+  contentError: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -116,6 +123,7 @@ Feedback.propTypes = {
 const mapStateToProps = state => ({
   isSaving: state.ui.dialogs.feedback.isSaving,
   content: state.ui.dialogs.feedback.form.content,
+  contentError: state.ui.dialogs.feedback.form.contentError,
   open: state.ui.dialogs.feedback.open,
 });
 
