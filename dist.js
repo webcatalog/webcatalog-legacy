@@ -31,11 +31,11 @@ const opts = {
   config: {
     appId: 'com.webcatalog.app',
     asar: false,
-    // asarUnpack: [
-    // 'node_modules/electron-packager/**/*',
-    // 'node_modules/@webcatalog/molecule/app/**/*',
-    // 'build/**/*',
-    // ],
+    asarUnpack: [
+      'node_modules/electron-packager/**/*',
+      'node_modules/@webcatalog/molecule/app/**/*',
+      'build/libs/installAppAsync/script.js',
+    ],
     directories: {
       buildResources: 'build-resources',
     },

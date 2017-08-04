@@ -1,11 +1,3 @@
-const fs = require('fs');
-// eslint-disable-next-line
-const originalFs = require('original-fs');
-
-Object.keys(originalFs).forEach((methodName) => {
-  fs[methodName] = originalFs[methodName];
-});
-
 const createAppAsync = require('@webcatalog/molecule');
 const argv = require('yargs-parser')(process.argv.slice(1));
 
