@@ -21,7 +21,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@webcatalog/molecule": "^0.1.6",
+    "@webcatalog/molecule": "^0.1.7",
     "electron-is-dev": "^0.3.0",
     "electron-updater": "^2.7.2",
     "electron-window-state": "^4.1.1",

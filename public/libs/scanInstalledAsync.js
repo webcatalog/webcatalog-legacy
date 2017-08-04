@@ -39,7 +39,7 @@ const scanInstalledAsync = () =>
                     }),
                 );
 
-                const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app', 'package.json');
+                const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
                 promises.push(
                   fs.pathExists(packageJsonPath)
                     .then((exists) => {
