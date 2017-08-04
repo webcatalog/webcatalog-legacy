@@ -1,3 +1,8 @@
+## 6.2.0
+- Adds spell checker.
+
+---
+
 ## 6.1.0
 - Adds back option to use the app without signing in.
 
