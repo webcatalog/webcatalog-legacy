@@ -57,7 +57,7 @@ if (!isShell) {
       show: false,
       webPreferences: {
         // enable nodeintegration in testing mode (mainly for Spectron)
-        nodeIntegration: isTesting,
+        nodeIntegration: true,
         sandbox: true,
         partition: `jwt-${Date.now()}`,
       },

@@ -1,20 +1,22 @@
 const { ipcRenderer, remote } = require('electron');
+const spellChecker = require('electron-spellchecker');
+
+const { MenuItem } = remote;
+
+const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = spellChecker;
+
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
 
-window.onload = () => {
-  // inject JS
-  const shellInfo = ipcRenderer.sendSync('get-shell-info');
+window.spellCheckHandler = new SpellCheckHandler();
+setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
 
-  document.title = shellInfo.name;
+window.spellCheckHandler.switchLanguage('en-US');
+window.spellCheckHandler.autoUnloadDictionariesOnBlur();
 
-  // Inspect element
-  // Importing this adds a right-click menu with 'Inspect Element' option
-  let rightClickPosition = null;
-
-  const { Menu, MenuItem } = remote;
-  const menu = new Menu();
+window.contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler, null, true, (menu) => {
+  menu.append(new MenuItem({ type: 'separator' }));
   menu.append(new MenuItem({
     label: 'Back',
     click: () => {
@@ -33,20 +35,14 @@ window.onload = () => {
       remote.getCurrentWindow().send('reload');
     },
   }));
-  menu.append(new MenuItem({ type: 'separator' }));
-  menu.append(new MenuItem({
-    label: 'Inspect Element',
-    click: () => {
-      const { webContents } = remote;
-      webContents.getFocusedWebContents().inspectElement(rightClickPosition.x, rightClickPosition.y);
-    },
-  }));
+});
+window.contextMenuListener = new ContextMenuListener((info) => { window.contextMenuBuilder.showPopupMenu(info); });
 
-  window.oncontextmenu = (e) => {
-    e.preventDefault();
-    rightClickPosition = { x: e.x, y: e.y };
-    menu.popup(remote.getCurrentWindow());
-  };
+window.onload = () => {
+  // inject JS
+  const shellInfo = ipcRenderer.sendSync('get-shell-info');
+
+  document.title = shellInfo.name;
 
   const injectedJS = ipcRenderer.sendSync('get-setting', `behaviors.${shellInfo.id}.injectedJS`, null);
   if (injectedJS && injectedJS.trim().length > 0) {
