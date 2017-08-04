@@ -45,6 +45,9 @@ const createAppAsync = (id, name, url, icon, out) =>
                   out: outTmpDir,
                   overwrite: true,
                   prune: false,
+                  asar: {
+                    unpack: 'package.json',
+                  },
                 };
 
                 return packager(options, (err, appPaths) => {
@@ -57,18 +60,30 @@ const createAppAsync = (id, name, url, icon, out) =>
               }),
             )
             .then((appPaths) => {
-              let binaryFileName;
-              switch (process.platform) {
-                default: {
-                  binaryFileName = `${name}.app`;
-                }
+              if (process.platform === 'darwin') {
+                const binaryFileName = `${name}.app`;
+                const destPath = path.resolve(out, binaryFileName);
+
+                return fs.move(
+                  path.resolve(appPaths[0], binaryFileName),
+                  destPath,
+                  { overwrite: true },
+                )
+                .then(() => destPath);
               }
 
-              return fs.move(
-                path.resolve(appPaths[0], binaryFileName),
-                path.resolve(out, binaryFileName),
-                { overwrite: true },
-              );
+              if (process.platform === 'win32') {
+                const destPath = path.resolve(out, id);
+
+                return fs.move(
+                  appPaths[0],
+                  destPath,
+                  { overwrite: true },
+                )
+                .then(() => destPath);
+              }
+
+              return Promise.reject(new Error('Unknown platform'));
             });
         });
     });
