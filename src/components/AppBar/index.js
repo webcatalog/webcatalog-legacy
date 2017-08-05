@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
-import Slide from 'material-ui/transitions/Slide';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import AddBoxIcon from 'material-ui-icons/AddBox';
@@ -20,9 +19,7 @@ import InfoIcon from 'material-ui-icons/Info';
 import PublicIcon from 'material-ui-icons/Public';
 import { MenuItem } from 'material-ui/Menu';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
-import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import SearchIcon from 'material-ui-icons/Search';
-import CloseIcon from 'material-ui-icons/Close';
 import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
@@ -35,6 +32,7 @@ import getSingularLabel from '../../utils/getSingularLabel';
 import FakeTitleBar from '../shared/FakeTitleBar';
 import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
+import SearchBox from './SearchBox';
 
 import {
   isViewingAllApps as isViewingAllAppsSelector,
@@ -46,6 +44,9 @@ import { open as openDialogAccount } from '../../state/ui/dialogs/account/action
 import { open as openDialogFeedback } from '../../state/ui/dialogs/feedback/actions';
 import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
+import {
+  openSearchBox,
+} from '../../state/ui/searchBox/actions';
 import {
   ROUTE_APPS,
   ROUTE_MY_APPS,
@@ -68,11 +69,6 @@ const styleSheet = createStyleSheet('App', {
     padding: '0 12px',
   },
   title,
-  searchBarText: {
-    ...title,
-    fontWeight: 'normal',
-    fontSize: 21,
-  },
   appBar: {
     zIndex: 1,
   },
@@ -80,45 +76,12 @@ const styleSheet = createStyleSheet('App', {
     width: '100%',
     // marginTop: -24,
   },
-  searchBar: {
-    boxShadow: 'none',
-    position: 'absolute',
-    zIndex: 2,
-  },
-  searchAppBarOpen: {
-    marginTop: -44,
-    // boxShadow: 'none',
-    paddingTop: 22,
-    // marginTop: -44,
-  },
-  searchAppBar: {
-    marginTop: -44,
-    boxShadow: 'none',
-    paddingTop: 24,
-  },
   indicator: {
     height: 3,
   },
   list: {
     width: 304,
     flex: 'initial',
-  },
-  input: {
-    font: 'inherit',
-    border: 0,
-    display: 'block',
-    verticalAlign: 'middle',
-    whiteSpace: 'normal',
-    background: 'none',
-    margin: 0, // Reset for Safari
-    color: 'inherit',
-    width: '100%',
-    '&:focus': {
-      outline: 0,
-    },
-    '&::placeholder': {
-      color: grey[400],
-    },
   },
   circularProgressContainer: {
     width: '100%',
@@ -188,12 +151,9 @@ class App extends React.Component {
 
     this.state = {
       isDrawerOpen: false,
-      isSearchBarOpen: false,
     };
 
-    this.handleOutsideAppbarClick = this.handleOutsideAppbarClick.bind(this);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
-    this.handleToggleSearchBar = this.handleToggleSearchBar.bind(this);
     this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
     this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
     this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
@@ -207,19 +167,6 @@ class App extends React.Component {
 
   handleToggleDrawer() {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
-  }
-
-  handleToggleSearchBar() {
-    const { isSearchBarOpen } = this.state;
-    if (!isSearchBarOpen) {
-      document.addEventListener('click', this.handleOutsideAppbarClick, false);
-    } else document.removeEventListener('click', this.handleOutsideAppbarClick, false);
-
-    this.setState({ isSearchBarOpen: !isSearchBarOpen });
-  }
-
-  handleOutsideAppbarClick(e) {
-    if (!this.appBar.contains(e.target)) this.handleToggleSearchBar();
   }
 
   handleOpenDialogAccount() {
@@ -246,9 +193,8 @@ class App extends React.Component {
       isViewingAllApps,
       isViewingMyApps,
       onOpenDialogFeedback,
+      onOpenSearchBox,
     } = this.props;
-
-    const { isSearchBarOpen } = this.state;
 
     const renderTitleElement = () => {
       const appString = category ? `${getSingularLabel(category)} apps` : 'apps';
@@ -369,47 +315,7 @@ class App extends React.Component {
             </List>
           </div>
         </Drawer>
-        <Slide in={isSearchBarOpen} className={classes.searchBar}>
-          <div
-            className={classes.appBarContainer}
-            ref={(appBar) => { this.appBar = appBar; }}
-          >
-            <FakeTitleBar isColorDisabled />
-            <AppBar
-              color="default"
-              position="static"
-              key="searchBar"
-              className={isSearchBarOpen ? classes.searchAppBarOpen : classes.searchAppBar}
-            >
-              <Toolbar className={classes.toolbar}>
-                <IconButton
-                  color="default"
-                  aria-label="Menu"
-                  onClick={() => this.handleToggleSearchBar()}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-                <Typography
-                  className={classes.searchBarText}
-                  color="inherit"
-                  type="title"
-                >
-                  <input
-                    placeholder="Search apps"
-                    className={classes.input}
-                  />
-                </Typography>
-                <IconButton
-                  color="default"
-                  aria-label="Close"
-                  onClick={() => this.handleToggleSearchBar()}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          </div>
-        </Slide>
+        <SearchBox />
         <AppBar position="static" key="appBar" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -423,7 +329,7 @@ class App extends React.Component {
             <IconButton
               color="contrast"
               aria-label="Search"
-              onClick={() => this.handleToggleSearchBar()}
+              onClick={onOpenSearchBox}
             >
               <SearchIcon />
             </IconButton>
@@ -443,19 +349,20 @@ App.defaultProps = {
 };
 
 App.propTypes = {
-  displayName: PropTypes.string,
-  email: PropTypes.string.isRequired,
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  sortOrder: PropTypes.string.isRequired,
-  onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogSubmitApp: PropTypes.func.isRequired,
-  onOpenDialogAccount: PropTypes.func.isRequired,
-  onOpenDialogFeedback: PropTypes.func.isRequired,
-  onChangeRoute: PropTypes.func.isRequired,
+  displayName: PropTypes.string,
+  email: PropTypes.string.isRequired,
   isViewingAllApps: PropTypes.bool.isRequired,
   isViewingMyApps: PropTypes.bool.isRequired,
+  onChangeRoute: PropTypes.func.isRequired,
+  onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogAccount: PropTypes.func.isRequired,
+  onOpenDialogFeedback: PropTypes.func.isRequired,
+  onOpenDialogSubmitApp: PropTypes.func.isRequired,
+  onOpenSearchBox: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortOrder: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -470,11 +377,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  onChangeRoute: route => dispatch(changeRoute(route)),
   onOpenDialogAbout: () => dispatch(openDialogAbout()),
-  onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
   onOpenDialogAccount: () => dispatch(openDialogAccount()),
   onOpenDialogFeedback: () => dispatch(openDialogFeedback()),
-  onChangeRoute: route => dispatch(changeRoute(route)),
+  onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
+  onOpenSearchBox: () => dispatch(openSearchBox()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

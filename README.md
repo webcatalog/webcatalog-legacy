@@ -11,12 +11,18 @@
 WebCatalog is a desktop app which allows users to install and run any web app natively.
 
 ## Development
-Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com). Then,
+Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com), Login to npm `npm adduser`. Then,
 
 ```bash
 git clone https://github.com/webcatalog/webcatalog.git
 cd webcatalog
 yarn
+```
+
+To work with Algolia, create `.env`:
+```
+REACT_APP_ALGOLIASEARCH_APPLICATION_ID=
+REACT_APP_ALGOLIASEARCH_API_KEY_SEARCH=
 ```
 
 To run the app for development: `yarn electron-dev`
