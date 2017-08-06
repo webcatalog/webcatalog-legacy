@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import common from 'material-ui/colors/common';
-import grey from 'material-ui/colors/grey';
+import blue from 'material-ui/colors/blue';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
@@ -22,7 +22,7 @@ const { fullWhite } = common;
 const styleSheet = createStyleSheet('Auth', theme => ({
   root: {
     flex: 1,
-    backgroundColor: grey[200],
+    backgroundColor: blue[500],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -33,7 +33,7 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     },
   },
   card: {
-    width: 360,
+    width: 340,
     minHeight: 400,
     padding: theme.spacing.unit * 3,
     boxSizing: 'border-box',
