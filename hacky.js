@@ -3,8 +3,6 @@
 const path = require('path');
 const replace = require('replace-in-file');
 
-console.log(path.join(__dirname, 'node_modules', '@webcatalog', 'molecule', 'lib', 'index.js'));
-
 // electron-builder
 // Keep electron-packager
 replace({
@@ -12,9 +10,11 @@ replace({
   from: '"electron-builder-tslint-config", "electron-download", "electron-forge", "electron-packager", "electron-compilers", "jest", "jest-cli", "prebuild-install", "nan", "asar-integrity", "asar", "electron-webpack", "electron-webpack-ts", "electron-webpack-vue", "react-scripts"',
   to: '"electron-builder-tslint-config", "electron-forge", "electron-compilers", "jest", "jest-cli", "prebuild-install", "nan", "electron-webpack", "electron-webpack-ts", "electron-webpack-vue", "react-scripts"',
 })
-  .then(changedFiles => {
+  .then((changedFiles) => {
+    // eslint-disable-next-line
     console.log('Modified files:', changedFiles.join(', '));
   })
-  .catch(error => {
+  .catch((error) => {
+    // eslint-disable-next-line
     console.error('Error occurred:', error);
   });

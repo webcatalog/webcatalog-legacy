@@ -55,7 +55,11 @@ App.propTypes = {
 
 const mapStateToProps = (state) => {
   // Please leave this for testing purposes
-  console.log('state:', state);
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line
+    console.log('state:', state);
+  }
+
   return {
     category: state.apps.queryParams.category,
     isViewingAllApps: isViewingAllAppsSelector(state),
