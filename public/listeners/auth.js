@@ -105,6 +105,17 @@ const loadAuthListeners = () => {
       authWindow = null;
     }, false);
   });
+
+  ipcMain.on('sign-in-anonymously', (e) => {
+    const token = 'anonymous';
+
+    writeTokenToDiskAsync(token)
+      .catch((err) => {
+        // eslint-disable-next-line
+        console.log(err);
+      });
+    e.sender.send('set-auth-token', token);
+  });
 };
 
 module.exports = loadAuthListeners;
