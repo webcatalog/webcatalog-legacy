@@ -23,6 +23,7 @@ import { screenResize } from '../actions/screen';
 
 import WebView from './WebView';
 import FindInPage from './FindInPage';
+import Navigation from './Navigation';
 
 const styleSheet = createStyleSheet('App', theme => ({
   root: {
@@ -71,6 +72,7 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   webviewContainer: {
     flex: 1,
+    height: '100vh',
   },
   webview: {
     height: '100%',
@@ -245,6 +247,7 @@ class App extends React.Component {
 
     return (
       <div className={classes.root}>
+        <Navigation />
         {isFailed && (
           <div className={classes.errorFullScreenContainer}>
             Internet Connection

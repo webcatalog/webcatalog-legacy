@@ -28,11 +28,12 @@
   "homepage": "./",
   "dependencies": {
     "electron": "^1.7.5",
-    "electron-is-dev": "^0.1.2"
+    "electron-is-dev": "^0.1.2",
+    "electron-settings": "^3.1.1"
   },
   "webApp": {
-    "id": "asana",
-    "url": "https://asana.com",
-    "name": "Asana"
+    "id": "facebook-messenger",
+    "url": "https://messenger.com",
+    "name": "Facebook Messenger"
   }
 }

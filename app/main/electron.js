@@ -2,92 +2,28 @@
 const {
   app,
   BrowserWindow,
-  ipcMain,
-  Menu,
 } = require('electron');
 const path = require('path');
 
 const isDev = require('electron-is-dev');
 
+const loadListeners = require('./listeners');
+const createMenu = require('./libs/createMenu');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-ipcMain.on('is-full-screen', (e) => {
-  if (mainWindow) {
-    e.returnValue = mainWindow.isFullScreen();
-  }
-});
-
-function getMenuTemplate() {
-  const template = [
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { role: 'selectall' },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        { role: 'togglefullscreen' },
-        { type: 'separator' },
-        { role: 'toggledevtools' },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Find In Page...',
-          accelerator: 'CmdOrCtrl+F',
-          click: () => {
-            mainWindow.webContents.send('toggle-find-in-page-dialog');
-          },
-        },
-      ],
-    },
-    {
-      role: 'window',
-      submenu: [
-        { role: 'minimize' },
-        { role: 'close' },
-      ],
-    },
-    {
-      role: 'help',
-      submenu: [
-        {
-          label: 'Report an Issue...',
-        },
-      ],
-    },
-  ];
-
-  if (!mainWindow) {
-    template[3].submenu.push({
-      type: 'separator',
-    });
-  }
-
-  return template;
-}
-
-function initMenu() {
-  const menu = Menu.buildFromTemplate(getMenuTemplate());
-  Menu.setApplicationMenu(menu);
-}
+loadListeners();
 
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    minWidth: 480,
+    minHeight: 568,
+    titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
@@ -109,7 +45,7 @@ const createWindow = () => {
     mainWindow = null;
   });
 
-  initMenu();
+  createMenu();
 };
 
 // This method will be called when Electron has finished

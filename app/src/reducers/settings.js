@@ -1,8 +1,9 @@
+/* global ipcRenderer */
 import { TOGGLE_SETTING_DIALOG } from '../constants/actions';
 
 const initialState = {
   isOpen: false,
-  customHome: null,
+  ...ipcRenderer.sendSync('get-settings'),
 };
 
 const settings = (state = initialState, action) => {
