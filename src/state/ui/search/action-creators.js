@@ -1,17 +1,17 @@
 import {
-  CLOSE_SEARCH_BOX,
-  OPEN_SEARCH_BOX,
+  SEARCH_CLOSE,
+  SEARCH_OPEN,
   SEARCH_FORM_UPDATE,
   SEARCH_RESULTS_GET_REQUEST,
   SEARCH_RESULTS_GET_SUCCESS,
 } from '../../../constants/actions';
 
-export const searchBoxOpen = () => ({
-  type: OPEN_SEARCH_BOX,
+export const searchOpen = () => ({
+  type: SEARCH_OPEN,
 });
 
-export const searchBoxClose = () => ({
-  type: CLOSE_SEARCH_BOX,
+export const searchClose = () => ({
+  type: SEARCH_CLOSE,
 });
 
 export const searchResultsGetRequest = () => ({

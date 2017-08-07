@@ -10,7 +10,7 @@ import {
   dialogSubmitAppSaveSuccess,
 } from './action-creators';
 
-import { postDraft } from '../../../drafts/actions';
+import { apiPost } from '../../../api';
 
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.nameError || validatedChanges.urlError) {
@@ -70,7 +70,7 @@ export const save = () =>
     }
 
     dispatch(dialogSubmitAppSaveRequest());
-    return dispatch(postDraft(data))
+    return dispatch(apiPost('/drafts', data))
       .then(() => {
         dispatch(dialogSubmitAppSaveSuccess());
         dispatch(openSnackbar(

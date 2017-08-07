@@ -1,7 +1,7 @@
 import algoliasearch from 'algoliasearch';
 import {
-  searchBoxClose,
-  searchBoxOpen,
+  searchClose,
+  searchOpen,
   searchFormUpdate,
   searchResultsGetRequest,
   searchResultsGetSuccess,
@@ -14,14 +14,14 @@ const client = algoliasearch(
 const index = client.initIndex('apps');
 
 export const closeSearchBox = () =>
-  dispatch => dispatch(searchBoxClose());
+  dispatch => dispatch(searchClose());
 
 export const openSearchBox = () =>
-  dispatch => dispatch(searchBoxOpen());
+  dispatch => dispatch(searchOpen());
 
 export const formUpdate = changes =>
   (dispatch, getState) => {
-    if (getState().ui.searchBox.form.query === changes.query) return null;
+    if (getState().ui.search.form.query === changes.query) return null;
 
     dispatch(searchFormUpdate(changes));
     return Promise.resolve()
@@ -34,7 +34,7 @@ export const formUpdate = changes =>
       )
       .then(() => {
         if (!changes.query || changes.query.length < 1) return null;
-        if (getState().ui.searchBox.form.query !== changes.query) return null;
+        if (getState().ui.search.form.query !== changes.query) return null;
 
         dispatch(searchResultsGetRequest());
         return index.search(changes.query, { hitsPerPage: 48 })

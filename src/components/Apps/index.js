@@ -99,8 +99,8 @@ Apps.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const apps = state.ui.searchBox.open ? state.ui.searchBox.results : state.apps.apiData.apps;
-  const isGetting = state.ui.searchBox.open ? state.ui.searchBox.isGetting : state.apps.isGetting;
+  const apps = state.ui.search.open ? state.ui.search.results : state.apps.apiData.apps;
+  const isGetting = state.ui.search.open ? state.ui.search.isGetting : state.apps.isGetting;
 
   return {
     isGetting,

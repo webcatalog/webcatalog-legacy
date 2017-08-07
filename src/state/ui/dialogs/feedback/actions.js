@@ -8,7 +8,7 @@ import {
   dialogFeedbackSaveSuccess,
 } from './action-creators';
 
-import { postFeedback } from '../../../feedback/actions';
+import { apiPost } from '../../../api';
 
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.contentError) {
@@ -59,7 +59,7 @@ export const save = () =>
     }
 
     dispatch(dialogFeedbackSaveRequest());
-    return dispatch(postFeedback(data))
+    return dispatch(apiPost('/feedback', data))
       .then(() => {
         dispatch(dialogFeedbackSaveSuccess());
         dispatch(openSnackbar(

@@ -46,7 +46,7 @@ import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
 import {
   openSearchBox,
-} from '../../state/ui/searchBox/actions';
+} from '../../state/ui/search/actions';
 import {
   ROUTE_APPS,
   ROUTE_MY_APPS,

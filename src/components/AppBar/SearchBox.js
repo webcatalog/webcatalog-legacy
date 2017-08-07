@@ -18,7 +18,7 @@ import {
   openSearchBox,
   closeSearchBox,
   formUpdate,
-} from '../../state/ui/searchBox/actions';
+} from '../../state/ui/search/actions';
 
 const styleSheet = createStyleSheet('SearchBox', {
   appBarContainer: {
@@ -177,8 +177,8 @@ SearchBox.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  open: state.ui.searchBox.open,
-  query: state.ui.searchBox.form.query,
+  open: state.ui.search.open,
+  query: state.ui.search.form.query,
 });
 
 const mapDispatchToProps = dispatch => ({
