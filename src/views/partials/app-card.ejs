@@ -6,9 +6,9 @@
           <div class="media-content">
             <figure class="image is-64x64 app-icon">
               <picture>
-                <source srcset="/s3/<%= app.id %>@128px.webp" type="image/webp">
-                <source srcset="/s3/<%= app.id %>@128px.png" type="image/jpeg">
-                <img src="/s3/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
+                <source srcset="https://s3.getwebcatalog.com/<%= app.id %>@128px.webp" type="image/webp">
+                <source srcset="https://s3.getwebcatalog.com/<%= app.id %>@128px.png" type="image/jpeg">
+                <img src="https://s3.getwebcatalog.com/<%= app.id %>@128px.png" alt="<%= app.name %> on the WebCatalog Store">
               </picture>
             </figure>
             <p class="title is-5 has-text-centered"><%= app.name %></p>

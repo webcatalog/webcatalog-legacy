@@ -10,14 +10,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog">
   <meta name="twitter:description" content="<%= description %>">
-  <% if (locals.app) { %><meta name="twitter:image" content="https://getwebcatalog.com/s3/<%= app.id %>.png" /><% } %>
+  <% if (locals.app) { %><meta name="twitter:image" content="https://s3.getwebcatalog.com/<%= app.id %>.png" /><% } %>
   <meta property="og:site_name" content="WebCatalog">
   <meta property="og:title" content="<%= locals.title ? title + ' | ' : '' %>WebCatalog">
   <meta property="og:type" content="article">
   <meta property="og:description" content="<%= description %>">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://getwebcatalog.com<%= path %>">
-  <% if (locals.app) { %><meta property="og:image" content="https://getwebcatalog.com/s3/<%= app.id %>.png"><% } %>
+  <% if (locals.app) { %><meta property="og:image" content="https://s3.getwebcatalog.com/<%= app.id %>.png"><% } %>
   <link rel="shortcut icon" href="/public/images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" sizes="57x57" href="/public/images/apple-touch-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="114x114" href="/public/images/apple-touch-icon-114x114.png">
