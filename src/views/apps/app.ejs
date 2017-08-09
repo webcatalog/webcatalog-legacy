@@ -28,12 +28,12 @@
       <div class="column is-4">
         <div class="content">
           <div class="has-text-centered">
-            <a href="https://s3.getwebcatalog.com/<%= app.id %>.png">
+            <a href="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>">
               <figure class="image is-128x128 app-icon">
                 <picture>
-                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.webp" type="image/webp">
-                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.png" type="image/jpeg">
-                  <img src="https://s3.getwebcatalog.com/<%= app.id %>.png" alt="<%= app.name %> on the WebCatalog Store">
+                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.webp?v=<%= app.version %>" type="image/webp">
+                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>" type="image/jpeg">
+                  <img src="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>" alt="<%= app.name %> on the WebCatalog Store">
                 </picture>
               </figure>
             </a>
