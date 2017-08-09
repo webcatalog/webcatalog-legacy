@@ -7,9 +7,9 @@ import nodemailer from 'nodemailer';
 import aws from 'aws-sdk';
 import errors from 'throw.js';
 
-import User from '../../models/User';
-import isEmail from '../../libs/isEmail';
-import ensureLoggedIn from '../../middlewares/ensureLoggedIn';
+import User from '../models/User';
+import isEmail from '../libs/isEmail';
+import ensureLoggedIn from '../middlewares/ensureLoggedIn';
 
 const authRouter = express.Router();
 

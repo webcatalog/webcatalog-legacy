@@ -2,9 +2,9 @@ import express from 'express';
 import fetch from 'node-fetch';
 import marked from 'marked';
 
-const mainRouter = express.Router();
+const router = express.Router();
 
-mainRouter.get(['/', '/download', '/downloads'], (req, res) => {
+router.get(['/', '/download', '/downloads'], (req, res) => {
   const ua = req.headers['user-agent'];
   if (/(Intel|PPC) Mac OS X/.test(ua)) {
     res.redirect('/download/mac');
@@ -15,13 +15,13 @@ mainRouter.get(['/', '/download', '/downloads'], (req, res) => {
   }
 });
 
-mainRouter.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
+router.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
   const platform = req.params.platform;
 
   res.redirect(`/download/${platform}`);
 });
 
-mainRouter.get('/download/:platform(mac|windows|linux)', (req, res) => {
+router.get('/download/:platform(mac|windows|linux)', (req, res) => {
   const platform = req.params.platform;
   const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
 
@@ -37,7 +37,7 @@ mainRouter.get('/download/:platform(mac|windows|linux)', (req, res) => {
   });
 });
 
-mainRouter.get('/release-notes', (req, res, next) => {
+router.get('/release-notes', (req, res, next) => {
   fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/RELEASE_NOTES.md`)
     .then(response => response.text())
     .then((mdContent) => {
@@ -46,16 +46,27 @@ mainRouter.get('/release-notes', (req, res, next) => {
     .catch(next);
 });
 
-mainRouter.get('/support', (req, res) => {
+router.get('/support', (req, res) => {
   res.redirect('/help');
 });
 
-mainRouter.get('/help', (req, res) => {
+router.get('/help', (req, res) => {
   res.render('help', { title: 'Support' });
 });
 
-mainRouter.get('/team', (req, res) => {
+router.get('/team', (req, res) => {
   res.render('team', { title: 'Team' });
 });
 
-module.exports = mainRouter;
+router.get('/s3/:name.:ext', (req, res) => {
+  res.redirect(`https://s3.getwebcatalog.com/${req.params.name}.${req.params.ext}`);
+});
+
+router.use('/sitemap.xml', require('./sitemap'));
+router.use('/apps', require('./apps'));
+router.use('/admin', require('./admin'));
+router.use('/api', require('./api'));
+router.use('/auth', require('./auth'));
+router.use('/submit', require('./submit'));
+
+module.exports = router;

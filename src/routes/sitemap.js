@@ -1,7 +1,7 @@
 import express from 'express';
 
-import App from '../../models/App';
-import categories from '../../constants/categories';
+import App from '../models/App';
+import categories from '../constants/categories';
 
 const sitemapRoute = express.Router();
 

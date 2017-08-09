@@ -96,14 +96,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/', require('./routes/main'));
-app.use('/sitemap.xml', require('./routes/sitemap.xml'));
-app.use('/apps', require('./routes/apps'));
-app.use('/admin', require('./routes/admin'));
-app.use('/api', require('./routes/api'));
-app.use('/s3', require('./routes/s3'));
-app.use('/auth', require('./routes/auth'));
-app.use('/submit', require('./routes/submit'));
+app.use('/', require('./routes'));
 
 // Error handler
 /* eslint-disable no-unused-vars */

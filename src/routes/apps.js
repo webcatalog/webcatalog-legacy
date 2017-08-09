@@ -1,11 +1,11 @@
 import express from 'express';
 import errors from 'throw.js';
 
-import App from '../../models/App';
-import categories from '../../constants/categories';
-import extractDomain from '../../libs/extractDomain';
-import generatePageList from '../../libs/generatePageList';
-import algoliaClient from '../../algoliaClient';
+import App from '../models/App';
+import categories from '../constants/categories';
+import extractDomain from '../libs/extractDomain';
+import generatePageList from '../libs/generatePageList';
+import algoliaClient from '../algoliaClient';
 
 const appsRouter = express.Router();
 

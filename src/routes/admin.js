@@ -6,12 +6,12 @@ import slug from 'slug';
 import fetch from 'node-fetch';
 import errors from 'throw.js';
 
-import App from '../../models/App';
-import categories from '../../constants/categories';
-import convertToIcns from '../../libs/convertToIcns';
-import convertToIco from '../../libs/convertToIco';
-import algoliaClient from '../../algoliaClient';
-import ensureIsAdmin from '../../middlewares/ensureIsAdmin';
+import App from '../models/App';
+import categories from '../constants/categories';
+import convertToIcns from '../libs/convertToIcns';
+import convertToIco from '../libs/convertToIco';
+import algoliaClient from '../algoliaClient';
+import ensureIsAdmin from '../middlewares/ensureIsAdmin';
 
 const adminRouter = express.Router();
 

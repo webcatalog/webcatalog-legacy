@@ -2,7 +2,7 @@ import express from 'express';
 import errors from 'throw.js';
 import { Client as IntercomClient } from 'intercom-client';
 
-import ensureLoggedIn from '../../middlewares/ensureLoggedIn';
+import ensureLoggedIn from '../middlewares/ensureLoggedIn';
 
 const submitRouter = express.Router();
 
