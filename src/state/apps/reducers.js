@@ -51,6 +51,9 @@ const queryParams = (state = queryParamsInitialState, action) => {
 
 const apiDataInitialState = {
   apps: [],
+  category: null,
+  sortBy: null,
+  sortOrder: null,
   totalPage: 0,
 };
 const apiData = (state = apiDataInitialState, action) => {
@@ -60,8 +63,12 @@ const apiData = (state = apiDataInitialState, action) => {
       totalPage: action.res.totalPage,
     };
     case APPS_RESET: {
-      const { category, sortBy, sortOrder } = state;
-      return { ...apiDataInitialState, ...{ category, sortBy, sortOrder } };
+      return {
+        ...state,
+        ...apiDataInitialState,
+        apps: [],
+        totalPage: 0,
+      };
     }
     default: return state;
   }

@@ -129,9 +129,6 @@ const styleSheet = createStyleSheet('App', {
   headerDivider: {
     marginBottom: 8,
   },
-  headerContainer: {
-    // backgroundColor: grey[200],
-  },
   menuItem: {
     '&:hover': {
       background: grey[300],
@@ -145,7 +142,7 @@ const styleSheet = createStyleSheet('App', {
   },
 });
 
-class App extends React.Component {
+class EnhancedAppBar extends React.Component {
   constructor() {
     super();
 
@@ -343,16 +340,17 @@ class App extends React.Component {
   }
 }
 
-App.defaultProps = {
-  displayName: 'Unnamed user',
+EnhancedAppBar.defaultProps = {
   category: null,
+  displayName: null,
+  email: null,
 };
 
-App.propTypes = {
+EnhancedAppBar.propTypes = {
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string,
-  email: PropTypes.string.isRequired,
+  email: PropTypes.string,
   isViewingAllApps: PropTypes.bool.isRequired,
   isViewingMyApps: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
@@ -385,4 +383,4 @@ const mapDispatchToProps = dispatch => ({
   onOpenSearchBox: () => dispatch(openSearchBox()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(EnhancedAppBar));

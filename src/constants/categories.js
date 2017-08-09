@@ -64,10 +64,6 @@ const categories = [
     singularLabel: 'productivity',
     value: 'productivity',
   }, {
-    label: '',
-    singularLabel: 'food & drink',
-    value: 'food+drink',
-  }, {
     label: 'Shopping',
     singularLabel: 'shopping',
     value: 'shopping',

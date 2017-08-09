@@ -9,12 +9,12 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
-import DialogAccount from '../Dialogs/Account';
-import DialogAbout from '../Dialogs/About';
-import DialogSubmitApp from '../Dialogs/SubmitApp';
-import DialogConfirmUninstallApp from '../Dialogs/ConfirmUninstallApp';
-import DialogAppDetails from '../Dialogs/AppDetails';
-import DialogFeedback from '../Dialogs/Feedback';
+import DialogAccount from '../dialogs/Account';
+import DialogAbout from '../dialogs/About';
+import DialogSubmitApp from '../dialogs/SubmitApp';
+import DialogConfirmUninstallApp from '../dialogs/ConfirmUninstallApp';
+import DialogAppDetails from '../dialogs/AppDetails';
+import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';

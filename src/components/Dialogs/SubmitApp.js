@@ -120,21 +120,23 @@ const SubmitApp = (props) => {
 
 SubmitApp.defaultProps = {
   name: '',
+  nameError: null,
   open: false,
   url: '',
+  urlError: null,
 };
 
 SubmitApp.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
   name: PropTypes.string,
-  nameError: PropTypes.string.isRequired,
+  nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
-  urlError: PropTypes.string.isRequired,
+  urlError: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

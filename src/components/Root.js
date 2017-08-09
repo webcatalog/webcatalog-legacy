@@ -6,7 +6,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import { isViewingAllApps as isViewingAllAppsSelector } from '../state/ui/routes/selectors';
 
-import AppBar from './AppBar';
+import EnhancedAppBar from './EnhancedAppBar';
 import Login from './Login';
 import Apps from './Apps';
 import MyApps from './MyApps';
@@ -35,7 +35,7 @@ const App = (props) => {
 
   return (
     <div className={classes.root}>
-      {isLoggedIn && <AppBar />}
+      {isLoggedIn && <EnhancedAppBar />}
       {isLoggedIn && appsElement}
       {!isLoggedIn && <Login />}
       <EnhancedSnackBar />
@@ -53,19 +53,11 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  // Please leave this for testing purposes
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line
-    console.log('state:', state);
-  }
-
-  return {
-    category: state.apps.queryParams.category,
-    isViewingAllApps: isViewingAllAppsSelector(state),
-    isLoggedIn: Boolean(state.auth.token),
-  };
-};
+const mapStateToProps = state => ({
+  category: state.apps.queryParams.category,
+  isViewingAllApps: isViewingAllAppsSelector(state),
+  isLoggedIn: Boolean(state.auth.token),
+});
 
 const mapDispatchToProps = () => ({
 });

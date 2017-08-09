@@ -54,6 +54,7 @@ export const getApps = ({ next = false } = {}) =>
 
 export const setCategory = category => (dispatch) => {
   dispatch(appsSetCategory(category));
+  dispatch(setPage(1));
   dispatch(appsReset());
   dispatch(getApps());
 };
@@ -61,6 +62,7 @@ export const setCategory = category => (dispatch) => {
 export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
   dispatch(appsSetSortOrder(sortOrder));
   dispatch(appsSetSortBy(sortBy));
+  dispatch(setPage(1));
   dispatch(appsReset());
   dispatch(getApps());
 };

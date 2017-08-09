@@ -106,6 +106,7 @@ const Feedback = (props) => {
 
 Feedback.defaultProps = {
   content: '',
+  contentError: null,
   open: false,
 };
 
@@ -113,7 +114,7 @@ Feedback.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
   content: PropTypes.string,
-  contentError: PropTypes.string.isRequired,
+  contentError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
