@@ -10,8 +10,6 @@ import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 import AppCard from '../shared/AppCard';
-import { getUser } from '../../state/user/actions';
-import { getUserApps } from '../../state/user/apps/actions';
 import getCategoryLabel from '../../utils/getCategoryLabel';
 import {
   setSortBy,
@@ -51,12 +49,8 @@ class Apps extends React.Component {
   componentDidMount() {
     const {
       onGetApps,
-      onGetUserApps,
-      onGetUser,
     } = this.props;
 
-    onGetUser();
-    onGetUserApps();
     onGetApps();
 
     const el = this.scrollContainer;
@@ -111,7 +105,7 @@ class Apps extends React.Component {
         >
           <Grid container className={classes.grid}>
             <Grid item xs={12}>
-              <Grid container justify="center" gutter={24}>
+              <Grid container justify="center" spacing={24}>
                 {apps.map(app => <AppCard key={app.id} app={app} />)}
               </Grid>
             </Grid>
@@ -134,8 +128,6 @@ Apps.propTypes = {
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetApps: PropTypes.func.isRequired,
-  onGetUser: PropTypes.func.isRequired,
-  onGetUserApps: PropTypes.func.isRequired,
   onSetSortBy: PropTypes.func.isRequired,
   sortBy: PropTypes.string,
 };
@@ -153,8 +145,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onGetUser: () => dispatch(getUser()),
-  onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
   onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });

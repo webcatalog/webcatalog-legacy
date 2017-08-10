@@ -10,7 +10,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
 import { getUser } from '../../state/user/actions';
-import { getUserApps } from '../../state/user/apps/actions';
+import { getUserApps } from '../../state/myApps/actions';
 import EmptyState from './EmptyState';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
@@ -109,7 +109,7 @@ class MyApps extends React.Component {
       element = (
         <Grid container>
           <Grid item xs={12}>
-            <Grid container justify="center" gutter={24}>
+            <Grid container justify="center" spacing={24}>
               {userApps.map(app => <AppCard app={app} />)}
             </Grid>
           </Grid>

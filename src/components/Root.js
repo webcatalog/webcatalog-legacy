@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import { isViewingAllApps as isViewingAllAppsSelector } from '../state/routes/selectors';
+import { getUser } from '../state/user/actions';
 
 import DialogAccount from './dialogs/Account';
 import DialogAbout from './dialogs/About';
@@ -28,36 +29,47 @@ const styleSheet = createStyleSheet('App', {
   },
 });
 
-const App = (props) => {
-  const {
-    classes,
-    isLoggedIn,
-    isViewingAllApps,
-  } = props;
+class App extends React.Component {
+  componentDidMount() {
+    const {
+      onGetUser,
+    } = this.props;
 
-  const appsElement = isViewingAllApps
-    ? <TopCharts key="alls" />
-    : <MyApps key="myApps" />;
+    onGetUser();
+  }
 
-  return (
-    <div className={classes.root}>
-      {isLoggedIn && <EnhancedAppBar />}
-      {isLoggedIn && appsElement}
-      {!isLoggedIn && <Login />}
-      <EnhancedSnackBar />
-      <DialogAbout />
-      <DialogSubmitApp />
-      <DialogConfirmUninstallApp />
-      <DialogAccount />
-      <DialogFeedback />
-    </div>
-  );
-};
+  render() {
+    const {
+      classes,
+      isLoggedIn,
+      isViewingAllApps,
+    } = this.props;
+
+    const appsElement = isViewingAllApps
+      ? <TopCharts key="alls" />
+      : <MyApps key="myApps" />;
+
+    return (
+      <div className={classes.root}>
+        {isLoggedIn && <EnhancedAppBar />}
+        {isLoggedIn && appsElement}
+        {!isLoggedIn && <Login />}
+        <EnhancedSnackBar />
+        <DialogAbout />
+        <DialogSubmitApp />
+        <DialogConfirmUninstallApp />
+        <DialogAccount />
+        <DialogFeedback />
+      </div>
+    );
+  }
+}
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  isViewingAllApps: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  isViewingAllApps: PropTypes.bool.isRequired,
+  onGetUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -65,7 +77,8 @@ const mapStateToProps = state => ({
   isLoggedIn: Boolean(state.auth.token),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  onGetUser: () => dispatch(getUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));

@@ -88,7 +88,7 @@ const Installed = (props) => {
     >
       <Grid container>
         <Grid item xs={12}>
-          <Grid container justify="center" gutter={24}>
+          <Grid container justify="center" spacing={24}>
             {apps.map(app => <AppCard app={app} />)}
           </Grid>
         </Grid>

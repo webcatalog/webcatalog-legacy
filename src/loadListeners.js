@@ -24,7 +24,7 @@ import {
 const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
-    console.log(message);
+    if (message) console.log(message);
   });
 
   ipcRenderer.on('set-auth-token', (e, token) => {
@@ -44,7 +44,7 @@ const loadListeners = (store) => {
   ipcRenderer.on('set-updater-status', (e, status, info) => {
     store.dispatch(setUpdaterStatus(status));
     // eslint-disable-next-line
-    console.log(info);
+    if (info) console.log(info);
   });
 
   ipcRenderer.on('open-about-dialog', () => {
