@@ -1,6 +1,6 @@
 const categories = [
   {
-    label: 'All categories',
+    label: 'All Categories',
     singularLabel: '',
     value: null,
   }, {

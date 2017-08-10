@@ -13,13 +13,9 @@ import DialogAccount from '../dialogs/Account';
 import DialogAbout from '../dialogs/About';
 import DialogSubmitApp from '../dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../dialogs/ConfirmUninstallApp';
-import DialogAppDetails from '../dialogs/AppDetails';
 import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
-import { getAppDetails } from '../../state/apps/details/actions';
-import { getApps } from '../../state/apps/actions';
-
 import EmptyState from './EmptyState';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
@@ -91,25 +87,12 @@ class MyApps extends React.Component {
     super(props);
 
     const {
-      onGetApps,
       onGetUserApps,
       onGetUser,
     } = props;
 
     onGetUser();
     onGetUserApps();
-    onGetApps();
-  }
-
-  componentDidMount() {
-    const el = this.scrollContainer;
-
-    el.onscroll = () => {
-      // Plus 300 to run ahead.
-      if (this.props.userApps && (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight)) {
-        this.props.onGetApps({ next: true });
-      }
-    };
   }
 
   render() {
@@ -123,7 +106,6 @@ class MyApps extends React.Component {
       <DialogAbout />,
       <DialogSubmitApp />,
       <DialogConfirmUninstallApp />,
-      <DialogAppDetails />,
       <DialogAccount />,
       <DialogFeedback />,
     ];
@@ -172,7 +154,6 @@ MyApps.propTypes = {
   isGetting: PropTypes.bool.isRequired,
   userApps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetUserApps: PropTypes.func.isRequired,
-  onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
 };
 
@@ -186,8 +167,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser()),
   onGetUserApps: () => dispatch(getUserApps()),
-  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
-  onGetAppDetails: id => dispatch(getAppDetails(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(MyApps));

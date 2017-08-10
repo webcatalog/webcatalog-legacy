@@ -31,7 +31,7 @@ export const getApps = ({ next = false } = {}) =>
       apiData,
       isGetting,
       queryParams,
-    } = state.apps;
+    } = state.topCharts;
 
     if (isGetting) return;
 

@@ -23,7 +23,7 @@ import {
   isInstalling as isInstallingUtil,
 } from '../../state/local/utils';
 
-const styleSheet = createStyleSheet('Home', (theme) => {
+const styleSheet = createStyleSheet('AppCard', (theme) => {
   const cardContentDefaults = {
     position: 'relative',
     display: 'flex',

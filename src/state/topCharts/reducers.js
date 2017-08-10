@@ -10,8 +10,6 @@ import {
   APPS_GET_SUCCESS,
 } from '../../constants/actions';
 
-import details from './details/reducers';
-
 const isGetting = (state = false, action) => {
   switch (action.type) {
     case APPS_GET_REQUEST: return true;
@@ -78,5 +76,4 @@ export default combineReducers({
   apiData,
   isGetting,
   queryParams,
-  details,
 });

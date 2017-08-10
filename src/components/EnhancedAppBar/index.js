@@ -10,8 +10,9 @@ import IconButton from 'material-ui/IconButton';
 import AddBoxIcon from 'material-ui-icons/AddBox';
 import FeedbackIcon from 'material-ui-icons/Feedback';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import AppsIcon from 'material-ui-icons/Apps';
-import ExitToAppIcon from 'material-ui-icons/ExitToApp';
+import InsertChartIcon from 'material-ui-icons/InsertChart';
+import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import Divider from 'material-ui/Divider';
 import HelpIcon from 'material-ui-icons/Help';
 import Avatar from 'material-ui/Avatar';
@@ -27,7 +28,6 @@ import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import FilterMenuButton from './FilterMenuButton';
 import FakeTitleBar from '../shared/FakeTitleBar';
 import RefreshButton from './RefreshButton';
 import SearchBox from './SearchBox';
@@ -59,7 +59,7 @@ const title = {
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
 };
-const styleSheet = createStyleSheet('App', {
+const styleSheet = createStyleSheet('EnhancedAppBar', {
   root: {
     zIndex: 1,
   },
@@ -184,6 +184,7 @@ class EnhancedAppBar extends React.Component {
       onChangeRoute,
       isViewingAllApps,
       isViewingMyApps,
+      profilePicture,
       onOpenDialogFeedback,
       onOpenSearchBox,
     } = this.props;
@@ -200,7 +201,11 @@ class EnhancedAppBar extends React.Component {
 
     const temp = (
       <div className={classes.headerContainer}>
-        <Avatar className={classes.avatar}>Q</Avatar>
+        <Avatar
+          alt={displayName}
+          src={profilePicture}
+          className={classes.avatar}
+        />
         <div className={classes.nameDetails}>
           <div className={classes.nameDetailsName}>
             {displayName}
@@ -231,8 +236,15 @@ class EnhancedAppBar extends React.Component {
                 onClick={() => onChangeRoute(ROUTE_APPS)}
                 className={isViewingAllApps ? classes.menuItemSelected : classes.menuItem}
               >
-                <ListItemIcon><AppsIcon /></ListItemIcon>
+                <ListItemIcon><InsertChartIcon /></ListItemIcon>
                 <ListItemText primary="Top Charts" />
+              </MenuItem>
+              <MenuItem
+                button
+                onClick={() => onChangeRoute(ROUTE_APPS)}
+              >
+                <ListItemIcon><FileDownloadIcon /></ListItemIcon>
+                <ListItemText primary="Installed Apps" />
               </MenuItem>
               <MenuItem
                 selected={isViewingMyApps}
@@ -240,8 +252,8 @@ class EnhancedAppBar extends React.Component {
                 onClick={() => onChangeRoute(ROUTE_MY_APPS)}
                 className={isViewingMyApps ? classes.menuItemSelected : classes.menuItem}
               >
-                <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-                <ListItemText primary="My apps" />
+                <ListItemIcon><LocalOfferIcon /></ListItemIcon>
+                <ListItemText primary="My Apps" />
               </MenuItem>
               <Divider />
               <MenuItem button onClick={this.handleOpenDialogAccount}>
@@ -250,7 +262,7 @@ class EnhancedAppBar extends React.Component {
               </MenuItem>
               <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
                 <ListItemIcon><AddBoxIcon /></ListItemIcon>
-                <ListItemText primary="Submit app" />
+                <ListItemText primary="Submit App" />
               </MenuItem>
               <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
                 <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
@@ -269,7 +281,7 @@ class EnhancedAppBar extends React.Component {
                 onClick={onOpenDialogFeedback}
               >
                 <ListItemIcon><FeedbackIcon /></ListItemIcon>
-                <ListItemText primary="Send feedback" />
+                <ListItemText primary="Send Feedback" />
               </MenuItem>
               <MenuItem
                 button
@@ -286,7 +298,7 @@ class EnhancedAppBar extends React.Component {
           </div>
         </Drawer>
         <SearchBox />
-        <AppBar position="static" key="appBar" className={classes.appBar}>
+        <AppBar position="static" key="appBar" className={classes.appBar} elevation={3}>
           <Toolbar className={classes.toolbar}>
             <IconButton
               color="contrast"
@@ -303,7 +315,6 @@ class EnhancedAppBar extends React.Component {
             >
               <SearchIcon />
             </IconButton>
-            <FilterMenuButton />
             <RefreshButton />
           </Toolbar>
         </AppBar>
@@ -316,6 +327,7 @@ EnhancedAppBar.defaultProps = {
   category: null,
   displayName: null,
   email: null,
+  profilePicture: null,
 };
 
 EnhancedAppBar.propTypes = {
@@ -324,6 +336,7 @@ EnhancedAppBar.propTypes = {
   email: PropTypes.string,
   isViewingAllApps: PropTypes.bool.isRequired,
   isViewingMyApps: PropTypes.bool.isRequired,
+  profilePicture: PropTypes.string,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
@@ -338,6 +351,7 @@ const mapStateToProps = state => ({
   isLoggedIn: Boolean(state.auth.token),
   isViewingAllApps: isViewingAllAppsSelector(state),
   isViewingMyApps: isViewingMyAppsSelector(state),
+  profilePicture: state.user.apiData.profilePicture,
 });
 
 const mapDispatchToProps = dispatch => ({

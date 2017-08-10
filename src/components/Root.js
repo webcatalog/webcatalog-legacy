@@ -8,7 +8,7 @@ import { isViewingAllApps as isViewingAllAppsSelector } from '../state/ui/routes
 
 import EnhancedAppBar from './EnhancedAppBar';
 import Login from './Login';
-import Apps from './Apps';
+import TopCharts from './TopCharts';
 import MyApps from './MyApps';
 import EnhancedSnackBar from './shared/EnhancedSnackbar';
 
@@ -30,7 +30,7 @@ const App = (props) => {
   } = props;
 
   const appsElement = isViewingAllApps
-    ? <Apps key="alls" />
+    ? <TopCharts key="alls" />
     : <MyApps key="myApps" />;
 
   return (
@@ -43,10 +43,6 @@ const App = (props) => {
   );
 };
 
-App.defaultProps = {
-  category: null,
-};
-
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   isViewingAllApps: PropTypes.bool.isRequired,
@@ -54,7 +50,6 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.apps.queryParams.category,
   isViewingAllApps: isViewingAllAppsSelector(state),
   isLoggedIn: Boolean(state.auth.token),
 });

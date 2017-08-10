@@ -14,16 +14,16 @@ import DialogAccount from '../dialogs/Account';
 import DialogAbout from '../dialogs/About';
 import DialogSubmitApp from '../dialogs/SubmitApp';
 import DialogConfirmUninstallApp from '../dialogs/ConfirmUninstallApp';
-import DialogAppDetails from '../dialogs/AppDetails';
 import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
-import { getAppDetails } from '../../state/apps/details/actions';
 import getCategoryLabel from '../../utils/getCategoryLabel';
 import {
   setSortBy,
   getApps,
-} from '../../state/apps/actions';
+} from '../../state/topCharts/actions';
+
+import FilterMenuButton from './FilterMenuButton';
 
 const styleSheet = createStyleSheet('Apps', () => ({
   root: {
@@ -33,6 +33,13 @@ const styleSheet = createStyleSheet('Apps', () => ({
   },
   paper: {
     zIndex: 1,
+    display: 'flex',
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  tabs: {
+    flex: 1,
+    boxSizing: 'border-box',
   },
   scrollContainer: {
     flex: 1,
@@ -86,6 +93,7 @@ class Apps extends React.Component {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <Tabs
+            className={classes.tabs}
             index={tabIndex}
             indicatorColor="primary"
             textColor="primary"
@@ -99,6 +107,8 @@ class Apps extends React.Component {
             <Tab label={category ? `Top Apps in ${categoryLabel}` : 'Top Apps'} />
             <Tab label={category ? `New Apps in ${categoryLabel}` : 'New Apps'} />
           </Tabs>
+
+          <FilterMenuButton />
         </Paper>
         <div
           className={classes.scrollContainer}
@@ -107,7 +117,6 @@ class Apps extends React.Component {
           <DialogAbout />
           <DialogSubmitApp />
           <DialogConfirmUninstallApp />
-          <DialogAppDetails />
           <DialogAccount />
           <DialogFeedback />
           <Grid container className={classes.grid}>
@@ -142,14 +151,14 @@ Apps.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const apps = state.ui.search.open ? state.ui.search.results : state.apps.apiData.apps;
-  const isGetting = state.ui.search.open ? state.ui.search.isGetting : state.apps.isGetting;
+  const apps = state.ui.search.open ? state.ui.search.results : state.topCharts.apiData.apps;
+  const isGetting = state.ui.search.open ? state.ui.search.isGetting : state.topCharts.isGetting;
 
   return {
     isGetting,
     apps,
-    category: state.apps.queryParams.category,
-    sortBy: state.apps.queryParams.sortBy,
+    category: state.topCharts.queryParams.category,
+    sortBy: state.topCharts.queryParams.sortBy,
   };
 };
 
@@ -157,7 +166,6 @@ const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser()),
   onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
-  onGetAppDetails: id => dispatch(getAppDetails(id)),
   onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });
 

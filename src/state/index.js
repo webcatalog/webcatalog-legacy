@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import apps from './apps/reducers';
+import topCharts from './topCharts/reducers';
 import auth from './auth/reducers';
 import local from './local/reducers';
 import ui from './ui/reducers';
@@ -9,7 +9,7 @@ import updater from './updater/reducers';
 import user from './user/reducers';
 
 const rootReducer = combineReducers({
-  apps,
+  topCharts,
   auth,
   local,
   ui,

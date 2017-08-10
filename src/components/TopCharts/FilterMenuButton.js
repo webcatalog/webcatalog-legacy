@@ -9,7 +9,7 @@ import { MenuItem } from 'material-ui/Menu';
 import EnhancedMenu from '../shared/EnhancedMenu';
 
 import categories from '../../constants/categories';
-import { setCategory } from '../../state/apps/actions';
+import { setCategory } from '../../state/topCharts/actions';
 
 const FilterMenuButton = (props) => {
   const {
@@ -27,15 +27,13 @@ const FilterMenuButton = (props) => {
     </MenuItem>
   ));
 
-  const iconButtonColor = category ? 'default' : 'contrast';
 
   return (
     <EnhancedMenu
       id="filterMenuButton"
       buttonElement={(
         <IconButton
-          aria-label="More"
-          color={iconButtonColor}
+          aria-label="Filter"
         >
           <FilterListIcon />
         </IconButton>
@@ -56,7 +54,7 @@ FilterMenuButton.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.apps.queryParams.category,
+  category: state.topCharts.queryParams.category,
 });
 
 const mapDispatchToProps = dispatch => ({
