@@ -9,7 +9,6 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
-import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/myApps/actions';
 import EmptyState from './EmptyState';
 
@@ -83,10 +82,8 @@ class MyApps extends React.Component {
 
     const {
       onGetUserApps,
-      onGetUser,
     } = props;
 
-    onGetUser();
     onGetUserApps();
   }
 
@@ -128,28 +125,19 @@ class MyApps extends React.Component {
   }
 }
 
-MyApps.defaultProps = {
-  category: null,
-  sortBy: null,
-};
-
 MyApps.propTypes = {
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
   userApps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetUserApps: PropTypes.func.isRequired,
-  onGetUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  userApps: state.user.apps.apiData.apps,
-  isGetting: state.user.apps.isGetting,
-  category: state.apps.queryParams.category,
-  sortBy: state.apps.queryParams.sortBy,
+  userApps: state.myApps.apiData.apps,
+  isGetting: state.myApps.isGetting,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGetUser: () => dispatch(getUser()),
   onGetUserApps: () => dispatch(getUserApps()),
 });
 

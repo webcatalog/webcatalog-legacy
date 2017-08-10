@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
+import Typography from 'material-ui/Typography';
 import {
   createStyleSheet,
   withStyles,
@@ -39,21 +39,23 @@ import {
 } from '../../constants/strings';
 
 const styleSheet = createStyleSheet('About', {
-  linearProgress: {
-    opacity: 0,
-  },
-  appBar: {
-    position: 'relative',
-  },
-  flex: {
-    flex: 1,
+  icon: {
+    height: 128,
+    width: 128,
   },
   dialogContent: {
     minWidth: 240,
     textAlign: 'center',
   },
-  textField: {
-    width: '100%',
+  title: {
+    marginTop: 16,
+  },
+  version: {
+    marginBottom: 16,
+  },
+  updaterStatus: {
+    marginTop: 32,
+    marginBottom: 12,
   },
 });
 
@@ -99,9 +101,9 @@ const About = (props) => {
     >
       <DialogTitle>About</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <img src={iconSvg} alt="WebCatalog" />
-        <p>WebCatalog</p>
-        <p>Version {window.version}</p>
+        <img src={iconSvg} alt="WebCatalog" className={classes.icon} />
+        <Typography type="title" className={classes.title}>WebCatalog</Typography>
+        <Typography type="body1" className={classes.version}>Version {window.version}</Typography>
 
         <Button
           onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/release-notes')}
@@ -115,9 +117,9 @@ const About = (props) => {
           {STRING_PRIVACY_POLICY}
         </Button>
 
-        <Divider />
-
-        <p>{updaterStatusMessage}</p>
+        <Typography type="body1" className={classes.updaterStatus}>
+          {updaterStatusMessage}
+        </Typography>
 
         {updaterStatus === UPDATE_DOWNLOADED ? (
           <Button

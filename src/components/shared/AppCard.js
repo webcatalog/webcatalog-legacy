@@ -13,6 +13,7 @@ import GetAppIcon from 'material-ui-icons/GetApp';
 import grey from 'material-ui/colors/grey';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
+import { LinearProgress } from 'material-ui/Progress';
 
 import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';
@@ -94,7 +95,10 @@ const styleSheet = createStyleSheet('AppCard', (theme) => {
       justifyContent: 'center',
       overflow: 'hidden',
     },
-
+    linearProgressContainer: {
+      flex: 1,
+      padding: '0 16px',
+    },
     rightButton: {
       marginLeft: theme.spacing.unit,
     },
@@ -150,7 +154,9 @@ const AppCard = (props) => {
     }
 
     if (isInstalling || isUninstalling) {
-      return (<div>Loading...</div>);
+      return (
+        <div className={classes.linearProgressContainer}><LinearProgress /></div>
+      );
     }
 
     return (
