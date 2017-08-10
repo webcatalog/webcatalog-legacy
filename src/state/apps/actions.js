@@ -45,7 +45,7 @@ export const getApps = ({ next = false } = {}) =>
     const currentPage = next ? page + 1 : page;
 
     dispatch(appsGetRequest());
-    dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=30&page=${currentPage}`, queryParams)))
+    dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=48&page=${currentPage}`, queryParams)))
       .then(res => res.json())
       .then(res => dispatch(appsGetSuccess(res)))
       .then(() => dispatch(setPage(currentPage)))

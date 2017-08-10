@@ -28,9 +28,7 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import FilterMenuButton from './FilterMenuButton';
-import getSingularLabel from '../../utils/getSingularLabel';
 import FakeTitleBar from '../shared/FakeTitleBar';
-import SortMenuButton from './SortMenuButton';
 import RefreshButton from './RefreshButton';
 import SearchBox from './SearchBox';
 
@@ -182,10 +180,7 @@ class EnhancedAppBar extends React.Component {
     const {
       displayName,
       email,
-      category,
       classes,
-      sortBy,
-      sortOrder,
       onChangeRoute,
       isViewingAllApps,
       isViewingMyApps,
@@ -193,37 +188,15 @@ class EnhancedAppBar extends React.Component {
       onOpenSearchBox,
     } = this.props;
 
-    const renderTitleElement = () => {
-      const appString = category ? `${getSingularLabel(category)} apps` : 'apps';
-
-      let titleText;
-      switch (sortBy) {
-        case 'installCount': {
-          titleText = sortOrder === 'asc' ? `Least popular ${appString}` : `Most popular ${appString}`;
-          break;
-        }
-        case 'name': {
-          titleText = sortOrder === 'asc' ? `${appString} by name (A-Z)` : `${appString} by name (Z-A)`;
-          break;
-        }
-        case 'createdAt': {
-          titleText = `Most recently added ${appString}`;
-          break;
-        }
-        default: break;
-      }
-      titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1);
-
-      return (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          type="title"
-        >
-          {titleText}
-        </Typography>
-      );
-    };
+    const renderTitleElement = () => (
+      <Typography
+        className={classes.title}
+        color="inherit"
+        type="title"
+      >
+        Top Charts
+      </Typography>
+    );
 
     const temp = (
       <div className={classes.headerContainer}>
@@ -259,7 +232,7 @@ class EnhancedAppBar extends React.Component {
                 className={isViewingAllApps ? classes.menuItemSelected : classes.menuItem}
               >
                 <ListItemIcon><AppsIcon /></ListItemIcon>
-                <ListItemText primary="Apps" />
+                <ListItemText primary="Top Charts" />
               </MenuItem>
               <MenuItem
                 selected={isViewingMyApps}
@@ -330,7 +303,6 @@ class EnhancedAppBar extends React.Component {
             >
               <SearchIcon />
             </IconButton>
-            <SortMenuButton />
             <FilterMenuButton />
             <RefreshButton />
           </Toolbar>
@@ -347,7 +319,6 @@ EnhancedAppBar.defaultProps = {
 };
 
 EnhancedAppBar.propTypes = {
-  category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string,
   email: PropTypes.string,
@@ -359,19 +330,14 @@ EnhancedAppBar.propTypes = {
   onOpenDialogFeedback: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   onOpenSearchBox: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  sortOrder: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   displayName: state.user.apiData.displayName,
   email: state.user.apiData.email,
-  category: state.apps.queryParams.category,
   isLoggedIn: Boolean(state.auth.token),
-  sortBy: state.apps.queryParams.sortBy,
   isViewingAllApps: isViewingAllAppsSelector(state),
   isViewingMyApps: isViewingMyAppsSelector(state),
-  sortOrder: state.apps.queryParams.sortOrder,
 });
 
 const mapDispatchToProps = dispatch => ({

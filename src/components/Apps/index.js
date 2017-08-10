@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { LinearProgress } from 'material-ui/Progress';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 import AppCard from '../shared/AppCard';
 import DialogAccount from '../dialogs/Account';
@@ -17,17 +19,29 @@ import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import { getAppDetails } from '../../state/apps/details/actions';
-import { getApps } from '../../state/apps/actions';
+import getCategoryLabel from '../../utils/getCategoryLabel';
+import {
+  setSortBy,
+  getApps,
+} from '../../state/apps/actions';
 
 const styleSheet = createStyleSheet('Apps', () => ({
-  grid: {
-    marginBottom: 16,
+  root: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  paper: {
+    zIndex: 1,
   },
   scrollContainer: {
     flex: 1,
     padding: 36,
     overflow: 'auto',
     boxSizing: 'border-box',
+  },
+  grid: {
+    marginBottom: 16,
   },
 }));
 
@@ -55,30 +69,56 @@ class Apps extends React.Component {
 
   render() {
     const {
-      isGetting,
-      classes,
       apps,
+      category,
+      classes,
+      isGetting,
+      onSetSortBy,
+      sortBy,
     } = this.props;
 
+    let tabIndex = 0;
+    if (sortBy === 'createdAt') tabIndex = 1;
+
+    const categoryLabel = getCategoryLabel(category);
+
     return (
-      <div
-        className={classes.scrollContainer}
-        ref={(container) => { this.scrollContainer = container; }}
-      >
-        <DialogAbout />
-        <DialogSubmitApp />
-        <DialogConfirmUninstallApp />
-        <DialogAppDetails />
-        <DialogAccount />
-        <DialogFeedback />
-        <Grid container className={classes.grid}>
-          <Grid item xs={12}>
-            <Grid container justify="center" gutter={24}>
-              {apps.map(app => <AppCard key={app.id} app={app} />)}
+      <div className={classes.root}>
+        <Paper className={classes.paper}>
+          <Tabs
+            index={tabIndex}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+            onChange={(event, index) => {
+              if (index === 0) return onSetSortBy('installCount', 'desc');
+
+              return onSetSortBy('createdAt', 'desc');
+            }}
+          >
+            <Tab label={category ? `Top Apps in ${categoryLabel}` : 'Top Apps'} />
+            <Tab label={category ? `New Apps in ${categoryLabel}` : 'New Apps'} />
+          </Tabs>
+        </Paper>
+        <div
+          className={classes.scrollContainer}
+          ref={(container) => { this.scrollContainer = container; }}
+        >
+          <DialogAbout />
+          <DialogSubmitApp />
+          <DialogConfirmUninstallApp />
+          <DialogAppDetails />
+          <DialogAccount />
+          <DialogFeedback />
+          <Grid container className={classes.grid}>
+            <Grid item xs={12}>
+              <Grid container justify="center" gutter={24}>
+                {apps.map(app => <AppCard key={app.id} app={app} />)}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        {isGetting && (<LinearProgress />)}
+          {isGetting && (<LinearProgress />)}
+        </div>
       </div>
     );
   }
@@ -90,12 +130,15 @@ Apps.defaultProps = {
 };
 
 Apps.propTypes = {
+  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
-  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onGetUserApps: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
+  onGetUserApps: PropTypes.func.isRequired,
+  onSetSortBy: PropTypes.func.isRequired,
+  sortBy: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -115,6 +158,7 @@ const mapDispatchToProps = dispatch => ({
   onGetUserApps: () => dispatch(getUserApps()),
   onGetApps: optionsObject => dispatch(getApps(optionsObject)),
   onGetAppDetails: id => dispatch(getAppDetails(id)),
+  onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));

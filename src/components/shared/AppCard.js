@@ -14,8 +14,6 @@ import grey from 'material-ui/colors/grey';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
-import AppCardMoreMenuButton from './AppCardMoreMenuButton';
-
 import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
 import { installApp } from '../../state/local/actions';
@@ -28,7 +26,6 @@ import {
 const styleSheet = createStyleSheet('Home', (theme) => {
   const cardContentDefaults = {
     position: 'relative',
-    backgroundColor: grey[100],
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -73,9 +70,6 @@ const styleSheet = createStyleSheet('Home', (theme) => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       fontSize: 16,
-    },
-    appUrl: {
-      fontSize: 14,
     },
     paperIcon: {
       width: 72,
@@ -150,7 +144,7 @@ const AppCard = (props) => {
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
             <DeleteIcon color="inherit" />
-            <span className={classes.buttonText}>Uninstall</span>
+            <span className={classes.buttonText} secondary>Uninstall</span>
           </Button>
         </div>
       );
@@ -175,19 +169,11 @@ const AppCard = (props) => {
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <AppCardMoreMenuButton
-            app={app}
-            isInstalled={isInstalled}
-            id={app.id}
-            name={app.name}
-            url={app.url}
-            onOpenApp={handleOpenApp}
-          />
           <img src={`https://getwebcatalog.com/s3/${app.id}@128px.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
-          <Typography type="display2" color="secondary" className={classes.appUrl}>
+          <Typography type="body1" color="secondary" className={classes.appUrl}>
             {extractHostname(app.url)}
           </Typography>
         </CardContent>
