@@ -1,18 +1,18 @@
 import { combineReducers } from 'redux';
 
 import {
-  ROUTE_APPS,
+  ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
 
 import {
   ROUTE_CHANGE,
 } from '../../constants/actions';
 
-const apps = (state = ROUTE_APPS, action) => {
+const route = (state = ROUTE_TOP_CHARTS, action) => {
   switch (action.type) {
     case ROUTE_CHANGE: return action.route;
     default: return state;
   }
 };
 
-export default combineReducers({ apps });
+export default combineReducers({ route });

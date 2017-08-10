@@ -26,7 +26,7 @@ import {
   close,
   formUpdate,
   save,
-} from '../../state/dialogs/feedback/actions';
+} from '../../../state/dialogs/feedback/actions';
 
 const styleSheet = createStyleSheet('Feedback', {
   linearProgress: {

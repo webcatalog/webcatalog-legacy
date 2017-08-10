@@ -5,7 +5,7 @@ import auth from './auth/reducers';
 import dialogs from './dialogs/reducers';
 import local from './local/reducers';
 import myApps from './myApps/reducers';
-import routes from './routes/reducers';
+import router from './router/reducers';
 import search from './search/reducers';
 import snackbar from './snackbar/reducers';
 import topCharts from './topCharts/reducers';
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   dialogs,
   local,
   myApps,
-  routes,
+  router,
   search,
   snackbar,
   topCharts,

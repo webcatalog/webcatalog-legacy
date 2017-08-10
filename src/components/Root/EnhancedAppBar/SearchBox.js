@@ -12,13 +12,13 @@ import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import FakeTitleBar from '../shared/FakeTitleBar';
+import FakeTitleBar from '../../shared/FakeTitleBar';
 
 import {
   openSearchBox,
   closeSearchBox,
   formUpdate,
-} from '../../state/search/actions';
+} from '../../../state/search/actions';
 
 const styleSheet = createStyleSheet('SearchBox', {
   appBarContainer: {

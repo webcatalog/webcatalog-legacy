@@ -25,11 +25,11 @@ import grey from 'material-ui/colors/grey';
 import {
   close,
   sectionChange,
-} from '../../../state/dialogs/account/actions';
+} from '../../../../state/dialogs/account/actions';
 
-import { SECTIONS } from '../../../state/dialogs/account/constants';
+import { SECTIONS } from '../../../../state/dialogs/account/constants';
 import { isSectionActive as isSectionActiveSelector }
-  from '../../../state/dialogs/account/utils';
+  from '../../../../state/dialogs/account/utils';
 
 import Profile from './profile';
 import Password from './password';

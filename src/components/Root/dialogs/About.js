@@ -15,8 +15,8 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 
-import { close } from '../../state/dialogs/about/actions';
-import iconSvg from '../../assets/icon.svg';
+import { close } from '../../../state/dialogs/about/actions';
+import iconSvg from '../../../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
   UPDATE_AVAILABLE,
@@ -24,7 +24,7 @@ import {
   UPDATE_ERROR,
   UPDATE_NOT_AVAILABLE,
   UPDATE_PROGRESS,
-} from '../../constants/updaterStatuses';
+} from '../../../constants/updaterStatuses';
 import {
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
@@ -36,7 +36,7 @@ import {
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
   STRING_UPDATE_PROGRESS,
-} from '../../constants/strings';
+} from '../../../constants/strings';
 
 const styleSheet = createStyleSheet('About', {
   icon: {

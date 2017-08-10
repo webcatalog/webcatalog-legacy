@@ -1,2 +1,3 @@
-export const ROUTE_APPS = 'ROUTE_APPS';
+export const ROUTE_INSTALLED_APPS = 'ROUTE_INSTALLED_APPS';
+export const ROUTE_TOP_CHARTS = 'ROUTE_TOP_CHARTS';
 export const ROUTE_MY_APPS = 'ROUTE_MY_APPS';

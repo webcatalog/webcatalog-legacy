@@ -28,27 +28,23 @@ import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import FakeTitleBar from '../shared/FakeTitleBar';
+import FakeTitleBar from '../../shared/FakeTitleBar';
 import RefreshButton from './RefreshButton';
 import SearchBox from './SearchBox';
 
-import {
-  isViewingAllApps as isViewingAllAppsSelector,
-  isViewingMyApps as isViewingMyAppsSelector,
-} from '../../state/routes/selectors';
-
-import { changeRoute } from '../../state/routes/actions';
-import { open as openDialogAccount } from '../../state/dialogs/account/actions';
-import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
-import { open as openDialogAbout } from '../../state/dialogs/about/actions';
-import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
+import { changeRoute } from '../../../state/router/actions';
+import { open as openDialogAccount } from '../../../state/dialogs/account/actions';
+import { open as openDialogFeedback } from '../../../state/dialogs/feedback/actions';
+import { open as openDialogAbout } from '../../../state/dialogs/about/actions';
+import { open as openDialogSubmitApp } from '../../../state/dialogs/submit-app/actions';
 import {
   openSearchBox,
-} from '../../state/search/actions';
+} from '../../../state/search/actions';
 import {
-  ROUTE_APPS,
+  ROUTE_INSTALLED_APPS,
   ROUTE_MY_APPS,
-} from '../../constants/routes';
+  ROUTE_TOP_CHARTS,
+} from '../../../constants/routes';
 
 const title = {
   lineHeight: 1.5,
@@ -132,12 +128,6 @@ const styleSheet = createStyleSheet('EnhancedAppBar', {
       background: grey[300],
     },
   },
-  menuItemSelected: {
-    extend: 'menuItem',
-    '&:hover': {
-      background: grey[400],
-    },
-  },
 });
 
 class EnhancedAppBar extends React.Component {
@@ -178,26 +168,27 @@ class EnhancedAppBar extends React.Component {
 
   render() {
     const {
+      classes,
       displayName,
       email,
-      classes,
       onChangeRoute,
-      isViewingAllApps,
-      isViewingMyApps,
-      profilePicture,
       onOpenDialogFeedback,
       onOpenSearchBox,
+      profilePicture,
+      route,
     } = this.props;
 
-    const renderTitleElement = () => (
-      <Typography
-        className={classes.title}
-        color="inherit"
-        type="title"
-      >
-        Top Charts
-      </Typography>
-    );
+    let routeLabel;
+    switch (route) {
+      case ROUTE_INSTALLED_APPS:
+        routeLabel = 'Installed Apps';
+        break;
+      case ROUTE_MY_APPS:
+        routeLabel = 'My Apps';
+        break;
+      default:
+        routeLabel = 'Top Charts';
+    }
 
     const temp = (
       <div className={classes.headerContainer}>
@@ -231,26 +222,26 @@ class EnhancedAppBar extends React.Component {
               {temp}
               <Divider />
               <MenuItem
-                selected={isViewingAllApps}
+                selected={route === ROUTE_TOP_CHARTS}
                 button
-                onClick={() => onChangeRoute(ROUTE_APPS)}
-                className={isViewingAllApps ? classes.menuItemSelected : classes.menuItem}
+                onClick={() => onChangeRoute(ROUTE_TOP_CHARTS)}
+                className={classes.menuItem}
               >
                 <ListItemIcon><InsertChartIcon /></ListItemIcon>
                 <ListItemText primary="Top Charts" />
               </MenuItem>
               <MenuItem
                 button
-                onClick={() => onChangeRoute(ROUTE_APPS)}
+                onClick={() => onChangeRoute(ROUTE_INSTALLED_APPS)}
               >
                 <ListItemIcon><FileDownloadIcon /></ListItemIcon>
                 <ListItemText primary="Installed Apps" />
               </MenuItem>
               <MenuItem
-                selected={isViewingMyApps}
+                selected={route === ROUTE_MY_APPS}
                 button
                 onClick={() => onChangeRoute(ROUTE_MY_APPS)}
-                className={isViewingMyApps ? classes.menuItemSelected : classes.menuItem}
+                className={classes.menuItem}
               >
                 <ListItemIcon><LocalOfferIcon /></ListItemIcon>
                 <ListItemText primary="My Apps" />
@@ -307,7 +298,13 @@ class EnhancedAppBar extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            {renderTitleElement()}
+            <Typography
+              className={classes.title}
+              color="inherit"
+              type="title"
+            >
+              {routeLabel}
+            </Typography>
             <IconButton
               color="contrast"
               aria-label="Search"
@@ -334,8 +331,7 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string,
   email: PropTypes.string,
-  isViewingAllApps: PropTypes.bool.isRequired,
-  isViewingMyApps: PropTypes.bool.isRequired,
+  route: PropTypes.string.isRequired,
   profilePicture: PropTypes.string,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
@@ -349,8 +345,7 @@ const mapStateToProps = state => ({
   displayName: state.user.apiData.displayName,
   email: state.user.apiData.email,
   isLoggedIn: Boolean(state.auth.token),
-  isViewingAllApps: isViewingAllAppsSelector(state),
-  isViewingMyApps: isViewingMyAppsSelector(state),
+  route: state.router.route,
   profilePicture: state.user.apiData.profilePicture,
 });
 

@@ -26,7 +26,7 @@ import {
   close,
   formUpdate,
   save,
-} from '../../state/dialogs/submit-app/actions';
+} from '../../../state/dialogs/submit-app/actions';
 
 const styleSheet = createStyleSheet('SubmitApp', {
   linearProgress: {

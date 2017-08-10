@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { isViewingAllApps as isViewingAllAppsSelector } from '../state/routes/selectors';
-import { getUser } from '../state/user/actions';
+import { getUser } from '../../state/user/actions';
 
 import DialogAccount from './dialogs/Account';
 import DialogAbout from './dialogs/About';
@@ -14,10 +13,16 @@ import DialogConfirmUninstallApp from './dialogs/ConfirmUninstallApp';
 import DialogFeedback from './dialogs/Feedback';
 
 import EnhancedAppBar from './EnhancedAppBar';
-import Login from './Login';
-import TopCharts from './TopCharts';
-import MyApps from './MyApps';
-import EnhancedSnackBar from './shared/EnhancedSnackbar';
+import EnhancedSnackBar from '../shared/EnhancedSnackbar';
+import InstalledApps from '../InstalledApps';
+import Login from '../Login';
+import MyApps from '../MyApps';
+import TopCharts from '../TopCharts';
+
+import {
+  ROUTE_MY_APPS,
+  ROUTE_INSTALLED_APPS,
+} from '../../constants/routes';
 
 const styleSheet = createStyleSheet('App', {
   root: {
@@ -42,17 +47,25 @@ class App extends React.Component {
     const {
       classes,
       isLoggedIn,
-      isViewingAllApps,
+      route,
     } = this.props;
 
-    const appsElement = isViewingAllApps
-      ? <TopCharts key="alls" />
-      : <MyApps key="myApps" />;
+    let pageContent;
+    switch (route) {
+      case ROUTE_MY_APPS:
+        pageContent = <MyApps key="myApps" />;
+        break;
+      case ROUTE_INSTALLED_APPS:
+        pageContent = <InstalledApps key="InstalledApps" />;
+        break;
+      default:
+        pageContent = <TopCharts key="topCharts" />;
+    }
 
     return (
       <div className={classes.root}>
         {isLoggedIn && <EnhancedAppBar />}
-        {isLoggedIn && appsElement}
+        {isLoggedIn && pageContent}
         {!isLoggedIn && <Login />}
         <EnhancedSnackBar />
         <DialogAbout />
@@ -68,12 +81,12 @@ class App extends React.Component {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  isViewingAllApps: PropTypes.bool.isRequired,
+  route: PropTypes.string.isRequired,
   onGetUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isViewingAllApps: isViewingAllAppsSelector(state),
+  route: state.router.route,
   isLoggedIn: Boolean(state.auth.token),
 });
 

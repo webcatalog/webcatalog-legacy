@@ -19,7 +19,7 @@ import {
 import {
   formUpdate,
   save,
-} from '../../../state/dialogs/account/profile/actions';
+} from '../../../../state/dialogs/account/profile/actions';
 
 const styleSheet = createStyleSheet('Profile', {
   textField: {
