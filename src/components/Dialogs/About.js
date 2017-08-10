@@ -15,7 +15,7 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 
-import { close } from '../../state/ui/dialogs/about/actions';
+import { close } from '../../state/dialogs/about/actions';
 import iconSvg from '../../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
@@ -154,7 +154,7 @@ About.propTypes = {
 
 const mapStateToProps = state => ({
   updaterStatus: state.updater.status,
-  open: state.ui.dialogs.about.open,
+  open: state.dialogs.about.open,
 });
 
 const mapDispatchToProps = dispatch => ({

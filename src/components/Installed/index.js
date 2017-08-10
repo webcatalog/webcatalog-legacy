@@ -8,6 +8,11 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppCard from '../shared/AppCard';
+import {
+  INSTALLED,
+  UPDATING,
+  INSTALLING,
+} from '../../constants/appStatuses';
 
 const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {
@@ -102,7 +107,7 @@ const mapStateToProps = (state) => {
   const apps = [];
   Object.keys(managedApps).forEach((id) => {
     const { status, app } = managedApps[id];
-    const acceptedStatuses = ['INSTALLED', 'UPDATING', 'INSTALLING'];
+    const acceptedStatuses = [INSTALLED, UPDATING, INSTALLING];
     if (acceptedStatuses.indexOf(status) > -1) {
       apps.push(app);
     }

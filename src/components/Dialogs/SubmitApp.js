@@ -26,7 +26,7 @@ import {
   close,
   formUpdate,
   save,
-} from '../../state/ui/dialogs/submit-app/actions';
+} from '../../state/dialogs/submit-app/actions';
 
 const styleSheet = createStyleSheet('SubmitApp', {
   linearProgress: {
@@ -140,12 +140,12 @@ SubmitApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSaving: state.ui.dialogs.submitApp.isSaving,
-  name: state.ui.dialogs.submitApp.form.name,
-  nameError: state.ui.dialogs.submitApp.form.nameError,
-  open: state.ui.dialogs.submitApp.open,
-  url: state.ui.dialogs.submitApp.form.url,
-  urlError: state.ui.dialogs.submitApp.form.urlError,
+  isSaving: state.dialogs.submitApp.isSaving,
+  name: state.dialogs.submitApp.form.name,
+  nameError: state.dialogs.submitApp.form.nameError,
+  open: state.dialogs.submitApp.open,
+  url: state.dialogs.submitApp.form.url,
+  urlError: state.dialogs.submitApp.form.urlError,
 });
 
 const mapDispatchToProps = dispatch => ({

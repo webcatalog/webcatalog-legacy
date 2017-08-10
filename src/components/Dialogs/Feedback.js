@@ -26,7 +26,7 @@ import {
   close,
   formUpdate,
   save,
-} from '../../state/ui/dialogs/feedback/actions';
+} from '../../state/dialogs/feedback/actions';
 
 const styleSheet = createStyleSheet('Feedback', {
   linearProgress: {
@@ -122,10 +122,10 @@ Feedback.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSaving: state.ui.dialogs.feedback.isSaving,
-  content: state.ui.dialogs.feedback.form.content,
-  contentError: state.ui.dialogs.feedback.form.contentError,
-  open: state.ui.dialogs.feedback.open,
+  isSaving: state.dialogs.feedback.isSaving,
+  content: state.dialogs.feedback.form.content,
+  contentError: state.dialogs.feedback.form.contentError,
+  open: state.dialogs.feedback.open,
 });
 
 const mapDispatchToProps = dispatch => ({

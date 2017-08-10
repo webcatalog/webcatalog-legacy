@@ -15,10 +15,10 @@ import {
 
 import {
   openSnackbar,
-} from './state/ui/snackbar/actions';
+} from './state/snackbar/actions';
 import {
   open as openDialogAbout,
-} from './state/ui/dialogs/about/actions';
+} from './state/dialogs/about/actions';
 
 
 const loadListeners = (store) => {

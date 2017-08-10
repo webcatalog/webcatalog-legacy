@@ -10,11 +10,6 @@ import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 import AppCard from '../shared/AppCard';
-import DialogAccount from '../dialogs/Account';
-import DialogAbout from '../dialogs/About';
-import DialogSubmitApp from '../dialogs/SubmitApp';
-import DialogConfirmUninstallApp from '../dialogs/ConfirmUninstallApp';
-import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import getCategoryLabel from '../../utils/getCategoryLabel';
@@ -114,11 +109,6 @@ class Apps extends React.Component {
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
-          <DialogAbout />
-          <DialogSubmitApp />
-          <DialogConfirmUninstallApp />
-          <DialogAccount />
-          <DialogFeedback />
           <Grid container className={classes.grid}>
             <Grid item xs={12}>
               <Grid container justify="center" gutter={24}>
@@ -151,8 +141,8 @@ Apps.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const apps = state.ui.search.open ? state.ui.search.results : state.topCharts.apiData.apps;
-  const isGetting = state.ui.search.open ? state.ui.search.isGetting : state.topCharts.isGetting;
+  const apps = state.search.open ? state.search.results : state.topCharts.apiData.apps;
+  const isGetting = state.search.open ? state.search.isGetting : state.topCharts.isGetting;
 
   return {
     isGetting,

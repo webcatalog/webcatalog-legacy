@@ -20,7 +20,7 @@ import Dialog, {
 import {
   close,
   save,
-} from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+} from '../../state/dialogs/confirm-uninstall-app/actions';
 
 const styleSheet = createStyleSheet('ConfirmUninstallApp', {
   linearProgress: {
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
     isSaving,
     open,
     form,
-  } = state.ui.dialogs.confirmUninstallApp;
+  } = state.dialogs.confirmUninstallApp;
 
   const { app } = form;
 

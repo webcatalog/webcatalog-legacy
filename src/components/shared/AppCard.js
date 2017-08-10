@@ -15,7 +15,7 @@ import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
 import extractHostname from '../../utils/extractHostname';
-import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';
 import { installApp } from '../../state/local/actions';
 import {
   isInstalled as isInstalledUtil,
@@ -69,7 +69,6 @@ const styleSheet = createStyleSheet('AppCard', (theme) => {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
-      fontSize: 16,
     },
     paperIcon: {
       width: 72,
@@ -140,11 +139,11 @@ const AppCard = (props) => {
             <span className={classes.buttonText}>Open</span>
           </Button>
           <Button
-            className={classes.button}
+            color="accent"
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
             <DeleteIcon color="inherit" />
-            <span className={classes.buttonText} secondary>Uninstall</span>
+            <span className={classes.buttonText}>Uninstall</span>
           </Button>
         </div>
       );
@@ -156,7 +155,7 @@ const AppCard = (props) => {
 
     return (
       <Button
-        className={classes.button}
+        color="primary"
         onClick={() => onInstallApp(app.id, app.name)}
       >
         <GetAppIcon color="inherit" />

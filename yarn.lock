@@ -7630,7 +7630,7 @@ uglifyjs-webpack-plugin@^0.4.6:
 
 uid-number@^0.0.6:
   version "0.0.6"
-  resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
+  resolved "https://registry.yarnpkg.comd-number/-d-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
 uniq@^1.0.1:
   version "1.0.1"

@@ -1,18 +1,26 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import topCharts from './topCharts/reducers';
 import auth from './auth/reducers';
+import dialogs from './dialogs/reducers';
 import local from './local/reducers';
-import ui from './ui/reducers';
+import myApps from './myApps/reducers';
+import routes from './routes/reducers';
+import search from './search/reducers';
+import snackbar from './snackbar/reducers';
+import topCharts from './topCharts/reducers';
 import updater from './updater/reducers';
 import user from './user/reducers';
 
 const rootReducer = combineReducers({
-  topCharts,
   auth,
+  dialogs,
   local,
-  ui,
+  myApps,
+  routes,
+  search,
+  snackbar,
+  topCharts,
   updater,
   user,
 });

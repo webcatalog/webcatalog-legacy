@@ -2,7 +2,7 @@ import {
   localAppSet,
   localAppRemove,
 } from './action-creators';
-import { openSnackbar } from '../ui/snackbar/actions';
+import { openSnackbar } from '../snackbar/actions';
 import { apiGet } from '../api';
 import installAppAsync from '../../utils/installAppAsync';
 

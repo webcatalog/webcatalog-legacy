@@ -9,6 +9,7 @@ import LockIcon from 'material-ui-icons/Lock';
 import { MenuItem } from 'material-ui/Menu';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 
+import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import {
   createStyleSheet,
@@ -24,11 +25,11 @@ import grey from 'material-ui/colors/grey';
 import {
   close,
   sectionChange,
-} from '../../../state/ui/dialogs/account/actions';
+} from '../../../state/dialogs/account/actions';
 
-import { SECTIONS } from '../../../state/ui/dialogs/account/constants';
+import { SECTIONS } from '../../../state/dialogs/account/constants';
 import { isSectionActive as isSectionActiveSelector }
-  from '../../../state/ui/dialogs/account/utils';
+  from '../../../state/dialogs/account/utils';
 
 import Profile from './profile';
 import Password from './password';
@@ -118,7 +119,8 @@ const Account = (props) => {
       open={open}
       transition={<Slide direction="left" />}
     >
-      <DialogTitle className={classes.dialogTitle}>Account</DialogTitle>
+      <DialogTitle>Account</DialogTitle>
+      <Divider />
       <DialogContent className={classes.dialogContent}>
         <List className={classes.list}>
           <MenuItem
@@ -166,7 +168,7 @@ Account.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { open } = state.ui.dialogs.account;
+  const { open } = state.dialogs.account;
 
   return {
     // open: true,

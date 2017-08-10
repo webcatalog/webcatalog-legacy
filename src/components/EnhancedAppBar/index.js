@@ -35,16 +35,16 @@ import SearchBox from './SearchBox';
 import {
   isViewingAllApps as isViewingAllAppsSelector,
   isViewingMyApps as isViewingMyAppsSelector,
-} from '../../state/ui/routes/selectors';
+} from '../../state/routes/selectors';
 
-import { changeRoute } from '../../state/ui/routes/actions';
-import { open as openDialogAccount } from '../../state/ui/dialogs/account/actions';
-import { open as openDialogFeedback } from '../../state/ui/dialogs/feedback/actions';
-import { open as openDialogAbout } from '../../state/ui/dialogs/about/actions';
-import { open as openDialogSubmitApp } from '../../state/ui/dialogs/submit-app/actions';
+import { changeRoute } from '../../state/routes/actions';
+import { open as openDialogAccount } from '../../state/dialogs/account/actions';
+import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
+import { open as openDialogAbout } from '../../state/dialogs/about/actions';
+import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
 import {
   openSearchBox,
-} from '../../state/ui/search/actions';
+} from '../../state/search/actions';
 import {
   ROUTE_APPS,
   ROUTE_MY_APPS,

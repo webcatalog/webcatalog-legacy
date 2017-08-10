@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { isViewingAllApps as isViewingAllAppsSelector } from '../state/ui/routes/selectors';
+import { isViewingAllApps as isViewingAllAppsSelector } from '../state/routes/selectors';
+
+import DialogAccount from './dialogs/Account';
+import DialogAbout from './dialogs/About';
+import DialogSubmitApp from './dialogs/SubmitApp';
+import DialogConfirmUninstallApp from './dialogs/ConfirmUninstallApp';
+import DialogFeedback from './dialogs/Feedback';
 
 import EnhancedAppBar from './EnhancedAppBar';
 import Login from './Login';
@@ -39,6 +45,11 @@ const App = (props) => {
       {isLoggedIn && appsElement}
       {!isLoggedIn && <Login />}
       <EnhancedSnackBar />
+      <DialogAbout />
+      <DialogSubmitApp />
+      <DialogConfirmUninstallApp />
+      <DialogAccount />
+      <DialogFeedback />
     </div>
   );
 };

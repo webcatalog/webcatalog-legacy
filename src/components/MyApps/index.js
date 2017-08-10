@@ -9,11 +9,6 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
-import DialogAccount from '../dialogs/Account';
-import DialogAbout from '../dialogs/About';
-import DialogSubmitApp from '../dialogs/SubmitApp';
-import DialogConfirmUninstallApp from '../dialogs/ConfirmUninstallApp';
-import DialogFeedback from '../dialogs/Feedback';
 import { getUser } from '../../state/user/actions';
 import { getUserApps } from '../../state/user/apps/actions';
 import EmptyState from './EmptyState';
@@ -102,14 +97,6 @@ class MyApps extends React.Component {
       userApps,
     } = this.props;
 
-    const dialogs = [
-      <DialogAbout />,
-      <DialogSubmitApp />,
-      <DialogConfirmUninstallApp />,
-      <DialogAccount />,
-      <DialogFeedback />,
-    ];
-
     let element;
     if (isGetting) element = <div>loading</div>;
     if (!userApps.length) {
@@ -120,16 +107,13 @@ class MyApps extends React.Component {
       );
     } else {
       element = (
-        <div>
-          {dialogs}
-          <Grid container>
-            <Grid item xs={12}>
-              <Grid container justify="center" gutter={24}>
-                {userApps.map(app => <AppCard app={app} />)}
-              </Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center" gutter={24}>
+              {userApps.map(app => <AppCard app={app} />)}
             </Grid>
           </Grid>
-        </div>
+        </Grid>
       );
     }
 

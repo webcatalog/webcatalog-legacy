@@ -17,7 +17,7 @@ import {
 import {
   formUpdate,
   save,
-} from '../../../state/ui/dialogs/account/password/actions';
+} from '../../../state/dialogs/account/password/actions';
 
 const styleSheet = createStyleSheet('Password', {
   formControl: {
@@ -127,9 +127,9 @@ const mapStateToProps = (state) => {
     passwordError,
     confirmPassword,
     confirmPasswordError,
-  } = state.ui.dialogs.account.password.form;
+  } = state.dialogs.account.password.form;
 
-  const { isSaving } = state.ui.dialogs.account.password;
+  const { isSaving } = state.dialogs.account.password;
 
   return {
     currentPassword,

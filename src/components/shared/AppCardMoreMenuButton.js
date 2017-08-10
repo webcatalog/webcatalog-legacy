@@ -8,8 +8,8 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { open as openAppDetailsDialog } from '../../state/ui/dialogs/app-details/actions';
-import { open as openConfirmUninstallAppDialog } from '../../state/ui/dialogs/confirm-uninstall-app/actions';
+import { open as openAppDetailsDialog } from '../../state/dialogs/app-details/actions';
+import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';
 
 const styleSheet = createStyleSheet('MoreMenuButton', {
   iconButton: {
