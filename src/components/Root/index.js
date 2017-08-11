@@ -18,10 +18,12 @@ import InstalledApps from '../InstalledApps';
 import Login from '../Login';
 import MyApps from '../MyApps';
 import TopCharts from '../TopCharts';
+import Search from '../Search';
 
 import {
-  ROUTE_MY_APPS,
   ROUTE_INSTALLED_APPS,
+  ROUTE_MY_APPS,
+  ROUTE_SEARCH,
 } from '../../constants/routes';
 
 const styleSheet = createStyleSheet('App', {
@@ -57,6 +59,9 @@ class App extends React.Component {
         break;
       case ROUTE_INSTALLED_APPS:
         pageContent = <InstalledApps key="InstalledApps" />;
+        break;
+      case ROUTE_SEARCH:
+        pageContent = <Search key="Search" />;
         break;
       default:
         pageContent = <TopCharts key="topCharts" />;

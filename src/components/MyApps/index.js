@@ -10,7 +10,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppsIcon from 'material-ui-icons/Apps';
 import AppCard from '../shared/AppCard';
 import { getUserApps } from '../../state/myApps/actions';
-import EmptyState from './EmptyState';
+import EmptyState from '../shared/EmptyState';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {

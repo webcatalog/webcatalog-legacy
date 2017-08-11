@@ -8,6 +8,13 @@ import {
   ROUTE_CHANGE,
 } from '../../constants/actions';
 
+const previousRoute = (state = null, action) => {
+  switch (action.type) {
+    case ROUTE_CHANGE: return action.previousRoute;
+    default: return state;
+  }
+};
+
 const route = (state = ROUTE_TOP_CHARTS, action) => {
   switch (action.type) {
     case ROUTE_CHANGE: return action.route;
@@ -15,4 +22,7 @@ const route = (state = ROUTE_TOP_CHARTS, action) => {
   }
 };
 
-export default combineReducers({ route });
+export default combineReducers({
+  previousRoute,
+  route,
+});

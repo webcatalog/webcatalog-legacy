@@ -13,10 +13,13 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import FakeTitleBar from '../../shared/FakeTitleBar';
-
 import {
-  openSearchBox,
-  closeSearchBox,
+  ROUTE_SEARCH,
+} from '../../../constants/routes';
+import {
+  goBack,
+} from '../../../state/router/actions';
+import {
   formUpdate,
 } from '../../../state/search/actions';
 
@@ -75,12 +78,6 @@ const styleSheet = createStyleSheet('SearchBox', {
 });
 
 class SearchBox extends React.Component {
-  constructor() {
-    super();
-
-    this.handleToggleSearchBox = this.handleToggleSearchBox.bind(this);
-  }
-
   componentDidUpdate() {
     const {
       open,
@@ -91,26 +88,13 @@ class SearchBox extends React.Component {
     }
   }
 
-  handleToggleSearchBox() {
-    const {
-      open,
-      onOpenSearchBox,
-      onCloseSearchBox,
-    } = this.props;
-
-    if (open) {
-      onCloseSearchBox();
-    } else {
-      onOpenSearchBox();
-    }
-  }
-
   render() {
     const {
       classes,
       open,
       query,
       onFormUpdate,
+      onGoBack,
     } = this.props;
 
     return (
@@ -129,8 +113,8 @@ class SearchBox extends React.Component {
             <Toolbar className={classes.toolbar}>
               <IconButton
                 color="default"
-                aria-label="Menu"
-                onClick={() => this.handleToggleSearchBox()}
+                aria-label="Back"
+                onClick={() => onGoBack()}
               >
                 <ArrowBackIcon />
               </IconButton>
@@ -141,7 +125,7 @@ class SearchBox extends React.Component {
               >
                 <input
                   value={query}
-                  placeholder="Search apps"
+                  placeholder="Search Apps"
                   className={classes.input}
                   ref={(inputBox) => { this.inputBox = inputBox; }}
                   onInput={e => onFormUpdate({ query: e.target.value })}
@@ -151,7 +135,7 @@ class SearchBox extends React.Component {
               <IconButton
                 color="default"
                 aria-label="Close"
-                onClick={() => this.handleToggleSearchBox()}
+                onClick={() => onFormUpdate({ query: '' })}
               >
                 <CloseIcon />
               </IconButton>
@@ -171,20 +155,18 @@ SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   query: PropTypes.string,
-  onOpenSearchBox: PropTypes.func.isRequired,
-  onCloseSearchBox: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  open: state.search.open,
+  open: state.router.route === ROUTE_SEARCH,
   query: state.search.form.query,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onOpenSearchBox: () => dispatch(openSearchBox()),
-  onCloseSearchBox: () => dispatch(closeSearchBox()),
   onFormUpdate: changes => dispatch(formUpdate(changes)),
+  onGoBack: () => dispatch(goBack()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(SearchBox));

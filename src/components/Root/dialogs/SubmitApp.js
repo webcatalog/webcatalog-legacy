@@ -74,7 +74,7 @@ const SubmitApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Submit app</DialogTitle>
+      <DialogTitle>Submit App</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={nameError}>
           <InputLabel htmlFor="name">Name</InputLabel>

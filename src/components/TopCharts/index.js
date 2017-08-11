@@ -18,7 +18,7 @@ import {
 
 import FilterMenuButton from './FilterMenuButton';
 
-const styleSheet = createStyleSheet('Apps', () => ({
+const styleSheet = createStyleSheet('TopCharts', () => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -45,7 +45,7 @@ const styleSheet = createStyleSheet('Apps', () => ({
   },
 }));
 
-class Apps extends React.Component {
+class TopCharts extends React.Component {
   componentDidMount() {
     const {
       onGetApps,
@@ -117,12 +117,12 @@ class Apps extends React.Component {
   }
 }
 
-Apps.defaultProps = {
+TopCharts.defaultProps = {
   category: null,
   sortBy: null,
 };
 
-Apps.propTypes = {
+TopCharts.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
@@ -149,4 +149,4 @@ const mapDispatchToProps = dispatch => ({
   onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Apps));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(TopCharts));

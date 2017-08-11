@@ -72,12 +72,12 @@ const Feedback = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Send feedback</DialogTitle>
+      <DialogTitle>Send Feedback</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={contentError}>
-          <InputLabel htmlFor="content">Current Password</InputLabel>
+          <InputLabel htmlFor="content">Feedback</InputLabel>
           <Input
-            placeholder="Enter your feedback"
+            placeholder="Leave your feedback here."
             id="content"
             value={content}
             onChange={e => onFormUpdate({ content: e.target.value })}

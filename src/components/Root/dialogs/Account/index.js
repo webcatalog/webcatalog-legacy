@@ -51,7 +51,7 @@ const styleSheet = createStyleSheet('Account', {
   },
   dialogContentText: {
     padding: 24,
-    width: 224,
+    width: 320,
     height: 320,
     display: 'flex',
     flexDirection: 'column',

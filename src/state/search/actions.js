@@ -1,7 +1,5 @@
 import algoliasearch from 'algoliasearch';
 import {
-  searchClose,
-  searchOpen,
   searchFormUpdate,
   searchResultsGetRequest,
   searchResultsGetSuccess,
@@ -12,12 +10,6 @@ const client = algoliasearch(
   process.env.REACT_APP_ALGOLIASEARCH_API_KEY_SEARCH,
 );
 const index = client.initIndex('apps');
-
-export const closeSearchBox = () =>
-  dispatch => dispatch(searchClose());
-
-export const openSearchBox = () =>
-  dispatch => dispatch(searchOpen());
 
 export const formUpdate = changes =>
   (dispatch, getState) => {

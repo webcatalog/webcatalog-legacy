@@ -38,11 +38,9 @@ import { open as openDialogFeedback } from '../../../state/dialogs/feedback/acti
 import { open as openDialogAbout } from '../../../state/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../../state/dialogs/submit-app/actions';
 import {
-  openSearchBox,
-} from '../../../state/search/actions';
-import {
   ROUTE_INSTALLED_APPS,
   ROUTE_MY_APPS,
+  ROUTE_SEARCH,
   ROUTE_TOP_CHARTS,
 } from '../../../constants/routes';
 
@@ -173,7 +171,6 @@ class EnhancedAppBar extends React.Component {
       email,
       onChangeRoute,
       onOpenDialogFeedback,
-      onOpenSearchBox,
       profilePicture,
       route,
     } = this.props;
@@ -308,7 +305,7 @@ class EnhancedAppBar extends React.Component {
             <IconButton
               color="contrast"
               aria-label="Search"
-              onClick={onOpenSearchBox}
+              onClick={() => onChangeRoute(ROUTE_SEARCH)}
             >
               <SearchIcon />
             </IconButton>
@@ -338,7 +335,6 @@ EnhancedAppBar.propTypes = {
   onOpenDialogAccount: PropTypes.func.isRequired,
   onOpenDialogFeedback: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
-  onOpenSearchBox: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -355,7 +351,6 @@ const mapDispatchToProps = dispatch => ({
   onOpenDialogAccount: () => dispatch(openDialogAccount()),
   onOpenDialogFeedback: () => dispatch(openDialogFeedback()),
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
-  onOpenSearchBox: () => dispatch(openSearchBox()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(EnhancedAppBar));
