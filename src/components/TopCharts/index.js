@@ -12,8 +12,9 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import AppCard from '../shared/AppCard';
 import getCategoryLabel from '../../utils/getCategoryLabel';
 import {
-  setSortBy,
   getApps,
+  resetAndGetApps,
+  setSortBy,
 } from '../../state/topCharts/actions';
 
 import FilterMenuButton from './FilterMenuButton';
@@ -53,16 +54,17 @@ class TopCharts extends React.Component {
   componentDidMount() {
     const {
       onGetApps,
+      onResetAndGetApps,
     } = this.props;
 
-    onGetApps();
+    onResetAndGetApps();
 
     const el = this.scrollContainer;
 
     el.onscroll = () => {
       // Plus 300 to run ahead.
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onGetApps({ next: true });
+        onGetApps();
       }
     };
   }
@@ -145,6 +147,7 @@ TopCharts.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetApps: PropTypes.func.isRequired,
+  onResetAndGetApps: PropTypes.func.isRequired,
   onSetSortBy: PropTypes.func.isRequired,
   sortBy: PropTypes.string,
 };
@@ -176,7 +179,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onGetApps: optionsObject => dispatch(getApps(optionsObject)),
+  onResetAndGetApps: () => dispatch(resetAndGetApps()),
+  onGetApps: () => dispatch(getApps()),
   onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });
 

@@ -15,7 +15,7 @@ export const removeLocalApp = id =>
 
 export const installApp = (id, name) =>
   dispatch =>
-    dispatch(apiGet(`/apps/${id}`))
+    dispatch(apiGet(`/apps/${id}?action=install`))
       .then(res => res.json())
       .then(({ app }) => installAppAsync(app))
       .catch((err) => {

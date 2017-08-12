@@ -5,12 +5,17 @@ import { connect } from 'react-redux';
 
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
+import { LinearProgress } from 'material-ui/Progress';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import AppCard from '../shared/AppCard';
-import { getUserApps } from '../../state/myApps/actions';
+import {
+  getMyApps,
+  resetAndGetMyApps,
+} from '../../state/myApps/actions';
 import EmptyState from '../shared/EmptyState';
+import RequireLogIn from '../shared/RequireLogIn';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {
@@ -74,52 +79,75 @@ const styleSheet = createStyleSheet('MyApps', theme => ({
   hiddenMenuItem: {
     display: 'none',
   },
+  grid: {
+    marginBottom: 16,
+  },
 }));
 
 class MyApps extends React.Component {
-  constructor(props) {
-    super(props);
-
+  componentDidMount() {
     const {
-      onGetUserApps,
-    } = props;
+      onGetMyApps,
+      onResetAndGetMyApps,
+    } = this.props;
 
-    onGetUserApps();
+    onResetAndGetMyApps();
+
+    const el = this.scrollContainer;
+
+    el.onscroll = () => {
+      // Plus 300 to run ahead.
+      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+        onGetMyApps();
+      }
+    };
+  }
+
+  renderContent() {
+    const {
+      isGetting,
+      isLoggedIn,
+      classes,
+      apps,
+    } = this.props;
+
+    if (!isLoggedIn) {
+      return <RequireLogIn />;
+    }
+
+    if (!isGetting && !apps.length) {
+      return (
+        <EmptyState icon={LocalOfferIcon} title="No Apps">
+          Your previously installed apps will show up here.
+        </EmptyState>
+      );
+    }
+
+    return (
+      <Grid container className={classes.grid}>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={24}>
+            {apps.map(app => <AppCard app={app} />)}
+          </Grid>
+        </Grid>
+      </Grid>
+    );
   }
 
   render() {
     const {
       isGetting,
+      isLoggedIn,
       classes,
-      userApps,
     } = this.props;
-
-    let element;
-    if (isGetting) element = <div>loading</div>;
-    if (!userApps.length) {
-      element = (
-        <EmptyState icon={LocalOfferIcon} title="No Apps">
-          Your previously installed apps will show up here.
-        </EmptyState>
-      );
-    } else {
-      element = (
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={24}>
-              {userApps.map(app => <AppCard app={app} />)}
-            </Grid>
-          </Grid>
-        </Grid>
-      );
-    }
 
     return (
       <div
         className={classes.scrollContainer}
         ref={(container) => { this.scrollContainer = container; }}
       >
-        {element}
+        {this.renderContent()}
+        {isLoggedIn && isGetting && (<LinearProgress />)}
       </div>
     );
   }
@@ -128,17 +156,22 @@ class MyApps extends React.Component {
 MyApps.propTypes = {
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
-  userApps: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onGetUserApps: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onGetMyApps: PropTypes.func.isRequired,
+  onResetAndGetMyApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  userApps: state.myApps.apiData.apps,
+  apps: state.myApps.apiData.apps,
+  hasFailed: state.myApps.hasFailed,
   isGetting: state.myApps.isGetting,
+  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGetUserApps: () => dispatch(getUserApps()),
+  onGetMyApps: () => dispatch(getMyApps()),
+  onResetAndGetMyApps: () => dispatch(resetAndGetMyApps),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(MyApps));

@@ -254,6 +254,7 @@ class EnhancedAppBar extends React.Component {
                 <ListItemText primary="Top Charts" />
               </MenuItem>
               <MenuItem
+                selected={route === ROUTE_INSTALLED_APPS}
                 button
                 onClick={() => onChangeRoute(ROUTE_INSTALLED_APPS)}
               >

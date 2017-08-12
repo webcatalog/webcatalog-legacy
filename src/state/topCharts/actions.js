@@ -2,6 +2,7 @@ import {
   topChartsGetFailed,
   topChartsGetRequest,
   topChartsGetSuccess,
+  topchartsReset,
   topChartsSetCategory,
   topChartsSetSortBy,
   topChartsSetSortOrder,
@@ -18,7 +19,7 @@ const buildQueryParamsUrl = (url, queryParams) => {
   return queryParamsPath;
 };
 
-export const getApps = ({ next = false } = {}) =>
+export const getApps = () =>
   (dispatch, getState) => {
     const state = getState();
 
@@ -37,13 +38,19 @@ export const getApps = ({ next = false } = {}) =>
     if (totalPage && page + 1 > totalPage) return;
 
     // If we pass in the 'next' parameter, we increment the page
-    const currentPage = next ? page + 1 : page;
+    const currentPage = page + 1;
 
     dispatch(topChartsGetRequest());
     dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=48&page=${currentPage}`, queryParams)))
       .then(res => res.json())
       .then(res => dispatch(topChartsGetSuccess(res)))
       .catch(() => dispatch(topChartsGetFailed()));
+  };
+
+export const resetAndGetApps = () =>
+  (dispatch) => {
+    dispatch(topchartsReset());
+    dispatch(getApps());
   };
 
 export const setCategory = category => (dispatch) => {
