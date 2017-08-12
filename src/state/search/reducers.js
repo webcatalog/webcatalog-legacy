@@ -30,7 +30,7 @@ const isGetting = (state = false, action) => {
   }
 };
 
-const results = (state = [], action) => {
+const apps = (state = [], action) => {
   switch (action.type) {
     case SEARCH_RESULTS_GET_REQUEST: return [];
     case SEARCH_RESULTS_GET_SUCCESS: return action.res.hits;
@@ -41,6 +41,6 @@ const results = (state = [], action) => {
 
 export default combineReducers({
   form,
-  results,
+  apps,
   isGetting,
 });

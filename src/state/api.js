@@ -1,6 +1,6 @@
 const apiRequest = (endpoint, method, body) =>
   (dispatch, getState) => {
-    const { token } = getState().auth.token;
+    const { token } = getState().auth;
 
     const hostUrl = window.env.API_URL || 'https://getwebcatalog.com/api';
 

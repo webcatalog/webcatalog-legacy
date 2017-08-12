@@ -7,7 +7,7 @@ import {
 import isEmail from '../../utils/isEmail';
 
 const initialState = {
-  authToken: null,
+  token: null,
 
   email: '',
   emailErr: null,

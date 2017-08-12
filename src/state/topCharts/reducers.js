@@ -1,19 +1,28 @@
 import { combineReducers } from 'redux';
 
 import {
-  APPS_RESET,
-  APPS_SET_PAGE,
-  APPS_SET_CATEGORY,
-  APPS_SET_SORT_BY,
-  APPS_SET_SORT_ORDER,
-  APPS_GET_REQUEST,
-  APPS_GET_SUCCESS,
+  TOP_CHARTS_SET_CATEGORY,
+  TOP_CHARTS_SET_SORT_BY,
+  TOP_CHARTS_SET_SORT_ORDER,
+  TOP_CHARTS_GET_FAILED,
+  TOP_CHARTS_GET_REQUEST,
+  TOP_CHARTS_GET_SUCCESS,
 } from '../../constants/actions';
+
+const hasFailed = (state = false, action) => {
+  switch (action.type) {
+    case TOP_CHARTS_GET_REQUEST: return false;
+    case TOP_CHARTS_GET_SUCCESS: return false;
+    case TOP_CHARTS_GET_FAILED: return true;
+    default: return state;
+  }
+};
 
 const isGetting = (state = false, action) => {
   switch (action.type) {
-    case APPS_GET_REQUEST: return true;
-    case APPS_GET_SUCCESS: return false;
+    case TOP_CHARTS_GET_REQUEST: return true;
+    case TOP_CHARTS_GET_SUCCESS: return false;
+    case TOP_CHARTS_GET_FAILED: return false;
     default: return state;
   }
 };
@@ -26,21 +35,35 @@ const queryParamsInitialState = {
 };
 const queryParams = (state = queryParamsInitialState, action) => {
   switch (action.type) {
-    case APPS_SET_PAGE: {
-      const { page } = action;
-      return { ...state, page };
-    }
-    case APPS_SET_CATEGORY: {
+    case TOP_CHARTS_SET_CATEGORY: {
       const { category } = action;
-      return { ...state, category };
+      return {
+        ...state,
+        page: 1,
+        category,
+      };
     }
-    case APPS_SET_SORT_BY: {
+    case TOP_CHARTS_SET_SORT_BY: {
       const { sortBy } = action;
-      return { ...state, sortBy };
+      return {
+        ...state,
+        page: 1,
+        sortBy,
+      };
     }
-    case APPS_SET_SORT_ORDER: {
+    case TOP_CHARTS_SET_SORT_ORDER: {
       const { sortOrder } = action;
-      return { ...state, sortOrder };
+      return {
+        ...state,
+        page: 1,
+        sortOrder,
+      };
+    }
+    case TOP_CHARTS_GET_SUCCESS: {
+      return {
+        ...state,
+        page: state.page + 1,
+      };
     }
     default:
       return state;
@@ -54,13 +77,16 @@ const apiDataInitialState = {
   sortOrder: null,
   totalPage: 0,
 };
+
 const apiData = (state = apiDataInitialState, action) => {
   switch (action.type) {
-    case APPS_GET_SUCCESS: return {
+    case TOP_CHARTS_GET_SUCCESS: return {
       apps: state.apps.concat(action.res.apps),
       totalPage: action.res.totalPage,
     };
-    case APPS_RESET: {
+    case TOP_CHARTS_SET_SORT_BY:
+    case TOP_CHARTS_SET_SORT_ORDER:
+    case TOP_CHARTS_SET_CATEGORY: {
       return {
         ...state,
         ...apiDataInitialState,
@@ -74,6 +100,7 @@ const apiData = (state = apiDataInitialState, action) => {
 
 export default combineReducers({
   apiData,
+  hasFailed,
   isGetting,
   queryParams,
 });

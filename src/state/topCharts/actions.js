@@ -1,11 +1,10 @@
 import {
-  appsGetRequest,
-  appsGetSuccess,
-  appsSetPage,
-  appsSetCategory,
-  appsSetSortBy,
-  appsSetSortOrder,
-  appsReset,
+  topChartsGetFailed,
+  topChartsGetRequest,
+  topChartsGetSuccess,
+  topChartsSetCategory,
+  topChartsSetSortBy,
+  topChartsSetSortOrder,
 } from './action-creators';
 import { apiGet } from '../api';
 
@@ -17,10 +16,6 @@ const buildQueryParamsUrl = (url, queryParams) => {
   if (queryParams.sortOrder) queryParamsPath += `&order=${queryParams.sortOrder}`;
 
   return queryParamsPath;
-};
-
-export const setPage = page => (dispatch) => {
-  dispatch(appsSetPage(page));
 };
 
 export const getApps = ({ next = false } = {}) =>
@@ -44,25 +39,20 @@ export const getApps = ({ next = false } = {}) =>
     // If we pass in the 'next' parameter, we increment the page
     const currentPage = next ? page + 1 : page;
 
-    dispatch(appsGetRequest());
+    dispatch(topChartsGetRequest());
     dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=48&page=${currentPage}`, queryParams)))
       .then(res => res.json())
-      .then(res => dispatch(appsGetSuccess(res)))
-      .then(() => dispatch(setPage(currentPage)))
-      .catch(() => {});
+      .then(res => dispatch(topChartsGetSuccess(res)))
+      .catch(() => dispatch(topChartsGetFailed()));
   };
 
 export const setCategory = category => (dispatch) => {
-  dispatch(appsSetCategory(category));
-  dispatch(setPage(1));
-  dispatch(appsReset());
+  dispatch(topChartsSetCategory(category));
   dispatch(getApps());
 };
 
 export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
-  dispatch(appsSetSortOrder(sortOrder));
-  dispatch(appsSetSortBy(sortBy));
-  dispatch(setPage(1));
-  dispatch(appsReset());
+  dispatch(topChartsSetSortOrder(sortOrder));
+  dispatch(topChartsSetSortBy(sortBy));
   dispatch(getApps());
 };

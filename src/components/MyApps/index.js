@@ -7,7 +7,7 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import AppsIcon from 'material-ui-icons/Apps';
+import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import AppCard from '../shared/AppCard';
 import { getUserApps } from '../../state/myApps/actions';
 import EmptyState from '../shared/EmptyState';
@@ -98,8 +98,8 @@ class MyApps extends React.Component {
     if (isGetting) element = <div>loading</div>;
     if (!userApps.length) {
       element = (
-        <EmptyState Icon={AppsIcon}>
-          No installed apps
+        <EmptyState icon={LocalOfferIcon} title="No Apps">
+          Your previously installed apps will show up here.
         </EmptyState>
       );
     } else {

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+import FileDownloadIcon from 'material-ui-icons/FileDownload';
 
 import AppCard from '../shared/AppCard';
 import {
@@ -13,6 +14,7 @@ import {
   UPDATING,
   INSTALLING,
 } from '../../constants/appStatuses';
+import EmptyState from '../shared/EmptyState';
 
 const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {
@@ -86,13 +88,22 @@ const Installed = (props) => {
     <div
       className={classes.scrollContainer}
     >
-      <Grid container>
-        <Grid item xs={12}>
-          <Grid container justify="center" spacing={24}>
-            {apps.map(app => <AppCard app={app} />)}
+      {(apps.length > 0) ? (
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center" spacing={24}>
+              {apps.map(app => <AppCard app={app} />)}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      ) : (
+        <EmptyState
+          icon={FileDownloadIcon}
+          title="No Installed Apps"
+        >
+          Your installed apps on this machine will show up here.
+        </EmptyState>
+      )}
     </div>
   );
 };

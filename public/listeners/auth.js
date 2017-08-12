@@ -24,7 +24,7 @@ const loadAuthListeners = () => {
   ipcMain.on('read-token-from-disk', (e) => {
     // Try to load token
     fs.readJson(configPath)
-      .then((token) => {
+      .then(({ token }) => {
         e.sender.send('set-auth-token', token);
       })
       // eslint-disable-next-line
@@ -114,6 +114,7 @@ const loadAuthListeners = () => {
         // eslint-disable-next-line
         console.log(err);
       });
+
     e.sender.send('set-auth-token', token);
   });
 };

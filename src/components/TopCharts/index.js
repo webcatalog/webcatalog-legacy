@@ -17,6 +17,7 @@ import {
 } from '../../state/topCharts/actions';
 
 import FilterMenuButton from './FilterMenuButton';
+import NoConnection from '../shared/NoConnection';
 
 const styleSheet = createStyleSheet('TopCharts', () => ({
   root: {
@@ -33,6 +34,9 @@ const styleSheet = createStyleSheet('TopCharts', () => ({
   tabs: {
     flex: 1,
     boxSizing: 'border-box',
+  },
+  buttonContainer: {
+    flex: '0 0 48px',
   },
   scrollContainer: {
     flex: 1,
@@ -68,7 +72,9 @@ class TopCharts extends React.Component {
       apps,
       category,
       classes,
+      hasFailed,
       isGetting,
+      onGetApps,
       onSetSortBy,
       sortBy,
     } = this.props;
@@ -81,6 +87,8 @@ class TopCharts extends React.Component {
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
+          <div className={classes.buttonContainer} />
+
           <Tabs
             className={classes.tabs}
             index={tabIndex}
@@ -97,19 +105,27 @@ class TopCharts extends React.Component {
             <Tab label={category ? `New Apps in ${categoryLabel}` : 'New Apps'} />
           </Tabs>
 
-          <FilterMenuButton />
+          <div className={classes.buttonContainer}>
+            <FilterMenuButton />
+          </div>
         </Paper>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
-          <Grid container className={classes.grid}>
-            <Grid item xs={12}>
-              <Grid container justify="center" spacing={24}>
-                {apps.map(app => <AppCard key={app.id} app={app} />)}
+          {hasFailed ? (
+            <NoConnection
+              onTryAgainButtonClick={onGetApps}
+            />
+          ) : (
+            <Grid container className={classes.grid}>
+              <Grid item xs={12}>
+                <Grid container justify="center" spacing={24}>
+                  {apps.map(app => <AppCard key={app.id} app={app} />)}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          )}
           {isGetting && (<LinearProgress />)}
         </div>
       </div>
@@ -126,6 +142,7 @@ TopCharts.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   category: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetApps: PropTypes.func.isRequired,
   onSetSortBy: PropTypes.func.isRequired,
@@ -133,14 +150,28 @@ TopCharts.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const apps = state.search.open ? state.search.results : state.topCharts.apiData.apps;
-  const isGetting = state.search.open ? state.search.isGetting : state.topCharts.isGetting;
+  const {
+    apiData,
+    hasFailed,
+    isGetting,
+    queryParams,
+  } = state.topCharts;
+
+  const {
+    apps,
+  } = apiData;
+
+  const {
+    category,
+    sortBy,
+  } = queryParams;
 
   return {
-    isGetting,
     apps,
-    category: state.topCharts.queryParams.category,
-    sortBy: state.topCharts.queryParams.sortBy,
+    category,
+    hasFailed,
+    isGetting,
+    sortBy,
   };
 };
 

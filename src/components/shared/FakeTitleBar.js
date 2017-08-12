@@ -15,30 +15,29 @@ const styleSheet = createStyleSheet('FakeTitleBar', {
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
-  rootWhite: {
-    extend: 'root',
-    backgroundColor: 'white',
-  },
 });
 
 const FakeTitleBar = (props) => {
   const {
     classes,
-    isColorDisabled,
+    color,
   } = props;
 
   return (
-    <div className={isColorDisabled ? classes.rootWhite : classes.root} key="fakeTitleBar" />
+    <div
+      className={classes.root}
+      style={{ backgroundColor: color }}
+    />
   );
 };
 
 FakeTitleBar.defaultProps = {
-  isColorDisabled: false,
+  color: blue[700],
 };
 
 FakeTitleBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  isColorDisabled: PropTypes.bool,
+  color: PropTypes.string,
 };
 
 const mapStateToProps = () => ({

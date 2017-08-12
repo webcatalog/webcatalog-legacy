@@ -11,8 +11,15 @@ const styleSheet = createStyleSheet('EmptyState', {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
   },
   title: {
+    color: grey[600],
+    marginBottom: 8,
+  },
+  subheading: {
     color: grey[600],
   },
   icon: {
@@ -23,17 +30,29 @@ const styleSheet = createStyleSheet('EmptyState', {
 
 const EmptyState = (props) => {
   const {
-    classes,
-    Icon,
     children,
+    classes,
+    icon,
+    title,
   } = props;
+
+  const Icon = icon;
 
   return (
     <div className={classes.root}>
       <Icon className={classes.icon} color={grey[400]} />
       <br />
+      {title && (
+        <Typography
+          className={classes.title}
+          color="inherit"
+          type="title"
+        >
+          {title}
+        </Typography>
+      )}
       <Typography
-        className={classes.title}
+        className={classes.subheading}
         color="inherit"
         type="subheading"
       >
@@ -43,13 +62,18 @@ const EmptyState = (props) => {
   );
 };
 
+EmptyState.defaultProps = {
+  title: null,
+};
+
 EmptyState.propTypes = {
-  classes: PropTypes.object.isRequired,
-  Icon: PropTypes.element.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
   ]).isRequired,
+  classes: PropTypes.object.isRequired,
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string,
 };
 
 export default withStyles(styleSheet)(EmptyState);

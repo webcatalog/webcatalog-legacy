@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import common from 'material-ui/colors/common';
-import blue from 'material-ui/colors/blue';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
 import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
 
@@ -16,21 +14,23 @@ import logoPng from '../../assets/logo.png';
 
 import { setAuthEmail, setAuthPassword } from '../../state/auth/actions';
 
-const GOOGLE_BRAND_COLOR = '#fff';
+const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
 
 const styleSheet = createStyleSheet('Auth', theme => ({
   root: {
     flex: 1,
-    backgroundColor: blue[500],
+    backgroundColor: fullWhite,
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
     WebkitUserSelect: 'none',
     WebkitAppRegion: 'drag',
-    [theme.breakpoints.down('sm')]: {
-      backgroundColor: fullWhite,
-    },
+  },
+  cardContainer: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   card: {
     width: 340,
@@ -70,12 +70,26 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     height: 24,
   },
   googleButton: {
+    padding: 0,
+    border: `1px solid ${GOOGLE_BRAND_COLOR}`,
     color: theme.palette.getContrastText(GOOGLE_BRAND_COLOR),
     backgroundColor: GOOGLE_BRAND_COLOR,
     width: '100%',
     '&:hover': {
       backgroundColor: GOOGLE_BRAND_COLOR,
     },
+  },
+  googleIcon: {
+    backgroundColor: fullWhite,
+    padding: 11,
+    borderRadius: 2,
+  },
+  bottomContainer: {
+    padding: 16,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -103,73 +117,90 @@ const Auth = (props) => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.card} elevation={4}>
-        <img src={logoPng} alt="WebCatalog" className={classes.logo} />
+      <div className={classes.cardContainer}>
+        <div className={classes.card}>
+          <img src={logoPng} alt="WebCatalog" className={classes.logo} />
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
 
-            // If there are errors but error variables are not set, then set & revalidate.
-            if ((email.length < 1 && !emailErr) || (password.length < 1 && !passwordErr)) {
-              onSetEmail(email);
-              onSetPassword(password);
+              // If there are errors but error variables are not set, then set & revalidate.
+              if ((email.length < 1 && !emailErr) || (password.length < 1 && !passwordErr)) {
+                onSetEmail(email);
+                onSetPassword(password);
 
-              return;
-            }
+                return;
+              }
 
-            if (!emailErr && !passwordErr) {
-              ipcRenderer.send('sign-in-with-password', email, password);
-            }
-          }}
-        >
-          <TextField
-            className={classes.textField}
-            error={Boolean(emailErr)}
-            helperText={emailErr}
-            id="email"
-            label="Email"
-            onChange={event => onSetEmail(event.target.value)}
-            type="email"
-            value={email}
-          />
+              if (!emailErr && !passwordErr) {
+                ipcRenderer.send('sign-in-with-password', email, password);
+              }
+            }}
+          >
+            <TextField
+              className={classes.textField}
+              error={Boolean(emailErr)}
+              helperText={emailErr}
+              id="email"
+              label="Email"
+              onChange={event => onSetEmail(event.target.value)}
+              type="email"
+              value={email}
+            />
 
-          <TextField
-            className={classes.textField}
-            error={Boolean(passwordErr)}
-            helperText={passwordErr}
-            id="password"
-            label="Password"
-            onChange={event => onSetPassword(event.target.value)}
-            type="password"
-            value={password}
-          />
+            <TextField
+              className={classes.textField}
+              error={Boolean(passwordErr)}
+              helperText={passwordErr}
+              id="password"
+              label="Password"
+              onChange={event => onSetPassword(event.target.value)}
+              type="password"
+              value={password}
+            />
+
+            <Button
+              raised
+              color="primary"
+              className={classes.signInButton}
+              type="submit"
+            >
+              Sign in
+            </Button>
+          </form>
+
+          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/sign-up')}>
+            Create an account
+          </Button>
+
+          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/reset-password')}>
+            Forgot your password?
+          </Button>
+
+          <Divider className={classes.divider} />
 
           <Button
             raised
+            className={classes.googleButton}
+            onClick={() => ipcRenderer.send('sign-in-with-google')}
             color="primary"
-            className={classes.signInButton}
-            type="submit"
           >
-            Sign in
+            <div className={classes.googleIcon}>
+              <GoogleIcon />
+            </div>
+            <span className={classes.oauthText}>Sign in with Google</span>
           </Button>
-        </form>
+        </div>
+      </div>
 
-        <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/sign-up')}>
-          Create an account
+      <div className={classes.bottomContainer}>
+        <Button
+          onClick={() => ipcRenderer.send('sign-in-anonymously')}
+        >
+          Continue without Signing in
         </Button>
-
-        <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/reset-password')}>
-          Forgot your password?
-        </Button>
-
-        <Divider className={classes.divider} />
-
-        <Button raised className={classes.googleButton} onClick={() => ipcRenderer.send('sign-in-with-google')}>
-          <GoogleIcon />
-          <span className={classes.oauthText}>Sign in with Google</span>
-        </Button>
-      </Paper>
+      </div>
     </div>
   );
 };

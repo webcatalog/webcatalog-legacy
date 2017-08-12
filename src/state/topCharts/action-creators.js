@@ -1,42 +1,37 @@
 import {
-  APPS_GET_REQUEST,
-  APPS_GET_SUCCESS,
-  APPS_SET_PAGE,
-  APPS_SET_CATEGORY,
-  APPS_SET_SORT_BY,
-  APPS_SET_SORT_ORDER,
-  APPS_RESET,
+  TOP_CHARTS_GET_FAILED,
+  TOP_CHARTS_GET_REQUEST,
+  TOP_CHARTS_GET_SUCCESS,
+  TOP_CHARTS_SET_CATEGORY,
+  TOP_CHARTS_SET_SORT_BY,
+  TOP_CHARTS_SET_SORT_ORDER,
 } from '../../constants/actions';
 
-export const appsGetRequest = () => ({
-  type: APPS_GET_REQUEST,
+export const topChartsGetRequest = () => ({
+  type: TOP_CHARTS_GET_REQUEST,
 });
 
-export const appsGetSuccess = res => ({
-  type: APPS_GET_SUCCESS,
+export const topChartsGetSuccess = res => ({
+  type: TOP_CHARTS_GET_SUCCESS,
   res,
 });
 
-export const appsSetPage = page => ({
-  type: APPS_SET_PAGE,
-  page,
+export const topChartsGetFailed = res => ({
+  type: TOP_CHARTS_GET_FAILED,
+  res,
 });
 
-export const appsSetCategory = category => ({
-  type: APPS_SET_CATEGORY,
+export const topChartsSetCategory = category => ({
+  type: TOP_CHARTS_SET_CATEGORY,
   category,
 });
 
-export const appsSetSortBy = sortBy => ({
-  type: APPS_SET_SORT_BY,
+export const topChartsSetSortBy = sortBy => ({
+  type: TOP_CHARTS_SET_SORT_BY,
   sortBy,
 });
 
-export const appsSetSortOrder = sortOrder => ({
-  type: APPS_SET_SORT_ORDER,
+export const topChartsSetSortOrder = sortOrder => ({
+  type: TOP_CHARTS_SET_SORT_ORDER,
   sortOrder,
-});
-
-export const appsReset = () => ({
-  type: APPS_RESET,
 });

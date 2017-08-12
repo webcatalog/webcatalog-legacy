@@ -26,6 +26,8 @@ import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
+import blue from 'material-ui/colors/blue';
+import common from 'material-ui/colors/common';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import FakeTitleBar from '../../shared/FakeTitleBar';
@@ -44,15 +46,8 @@ import {
   ROUTE_TOP_CHARTS,
 } from '../../../constants/routes';
 
-const title = {
-  lineHeight: 1.5,
-  padding: '0 16px',
-  flex: 1,
-  userSelect: 'none',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-};
+const { fullWhite } = common;
+
 const styleSheet = createStyleSheet('EnhancedAppBar', {
   root: {
     zIndex: 1,
@@ -60,13 +55,20 @@ const styleSheet = createStyleSheet('EnhancedAppBar', {
   toolbar: {
     padding: '0 12px',
   },
-  title,
+  title: {
+    lineHeight: 1.5,
+    padding: '0 16px',
+    flex: 1,
+    userSelect: 'none',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
   appBar: {
     zIndex: 1,
   },
   appBarContainer: {
     width: '100%',
-    // marginTop: -24,
   },
   indicator: {
     height: 3,
@@ -126,6 +128,13 @@ const styleSheet = createStyleSheet('EnhancedAppBar', {
       background: grey[300],
     },
   },
+  anonnymousHeaderContainer: {
+    background: blue[700],
+    height: 56,
+  },
+  signInAppBar: {
+    cursor: 'pointer',
+  },
 });
 
 class EnhancedAppBar extends React.Component {
@@ -169,6 +178,7 @@ class EnhancedAppBar extends React.Component {
       classes,
       displayName,
       email,
+      isLoggedIn,
       onChangeRoute,
       onOpenDialogFeedback,
       profilePicture,
@@ -187,7 +197,7 @@ class EnhancedAppBar extends React.Component {
         routeLabel = 'Top Charts';
     }
 
-    const temp = (
+    const temp = isLoggedIn ? (
       <div className={classes.headerContainer}>
         <Avatar
           alt={displayName}
@@ -203,6 +213,22 @@ class EnhancedAppBar extends React.Component {
           </div>
         </div>
       </div>
+    ) : (
+      <AppBar
+        className={classes.signInAppBar}
+        position="static"
+        elevation={0}
+        onClick={() => ipcRenderer.send('log-out')}
+      >
+        <Toolbar className={classes.toolbar}>
+          <Typography
+            color="inherit"
+            type="title"
+          >
+            Sign in
+          </Typography>
+        </Toolbar>
+      </AppBar>
     );
 
     return (
@@ -213,7 +239,7 @@ class EnhancedAppBar extends React.Component {
           onRequestClose={this.handleToggleDrawer}
           onClick={this.handleToggleDrawer}
         >
-          <FakeTitleBar isColorDisabled />
+          <FakeTitleBar color={isLoggedIn ? fullWhite : null} />
           <div className={classes.listContainer}>
             <List className={classes.list} disablePadding>
               {temp}
@@ -252,10 +278,12 @@ class EnhancedAppBar extends React.Component {
                 <ListItemIcon><AddBoxIcon /></ListItemIcon>
                 <ListItemText primary="Submit App" />
               </MenuItem>
-              <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
-                <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                <ListItemText primary="Logout" />
-              </MenuItem>
+              {isLoggedIn && (
+                <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
+                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </MenuItem>
+              )}
               <Divider />
               <MenuItem
                 button
@@ -328,19 +356,20 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string,
   email: PropTypes.string,
-  route: PropTypes.string.isRequired,
-  profilePicture: PropTypes.string,
+  isLoggedIn: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
   onOpenDialogFeedback: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
+  profilePicture: PropTypes.string,
+  route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   displayName: state.user.apiData.displayName,
   email: state.user.apiData.email,
-  isLoggedIn: Boolean(state.auth.token),
+  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
   route: state.router.route,
   profilePicture: state.user.apiData.profilePicture,
 });
