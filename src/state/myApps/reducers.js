@@ -4,6 +4,7 @@ import {
   MY_APPS_GET_FAILED,
   MY_APPS_GET_REQUEST,
   MY_APPS_GET_SUCCESS,
+  MY_APPS_RESET,
 } from '../../constants/actions';
 
 const hasFailed = (state = false, action) => {
@@ -11,6 +12,7 @@ const hasFailed = (state = false, action) => {
     case MY_APPS_GET_REQUEST: return false;
     case MY_APPS_GET_SUCCESS: return false;
     case MY_APPS_GET_FAILED: return true;
+    case MY_APPS_RESET: return false;
     default: return state;
   }
 };
@@ -25,6 +27,7 @@ const apiData = (state = apiDataInitialState, action) => {
       apps: state.apps.concat(action.res.apps),
       totalPage: action.res.totalPage,
     };
+    case MY_APPS_RESET: return apiDataInitialState;
     default: return state;
   }
 };
@@ -40,6 +43,7 @@ const queryParams = (state = queryParamsInitialState, action) => {
         page: state.page + 1,
       };
     }
+    case MY_APPS_RESET: return queryParamsInitialState;
     default:
       return state;
   }
@@ -49,6 +53,7 @@ const isGetting = (state = false, action) => {
   switch (action.type) {
     case MY_APPS_GET_REQUEST: return true;
     case MY_APPS_GET_SUCCESS: return false;
+    case MY_APPS_RESET: return false;
     default: return state;
   }
 };

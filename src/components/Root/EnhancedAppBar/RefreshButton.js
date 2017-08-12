@@ -7,7 +7,18 @@ import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { getApps } from '../../../state/topCharts/actions';
+import {
+  resetAndGetApps as refreshTopCharts,
+} from '../../../state/topCharts/actions';
+import {
+  resetAndGetMyApps as refreshMyApps,
+} from '../../../state/myApps/actions';
+
+import {
+  ROUTE_MY_APPS,
+  ROUTE_TOP_CHARTS,
+} from '../../../constants/routes';
+
 
 const styleSheet = createStyleSheet('RefreshButton', {
   root: {
@@ -17,14 +28,30 @@ const styleSheet = createStyleSheet('RefreshButton', {
 const RefreshButton = (props) => {
   const {
     classes,
-    onGetApps,
+    route,
+    onRefreshMyApps,
+    onRefreshTopCharts,
   } = props;
+
+  let handleClick;
+  switch (route) {
+    case ROUTE_TOP_CHARTS:
+      handleClick = onRefreshTopCharts;
+      break;
+    case ROUTE_MY_APPS:
+      handleClick = onRefreshMyApps;
+      break;
+    default:
+      handleClick = null;
+  }
+
+  if (!handleClick) return null;
 
   return (
     <IconButton
       color="contrast"
       aria-label="Refresh"
-      onClick={onGetApps}
+      onClick={handleClick}
       className={classes.root}
     >
       <RefreshIcon />
@@ -37,14 +64,18 @@ RefreshButton.defaultProps = {
 
 RefreshButton.propTypes = {
   classes: PropTypes.object.isRequired,
-  onGetApps: PropTypes.func.isRequired,
+  onRefreshMyApps: PropTypes.func.isRequired,
+  onRefreshTopCharts: PropTypes.func.isRequired,
+  route: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  route: state.router.route,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGetApps: () => dispatch(getApps()),
+  onRefreshMyApps: () => dispatch((refreshMyApps())),
+  onRefreshTopCharts: () => dispatch((refreshTopCharts())),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(RefreshButton));

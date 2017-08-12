@@ -271,10 +271,12 @@ class EnhancedAppBar extends React.Component {
                 <ListItemText primary="My Apps" />
               </MenuItem>
               <Divider />
-              <MenuItem button onClick={this.handleOpenDialogAccount}>
-                <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                <ListItemText primary="Account" />
-              </MenuItem>
+              {isLoggedIn && (
+                <MenuItem button onClick={this.handleOpenDialogAccount}>
+                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+                  <ListItemText primary="Account" />
+                </MenuItem>
+              )}
               <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
                 <ListItemIcon><AddBoxIcon /></ListItemIcon>
                 <ListItemText primary="Submit App" />

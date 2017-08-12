@@ -135,7 +135,13 @@ class SearchBox extends React.Component {
               <IconButton
                 color="default"
                 aria-label="Close"
-                onClick={() => onFormUpdate({ query: '' })}
+                onClick={() => {
+                  if (query.length > 0) {
+                    return onFormUpdate({ query: '' });
+                  }
+
+                  return onGoBack();
+                }}
               >
                 <CloseIcon />
               </IconButton>

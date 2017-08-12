@@ -171,7 +171,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onGetMyApps: () => dispatch(getMyApps()),
-  onResetAndGetMyApps: () => dispatch(resetAndGetMyApps),
+  onResetAndGetMyApps: () => dispatch(resetAndGetMyApps()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(MyApps));

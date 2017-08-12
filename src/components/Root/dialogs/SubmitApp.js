@@ -21,6 +21,7 @@ import Dialog, {
   DialogContent,
   DialogTitle,
 } from 'material-ui/Dialog';
+import RequireLogIn from '../../shared/RequireLogIn';
 
 import {
   close,
@@ -39,7 +40,7 @@ const styleSheet = createStyleSheet('SubmitApp', {
     flex: 1,
   },
   dialogContent: {
-    minWidth: 240,
+    minWidth: 320,
   },
   formControl: {
     width: '100%',
@@ -48,6 +49,7 @@ const styleSheet = createStyleSheet('SubmitApp', {
 
 const SubmitApp = (props) => {
   const {
+    isLoggedIn,
     isSaving,
     classes,
     name,
@@ -75,45 +77,51 @@ const SubmitApp = (props) => {
       </Fade>
 
       <DialogTitle>Submit App</DialogTitle>
-      <DialogContent className={classes.dialogContent}>
-        <FormControl className={classes.formControl} error={nameError}>
-          <InputLabel htmlFor="name">Name</InputLabel>
-          <Input
-            placeholder="e.g. Gmail"
-            id="name"
-            value={name}
-            onChange={e => onFormUpdate({ name: e.target.value })}
-          />
-          {nameError ? <FormHelperText>{nameError}</FormHelperText> : null}
-        </FormControl>
-        <br />
-        <br />
-        <FormControl className={classes.formControl} error={urlError}>
-          <InputLabel htmlFor="url">URL</InputLabel>
-          <Input
-            placeholder="e.g. gmail.com"
-            id="url"
-            value={url}
-            onChange={e => onFormUpdate({ url: e.target.value })}
-          />
-          {urlError ? <FormHelperText>{urlError}</FormHelperText> : null}
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="primary"
-          onClick={onClose}
-        >
-          Cancel
-        </Button>
-        <Button
-          disabled={isSaving}
-          color="primary"
-          onClick={onSave}
-        >
-          {saveButtonText}
-        </Button>
-      </DialogActions>
+      {!isLoggedIn ? (
+        <DialogContent className={classes.dialogContent}>
+          <RequireLogIn />
+        </DialogContent>
+      ) : [
+        <DialogContent className={classes.dialogContent} key="content">
+          <FormControl className={classes.formControl} error={nameError}>
+            <InputLabel htmlFor="name">Name</InputLabel>
+            <Input
+              placeholder="e.g. Gmail"
+              id="name"
+              value={name}
+              onChange={e => onFormUpdate({ name: e.target.value })}
+            />
+            {nameError ? <FormHelperText>{nameError}</FormHelperText> : null}
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl} error={urlError}>
+            <InputLabel htmlFor="url">URL</InputLabel>
+            <Input
+              placeholder="e.g. gmail.com"
+              id="url"
+              value={url}
+              onChange={e => onFormUpdate({ url: e.target.value })}
+            />
+            {urlError ? <FormHelperText>{urlError}</FormHelperText> : null}
+          </FormControl>
+        </DialogContent>,
+        <DialogActions key="actions">
+          <Button
+            color="primary"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            disabled={isSaving}
+            color="primary"
+            onClick={onSave}
+          >
+            {saveButtonText}
+          </Button>
+        </DialogActions>,
+      ]}
     </Dialog>
   );
 };
@@ -129,6 +137,7 @@ SubmitApp.defaultProps = {
 SubmitApp.propTypes = {
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   name: PropTypes.string,
   nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
@@ -140,6 +149,7 @@ SubmitApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
   isSaving: state.dialogs.submitApp.isSaving,
   name: state.dialogs.submitApp.form.name,
   nameError: state.dialogs.submitApp.form.nameError,

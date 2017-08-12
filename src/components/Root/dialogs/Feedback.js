@@ -8,7 +8,6 @@ import Fade from 'material-ui/transitions/Fade';
 import Slide from 'material-ui/transitions/Slide';
 import { LinearProgress } from 'material-ui/Progress';
 import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
@@ -39,7 +38,7 @@ const styleSheet = createStyleSheet('Feedback', {
     flex: 1,
   },
   dialogContent: {
-    minWidth: 240,
+    minWidth: 320,
   },
   formControl: {
     width: '100%',
@@ -75,11 +74,13 @@ const Feedback = (props) => {
       <DialogTitle>Send Feedback</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={contentError}>
-          <InputLabel htmlFor="content">Feedback</InputLabel>
           <Input
+            label="Feedback"
             placeholder="Leave your feedback here."
             id="content"
             value={content}
+            multiline
+            rows="10"
             onChange={e => onFormUpdate({ content: e.target.value })}
           />
           {contentError ? <FormHelperText>{contentError}</FormHelperText> : null}
