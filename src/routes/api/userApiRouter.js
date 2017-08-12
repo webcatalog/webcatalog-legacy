@@ -224,39 +224,45 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
 
 userApiRouter.get('/apps', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
-  const limit = 24;
+  const limit = parseInt(req.query.limit, 10) || 24;
   const offset = (currentPage - 1) * limit;
 
-  Action.findAll({
+  if (limit > 100) {
+    return next(new errors.BadRequest('Maximum limit: 100'));
+  }
+
+  let totalPage = 1;
+
+  return Action.findAndCountAll({
     attributes: [[sequelize.fn('DISTINCT', sequelize.col('appId')), 'appId'], 'createdAt'],
     where: { userId: req.user.id },
     offset,
     limit,
     order: [['createdAt', 'DESC']],
   })
-  .then((actions) => {
+  .then(({ count, rows }) => {
+    totalPage = Math.ceil(count / limit);
+
     const opts = {
       attributes: ['id', 'slug', 'name', 'url', 'version'],
       where: {
         isActive: true,
         id: {
-          $in: actions.map(action => action.appId),
+          $in: rows.map(action => action.appId),
         },
       },
     };
 
-    return App.findAndCountAll(opts)
-      .then(({ rows, count }) => {
-        const totalPage = Math.ceil(count / limit);
+    return App.findAll(opts);
+  })
+  .then((rows) => {
+    console.log(rows);
+    if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
-        if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
-
-        return res.json({
-          apps: rows,
-          totalPage,
-        });
-      })
-      .catch(next);
+    return res.json({
+      apps: rows,
+      totalPage,
+    });
   })
   .catch(next);
 });

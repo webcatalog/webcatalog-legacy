@@ -23,8 +23,8 @@ appApiRouter.get('/', (req, res, next) => {
   const limit = parseInt(req.query.limit, 10) || 24;
   const offset = (currentPage - 1) * limit;
 
-  if (limit > 50) {
-    return next(new errors.BadRequest('Maximum limit: 50'));
+  if (limit > 100) {
+    return next(new errors.BadRequest('Maximum limit: 100'));
   }
 
   const opts = {
