@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import login from './login/reducers';
-import myApps from './myApps/reducers';
+import login from './log-in/reducers';
+import myApps from './my-apps/reducers';
 import search from './search/reducers';
-import topCharts from './topCharts/reducers';
+import topCharts from './top-charts/reducers';
 
 export default combineReducers({
   login,

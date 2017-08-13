@@ -1,7 +1,7 @@
 import { openSnackbar } from '../../../main/snackbar/actions';
 import { getUser } from '../../../main/user/actions';
 
-import isEmail from '../../../../utils/isEmail';
+import isEmail from '../../../../utils/is-email';
 
 import {
   dialogAccountProfileFormUpdate,

@@ -2,7 +2,7 @@ import {
   INSTALLED,
   UNINSTALLING,
   INSTALLING,
-} from '../../../constants/appStatuses';
+} from '../../../constants/app-statuses';
 
 export const isUninstalling = (state, id) => {
   const managedApp = state.local.apps[id];

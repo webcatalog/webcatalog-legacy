@@ -4,7 +4,7 @@ import {
 } from './action-creators';
 import { openSnackbar } from '../snackbar/actions';
 import { apiGet } from '../../api';
-import installAppAsync from '../../../utils/installAppAsync';
+import installAppAsync from '../../../utils/install-app-async';
 
 
 export const setLocalApp = (id, status, app) =>

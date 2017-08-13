@@ -16,9 +16,9 @@ import './index.css';
 import store from './state';
 
 // listeners to communicate with main process
-import loadListeners from './loadListeners';
+import loadListeners from './load-listeners';
 
-import Components from './components/Root';
+import App from './app';
 
 loadListeners(store);
 
@@ -34,7 +34,7 @@ ipcRenderer.once('set-auth-token', () => {
   ReactDOM.render(
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <Components />
+        <App />
       </MuiThemeProvider>
     </Provider>,
     document.getElementById('app'),

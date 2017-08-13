@@ -1,6 +1,6 @@
 import { openSnackbar } from '../../main/snackbar/actions';
 
-import isUrl from '../../../utils/isUrl';
+import isUrl from '../../../utils/is-url';
 
 import {
   dialogSubmitAppClose,
