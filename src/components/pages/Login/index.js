@@ -45,7 +45,6 @@ const styleSheet = createStyleSheet('Auth', theme => ({
   },
   logo: {
     height: 64,
-    width: 252,
   },
   textField: {
     width: '100%',
