@@ -17,6 +17,11 @@ import {
 import EmptyState from '../../shared/empty-state';
 import RequireLogIn from '../../shared/require-log-in';
 
+import {
+  STRING_NO_APPS,
+  STRING_NO_APPS_DESC,
+} from '../../constants/strings';
+
 const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {
     flex: 1,
@@ -117,8 +122,8 @@ class MyApps extends React.Component {
 
     if (!isGetting && !apps.length) {
       return (
-        <EmptyState icon={LocalOfferIcon} title="No Apps">
-          Your previously installed apps will show up here.
+        <EmptyState icon={LocalOfferIcon} title={STRING_NO_APPS}>
+          {STRING_NO_APPS_DESC}
         </EmptyState>
       );
     }

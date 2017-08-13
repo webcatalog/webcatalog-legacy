@@ -23,6 +23,11 @@ import {
   isUninstalling as isUninstallingUtil,
   isInstalling as isInstallingUtil,
 } from '../state/main/local/utils';
+import {
+  STRING_INSTALL,
+  STRING_OPEN,
+  STRING_UNINSTALL,
+} from '../constants/strings';
 
 const styleSheet = createStyleSheet('AppCard', (theme) => {
   const cardContentDefaults = {
@@ -140,14 +145,14 @@ const AppCard = (props) => {
             onClick={handleOpenApp}
           >
             <ExitToAppIcon color="inherit" />
-            <span className={classes.buttonText}>Open</span>
+            <span className={classes.buttonText}>{STRING_OPEN}</span>
           </Button>
           <Button
             color="accent"
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
             <DeleteIcon color="inherit" />
-            <span className={classes.buttonText}>Uninstall</span>
+            <span className={classes.buttonText}>{STRING_UNINSTALL}</span>
           </Button>
         </div>
       );
@@ -165,7 +170,7 @@ const AppCard = (props) => {
         onClick={() => onInstallApp(app.id, app.name)}
       >
         <GetAppIcon color="inherit" />
-        <span className={classes.buttonText}>Install</span>
+        <span className={classes.buttonText}>{STRING_INSTALL}</span>
       </Button>
     );
   };

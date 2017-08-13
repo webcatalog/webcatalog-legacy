@@ -34,6 +34,8 @@ import { isSectionActive as isSectionActiveSelector }
 
 import {
   STRING_ACCOUNT,
+  STRING_PASSWORD,
+  STRING_PROFILE,
 } from '../../constants/strings';
 
 import Profile from './profile';
@@ -137,7 +139,7 @@ const Account = (props) => {
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Profile" />
+            <ListItemText primary={STRING_PROFILE} />
           </MenuItem>
           <MenuItem
             selected={isPasswordActive}
@@ -148,7 +150,7 @@ const Account = (props) => {
             <ListItemIcon>
               <LockIcon />
             </ListItemIcon>
-            <ListItemText primary="Password" />
+            <ListItemText primary={STRING_PASSWORD} />
           </MenuItem>
         </List>
         <DialogContentText className={classes.dialogContentText}>

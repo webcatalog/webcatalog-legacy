@@ -17,6 +17,13 @@ import {
   setSortBy,
 } from '../../state/pages/top-charts/actions';
 
+import {
+  STRING_NEW_APPS_IN_CATEGORY,
+  STRING_NEW_APPS,
+  STRING_TOP_APPS_IN_CATEGORY,
+  STRING_TOP_APPS,
+} from '../../constants/strings';
+
 import NoConnection from '../../shared/no-connection';
 
 import FilterMenuButton from './filter-menu-button';
@@ -104,8 +111,8 @@ class TopCharts extends React.Component {
               return onSetSortBy('createdAt', 'desc');
             }}
           >
-            <Tab label={category ? `Top Apps in ${categoryLabel}` : 'Top Apps'} />
-            <Tab label={category ? `New Apps in ${categoryLabel}` : 'New Apps'} />
+            <Tab label={category ? STRING_TOP_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_TOP_APPS} />
+            <Tab label={category ? STRING_NEW_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_NEW_APPS} />
           </Tabs>
 
           <div className={classes.buttonContainer}>

@@ -9,12 +9,16 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
 
 import AppCard from '../../shared/app-card';
+import EmptyState from '../../shared/empty-state';
 import {
   INSTALLED,
   UPDATING,
   INSTALLING,
 } from '../../constants/app-statuses';
-import EmptyState from '../../shared/empty-state';
+import {
+  STRING_NO_INSTALLED_APPS,
+  STRING_NO_INSTALLED_APPS_DESC,
+} from '../../constants/strings';
 
 const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {
@@ -99,9 +103,9 @@ const Installed = (props) => {
       ) : (
         <EmptyState
           icon={FileDownloadIcon}
-          title="No Installed Apps"
+          title={STRING_NO_INSTALLED_APPS}
         >
-          Your installed apps on this machine will show up here.
+          {STRING_NO_INSTALLED_APPS_DESC}
         </EmptyState>
       )}
     </div>

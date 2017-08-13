@@ -14,6 +14,16 @@ import logoPng from '../../assets/logo.png';
 
 import { setAuthEmail, setAuthPassword } from '../../state/pages/log-in/actions';
 
+import {
+  STRING_CONTINUE_WITHOUT_LOGGING_IN,
+  STRING_CREATE_ACCOUNT,
+  STRING_EMAIL,
+  STRING_FORGOT_PASSWORD,
+  STRING_LOG_IN_WITH_GOOGLE,
+  STRING_LOG_IN,
+  STRING_PASSWORD,
+} from '../../constants/strings';
+
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
 
@@ -142,7 +152,7 @@ const Auth = (props) => {
               error={Boolean(emailErr)}
               helperText={emailErr}
               id="email"
-              label="Email"
+              label={STRING_EMAIL}
               onChange={event => onSetEmail(event.target.value)}
               type="email"
               value={email}
@@ -153,7 +163,7 @@ const Auth = (props) => {
               error={Boolean(passwordErr)}
               helperText={passwordErr}
               id="password"
-              label="Password"
+              label={STRING_PASSWORD}
               onChange={event => onSetPassword(event.target.value)}
               type="password"
               value={password}
@@ -165,16 +175,16 @@ const Auth = (props) => {
               className={classes.signInButton}
               type="submit"
             >
-              Sign in
+              {STRING_LOG_IN}
             </Button>
           </form>
 
           <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/sign-up')}>
-            Create an account
+            {STRING_CREATE_ACCOUNT}
           </Button>
 
           <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/reset-password')}>
-            Forgot your password?
+            {STRING_FORGOT_PASSWORD}
           </Button>
 
           <Divider className={classes.divider} />
@@ -188,7 +198,7 @@ const Auth = (props) => {
             <div className={classes.googleIcon}>
               <GoogleIcon />
             </div>
-            <span className={classes.oauthText}>Sign in with Google</span>
+            <span className={classes.oauthText}>{STRING_LOG_IN_WITH_GOOGLE}</span>
           </Button>
         </div>
       </div>
@@ -197,7 +207,7 @@ const Auth = (props) => {
         <Button
           onClick={() => ipcRenderer.send('sign-in-anonymously')}
         >
-          Continue without Signing in
+          {STRING_CONTINUE_WITHOUT_LOGGING_IN}
         </Button>
       </div>
     </div>

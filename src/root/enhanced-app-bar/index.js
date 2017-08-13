@@ -46,18 +46,19 @@ import {
   ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
 import {
+  STRING_ABOUT,
   STRING_ACCOUNT,
+  STRING_HELP,
   STRING_INSTALLED_APPS,
   STRING_LOG_IN,
   STRING_LOG_OUT,
+  STRING_MENU,
   STRING_MY_APPS,
+  STRING_SEARCH,
+  STRING_SEND_FEEDBACK,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
-  STRING_HELP,
   STRING_WEBSITE,
-  STRING_SEND_FEEDBACK,
-  STRING_ABOUT,
-  STRING_SEARCH,
 } from '../../constants/strings';
 
 
@@ -336,7 +337,7 @@ class EnhancedAppBar extends React.Component {
           <Toolbar className={classes.toolbar}>
             <IconButton
               color="contrast"
-              aria-label="Menu"
+              aria-label={STRING_MENU}
               onClick={() => this.handleToggleDrawer()}
             >
               <MenuIcon />

@@ -8,6 +8,12 @@ import ErrorIcon from 'material-ui-icons/Error';
 import grey from 'material-ui/colors/grey';
 import Typography from 'material-ui/Typography';
 
+import {
+  STRING_AUTH_REQUIRED,
+  STRING_AUTH_REQUIRED_DESC,
+  STRING_LOG_IN,
+} from '../constants/strings';
+
 const styleSheet = createStyleSheet('RequireLogIn', {
   root: {
     alignItems: 'center',
@@ -47,7 +53,7 @@ const RequireLogIn = (props) => {
         color="inherit"
         type="title"
       >
-        Authentication Is Required
+        {STRING_AUTH_REQUIRED}
       </Typography>
       <Typography
         align="center"
@@ -55,7 +61,7 @@ const RequireLogIn = (props) => {
         color="inherit"
         type="subheading"
       >
-        You need to sign in to access this page.
+        {STRING_AUTH_REQUIRED_DESC}
       </Typography>
       <Button
         raised
@@ -63,7 +69,7 @@ const RequireLogIn = (props) => {
         className={classes.tryAgainButton}
         onClick={() => ipcRenderer.send('log-out')}
       >
-        Sign In
+        {STRING_LOG_IN}
       </Button>
     </div>
   );

@@ -7,6 +7,12 @@ import ErrorIcon from 'material-ui-icons/Error';
 import grey from 'material-ui/colors/grey';
 import Typography from 'material-ui/Typography';
 
+import {
+  STRING_FAILED_TO_CONNECT,
+  STRING_FAILED_TO_CONNECT_DESC,
+  STRING_TRY_AGAIN,
+} from '../constants/strings';
+
 const styleSheet = createStyleSheet('NoConnection', {
   root: {
     alignItems: 'center',
@@ -47,7 +53,7 @@ const NoConnection = (props) => {
         color="inherit"
         type="title"
       >
-        Failed to Connect to Server
+        {STRING_FAILED_TO_CONNECT}
       </Typography>
       <Typography
         align="center"
@@ -55,7 +61,7 @@ const NoConnection = (props) => {
         color="inherit"
         type="subheading"
       >
-        WebCatalog can{"'"}t connect to the server. Please check your Internet connection.
+        {STRING_FAILED_TO_CONNECT_DESC}
       </Typography>
       <Button
         raised
@@ -63,7 +69,7 @@ const NoConnection = (props) => {
         className={classes.tryAgainButton}
         onClick={onTryAgainButtonClick}
       >
-        Try Again
+        {STRING_TRY_AGAIN}
       </Button>
     </div>
   );

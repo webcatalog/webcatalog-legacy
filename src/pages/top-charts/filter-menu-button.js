@@ -11,6 +11,8 @@ import EnhancedMenu from '../../shared/enhanced-menu';
 import categories from '../../constants/categories';
 import { setCategory } from '../../state/pages/top-charts/actions';
 
+import { STRING_FILTER } from '../../constants/strings';
+
 const FilterMenuButton = (props) => {
   const {
     category,
@@ -33,7 +35,7 @@ const FilterMenuButton = (props) => {
       id="filterMenuButton"
       buttonElement={(
         <IconButton
-          aria-label="Filter"
+          aria-label={STRING_FILTER}
         >
           <FilterListIcon />
         </IconButton>
