@@ -90,7 +90,7 @@ appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
     .then((app) => {
       if (!app) throw new errors.NotFound();
 
-      let description = `${app.name} for Mac, Windows & Linux on the WebCatalog Store.`;
+      let description = `${app.name} for Mac, Windows & Linux.`;
       if (app.description) description += ` ${app.description.split('. ')[0]}.`;
 
       const ua = req.headers['user-agent'];
@@ -104,7 +104,7 @@ appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
       }
 
       res.render('apps/app', {
-        title: `${app.name} for Mac, Windows & Linux on the WebCatalog Store`,
+        title: `${app.name} for Mac, Windows & Linux`,
         description,
         app,
         extractDomain,
