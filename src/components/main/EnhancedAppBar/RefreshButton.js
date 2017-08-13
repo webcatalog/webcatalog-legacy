@@ -19,6 +19,9 @@ import {
   ROUTE_TOP_CHARTS,
 } from '../../../constants/routes';
 
+import {
+  STRING_REFRESH,
+} from '../../../constants/strings';
 
 const styleSheet = createStyleSheet('RefreshButton', {
   root: {
@@ -50,7 +53,7 @@ const RefreshButton = (props) => {
   return (
     <IconButton
       color="contrast"
-      aria-label="Refresh"
+      aria-label={STRING_REFRESH}
       onClick={handleClick}
       className={classes.root}
     >

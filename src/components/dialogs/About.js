@@ -26,6 +26,7 @@ import {
   UPDATE_PROGRESS,
 } from '../../constants/updaterStatuses';
 import {
+  STRING_ABOUT,
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_PRIVACY_POLICY,
@@ -99,7 +100,7 @@ const About = (props) => {
       open={open}
       transition={<Slide direction="left" />}
     >
-      <DialogTitle>About</DialogTitle>
+      <DialogTitle>{STRING_ABOUT}</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <img src={iconSvg} alt="WebCatalog" className={classes.icon} />
         <Typography type="title" className={classes.title}>WebCatalog</Typography>

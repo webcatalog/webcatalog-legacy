@@ -28,8 +28,13 @@ import {
 } from '../../../state/dialogs/account/actions';
 
 import { SECTIONS } from '../../../state/dialogs/account/constants';
+
 import { isSectionActive as isSectionActiveSelector }
   from '../../../state/dialogs/account/utils';
+
+import {
+  STRING_ACCOUNT,
+} from '../../../constants/strings';
 
 import Profile from './profile';
 import Password from './password';
@@ -119,7 +124,7 @@ const Account = (props) => {
       open={open}
       transition={<Slide direction="left" />}
     >
-      <DialogTitle>Account</DialogTitle>
+      <DialogTitle>{STRING_ACCOUNT}</DialogTitle>
       <Divider />
       <DialogContent className={classes.dialogContent}>
         <List className={classes.list}>

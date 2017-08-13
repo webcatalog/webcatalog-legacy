@@ -22,6 +22,10 @@ import {
 import {
   formUpdate,
 } from '../../../state/pages/search/actions';
+import {
+  STRING_BACK,
+  STRING_CLEAR,
+} from '../../../constants/strings';
 
 const styleSheet = createStyleSheet('SearchBox', {
   appBarContainer: {
@@ -113,7 +117,7 @@ class SearchBox extends React.Component {
             <Toolbar className={classes.toolbar}>
               <IconButton
                 color="default"
-                aria-label="Back"
+                aria-label={STRING_BACK}
                 onClick={() => onGoBack()}
               >
                 <ArrowBackIcon />
@@ -134,7 +138,7 @@ class SearchBox extends React.Component {
               </Typography>
               <IconButton
                 color="default"
-                aria-label="Close"
+                aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
                 onClick={() => {
                   if (query.length > 0) {
                     return onFormUpdate({ query: '' });

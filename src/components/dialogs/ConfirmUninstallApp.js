@@ -22,6 +22,14 @@ import {
   save,
 } from '../../state/dialogs/confirm-uninstall-app/actions';
 
+import {
+  STRING_BROWSING_DATA_REMOVED,
+  STRING_CANCEL,
+  STRING_UNINSTALL,
+  STRING_UNINSTALLING_APP_NAME,
+  STRING_UNINSTALLING,
+} from '../../constants/strings';
+
 const styleSheet = createStyleSheet('ConfirmUninstallApp', {
   linearProgress: {
     opacity: 0,
@@ -44,7 +52,7 @@ const ConfirmUninstallApp = (props) => {
     open,
   } = props;
 
-  const saveButtonText = isSaving ? 'Uninstalling...' : 'Uninstall';
+  const saveButtonText = isSaving ? STRING_UNINSTALLING : STRING_UNINSTALL;
 
   return (
     <Dialog
@@ -58,10 +66,10 @@ const ConfirmUninstallApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle className={classes.title}>Uninstall {app.name}?</DialogTitle>
+      <DialogTitle className={classes.title}>{STRING_UNINSTALLING_APP_NAME.replace('{appName}', app.name)}</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <DialogContentText>
-          All of your browsing data for {app.name} will be removed and can&apos;t be recovered.
+          {STRING_BROWSING_DATA_REMOVED.replace('{appName}', app.name)}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -69,7 +77,7 @@ const ConfirmUninstallApp = (props) => {
           color="primary"
           onClick={onClose}
         >
-          Cancel
+          {STRING_CANCEL}
         </Button>
         <Button
           color="accent"

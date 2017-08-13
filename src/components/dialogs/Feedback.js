@@ -27,6 +27,14 @@ import {
   save,
 } from '../../state/dialogs/feedback/actions';
 
+import {
+  STRING_CANCEL,
+  STRING_LEAVE_FEEDBACK,
+  STRING_SEND_FEEDBACK,
+  STRING_SEND,
+  STRING_SENDING,
+} from '../../constants/strings';
+
 const styleSheet = createStyleSheet('Feedback', {
   linearProgress: {
     opacity: 0,
@@ -57,7 +65,7 @@ const Feedback = (props) => {
     open,
   } = props;
 
-  const saveButtonText = isSaving ? 'Sending...' : 'Send';
+  const saveButtonText = isSaving ? STRING_SENDING : STRING_SEND;
 
   return (
     <Dialog
@@ -71,12 +79,11 @@ const Feedback = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Send Feedback</DialogTitle>
+      <DialogTitle>{STRING_SEND_FEEDBACK}</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={contentError}>
           <Input
-            label="Feedback"
-            placeholder="Leave your feedback here."
+            placeholder={STRING_LEAVE_FEEDBACK}
             id="content"
             value={content}
             multiline
@@ -91,7 +98,7 @@ const Feedback = (props) => {
           color="primary"
           onClick={onClose}
         >
-          Cancel
+          {STRING_CANCEL}
         </Button>
         <Button
           disabled={isSaving}

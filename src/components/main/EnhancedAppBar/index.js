@@ -45,6 +45,21 @@ import {
   ROUTE_SEARCH,
   ROUTE_TOP_CHARTS,
 } from '../../../constants/routes';
+import {
+  STRING_ACCOUNT,
+  STRING_INSTALLED_APPS,
+  STRING_LOG_IN,
+  STRING_LOG_OUT,
+  STRING_MY_APPS,
+  STRING_SUBMIT_APP,
+  STRING_TOP_CHARTS,
+  STRING_HELP,
+  STRING_WEBSITE,
+  STRING_SEND_FEEDBACK,
+  STRING_ABOUT,
+  STRING_SEARCH,
+} from '../../../constants/strings';
+
 
 const { fullWhite } = common;
 
@@ -188,13 +203,13 @@ class EnhancedAppBar extends React.Component {
     let routeLabel;
     switch (route) {
       case ROUTE_INSTALLED_APPS:
-        routeLabel = 'Installed Apps';
+        routeLabel = STRING_INSTALLED_APPS;
         break;
       case ROUTE_MY_APPS:
-        routeLabel = 'My Apps';
+        routeLabel = STRING_MY_APPS;
         break;
       default:
-        routeLabel = 'Top Charts';
+        routeLabel = STRING_TOP_CHARTS;
     }
 
     const temp = isLoggedIn ? (
@@ -225,7 +240,7 @@ class EnhancedAppBar extends React.Component {
             color="inherit"
             type="title"
           >
-            Sign in
+            {STRING_LOG_IN}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -251,7 +266,7 @@ class EnhancedAppBar extends React.Component {
                 className={classes.menuItem}
               >
                 <ListItemIcon><InsertChartIcon /></ListItemIcon>
-                <ListItemText primary="Top Charts" />
+                <ListItemText primary={STRING_TOP_CHARTS} />
               </MenuItem>
               <MenuItem
                 selected={route === ROUTE_INSTALLED_APPS}
@@ -259,7 +274,7 @@ class EnhancedAppBar extends React.Component {
                 onClick={() => onChangeRoute(ROUTE_INSTALLED_APPS)}
               >
                 <ListItemIcon><FileDownloadIcon /></ListItemIcon>
-                <ListItemText primary="Installed Apps" />
+                <ListItemText primary={STRING_INSTALLED_APPS} />
               </MenuItem>
               <MenuItem
                 selected={route === ROUTE_MY_APPS}
@@ -268,23 +283,23 @@ class EnhancedAppBar extends React.Component {
                 className={classes.menuItem}
               >
                 <ListItemIcon><LocalOfferIcon /></ListItemIcon>
-                <ListItemText primary="My Apps" />
+                <ListItemText primary={STRING_MY_APPS} />
               </MenuItem>
               <Divider />
               {isLoggedIn && (
                 <MenuItem button onClick={this.handleOpenDialogAccount}>
                   <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                  <ListItemText primary="Account" />
+                  <ListItemText primary={STRING_ACCOUNT} />
                 </MenuItem>
               )}
               <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
                 <ListItemIcon><AddBoxIcon /></ListItemIcon>
-                <ListItemText primary="Submit App" />
+                <ListItemText primary={STRING_SUBMIT_APP} />
               </MenuItem>
               {isLoggedIn && (
                 <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
                   <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                  <ListItemText primary="Logout" />
+                  <ListItemText primary={STRING_LOG_OUT} />
                 </MenuItem>
               )}
               <Divider />
@@ -293,25 +308,25 @@ class EnhancedAppBar extends React.Component {
                 onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
               >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
-                <ListItemText primary="Help" />
+                <ListItemText primary={STRING_HELP} />
               </MenuItem>
               <MenuItem
                 button
                 onClick={onOpenDialogFeedback}
               >
                 <ListItemIcon><FeedbackIcon /></ListItemIcon>
-                <ListItemText primary="Send Feedback" />
+                <ListItemText primary={STRING_SEND_FEEDBACK} />
               </MenuItem>
               <MenuItem
                 button
                 onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
               >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
-                <ListItemText primary="Website" />
+                <ListItemText primary={STRING_WEBSITE} />
               </MenuItem>
               <MenuItem button onClick={this.handleOpenDialogAbout}>
                 <ListItemIcon><InfoIcon /></ListItemIcon>
-                <ListItemText primary="About" />
+                <ListItemText primary={STRING_ABOUT} />
               </MenuItem>
             </List>
           </div>
@@ -335,7 +350,7 @@ class EnhancedAppBar extends React.Component {
             </Typography>
             <IconButton
               color="contrast"
-              aria-label="Search"
+              aria-label={STRING_SEARCH}
               onClick={() => onChangeRoute(ROUTE_SEARCH)}
             >
               <SearchIcon />

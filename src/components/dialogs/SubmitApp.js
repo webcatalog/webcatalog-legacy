@@ -29,6 +29,17 @@ import {
   save,
 } from '../../state/dialogs/submit-app/actions';
 
+import {
+  STRING_SUBMIT_APP,
+  STRING_APP_NAME,
+  STRING_APP_URL,
+  STRING_APP_NAME_PLACEHOLDER,
+  STRING_APP_URL_PLACEHOLDER,
+  STRING_CANCEL,
+  STRING_SUBMIT,
+  STRING_SUBMITTING,
+} from '../../constants/strings';
+
 const styleSheet = createStyleSheet('SubmitApp', {
   linearProgress: {
     opacity: 0,
@@ -62,7 +73,7 @@ const SubmitApp = (props) => {
     urlError,
   } = props;
 
-  const saveButtonText = isSaving ? 'Submitting...' : 'Submit';
+  const saveButtonText = isSaving ? STRING_SUBMITTING : STRING_SUBMIT;
 
   return (
     <Dialog
@@ -76,7 +87,7 @@ const SubmitApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>Submit App</DialogTitle>
+      <DialogTitle>{STRING_SUBMIT_APP}</DialogTitle>
       {!isLoggedIn ? (
         <DialogContent className={classes.dialogContent}>
           <RequireLogIn />
@@ -84,9 +95,9 @@ const SubmitApp = (props) => {
       ) : [
         <DialogContent className={classes.dialogContent} key="content">
           <FormControl className={classes.formControl} error={nameError}>
-            <InputLabel htmlFor="name">Name</InputLabel>
+            <InputLabel htmlFor="name">{STRING_APP_NAME}</InputLabel>
             <Input
-              placeholder="e.g. Gmail"
+              placeholder={STRING_APP_NAME_PLACEHOLDER}
               id="name"
               value={name}
               onChange={e => onFormUpdate({ name: e.target.value })}
@@ -96,9 +107,9 @@ const SubmitApp = (props) => {
           <br />
           <br />
           <FormControl className={classes.formControl} error={urlError}>
-            <InputLabel htmlFor="url">URL</InputLabel>
+            <InputLabel htmlFor="url">{STRING_APP_URL}</InputLabel>
             <Input
-              placeholder="e.g. gmail.com"
+              placeholder={STRING_APP_URL_PLACEHOLDER}
               id="url"
               value={url}
               onChange={e => onFormUpdate({ url: e.target.value })}
@@ -111,7 +122,7 @@ const SubmitApp = (props) => {
             color="primary"
             onClick={onClose}
           >
-            Cancel
+            {STRING_CANCEL}
           </Button>
           <Button
             disabled={isSaving}

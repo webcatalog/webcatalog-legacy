@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
 import Input from 'material-ui/Input';
 import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
@@ -20,6 +19,15 @@ import {
   formUpdate,
   save,
 } from '../../../state/dialogs/account/profile/actions';
+
+import {
+  STRING_DISPLAY_NAME_PLACEHOLDER,
+  STRING_DISPLAY_NAME,
+  STRING_EMAIL_PLACEHOLDER,
+  STRING_EMAIL,
+  STRING_SAVE,
+  STRING_SAVING,
+} from '../../../constants/strings';
 
 const styleSheet = createStyleSheet('Profile', {
   textField: {
@@ -55,10 +63,10 @@ const Profile = (props) => {
     <div className={classes.root}>
       <div>
         <FormControl className={classes.formControl} error={emailError}>
-          <InputLabel htmlFor="email">Current Password</InputLabel>
+          <InputLabel htmlFor="email">{STRING_EMAIL}</InputLabel>
           <Input
             id="email"
-            placeholder="Enter your email"
+            placeholder={STRING_EMAIL_PLACEHOLDER}
             value={email}
             onChange={e => onFormUpdate({ email: e.target.value })}
           />
@@ -70,10 +78,10 @@ const Profile = (props) => {
           className={classes.textField}
           disabled={isSaving}
           id="displayName"
-          label="Display Name"
+          label={STRING_DISPLAY_NAME}
           marginForm
           onChange={e => onFormUpdate({ displayName: e.target.value })}
-          placeholder="Enter a name to go by"
+          placeholder={STRING_DISPLAY_NAME_PLACEHOLDER}
           value={displayName}
         />
       </div>
@@ -83,7 +91,7 @@ const Profile = (props) => {
           color="primary"
           onClick={onSave}
         >
-          {isSaving ? <CircularProgress size={24} /> : 'Save'}
+          {isSaving ? STRING_SAVING : STRING_SAVE}
         </Button>
       </div>
     </div>

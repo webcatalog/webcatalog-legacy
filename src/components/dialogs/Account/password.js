@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
 import Input from 'material-ui/Input';
 import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
@@ -18,6 +17,17 @@ import {
   formUpdate,
   save,
 } from '../../../state/dialogs/account/password/actions';
+
+import {
+  STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER,
+  STRING_CONFIRM_NEW_PASSWORD,
+  STRING_CURRENT_PASSWORD_PLACEHOLDER,
+  STRING_CURRENT_PASSWORD,
+  STRING_NEW_PASSWORD_PLACEHOLDER,
+  STRING_NEW_PASSWORD,
+  STRING_SAVE,
+  STRING_SAVING,
+} from '../../../constants/strings';
 
 const styleSheet = createStyleSheet('Password', {
   formControl: {
@@ -53,10 +63,10 @@ const Password = (props) => {
     <div className={classes.root}>
       <div>
         <FormControl className={classes.formControl} error={currentPasswordError}>
-          <InputLabel htmlFor="currentPassword">Current Password</InputLabel>
+          <InputLabel htmlFor="currentPassword">{STRING_CURRENT_PASSWORD}</InputLabel>
           <Input
             type="password"
-            placeholder="Enter your current password"
+            placeholder={STRING_CURRENT_PASSWORD_PLACEHOLDER}
             id="currentPassword"
             value={currentPassword}
             onChange={e => onFormUpdate({ currentPassword: e.target.value })}
@@ -66,11 +76,11 @@ const Password = (props) => {
         <br />
         <br />
         <FormControl className={classes.formControl} error={passwordError}>
-          <InputLabel htmlFor="password">New Password</InputLabel>
+          <InputLabel htmlFor="password">{STRING_NEW_PASSWORD}</InputLabel>
           <Input
             type="password"
             id="password"
-            placeholder="Enter your new password"
+            placeholder={STRING_NEW_PASSWORD_PLACEHOLDER}
             value={password}
             onChange={e => onFormUpdate({ password: e.target.value })}
           />
@@ -79,10 +89,10 @@ const Password = (props) => {
         <br />
         <br />
         <FormControl className={classes.formControl} error={confirmPasswordError}>
-          <InputLabel htmlFor="confirmPassword">Confirm New Password</InputLabel>
+          <InputLabel htmlFor="confirmPassword">{STRING_CONFIRM_NEW_PASSWORD}</InputLabel>
           <Input
             type="password"
-            placeholder="Confirm your new password"
+            placeholder={STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER}
             id="confirmPassword"
             value={confirmPassword}
             onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
@@ -96,7 +106,7 @@ const Password = (props) => {
           color="primary"
           onClick={onSave}
         >
-          {isSaving ? <CircularProgress size={24} /> : 'Save'}
+          {isSaving ? STRING_SAVING : STRING_SAVE}
         </Button>
       </div>
     </div>
