@@ -1,6 +1,6 @@
 import {
-  AUTH_SET_EMAIL,
-  AUTH_SET_PASSWORD,
+  LOGIN_SET_EMAIL,
+  LOGIN_SET_PASSWORD,
 } from '../../../constants/actions';
 
 import isEmail from '../../../utils/isEmail';
@@ -15,7 +15,7 @@ const initialState = {
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SET_EMAIL: {
+    case LOGIN_SET_EMAIL: {
       if (action.email.length < 1) {
         return Object.assign({}, state, {
           email: action.email,
@@ -35,7 +35,7 @@ const auth = (state = initialState, action) => {
         emailErr: 'Please enter a valid email',
       });
     }
-    case AUTH_SET_PASSWORD: {
+    case LOGIN_SET_PASSWORD: {
       if (action.password.length < 1) {
         return Object.assign({}, state, {
           password: action.password,
