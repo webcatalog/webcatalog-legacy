@@ -40,18 +40,30 @@ const styleSheet = createStyleSheet('App', {
 class App extends React.Component {
   componentDidMount() {
     const {
+      isLoggedIn,
       onGetUser,
     } = this.props;
 
-    onGetUser();
+    if (isLoggedIn) {
+      onGetUser();
+    }
   }
 
   render() {
     const {
       classes,
-      isLoggedIn,
+      shouldShowLogIn,
       route,
     } = this.props;
+
+    if (shouldShowLogIn) {
+      return (
+        <div className={classes.root}>
+          <Login />
+          <EnhancedSnackBar />
+        </div>
+      );
+    }
 
     let pageContent;
     switch (route) {
@@ -70,9 +82,8 @@ class App extends React.Component {
 
     return (
       <div className={classes.root}>
-        {isLoggedIn && <EnhancedAppBar />}
-        {isLoggedIn && pageContent}
-        {!isLoggedIn && <Login />}
+        <EnhancedAppBar />
+        {pageContent}
         <EnhancedSnackBar />
         <DialogAbout />
         <DialogSubmitApp />
@@ -87,13 +98,15 @@ class App extends React.Component {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  route: PropTypes.string.isRequired,
   onGetUser: PropTypes.func.isRequired,
+  route: PropTypes.string.isRequired,
+  shouldShowLogIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
   route: state.router.route,
-  isLoggedIn: Boolean(state.auth.token),
+  shouldShowLogIn: Boolean(!state.auth.token),
 });
 
 const mapDispatchToProps = dispatch => ({
