@@ -17,7 +17,7 @@ import {
 import {
   formUpdate,
   save,
-} from '../../../../state/dialogs/account/password/actions';
+} from '../../../state/dialogs/account/password/actions';
 
 const styleSheet = createStyleSheet('Password', {
   formControl: {

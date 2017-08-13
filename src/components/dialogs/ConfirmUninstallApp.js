@@ -20,7 +20,7 @@ import Dialog, {
 import {
   close,
   save,
-} from '../../../state/dialogs/confirm-uninstall-app/actions';
+} from '../../state/dialogs/confirm-uninstall-app/actions';
 
 const styleSheet = createStyleSheet('ConfirmUninstallApp', {
   linearProgress: {

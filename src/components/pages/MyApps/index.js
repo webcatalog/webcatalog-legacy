@@ -9,13 +9,13 @@ import { LinearProgress } from 'material-ui/Progress';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
-import AppCard from '../shared/AppCard';
+import AppCard from '../../shared/AppCard';
 import {
   getMyApps,
   resetAndGetMyApps,
-} from '../../state/myApps/actions';
-import EmptyState from '../shared/EmptyState';
-import RequireLogIn from '../shared/RequireLogIn';
+} from '../../../state/myApps/actions';
+import EmptyState from '../../shared/EmptyState';
+import RequireLogIn from '../../shared/RequireLogIn';
 
 const styleSheet = createStyleSheet('MyApps', theme => ({
   scrollContainer: {

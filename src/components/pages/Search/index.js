@@ -7,7 +7,7 @@ import { LinearProgress } from 'material-ui/Progress';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
-import AppCard from '../shared/AppCard';
+import AppCard from '../../shared/AppCard';
 
 const styleSheet = createStyleSheet('Search', () => ({
   scrollContainer: {

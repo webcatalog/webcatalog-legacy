@@ -9,16 +9,17 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
-import AppCard from '../shared/AppCard';
-import getCategoryLabel from '../../utils/getCategoryLabel';
+import AppCard from '../../shared/AppCard';
+import getCategoryLabel from '../../../utils/getCategoryLabel';
 import {
   getApps,
   resetAndGetApps,
   setSortBy,
-} from '../../state/topCharts/actions';
+} from '../../../state/topCharts/actions';
+
+import NoConnection from '../../shared/NoConnection';
 
 import FilterMenuButton from './FilterMenuButton';
-import NoConnection from '../shared/NoConnection';
 
 const styleSheet = createStyleSheet('TopCharts', () => ({
   root: {

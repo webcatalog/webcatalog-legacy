@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { getUser } from '../../state/user/actions';
+import { getUser } from '../state/user/actions';
 
 import DialogAccount from './dialogs/Account';
 import DialogAbout from './dialogs/About';
@@ -12,19 +12,20 @@ import DialogSubmitApp from './dialogs/SubmitApp';
 import DialogConfirmUninstallApp from './dialogs/ConfirmUninstallApp';
 import DialogFeedback from './dialogs/Feedback';
 
-import EnhancedAppBar from './EnhancedAppBar';
-import EnhancedSnackBar from '../shared/EnhancedSnackbar';
-import InstalledApps from '../InstalledApps';
-import Login from '../Login';
-import MyApps from '../MyApps';
-import TopCharts from '../TopCharts';
-import Search from '../Search';
+import EnhancedAppBar from './main/EnhancedAppBar';
+import EnhancedSnackBar from './main/EnhancedSnackbar';
+
+import InstalledApps from './pages/InstalledApps';
+import Login from './pages/Login';
+import MyApps from './pages/MyApps';
+import TopCharts from './pages/TopCharts';
+import Search from './pages/Search';
 
 import {
   ROUTE_INSTALLED_APPS,
   ROUTE_MY_APPS,
   ROUTE_SEARCH,
-} from '../../constants/routes';
+} from '../constants/routes';
 
 const styleSheet = createStyleSheet('App', {
   root: {

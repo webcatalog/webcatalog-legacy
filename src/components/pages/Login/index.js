@@ -10,9 +10,9 @@ import Divider from 'material-ui/Divider';
 import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
 
-import logoPng from '../../assets/logo.png';
+import logoPng from '../../../assets/logo.png';
 
-import { setAuthEmail, setAuthPassword } from '../../state/auth/actions';
+import { setAuthEmail, setAuthPassword } from '../../../state/auth/actions';
 
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;

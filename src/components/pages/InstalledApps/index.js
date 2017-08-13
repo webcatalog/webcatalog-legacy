@@ -8,13 +8,13 @@ import grey from 'material-ui/colors/grey';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
 
-import AppCard from '../shared/AppCard';
+import AppCard from '../../shared/AppCard';
 import {
   INSTALLED,
   UPDATING,
   INSTALLING,
-} from '../../constants/appStatuses';
-import EmptyState from '../shared/EmptyState';
+} from '../../../constants/appStatuses';
+import EmptyState from '../../shared/EmptyState';
 
 const styleSheet = createStyleSheet('Installed', theme => ({
   scrollContainer: {
