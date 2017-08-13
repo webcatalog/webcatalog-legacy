@@ -26,7 +26,7 @@ export const formUpdate = changes =>
       )
       .then(() => {
         if (!changes.query || changes.query.length < 1) return null;
-        if (getState().search.form.query !== changes.query) return null;
+        if (getState().pages.search.form.query !== changes.query) return null;
 
         dispatch(searchResultsGetRequest());
         return index.search(changes.query, { hitsPerPage: 48 })
