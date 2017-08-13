@@ -1,5 +1,3 @@
-import { openSnackbar } from '../../../snackbar/actions';
-
 import {
   dialogAccountPasswordFormUpdate,
   dialogAccountPasswordSaveRequest,
@@ -78,11 +76,5 @@ export const save = () =>
 
     dispatch(dialogAccountPasswordSaveRequest());
     return dispatch(patchUserPassword(newChanges))
-      .then(() => {
-        dispatch(dialogAccountPasswordSaveSuccess());
-        dispatch(openSnackbar(
-          'Your profile has been saved!',
-          'Close',
-        ));
-      });
+      .then(() => dispatch(dialogAccountPasswordSaveSuccess()));
   };

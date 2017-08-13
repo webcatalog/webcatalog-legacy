@@ -57,10 +57,10 @@ const loadAuthListeners = () => {
         e.sender.send('set-auth-token', token);
       })
       .catch((err) => {
-        const code = err.error && err.error.error && err.error.error.code ? err.error.error.code : 'no_connection';
+        const code = err.error && err.error.error && err.error.error.code ? err.error.error.code : 'NoConnection';
 
         let message = 'WebCatalog is having trouble connecting to our server.';
-        if (code === 'wrong_password') {
+        if (code === 'WrongPassword') {
           message = 'The password you entered is incorrect.';
         }
 

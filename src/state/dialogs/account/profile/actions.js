@@ -1,5 +1,3 @@
-import { openSnackbar } from '../../../snackbar/actions';
-
 import isEmail from '../../../../utils/isEmail';
 
 import {
@@ -51,11 +49,5 @@ export const save = () =>
 
     dispatch(dialogAccountProfileSaveRequest());
     return dispatch(patchUser(changes))
-      .then(() => {
-        dispatch(dialogAccountProfileSaveSuccess());
-        dispatch(openSnackbar(
-          'Your profile has been saved!',
-          'Close',
-        ));
-      });
+      .then(() => dispatch(dialogAccountProfileSaveSuccess()));
   };
