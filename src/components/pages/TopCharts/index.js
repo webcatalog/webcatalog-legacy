@@ -15,7 +15,7 @@ import {
   getApps,
   resetAndGetApps,
   setSortBy,
-} from '../../../state/topCharts/actions';
+} from '../../../state/pages/topCharts/actions';
 
 import NoConnection from '../../shared/NoConnection';
 
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
     hasFailed,
     isGetting,
     queryParams,
-  } = state.topCharts;
+  } = state.pages.topCharts;
 
   const {
     apps,

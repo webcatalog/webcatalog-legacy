@@ -18,10 +18,10 @@ import {
 } from '../../../constants/routes';
 import {
   goBack,
-} from '../../../state/router/actions';
+} from '../../../state/main/router/actions';
 import {
   formUpdate,
-} from '../../../state/search/actions';
+} from '../../../state/pages/search/actions';
 
 const styleSheet = createStyleSheet('SearchBox', {
   appBarContainer: {
@@ -167,7 +167,7 @@ SearchBox.propTypes = {
 
 const mapStateToProps = state => ({
   open: state.router.route === ROUTE_SEARCH,
-  query: state.search.form.query,
+  query: state.pages.search.form.query,
 });
 
 const mapDispatchToProps = dispatch => ({

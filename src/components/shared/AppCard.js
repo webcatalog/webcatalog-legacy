@@ -17,12 +17,12 @@ import { LinearProgress } from 'material-ui/Progress';
 
 import extractHostname from '../../utils/extractHostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';
-import { installApp } from '../../state/local/actions';
+import { installApp } from '../../state/main/local/actions';
 import {
   isInstalled as isInstalledUtil,
   isUninstalling as isUninstallingUtil,
   isInstalling as isInstallingUtil,
-} from '../../state/local/utils';
+} from '../../state/main/local/utils';
 
 const styleSheet = createStyleSheet('AppCard', (theme) => {
   const cardContentDefaults = {

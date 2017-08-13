@@ -52,8 +52,8 @@ Search.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isGetting: state.search.isGetting,
-  apps: state.search.apps,
+  isGetting: state.pages.search.isGetting,
+  apps: state.pages.search.apps,
 });
 
 const mapDispatchToProps = () => ({});

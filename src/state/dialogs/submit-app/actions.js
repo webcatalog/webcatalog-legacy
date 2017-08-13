@@ -1,4 +1,4 @@
-import { openSnackbar } from '../../snackbar/actions';
+import { openSnackbar } from '../../main/snackbar/actions';
 
 import isUrl from '../../../utils/isUrl';
 

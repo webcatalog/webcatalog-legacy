@@ -9,7 +9,7 @@ import { MenuItem } from 'material-ui/Menu';
 import EnhancedMenu from '../../shared/EnhancedMenu';
 
 import categories from '../../../constants/categories';
-import { setCategory } from '../../../state/topCharts/actions';
+import { setCategory } from '../../../state/pages/topCharts/actions';
 
 const FilterMenuButton = (props) => {
   const {
@@ -54,7 +54,7 @@ FilterMenuButton.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.topCharts.queryParams.category,
+  category: state.pages.topCharts.queryParams.category,
 });
 
 const mapDispatchToProps = dispatch => ({

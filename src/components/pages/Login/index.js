@@ -12,7 +12,7 @@ import TextField from 'material-ui/TextField';
 
 import logoPng from '../../../assets/logo.png';
 
-import { setAuthEmail, setAuthPassword } from '../../../state/auth/actions';
+import { setAuthEmail, setAuthPassword } from '../../../state/pages/login/actions';
 
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
@@ -221,10 +221,10 @@ Auth.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  email: state.auth.email,
-  emailErr: state.auth.emailErr,
-  password: state.auth.password,
-  passwordErr: state.auth.passwordErr,
+  email: state.pages.login.email,
+  emailErr: state.pages.login.emailErr,
+  password: state.pages.login.password,
+  passwordErr: state.pages.login.passwordErr,
 });
 
 const mapDispatchToProps = dispatch => ({

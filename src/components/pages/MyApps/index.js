@@ -13,7 +13,7 @@ import AppCard from '../../shared/AppCard';
 import {
   getMyApps,
   resetAndGetMyApps,
-} from '../../../state/myApps/actions';
+} from '../../../state/pages/myApps/actions';
 import EmptyState from '../../shared/EmptyState';
 import RequireLogIn from '../../shared/RequireLogIn';
 
@@ -163,9 +163,9 @@ MyApps.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  apps: state.myApps.apiData.apps,
-  hasFailed: state.myApps.hasFailed,
-  isGetting: state.myApps.isGetting,
+  apps: state.pages.myApps.apiData.apps,
+  hasFailed: state.pages.myApps.hasFailed,
+  isGetting: state.pages.myApps.isGetting,
   isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
 });
 

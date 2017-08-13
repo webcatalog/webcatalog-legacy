@@ -1,3 +1,6 @@
+import { openSnackbar } from '../../../main/snackbar/actions';
+import { getUser } from '../../../main/user/actions';
+
 import isEmail from '../../../../utils/isEmail';
 
 import {
@@ -6,7 +9,7 @@ import {
   dialogAccountProfileSaveSuccess,
 } from './action-creators';
 
-import { patchUser } from '../../../user/actions';
+import { apiPatch } from '../../../api';
 
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.emailError) {
@@ -48,6 +51,12 @@ export const save = () =>
     }
 
     dispatch(dialogAccountProfileSaveRequest());
-    return dispatch(patchUser(changes))
-      .then(() => dispatch(dialogAccountProfileSaveSuccess()));
+    return dispatch(apiPatch('/user', changes))
+      .then(res => res.json())
+      .then(() => {
+        dispatch(dialogAccountProfileSaveSuccess());
+        dispatch(openSnackbar('Your profile has been saved!'));
+        dispatch(getUser());
+      })
+      .catch(() => dispatch(openSnackbar('WebCatalog failed to update your profile information.')));
   };

@@ -1,10 +1,12 @@
+import { openSnackbar } from '../../../main/snackbar/actions';
+
+import { apiPatch } from '../../../api';
+
 import {
   dialogAccountPasswordFormUpdate,
   dialogAccountPasswordSaveRequest,
   dialogAccountPasswordSaveSuccess,
 } from './action-creators';
-
-import { patchUserPassword } from '../../../user/actions';
 
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.currentPasswordError
@@ -75,6 +77,11 @@ export const save = () =>
     };
 
     dispatch(dialogAccountPasswordSaveRequest());
-    return dispatch(patchUserPassword(newChanges))
-      .then(() => dispatch(dialogAccountPasswordSaveSuccess()));
+    return dispatch(apiPatch('/user/password', newChanges))
+      .then(res => res.json())
+      .then(() => {
+        dispatch(dialogAccountPasswordSaveSuccess());
+        dispatch(openSnackbar('Your password has been updated!'));
+      })
+      .catch(() => dispatch(openSnackbar('WebCatalog failed to update your password.')));
   };

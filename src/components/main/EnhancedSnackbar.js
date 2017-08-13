@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 
-import { closeSnackbar } from '../../state/snackbar/actions';
+import { closeSnackbar } from '../../state/main/snackbar/actions';
 
 const EnhancedSnackbar = (props) => {
   const {

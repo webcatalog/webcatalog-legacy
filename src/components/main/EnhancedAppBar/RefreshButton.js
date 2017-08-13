@@ -9,10 +9,10 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import {
   resetAndGetApps as refreshTopCharts,
-} from '../../../state/topCharts/actions';
+} from '../../../state/pages/topCharts/actions';
 import {
   resetAndGetMyApps as refreshMyApps,
-} from '../../../state/myApps/actions';
+} from '../../../state/pages/myApps/actions';
 
 import {
   ROUTE_MY_APPS,
