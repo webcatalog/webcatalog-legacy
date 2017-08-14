@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@webcatalog/molecule@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-0.1.7.tgz#573e6f0dd826423198987cc0ee09bd0cf50d8b34"
+  dependencies:
+    electron-packager "^8.7.2"
+    fs-extra "^4.0.0"
+    tmp "^0.0.31"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"

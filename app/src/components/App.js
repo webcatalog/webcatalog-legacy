@@ -24,6 +24,9 @@ import { screenResize } from '../actions/screen';
 import WebView from './WebView';
 import FindInPage from './FindInPage';
 import Navigation from './Navigation';
+import Workspaces from './Workspaces';
+
+import DialogSettings from './Root/dialogs/Settings';
 
 const styleSheet = createStyleSheet('App', theme => ({
   root: {
@@ -72,7 +75,8 @@ const styleSheet = createStyleSheet('App', theme => ({
   },
   webviewContainer: {
     flex: 1,
-    height: '100vh',
+    // height: '100vh',
+    display: 'flex',
   },
   webview: {
     height: '100%',
@@ -244,10 +248,21 @@ class App extends React.Component {
       onNewWindow,
     } = this;
 
+    const showVertNav = 1;
+
+    const horizNavElement = showVertNav
+      ? null
+      : <Navigation />;
+
+    const vertNavElement = showVertNav
+      ? <Navigation vert />
+      : null;
 
     return (
       <div className={classes.root}>
-        <Navigation />
+        <DialogSettings />
+        <Workspaces />
+        {horizNavElement}
         {isFailed && (
           <div className={classes.errorFullScreenContainer}>
             Internet Connection
@@ -264,6 +279,7 @@ class App extends React.Component {
           </div>
         )}
         <div className={classes.rightContent}>
+          {vertNavElement}
           {findInPageIsOpen && (
             <FindInPage
               onRequestFind={(text, forward) => {
@@ -335,14 +351,17 @@ App.propTypes = {
   handleUpdateFindInPageMatches: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  findInPageIsOpen: state.findInPage.isOpen,
-  findInPageText: state.findInPage.text,
-  isFullScreen: state.screen.isFullScreen,
-  isFailed: false && state.nav.isFailed,
-  customHome: state.settings.customHome,
-  rememberLastPage: state.settings.rememberLastPage,
-});
+const mapStateToProps = (state) => {
+  console.log('state:', state);
+  return {
+    findInPageIsOpen: state.findInPage.isOpen,
+    findInPageText: state.findInPage.text,
+    isFullScreen: state.screen.isFullScreen,
+    isFailed: false && state.nav.isFailed,
+    customHome: state.settings.customHome,
+    rememberLastPage: state.settings.rememberLastPage,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   handleResize: () => dispatch(screenResize(window.innerWidth)),

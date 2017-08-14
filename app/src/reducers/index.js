@@ -11,12 +11,16 @@ import root from './root';
 import screen from './screen';
 import settings from './settings';
 
+// new reducers
+import dialogs from '../state/dialogs/reducers';
+
 const rootReducer = combineReducers({
   findInPage,
   nav,
   root,
   screen,
   settings,
+  dialogs,
 });
 
 const configureStore = initialState =>
