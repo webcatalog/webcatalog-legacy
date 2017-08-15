@@ -12,7 +12,6 @@ export const getUser = () =>
   (dispatch) => {
     dispatch(userGetRequest());
     return dispatch(apiGet('/user'))
-      .then(res => res.json())
       .then(res => dispatch(userGetSuccess({ ...res.user })))
       .catch(() => dispatch(openSnackbar('WebCatalog failed to get your profile information.')));
   };

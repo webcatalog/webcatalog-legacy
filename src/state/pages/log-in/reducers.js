@@ -2,6 +2,9 @@ import { combineReducers } from 'redux';
 
 import {
   LOG_IN_FORM_UPDATE,
+  LOG_IN_SUBMIT_REQUEST,
+  LOG_IN_SUBMIT_SUCCESS,
+  LOG_IN_SUBMIT_FAILED,
 } from '../../../constants/actions';
 
 const initialForm = {
@@ -21,46 +24,16 @@ const form = (state = initialForm, action) => {
   }
 };
 
-/*
-const auth = (state = initialState, action) => {
+const isSubmitting = (state = false, action) => {
   switch (action.type) {
-    case LOGIN_SET_EMAIL: {
-      if (action.email.length < 1) {
-        return Object.assign({}, state, {
-          email: action.email,
-          emailError: 'Please enter your email',
-        });
-      }
-
-      if (isEmail(action.email)) {
-        return Object.assign({}, state, {
-          email: action.email,
-          emailError: null,
-        });
-      }
-
-      return Object.assign({}, state, {
-        email: action.email,
-        emailError: 'Please enter a valid email',
-      });
-    }
-    case LOGIN_SET_PASSWORD: {
-      if (action.password.length < 1) {
-        return Object.assign({}, state, {
-          password: action.password,
-          passwordError: 'Please enter your password',
-        });
-      }
-
-      return Object.assign({}, state, {
-        password: action.password,
-        passwordError: null,
-      });
-    }
-    default:
-      return state;
+    case LOG_IN_SUBMIT_REQUEST: return true;
+    case LOG_IN_SUBMIT_SUCCESS: return false;
+    case LOG_IN_SUBMIT_FAILED: return false;
+    default: return state;
   }
 };
-*/
 
-export default combineReducers({ form });
+export default combineReducers({
+  form,
+  isSubmitting,
+});

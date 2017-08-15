@@ -35,7 +35,6 @@ export const getMyApps = () =>
 
     dispatch(myAppsGetRequest());
     dispatch(apiGet(buildQueryParamsUrl('/user/apps?limit=48', queryParams)))
-      .then(res => res.json())
       .then(res => dispatch(myAppsGetSuccess({ ...res })))
       .catch(() => dispatch(myAppsGetFailed()));
   };

@@ -3,6 +3,9 @@ export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 
 // Login
 export const LOG_IN_FORM_UPDATE = 'LOG_IN_FORM_UPDATE';
+export const LOG_IN_SUBMIT_REQUEST = 'LOG_IN_SUBMIT_REQUEST';
+export const LOG_IN_SUBMIT_SUCCESS = 'LOG_IN_SUBMIT_SUCCESS';
+export const LOG_IN_SUBMIT_FAILED = 'LOG_IN_SUBMIT_FAILED';
 
 // Local
 export const LOCAL_SET_APP = 'LOCAL_SET_APP';

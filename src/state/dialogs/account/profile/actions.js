@@ -36,7 +36,6 @@ export const save = () =>
 
     dispatch(dialogAccountProfileSaveRequest());
     return dispatch(apiPatch('/user', changes))
-      .then(res => res.json())
       .then(() => {
         dispatch(dialogAccountProfileSaveSuccess());
         dispatch(openSnackbar('Your profile has been saved!'));

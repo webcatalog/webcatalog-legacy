@@ -53,6 +53,7 @@ const isGetting = (state = false, action) => {
   switch (action.type) {
     case MY_APPS_GET_REQUEST: return true;
     case MY_APPS_GET_SUCCESS: return false;
+    case MY_APPS_GET_FAILED: return false;
     case MY_APPS_RESET: return false;
     default: return state;
   }

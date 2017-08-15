@@ -42,7 +42,6 @@ export const getApps = () =>
 
     dispatch(topChartsGetRequest());
     dispatch(apiGet(buildQueryParamsUrl(`/apps?limit=48&page=${currentPage}`, queryParams)))
-      .then(res => res.json())
       .then(res => dispatch(topChartsGetSuccess(res)))
       .catch(() => dispatch(topChartsGetFailed()));
   };

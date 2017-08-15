@@ -1,6 +1,5 @@
 const fs = require('fs-extra');
 const path = require('path');
-const rp = require('request-promise');
 const {
   app,
   BrowserWindow,
@@ -33,39 +32,17 @@ const loadAuthListeners = () => {
       });
   });
 
-  ipcMain.on('sign-in-with-password', (e, email, password) => {
-    const options = {
-      method: 'POST',
-      uri: 'https://getwebcatalog.com/api/auth',
-      body: {
-        email,
-        password,
-      },
-      json: true,
-    };
-
-    rp(options)
-      .then((parsedResponse) => {
-        const token = parsedResponse.jwt;
-
-        writeTokenToDiskAsync(token)
-          .catch((err) => {
-            // eslint-disable-next-line
-            console.log(err);
-          });
-
+  ipcMain.on('write-token-to-disk', (e, token) => {
+    writeTokenToDiskAsync(token)
+      .then(() => {
         e.sender.send('set-auth-token', token);
       })
       .catch((err) => {
-        const code = err.error && err.error.error && err.error.error.code ? err.error.error.code : 'NoConnection';
-
-        let message = 'WebCatalog is having trouble connecting to our server.';
-        if (code === 'WrongPassword') {
-          message = 'The password you entered is incorrect.';
-        }
-
-        e.sender.send('open-snackbar', message);
+        // eslint-disable-next-line
+        console.log(err);
       });
+
+    e.sender.send('set-auth-token', token);
   });
 
   ipcMain.on('sign-in-with-google', (e) => {
@@ -104,18 +81,6 @@ const loadAuthListeners = () => {
     authWindow.on('close', () => {
       authWindow = null;
     }, false);
-  });
-
-  ipcMain.on('sign-in-anonymously', (e) => {
-    const token = 'anonymous';
-
-    writeTokenToDiskAsync(token)
-      .catch((err) => {
-        // eslint-disable-next-line
-        console.log(err);
-      });
-
-    e.sender.send('set-auth-token', token);
   });
 };
 

@@ -53,7 +53,6 @@ export const save = () =>
 
     dispatch(dialogAccountPasswordSaveRequest());
     return dispatch(apiPatch('/user/password', newChanges))
-      .then(res => res.json())
       .then(() => {
         dispatch(dialogAccountPasswordSaveSuccess());
         dispatch(openSnackbar('Your password has been updated!'));

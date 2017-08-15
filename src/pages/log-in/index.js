@@ -9,6 +9,7 @@ import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
+import { CircularProgress } from 'material-ui/Progress';
 
 import logoPng from '../../assets/logo.png';
 
@@ -103,6 +104,12 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  circularProgressContainer: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
 /* eslint-disable max-len */
@@ -125,7 +132,16 @@ const Auth = (props) => {
     onSubmit,
     password,
     passwordError,
+    isSubmitting,
   } = props;
+
+  if (isSubmitting) {
+    return (
+      <div className={classes.circularProgressContainer}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -197,7 +213,7 @@ const Auth = (props) => {
 
       <div className={classes.bottomContainer}>
         <Button
-          onClick={() => ipcRenderer.send('sign-in-anonymously')}
+          onClick={() => ipcRenderer.send('write-token-to-disk', 'anonymous')}
         >
           {STRING_CONTINUE_WITHOUT_LOGGING_IN}
         </Button>
@@ -209,6 +225,7 @@ const Auth = (props) => {
 Auth.defaultProps = {
   emailError: null,
   passwordError: null,
+  isSubmitting: false,
 };
 
 Auth.propTypes = {
@@ -219,6 +236,7 @@ Auth.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   passwordError: PropTypes.string,
+  isSubmitting: PropTypes.boolean,
 };
 
 const mapStateToProps = state => ({
@@ -226,6 +244,7 @@ const mapStateToProps = state => ({
   emailError: state.pages.logIn.form.emailError,
   password: state.pages.logIn.form.password,
   passwordError: state.pages.logIn.form.passwordError,
+  isSubmitting: state.pages.logIn.isSubmitting,
 });
 
 const mapDispatchToProps = dispatch => ({

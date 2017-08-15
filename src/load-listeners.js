@@ -5,6 +5,10 @@ import {
 } from './state/root/auth/actions';
 
 import {
+  getUser,
+} from './state/root/user/actions';
+
+import {
   setLocalApp,
   removeLocalApp,
 } from './state/root/local/actions';
@@ -29,6 +33,9 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-auth-token', (e, token) => {
     store.dispatch(setAuthToken(token));
+    if (token) {
+      store.dispatch(getUser());
+    }
   });
 
   ipcRenderer.on('open-snackbar', (e, message) => {

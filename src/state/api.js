@@ -9,38 +9,38 @@ const apiRequest = (endpoint, method, body) =>
 
         const url = `${hostUrl}${endpoint}`;
 
-        if (token) {
-          const headers = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          };
+        const headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
 
-          if (token && token !== 'anonnymous') headers.Authorization = `JWT ${token}`;
+        if (token && token !== 'anonnymous') headers.Authorization = `JWT ${token}`;
 
-          const opts = {
-            method,
-            headers: new window.Headers(headers),
-          };
+        const opts = {
+          method,
+          headers: new window.Headers(headers),
+        };
 
-          if (body) opts.body = JSON.stringify(body);
+        if (body) opts.body = JSON.stringify(body);
 
-          return fetch(url, opts);
-        }
-
-        return fetch(url);
+        return fetch(url, opts);
       })
       .then((response) => {
+        // ok
         if (response.status >= 200 && response.status < 300) {
-          return response;
+          return response.json();
         }
 
+        // error
         if (response.status === 401) {
           ipcRenderer.send('log-out');
         }
-
-        const error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
+        return response.json()
+          .then((parsedResponse) => {
+            const error = new Error(response.statusText);
+            error.fetchedResponse = parsedResponse;
+            return Promise.reject(error);
+          });
       });
 
 export const apiGet = endpoint =>
