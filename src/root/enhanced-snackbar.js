@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 
-import connectComponent from '../utils/connect-component';
+import connectComponent from '../helpers/connect-component';
 
 import { closeSnackbar } from '../state/root/snackbar/actions';
 

@@ -1,6 +1,6 @@
 import { openSnackbar } from '../../root/snackbar/actions';
 
-import uninstallAppAsync from '../../../utils/uninstall-app-async';
+import uninstallAppAsync from '../../../helpers/uninstall-app-async';
 
 import {
   dialogConfirmUninstallAppClose,

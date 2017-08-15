@@ -27,7 +27,7 @@ import grey from 'material-ui/colors/grey';
 import blue from 'material-ui/colors/blue';
 import common from 'material-ui/colors/common';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';

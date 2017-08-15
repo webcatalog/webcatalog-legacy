@@ -9,7 +9,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
 import { CircularProgress } from 'material-ui/Progress';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import logoPng from '../../assets/logo.png';
 

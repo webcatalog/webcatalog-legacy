@@ -14,7 +14,7 @@ import Dialog, {
   DialogContent,
 } from 'material-ui/Dialog';
 
-import connectComponent from '../utils/connect-component';
+import connectComponent from '../helpers/connect-component';
 
 import RequireLogIn from '../shared/require-log-in';
 

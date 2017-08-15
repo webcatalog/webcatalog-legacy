@@ -7,7 +7,7 @@ import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import {
   formUpdate,

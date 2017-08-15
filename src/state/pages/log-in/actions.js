@@ -1,6 +1,6 @@
 /* global ipcRenderer */
-import validate from '../../../utils/validate';
-import hasErrors from '../../../utils/has-errors';
+import validate from '../../../helpers/validate';
+import hasErrors from '../../../helpers/has-errors';
 
 import { openSnackbar } from '../../root/snackbar/actions';
 

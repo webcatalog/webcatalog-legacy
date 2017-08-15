@@ -16,7 +16,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import grey from 'material-ui/colors/grey';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import {
   close,

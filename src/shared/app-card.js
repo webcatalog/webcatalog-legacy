@@ -12,9 +12,9 @@ import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { LinearProgress } from 'material-ui/Progress';
 
-import connectComponent from '../utils/connect-component';
+import connectComponent from '../helpers/connect-component';
 
-import extractHostname from '../utils/extract-hostname';
+import extractHostname from '../helpers/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
 import { installApp } from '../state/root/local/actions';
 import {

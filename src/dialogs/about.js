@@ -10,7 +10,7 @@ import Dialog, {
   DialogContent,
 } from 'material-ui/Dialog';
 
-import connectComponent from '../utils/connect-component';
+import connectComponent from '../helpers/connect-component';
 
 import { close } from '../state/dialogs/about/actions';
 import iconSvg from '../assets/icon.svg';

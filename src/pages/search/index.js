@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { LinearProgress } from 'material-ui/Progress';
 import Grid from 'material-ui/Grid';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 

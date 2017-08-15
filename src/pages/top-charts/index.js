@@ -7,10 +7,10 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
-import getCategoryLabel from '../../utils/get-category-label';
+import getCategoryLabel from '../../helpers/get-category-label';
 import {
   getApps,
   resetAndGetApps,

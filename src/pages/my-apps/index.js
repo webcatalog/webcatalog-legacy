@@ -6,7 +6,7 @@ import grey from 'material-ui/colors/grey';
 import { LinearProgress } from 'material-ui/Progress';
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 import {

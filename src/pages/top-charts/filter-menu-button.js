@@ -6,7 +6,7 @@ import FilterListIcon from 'material-ui-icons/FilterList';
 import IconButton from 'material-ui/IconButton';
 import { MenuItem } from 'material-ui/Menu';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import EnhancedMenu from '../../shared/enhanced-menu';
 

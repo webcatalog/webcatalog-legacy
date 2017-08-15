@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import {
   resetAndGetApps as refreshTopCharts,

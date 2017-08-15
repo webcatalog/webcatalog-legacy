@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import blue from 'material-ui/colors/blue';
 
-import connectComponent from '../utils/connect-component';
+import connectComponent from '../helpers/connect-component';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 

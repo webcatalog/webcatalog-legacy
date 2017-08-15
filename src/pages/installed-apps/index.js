@@ -6,7 +6,7 @@ import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
 
-import connectComponent from '../../utils/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
