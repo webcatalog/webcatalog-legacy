@@ -7,7 +7,7 @@ import connectComponent from '../helpers/connect-component';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
-const styleSheet = {
+const styles = {
   root: {
     backgroundColor: blue[700],
     height: titleBarHeight,
@@ -43,5 +43,5 @@ export default connectComponent(
   FakeTitleBar,
   null,
   null,
-  styleSheet,
+  styles,
 );

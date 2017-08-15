@@ -39,7 +39,7 @@ import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 import Profile from './profile';
 import Password from './password';
 
-const styleSheet = {
+const styles = {
   linearProgress: {
     opacity: 0,
   },
@@ -194,5 +194,5 @@ export default connectComponent(
   Account,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

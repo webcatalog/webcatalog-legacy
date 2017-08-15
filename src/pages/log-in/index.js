@@ -31,7 +31,7 @@ import {
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
 
-const styleSheet = theme => ({
+const styles = theme => ({
   root: {
     flex: 1,
     backgroundColor: fullWhite,
@@ -257,5 +257,5 @@ export default connectComponent(
   Auth,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

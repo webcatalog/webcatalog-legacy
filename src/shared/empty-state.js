@@ -5,7 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 
-const styleSheet = {
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -76,4 +76,4 @@ EmptyState.propTypes = {
   title: PropTypes.string,
 };
 
-export default withStyles(styleSheet, { name: 'EmptyState' })(EmptyState);
+export default withStyles(styles, { name: 'EmptyState' })(EmptyState);

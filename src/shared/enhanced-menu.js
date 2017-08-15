@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Menu from 'material-ui/Menu';
 
-const styleSheet = {
+const styles = {
   container: {
     display: 'inline-flex',
   },
@@ -75,4 +75,4 @@ EnhancedMenu.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styleSheet, { name: 'EnhancedMenu' })(EnhancedMenu);
+export default withStyles(styles, { name: 'EnhancedMenu' })(EnhancedMenu);

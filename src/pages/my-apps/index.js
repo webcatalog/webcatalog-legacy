@@ -21,7 +21,7 @@ import {
   STRING_NO_APPS_DESC,
 } from '../../constants/strings';
 
-const styleSheet = theme => ({
+const styles = theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -185,5 +185,5 @@ export default connectComponent(
   MyApps,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

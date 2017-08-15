@@ -39,7 +39,7 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styleSheet = {
+const styles = {
   icon: {
     height: 128,
     width: 128,
@@ -205,5 +205,5 @@ export default connectComponent(
   About,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

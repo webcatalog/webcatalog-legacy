@@ -13,7 +13,7 @@ import {
 
 const { lightBlack } = common;
 
-const styleSheet = {
+const styles = {
   text: {
     color: lightBlack,
     lineHeight: '32px',
@@ -59,4 +59,4 @@ EnhancedDialogTitle.propTypes = {
   onCloseButtonClick: PropTypes.func.isRequired,
 };
 
-export default withStyles(styleSheet, { name: 'EnhancedDialogTitle' })(EnhancedDialogTitle);
+export default withStyles(styles, { name: 'EnhancedDialogTitle' })(EnhancedDialogTitle);

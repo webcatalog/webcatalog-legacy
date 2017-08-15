@@ -9,7 +9,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 
-const styleSheet = () => ({
+const styles = () => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -60,5 +60,5 @@ export default connectComponent(
   Search,
   mapStateToProps,
   null,
-  styleSheet,
+  styles,
 );

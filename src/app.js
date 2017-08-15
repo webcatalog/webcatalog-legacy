@@ -26,7 +26,7 @@ import {
   ROUTE_SEARCH,
 } from './constants/routes';
 
-const styleSheet = {
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -116,5 +116,5 @@ export default connectComponent(
   App,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

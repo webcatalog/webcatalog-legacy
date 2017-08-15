@@ -27,7 +27,7 @@ import {
   STRING_CLEAR,
 } from '../../constants/strings';
 
-const styleSheet = {
+const styles = {
   appBarContainer: {
     width: '100%',
   },
@@ -183,5 +183,5 @@ export default connectComponent(
   SearchBox,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

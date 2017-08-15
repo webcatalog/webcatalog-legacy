@@ -63,7 +63,7 @@ import {
 
 const { fullWhite } = common;
 
-const styleSheet = {
+const styles = {
   root: {
     zIndex: 1,
   },
@@ -404,5 +404,5 @@ export default connectComponent(
   EnhancedAppBar,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

@@ -25,7 +25,7 @@ import {
   STRING_SAVING,
 } from '../../constants/strings';
 
-const styleSheet = {
+const styles = {
   formControl: {
     width: '100%',
   },
@@ -157,5 +157,5 @@ export default connectComponent(
   Password,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

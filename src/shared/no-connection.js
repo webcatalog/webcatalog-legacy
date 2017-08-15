@@ -13,7 +13,7 @@ import {
   STRING_TRY_AGAIN,
 } from '../constants/strings';
 
-const styleSheet = {
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -80,4 +80,4 @@ NoConnection.propTypes = {
   onTryAgainButtonClick: PropTypes.func.isRequired,
 };
 
-export default withStyles(styleSheet, { name: 'NoConnection' })(NoConnection);
+export default withStyles(styles, { name: 'NoConnection' })(NoConnection);

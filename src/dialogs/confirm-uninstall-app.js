@@ -26,7 +26,7 @@ import {
   STRING_UNINSTALLING,
 } from '../constants/strings';
 
-const styleSheet = {
+const styles = {
   linearProgress: {
     opacity: 0,
   },
@@ -126,5 +126,5 @@ export default connectComponent(
   ConfirmUninstallApp,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

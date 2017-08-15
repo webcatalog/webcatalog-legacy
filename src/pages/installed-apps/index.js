@@ -20,7 +20,7 @@ import {
   STRING_NO_INSTALLED_APPS_DESC,
 } from '../../constants/strings';
 
-const styleSheet = theme => ({
+const styles = theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -135,5 +135,5 @@ export default connectComponent(
   Installed,
   mapStateToProps,
   null,
-  styleSheet,
+  styles,
 );

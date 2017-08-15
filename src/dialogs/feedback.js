@@ -31,7 +31,7 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styleSheet = {
+const styles = {
   linearProgress: {
     opacity: 0,
   },
@@ -144,5 +144,5 @@ export default connectComponent(
   Feedback,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

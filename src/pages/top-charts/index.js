@@ -28,7 +28,7 @@ import NoConnection from '../../shared/no-connection';
 
 import FilterMenuButton from './filter-menu-button';
 
-const styleSheet = () => ({
+const styles = () => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -196,5 +196,5 @@ export default connectComponent(
   TopCharts,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

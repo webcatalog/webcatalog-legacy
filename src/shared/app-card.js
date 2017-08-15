@@ -28,7 +28,7 @@ import {
   STRING_UNINSTALL,
 } from '../constants/strings';
 
-const styleSheet = (theme) => {
+const styles = (theme) => {
   const cardContentDefaults = {
     position: 'relative',
     display: 'flex',
@@ -226,5 +226,5 @@ export default connectComponent(
   AppCard,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

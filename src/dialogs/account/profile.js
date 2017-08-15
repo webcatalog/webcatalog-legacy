@@ -24,7 +24,7 @@ import {
   STRING_SAVING,
 } from '../../constants/strings';
 
-const styleSheet = {
+const styles = {
   textField: {
     width: '100%',
   },
@@ -132,5 +132,5 @@ export default connectComponent(
   Profile,
   mapStateToProps,
   actionCreators,
-  styleSheet,
+  styles,
 );

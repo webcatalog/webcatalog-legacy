@@ -14,7 +14,7 @@ import {
   STRING_LOG_IN,
 } from '../constants/strings';
 
-const styleSheet = {
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -79,4 +79,4 @@ RequireLogIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styleSheet, { name: 'RequireLogIn' })(RequireLogIn);
+export default withStyles(styles, { name: 'RequireLogIn' })(RequireLogIn);
