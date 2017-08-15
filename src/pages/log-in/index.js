@@ -109,6 +109,7 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: fullWhite,
   },
 }));
 
