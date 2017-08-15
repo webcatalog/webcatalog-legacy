@@ -1,7 +1,5 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
@@ -10,12 +8,12 @@ import { LinearProgress } from 'material-ui/Progress';
 import Input from 'material-ui/Input';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
-
-import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogActions,
   DialogContent,
 } from 'material-ui/Dialog';
+
+import connectComponent from '../utils/connect-component';
 
 import {
   close,
@@ -136,10 +134,15 @@ const mapStateToProps = state => ({
   open: state.dialogs.feedback.open,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(close()),
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onSave: () => dispatch(save()),
-});
+const actionCreators = {
+  close,
+  formUpdate,
+  save,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Feedback' })(Feedback));
+export default connectComponent(
+  Feedback,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

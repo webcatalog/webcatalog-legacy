@@ -1,10 +1,7 @@
 /* global ipcRenderer */
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -14,6 +11,8 @@ import grey from 'material-ui/colors/grey';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { LinearProgress } from 'material-ui/Progress';
+
+import connectComponent from '../utils/connect-component';
 
 import extractHostname from '../utils/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
@@ -218,9 +217,14 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onInstallApp: (id, name) => dispatch(installApp(id, name)),
-  onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
-});
+const actionCreators = {
+  installApp,
+  openConfirmUninstallAppDialog,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'AppCard' })(AppCard));
+export default connectComponent(
+  AppCard,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

@@ -1,12 +1,12 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
-import { withStyles } from 'material-ui/styles';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
+
+import connectComponent from '../../utils/connect-component';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
@@ -131,6 +131,9 @@ const mapStateToProps = (state) => {
   return { apps };
 };
 
-const mapDispatchToProps = () => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Installed' })(Installed));
+export default connectComponent(
+  Installed,
+  mapStateToProps,
+  null,
+  styleSheet,
+);

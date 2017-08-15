@@ -1,11 +1,11 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
+
+import connectComponent from '../../utils/connect-component';
 
 import AppCard from '../../shared/app-card';
 
@@ -56,6 +56,9 @@ const mapStateToProps = state => ({
   apps: state.pages.search.apps,
 });
 
-const mapDispatchToProps = () => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Search' })(Search));
+export default connectComponent(
+  Search,
+  mapStateToProps,
+  null,
+  styleSheet,
+);

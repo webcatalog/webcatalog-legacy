@@ -1,16 +1,16 @@
 /* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogContent,
 } from 'material-ui/Dialog';
+
+import connectComponent from '../utils/connect-component';
 
 import { close } from '../state/dialogs/about/actions';
 import iconSvg from '../assets/icon.svg';
@@ -197,8 +197,13 @@ const mapStateToProps = state => ({
   open: state.dialogs.about.open,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(close()),
-});
+const actionCreators = {
+  close,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'About' })(About));
+export default connectComponent(
+  About,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

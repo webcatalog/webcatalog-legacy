@@ -1,10 +1,10 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
+
+import connectComponent from '../../utils/connect-component';
 
 import {
   resetAndGetApps as refreshTopCharts,
@@ -67,9 +67,13 @@ const mapStateToProps = state => ({
   route: state.router.route,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onRefreshMyApps: () => dispatch((refreshMyApps())),
-  onRefreshTopCharts: () => dispatch((refreshTopCharts())),
-});
+const actionCreators = {
+  refreshMyApps,
+  refreshTopCharts,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RefreshButton);
+export default connectComponent(
+  RefreshButton,
+  mapStateToProps,
+  actionCreators,
+);

@@ -1,10 +1,9 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import blue from 'material-ui/colors/blue';
-import { withStyles } from 'material-ui/styles';
+
+import connectComponent from '../utils/connect-component';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
@@ -40,10 +39,9 @@ FakeTitleBar.propTypes = {
   color: PropTypes.string,
 };
 
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = () => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'FakeTitleBar' })(FakeTitleBar));
+export default connectComponent(
+  FakeTitleBar,
+  null,
+  null,
+  styleSheet,
+);

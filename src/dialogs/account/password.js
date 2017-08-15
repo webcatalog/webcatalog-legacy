@@ -2,13 +2,12 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import { connect } from 'react-redux';
 import Input from 'material-ui/Input';
 import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import { withStyles } from 'material-ui/styles';
+import connectComponent from '../../utils/connect-component';
 
 import {
   formUpdate,
@@ -149,9 +148,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onSave: () => dispatch(save()),
-});
+const actionCreators = {
+  formUpdate,
+  save,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Password' })(Password));
+export default connectComponent(
+  Password,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

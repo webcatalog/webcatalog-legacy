@@ -1,11 +1,13 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import FilterListIcon from 'material-ui-icons/FilterList';
 import IconButton from 'material-ui/IconButton';
 import { MenuItem } from 'material-ui/Menu';
+
+import connectComponent from '../../utils/connect-component';
+
 import EnhancedMenu from '../../shared/enhanced-menu';
 
 import categories from '../../constants/categories';
@@ -59,8 +61,12 @@ const mapStateToProps = state => ({
   category: state.pages.topCharts.queryParams.category,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSetCategory: category => dispatch(setCategory(category)),
-});
+const actionCreators = {
+  setCategory,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterMenuButton);
+export default connectComponent(
+  FilterMenuButton,
+  mapStateToProps,
+  actionCreators,
+);

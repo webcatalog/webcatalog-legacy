@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import AppBar from 'material-ui/AppBar';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
@@ -10,7 +9,8 @@ import Slide from 'material-ui/transitions/Slide';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
-import { withStyles } from 'material-ui/styles';
+
+import connectComponent from '../../utils/connect-component';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import {
@@ -174,9 +174,14 @@ const mapStateToProps = state => ({
   query: state.pages.search.form.query,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onGoBack: () => dispatch(goBack()),
-});
+const actionCreators = {
+  formUpdate,
+  goBack,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'SearchBox' })(SearchBox));
+export default connectComponent(
+  SearchBox,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

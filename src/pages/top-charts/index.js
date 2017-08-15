@@ -1,13 +1,13 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
+
+import connectComponent from '../../utils/connect-component';
 
 import AppCard from '../../shared/app-card';
 import getCategoryLabel from '../../utils/get-category-label';
@@ -186,10 +186,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onResetAndGetApps: () => dispatch(resetAndGetApps()),
-  onGetApps: () => dispatch(getApps()),
-  onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
-});
+const actionCreators = {
+  resetAndGetApps,
+  getApps,
+  setSortBy,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'TopCharts' })(TopCharts));
+export default connectComponent(
+  TopCharts,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

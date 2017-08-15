@@ -1,15 +1,15 @@
 /* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import common from 'material-ui/colors/common';
-import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import SvgIcon from 'material-ui/SvgIcon';
 import TextField from 'material-ui/TextField';
 import { CircularProgress } from 'material-ui/Progress';
+
+import connectComponent from '../../utils/connect-component';
 
 import logoPng from '../../assets/logo.png';
 
@@ -248,9 +248,14 @@ const mapStateToProps = state => ({
   isSubmitting: state.pages.logIn.isSubmitting,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onSubmit: () => dispatch(submit()),
-});
+const actionCreators = {
+  formUpdate,
+  submit,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Auth' })(Auth));
+export default connectComponent(
+  Auth,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

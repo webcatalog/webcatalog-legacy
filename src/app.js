@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { withStyles } from 'material-ui/styles';
+import connectComponent from './utils/connect-component';
 
 import { getUser } from './state/root/user/actions';
 
@@ -109,8 +108,13 @@ const mapStateToProps = state => ({
   shouldShowLogIn: Boolean(!state.auth.token),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onGetUser: () => dispatch(getUser()),
-});
+const actionCreators = {
+  getUser,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'App' })(App));
+export default connectComponent(
+  App,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

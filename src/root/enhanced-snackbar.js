@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
+
+import connectComponent from '../utils/connect-component';
 
 import { closeSnackbar } from '../state/root/snackbar/actions';
 
@@ -57,8 +58,12 @@ EnhancedSnackbar.propTypes = {
   onCloseSnackbar: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  onCloseSnackbar: () => dispatch(closeSnackbar()),
-});
+const actionCreators = {
+  closeSnackbar,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnhancedSnackbar);
+export default connectComponent(
+  EnhancedSnackbar,
+  mapStateToProps,
+  actionCreators,
+);

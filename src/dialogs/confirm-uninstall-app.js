@@ -1,18 +1,17 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
+
+import connectComponent from '../utils/connect-component';
 
 import {
   close,
@@ -118,10 +117,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(close()),
-  onSave: () => dispatch(save()),
-});
+const actionCreators = {
+  close,
+  save,
+};
 
-export default
-connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'ConfirmUninstallApp' })(ConfirmUninstallApp));
+export default connectComponent(
+  ConfirmUninstallApp,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

@@ -1,14 +1,13 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles } from 'material-ui/styles';
-
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
+
+import connectComponent from '../../utils/connect-component';
+
 import AppCard from '../../shared/app-card';
 import {
   getMyApps,
@@ -177,9 +176,14 @@ const mapStateToProps = state => ({
   isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onGetMyApps: () => dispatch(getMyApps()),
-  onResetAndGetMyApps: () => dispatch(resetAndGetMyApps()),
-});
+const actionCreators = {
+  getMyApps,
+  resetAndGetMyApps,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'MyApps' })(MyApps));
+export default connectComponent(
+  MyApps,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);

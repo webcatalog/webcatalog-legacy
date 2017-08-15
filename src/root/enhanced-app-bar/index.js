@@ -1,8 +1,6 @@
 /* global ipcRenderer */
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 import AppBar from 'material-ui/AppBar';
@@ -28,7 +26,8 @@ import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import blue from 'material-ui/colors/blue';
 import common from 'material-ui/colors/common';
-import { withStyles } from 'material-ui/styles';
+
+import connectComponent from '../../utils/connect-component';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
@@ -393,12 +392,17 @@ const mapStateToProps = state => ({
   profilePicture: state.user.apiData.profilePicture,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onChangeRoute: route => dispatch(changeRoute(route)),
-  onOpenDialogAbout: () => dispatch(openDialogAbout()),
-  onOpenDialogAccount: () => dispatch(openDialogAccount()),
-  onOpenDialogFeedback: () => dispatch(openDialogFeedback()),
-  onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
-});
+const actionCreators = {
+  changeRoute,
+  openDialogAbout,
+  openDialogAccount,
+  openDialogFeedback,
+  openDialogSubmitApp,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'EnhancedAppBar' })(EnhancedAppBar));
+export default connectComponent(
+  EnhancedAppBar,
+  mapStateToProps,
+  actionCreators,
+  styleSheet,
+);
