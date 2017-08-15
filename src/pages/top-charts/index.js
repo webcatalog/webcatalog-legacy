@@ -101,7 +101,7 @@ class TopCharts extends React.Component {
 
           <Tabs
             className={classes.tabs}
-            index={tabIndex}
+            value={tabIndex}
             indicatorColor="primary"
             textColor="primary"
             centered
