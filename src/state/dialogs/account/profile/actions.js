@@ -1,7 +1,7 @@
-import { openSnackbar } from '../../../main/snackbar/actions';
-import { getUser } from '../../../main/user/actions';
+import validate from '../../../../utils/validate';
 
-import isEmail from '../../../../utils/is-email';
+import { openSnackbar } from '../../../root/snackbar/actions';
+import { getUser } from '../../../root/user/actions';
 
 import {
   dialogAccountProfileFormUpdate,
@@ -18,26 +18,16 @@ const hasErrors = (validatedChanges) => {
   return false;
 };
 
-const validate = (changes) => {
-  const {
-    email,
-  } = changes;
-
-  const newChanges = changes;
-
-  if (email || email === '') {
-    const key = email;
-    if (key.length === 0) newChanges.emailError = 'Enter an email';
-    else if (!isEmail(key)) newChanges.emailError = 'Enter a valid email';
-    else newChanges.emailError = null;
-  }
-
-  return newChanges;
-};
+const getValidationRules = () => ({
+  email: {
+    fieldName: 'Email',
+    required: true,
+  },
+});
 
 export const formUpdate = changes =>
-  (dispatch, getState) => {
-    const validatedChanges = validate(changes, getState());
+  (dispatch) => {
+    const validatedChanges = validate(changes, getValidationRules());
     dispatch(dialogAccountProfileFormUpdate(validatedChanges));
   };
 
@@ -45,7 +35,7 @@ export const save = () =>
   (dispatch, getState) => {
     const changes = getState().dialogs.account.profile.form;
 
-    const validatedChanges = validate(changes, getState());
+    const validatedChanges = validate(changes, getValidationRules());
     if (hasErrors(validatedChanges)) {
       return dispatch(formUpdate(validatedChanges));
     }

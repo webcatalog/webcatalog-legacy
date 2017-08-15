@@ -34,7 +34,7 @@ import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
 import SearchBox from './search-box';
 
-import { changeRoute } from '../../state/main/router/actions';
+import { changeRoute } from '../../state/root/router/actions';
 import { open as openDialogAccount } from '../../state/dialogs/account/actions';
 import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';

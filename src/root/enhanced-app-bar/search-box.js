@@ -18,7 +18,7 @@ import {
 } from '../../constants/routes';
 import {
   goBack,
-} from '../../state/main/router/actions';
+} from '../../state/root/router/actions';
 import {
   formUpdate,
 } from '../../state/pages/search/actions';

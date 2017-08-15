@@ -17,12 +17,12 @@ import { LinearProgress } from 'material-ui/Progress';
 
 import extractHostname from '../utils/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
-import { installApp } from '../state/main/local/actions';
+import { installApp } from '../state/root/local/actions';
 import {
   isInstalled as isInstalledUtil,
   isUninstalling as isUninstallingUtil,
   isInstalling as isInstallingUtil,
-} from '../state/main/local/utils';
+} from '../state/root/local/utils';
 import {
   STRING_INSTALL,
   STRING_OPEN,

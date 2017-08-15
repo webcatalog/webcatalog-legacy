@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
-import { getUser } from './state/main/user/actions';
+import { getUser } from './state/root/user/actions';
 
 import DialogAccount from './dialogs/account';
 import DialogAbout from './dialogs/about';

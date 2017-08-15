@@ -1,4 +1,6 @@
-import { openSnackbar } from '../../main/snackbar/actions';
+import validate from '../../../utils/validate';
+
+import { openSnackbar } from '../../root/snackbar/actions';
 
 import {
   dialogFeedbackClose,
@@ -10,27 +12,18 @@ import {
 
 import { apiPost } from '../../api';
 
+const getValidationRules = () => ({
+  content: {
+    required: true,
+    maxLength: 1000,
+  },
+});
+
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.contentError) {
     return true;
   }
   return false;
-};
-
-const validate = (data) => {
-  const {
-    content,
-  } = data;
-
-  const newData = data;
-
-  if (content || content === '') {
-    const key = content;
-    if (key.length > 1000) newData.contentError = 'Must be under 1000 characters';
-    else newData.contentError = null;
-  }
-
-  return newData;
 };
 
 export const close = () =>
@@ -39,8 +32,8 @@ export const close = () =>
   };
 
 export const formUpdate = changes =>
-  (dispatch, getState) => {
-    const validatedChanges = validate(changes, getState());
+  (dispatch) => {
+    const validatedChanges = validate(changes, getValidationRules());
     dispatch(dialogFeedbackFormUpdate(validatedChanges));
   };
 
@@ -53,7 +46,7 @@ export const save = () =>
   (dispatch, getState) => {
     const data = getState().dialogs.feedback.form;
 
-    const validatedChanges = validate(data, getState());
+    const validatedChanges = validate(data, getValidationRules());
     if (hasErrors(validatedChanges)) {
       return dispatch(formUpdate(validatedChanges));
     }

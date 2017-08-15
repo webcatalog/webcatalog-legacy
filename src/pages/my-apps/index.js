@@ -92,11 +92,14 @@ const styleSheet = createStyleSheet('MyApps', theme => ({
 class MyApps extends React.Component {
   componentDidMount() {
     const {
+      isLoggedIn,
       onGetMyApps,
       onResetAndGetMyApps,
     } = this.props;
 
-    onResetAndGetMyApps();
+    if (isLoggedIn) {
+      onResetAndGetMyApps();
+    }
 
     const el = this.scrollContainer;
 

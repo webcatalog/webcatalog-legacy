@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
 import {
@@ -12,7 +13,6 @@ import {
 } from 'material-ui/styles';
 import Dialog, {
   DialogContent,
-  DialogTitle,
 } from 'material-ui/Dialog';
 
 import { close } from '../state/dialogs/about/actions';
@@ -37,7 +37,10 @@ import {
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
   STRING_UPDATE_PROGRESS,
+  STRING_TERMS,
 } from '../constants/strings';
+
+import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const styleSheet = createStyleSheet('About', {
   icon: {
@@ -45,7 +48,7 @@ const styleSheet = createStyleSheet('About', {
     width: 128,
   },
   dialogContent: {
-    minWidth: 240,
+    minWidth: 320,
     textAlign: 'center',
   },
   title: {
@@ -54,9 +57,19 @@ const styleSheet = createStyleSheet('About', {
   version: {
     marginBottom: 16,
   },
+  versionSmallContainer: {
+    marginBottom: 24,
+  },
+  versionSmall: {
+    fontSize: 13,
+  },
   updaterStatus: {
     marginTop: 32,
     marginBottom: 12,
+  },
+  divider: {
+    marginTop: 16,
+    marginBottom: 16,
   },
 });
 
@@ -100,23 +113,13 @@ const About = (props) => {
       open={open}
       transition={<Slide direction="left" />}
     >
-      <DialogTitle>{STRING_ABOUT}</DialogTitle>
+      <EnhancedDialogTitle onCloseButtonClick={onClose}>
+        {STRING_ABOUT}
+      </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
         <img src={iconSvg} alt="WebCatalog" className={classes.icon} />
         <Typography type="title" className={classes.title}>WebCatalog</Typography>
         <Typography type="body1" className={classes.version}>Version {window.version}</Typography>
-
-        <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/release-notes')}
-        >
-          {STRING_RELEASE_NOTES}
-        </Button>
-
-        <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/privacy')}
-        >
-          {STRING_PRIVACY_POLICY}
-        </Button>
 
         <Typography type="body1" className={classes.updaterStatus}>
           {updaterStatusMessage}
@@ -140,6 +143,43 @@ const About = (props) => {
             {STRING_CHECK_FOR_UPDATES}
           </Button>
         )}
+
+        <Divider className={classes.divider} />
+
+        <div className={classes.versionSmallContainer}>
+          <Typography type="body1" className={classes.versionSmall}>
+            <strong>electron:</strong> {window.versions.electron}
+          </Typography>
+          <Typography type="body1" className={classes.versionSmall}>
+            <strong>chrome:</strong> {window.versions.chrome}
+          </Typography>
+          <Typography type="body1" className={classes.versionSmall}>
+            <strong>v8:</strong> {window.versions.v8}
+          </Typography>
+          <Typography type="body1" className={classes.versionSmall}>
+            <strong>node:</strong> {window.versions.node}
+          </Typography>
+        </div>
+
+        <Button
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/release-notes')}
+        >
+          {STRING_RELEASE_NOTES}
+        </Button>
+        <br />
+
+        <Button
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/terms')}
+        >
+          {STRING_TERMS}
+        </Button>
+        <br />
+
+        <Button
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/privacy')}
+        >
+          {STRING_PRIVACY_POLICY}
+        </Button>
 
       </DialogContent>
     </Dialog>

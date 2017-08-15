@@ -1,56 +1,66 @@
+import { combineReducers } from 'redux';
+
 import {
-  LOGIN_SET_EMAIL,
-  LOGIN_SET_PASSWORD,
+  LOG_IN_FORM_UPDATE,
 } from '../../../constants/actions';
 
-import isEmail from '../../../utils/is-email';
-
-const initialState = {
+const initialForm = {
   email: '',
-  emailErr: null,
-
+  emailError: null,
   password: '',
-  passwordErr: null,
+  passwordError: null,
 };
 
+const form = (state = initialForm, action) => {
+  switch (action.type) {
+    case LOG_IN_FORM_UPDATE: {
+      const { changes } = action;
+      return Object.assign({}, state, changes);
+    }
+    default: return state;
+  }
+};
+
+/*
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SET_EMAIL: {
       if (action.email.length < 1) {
         return Object.assign({}, state, {
           email: action.email,
-          emailErr: 'Please enter your email',
+          emailError: 'Please enter your email',
         });
       }
 
       if (isEmail(action.email)) {
         return Object.assign({}, state, {
           email: action.email,
-          emailErr: null,
+          emailError: null,
         });
       }
 
       return Object.assign({}, state, {
         email: action.email,
-        emailErr: 'Please enter a valid email',
+        emailError: 'Please enter a valid email',
       });
     }
     case LOGIN_SET_PASSWORD: {
       if (action.password.length < 1) {
         return Object.assign({}, state, {
           password: action.password,
-          passwordErr: 'Please enter your password',
+          passwordError: 'Please enter your password',
         });
       }
 
       return Object.assign({}, state, {
         password: action.password,
-        passwordErr: null,
+        passwordError: null,
       });
     }
     default:
       return state;
   }
 };
+*/
 
-export default auth;
+export default combineReducers({ form });

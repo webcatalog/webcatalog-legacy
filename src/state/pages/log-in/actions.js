@@ -1,15 +1,39 @@
+/* global ipcRenderer */
+import validate from '../../../utils/validate';
+
 import {
-  LOGIN_SET_EMAIL,
-  LOGIN_SET_PASSWORD,
-} from '../../../constants/actions';
+  logInFormUpdate,
+} from './action-creators';
 
-export const setAuthEmail = email => ({
-  type: LOGIN_SET_EMAIL,
-  email,
+const getValidationRules = () => ({
+  email: {
+    fieldName: 'Email',
+    required: true,
+    email: true,
+  },
+  password: {
+    fieldName: 'Password',
+    required: true,
+    minLength: 6,
+  },
 });
 
+export const formUpdate = changes =>
+  (dispatch) => {
+    const validatedChanges = validate(changes, getValidationRules());
+    dispatch(logInFormUpdate(validatedChanges));
+  };
 
-export const setAuthPassword = password => ({
-  type: LOGIN_SET_PASSWORD,
-  password,
-});
+export const submit = () =>
+  (dispatch, getState) => {
+    const form = getState().pages.logIn.form;
+
+    const validatedForm = validate(form, getValidationRules());
+
+    if (validatedForm.emailError || validatedForm.passwordError) {
+      dispatch(logInFormUpdate(validatedForm));
+    } else {
+      const { email, password } = form;
+      ipcRenderer.send('sign-in-with-password', email, password);
+    }
+  };

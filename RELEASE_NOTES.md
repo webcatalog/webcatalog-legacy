@@ -240,7 +240,7 @@
 
 ## 3.4.0 (beta)
 - Adds Windows 32-bit & Linux 32-bit support.
-- Fixes bugs, including [Feedly's login bug](https://github.com/webcatalog/webcatalog/issues/70).
+- Fixes bugs, including [Feedly's logIn bug](https://github.com/webcatalog/webcatalog/issues/70).
 - Removes Flash, Chromecast and WidevineCdm support. *Apps with Flash and WidevineCdm will be removed from the catalog*.
 
 ---

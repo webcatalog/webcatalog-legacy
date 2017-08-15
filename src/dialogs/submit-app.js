@@ -18,7 +18,6 @@ import {
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogTitle,
 } from 'material-ui/Dialog';
 
 import RequireLogIn from '../shared/require-log-in';
@@ -40,6 +39,8 @@ import {
   STRING_SUBMITTING,
 } from '../constants/strings';
 
+import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+
 const styleSheet = createStyleSheet('SubmitApp', {
   linearProgress: {
     opacity: 0,
@@ -57,6 +58,7 @@ const styleSheet = createStyleSheet('SubmitApp', {
     width: '100%',
   },
 });
+
 
 const SubmitApp = (props) => {
   const {
@@ -87,7 +89,9 @@ const SubmitApp = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>{STRING_SUBMIT_APP}</DialogTitle>
+      <EnhancedDialogTitle onCloseButtonClick={onClose}>
+        {STRING_SUBMIT_APP}
+      </EnhancedDialogTitle>
       {!isLoggedIn ? (
         <DialogContent className={classes.dialogContent}>
           <RequireLogIn />

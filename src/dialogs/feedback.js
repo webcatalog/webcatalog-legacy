@@ -18,7 +18,6 @@ import {
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogTitle,
 } from 'material-ui/Dialog';
 
 import {
@@ -34,6 +33,8 @@ import {
   STRING_SEND,
   STRING_SENDING,
 } from '../constants/strings';
+
+import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const styleSheet = createStyleSheet('Feedback', {
   linearProgress: {
@@ -79,7 +80,9 @@ const Feedback = (props) => {
         <LinearProgress className={classes.linearProgress} />
       </Fade>
 
-      <DialogTitle>{STRING_SEND_FEEDBACK}</DialogTitle>
+      <EnhancedDialogTitle onCloseButtonClick={onClose}>
+        {STRING_SEND_FEEDBACK}
+      </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={contentError}>
           <Input

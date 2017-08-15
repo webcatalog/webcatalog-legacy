@@ -2,8 +2,7 @@
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 
 // Login
-export const LOGIN_SET_PASSWORD = 'LOGIN_SET_PASSWORD';
-export const LOGIN_SET_EMAIL = 'LOGIN_SET_EMAIL';
+export const LOG_IN_FORM_UPDATE = 'LOG_IN_FORM_UPDATE';
 
 // Local
 export const LOCAL_SET_APP = 'LOCAL_SET_APP';

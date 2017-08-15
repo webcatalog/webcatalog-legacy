@@ -2,20 +2,20 @@
 
 import {
   setAuthToken,
-} from './state/main/auth/actions';
+} from './state/root/auth/actions';
 
 import {
   setLocalApp,
   removeLocalApp,
-} from './state/main/local/actions';
+} from './state/root/local/actions';
 
 import {
   setUpdaterStatus,
-} from './state/main/updater/actions';
+} from './state/root/updater/actions';
 
 import {
   openSnackbar,
-} from './state/main/snackbar/actions';
+} from './state/root/snackbar/actions';
 import {
   open as openDialogAbout,
 } from './state/dialogs/about/actions';

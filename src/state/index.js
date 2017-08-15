@@ -4,12 +4,12 @@ import thunkMiddleware from 'redux-thunk';
 import dialogs from './dialogs/reducers';
 import pages from './pages/reducers';
 
-import auth from './main/auth/reducers';
-import local from './main/local/reducers';
-import router from './main/router/reducers';
-import snackbar from './main/snackbar/reducers';
-import updater from './main/updater/reducers';
-import user from './main/user/reducers';
+import auth from './root/auth/reducers';
+import local from './root/local/reducers';
+import router from './root/router/reducers';
+import snackbar from './root/snackbar/reducers';
+import updater from './root/updater/reducers';
+import user from './root/user/reducers';
 
 const rootReducer = combineReducers({
   auth,

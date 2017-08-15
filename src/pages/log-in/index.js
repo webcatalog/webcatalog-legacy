@@ -12,7 +12,10 @@ import TextField from 'material-ui/TextField';
 
 import logoPng from '../../assets/logo.png';
 
-import { setAuthEmail, setAuthPassword } from '../../state/pages/log-in/actions';
+import {
+  submit,
+  formUpdate,
+} from '../../state/pages/log-in/actions';
 
 import {
   STRING_CONTINUE_WITHOUT_LOGGING_IN,
@@ -117,11 +120,11 @@ const Auth = (props) => {
   const {
     classes,
     email,
-    emailErr,
-    onSetEmail,
-    onSetPassword,
+    emailError,
+    onFormUpdate,
+    onSubmit,
     password,
-    passwordErr,
+    passwordError,
   } = props;
 
   return (
@@ -133,38 +136,27 @@ const Auth = (props) => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-
-              // If there are errors but error variables are not set, then set & revalidate.
-              if ((email.length < 1 && !emailErr) || (password.length < 1 && !passwordErr)) {
-                onSetEmail(email);
-                onSetPassword(password);
-
-                return;
-              }
-
-              if (!emailErr && !passwordErr) {
-                ipcRenderer.send('sign-in-with-password', email, password);
-              }
+              onSubmit();
             }}
           >
             <TextField
               className={classes.textField}
-              error={Boolean(emailErr)}
-              helperText={emailErr}
+              error={Boolean(emailError)}
+              helperText={emailError}
               id="email"
               label={STRING_EMAIL}
-              onChange={event => onSetEmail(event.target.value)}
+              onChange={e => onFormUpdate({ email: e.target.value })}
               type="email"
               value={email}
             />
 
             <TextField
               className={classes.textField}
-              error={Boolean(passwordErr)}
-              helperText={passwordErr}
+              error={Boolean(passwordError)}
+              helperText={passwordError}
               id="password"
               label={STRING_PASSWORD}
-              onChange={event => onSetPassword(event.target.value)}
+              onChange={e => onFormUpdate({ password: e.target.value })}
               type="password"
               value={password}
             />
@@ -215,30 +207,30 @@ const Auth = (props) => {
 };
 
 Auth.defaultProps = {
-  emailErr: null,
-  passwordErr: null,
+  emailError: null,
+  passwordError: null,
 };
 
 Auth.propTypes = {
   classes: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,
-  emailErr: PropTypes.string,
-  onSetEmail: PropTypes.func.isRequired,
-  onSetPassword: PropTypes.func.isRequired,
+  emailError: PropTypes.string,
+  onFormUpdate: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
-  passwordErr: PropTypes.string,
+  passwordError: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  email: state.pages.login.email,
-  emailErr: state.pages.login.emailErr,
-  password: state.pages.login.password,
-  passwordErr: state.pages.login.passwordErr,
+  email: state.pages.logIn.form.email,
+  emailError: state.pages.logIn.form.emailError,
+  password: state.pages.logIn.form.password,
+  passwordError: state.pages.logIn.form.passwordError,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetEmail: email => dispatch(setAuthEmail(email)),
-  onSetPassword: password => dispatch(setAuthPassword(password)),
+  onFormUpdate: changes => dispatch(formUpdate(changes)),
+  onSubmit: () => dispatch(submit()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Auth));

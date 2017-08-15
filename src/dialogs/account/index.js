@@ -17,7 +17,6 @@ import {
 } from 'material-ui/styles';
 import Dialog, {
   DialogContent,
-  DialogTitle,
   DialogContentText,
 } from 'material-ui/Dialog';
 
@@ -37,6 +36,8 @@ import {
   STRING_PASSWORD,
   STRING_PROFILE,
 } from '../../constants/strings';
+
+import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 
 import Profile from './profile';
 import Password from './password';
@@ -126,7 +127,9 @@ const Account = (props) => {
       open={open}
       transition={<Slide direction="left" />}
     >
-      <DialogTitle>{STRING_ACCOUNT}</DialogTitle>
+      <EnhancedDialogTitle onCloseButtonClick={onClose}>
+        {STRING_ACCOUNT}
+      </EnhancedDialogTitle>
       <Divider />
       <DialogContent className={classes.dialogContent}>
         <List className={classes.list}>

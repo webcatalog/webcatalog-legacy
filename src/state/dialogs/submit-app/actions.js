@@ -1,6 +1,6 @@
-import { openSnackbar } from '../../main/snackbar/actions';
+import validate from '../../../utils/validate';
 
-import isUrl from '../../../utils/is-url';
+import { openSnackbar } from '../../root/snackbar/actions';
 
 import {
   dialogSubmitAppClose,
@@ -12,36 +12,24 @@ import {
 
 import { apiPost } from '../../api';
 
+const getValidationRules = () => ({
+  name: {
+    fieldName: 'App name',
+    required: true,
+    maxLength: 100,
+  },
+  url: {
+    fieldName: 'App URL',
+    required: true,
+    url: true,
+  },
+});
+
 const hasErrors = (validatedChanges) => {
   if (validatedChanges.nameError || validatedChanges.urlError) {
     return true;
   }
   return false;
-};
-
-const validate = (changes) => {
-  const {
-    name,
-    url,
-  } = changes;
-
-  const newChanges = changes;
-
-  if (name || name === '') {
-    const key = name;
-    if (key.length === 0) newChanges.nameError = 'Enter the app name';
-    else if (key.length > 100) newChanges.nameError = 'Must be less than 100 characters';
-    else newChanges.nameError = null;
-  }
-
-  if (url || url === '') {
-    const key = url;
-    if (key.length === 0) newChanges.urlError = 'Enter the app url';
-    else if (!isUrl(key)) newChanges.urlError = 'Enter a valid url';
-    else newChanges.urlError = null;
-  }
-
-  return newChanges;
 };
 
 export const close = () =>
@@ -50,8 +38,8 @@ export const close = () =>
   };
 
 export const formUpdate = changes =>
-  (dispatch, getState) => {
-    const validatedChanges = validate(changes, getState());
+  (dispatch) => {
+    const validatedChanges = validate(changes, getValidationRules());
     dispatch(dialogSubmitAppFormUpdate(validatedChanges));
   };
 
@@ -64,7 +52,7 @@ export const save = () =>
   (dispatch, getState) => {
     const data = getState().dialogs.submitApp.form;
 
-    const validatedChanges = validate(data, getState());
+    const validatedChanges = validate(data, getValidationRules());
     if (hasErrors(validatedChanges)) {
       return dispatch(formUpdate(validatedChanges));
     }

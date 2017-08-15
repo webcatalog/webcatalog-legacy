@@ -1,4 +1,4 @@
-import { openSnackbar } from '../../main/snackbar/actions';
+import { openSnackbar } from '../../root/snackbar/actions';
 
 import uninstallAppAsync from '../../../utils/uninstall-app-async';
 
