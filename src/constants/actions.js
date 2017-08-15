@@ -23,6 +23,7 @@ export const TOP_CHARTS_SET_SORT_ORDER = 'TOP_CHARTS_SET_SORT_ORDER';
 // User
 export const USER_GET_REQUEST = 'USER_GET_REQUEST';
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
+export const USER_GET_FAILED = 'USER_GET_FAILED';
 
 // My Apps
 export const MY_APPS_RESET = 'MY_APPS_RESET';

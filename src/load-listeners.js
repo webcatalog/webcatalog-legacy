@@ -6,6 +6,7 @@ import {
 
 import {
   getUser,
+  removeUser,
 } from './state/root/user/actions';
 
 import {
@@ -33,8 +34,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-auth-token', (e, token) => {
     store.dispatch(setAuthToken(token));
-    if (token) {
+    if (token && token !== 'anonymous') {
       store.dispatch(getUser());
+    } else {
+      store.dispatch(removeUser());
     }
   });
 

@@ -188,7 +188,7 @@ const Auth = (props) => {
             </Button>
           </form>
 
-          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/sign-up')}>
+          <Button onClick={() => ipcRenderer.send('sign-up')}>
             {STRING_CREATE_ACCOUNT}
           </Button>
 
