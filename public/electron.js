@@ -6,7 +6,7 @@ const windowStateKeeper = require('electron-window-state');
 
 const isTesting = argv.testing === 'true'; // Spectron mode
 
-const createMenu = require('./libs/createMenu');
+const createMenu = require('./libs/create-menu');
 const loadListeners = require('./listeners');
 
 // Keep a global reference of the window object, if you don't, the window will

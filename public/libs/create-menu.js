@@ -4,7 +4,7 @@ const {
   shell,
 } = require('electron');
 
-const sendMessageToWindow = require('./sendMessageToWindow');
+const sendMessageToWindow = require('./send-message-to-window');
 
 const createMenu = () => {
   const template = [

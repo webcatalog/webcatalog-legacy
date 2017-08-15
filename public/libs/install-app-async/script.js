@@ -1,7 +1,7 @@
 const createAppAsync = require('@webcatalog/molecule');
 const argv = require('yargs-parser')(process.argv.slice(1));
 
-const downloadIconTempAsync = require('./downloadIconTempAsync');
+const downloadIconTempAsync = require('./download-icon-temp-async');
 
 const { id, name, url, icnsIconUrl, destPath } = argv;
 

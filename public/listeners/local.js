@@ -2,10 +2,10 @@ const {
   ipcMain,
 } = require('electron');
 
-const openApp = require('../libs/openApp');
-const scanInstalledAsync = require('../libs/scanInstalledAsync');
-const uninstallAppAsync = require('../libs/uninstallAppAsync');
-const installAppAsync = require('../libs/installAppAsync');
+const openApp = require('../libs/open-app');
+const scanInstalledAsync = require('../libs/scan-installed-async');
+const uninstallAppAsync = require('../libs/uninstall-app-async');
+const installAppAsync = require('../libs/install-app-async');
 
 const loadLocalListeners = () => {
   ipcMain.on('scan-installed-apps', (e) => {

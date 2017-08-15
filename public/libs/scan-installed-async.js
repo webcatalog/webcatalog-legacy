@@ -2,8 +2,8 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
 
-const getAllAppPath = require('./getAllAppPath');
-const uninstallAppAsync = require('./uninstallAppAsync');
+const getAllAppPath = require('./get-all-app-path');
+const uninstallAppAsync = require('./uninstall-app-async');
 
 const scanInstalledAsync = () =>
   Promise.resolve()

@@ -2,7 +2,7 @@ const {
   ipcMain,
 } = require('electron');
 
-const autoUpdater = require('../libs/autoUpdater');
+const autoUpdater = require('../libs/auto-updater');
 
 const loadUpdaterListeners = () => {
   ipcMain.on('check-for-updates', () => {

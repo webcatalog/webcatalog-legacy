@@ -1,6 +1,6 @@
 const { autoUpdater } = require('electron-updater');
 
-const sendMessageToWindow = require('./sendMessageToWindow');
+const sendMessageToWindow = require('./send-message-to-window');
 
 autoUpdater.on('checking-for-update', () => {
   sendMessageToWindow('set-updater-status', 'CHECKING_FOR_UPDATES');

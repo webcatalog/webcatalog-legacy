@@ -4,7 +4,7 @@ const fs = require('original-fs');
 const os = require('os');
 const path = require('path');
 
-const getAllAppPath = require('./getAllAppPath');
+const getAllAppPath = require('./get-all-app-path');
 
 const deleteFolderRecursive = (folderPath) => {
   if (fs.existsSync(folderPath)) {
