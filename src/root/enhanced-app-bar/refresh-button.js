@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui-icons/Refresh';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import {
   resetAndGetApps as refreshTopCharts,
@@ -23,14 +22,8 @@ import {
   STRING_REFRESH,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('RefreshButton', {
-  root: {
-  },
-});
-
 const RefreshButton = (props) => {
   const {
-    classes,
     route,
     onRefreshMyApps,
     onRefreshTopCharts,
@@ -55,7 +48,6 @@ const RefreshButton = (props) => {
       color="contrast"
       aria-label={STRING_REFRESH}
       onClick={handleClick}
-      className={classes.root}
     >
       <RefreshIcon />
     </IconButton>
@@ -66,7 +58,6 @@ RefreshButton.defaultProps = {
 };
 
 RefreshButton.propTypes = {
-  classes: PropTypes.object.isRequired,
   onRefreshMyApps: PropTypes.func.isRequired,
   onRefreshTopCharts: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
@@ -81,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   onRefreshTopCharts: () => dispatch((refreshTopCharts())),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(RefreshButton));
+export default connect(mapStateToProps, mapDispatchToProps)(RefreshButton);

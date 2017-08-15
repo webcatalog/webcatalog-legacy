@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import common from 'material-ui/colors/common';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import SvgIcon from 'material-ui/SvgIcon';
@@ -31,7 +31,7 @@ import {
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
 
-const styleSheet = createStyleSheet('Auth', theme => ({
+const styleSheet = theme => ({
   root: {
     flex: 1,
     backgroundColor: fullWhite,
@@ -111,7 +111,7 @@ const styleSheet = createStyleSheet('Auth', theme => ({
     alignItems: 'center',
     backgroundColor: fullWhite,
   },
-}));
+});
 
 /* eslint-disable max-len */
 const GoogleIcon = () => (
@@ -253,4 +253,4 @@ const mapDispatchToProps = dispatch => ({
   onSubmit: () => dispatch(submit()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Auth));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Auth' })(Auth));

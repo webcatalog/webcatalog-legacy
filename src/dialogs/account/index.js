@@ -11,10 +11,7 @@ import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogContent,
   DialogContentText,
@@ -42,7 +39,7 @@ import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 import Profile from './profile';
 import Password from './password';
 
-const styleSheet = createStyleSheet('Account', {
+const styleSheet = {
   linearProgress: {
     opacity: 0,
   },
@@ -103,7 +100,7 @@ const styleSheet = createStyleSheet('Account', {
       background: grey[400],
     },
   },
-});
+};
 
 const Account = (props) => {
   const {
@@ -193,4 +190,4 @@ const mapDispatchToProps = dispatch => ({
   onSectionChange: section => dispatch(sectionChange(section)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Account));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Account' })(Account));

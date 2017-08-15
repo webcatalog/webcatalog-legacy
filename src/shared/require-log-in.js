@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import ErrorIcon from 'material-ui-icons/Error';
 import grey from 'material-ui/colors/grey';
@@ -14,7 +14,7 @@ import {
   STRING_LOG_IN,
 } from '../constants/strings';
 
-const styleSheet = createStyleSheet('RequireLogIn', {
+const styleSheet = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -37,7 +37,7 @@ const styleSheet = createStyleSheet('RequireLogIn', {
   tryAgainButton: {
     marginTop: 16,
   },
-});
+};
 
 const RequireLogIn = (props) => {
   const {
@@ -79,4 +79,4 @@ RequireLogIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styleSheet)(RequireLogIn);
+export default withStyles(styleSheet, { name: 'RequireLogIn' })(RequireLogIn);

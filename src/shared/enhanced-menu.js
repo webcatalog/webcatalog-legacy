@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Menu from 'material-ui/Menu';
 
-const styleSheet = createStyleSheet('EnhancedMenu', {
+const styleSheet = {
   container: {
     display: 'inline-flex',
   },
-});
+};
 
 
 class EnhancedMenu extends React.Component {
@@ -75,4 +75,4 @@ EnhancedMenu.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styleSheet)(EnhancedMenu);
+export default withStyles(styleSheet, { name: 'EnhancedMenu' })(EnhancedMenu);

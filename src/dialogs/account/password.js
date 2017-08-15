@@ -8,10 +8,7 @@ import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import {
   formUpdate,
@@ -29,7 +26,7 @@ import {
   STRING_SAVING,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('Password', {
+const styleSheet = {
   formControl: {
     width: '100%',
   },
@@ -43,7 +40,7 @@ const styleSheet = createStyleSheet('Password', {
     alignSelf: 'flex-end',
     transform: 'translate(16px, 16px)',
   },
-});
+};
 
 const Password = (props) => {
   const {
@@ -157,4 +154,4 @@ const mapDispatchToProps = dispatch => ({
   onSave: () => dispatch(save()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Password));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Password' })(Password));

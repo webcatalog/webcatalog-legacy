@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
 
 import AppCard from '../../shared/app-card';
@@ -20,7 +20,7 @@ import {
   STRING_NO_INSTALLED_APPS_DESC,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('Installed', theme => ({
+const styleSheet = theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -80,7 +80,7 @@ const styleSheet = createStyleSheet('Installed', theme => ({
   hiddenMenuItem: {
     display: 'none',
   },
-}));
+});
 
 const Installed = (props) => {
   const {
@@ -133,4 +133,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Installed));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Installed' })(Installed));

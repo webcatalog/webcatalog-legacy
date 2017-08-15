@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import grey from 'material-ui/colors/grey';
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import AppCard from '../../shared/app-card';
@@ -22,7 +22,7 @@ import {
   STRING_NO_APPS_DESC,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('MyApps', theme => ({
+const styleSheet = theme => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -87,7 +87,7 @@ const styleSheet = createStyleSheet('MyApps', theme => ({
   grid: {
     marginBottom: 16,
   },
-}));
+});
 
 class MyApps extends React.Component {
   componentDidMount() {
@@ -182,4 +182,4 @@ const mapDispatchToProps = dispatch => ({
   onResetAndGetMyApps: () => dispatch(resetAndGetMyApps()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(MyApps));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'MyApps' })(MyApps));

@@ -28,7 +28,7 @@ import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 import blue from 'material-ui/colors/blue';
 import common from 'material-ui/colors/common';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
@@ -64,7 +64,7 @@ import {
 
 const { fullWhite } = common;
 
-const styleSheet = createStyleSheet('EnhancedAppBar', {
+const styleSheet = {
   root: {
     zIndex: 1,
   },
@@ -151,7 +151,7 @@ const styleSheet = createStyleSheet('EnhancedAppBar', {
   signInAppBar: {
     cursor: 'pointer',
   },
-});
+};
 
 class EnhancedAppBar extends React.Component {
   constructor() {
@@ -401,4 +401,4 @@ const mapDispatchToProps = dispatch => ({
   onOpenDialogSubmitApp: () => dispatch(openDialogSubmitApp()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(EnhancedAppBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'EnhancedAppBar' })(EnhancedAppBar));

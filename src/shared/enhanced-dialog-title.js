@@ -5,10 +5,7 @@ import common from 'material-ui/colors/common';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
 import { DialogTitle } from 'material-ui/Dialog';
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import {
   STRING_CLOSE,
@@ -16,7 +13,7 @@ import {
 
 const { lightBlack } = common;
 
-const styleSheet = createStyleSheet('EnhancedDialogTitle', {
+const styleSheet = {
   text: {
     color: lightBlack,
     lineHeight: '32px',
@@ -26,7 +23,7 @@ const styleSheet = createStyleSheet('EnhancedDialogTitle', {
     height: 32,
     width: 32,
   },
-});
+};
 
 const EnhancedDialogTitle = (props) => {
   const {
@@ -62,4 +59,4 @@ EnhancedDialogTitle.propTypes = {
   onCloseButtonClick: PropTypes.func.isRequired,
 };
 
-export default withStyles(styleSheet)(EnhancedDialogTitle);
+export default withStyles(styleSheet, { name: 'EnhancedDialogTitle' })(EnhancedDialogTitle);

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -28,7 +28,7 @@ import NoConnection from '../../shared/no-connection';
 
 import FilterMenuButton from './filter-menu-button';
 
-const styleSheet = createStyleSheet('TopCharts', () => ({
+const styleSheet = () => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -56,7 +56,7 @@ const styleSheet = createStyleSheet('TopCharts', () => ({
   grid: {
     marginBottom: 16,
   },
-}));
+});
 
 class TopCharts extends React.Component {
   componentDidMount() {
@@ -192,4 +192,4 @@ const mapDispatchToProps = dispatch => ({
   onSetSortBy: (sortBy, sortOrder) => dispatch(setSortBy(sortBy, sortOrder)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(TopCharts));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'TopCharts' })(TopCharts));

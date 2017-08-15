@@ -10,7 +10,7 @@ import Slide from 'material-ui/transitions/Slide';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import {
@@ -27,7 +27,7 @@ import {
   STRING_CLEAR,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('SearchBox', {
+const styleSheet = {
   appBarContainer: {
     width: '100%',
   },
@@ -79,7 +79,7 @@ const styleSheet = createStyleSheet('SearchBox', {
       color: grey[400],
     },
   },
-});
+};
 
 class SearchBox extends React.Component {
   componentDidUpdate() {
@@ -179,4 +179,4 @@ const mapDispatchToProps = dispatch => ({
   onGoBack: () => dispatch(goBack()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(SearchBox));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'SearchBox' })(SearchBox));

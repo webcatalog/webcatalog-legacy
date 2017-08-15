@@ -11,10 +11,7 @@ import Input from 'material-ui/Input';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -36,7 +33,7 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styleSheet = createStyleSheet('Feedback', {
+const styleSheet = {
   linearProgress: {
     opacity: 0,
   },
@@ -52,7 +49,7 @@ const styleSheet = createStyleSheet('Feedback', {
   formControl: {
     width: '100%',
   },
-});
+};
 
 const Feedback = (props) => {
   const {
@@ -145,4 +142,4 @@ const mapDispatchToProps = dispatch => ({
   onSave: () => dispatch(save()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Feedback));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Feedback' })(Feedback));

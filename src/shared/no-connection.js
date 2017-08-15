@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import ErrorIcon from 'material-ui-icons/Error';
 import grey from 'material-ui/colors/grey';
@@ -13,7 +13,7 @@ import {
   STRING_TRY_AGAIN,
 } from '../constants/strings';
 
-const styleSheet = createStyleSheet('NoConnection', {
+const styleSheet = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -36,7 +36,7 @@ const styleSheet = createStyleSheet('NoConnection', {
   tryAgainButton: {
     marginTop: 16,
   },
-});
+};
 
 const NoConnection = (props) => {
   const {
@@ -80,4 +80,4 @@ NoConnection.propTypes = {
   onTryAgainButtonClick: PropTypes.func.isRequired,
 };
 
-export default withStyles(styleSheet)(NoConnection);
+export default withStyles(styleSheet, { name: 'NoConnection' })(NoConnection);

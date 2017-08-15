@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import blue from 'material-ui/colors/blue';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
-const styleSheet = createStyleSheet('FakeTitleBar', {
+const styleSheet = {
   root: {
     backgroundColor: blue[700],
     height: titleBarHeight,
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
-});
+};
 
 const FakeTitleBar = (props) => {
   const {
@@ -46,4 +46,4 @@ const mapStateToProps = () => ({
 const mapDispatchToProps = () => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(FakeTitleBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'FakeTitleBar' })(FakeTitleBar));

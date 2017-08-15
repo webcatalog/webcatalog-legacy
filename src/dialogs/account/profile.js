@@ -10,10 +10,7 @@ import FormHelperText from 'material-ui/Form/FormHelperText';
 
 import TextField from 'material-ui/TextField';
 
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import {
   formUpdate,
@@ -29,7 +26,7 @@ import {
   STRING_SAVING,
 } from '../../constants/strings';
 
-const styleSheet = createStyleSheet('Profile', {
+const styleSheet = {
   textField: {
     width: '100%',
   },
@@ -46,7 +43,7 @@ const styleSheet = createStyleSheet('Profile', {
     alignSelf: 'flex-end',
     transform: 'translate(16px, 16px)',
   },
-});
+};
 
 const Profile = (props) => {
   const {
@@ -133,4 +130,4 @@ const mapDispatchToProps = dispatch => ({
   onSave: () => dispatch(save()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Profile));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Profile' })(Profile));

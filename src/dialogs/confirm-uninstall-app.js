@@ -6,10 +6,7 @@ import { connect } from 'react-redux';
 import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -30,7 +27,7 @@ import {
   STRING_UNINSTALLING,
 } from '../constants/strings';
 
-const styleSheet = createStyleSheet('ConfirmUninstallApp', {
+const styleSheet = {
   linearProgress: {
     opacity: 0,
   },
@@ -40,7 +37,7 @@ const styleSheet = createStyleSheet('ConfirmUninstallApp', {
   title: {
     marginRight: 24,
   },
-});
+};
 
 const ConfirmUninstallApp = (props) => {
   const {
@@ -127,4 +124,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default
-connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(ConfirmUninstallApp));
+connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'ConfirmUninstallApp' })(ConfirmUninstallApp));

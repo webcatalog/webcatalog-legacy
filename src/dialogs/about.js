@@ -7,10 +7,7 @@ import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Dialog, {
   DialogContent,
 } from 'material-ui/Dialog';
@@ -42,7 +39,7 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styleSheet = createStyleSheet('About', {
+const styleSheet = {
   icon: {
     height: 128,
     width: 128,
@@ -71,7 +68,7 @@ const styleSheet = createStyleSheet('About', {
     marginTop: 16,
     marginBottom: 16,
   },
-});
+};
 
 const About = (props) => {
   const {
@@ -204,4 +201,4 @@ const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(close()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(About));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'About' })(About));

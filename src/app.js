@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import { getUser } from './state/root/user/actions';
 
@@ -27,7 +27,7 @@ import {
   ROUTE_SEARCH,
 } from './constants/routes';
 
-const styleSheet = createStyleSheet('App', {
+const styleSheet = {
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -35,7 +35,7 @@ const styleSheet = createStyleSheet('App', {
     overflow: 'hidden',
     width: '100vw',
   },
-});
+};
 
 class App extends React.Component {
   componentDidMount() {
@@ -113,4 +113,4 @@ const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'App' })(App));

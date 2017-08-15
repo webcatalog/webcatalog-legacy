@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
 
-const styleSheet = createStyleSheet('EmptyState', {
+const styleSheet = {
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -26,7 +26,7 @@ const styleSheet = createStyleSheet('EmptyState', {
     height: 112,
     width: 112,
   },
-});
+};
 
 const EmptyState = (props) => {
   const {
@@ -76,4 +76,4 @@ EmptyState.propTypes = {
   title: PropTypes.string,
 };
 
-export default withStyles(styleSheet)(EmptyState);
+export default withStyles(styleSheet, { name: 'EmptyState' })(EmptyState);

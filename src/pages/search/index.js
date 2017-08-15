@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { LinearProgress } from 'material-ui/Progress';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
 import AppCard from '../../shared/app-card';
 
-const styleSheet = createStyleSheet('Search', () => ({
+const styleSheet = () => ({
   scrollContainer: {
     flex: 1,
     padding: 36,
@@ -19,7 +19,7 @@ const styleSheet = createStyleSheet('Search', () => ({
   grid: {
     marginBottom: 16,
   },
-}));
+});
 
 const Search = (props) => {
   const {
@@ -58,4 +58,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Search));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'Search' })(Search));

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -29,7 +29,7 @@ import {
   STRING_UNINSTALL,
 } from '../constants/strings';
 
-const styleSheet = createStyleSheet('AppCard', (theme) => {
+const styleSheet = (theme) => {
   const cardContentDefaults = {
     position: 'relative',
     display: 'flex',
@@ -119,7 +119,7 @@ const styleSheet = createStyleSheet('AppCard', (theme) => {
       display: 'none',
     },
   };
-});
+};
 
 const AppCard = (props) => {
   const {
@@ -223,4 +223,4 @@ const mapDispatchToProps = dispatch => ({
   onOpenConfirmUninstallAppDialog: form => dispatch(openConfirmUninstallAppDialog(form)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(AppCard));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet, { name: 'AppCard' })(AppCard));
