@@ -100,7 +100,7 @@ authRouter.post('/',
   (req, res, next) => {
     passport.authenticate('local', (err, user) => {
       if (err) {
-        if (err.message === 'no_password') {
+        if (err.name === 'NoPassword') {
           return res.render('auth/index', {
             title: 'Sign in to WebCatalog',
             email: req.body.email,

@@ -71,7 +71,7 @@ passport.use(new LocalStrategy(
         return bcrypt.compare(password, user.password).then((isValid) => {
           if (isValid === true) return cb(null, user);
 
-          return cb(null, false);
+          return cb(new errors.CustomError('WrongPassword'), false);
         });
       })
       .catch(cb);
