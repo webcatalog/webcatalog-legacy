@@ -1,5 +1,6 @@
 /* global ipcRenderer */
 import validate from '../../../utils/validate';
+import hasErrors from '../../../utils/has-errors';
 
 import {
   logInFormUpdate,
@@ -30,7 +31,7 @@ export const submit = () =>
 
     const validatedForm = validate(form, getValidationRules());
 
-    if (validatedForm.emailError || validatedForm.passwordError) {
+    if (hasErrors(validatedForm)) {
       dispatch(logInFormUpdate(validatedForm));
     } else {
       const { email, password } = form;

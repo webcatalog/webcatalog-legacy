@@ -1,4 +1,5 @@
 import validate from '../../../utils/validate';
+import hasErrors from '../../../utils/has-errors';
 
 import { openSnackbar } from '../../root/snackbar/actions';
 
@@ -18,13 +19,6 @@ const getValidationRules = () => ({
     maxLength: 1000,
   },
 });
-
-const hasErrors = (validatedChanges) => {
-  if (validatedChanges.contentError) {
-    return true;
-  }
-  return false;
-};
 
 export const close = () =>
   (dispatch) => {

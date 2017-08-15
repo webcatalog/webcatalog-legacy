@@ -1,4 +1,5 @@
 import validate from '../../../../utils/validate';
+import hasErrors from '../../../../utils/has-errors';
 
 import { openSnackbar } from '../../../root/snackbar/actions';
 
@@ -29,14 +30,6 @@ const getValidationRules = state => ({
     },
   },
 });
-
-const hasErrors = (validatedChanges) => {
-  if (validatedChanges.currentPasswordError
-    || validatedChanges.passwordError || validatedChanges.confirmPasswordError) {
-    return true;
-  }
-  return false;
-};
 
 export const formUpdate = changes =>
   (dispatch, getState) => {
