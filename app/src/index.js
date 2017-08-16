@@ -5,7 +5,10 @@ import { Provider } from 'react-redux';
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
-import { blue, red, pink } from 'material-ui/styles/colors';
+
+import blue from 'material-ui/colors/blue';
+import red from 'material-ui/colors/red';
+import pink from 'material-ui/colors/pink';
 
 import './index.css';
 

@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { amber, blue, red, green, grey, darkWhite } from 'material-ui/styles/colors';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import { MenuItem } from 'material-ui/Menu';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
@@ -13,32 +10,12 @@ import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
 import RefreshIcon from 'material-ui-icons/Refresh';
 import HomeIcon from 'material-ui-icons/Home';
 
+import connectComponent from '../helpers/connect-component';
+
 import EnhancedMenu from '../shared/enhanced-menu';
 import { open as openDialogPreferences } from '../state/dialogs/preferences/actions';
 
-const styleSheet = createStyleSheet('Navigation', theme => ({
-  button: {
-    border: `3px solid ${amber[500]}`,
-    backgroundColor: grey[300],
-    boxShadow: 'none',
-    fontSize: 20,
-    fontWeight: 400,
-    width: 48,
-    height: 48,
-    marginTop: 20,
-  },
-  buttonBlue: {
-    borderColor: blue[500],
-  },
-  buttonRed: {
-    borderColor: red[500],
-  },
-  buttonGreen: {
-    borderColor: green[500],
-  },
-  buttonAmber: {
-    borderColor: amber[500],
-  },
+const styles = theme => ({
   container: {
     zIndex: 1,
     borderRadius: 0,
@@ -49,7 +26,6 @@ const styleSheet = createStyleSheet('Navigation', theme => ({
     padding: theme.spacing.unit,
     paddingTop: 18,
     boxSizing: 'border-box',
-    background: grey[800],
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
@@ -58,7 +34,6 @@ const styleSheet = createStyleSheet('Navigation', theme => ({
     height: 'auto',
     flexDirection: 'row',
     padding: '0 4px',
-    // borderBottom: `1px solid ${grey[800]}`,
   },
   innerContainer: {
     width: '100%',
@@ -86,7 +61,6 @@ const styleSheet = createStyleSheet('Navigation', theme => ({
   iconButtonIcon: {
     height: 32,
     width: 32,
-    color: darkWhite,
   },
   hiddenMenuItem: {
     display: 'none',
@@ -94,9 +68,9 @@ const styleSheet = createStyleSheet('Navigation', theme => ({
   menuItem: {
     cursor: 'pointer',
   },
-}));
+});
 
-const Workspaces = (props) => {
+const NavigationBar = (props) => {
   const {
     vert,
     classes,
@@ -162,20 +136,23 @@ const Workspaces = (props) => {
   );
 };
 
-Workspaces.defaultProps = {
+NavigationBar.defaultProps = {
   vert: false,
 };
 
-Workspaces.propTypes = {
+NavigationBar.propTypes = {
   classes: PropTypes.object.isRequired,
   vert: PropTypes.bool,
   onOpenDialogPreferences: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = () => ({});
+const actionCreators = {
+  openDialogPreferences,
+};
 
-const mapDispatchToProps = dispatch => ({
-  onOpenDialogPreferences: () => dispatch(openDialogPreferences()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Workspaces));
+export default connectComponent(
+  NavigationBar,
+  null,
+  actionCreators,
+  styles,
+);

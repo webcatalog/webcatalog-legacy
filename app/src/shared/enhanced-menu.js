@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Menu from 'material-ui/Menu';
 
-const styleSheet = createStyleSheet('EnhancedMenu', {
+import connectComponent from '../helpers/connect-component';
+
+const styles = {
   container: {
     display: 'inline-flex',
   },
-});
-
+};
 
 class EnhancedMenu extends React.Component {
   constructor(props) {
@@ -75,4 +75,9 @@ EnhancedMenu.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styleSheet)(EnhancedMenu);
+export default connectComponent(
+  EnhancedMenu,
+  null,
+  null,
+  styles,
+);

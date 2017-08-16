@@ -1,11 +1,10 @@
 /* global ipcRenderer clipboard */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { grey } from 'material-ui/styles/colors';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import grey from 'material-ui/colors/grey';
 
+import connectComponent from './helpers/connect-component';
 import extractDomain from './helpers/extract-domain';
 
 import {
@@ -25,11 +24,11 @@ import { screenResize } from './state/root/screen/actions';
 
 import WebView from './root/web-view';
 import FindInPage from './root/find-in-page';
-import Navigation from './root/navigation';
+import NavigationBar from './root/navigation-bar';
 
 import DialogPreferences from './dialogs/preferences';
 
-const styleSheet = createStyleSheet('App', theme => ({
+const styles = theme => ({
   root: {
     width: '100vw',
     height: '100vh',
@@ -92,7 +91,7 @@ const styleSheet = createStyleSheet('App', theme => ({
     backgroundColor: grey[300],
     zIndex: 1000,
   },
-}));
+});
 
 class App extends React.Component {
   constructor() {
@@ -103,7 +102,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.props.handleResize);
+    window.addEventListener('resize', this.props.onScreenResize);
 
     ipcRenderer.on('toggle-dev-tools', () => {
       const c = this.webView;
@@ -114,9 +113,9 @@ class App extends React.Component {
       if (this.props.findInPageIsOpen) {
         const c = this.webView;
         c.stopFindInPage('clearSelection');
-        this.props.handleUpdateFindInPageMatches(0, 0);
+        this.props.onUpdateFindInPageMatches(0, 0);
       }
-      this.props.handleToggleFindInPageDialog();
+      this.props.onToggleFindInPageDialog();
     });
 
     ipcRenderer.on('change-zoom', (event, message) => {
@@ -171,32 +170,32 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.props.handleResize);
+    window.removeEventListener('resize', this.props.onScreenResize);
   }
 
   onDidFailLoad(e) {
-    const { handleUpdateIsFailed } = this.props;
+    const { onUpdateIsFailed } = this.props;
 
     // errorCode -3: cancelling
     // eslint-disable-next-line
     console.log('Error: ', e);
     if (e.isMainFrame && e.errorCode < 0 && e.errorCode !== -3) {
-      handleUpdateIsFailed(true);
+      onUpdateIsFailed(true);
     }
   }
 
   onDidStopLoading() {
     const {
-      handleUpdateIsLoading,
-      handleUpdateCanGoBack,
-      handleUpdateCanGoForward,
+      onUpdateIsLoading,
+      onUpdateCanGoBack,
+      onUpdateCanGoForward,
     } = this.props;
 
     const c = this.webView;
 
-    handleUpdateIsLoading(false);
-    handleUpdateCanGoBack(c.canGoBack());
-    handleUpdateCanGoForward(c.canGoForward());
+    onUpdateIsLoading(false);
+    onUpdateCanGoBack(c.canGoBack());
+    onUpdateCanGoForward(c.canGoForward());
   }
 
   onNewWindow(e) {
@@ -236,10 +235,10 @@ class App extends React.Component {
     const {
       classes,
       findInPageIsOpen,
-      handleUpdateFindInPageMatches,
-      handleUpdateIsFailed,
-      handleUpdateIsLoading,
-      handleUpdateTargetUrl,
+      onUpdateFindInPageMatches,
+      onUpdateIsFailed,
+      onUpdateIsLoading,
+      onUpdateTargetUrl,
       isFailed,
     } = this.props;
 
@@ -253,10 +252,10 @@ class App extends React.Component {
 
     const horizNavElement = showVertNav
       ? null
-      : <Navigation />;
+      : <NavigationBar />;
 
     const vertNavElement = showVertNav
-      ? <Navigation vert />
+      ? <NavigationBar vert />
       : null;
 
     return (
@@ -269,7 +268,7 @@ class App extends React.Component {
             Please check your Internet connection and try again
             <button
               onClick={() => {
-                handleUpdateIsFailed(false);
+                onUpdateIsFailed(false);
                 const c = this.webView;
                 c.reload();
               }}
@@ -289,7 +288,7 @@ class App extends React.Component {
               onRequestStopFind={() => {
                 const c = this.webView;
                 c.stopFindInPage('clearSelection');
-                handleUpdateFindInPageMatches(0, 0);
+                onUpdateFindInPageMatches(0, 0);
               }}
             />
           )}
@@ -305,14 +304,14 @@ class App extends React.Component {
             webpreferences="nativeWindowOpen=yes"
             src={window.shellInfo.url}
             onDidFailLoad={onDidFailLoad}
-            onDidStartLoading={() => handleUpdateIsLoading(true)}
+            onDidStartLoading={() => onUpdateIsLoading(true)}
             onDidStopLoading={onDidStopLoading}
             onFoundInPage={({ result }) =>
-              handleUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
+              onUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
             onNewWindow={onNewWindow}
             onPageTitleUpdated={({ url, title }) => {
               document.title = title;
-              handleUpdateTargetUrl(url);
+              onUpdateTargetUrl(url);
 
               ipcRenderer.send('set-title', title);
 
@@ -341,14 +340,14 @@ App.propTypes = {
   isFailed: PropTypes.bool,
   customHome: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  handleResize: PropTypes.func.isRequired,
-  handleUpdateTargetUrl: PropTypes.func.isRequired,
-  handleUpdateIsFailed: PropTypes.func.isRequired,
-  handleUpdateIsLoading: PropTypes.func.isRequired,
-  handleUpdateCanGoBack: PropTypes.func.isRequired,
-  handleUpdateCanGoForward: PropTypes.func.isRequired,
-  handleToggleFindInPageDialog: PropTypes.func.isRequired,
-  handleUpdateFindInPageMatches: PropTypes.func.isRequired,
+  onScreenResize: PropTypes.func.isRequired,
+  onUpdateTargetUrl: PropTypes.func.isRequired,
+  onUpdateIsFailed: PropTypes.func.isRequired,
+  onUpdateIsLoading: PropTypes.func.isRequired,
+  onUpdateCanGoBack: PropTypes.func.isRequired,
+  onUpdateCanGoForward: PropTypes.func.isRequired,
+  onToggleFindInPageDialog: PropTypes.func.isRequired,
+  onUpdateFindInPageMatches: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -360,18 +359,20 @@ const mapStateToProps = state => ({
   rememberLastPage: false,
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleResize: () => dispatch(screenResize(window.innerWidth)),
-  handleUpdateTargetUrl: targetUrl => dispatch(updateTargetUrl(targetUrl)),
-  handleUpdateIsFailed: isFailed => dispatch(updateIsFailed(isFailed)),
-  handleUpdateIsLoading: isLoading => dispatch(updateIsLoading(isLoading)),
-  handleUpdateCanGoBack: canGoBack => dispatch(updateCanGoBack(canGoBack)),
-  handleUpdateCanGoForward: canGoForward => dispatch(updateCanGoForward(canGoForward)),
-  handleToggleFindInPageDialog: () => dispatch(toggleFindInPageDialog()),
-  handleUpdateFindInPageMatches: (activeMatch, matches) =>
-    dispatch(updateFindInPageMatches(activeMatch, matches)),
-});
+const actionCreators = {
+  screenResize,
+  updateTargetUrl,
+  updateIsFailed,
+  updateIsLoading,
+  updateCanGoBack,
+  updateCanGoForward,
+  toggleFindInPageDialog,
+  updateFindInPageMatches,
+};
 
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(withStyles(styleSheet)(App));
+export default connectComponent(
+  App,
+  mapStateToProps,
+  actionCreators,
+  styles,
+);

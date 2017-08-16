@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
+import connectComponent from '../helpers/connect-component';
 
 import { toggleFindInPageDialog, updateFindInPageText } from '../state/root/find-in-page/actions';
 
@@ -12,7 +13,7 @@ class FindInPage extends React.Component {
   render() {
     const {
       activeMatch, matches, text,
-      onRequestFind, onRequestStopFind, onRequestClose, onRequestUpdateText,
+      onRequestFind, onRequestStopFind, onToggleFindInPageDialog, onUpdateFindInPageText,
     } = this.props;
 
     return (
@@ -29,7 +30,7 @@ class FindInPage extends React.Component {
           style={{ marginRight: 5 }}
           onChange={(e) => {
             const val = e.target.value;
-            onRequestUpdateText(val);
+            onUpdateFindInPageText(val);
             if (val.length > 0) {
               onRequestFind(val, true);
             } else {
@@ -38,7 +39,7 @@ class FindInPage extends React.Component {
           }}
           onInput={(e) => {
             const val = e.target.value;
-            onRequestUpdateText(val);
+            onUpdateFindInPageText(val);
             if (val.length > 0) {
               onRequestFind(val, true);
             } else {
@@ -77,7 +78,7 @@ class FindInPage extends React.Component {
           style={{ marginRight: 5 }}
           onClick={() => {
             onRequestStopFind();
-            onRequestClose();
+            onToggleFindInPageDialog();
           }}
         />
       </div>
@@ -91,8 +92,8 @@ FindInPage.propTypes = {
   matches: PropTypes.number.isRequired,
   onRequestFind: PropTypes.func.isRequired,
   onRequestStopFind: PropTypes.func.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
-  onRequestUpdateText: PropTypes.func.isRequired,
+  onToggleFindInPageDialog: PropTypes.func.isRequired,
+  onUpdateFindInPageText: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -101,11 +102,13 @@ const mapStateToProps = state => ({
   text: state.findInPage.text,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onRequestClose: () => dispatch(toggleFindInPageDialog()),
-  onRequestUpdateText: text => dispatch(updateFindInPageText(text)),
-});
+const actionCreators = {
+  toggleFindInPageDialog,
+  updateFindInPageText,
+};
 
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(FindInPage);
+export default connectComponent(
+  FindInPage,
+  mapStateToProps,
+  actionCreators,
+);

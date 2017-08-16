@@ -2,7 +2,6 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import {
   ListItem,
@@ -15,17 +14,14 @@ import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import connectComponent from '../../helpers/connect-component';
 
 import {
   formUpdate,
   save,
 } from '../../state/dialogs/preferences/basic/actions';
 
-const styleSheet = createStyleSheet('Basic', {
+const styles = {
   formControl: {
     width: '100%',
   },
@@ -49,7 +45,7 @@ const styleSheet = createStyleSheet('Basic', {
     alignSelf: 'flex-end',
     transform: 'translate(16px, 16px)',
   },
-});
+};
 
 const Basic = (props) => {
   const {
@@ -198,9 +194,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onSave: () => dispatch(save()),
-});
+const actionCreators = {
+  formUpdate,
+  save,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Basic));
+export default connectComponent(
+  Basic,
+  mapStateToProps,
+  actionCreators,
+  styles,
+);

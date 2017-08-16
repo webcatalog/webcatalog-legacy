@@ -2,24 +2,20 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import Input from 'material-ui/Input';
 import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
 
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
+import connectComponent from '../../helpers/connect-component';
 
 import {
   formUpdate,
   save,
 } from '../../state/dialogs/preferences/advanced/actions';
 
-const styleSheet = createStyleSheet('Advanced', {
+const styles = {
   formControl: {
     width: '100%',
   },
@@ -33,7 +29,7 @@ const styleSheet = createStyleSheet('Advanced', {
     alignSelf: 'flex-end',
     transform: 'translate(16px, 16px)',
   },
-});
+};
 
 const Advanced = (props) => {
   const {
@@ -138,9 +134,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onFormUpdate: changes => dispatch(formUpdate(changes)),
-  onSave: () => dispatch(save()),
-});
+const actionCreators = {
+  formUpdate,
+  save,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Advanced));
+export default connectComponent(
+  Advanced,
+  mapStateToProps,
+  actionCreators,
+  styles,
+);

@@ -11,26 +11,25 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "material-ui": "1.0.0-alpha.20",
-    "material-ui-icons": "^1.0.0-alpha.19",
-    "mousetrap": "^1.6.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-draggable": "^2.2.6",
-    "react-redux": "^5.0.5",
-    "react-scripts": "1.0.7",
-    "redux": "^3.7.1",
-    "redux-thunk": "^2.2.0",
-    "typeface-roboto": "^0.0.29",
-    "wait-on": "^2.0.2"
+    "concurrently": "3.5.0",
+    "material-ui": "1.0.0-beta.5",
+    "material-ui-icons": "1.0.0-alpha.19",
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
+    "react-draggable": "2.2.6",
+    "react-redux": "5.0.6",
+    "react-scripts": "1.0.11",
+    "redux": "3.7.2",
+    "redux-thunk": "2.2.0",
+    "typeface-roboto": "0.0.35",
+    "wait-on": "2.0.2"
+  },
+  "dependencies": {
+    "electron": "1.7.5",
+    "electron-is-dev": "0.3.0",
+    "electron-settings": "3.1.1"
   },
   "homepage": "./",
-  "dependencies": {
-    "electron": "^1.7.5",
-    "electron-is-dev": "^0.1.2",
-    "electron-settings": "^3.1.1"
-  },
   "webApp": {
     "id": "facebook-messenger",
     "url": "https://messenger.com",

@@ -1,7 +1,5 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { light } from 'material-ui/styles/palette';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
@@ -11,17 +9,15 @@ import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
-import {
-  createStyleSheet,
-  withStyles,
-} from 'material-ui/styles';
 import Dialog, {
   DialogContent,
   DialogTitle,
   DialogContentText,
 } from 'material-ui/Dialog';
+import grey from 'material-ui/colors/grey';
 
-import { grey } from 'material-ui/styles/colors';
+import connectComponent from '../../helpers/connect-component';
+
 import {
   close,
   sectionChange,
@@ -34,7 +30,7 @@ import { isSectionActive as isSectionActiveSelector }
 import Basic from './basic';
 import Advanced from './advanced';
 
-const styleSheet = createStyleSheet('Account', {
+const styles = {
   linearProgress: {
     opacity: 0,
   },
@@ -95,7 +91,7 @@ const styleSheet = createStyleSheet('Account', {
       background: grey[400],
     },
   },
-});
+};
 
 const Account = (props) => {
   const {
@@ -178,9 +174,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(close()),
-  onSectionChange: section => dispatch(sectionChange(section)),
-});
+const actionCreators = {
+  close,
+  sectionChange,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Account));
+export default connectComponent(
+  Account,
+  mapStateToProps,
+  actionCreators,
+  styles,
+);
