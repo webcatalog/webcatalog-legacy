@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import connectComponent from './utils/connect-component';
+import connectComponent from './helpers/connect-component';
 
 import { getUser } from './state/root/user/actions';
 
