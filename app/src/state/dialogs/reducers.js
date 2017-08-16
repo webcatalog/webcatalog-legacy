@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import settings from './settings/reducers';
+import preferences from './preferences/reducers';
 
 export default combineReducers({
-  settings,
+  preferences,
 });

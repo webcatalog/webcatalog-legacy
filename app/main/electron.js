@@ -23,7 +23,7 @@ const createWindow = () => {
     height: 600,
     minWidth: 480,
     minHeight: 568,
-    titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
+    titleBarStyle: 'default',
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),

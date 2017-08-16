@@ -9,13 +9,13 @@ import { blue, red, pink } from 'material-ui/styles/colors';
 
 import './index.css';
 
-import store from './reducers';
+import store from './state';
 
-import App from './components/App';
+import App from './app';
 
 const theme = createMuiTheme({
   palette: createPalette({
-    type: 'dark', // Switching the dark mode
+    type: 'light', // Switching the dark mode
     primary: blue, // Purple and green play nicely together.
     accent: pink,
     error: red,

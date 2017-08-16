@@ -14,7 +14,7 @@
     "build": "npm run build:main && npm run build:app",
     "build:main": "babel src --out-dir lib",
     "build:app": "cd app && npm run build",
-    "lint": "eslint ./src ./renderer/src",
+    "lint": "eslint ./src ./app/src",
     "prepublishOnly": "npm run install:client:full && npm run build",
     "test": "babel-node test"
   },
