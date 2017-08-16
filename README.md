@@ -1,5 +1,7 @@
 # molecule
-Javascript library to make any web page a desktop application
+[![CircleCI](https://circleci.com/gh/webcatalog/molecule.svg?style=svg&circle-token=f2513ee30140f077d85b0c269d1d9ce36464f015)](https://circleci.com/gh/webcatalog/molecule)
+
+Javascript library to make any web page a desktop application.
 
 ### Usage
 ```
