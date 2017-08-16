@@ -16,7 +16,8 @@
     "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./app/src",
     "prepublishOnly": "npm run install:client:full && npm run build",
-    "test": "babel-node test"
+    "test": "babel-node test",
+    "electron-dev": "cd app && yarn electron-dev"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

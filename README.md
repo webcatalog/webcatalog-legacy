@@ -20,7 +20,7 @@ createAppAsync(
 
 ### Development
 ```bash
-cd app
 yarn
+yarn install:client:full
 yarn electron-dev
 ```
