@@ -69,7 +69,7 @@ const createAppAsync = (id, name, url, icon, out) =>
                   destPath,
                   { overwrite: true },
                 )
-                .then(() => destPath);
+                  .then(() => destPath);
               }
 
               if (process.platform === 'win32') {
@@ -80,7 +80,7 @@ const createAppAsync = (id, name, url, icon, out) =>
                   destPath,
                   { overwrite: true },
                 )
-                .then(() => destPath);
+                  .then(() => destPath);
               }
 
               return Promise.reject(new Error('Unknown platform'));
