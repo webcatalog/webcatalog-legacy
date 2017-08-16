@@ -1,6 +1,6 @@
 const { dialog, session, app } = require('electron');
 
-const sendMessageToWindow = require('./sendMessageToWindow');
+const sendMessageToWindow = require('./send-message-to-window');
 
 const clearBrowsingData = () => {
   dialog.showMessageBox({

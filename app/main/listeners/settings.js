@@ -1,17 +1,17 @@
 const { ipcMain } = require('electron');
 const {
-  getSettings,
-  setSetting,
-} = require('../libs/settings');
+  getPreferences,
+  setPreference,
+} = require('../libs/preferences');
 
 const loadSettingsListeners = () => {
-  ipcMain.on('get-settings', (e) => {
-    const settings = getSettings();
-    e.returnValue = settings;
+  ipcMain.on('get-preferences', (e) => {
+    const preferences = getPreferences();
+    e.returnValue = preferences;
   });
 
-  ipcMain.on('set-setting', (e, name, value) => {
-    e.sender.send(setSetting(name, value));
+  ipcMain.on('set-preference', (e, name, value) => {
+    e.sender.send(setPreference(name, value));
   });
 };
 

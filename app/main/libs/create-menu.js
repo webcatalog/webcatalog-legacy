@@ -1,8 +1,8 @@
 const { Menu, shell, app } = require('electron');
 const isDev = require('electron-is-dev');
 
-const sendMessageToWindow = require('./sendMessageToWindow');
-const clearBrowsingData = require('./clearBrowsingData');
+const sendMessageToWindow = require('./send-message-to-window');
+const clearBrowsingData = require('./clear-browsing-data');
 
 function createMenu() {
   let currentZoom = 1;

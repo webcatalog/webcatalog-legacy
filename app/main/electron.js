@@ -8,7 +8,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 const loadListeners = require('./listeners');
-const createMenu = require('./libs/createMenu');
+const createMenu = require('./libs/create-menu');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
