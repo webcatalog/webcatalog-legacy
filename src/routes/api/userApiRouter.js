@@ -41,13 +41,13 @@ const sendVerificationEmail = user =>
         verifyToken: token,
       })
       .then(() => transporter.sendMail({
-        from: 'support@getwebcatalog.com',
+        from: 'support@webcatalog.io',
         to: user.email,
         subject: 'WebCatalog Email Verification',
         // eslint-disable-next-line
         text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'https://getwebcatalog.com/auth/verify/' + token + '\n\n' +
+              'https://webcatalog.io/auth/verify/' + token + '\n\n' +
               'If you did not request this, please ignore this email.\n',
       })),
     );

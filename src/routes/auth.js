@@ -80,13 +80,13 @@ const sendVerificationEmail = user =>
         verifyToken: token,
       })
       .then(() => transporter.sendMail({
-        from: 'support@getwebcatalog.com',
+        from: 'support@webcatalog.io',
         to: user.email,
         subject: 'WebCatalog Email Verification',
         // eslint-disable-next-line
         text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'https://getwebcatalog.com/auth/verify/' + token + '\n\n' +
+              'https://webcatalog.io/auth/verify/' + token + '\n\n' +
               'If you did not request this, please ignore this email.\n',
       })),
     );
@@ -197,13 +197,13 @@ authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
               resetPasswordToken: token,
               resetPasswordExpires: Date.now() + (3600000 * 7), // 7 days,
             }).then(() => transporter.sendMail({
-              from: 'support@getwebcatalog.com',
+              from: 'support@webcatalog.io',
               to: req.body.email,
               subject: 'WebCatalog Password Reset',
               // eslint-disable-next-line
               text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'https://getwebcatalog.com/auth/reset-password/' + token + '\n\n' +
+                    'https://webcatalog.io/auth/reset-password/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n',
             })),
           )

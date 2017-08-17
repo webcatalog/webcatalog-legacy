@@ -12,11 +12,11 @@ sitemapRoute.get('/', (req, res, next) => {
   }))
   .then((apps) => {
     const urls = [
-      'https://getwebcatalog.com',
-      'https://getwebcatalog.com/apps',
+      'https://webcatalog.io',
+      'https://webcatalog.io/apps',
     ]
-    .concat(categories.map(category => `https://getwebcatalog.com/apps/category/${category}`))
-    .concat(apps.map(app => `https://getwebcatalog.com/apps/details/${app.slug}/${app.id}`));
+    .concat(categories.map(category => `https://webcatalog.io/apps/category/${category}`))
+    .concat(apps.map(app => `https://webcatalog.io/apps/details/${app.slug}/${app.id}`));
 
 
     let sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
