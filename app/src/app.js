@@ -248,7 +248,7 @@ class App extends React.Component {
       onNewWindow,
     } = this;
 
-    const showVertNav = 1;
+    const showVertNav = false;
 
     const horizNavElement = showVertNav
       ? null

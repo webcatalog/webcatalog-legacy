@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IconButton from 'material-ui/IconButton';
-import { MenuItem } from 'material-ui/Menu';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
+import SettingsIcon from 'material-ui-icons/Settings';
 import Paper from 'material-ui/Paper';
 import KeyboardArrowLeftIcon from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
@@ -12,7 +11,6 @@ import HomeIcon from 'material-ui-icons/Home';
 
 import connectComponent from '../helpers/connect-component';
 
-import EnhancedMenu from '../shared/enhanced-menu';
 import { open as openDialogPreferences } from '../state/dialogs/preferences/actions';
 
 const styles = theme => ({
@@ -22,7 +20,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: 56,
+    width: 64,
     padding: theme.spacing.unit,
     paddingTop: 18,
     boxSizing: 'border-box',
@@ -95,42 +93,12 @@ const NavigationBar = (props) => {
       </div>
 
       <div className={classnames(classes.innerContainerEnd, classes.innerContainerEndVert)}>
-        <EnhancedMenu
-          id="filterMenuButton"
-          buttonElement={(
-            <IconButton
-              aria-label="Filter"
-            >
-              <MoreVertIcon />
-            </IconButton>
-          )}
+        <IconButton
+          aria-label="Preferences"
+          onClick={() => onOpenDialogPreferences()}
         >
-          <MenuItem
-            className={classes.hiddenMenuItem}
-            selected
-          />
-          <MenuItem
-            className={classes.menuItem}
-            key="preferences"
-            onClick={() => onOpenDialogPreferences()}
-          >
-            App preferences
-          </MenuItem>
-          <MenuItem
-            className={classes.menuItem}
-            key="findInPage"
-            onClick={() => {}}
-          >
-            Find in page
-          </MenuItem>
-          <MenuItem
-            className={classes.menuItem}
-            key="clearBrowsingData"
-            onClick={() => {}}
-          >
-            Clear browsing data
-          </MenuItem>
-        </EnhancedMenu>
+          <SettingsIcon />
+        </IconButton>
       </div>
     </Paper>
   );
