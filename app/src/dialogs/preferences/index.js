@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import { MenuItem } from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar';
 import blue from 'material-ui/colors/blue';
 import BuildIcon from 'material-ui-icons/Build';
@@ -36,7 +35,6 @@ import connectComponent from '../../helpers/connect-component';
 
 import {
   close,
-  sectionChange,
 } from '../../state/dialogs/preferences/actions';
 
 const { lightBlack } = common;
@@ -417,7 +415,6 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   close,
-  sectionChange,
 };
 
 export default connectComponent(
