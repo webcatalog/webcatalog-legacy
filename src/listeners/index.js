@@ -2,28 +2,28 @@
 
 import {
   setAuthToken,
-} from './state/root/auth/actions';
+} from '../state/root/auth/actions';
 
 import {
   getUser,
   removeUser,
-} from './state/root/user/actions';
+} from '../state/root/user/actions';
 
 import {
   setLocalApp,
   removeLocalApp,
-} from './state/root/local/actions';
+} from '../state/root/local/actions';
 
 import {
   setUpdaterStatus,
-} from './state/root/updater/actions';
+} from '../state/root/updater/actions';
 
 import {
   openSnackbar,
-} from './state/root/snackbar/actions';
+} from '../state/root/snackbar/actions';
 import {
   open as openDialogAbout,
-} from './state/dialogs/about/actions';
+} from '../state/dialogs/about/actions';
 
 
 const loadListeners = (store) => {

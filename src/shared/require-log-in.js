@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,6 +13,8 @@ import {
   STRING_AUTH_REQUIRED_DESC,
   STRING_LOG_IN,
 } from '../constants/strings';
+
+import { requestLogOut } from '../senders/auth';
 
 const styles = {
   root: {
@@ -67,7 +69,7 @@ const RequireLogIn = (props) => {
         raised
         color="primary"
         className={classes.tryAgainButton}
-        onClick={() => ipcRenderer.send('log-out')}
+        onClick={requestLogOut}
       >
         {STRING_LOG_IN}
       </Button>

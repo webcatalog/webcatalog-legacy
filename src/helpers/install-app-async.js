@@ -1,5 +1,9 @@
 /* global ipcRenderer */
+
 import { INSTALLED } from '../constants/app-statuses';
+import {
+  requestInstallApp,
+} from '../senders/local';
 
 const installAppAsync = appObj =>
   new Promise((resolve, reject) => {
@@ -20,7 +24,7 @@ const installAppAsync = appObj =>
 
       ipcRenderer.on('set-local-app', listener);
 
-      ipcRenderer.send('install-app', appObj);
+      requestInstallApp(appObj);
     } catch (err) {
       reject(err);
     }

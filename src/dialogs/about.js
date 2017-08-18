@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -36,6 +36,14 @@ import {
   STRING_UPDATE_PROGRESS,
   STRING_TERMS,
 } from '../constants/strings';
+
+import {
+  requestOpenInBrowser,
+} from '../senders/generic';
+import {
+  requestCheckForUpdates,
+  requestQuitAndInstall,
+} from '../senders/updater';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
@@ -126,7 +134,7 @@ const About = (props) => {
           <Button
             raised
             color="primary"
-            onClick={() => ipcRenderer.send('quit-and-install')}
+            onClick={requestQuitAndInstall}
           >
             {STRING_QUIT_AND_INSTALL}
           </Button>
@@ -135,7 +143,7 @@ const About = (props) => {
             raised
             color="primary"
             disabled={isUpdaterRunning}
-            onClick={() => ipcRenderer.send('check-for-updates')}
+            onClick={requestCheckForUpdates}
           >
             {STRING_CHECK_FOR_UPDATES}
           </Button>
@@ -159,21 +167,21 @@ const About = (props) => {
         </div>
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/release-notes')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
         >
           {STRING_RELEASE_NOTES}
         </Button>
         <br />
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/terms')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/terms')}
         >
           {STRING_TERMS}
         </Button>
         <br />
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/privacy')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
         >
           {STRING_PRIVACY_POLICY}
         </Button>

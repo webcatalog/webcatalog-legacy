@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -27,6 +27,16 @@ import {
   STRING_LOG_IN,
   STRING_PASSWORD,
 } from '../../constants/strings';
+
+import {
+  requestSignInWithGoogle,
+  requestSignUp,
+  requestWriteTokenToDisk,
+} from '../../senders/auth';
+
+import {
+  requestOpenInBrowser,
+} from '../../senders/generic';
 
 const GOOGLE_BRAND_COLOR = '#4285F4';
 const { fullWhite } = common;
@@ -188,11 +198,11 @@ const Auth = (props) => {
             </Button>
           </form>
 
-          <Button onClick={() => ipcRenderer.send('sign-up')}>
+          <Button onClick={requestSignUp}>
             {STRING_CREATE_ACCOUNT}
           </Button>
 
-          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/auth/reset-password')}>
+          <Button onClick={() => requestOpenInBrowser('https://webcatalog.io/auth/reset-password')}>
             {STRING_FORGOT_PASSWORD}
           </Button>
 
@@ -201,7 +211,7 @@ const Auth = (props) => {
           <Button
             raised
             className={classes.googleButton}
-            onClick={() => ipcRenderer.send('sign-in-with-google')}
+            onClick={requestSignInWithGoogle}
             color="primary"
           >
             <div className={classes.googleIcon}>
@@ -214,7 +224,7 @@ const Auth = (props) => {
 
       <div className={classes.bottomContainer}>
         <Button
-          onClick={() => ipcRenderer.send('write-token-to-disk', 'anonymous')}
+          onClick={() => requestWriteTokenToDisk('anonymous')}
         >
           {STRING_CONTINUE_WITHOUT_LOGGING_IN}
         </Button>

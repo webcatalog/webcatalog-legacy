@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -38,12 +38,14 @@ import { open as openDialogAccount } from '../../state/dialogs/account/actions';
 import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
+
 import {
   ROUTE_INSTALLED_APPS,
   ROUTE_MY_APPS,
   ROUTE_SEARCH,
   ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
+
 import {
   STRING_ABOUT,
   STRING_ACCOUNT,
@@ -59,6 +61,11 @@ import {
   STRING_TOP_CHARTS,
   STRING_WEBSITE,
 } from '../../constants/strings';
+
+import { requestCheckForUpdates } from '../../senders/updater';
+import { requestLogOut } from '../../senders/auth';
+import { requestOpenInBrowser } from '../../senders/generic';
+import { requestScanInstalledApps } from '../../senders/local';
 
 
 const { fullWhite } = common;
@@ -168,8 +175,8 @@ class EnhancedAppBar extends React.Component {
 
   componentDidMount() {
     // start checking for installed apps only when the app is loaded.
-    ipcRenderer.send('scan-installed-apps');
-    ipcRenderer.send('check-for-updates');
+    requestScanInstalledApps();
+    requestCheckForUpdates();
   }
 
   handleToggleDrawer() {
@@ -233,7 +240,7 @@ class EnhancedAppBar extends React.Component {
         className={classes.signInAppBar}
         position="static"
         elevation={0}
-        onClick={() => ipcRenderer.send('log-out')}
+        onClick={requestLogOut}
       >
         <Toolbar className={classes.toolbar}>
           <Typography
@@ -297,7 +304,7 @@ class EnhancedAppBar extends React.Component {
                 <ListItemText primary={STRING_SUBMIT_APP} />
               </MenuItem>
               {isLoggedIn && (
-                <MenuItem button onClick={() => ipcRenderer.send('log-out')}>
+                <MenuItem button onClick={requestLogOut}>
                   <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
                   <ListItemText primary={STRING_LOG_OUT} />
                 </MenuItem>
@@ -305,7 +312,7 @@ class EnhancedAppBar extends React.Component {
               <Divider />
               <MenuItem
                 button
-                onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/help')}
+                onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
               >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary={STRING_HELP} />
@@ -319,7 +326,7 @@ class EnhancedAppBar extends React.Component {
               </MenuItem>
               <MenuItem
                 button
-                onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io')}
+                onClick={() => requestOpenInBrowser('https://webcatalog.io')}
               >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary={STRING_WEBSITE} />

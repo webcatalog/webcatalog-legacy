@@ -8,7 +8,7 @@ const uninstallAppAsync = require('../libs/uninstall-app-async');
 const installAppAsync = require('../libs/install-app-async');
 
 const loadLocalListeners = () => {
-  ipcMain.on('scan-installed-apps', (e) => {
+  ipcMain.on('request-scan-installed-apps', (e) => {
     scanInstalledAsync()
       .then((installedApps) => {
         installedApps.forEach((installedApp) => {
@@ -18,11 +18,11 @@ const loadLocalListeners = () => {
       .catch(err => e.sender.send('log', err));
   });
 
-  ipcMain.on('open-app', (e, id, name) => {
+  ipcMain.on('request-open-app', (e, id, name) => {
     openApp(id, name);
   });
 
-  ipcMain.on('uninstall-app', (e, id, name) => {
+  ipcMain.on('request-uninstall-app', (e, id, name) => {
     e.sender.send('set-local-app', id, 'UNINSTALLING');
 
     uninstallAppAsync(id, name, { shouldClearStorageData: true })
@@ -35,7 +35,7 @@ const loadLocalListeners = () => {
 
   let p = Promise.resolve();
 
-  ipcMain.on('install-app', (e, appObj) => {
+  ipcMain.on('request-install-app', (e, appObj) => {
     e.sender.send('set-local-app', appObj.id, 'INSTALLING');
 
     p = p.then(() => installAppAsync(appObj))

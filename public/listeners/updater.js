@@ -5,11 +5,11 @@ const {
 const autoUpdater = require('../libs/auto-updater');
 
 const loadUpdaterListeners = () => {
-  ipcMain.on('check-for-updates', () => {
+  ipcMain.on('request-check-for-updates', () => {
     autoUpdater.checkForUpdates();
   });
 
-  ipcMain.on('quit-and-install', () => {
+  ipcMain.on('request-quit-and-install', () => {
     autoUpdater.quitAndInstall();
   });
 };

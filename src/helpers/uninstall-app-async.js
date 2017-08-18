@@ -1,5 +1,8 @@
 /* global ipcRenderer */
 import { INSTALLED } from '../constants/app-statuses';
+import {
+  requestUninstallApp,
+} from '../senders/local';
 
 const uninstallAppAsync = (id, name) =>
   new Promise((resolve, reject) => {
@@ -20,7 +23,7 @@ const uninstallAppAsync = (id, name) =>
 
       ipcRenderer.on('set-local-app', listener);
 
-      ipcRenderer.send('uninstall-app', id, name);
+      requestUninstallApp(id, name);
     } catch (err) {
       reject(err);
     }

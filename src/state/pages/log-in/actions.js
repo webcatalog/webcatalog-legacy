@@ -1,6 +1,6 @@
-/* global ipcRenderer */
 import validate from '../../../helpers/validate';
 import hasErrors from '../../../helpers/has-errors';
+import { requestWriteTokenToDisk } from '../../../senders/auth';
 
 import { openSnackbar } from '../../root/snackbar/actions';
 
@@ -45,7 +45,7 @@ export const submit = () =>
       dispatch(apiPost('/auth', form))
         .then(({ jwt }) => {
           dispatch(logInSubmitSuccess());
-          ipcRenderer.send('write-token-to-disk', jwt);
+          requestWriteTokenToDisk(jwt);
         })
         .catch((err) => {
           dispatch(logInSubmitFailed());

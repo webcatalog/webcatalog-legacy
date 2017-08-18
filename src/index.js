@@ -16,7 +16,12 @@ import './index.css';
 import store from './state';
 
 // listeners to communicate with main process
-import loadListeners from './load-listeners';
+import loadListeners from './listeners';
+
+// senders
+import {
+  requestReadTokenFromDisk,
+} from './senders/auth';
 
 import App from './app';
 
@@ -41,4 +46,4 @@ ipcRenderer.once('set-auth-token', () => {
   );
 });
 
-ipcRenderer.send('read-token-from-disk');
+requestReadTokenFromDisk();

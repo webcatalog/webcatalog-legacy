@@ -1,4 +1,4 @@
-/* global ipcRenderer */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -17,16 +17,20 @@ import connectComponent from '../helpers/connect-component';
 import extractHostname from '../helpers/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
 import { installApp } from '../state/root/local/actions';
+
 import {
   isInstalled as isInstalledUtil,
   isUninstalling as isUninstallingUtil,
   isInstalling as isInstallingUtil,
 } from '../state/root/local/utils';
+
 import {
   STRING_INSTALL,
   STRING_OPEN,
   STRING_UNINSTALL,
 } from '../constants/strings';
+
+import { requestOpenApp } from '../senders/local';
 
 const styles = (theme) => {
   const cardContentDefaults = {
@@ -132,7 +136,7 @@ const AppCard = (props) => {
   } = props;
 
   const handleOpenApp = () => {
-    ipcRenderer.send('open-app', app.id, app.name);
+    requestOpenApp(app.id, app.name);
   };
 
   const renderActionsElement = () => {

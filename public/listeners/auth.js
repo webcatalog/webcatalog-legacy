@@ -11,7 +11,7 @@ const configPath = path.resolve(app.getPath('home'), '.webcatalogrc');
 const writeTokenToDiskAsync = token => fs.writeJson(configPath, { token });
 
 const loadAuthListeners = () => {
-  ipcMain.on('log-out', (e) => {
+  ipcMain.on('request-log-out', (e) => {
     fs.remove(configPath)
       .then(() => {
         e.sender.send('set-auth-token', null);
@@ -20,7 +20,7 @@ const loadAuthListeners = () => {
       .catch(console.log);
   });
 
-  ipcMain.on('read-token-from-disk', (e) => {
+  ipcMain.on('request-read-token-from-disk', (e) => {
     // Try to load token
     fs.readJson(configPath)
       .then(({ token }) => {
@@ -32,7 +32,7 @@ const loadAuthListeners = () => {
       });
   });
 
-  ipcMain.on('write-token-to-disk', (e, token) => {
+  ipcMain.on('request-write-token-to-disk', (e, token) => {
     writeTokenToDiskAsync(token)
       .then(() => {
         e.sender.send('set-auth-token', token);
@@ -45,7 +45,7 @@ const loadAuthListeners = () => {
     e.sender.send('set-auth-token', token);
   });
 
-  ipcMain.on('sign-in-with-google', (e) => {
+  ipcMain.on('request-sign-in-with-google', (e) => {
     let authWindow = new BrowserWindow({
       width: 392,
       height: 520,
@@ -83,7 +83,7 @@ const loadAuthListeners = () => {
     }, false);
   });
 
-  ipcMain.on('sign-up', (e) => {
+  ipcMain.on('request-sign-up', (e) => {
     let authWindow = new BrowserWindow({
       width: 392,
       height: 520,
