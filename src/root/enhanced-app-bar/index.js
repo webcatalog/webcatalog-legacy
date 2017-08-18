@@ -305,7 +305,7 @@ class EnhancedAppBar extends React.Component {
               <Divider />
               <MenuItem
                 button
-                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/help')}
               >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary={STRING_HELP} />
@@ -319,7 +319,7 @@ class EnhancedAppBar extends React.Component {
               </MenuItem>
               <MenuItem
                 button
-                onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
+                onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io')}
               >
                 <ListItemIcon><PublicIcon /></ListItemIcon>
                 <ListItemText primary={STRING_WEBSITE} />

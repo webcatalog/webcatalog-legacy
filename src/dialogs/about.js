@@ -159,21 +159,21 @@ const About = (props) => {
         </div>
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/release-notes')}
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/release-notes')}
         >
           {STRING_RELEASE_NOTES}
         </Button>
         <br />
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/terms')}
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/terms')}
         >
           {STRING_TERMS}
         </Button>
         <br />
 
         <Button
-          onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/privacy')}
+          onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/privacy')}
         >
           {STRING_PRIVACY_POLICY}
         </Button>

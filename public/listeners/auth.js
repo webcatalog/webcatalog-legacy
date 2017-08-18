@@ -57,7 +57,7 @@ const loadAuthListeners = () => {
         partition: `jwt-${Date.now()}`,
       },
     });
-    const authUrl = 'https://getwebcatalog.com/auth/google?jwt=1';
+    const authUrl = 'https://webcatalog.io/auth/google?jwt=1';
     authWindow.loadURL(authUrl);
     authWindow.show();
 
@@ -95,7 +95,7 @@ const loadAuthListeners = () => {
         partition: `jwt-${Date.now()}`,
       },
     });
-    const authUrl = 'https://getwebcatalog.com/auth/sign-up?jwt=1';
+    const authUrl = 'https://webcatalog.io/auth/sign-up?jwt=1';
     authWindow.loadURL(authUrl);
     authWindow.show();
 

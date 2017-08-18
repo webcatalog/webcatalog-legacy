@@ -192,7 +192,7 @@ const Auth = (props) => {
             {STRING_CREATE_ACCOUNT}
           </Button>
 
-          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/auth/reset-password')}>
+          <Button onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/auth/reset-password')}>
             {STRING_FORGOT_PASSWORD}
           </Button>
 

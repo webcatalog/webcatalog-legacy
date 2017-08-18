@@ -16,8 +16,8 @@
   "repository": "https://github.com/webcatalog/webcatalog",
   "author": {
     "name": "WebCatalog Team",
-    "email": "support@getwebcatalog.com",
-    "url": "https://getwebcatalog.com"
+    "email": "support@webcatalog.io",
+    "url": "https://webcatalog.io"
   },
   "license": "MPL-2.0",
   "dependencies": {
@@ -69,5 +69,5 @@
     "windows-shortcuts": "0.1.5"
   },
   "homepage": "./",
-  "proxy": "https://getwebcatalog.com"
+  "proxy": "https://webcatalog.io"
 }

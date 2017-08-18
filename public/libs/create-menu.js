@@ -43,7 +43,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://getwebcatalog.com'),
+          click: () => shell.openExternal('https://webcatalog.io'),
         },
       ],
     },
