@@ -4,15 +4,15 @@ const {
   setPreference,
 } = require('../libs/preferences');
 
-const loadSettingsListeners = () => {
+const loadPreferencesListeners = () => {
   ipcMain.on('get-preferences', (e) => {
     const preferences = getPreferences();
     e.returnValue = preferences;
   });
 
-  ipcMain.on('set-preference', (e, name, value) => {
+  ipcMain.on('request-set-preference', (e, name, value) => {
     e.sender.send(setPreference(name, value));
   });
 };
 
-module.exports = loadSettingsListeners;
+module.exports = loadPreferencesListeners;

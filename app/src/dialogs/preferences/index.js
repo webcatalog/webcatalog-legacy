@@ -1,4 +1,3 @@
-/* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -36,6 +35,14 @@ import connectComponent from '../../helpers/connect-component';
 import {
   close,
 } from '../../state/dialogs/preferences/actions';
+
+import {
+  requestLogOut,
+} from '../../senders/auth';
+
+import {
+  requestOpenInBrowser,
+} from '../../senders/generic';
 
 const { lightBlack } = common;
 
@@ -100,6 +107,8 @@ const styles = {
 const PreferencesDialog = (props) => {
   const {
     classes,
+    email,
+    isLoggedIn,
     onClose,
     open,
   } = props;
@@ -257,14 +266,30 @@ const PreferencesDialog = (props) => {
             Account
           </Typography>
           <Paper className={classes.paper}>
-            <div className={classes.accountSection}>
-              <Typography type="body1">
-                To sign in to your account, open <strong>WebCatalog</strong> app.
-              </Typography>
-              <Button raised className={classes.accountSectionButton}>
-                Open WebCatalog
-              </Button>
-            </div>
+            {isLoggedIn ? (
+              <div className={classes.accountSection}>
+                <Typography type="body1">
+                  You are logged in as <strong>{email}</strong>.
+                </Typography>
+                <Button
+                  raised
+                  className={classes.accountSectionButton}
+                  onClick={requestLogOut}
+                >
+                  Log out
+                </Button>
+              </div>
+            ) : (
+              <div className={classes.accountSection}>
+                <Typography type="body1">
+                  To sign in to your account, open <strong>WebCatalog</strong> app.
+                </Typography>
+                <Button raised className={classes.accountSectionButton}>
+                  Open WebCatalog
+                </Button>
+              </div>
+            )}
+
           </Paper>
 
           <Typography type="body2" className={classes.paperTitle}>
@@ -281,7 +306,7 @@ const PreferencesDialog = (props) => {
                         className={classes.link}
                         role="link"
                         tabIndex="0"
-                        onClick={() => ipcRenderer.send('open-in-browser', 'https://www.intercom.com/in-app-messaging')}
+                        onClick={() => requestOpenInBrowser('https://www.intercom.com/in-app-messaging')}
                       >Intercom In-App Messaging</a>
                       <span> when you are opening Preferences dialog </span>
                       <span>and does not install any other tracking tools or services. </span>
@@ -289,7 +314,7 @@ const PreferencesDialog = (props) => {
                         className={classes.link}
                         role="link"
                         tabIndex="0"
-                        onClick={() => ipcRenderer.send('open-in-browser', 'https://www.intercom.com/in-app-messaging')}
+                        onClick={() => requestOpenInBrowser('https://www.intercom.com/in-app-messaging')}
                       >
                         Learn more
                       </a>
@@ -396,22 +421,22 @@ const PreferencesDialog = (props) => {
 
 PreferencesDialog.defaultProps = {
   open: false,
+  email: null,
 };
 
 PreferencesDialog.propTypes = {
   classes: PropTypes.object.isRequired,
+  email: PropTypes.string,
+  isLoggedIn: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { open } = state.dialogs.preferences;
-
-  return {
-    // open: true,
-    open,
-  };
-};
+const mapStateToProps = state => ({
+  open: state.dialogs.preferences.open,
+  email: state.user.apiData.email,
+  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
+});
 
 const actionCreators = {
   close,

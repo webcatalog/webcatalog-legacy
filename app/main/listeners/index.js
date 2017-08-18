@@ -5,13 +5,13 @@ const {
 } = require('electron');
 
 const loadAuthListeners = require('./auth');
-const loadSettingsListeners = require('./settings');
+const loadPreferencesListeners = require('./preferences');
 
 const loadListeners = () => {
   loadAuthListeners();
-  loadSettingsListeners();
+  loadPreferencesListeners();
 
-  ipcMain.on('open-in-browser', (e, browserUrl) => {
+  ipcMain.on('request-open-in-browser', (e, browserUrl) => {
     shell.openExternal(browserUrl);
   });
 

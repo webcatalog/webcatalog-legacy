@@ -1,8 +1,6 @@
 const { Menu, shell, app } = require('electron');
-const isDev = require('electron-is-dev');
 
 const sendMessageToWindow = require('./send-message-to-window');
-const clearBrowsingData = require('./clear-browsing-data');
 
 function createMenu() {
   let currentZoom = 1;
@@ -10,86 +8,20 @@ function createMenu() {
 
   const template = [
     {
-      label: 'Navigate',
-      submenu: [
-        {
-          label: 'Home',
-          accelerator: 'Alt+H',
-          click: () => {
-            sendMessageToWindow('go-home');
-          },
-        },
-        {
-          label: 'Back',
-          accelerator: 'CmdOrCtrl+[',
-          click: () => {
-            sendMessageToWindow('go-back');
-          },
-        },
-        {
-          label: 'Forward',
-          accelerator: 'CmdOrCtrl+]',
-          click: () => {
-            sendMessageToWindow('go-forward');
-          },
-        },
-        {
-          label: 'Reload',
-          accelerator: 'CmdOrCtrl+R',
-          click: () => {
-            sendMessageToWindow('reload');
-          },
-        },
-      ],
-    },
-    {
       label: 'Edit',
       submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
+        { type: 'separator' },
         {
-          label: 'Undo',
-          accelerator: 'CmdOrCtrl+Z',
-          role: 'undo',
-        },
-        {
-          label: 'Redo',
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          role: 'redo',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Cut',
-          accelerator: 'CmdOrCtrl+X',
-          role: 'cut',
-        },
-        {
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          role: 'copy',
-        },
-        {
-          label: 'Copy Current URL',
-          accelerator: 'CmdOrCtrl+L',
-          click: () => {
-            sendMessageToWindow('copy-url');
-          },
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          role: 'paste',
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          role: 'selectall',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Find In Page...',
+          label: 'Find...',
           accelerator: 'CmdOrCtrl+F',
           click: () => {
             sendMessageToWindow('toggle-find-in-page-dialog');
@@ -101,24 +33,24 @@ function createMenu() {
       label: 'View',
       submenu: [
         {
-          label: 'Toggle Navigation Bar',
-          click: () => {},
+          label: 'Reload',
+          click: () => {
+            sendMessageToWindow('reload');
+          },
         },
+        { role: 'forcereload' },
+        { type: 'separator' },
         {
-          type: 'separator',
-        },
-        {
-          label: 'Toggle Full Screen',
+          label: 'Actual Size',
           accelerator: (() => {
             if (process.platform === 'darwin') {
-              return 'Ctrl+Command+F';
+              return 'Command+0';
             }
-            return 'F11';
+            return 'Ctrl+=0';
           })(),
-          click: (item, focusedWindow) => {
-            if (focusedWindow) {
-              focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-            }
+          click: () => {
+            currentZoom = 1;
+            sendMessageToWindow('change-zoom', currentZoom);
           },
         },
         {
@@ -147,145 +79,140 @@ function createMenu() {
             sendMessageToWindow('change-zoom', currentZoom);
           },
         },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+        { type: 'separator' },
         {
-          label: 'Developer Tools',
+          label: 'Toggle Developer Tools',
           accelerator: (() => {
             if (process.platform === 'darwin') {
               return 'Alt+Command+I';
             }
             return 'Ctrl+Shift+I';
           })(),
-          click: () => {
-            sendMessageToWindow('toggle-dev-tools');
-          },
+          click: () => sendMessageToWindow('toggle-dev-tools'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Debug...',
+          role: 'toggledevtools',
         },
       ],
     },
     {
-      label: 'Tools',
-      role: 'tools',
+      label: 'History',
       submenu: [
         {
-          label: 'Settings...',
-          accelerator: process.platform === 'darwin' ? 'Cmd+,' : 'Ctrl+P',
-          click: () => sendMessageToWindow('toggle-setting-dialog'),
+          label: 'Home',
+          accelerator: 'Alt+H',
+          click: () => sendMessageToWindow('go-home'),
         },
         {
-          type: 'separator',
+          label: 'Back',
+          accelerator: 'CmdOrCtrl+[',
+          click: () => sendMessageToWindow('go-back'),
         },
         {
-          label: 'Clear Browsing Data...',
-          click: () => clearBrowsingData(),
+          label: 'Forward',
+          accelerator: 'CmdOrCtrl+]',
+          click: () => sendMessageToWindow('go-forward'),
+        },
+        {
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click: () => sendMessageToWindow('reload'),
+        },
+      ],
+    },
+    {
+      role: 'window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'close' },
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click: () => shell.openExternal('https://webcatalog.io'),
+        },
+        {
+          label: 'WebCatalog Help',
+          click: () => shell.openExternal('https://webcatalog.io/help'),
         },
       ],
     },
   ];
 
-  if (isDev) {
-    template[3].submenu.push(
-      {
-        type: 'separator',
-      },
-      {
-        label: 'Debug...',
-        click: (item, focusedWindow) => {
-          if (focusedWindow) {
-            focusedWindow.toggleDevTools();
-          }
-        },
-      /* eslint-disable comma-dangle */
-      }
-      /* eslint-enable comma-dangle */
-    );
-  }
-
-  template.push({
-    role: 'window',
-    submenu: [
-      {
-        accelerator: 'CmdOrCtrl+M',
-        role: 'minimize',
-      },
-      {
-        accelerator: 'CmdOrCtrl+W',
-        role: 'close',
-      },
-    ],
-  });
-
-  const helpMenu = {
-    role: 'help',
-    submenu: [
-      {
-        label: 'Help',
-        click: () => {
-          shell.openExternal('https://getwebcatalog.com/help');
-        },
-      },
-      {
-        label: 'Website',
-        click: () => {
-          shell.openExternal('https://getwebcatalog.com');
-        },
-      },
-    ],
-  };
-
   if (process.platform !== 'darwin') {
-    helpMenu.submenu.push({
-      label: `About ${app.getName()}`,
-      click: () => {},
-    });
-  }
-
-  template.push(helpMenu);
-
-  if (process.platform === 'darwin') {
-    template.unshift({
+    template.splice(4, 0, {
+      label: 'Tools',
       submenu: [
         {
-          label: `About ${app.getName()}`,
+          label: 'Options...',
+          accelerator: 'Ctrl+P',
+          click: () => sendMessageToWindow('open-preferences'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'Ctrl+Shift+Delete',
           click: () => {},
-        },
-        {
-          role: 'services',
-          submenu: [],
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: `Hide ${app.getName()}`,
-          accelerator: 'Command+H',
-          role: 'hide',
-        },
-        {
-          accelerator: 'Command+Shift+H',
-          role: 'hideothers',
-        },
-        {
-          role: 'unhide',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => {
-            app.quit();
-          },
         },
       ],
     });
-    template[5].submenu.push(
+  }
+
+  if (process.platform === 'darwin') {
+    template.unshift({
+      label: app.getName(),
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Cmd+,',
+          click: () => sendMessageToWindow('open-preferences'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'Cmd+Shift+Delete',
+          click: () => {},
+        },
+        { type: 'separator' },
+        { role: 'services', submenu: [] },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    });
+
+    // Edit menu
+    template[1].submenu.push(
+      { type: 'separator' },
       {
-        type: 'separator',
-      },
-      {
-        role: 'front',
+        label: 'Speech',
+        submenu: [
+          { role: 'startspeaking' },
+          { role: 'stopspeaking' },
+        ],
       },
     );
+
+    // Window menu
+    template[4].submenu = [
+      { role: 'close' },
+      { role: 'minimize' },
+      { role: 'zoom' },
+      { type: 'separator' },
+      { role: 'front' },
+    ];
   }
 
   const menu = Menu.buildFromTemplate(template);

@@ -6,6 +6,7 @@ const {
 const path = require('path');
 
 const isDev = require('electron-is-dev');
+const windowStateKeeper = require('electron-window-state');
 
 const loadListeners = require('./listeners');
 const createMenu = require('./libs/create-menu');
@@ -17,10 +18,18 @@ let mainWindow;
 loadListeners();
 
 const createWindow = () => {
+  // Keep window size and restore on startup
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 1024,
+    defaultHeight: 768,
+  });
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     minWidth: 480,
     minHeight: 568,
     titleBarStyle: 'default',
@@ -30,6 +39,9 @@ const createWindow = () => {
       webviewTag: true,
     },
   });
+
+  // link window with window size management lib
+  mainWindowState.manage(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, '..', 'build', 'index.html')}`);

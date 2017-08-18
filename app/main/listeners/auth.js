@@ -8,7 +8,7 @@ const {
 const configPath = path.resolve(app.getPath('home'), '.webcatalogrc');
 
 const loadAuthListeners = () => {
-  ipcMain.on('log-out', (e) => {
+  ipcMain.on('request-log-out', (e) => {
     fs.remove(configPath)
       .then(() => {
         e.sender.send('set-auth-token', null);
@@ -17,10 +17,10 @@ const loadAuthListeners = () => {
       .catch(console.log);
   });
 
-  ipcMain.on('read-token-from-disk', (e) => {
+  ipcMain.on('request-read-token-from-disk', (e) => {
     // Try to load token
     fs.readJson(configPath)
-      .then((token) => {
+      .then(({ token }) => {
         e.sender.send('set-auth-token', token);
       })
       // eslint-disable-next-line

@@ -1,10 +1,12 @@
-/* global ipcRenderer */
-
 import { SCREEN_RESIZE } from '../../../constants/actions';
+
+import {
+  isFullScreen,
+} from '../../../senders/generic';
 
 const initialState = {
   screenWidth: typeof window === 'object' ? window.innerWidth : null,
-  isFullScreen: ipcRenderer.sendSync('is-full-screen'),
+  isFullScreen: isFullScreen(),
 };
 
 const screen = (state = initialState, action) => {
@@ -12,7 +14,7 @@ const screen = (state = initialState, action) => {
     case SCREEN_RESIZE:
       return Object.assign({}, state, {
         screenWidth: action.screenWidth,
-        isFullScreen: ipcRenderer.sendSync('is-full-screen'),
+        isFullScreen: isFullScreen(),
       });
     default:
       return state;

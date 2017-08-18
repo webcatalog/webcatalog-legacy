@@ -22,9 +22,14 @@ import {
 
 import { screenResize } from './state/root/screen/actions';
 
+import {
+  requestOpenInBrowser,
+} from './senders/generic';
+
 import WebView from './root/web-view';
 import FindInPage from './root/find-in-page';
 import NavigationBar from './root/navigation-bar';
+import EnhancedSnackbar from './root/enhanced-snackbar';
 
 import DialogPreferences from './dialogs/preferences';
 
@@ -45,7 +50,7 @@ const styles = theme => ({
     WebkitAppRegion: 'drag',
   },
   leftNavBlank: {
-    height: window.PLATFORM === 'darwin' ? theme.spacing.unit * 4 : theme.spacing.unit,
+    height: window.platform === 'darwin' ? theme.spacing.unit * 4 : theme.spacing.unit,
   },
   leftNavBlankFullScreen: {
     height: theme.spacing.unit,
@@ -228,7 +233,7 @@ class App extends React.Component {
 
     // open in browser
     e.preventDefault();
-    ipcRenderer.send('open-in-browser', nextUrl);
+    requestOpenInBrowser(nextUrl);
   }
 
   render() {
@@ -323,6 +328,7 @@ class App extends React.Component {
             }}
           />
         </div>
+        <EnhancedSnackbar />
       </div>
     );
   }

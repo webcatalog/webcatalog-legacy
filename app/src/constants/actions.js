@@ -1,3 +1,6 @@
+// Auth
+export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
+
 /* findInPage */
 export const TOGGLE_FIND_IN_PAGE_DIALOG = 'TOGGLE_FIND_IN_PAGE_DIALOG';
 export const UPDATE_FIND_IN_PAGE_TEXT = 'UPDATE_FIND_IN_PAGE_TEXT';
@@ -17,3 +20,12 @@ export const SCREEN_RESIZE = 'SCREEN_RESIZE';
 // Preferences Dialog
 export const DIALOG_PREFERENCES_CLOSE = 'DIALOG_PREFERENCES_CLOSE';
 export const DIALOG_PREFERENCES_OPEN = 'DIALOG_PREFERENCES_OPEN';
+
+// Snackbar
+export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+
+// User
+export const USER_GET_REQUEST = 'USER_GET_REQUEST';
+export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
+export const USER_GET_FAILED = 'USER_GET_FAILED';
