@@ -9,6 +9,7 @@ import auth from './root/auth/reducers';
 import dialogs from '../state/dialogs/reducers';
 import findInPage from './root/find-in-page/reducers';
 import nav from './root/nav/reducers';
+import preferences from './root/preferences/reducers';
 import screen from './root/screen/reducers';
 import snackbar from './root/snackbar/reducers';
 import user from './root/user/reducers';
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   dialogs,
   findInPage,
   nav,
+  preferences,
   root,
   screen,
   snackbar,

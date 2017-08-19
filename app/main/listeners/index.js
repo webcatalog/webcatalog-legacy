@@ -20,6 +20,7 @@ const loadListeners = () => {
     if (windows.length > 0) {
       e.returnValue = windows[0].isFullScreen();
     }
+    e.returnValue = false;
   });
 };
 

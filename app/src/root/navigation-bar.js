@@ -15,7 +15,7 @@ import { open as openDialogPreferences } from '../state/dialogs/preferences/acti
 
 const styles = theme => ({
   container: {
-    zIndex: 1,
+    zIndex: 2,
     borderRadius: 0,
     display: 'flex',
     flexDirection: 'column',
@@ -70,24 +70,30 @@ const styles = theme => ({
 
 const NavigationBar = (props) => {
   const {
-    vert,
+    canGoBack,
+    canGoForward,
     classes,
+    onBackButtonClick,
+    onForwardButtonClick,
+    onHomeButtonClick,
     onOpenDialogPreferences,
+    onRefreshButtonClick,
+    vert,
   } = props;
 
   return (
     <Paper elevation={2} className={classnames(classes.container, vert && classes.containerVert)}>
       <div className={classnames(classes.innerContainer, vert && classes.innerContainerVert)}>
-        <IconButton aria-label="Home">
+        <IconButton aria-label="Home" onClick={onHomeButtonClick}>
           <HomeIcon />
         </IconButton>
-        <IconButton aria-label="Back">
+        <IconButton aria-label="Back" onClick={onBackButtonClick} disabled={!canGoBack}>
           <KeyboardArrowLeftIcon />
         </IconButton>
-        <IconButton aria-label="Forward">
+        <IconButton aria-label="Forward" onClick={onForwardButtonClick} disabled={!canGoForward}>
           <KeyboardArrowRightIcon />
         </IconButton>
-        <IconButton aria-label="Refresh">
+        <IconButton aria-label="Refresh" onClick={onRefreshButtonClick}>
           <RefreshIcon />
         </IconButton>
       </div>
@@ -105,14 +111,27 @@ const NavigationBar = (props) => {
 };
 
 NavigationBar.defaultProps = {
+  canGoBack: false,
+  canGoForward: false,
   vert: false,
 };
 
 NavigationBar.propTypes = {
+  canGoBack: PropTypes.bool,
+  canGoForward: PropTypes.bool,
   classes: PropTypes.object.isRequired,
-  vert: PropTypes.bool,
+  onBackButtonClick: PropTypes.func.isRequired,
+  onForwardButtonClick: PropTypes.func.isRequired,
+  onHomeButtonClick: PropTypes.func.isRequired,
   onOpenDialogPreferences: PropTypes.func.isRequired,
+  onRefreshButtonClick: PropTypes.func.isRequired,
+  vert: PropTypes.bool,
 };
+
+const mapStateToProps = state => ({
+  canGoBack: state.nav.canGoBack,
+  canGoForward: state.nav.canGoForward,
+});
 
 const actionCreators = {
   openDialogPreferences,
@@ -120,7 +139,7 @@ const actionCreators = {
 
 export default connectComponent(
   NavigationBar,
-  null,
+  mapStateToProps,
   actionCreators,
   styles,
 );

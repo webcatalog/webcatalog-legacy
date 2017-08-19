@@ -11,7 +11,7 @@ const loadPreferencesListeners = () => {
   });
 
   ipcMain.on('request-set-preference', (e, name, value) => {
-    e.sender.send(setPreference(name, value));
+    setPreference(name, value);
   });
 };
 

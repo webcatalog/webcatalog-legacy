@@ -1,92 +1,131 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CloseIcon from 'material-ui-icons/Close';
+import ExpandLessIcon from 'material-ui-icons/ExpandLess';
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import IconButton from 'material-ui/IconButton';
+import SearchIcon from 'material-ui-icons/Search';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+
 import connectComponent from '../helpers/connect-component';
 
 import { toggleFindInPageDialog, updateFindInPageText } from '../state/root/find-in-page/actions';
 
-class FindInPage extends React.Component {
-  componentDidMount() {
-    this.input.focus();
-  }
+const styles = {
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: 4,
+  },
+  infoContainer: {
+    flex: 1,
+    padding: '0 12px',
+  },
+};
 
+class FindInPage extends React.Component {
   render() {
     const {
-      activeMatch, matches, text,
-      onRequestFind, onRequestStopFind, onToggleFindInPageDialog, onUpdateFindInPageText,
+      classes,
+      activeMatch,
+      matches,
+      text,
+      onRequestFind,
+      onRequestStopFind,
+      onToggleFindInPageDialog,
+      onUpdateFindInPageText,
     } = this.props;
 
     return (
-      <div>
-        <div>
-          {activeMatch} / {matches} matches
+      <div className={classes.root}>
+        <div className={classes.infoContainer}>
+          <Typography type="body1">
+            <strong>{activeMatch}</strong> / <strong>{matches}</strong> matches
+          </Typography>
         </div>
-        <input
-          ref={(input) => { this.input = input; }}
-          className="pt-input"
-          placeholder="Search"
-          type="text"
-          value={text}
-          style={{ marginRight: 5 }}
-          onChange={(e) => {
-            const val = e.target.value;
-            onUpdateFindInPageText(val);
-            if (val.length > 0) {
-              onRequestFind(val, true);
-            } else {
-              onRequestStopFind();
-            }
-          }}
-          onInput={(e) => {
-            const val = e.target.value;
-            onUpdateFindInPageText(val);
-            if (val.length > 0) {
-              onRequestFind(val, true);
-            } else {
-              onRequestStopFind();
-            }
-          }}
-          onKeyDown={(e) => {
-            if ((e.keyCode || e.which) === 13) {
+        <div>
+          <TextField
+            autoFocus
+            ref={(input) => { this.input = input; }}
+            placeholder="Find..."
+            value={text}
+            margin="normal"
+            onChange={(e) => {
               const val = e.target.value;
+              onUpdateFindInPageText(val);
               if (val.length > 0) {
                 onRequestFind(val, true);
+              } else {
+                onRequestStopFind();
               }
-            }
-          }}
-        />
-        <button
-          iconName="chevron-up"
-          style={{ marginRight: 5 }}
+            }}
+            onInput={(e) => {
+              const val = e.target.value;
+              onUpdateFindInPageText(val);
+              if (val.length > 0) {
+                onRequestFind(val, true);
+              } else {
+                onRequestStopFind();
+              }
+            }}
+            onKeyDown={(e) => {
+              if ((e.keyCode || e.which) === 13) {
+                const val = e.target.value;
+                if (val.length > 0) {
+                  onRequestFind(val, true);
+                }
+              }
+            }}
+          />
+        </div>
+        <IconButton
+          aria-label="Previous"
           onClick={() => {
             if (text.length > 0) {
               onRequestFind(text, false);
             }
           }}
-        />
-        <button
-          iconName="chevron-down"
-          style={{ marginRight: 5 }}
+        >
+          <ExpandLessIcon />
+        </IconButton>
+        <IconButton
+          aria-label="Next"
           onClick={() => {
             if (text.length > 0) {
               onRequestFind(text, true);
             }
           }}
-        />
-        <button
-          iconName="cross"
-          style={{ marginRight: 5 }}
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+        <IconButton
+          aria-label="Find"
+          onClick={() => {
+            if (text.length > 0) {
+              onRequestFind(text, true);
+            }
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
+        <IconButton
+          aria-label="Close"
           onClick={() => {
             onRequestStopFind();
             onToggleFindInPageDialog();
           }}
-        />
+        >
+          <CloseIcon />
+        </IconButton>
       </div>
     );
   }
 }
 
 FindInPage.propTypes = {
+  classes: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired,
   activeMatch: PropTypes.number.isRequired,
   matches: PropTypes.number.isRequired,
@@ -111,4 +150,5 @@ export default connectComponent(
   FindInPage,
   mapStateToProps,
   actionCreators,
+  styles,
 );

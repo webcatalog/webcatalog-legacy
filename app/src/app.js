@@ -26,10 +26,12 @@ import {
   requestOpenInBrowser,
 } from './senders/generic';
 
-import WebView from './root/web-view';
+import EnhancedSnackbar from './root/enhanced-snackbar';
 import FindInPage from './root/find-in-page';
 import NavigationBar from './root/navigation-bar';
-import EnhancedSnackbar from './root/enhanced-snackbar';
+import NoConnection from './root/no-connection';
+import WebView from './root/web-view';
+import Loading from './root/loading';
 
 import DialogPreferences from './dialogs/preferences';
 
@@ -60,6 +62,7 @@ const styles = theme => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
   },
   webNavContainer: {
     display: 'flex',
@@ -87,15 +90,6 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
   },
-  errorFullScreenContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: grey[300],
-    zIndex: 1000,
-  },
 });
 
 class App extends React.Component {
@@ -104,15 +98,32 @@ class App extends React.Component {
     this.onDidFailLoad = this.onDidFailLoad.bind(this);
     this.onDidStopLoading = this.onDidStopLoading.bind(this);
     this.onNewWindow = this.onNewWindow.bind(this);
+
+    this.onCopyUrl = this.onCopyUrl.bind(this);
+    this.onGoBack = this.onGoBack.bind(this);
+    this.onGoForward = this.onGoForward.bind(this);
+    this.onGoHome = this.onGoHome.bind(this);
+    this.onReload = this.onReload.bind(this);
+    this.onSetZoomFactor = this.onSetZoomFactor.bind(this);
+    this.onToggleDevTools = this.onToggleDevTools.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.props.onScreenResize);
+    const { onScreenResize } = this.props;
 
-    ipcRenderer.on('toggle-dev-tools', () => {
-      const c = this.webView;
-      c.openDevTools();
-    });
+    const {
+      onCopyUrl,
+      onGoBack,
+      onGoForward,
+      onGoHome,
+      onReload,
+      onSetZoomFactor,
+      onToggleDevTools,
+    } = this;
+
+    window.addEventListener('resize', onScreenResize);
+
+    ipcRenderer.on('toggle-dev-tools', onToggleDevTools);
 
     ipcRenderer.on('toggle-find-in-page-dialog', () => {
       if (this.props.findInPageIsOpen) {
@@ -123,41 +134,17 @@ class App extends React.Component {
       this.props.onToggleFindInPageDialog();
     });
 
-    ipcRenderer.on('change-zoom', (event, message) => {
-      const c = this.webView;
-      c.setZoomFactor(message);
-    });
+    ipcRenderer.on('change-zoom', (event, factor) => onSetZoomFactor(factor));
 
-    ipcRenderer.on('reload', () => {
-      const c = this.webView;
-      c.reload();
-    });
+    ipcRenderer.on('reload', onReload);
 
-    ipcRenderer.on('go-back', () => {
-      const c = this.webView;
-      c.goBack();
-    });
+    ipcRenderer.on('go-back', onGoBack);
 
-    ipcRenderer.on('go-forward', () => {
-      const c = this.webView;
-      c.goForward();
-    });
+    ipcRenderer.on('go-forward', onGoForward);
 
-    ipcRenderer.on('go-home', () => {
-      const c = this.webView;
-      c.loadURL(this.props.customHome || window.shellInfo.url);
-    });
+    ipcRenderer.on('go-home', onGoHome);
 
-    ipcRenderer.on('go-to-url', (e, url) => {
-      const c = this.webView;
-      c.loadURL(url);
-    });
-
-    ipcRenderer.on('copy-url', () => {
-      const c = this.webView;
-      const currentURL = c.getURL();
-      clipboard.writeText(currentURL);
-    });
+    ipcRenderer.on('copy-url', onCopyUrl);
   }
 
   componentDidUpdate() {
@@ -175,7 +162,8 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.props.onScreenResize);
+    const { onScreenResize } = this.props;
+    window.removeEventListener('resize', onScreenResize);
   }
 
   onDidFailLoad(e) {
@@ -223,17 +211,58 @@ class App extends React.Component {
       return;
     }
 
+    e.preventDefault();
+
     // navigate
     if (nextDomain && (nextDomain === curDomain || nextDomain === 'accounts.google.com')) {
       // https://github.com/webcatalog/webcatalog/issues/35
-      e.preventDefault();
       c.loadURL(nextUrl);
       return;
     }
 
     // open in browser
-    e.preventDefault();
     requestOpenInBrowser(nextUrl);
+  }
+
+  onToggleDevTools() {
+    const c = this.webView;
+    if (c.isDevToolsOpened()) {
+      c.closeDevTools();
+    } else {
+      c.openDevTools();
+    }
+  }
+
+  onSetZoomFactor(factor) {
+    const c = this.webView;
+    c.setZoomFactor(factor);
+  }
+
+  onReload() {
+    const c = this.webView;
+    c.reload();
+  }
+
+  onGoHome() {
+    const c = this.webView;
+    c.loadURL(this.props.customHome || window.shellInfo.url);
+  }
+
+  onGoBack() {
+    const c = this.webView;
+    c.goBack();
+  }
+
+  onGoForward() {
+    const c = this.webView;
+    c.goForward();
+  }
+
+
+  onCopyUrl() {
+    const c = this.webView;
+    const currentURL = c.getURL();
+    clipboard.writeText(currentURL);
   }
 
   render() {
@@ -245,45 +274,48 @@ class App extends React.Component {
       onUpdateIsLoading,
       onUpdateTargetUrl,
       isFailed,
+      isLoading,
     } = this.props;
 
     const {
       onDidStopLoading,
       onDidFailLoad,
       onNewWindow,
+
+      onGoBack,
+      onGoForward,
+      onGoHome,
+      onReload,
     } = this;
 
     const showVertNav = false;
 
-    const horizNavElement = showVertNav
-      ? null
-      : <NavigationBar />;
-
-    const vertNavElement = showVertNav
-      ? <NavigationBar vert />
-      : null;
+    const navElement = (
+      <NavigationBar
+        vert={showVertNav}
+        onHomeButtonClick={onGoHome}
+        onBackButtonClick={onGoBack}
+        onForwardButtonClick={onGoForward}
+        onRefreshButtonClick={onReload}
+      />
+    );
 
     return (
       <div className={classes.root}>
         <DialogPreferences />
-        {horizNavElement}
+        {!showVertNav && navElement}
         {isFailed && (
-          <div className={classes.errorFullScreenContainer}>
-            Internet Connection
-            Please check your Internet connection and try again
-            <button
-              onClick={() => {
-                onUpdateIsFailed(false);
-                const c = this.webView;
-                c.reload();
-              }}
-            >
-              Try Again
-            </button>
-          </div>
+          <NoConnection
+            onTryAgainButtonClick={() => {
+              onUpdateIsFailed(false);
+              const c = this.webView;
+              c.reload();
+            }}
+          />
         )}
         <div className={classes.rightContent}>
-          {vertNavElement}
+          {isLoading && <Loading />}
+          {showVertNav && navElement}
           {findInPageIsOpen && (
             <FindInPage
               onRequestFind={(text, forward) => {
@@ -306,7 +338,7 @@ class App extends React.Component {
             autoresize
             partition="persist:app"
             nodeintegration={false}
-            webpreferences="nativeWindowOpen=yes"
+            webpreferences="nativeWindowOpen=no"
             src={window.shellInfo.url}
             onDidFailLoad={onDidFailLoad}
             onDidStartLoading={() => onUpdateIsLoading(true)}
@@ -337,6 +369,7 @@ class App extends React.Component {
 App.defaultProps = {
   isFullScreen: false,
   isFailed: false,
+  isLoading: false,
   customHome: null,
 };
 
@@ -344,6 +377,7 @@ App.propTypes = {
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFailed: PropTypes.bool,
+  isLoading: PropTypes.bool,
   customHome: PropTypes.string,
   classes: PropTypes.object.isRequired,
   onScreenResize: PropTypes.func.isRequired,
@@ -360,7 +394,8 @@ const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
   isFullScreen: state.screen.isFullScreen,
-  isFailed: false && state.nav.isFailed,
+  isFailed: state.nav.isFailed,
+  isLoading: state.nav.isLoading,
   customHome: null,
   rememberLastPage: false,
 });

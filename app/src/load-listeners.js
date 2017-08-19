@@ -14,6 +14,10 @@ import {
 } from './state/root/snackbar/actions';
 
 import {
+  setPreference,
+} from './state/root/preferences/actions';
+
+import {
   open as openDialogPreferences,
 } from './state/dialogs/preferences/actions';
 
@@ -40,8 +44,12 @@ const loadListeners = (store) => {
   ipcRenderer.on('open-about-dialog', () => {
   });
 
-  ipcRenderer.on('open-preferences', () => {
+  ipcRenderer.on('open-preferences-dialog', () => {
     store.dispatch(openDialogPreferences());
+  });
+
+  ipcRenderer.on('set-preference', (e, name, value) => {
+    store.dispatch(setPreference(name, value));
   });
 };
 

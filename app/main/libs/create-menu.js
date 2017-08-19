@@ -37,6 +37,7 @@ function createMenu() {
           click: () => {
             sendMessageToWindow('reload');
           },
+          accelerator: 'CmdOrCtrl+R',
         },
         { role: 'forcereload' },
         { type: 'separator' },
@@ -153,7 +154,7 @@ function createMenu() {
         {
           label: 'Options...',
           accelerator: 'Ctrl+P',
-          click: () => sendMessageToWindow('open-preferences'),
+          click: () => sendMessageToWindow('open-preferences-dialog'),
         },
         { type: 'separator' },
         {
@@ -174,7 +175,7 @@ function createMenu() {
         {
           label: 'Preferences...',
           accelerator: 'Cmd+,',
-          click: () => sendMessageToWindow('open-preferences'),
+          click: () => sendMessageToWindow('open-preferences-dialog'),
         },
         { type: 'separator' },
         {
