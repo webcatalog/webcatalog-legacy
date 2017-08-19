@@ -8,10 +8,8 @@ import BuildIcon from 'material-ui-icons/Build';
 import Button from 'material-ui/Button';
 import CodeIcon from 'material-ui-icons/Code';
 import ColorLensIcon from 'material-ui-icons/ColorLens';
-import common from 'material-ui/colors/common';
 import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
-import grey from 'material-ui/colors/grey';
 import HistoryIcon from 'material-ui-icons/History';
 import IconButton from 'material-ui/IconButton';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
@@ -22,6 +20,7 @@ import Slide from 'material-ui/transitions/Slide';
 import Switch from 'material-ui/Switch';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import { MenuItem } from 'material-ui/Menu';
 import List, {
   ListItem,
   ListItemIcon,
@@ -32,17 +31,54 @@ import List, {
 
 import connectComponent from '../../helpers/connect-component';
 
-import {
-  close,
-} from '../../state/dialogs/preferences/actions';
-
+import { close } from '../../state/dialogs/preferences/actions';
 import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestSetPreference } from '../../senders/preferences';
 
-const { lightBlack } = common;
+import {
+  STRING_ACCOUNT,
+  STRING_ADVANCED,
+  STRING_APPERANCE,
+  STRING_CHANGE,
+  STRING_CLEAR_BROWSING_DATA_DESC,
+  STRING_CLEAR_BROWSING_DATA,
+  STRING_CLOSE,
+  STRING_CONTINUE,
+  STRING_DARK_THEME_DESC,
+  STRING_DARK_THEME,
+  STRING_DEFAULT,
+  STRING_DEVELOPERS,
+  STRING_GENERAL,
+  STRING_INJECT_CSS,
+  STRING_INJECT_JS,
+  STRING_LEARN_MORE,
+  STRING_LEFT,
+  STRING_LOG_OUT,
+  STRING_LOGGED_IN_AS,
+  STRING_NAVIGATION_BAR_POSITION,
+  STRING_NONE,
+  STRING_OPEN_WEBCATALOG,
+  STRING_PREFERENCES,
+  STRING_PRIVACY_AND_SECURITY,
+  STRING_PRIVACY_NOTE,
+  STRING_RESET_DESC,
+  STRING_RESET,
+  STRING_RIGHT,
+  STRING_SHOW_NAVIGATION_BAR,
+  STRING_SIGN_IN_INSTRUCTION,
+  STRING_SWIPE_TO_NAVIGATE_DESC,
+  STRING_SWIPE_TO_NAVIGATE,
+  STRING_SYSTEM,
+  STRING_TOP,
+  STRING_TRACKPAD,
+  STRING_USE_HARDWARE_ACCELERATION,
+  STRING_USER_AGENT,
+} from '../../constants/strings';
 
-const styles = {
+import EnhancedMenu from '../../shared/enhanced-menu';
+
+const styles = theme => ({
   dialogContent: {
     flex: 1,
     display: 'flex',
@@ -52,7 +88,7 @@ const styles = {
   dialogContentRight: {
     flex: 1,
     padding: 24,
-    background: grey[100],
+    background: theme.palette.background.default,
     overflow: 'auto',
   },
   paperTitleContainer: {
@@ -67,7 +103,7 @@ const styles = {
     maxWidth: 720,
     margin: '0 auto',
     fontWeight: 600,
-    color: lightBlack,
+    color: theme.palette.text.primary,
     marginBottom: 4,
     paddingLeft: 16,
     fontSize: 13,
@@ -102,6 +138,18 @@ const styles = {
       textDecoration: 'underline',
     },
   },
+});
+
+const getNavigationBarPositionString = (navigationBarPosition) => {
+  switch (navigationBarPosition) {
+    case 'top':
+      return STRING_TOP;
+    case 'right':
+      return STRING_RIGHT;
+    case 'left':
+    default:
+      return STRING_LEFT;
+  }
 };
 
 class PreferencesDialog extends React.Component {
@@ -145,16 +193,16 @@ class PreferencesDialog extends React.Component {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Preferences
+              {STRING_PREFERENCES}
             </Typography>
             <Button color="contrast" onClick={onClose}>
-              Close
+              {STRING_CLOSE}
             </Button>
           </Toolbar>
         </AppBar>
         <div className={classes.dialogContent}>
           <div className={classes.listContainer}>
-            <List subheader={<ListSubheader>General</ListSubheader>} dense>
+            <List subheader={<ListSubheader>{STRING_GENERAL}</ListSubheader>} dense>
               <ListItem
                 button
               >
@@ -162,21 +210,21 @@ class PreferencesDialog extends React.Component {
                   <ColorLensIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Apperance"
+                  primary={STRING_APPERANCE}
                   onClick={() => scrollIntoView('apperanceTitle')}
                 />
               </ListItem>
-              <ListItem
+              {window.platform === 'darwin' && <ListItem
                 button
               >
                 <ListItemIcon>
                   <MouseIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Trackpad"
+                  primary={STRING_TRACKPAD}
                   onClick={() => scrollIntoView('trackpadTitle')}
                 />
-              </ListItem>
+              </ListItem>}
               <ListItem
                 button
               >
@@ -184,12 +232,12 @@ class PreferencesDialog extends React.Component {
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Account"
+                  primary={STRING_ACCOUNT}
                   onClick={() => scrollIntoView('accountTitle')}
                 />
               </ListItem>
             </List>
-            <List subheader={<ListSubheader>Advanced</ListSubheader>} dense>
+            <List subheader={<ListSubheader>{STRING_ADVANCED}</ListSubheader>} dense>
               <ListItem
                 button
               >
@@ -197,7 +245,7 @@ class PreferencesDialog extends React.Component {
                   <SecurityIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Privacy & Security"
+                  primary={STRING_PRIVACY_AND_SECURITY}
                   onClick={() => scrollIntoView('privacyAndSecurityTitle')}
                 />
               </ListItem>
@@ -208,7 +256,7 @@ class PreferencesDialog extends React.Component {
                   <BuildIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="System"
+                  primary={STRING_SYSTEM}
                   onClick={() => scrollIntoView('systemTitle')}
                 />
               </ListItem>
@@ -219,7 +267,7 @@ class PreferencesDialog extends React.Component {
                   <CodeIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Developers"
+                  primary={STRING_DEVELOPERS}
                   onClick={() => scrollIntoView('developersTitle')}
                 />
               </ListItem>
@@ -230,7 +278,7 @@ class PreferencesDialog extends React.Component {
                   <HistoryIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Reset"
+                  primary={STRING_RESET}
                   onClick={() => scrollIntoView('resetTitle')}
                 />
               </ListItem>
@@ -242,7 +290,7 @@ class PreferencesDialog extends React.Component {
               ref={(el) => { this.apperanceTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                Apperance
+                {STRING_APPERANCE}
               </Typography>
             </div>
             <Paper className={classes.paper}>
@@ -252,9 +300,8 @@ class PreferencesDialog extends React.Component {
                   onClick={() => requestSetPreference('darkTheme', !darkTheme)}
                 >
                   <ListItemText
-                    primary="Dark theme"
-                    secondary={`"Maybe you have to know the darkness
-                      before you can appreciate the light." - Madeleine L'Engle`}
+                    primary={STRING_DARK_THEME}
+                    secondary={STRING_DARK_THEME_DESC}
                   />
                   <ListItemSecondaryAction>
                     <Switch
@@ -269,7 +316,7 @@ class PreferencesDialog extends React.Component {
                   onClick={() => requestSetPreference('showNavigationBar', !showNavigationBar)}
                 >
                   <ListItemText
-                    primary="Show navigator bar"
+                    primary={STRING_SHOW_NAVIGATION_BAR}
                   />
                   <ListItemSecondaryAction>
                     <Switch
@@ -278,49 +325,54 @@ class PreferencesDialog extends React.Component {
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
-                <Divider />
-                <ListItem button>
+                {showNavigationBar && <Divider />}
+                {showNavigationBar && <ListItem button>
                   <ListItemText
-                    primary="Navigator bar position"
-                    secondary={navigationBarPosition}
+                    primary={STRING_NAVIGATION_BAR_POSITION}
+                    secondary={getNavigationBarPositionString(navigationBarPosition)}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label="Change">
-                      <KeyboardArrowRightIcon />
-                    </IconButton>
+                    <EnhancedMenu
+                      id="navigationBarPosition"
+                      buttonElement={(
+                        <IconButton aria-label={STRING_CHANGE}>
+                          <KeyboardArrowRightIcon />
+                        </IconButton>
+                      )}
+                    >
+                      {['left', 'right', 'top'].map(option => (
+                        <MenuItem
+                          onClick={() => requestSetPreference('navigationBarPosition', option)}
+                        >
+                          {getNavigationBarPositionString(option)}
+                        </MenuItem>
+                      ))}
+                    </EnhancedMenu>
                   </ListItemSecondaryAction>
-                </ListItem>
+                </ListItem>}
               </List>
             </Paper>
 
-            <div
+            {window.platform === 'darwin' && <div
               className={classes.paperTitleContainer}
               ref={(el) => { this.trackpadTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                Trackpad
+                {STRING_TRACKPAD}
               </Typography>
-            </div>
-            <Paper className={classes.paper}>
+            </div>}
+            {window.platform === 'darwin' && <Paper className={classes.paper}>
               <List dense>
                 <ListItem
                   button
                   onClick={() => requestSetPreference('swipeToNavigate', !swipeToNavigate)}
                 >
                   <ListItemText
-                    primary="Swipe to navigate"
+                    primary={STRING_SWIPE_TO_NAVIGATE}
                     secondary={(
-                      <span>
-                        <span>Navigate between pages with 3-finger gesture. </span><br />
-                        <span>To enable it, you also need to change </span>
-                        <strong>
-                          Preferences &gt; Trackpad &gt; More Gesture &gt; Swipe between page
-                        </strong><br />
-                        <span> to </span>
-                        <strong>Swipe with three fingers</strong>
-                        <span> or </span>
-                        <strong>Swipe with two or three fingers</strong>.
-                      </span>
+                      <span
+                        dangerouslySetInnerHTML={{ __html: STRING_SWIPE_TO_NAVIGATE_DESC }}
+                      />
                     )}
                   />
                   <ListItemSecondaryAction>
@@ -331,37 +383,39 @@ class PreferencesDialog extends React.Component {
                   </ListItemSecondaryAction>
                 </ListItem>
               </List>
-            </Paper>
+            </Paper>}
 
             <div
               className={classes.paperTitleContainer}
               ref={(el) => { this.accountTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                Account
+                {STRING_ACCOUNT}
               </Typography>
             </div>
             <Paper className={classes.paper}>
               {isLoggedIn ? (
                 <div className={classes.accountSection}>
                   <Typography type="body1">
-                    You are logged in as <strong>{email}</strong>.
+                    <span
+                      dangerouslySetInnerHTML={{ __html: STRING_LOGGED_IN_AS.replace('{email}', email) }}
+                    />
                   </Typography>
                   <Button
                     raised
                     className={classes.accountSectionButton}
                     onClick={requestLogOut}
                   >
-                    Log out
+                    {STRING_LOG_OUT}
                   </Button>
                 </div>
               ) : (
                 <div className={classes.accountSection}>
                   <Typography type="body1">
-                    To sign in to your account, open <strong>WebCatalog</strong> app.
+                    {STRING_SIGN_IN_INSTRUCTION}
                   </Typography>
                   <Button raised className={classes.accountSectionButton}>
-                    Open WebCatalog
+                    {STRING_OPEN_WEBCATALOG}
                   </Button>
                 </div>
               )}
@@ -372,7 +426,7 @@ class PreferencesDialog extends React.Component {
               ref={(el) => { this.privacyAndSecurityTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                Privacy & Security
+                {STRING_PRIVACY_AND_SECURITY}
               </Typography>
             </div>
             <Paper className={classes.paper}>
@@ -381,22 +435,14 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={(
                       <span>
-                        <span>WebCatalog only enables </span>
-                        <a
-                          className={classes.link}
-                          role="link"
-                          tabIndex="0"
-                          onClick={() => requestOpenInBrowser('https://www.intercom.com/in-app-messaging')}
-                        >Intercom In-App Messaging</a>
-                        <span> when you are opening Preferences dialog </span>
-                        <span>and does not install any other tracking tools or services. </span>
+                        <span>{STRING_PRIVACY_NOTE} </span>
                         <a
                           className={classes.link}
                           role="link"
                           tabIndex="0"
                           onClick={() => requestOpenInBrowser('https://www.intercom.com/in-app-messaging')}
                         >
-                          Learn more
+                          {STRING_LEARN_MORE}
                         </a>
                       </span>
                     )}
@@ -404,11 +450,11 @@ class PreferencesDialog extends React.Component {
                 </ListItem>
                 <ListItem button>
                   <ListItemText
-                    primary="Clear browsing data"
-                    secondary="Clear history, cookies, cache, and more"
+                    primary={STRING_CLEAR_BROWSING_DATA}
+                    secondary={STRING_CLEAR_BROWSING_DATA_DESC}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label="Continue">
+                    <IconButton aria-label={STRING_CONTINUE}>
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -421,7 +467,7 @@ class PreferencesDialog extends React.Component {
               ref={(el) => { this.systemTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                System
+                {STRING_SYSTEM}
               </Typography>
             </div>
             <Paper className={classes.paper}>
@@ -431,7 +477,7 @@ class PreferencesDialog extends React.Component {
                   onClick={() => requestSetPreference('useHardwareAcceleration', !useHardwareAcceleration)}
                 >
                   <ListItemText
-                    primary="Use hardware acceleration when available"
+                    primary={STRING_USE_HARDWARE_ACCELERATION}
                   />
                   <ListItemSecondaryAction>
                     <Switch
@@ -451,15 +497,27 @@ class PreferencesDialog extends React.Component {
                 type="body2"
                 className={classes.paperTitle}
               >
-                Developers
+                {STRING_DEVELOPERS}
               </Typography>
             </div>
             <Paper className={classes.paper}>
               <List dense>
                 <ListItem button>
                   <ListItemText
-                    primary="User agent"
-                    secondary={userAgent && userAgent.length > 0 ? userAgent : 'Default'}
+                    primary={STRING_USER_AGENT}
+                    secondary={userAgent && userAgent.length > 0 ? userAgent : STRING_DEFAULT}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton aria-label={STRING_CHANGE}>
+                      <KeyboardArrowRightIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+                <ListItem button>
+                  <ListItemText
+                    primary={STRING_INJECT_CSS}
+                    secondary={injectCSS && injectCSS.length > 0 ? injectCSS : STRING_NONE}
                   />
                   <ListItemSecondaryAction>
                     <IconButton aria-label="Change">
@@ -470,23 +528,11 @@ class PreferencesDialog extends React.Component {
                 <Divider />
                 <ListItem button>
                   <ListItemText
-                    primary="Inject CSS"
-                    secondary={injectCSS && injectCSS.length > 0 ? 'Enabled' : 'Not enabled'}
+                    primary={STRING_INJECT_JS}
+                    secondary={injectJS && injectJS.length > 0 ? injectJS : STRING_NONE}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label="Change">
-                      <KeyboardArrowRightIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-                <ListItem button>
-                  <ListItemText
-                    primary="Inject JS"
-                    secondary={injectJS && injectJS.length > 0 ? 'Enabled' : 'Not enabled'}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton aria-label="Change">
+                    <IconButton aria-label={STRING_CHANGE}>
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -499,18 +545,18 @@ class PreferencesDialog extends React.Component {
               ref={(el) => { this.resetTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
-                Reset
+                {STRING_RESET}
               </Typography>
             </div>
             <Paper className={classes.paper}>
               <List dense>
                 <ListItem button>
                   <ListItemText
-                    primary="Reset"
-                    secondary="Restore settings to their original defaults"
+                    primary={STRING_RESET}
+                    secondary={STRING_RESET_DESC}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label="Continue">
+                    <IconButton aria-label={STRING_CONTINUE}>
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

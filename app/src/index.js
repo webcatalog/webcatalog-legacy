@@ -26,15 +26,18 @@ import App from './app';
 
 loadListeners(store);
 
-const theme = createMuiTheme({
-  palette: createPalette({
-    primary: blue, // Purple and green play nicely together.
-    accent: pink,
-    error: red,
-  }),
-});
+const runApp = () => {
+  const state = store.getState();
 
-ipcRenderer.once('set-auth-token', () => {
+  const theme = createMuiTheme({
+    palette: createPalette({
+      type: state.preferences.darkTheme ? 'dark' : 'light',
+      primary: blue, // Purple and green play nicely together.
+      accent: pink,
+      error: red,
+    }),
+  });
+
   ReactDOM.render(
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
@@ -43,6 +46,10 @@ ipcRenderer.once('set-auth-token', () => {
     </Provider>,
     document.getElementById('app'),
   );
+};
+
+ipcRenderer.once('set-auth-token', () => {
+  runApp();
 });
 
 requestReadTokenFromDisk();

@@ -13,6 +13,14 @@ import connectComponent from '../helpers/connect-component';
 
 import { open as openDialogPreferences } from '../state/dialogs/preferences/actions';
 
+import {
+  STRING_BACK,
+  STRING_FORWARD,
+  STRING_HOME,
+  STRING_PREFERENCES,
+  STRING_RELOAD,
+} from '../constants/strings';
+
 const styles = theme => ({
   container: {
     zIndex: 2,
@@ -84,23 +92,37 @@ const NavigationBar = (props) => {
   return (
     <Paper elevation={2} className={classnames(classes.container, vert && classes.containerVert)}>
       <div className={classnames(classes.innerContainer, vert && classes.innerContainerVert)}>
-        <IconButton aria-label="Home" onClick={onHomeButtonClick}>
+        <IconButton
+          aria-label={STRING_HOME}
+          onClick={onHomeButtonClick}
+        >
           <HomeIcon />
         </IconButton>
-        <IconButton aria-label="Back" onClick={onBackButtonClick} disabled={!canGoBack}>
+        <IconButton
+          aria-label={STRING_BACK}
+          disabled={!canGoBack}
+          onClick={onBackButtonClick}
+        >
           <KeyboardArrowLeftIcon />
         </IconButton>
-        <IconButton aria-label="Forward" onClick={onForwardButtonClick} disabled={!canGoForward}>
+        <IconButton
+          aria-label={STRING_FORWARD}
+          disabled={!canGoForward}
+          onClick={onForwardButtonClick}
+        >
           <KeyboardArrowRightIcon />
         </IconButton>
-        <IconButton aria-label="Refresh" onClick={onRefreshButtonClick}>
+        <IconButton
+          aria-label={STRING_RELOAD}
+          onClick={onRefreshButtonClick}
+        >
           <RefreshIcon />
         </IconButton>
       </div>
 
       <div className={classnames(classes.innerContainerEnd, classes.innerContainerEndVert)}>
         <IconButton
-          aria-label="Preferences"
+          aria-label={STRING_PREFERENCES}
           onClick={() => onOpenDialogPreferences()}
         >
           <SettingsIcon />

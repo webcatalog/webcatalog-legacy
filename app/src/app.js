@@ -269,12 +269,14 @@ class App extends React.Component {
     const {
       classes,
       findInPageIsOpen,
+      isFailed,
+      isLoading,
+      navigationBarPosition,
+      showNavigationBar,
       onUpdateFindInPageMatches,
       onUpdateIsFailed,
       onUpdateIsLoading,
       onUpdateTargetUrl,
-      isFailed,
-      isLoading,
     } = this.props;
 
     const {
@@ -288,11 +290,9 @@ class App extends React.Component {
       onReload,
     } = this;
 
-    const showVertNav = false;
-
-    const navElement = (
+    const navElement = showNavigationBar && (
       <NavigationBar
-        vert={showVertNav}
+        vert={navigationBarPosition === 'top'}
         onHomeButtonClick={onGoHome}
         onBackButtonClick={onGoBack}
         onForwardButtonClick={onGoForward}
@@ -303,7 +303,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <DialogPreferences />
-        {!showVertNav && navElement}
+        {navigationBarPosition === 'left' && navElement}
         {isFailed && (
           <NoConnection
             onTryAgainButtonClick={() => {
@@ -315,7 +315,7 @@ class App extends React.Component {
         )}
         <div className={classes.rightContent}>
           {isLoading && <Loading />}
-          {showVertNav && navElement}
+          {navigationBarPosition === 'top' && navElement}
           {findInPageIsOpen && (
             <FindInPage
               onRequestFind={(text, forward) => {
@@ -360,6 +360,7 @@ class App extends React.Component {
             }}
           />
         </div>
+        {navigationBarPosition === 'right' && navElement}
         <EnhancedSnackbar />
       </div>
     );
@@ -367,37 +368,41 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
-  isFullScreen: false,
-  isFailed: false,
-  isLoading: false,
   customHome: null,
+  isFailed: false,
+  isFullScreen: false,
+  isLoading: false,
+  navigationBarPosition: 'left',
+  showNavigationBar: true,
 };
 
 App.propTypes = {
+  classes: PropTypes.object.isRequired,
+  customHome: PropTypes.string,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFailed: PropTypes.bool,
   isLoading: PropTypes.bool,
-  customHome: PropTypes.string,
-  classes: PropTypes.object.isRequired,
+  navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
+  showNavigationBar: PropTypes.bool,
   onScreenResize: PropTypes.func.isRequired,
-  onUpdateTargetUrl: PropTypes.func.isRequired,
-  onUpdateIsFailed: PropTypes.func.isRequired,
-  onUpdateIsLoading: PropTypes.func.isRequired,
+  onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateCanGoBack: PropTypes.func.isRequired,
   onUpdateCanGoForward: PropTypes.func.isRequired,
-  onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateFindInPageMatches: PropTypes.func.isRequired,
+  onUpdateIsFailed: PropTypes.func.isRequired,
+  onUpdateIsLoading: PropTypes.func.isRequired,
+  onUpdateTargetUrl: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
-  isFullScreen: state.screen.isFullScreen,
   isFailed: state.nav.isFailed,
+  isFullScreen: state.screen.isFullScreen,
   isLoading: state.nav.isLoading,
-  customHome: null,
-  rememberLastPage: false,
+  navigationBarPosition: state.preferences.navigationBarPosition,
+  showNavigationBar: state.preferences.showNavigationBar,
 });
 
 const actionCreators = {

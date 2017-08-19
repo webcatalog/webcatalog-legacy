@@ -22,6 +22,13 @@ const loadListeners = () => {
     }
     e.returnValue = false;
   });
+
+  ipcMain.on('request-force-reload', () => {
+    const windows = BrowserWindow.getAllWindows();
+    if (windows.length > 0) {
+      windows[0].reload();
+    }
+  });
 };
 
 module.exports = loadListeners;

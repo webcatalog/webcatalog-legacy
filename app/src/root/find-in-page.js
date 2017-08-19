@@ -13,6 +13,14 @@ import connectComponent from '../helpers/connect-component';
 
 import { toggleFindInPageDialog, updateFindInPageText } from '../state/root/find-in-page/actions';
 
+import {
+  STRING_ACTIVE_MATCH_OVER_MATCHES,
+  STRING_FIND,
+  STRING_PREVIOUS,
+  STRING_NEXT,
+  STRING_CLOSE,
+} from '../constants/strings';
+
 const styles = {
   root: {
     display: 'flex',
@@ -42,14 +50,20 @@ class FindInPage extends React.Component {
       <div className={classes.root}>
         <div className={classes.infoContainer}>
           <Typography type="body1">
-            <strong>{activeMatch}</strong> / <strong>{matches}</strong> matches
+            <span
+              dangerouslySetInnerHTML={{
+                __html: STRING_ACTIVE_MATCH_OVER_MATCHES
+                  .replace('{activeMatch}', activeMatch)
+                  .replace('{matches}', matches),
+              }}
+            />
           </Typography>
         </div>
         <div>
           <TextField
             autoFocus
             ref={(input) => { this.input = input; }}
-            placeholder="Find..."
+            placeholder={STRING_FIND}
             value={text}
             margin="normal"
             onChange={(e) => {
@@ -81,7 +95,7 @@ class FindInPage extends React.Component {
           />
         </div>
         <IconButton
-          aria-label="Previous"
+          aria-label={STRING_PREVIOUS}
           onClick={() => {
             if (text.length > 0) {
               onRequestFind(text, false);
@@ -91,7 +105,7 @@ class FindInPage extends React.Component {
           <ExpandLessIcon />
         </IconButton>
         <IconButton
-          aria-label="Next"
+          aria-label={STRING_NEXT}
           onClick={() => {
             if (text.length > 0) {
               onRequestFind(text, true);
@@ -101,7 +115,7 @@ class FindInPage extends React.Component {
           <ExpandMoreIcon />
         </IconButton>
         <IconButton
-          aria-label="Find"
+          aria-label={STRING_FIND}
           onClick={() => {
             if (text.length > 0) {
               onRequestFind(text, true);
@@ -111,7 +125,7 @@ class FindInPage extends React.Component {
           <SearchIcon />
         </IconButton>
         <IconButton
-          aria-label="Close"
+          aria-label={STRING_CLOSE}
           onClick={() => {
             onRequestStopFind();
             onToggleFindInPageDialog();
