@@ -72,7 +72,7 @@ const createAppAsync = (id, name, url, icon, out) =>
                   .then(() => destPath);
               }
 
-              if (process.platform === 'win32') {
+              if (process.platform === 'win32' || process.platform === 'linux') {
                 const destPath = path.resolve(out, id);
 
                 return fs.move(
