@@ -30,11 +30,11 @@ const opts = {
   targets,
   config: {
     appId: 'com.webcatalog.app',
-    asar: false,
+    asar: true,
     asarUnpack: [
       'node_modules/electron-packager/**/*',
       'node_modules/@webcatalog/molecule/app/**/*',
-      'build/libs/installAppAsync/script.js',
+      'build/libs/install-app-async/script.js',
     ],
     directories: {
       buildResources: 'build-resources',
@@ -82,8 +82,10 @@ const opts = {
         y: 315,
       },
     },
+    /*
     afterPack: ({ appOutDir }) => {
-      const sourcePath = path.join(__dirname, 'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules');
+      const sourcePath = path.join(__dirname,
+      'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules');
       const destPath = path.join(appOutDir, 'WebCatalog.app', 'Contents',
         'Resources', 'app', 'node_modules',
         '@webcatalog', 'molecule', 'app', 'node_modules');
@@ -92,6 +94,7 @@ const opts = {
 
       return fs.copy(sourcePath, destPath);
     },
+    */
   },
 };
 

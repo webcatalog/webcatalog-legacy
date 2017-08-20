@@ -1,8 +1,9 @@
 const path = require('path');
+const fs = require('fs');
+const tmp = require('tmp');
+const { https } = require('follow-redirects');
 const createAppAsync = require('@webcatalog/molecule');
 const argv = require('yargs-parser')(process.argv.slice(1));
-
-const downloadIconTempAsync = require('./download-icon-temp-async');
 
 const {
   id,
@@ -15,6 +16,45 @@ const {
   desktopPath,
   homePath,
 } = argv;
+
+const getFileNameFromUrl = u => u.substring(u.lastIndexOf('/') + 1);
+
+const createTmpDirAsync = () =>
+  new Promise((resolve, reject) => {
+    tmp.dir((err, dirPath) => {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve(dirPath);
+    });
+  });
+
+const downloadFileTempAsync = fileUrl =>
+  createTmpDirAsync()
+    .then(tmpPath =>
+      new Promise((resolve, reject) => {
+        const iconFileName = getFileNameFromUrl(fileUrl);
+        const iconPath = path.join(tmpPath, iconFileName);
+        const iconFile = fs.createWriteStream(iconPath);
+
+        const req = https.get(fileUrl, (response) => {
+          response.pipe(iconFile);
+
+          iconFile.on('error', (err) => {
+            reject(err);
+          });
+
+          iconFile.on('finish', () => {
+            resolve(iconPath);
+          });
+        });
+
+        req.on('error', (err) => {
+          reject(err);
+        });
+      }),
+    );
 
 const getIconUrl = () => {
   switch (process.platform) {
@@ -38,7 +78,7 @@ const createWindowsShortcutAsync = (shortcutPath, options) =>
     });
   });
 
-downloadIconTempAsync(getIconUrl())
+downloadFileTempAsync(getIconUrl())
   .then(iconPath =>
     createAppAsync(
       id,
@@ -68,6 +108,7 @@ downloadIconTempAsync(getIconUrl())
   })
   .catch((e) => {
     process.send(e);
+    process.exit(1);
   });
 
 process.on('uncaughtException', (e) => {
