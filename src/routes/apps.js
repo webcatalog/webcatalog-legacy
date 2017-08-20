@@ -45,7 +45,7 @@ appsRouter.get(['/', '/category/:category'], (req, res, next) => {
       if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
       res.render('apps/index', {
-        title: 'Explore WebCatalog Store',
+        title: 'Apps',
         apps: rows,
         categories,
         category: opts.where.category,

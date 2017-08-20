@@ -3,39 +3,18 @@
 
 <section class="section apps">
   <div class="container">
-    <nav class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <nav class="breadcrumb is-medium">
-            <ul>
-              <li><a href="/">WebCatalog</a></li>
-              <li><a href="/apps">Apps</a></li>
-              <% if (category) { %>
-              <li>
-                <a class="category" href="/apps/category/<%= category %>"><%= category.replace('+', ' & ') %></a>
-              </li>
-              <% } %>
-            </ul>
-          </nav>
-        </div>
-      </div>
-      <div class="level-right">
-        <div class="level-item">
-          <form class="field" action="/apps<% if (category) { %>/category/<%= category %><% } %>">
-            <p class="control">
-              <span class="select">
-                <select name="sort" onchange="this.form.submit()">
-                  <option value="installCount" <% if (sort === 'installCount') { %>selected="selected"<% } %>>Most Downloaded</option>
-                  <option value="name" <% if (sort === 'name') { %>selected="selected"<% } %>>Name</option>
-                  <option value="createdAt" <% if (sort === 'createdAt') { %>selected="selected"<% } %>>Recently Added</option>
-                </select>
-              </span>
-            </p>
-          </form>
-        </div>
-      </div>
+    <nav class="breadcrumb is-medium">
+      <ul>
+        <li><a href="/">WebCatalog</a></li>
+        <li><a href="/apps">Apps</a></li>
+        <% if (category) { %>
+        <li>
+          <a class="category" href="/apps/category/<%= category %>"><%= category.replace('+', ' & ') %></a>
+        </li>
+        <% } %>
+      </ul>
     </nav>
-    <hr>
+    <hr />
     <div class="columns">
       <div class="column is-one-quarter">
         <aside class="menu">
@@ -53,6 +32,12 @@
         </aside>
       </div>
       <div class="column">
+        <div class="tabs is-centered is-boxed">
+          <ul>
+            <li class="category<% if (!sort || sort === 'installCount') { %> is-active<% } %>"><a href="/apps<% if (category) { %>/category/<%= category %><% } %>?sort=installCount">Top Apps<% if (category) { %> in <%= category.replace('+', ' & ') %><% } %></a></li>
+            <li class="category<% if (sort === 'createdAt') { %> is-active<% } %>"><a href="/apps<% if (category) { %>/category/<%= category %><% } %>?sort=createdAt">New Apps<% if (category) { %> in <%= category.replace('+', ' & ') %><% } %></a></li>
+          </ul>
+        </div>
         <div class="columns is-multiline">
           <% var appCardClassName = "is-half-tablet is-one-third-desktop" %>
           <% apps.forEach(function (app) { %>
