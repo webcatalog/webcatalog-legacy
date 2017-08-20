@@ -24,7 +24,7 @@ switch (process.platform) {
   }
 }
 
-if (process.platform !== 'darwin') process.exit(0);
+if (process.platform === 'linux') process.exit(0);
 
 const opts = {
   targets,

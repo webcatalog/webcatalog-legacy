@@ -2,7 +2,7 @@
 
 const harness = require('./utils/_harness');
 
-if (process.platform !== 'darwin') process.exit(0);
+if (process.platform === 'linux') process.exit(0);
 
 harness('store-test', () => {
   it('Load store', () =>
