@@ -40,10 +40,10 @@ const loadLocalListeners = () => {
   let p = Promise.resolve();
 
   ipcMain.on('request-install-app', (e, appObj) => {
-    e.sender.send('set-local-app', appObj.id, 'INSTALLING');
+    e.sender.send('set-local-app', appObj.id, 'INSTALLING', appObj);
 
     p = p.then(() => installAppAsync(appObj))
-      .then(() => e.sender.send('set-local-app', appObj.id, 'INSTALLED'))
+      .then(finalizedAppObj => e.sender.send('set-local-app', appObj.id, 'INSTALLED', finalizedAppObj))
       .catch((err) => {
         e.sender.send('log', err);
         e.sender.send('set-local-app', appObj.id, null);

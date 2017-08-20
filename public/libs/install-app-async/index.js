@@ -1,11 +1,14 @@
 const { app } = require('electron');
 const path = require('path');
 const fork = require('child_process').fork;
+const fs = require('fs-extra');
 
 const getAllAppPath = require('../get-all-app-path');
 
-const installAppAsync = ({ id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl }) =>
+const installAppAsync = appObj =>
   new Promise((resolve, reject) => {
+    const { id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl } = appObj;
+
     const destPath = getAllAppPath();
     const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
 
@@ -36,7 +39,15 @@ const installAppAsync = ({ id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl })
     });
 
     child.on('exit', () => {
-      resolve();
+      // get current molecule version
+      fs.readJson(path.join(app.getAppPath(), 'package.json'))
+        .then((packageJson) => {
+          const finalizedAppObj = Object.assign({}, appObj, {
+            moleculeVersion: packageJson.dependencies['@webcatalog/molecule'],
+          });
+          resolve(finalizedAppObj);
+        })
+        .catch(reject);
     });
 
     child.on('message', (e) => {
