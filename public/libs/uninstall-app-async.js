@@ -41,15 +41,19 @@ const uninstallAppAsync = (appId, appName, opts) =>
         }
         case 'win32':
         default: {
-          const appPath = path.join(allAppPath, `${appName}.lnk`);
+          const appPath = path.join(allAppPath, `${appId}`);
           if (fs.existsSync(appPath)) {
-            fs.unlinkSync(appPath);
+            deleteFolderRecursive(appPath);
           }
 
-          const desktopPath = path.join(app.getPath('home'), 'Desktop');
-          const desktopAppPath = path.join(desktopPath, `${appName}.lnk`);
+          const desktopAppPath = path.join(app.getPath('desktop'), `${appName}.lnk`);
           if (fs.existsSync(desktopAppPath)) {
             fs.unlinkSync(desktopAppPath);
+          }
+
+          const startMenuShortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${appName}.lnk`);
+          if (fs.existsSync(startMenuShortcutPath)) {
+            fs.unlinkSync(startMenuShortcutPath);
           }
         }
       }

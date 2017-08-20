@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
     "start": "react-scripts start",
-    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "dist": "yarn build && node dist.js",
     "test": "mocha ./tests"
   },

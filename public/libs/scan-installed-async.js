@@ -1,9 +1,11 @@
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
+const electron = require('electron');
 
 const getAllAppPath = require('./get-all-app-path');
 const uninstallAppAsync = require('./uninstall-app-async');
+const sendMessageToWindow = require('./send-message-to-window');
 
 const scanInstalledAsync = () =>
   Promise.resolve()
@@ -78,7 +80,82 @@ const scanInstalledAsync = () =>
         }
         case 'win32':
         default: {
-          return installedApps;
+          const p = [];
+
+          // >= 7.0.0
+          p.push(
+            fs.readdir(allAppPath)
+              .then((files) => {
+                const promises = [];
+
+                files.forEach((fileName) => {
+                  const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                  promises.push(
+                    fs.pathExists(packageJsonPath)
+                      .then((exists) => {
+                        if (exists) {
+                          return fs.readJson(packageJsonPath)
+                            .then((packageInfo) => {
+                              const appInfo = Object.assign({}, packageInfo.webApp, {
+                                moleculeVersion: packageInfo.version,
+                              });
+
+                              installedApps.push(appInfo);
+                            });
+                        }
+                        return null;
+                      }),
+                  );
+                });
+
+                return Promise.all(promises);
+              }),
+          );
+
+          // legacy, v < 7.0.0
+          const legacyAllAppPath = path.join(electron.app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+          p.push(
+            fs.pathExists(legacyAllAppPath)
+              .then((exists) => {
+                if (exists) {
+                  return fs.readdir(legacyAllAppPath)
+                    .then((files) => {
+                      if (files.length === 0) return null;
+
+                      return new Promise((resolve, reject) => {
+                        let i = 0;
+                        files.forEach((fileName) => {
+                          /* eslint-disable */
+                          const WindowsShortcuts = require('windows-shortcuts');
+                          /* eslint-enable */
+                          WindowsShortcuts.query(path.join(legacyAllAppPath, fileName),
+                            (wsShortcutErr, { desc }) => {
+                              if (wsShortcutErr) {
+                                reject(wsShortcutErr);
+                              } else {
+                                try {
+                                  const appInfo = JSON.parse(desc);
+                                  installedApps.push(appInfo);
+                                } catch (jsonErr) {
+                                  /* eslint-disable no-console */
+                                  sendMessageToWindow('log', `Failed to parse file ${fileName}`);
+                                  /* eslint-enable no-console */
+                                }
+                              }
+
+                              i += 1;
+                              if (i === files.length) resolve();
+                            });
+                        });
+                      });
+                    });
+                }
+                return null;
+              }),
+          );
+
+          return Promise.all(p)
+            .then(() => installedApps);
         }
       }
     })

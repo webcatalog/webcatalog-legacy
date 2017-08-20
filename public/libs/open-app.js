@@ -16,7 +16,7 @@ const openApp = (id, name) => {
     }
     case 'win32':
     default: {
-      const shortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
+      const shortcutPath = path.join(app.getPath('userData'), 'Apps', id, `${name}.exe`);
       shell.openItem(shortcutPath);
     }
   }

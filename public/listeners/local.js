@@ -15,7 +15,11 @@ const loadLocalListeners = () => {
           e.sender.send('set-local-app', installedApp.id, 'INSTALLED', installedApp);
         });
       })
-      .catch(err => e.sender.send('log', err));
+      .catch((err) => {
+        // eslint-disable-next-line
+        console.log(err);
+        e.sender.send('log', err);
+      });
   });
 
   ipcMain.on('request-open-app', (e, id, name) => {

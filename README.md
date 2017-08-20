@@ -11,7 +11,15 @@
 WebCatalog is a desktop app which allows users to install and run any web app natively.
 
 ## Development
-Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com), Login to npm `npm adduser`. Then,
+Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com), Login to npm `npm adduser`.
+
+If you use Windows, consider to use `LF` for Git.
+```
+git config --global core.autocrlf false
+git config --global core.eol lf
+```
+
+Then, continue:
 
 ```bash
 git clone https://github.com/webcatalog/webcatalog.git

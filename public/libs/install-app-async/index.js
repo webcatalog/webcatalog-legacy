@@ -2,9 +2,11 @@ const { app } = require('electron');
 const path = require('path');
 const fork = require('child_process').fork;
 
-const installAppAsync = ({ id, name, url, icnsIconUrl }) =>
+const getAllAppPath = require('../get-all-app-path');
+
+const installAppAsync = ({ id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl }) =>
   new Promise((resolve, reject) => {
-    const destPath = path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
+    const destPath = getAllAppPath();
     const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
 
     const child = fork(scriptPath, [
@@ -16,8 +18,16 @@ const installAppAsync = ({ id, name, url, icnsIconUrl }) =>
       url,
       '--icnsIconUrl',
       icnsIconUrl,
+      '--icoIconUrl',
+      icoIconUrl,
+      '--pngIconUrl',
+      pngIconUrl,
       '--destPath',
       destPath,
+      '--desktopPath',
+      app.getPath('desktop'),
+      '--homePath',
+      app.getPath('home'),
     ], {
       env: {
         ELECTRON_RUN_AS_NODE: 'true',

@@ -15,7 +15,7 @@ const getAllAppPath = () => {
     }
     case 'win32':
     default: {
-      allAppPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+      allAppPath = path.join(app.getPath('userData'), 'Apps');
     }
   }
 
