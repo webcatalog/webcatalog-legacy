@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 
 const builder = require('electron-builder');
-const path = require('path');
-const fs = require('fs-extra');
 
 const { Platform, Arch } = builder;
 
@@ -20,7 +18,7 @@ switch (process.platform) {
   }
   case 'win32':
   default: {
-    targets = Platform.WINDOWS.createTarget(['squirrel', 'nsis'], Arch.x64);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
   }
 }
 
