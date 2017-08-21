@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const tmp = require('tmp');
 const { https } = require('follow-redirects');
 const createAppAsync = require('@webcatalog/molecule');
@@ -101,6 +101,18 @@ downloadFileTempAsync(getIconUrl())
         .then(() => createWindowsShortcutAsync(desktopShortcutPath, opts));
     }
 
+    if (process.platform === 'linux') {
+      const execPath = path.join(destPath, id, name);
+      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      const desktopFileContent = `[Desktop Entry]
+Name="${name}"
+Exec="${execPath}"
+Icon="${path.join(homePath, 'icon.png')}"
+Type=Application`;
+
+      return fs.outputFile(desktopFilePath, desktopFileContent);
+    }
+
     return null;
   })
   .then(() => {
@@ -112,5 +124,6 @@ downloadFileTempAsync(getIconUrl())
   });
 
 process.on('uncaughtException', (e) => {
+  process.exit(1);
   process.send(e);
 });

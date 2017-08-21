@@ -7,6 +7,9 @@ const getAllAppPath = require('./get-all-app-path');
 const uninstallAppAsync = require('./uninstall-app-async');
 const sendMessageToWindow = require('./send-message-to-window');
 
+// linux
+// allAppPath, 'resources', 'app.asar.unpacked', 'package.json'
+
 const scanInstalledAsync = () =>
   Promise.resolve()
     .then(() => {
@@ -66,7 +69,7 @@ const scanInstalledAsync = () =>
         }
         case 'linux': {
           return fs.readdir(allAppPath)
-            .then((err, files) => {
+            .then((files) => {
               files.forEach((fileName) => {
                 if (!fileName.startsWith('webcatalog-')) return;
 
