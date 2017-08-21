@@ -26,13 +26,13 @@
   version "7.0.39"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.39.tgz#8aced4196387038113f6f9aa4014ab4c51edab3c"
 
-"@webcatalog/molecule@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-0.1.7.tgz#573e6f0dd826423198987cc0ee09bd0cf50d8b34"
+"@webcatalog/molecule@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-0.2.0.tgz#93e29dbc4565746eacc1970f42cf934781144665"
   dependencies:
-    electron-packager "^8.7.2"
-    fs-extra "^4.0.0"
-    tmp "^0.0.31"
+    electron-packager "8.7.2"
+    fs-extra "4.0.1"
+    tmp "0.0.33"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -2590,7 +2590,7 @@ electron-osx-sign@0.4.7, electron-osx-sign@^0.4.1:
     minimist "^1.2.0"
     plist "^2.1.0"
 
-electron-packager@^8.7.2:
+electron-packager@8.7.2:
   version "8.7.2"
   resolved "https://registry.yarnpkg.com/electron-packager/-/electron-packager-8.7.2.tgz#457d3bf24bc9607c06ad4b1eb6daa4accadc2108"
   dependencies:
