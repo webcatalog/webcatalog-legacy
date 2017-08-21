@@ -47,6 +47,9 @@ const styles = (theme) => {
   return {
     button: {
       color: grey[600],
+      '&:not(:first-child)': {
+        marginLeft: 12,
+      },
     },
     scrollContainer: {
       flex: 1,
@@ -68,7 +71,7 @@ const styles = (theme) => {
     },
 
     card: {
-      width: 248,
+      width: 240,
       boxSizing: 'border-box',
     },
 
@@ -151,6 +154,7 @@ const AppCard = (props) => {
           {moleculeVersion === getCurrentMoleculeVersion() ? (
             <Button
               className={classes.button}
+              dense
               onClick={handleOpenApp}
             >
               <ExitToAppIcon color="inherit" />
@@ -159,6 +163,7 @@ const AppCard = (props) => {
           ) : (
             <Button
               className={classes.button}
+              dense
               onClick={() => onInstallApp(app.id, app.name)}
             >
               <GetAppIcon color="inherit" />
@@ -167,6 +172,7 @@ const AppCard = (props) => {
           )}
           <Button
             color="accent"
+            dense
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
             <DeleteIcon color="inherit" />
@@ -185,6 +191,7 @@ const AppCard = (props) => {
     return (
       <Button
         color="primary"
+        dense
         onClick={() => onInstallApp(app.id, app.name)}
       >
         <GetAppIcon color="inherit" />
