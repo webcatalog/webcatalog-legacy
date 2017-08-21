@@ -22,15 +22,19 @@ import {
   isInstalled as isInstalledUtil,
   isUninstalling as isUninstallingUtil,
   isInstalling as isInstallingUtil,
+  getMoleculeVersion,
 } from '../state/root/local/utils';
 
 import {
   STRING_INSTALL,
   STRING_OPEN,
   STRING_UNINSTALL,
+  STRING_UPDATE,
 } from '../constants/strings';
 
 import { requestOpenApp } from '../senders/local';
+
+import getCurrentMoleculeVersion from '../helpers/get-current-molecule-version';
 
 const styles = (theme) => {
   const cardContentDefaults = {
@@ -64,7 +68,7 @@ const styles = (theme) => {
     },
 
     card: {
-      width: 240,
+      width: 248,
       boxSizing: 'border-box',
     },
 
@@ -131,6 +135,7 @@ const AppCard = (props) => {
     isInstalled,
     isInstalling,
     isUninstalling,
+    moleculeVersion,
     onInstallApp,
     onOpenConfirmUninstallAppDialog,
   } = props;
@@ -143,13 +148,23 @@ const AppCard = (props) => {
     if (isInstalled) {
       return (
         <div>
-          <Button
-            className={classes.button}
-            onClick={handleOpenApp}
-          >
-            <ExitToAppIcon color="inherit" />
-            <span className={classes.buttonText}>{STRING_OPEN}</span>
-          </Button>
+          {moleculeVersion === getCurrentMoleculeVersion() ? (
+            <Button
+              className={classes.button}
+              onClick={handleOpenApp}
+            >
+              <ExitToAppIcon color="inherit" />
+              <span className={classes.buttonText}>{STRING_OPEN}</span>
+            </Button>
+          ) : (
+            <Button
+              className={classes.button}
+              onClick={() => onInstallApp(app.id, app.name)}
+            >
+              <GetAppIcon color="inherit" />
+              <span className={classes.buttonText}>{STRING_UPDATE}</span>
+            </Button>
+          )}
           <Button
             color="accent"
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
@@ -199,6 +214,7 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
+  moleculeVersion: '0.0.0',
 };
 
 AppCard.propTypes = {
@@ -207,6 +223,7 @@ AppCard.propTypes = {
   isInstalled: PropTypes.bool.isRequired,
   isInstalling: PropTypes.bool.isRequired,
   isUninstalling: PropTypes.bool.isRequired,
+  moleculeVersion: PropTypes.string,
   onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
 };
@@ -218,6 +235,7 @@ const mapStateToProps = (state, ownProps) => {
     isInstalled: isInstalledUtil(state, app.id),
     isInstalling: isInstallingUtil(state, app.id),
     isUninstalling: isUninstallingUtil(state, app.id),
+    moleculeVersion: getMoleculeVersion(state, app.id),
   };
 };
 

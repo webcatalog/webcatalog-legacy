@@ -74,3 +74,4 @@ export const STRING_AUTH_REQUIRED = 'Authentication Is Required';
 export const STRING_AUTH_REQUIRED_DESC = 'You need to sign in to access this page.';
 export const STRING_CLOSE = 'Close';
 export const STRING_TERMS = 'Terms of Service';
+export const STRING_UPDATE = 'Update';
