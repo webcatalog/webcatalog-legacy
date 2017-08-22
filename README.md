@@ -23,6 +23,8 @@ createAppAsync(
 ### Development
 ```bash
 yarn
-yarn install-client-full
+yarn install-app-full
 yarn electron-dev
 ```
+
+`yarn install-app-full` is required because running `yarn` only installs the production `dependencies`, not `devDependencies`. This trick is to minimize WebCatalog package size.
