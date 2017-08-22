@@ -6,8 +6,8 @@
   "repository": "https://github.com/webcatalog/molecule.git",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
-    "install-app-full": "cd app && yarn && cd .. && node rebuild.js",
-    "install": "cd app && yarn --production=true && cd .. && node rebuild.js",
+    "install-app-full": "cd app && yarn && yarn rebuild",
+    "install": "cd app && yarn --production=true",
     "dev": "babel-node src",
     "start": "node lib",
     "build": "npm run build:main && npm run build:app",
@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "electron-packager": "8.7.2",
-    "electron-rebuild": "1.6.0",
     "fs-extra": "4.0.1",
     "tmp": "0.0.33"
   }
