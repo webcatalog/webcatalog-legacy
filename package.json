@@ -14,7 +14,7 @@
     "build:main": "babel src --out-dir lib",
     "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./app/src",
-    "prepublishOnly": "npm run install:client:full && npm run build",
+    "prepublishOnly": "npm run install-app-full && npm run build",
     "test": "babel-node test",
     "electron-dev": "cd app && yarn electron-dev"
   },
