@@ -4,7 +4,7 @@
   "description": "WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.",
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && node hacky.js",
+    "install": "electron-builder install-app-deps && node hacky.js",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
@@ -22,7 +22,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@webcatalog/molecule": "0.3.2",
+    "@webcatalog/molecule": "0.3.3",
     "electron-is-dev": "0.3.0",
     "electron-updater": "2.8.7",
     "electron-window-state": "4.1.1",
