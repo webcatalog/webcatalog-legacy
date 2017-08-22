@@ -7,97 +7,39 @@ const { Platform, Arch } = builder;
 
 console.log(`Machine: ${process.platform}`);
 
-/*
-const getChildDependenciesAsync = (packageName) => {
-  console.log(packageName);
-  let deps = [];
-
-  const dependencyPackageJsonPath =
-    path.join(__dirname, 'node_modules', packageName, 'package.json');
-
-  return fs.pathExists(dependencyPackageJsonPath)
-    .then((exists) => {
-      if (exists) {
-        return fs.readJson(dependencyPackageJsonPath)
-          .then(({ dependencies }) => {
-            const p = [];
-
-            if (dependencies) {
-              deps = deps.concat(Object.keys(dependencies));
-
-              Object.keys(dependencies).forEach(name =>
-                p.push(getChildDependenciesAsync(name).then((d) => {
-                  deps = deps.concat(d);
-                })),
-              );
-            }
-
-            return Promise.all(p);
-          });
-      }
-
-      return null;
-    })
-    .then(() => deps);
-};
-*/
-
 Promise.resolve()
-  /*
-  .then(() => {
-    const asarUnpackedMainDependencies = [
-      '@webcatalog/molecule',
-      'follow-redirects',
-      'fs-extra',
-      'tmp',
-      'yargs-parser',
-      // for fs-extra
-      'rimraf',
-      'coveralls',
-      'istanbul',
-      'klaw',
-      'klaw-sync',
-      'minimist',
-      'mocha',
-      'proxyquire',
-      'read-dir-files',
-      'rimraf',
-      'secure-random',
-      'semver',
-      'standard',
-      'standard-markdown',
-    ];
-    let deps = asarUnpackedMainDependencies;
-
-    const p = [];
-
-    asarUnpackedMainDependencies.forEach((name) => {
-      p.push(
-        getChildDependenciesAsync(name).then((d) => {
-          deps = deps.concat(d);
-        }),
-      );
-    });
-
-    return Promise.all(p).then(() =>
-      deps.filter((elem, pos) => deps.indexOf(elem) === pos),
-    );
-  })
-  */
   .then(() => {
     let targets;
-    switch (process.platform) {
-      case 'darwin': {
-        targets = Platform.MAC.createTarget();
-        break;
+
+    if (process.env.NODE_ENV === 'production') {
+      switch (process.platform) {
+        case 'darwin': {
+          targets = Platform.MAC.createTarget();
+          break;
+        }
+        case 'linux': {
+          targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64);
+          break;
+        }
+        case 'win32':
+        default: {
+          targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+        }
       }
-      case 'linux': {
-        targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64);
-        break;
-      }
-      case 'win32':
-      default: {
-        targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+    } else {
+      switch (process.platform) {
+        case 'darwin': {
+          targets = Platform.MAC.createTarget(['dir']);
+          break;
+        }
+        case 'linux': {
+          targets = Platform.LINUX.createTarget(['dir'], Arch.x64);
+          break;
+        }
+        case 'win32':
+        default: {
+          targets = Platform.WINDOWS.createTarget(['dir'], Arch.x64);
+        }
       }
     }
 
