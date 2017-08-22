@@ -38,7 +38,12 @@ const installAppAsync = appObj =>
       },
     });
 
-    child.on('exit', () => {
+    child.on('exit', (code) => {
+      if (code === 1) {
+        reject(new Error('failed'));
+        return;
+      }
+
       // get current molecule version
       fs.readJson(path.join(app.getAppPath(), 'package.json'))
         .then((packageJson) => {
@@ -48,11 +53,6 @@ const installAppAsync = appObj =>
           resolve(finalizedAppObj);
         })
         .catch(reject);
-    });
-
-    child.on('message', (e) => {
-      // Receive results from child process
-      reject(e);
     });
   });
 
