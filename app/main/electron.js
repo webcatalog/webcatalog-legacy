@@ -19,15 +19,20 @@ let mainWindow;
 
 loadListeners();
 
-const preferences = getPreferences();
-const {
-  swipeToNavigate,
-  useHardwareAcceleration,
-} = preferences;
 
 // Disable Hardware acceleration
-if (!useHardwareAcceleration) {
-  app.disableHardwareAcceleration();
+// Normally, electron-settings needs to init and run in onReady
+// But disableHardwareAcceleration needs to run before onReady
+// So this is a hot fix workaround
+try {
+  const preferences = getPreferences();
+  const { useHardwareAcceleration } = preferences;
+  if (!useHardwareAcceleration) {
+    app.disableHardwareAcceleration();
+  }
+} catch (err) {
+  // eslint-disable-next-line
+  console.log(err);
 }
 
 const createWindow = () => {
@@ -73,6 +78,8 @@ const createWindow = () => {
   createMenu();
 
   // Enable swipe to navigate
+  const preferences = getPreferences();
+  const { swipeToNavigate } = preferences;
   if (swipeToNavigate) {
     mainWindow.on('swipe', (e, direction) => {
       if (direction === 'left') {
