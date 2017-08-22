@@ -15,7 +15,7 @@ import './index.css';
 import store from './state';
 
 // listeners to communicate with main process
-import loadListeners from './load-listeners';
+import loadListeners from './listeners';
 
 // senders
 import {

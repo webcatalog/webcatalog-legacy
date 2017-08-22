@@ -33,7 +33,13 @@ import NoConnection from './root/no-connection';
 import WebView from './root/web-view';
 import Loading from './root/loading';
 
+import DialogClearBrowsingData from './dialogs/clear-browsing-data';
+import DialogInjectCSS from './dialogs/inject-css';
+import DialogInjectJS from './dialogs/inject-js';
 import DialogPreferences from './dialogs/preferences';
+import DialogRelaunch from './dialogs/relaunch';
+import DialogReset from './dialogs/reset';
+import DialogUserAgent from './dialogs/user-agent';
 
 const styles = theme => ({
   root: {
@@ -302,7 +308,14 @@ class App extends React.Component {
 
     return (
       <div className={classes.root}>
+        <DialogClearBrowsingData />
+        <DialogInjectCSS />
+        <DialogInjectJS />
         <DialogPreferences />
+        <DialogRelaunch />
+        <DialogReset />
+        <DialogUserAgent />
+
         {navigationBarPosition === 'left' && navElement}
         {isFailed && (
           <NoConnection

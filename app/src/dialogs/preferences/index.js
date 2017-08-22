@@ -32,6 +32,12 @@ import List, {
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/preferences/actions';
+import { open as openDialogClearBrowsingData } from '../../state/dialogs/clear-browsing-data/actions';
+import { open as openDialogInjectCSS } from '../../state/dialogs/inject-css/actions';
+import { open as openDialogInjectJS } from '../../state/dialogs/inject-js/actions';
+import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
+import { open as openDialogReset } from '../../state/dialogs/reset/actions';
+import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestSetPreference } from '../../senders/preferences';
@@ -152,6 +158,14 @@ const getNavigationBarPositionString = (navigationBarPosition) => {
   }
 };
 
+const getSecondaryText = (text) => {
+  if (text && text.length > 40) {
+    return `${text.substring(0, 40).trim()}...`;
+  }
+
+  return text;
+};
+
 class PreferencesDialog extends React.Component {
   constructor(props) {
     super(props);
@@ -174,6 +188,12 @@ class PreferencesDialog extends React.Component {
       isLoggedIn,
       navigationBarPosition,
       onClose,
+      onOpenDialogClearBrowsingData,
+      onOpenDialogInjectCSS,
+      onOpenDialogInjectJS,
+      onOpenDialogRelaunch,
+      onOpenDialogReset,
+      onOpenDialogUserAgent,
       open,
       showNavigationBar,
       swipeToNavigate,
@@ -297,7 +317,10 @@ class PreferencesDialog extends React.Component {
               <List dense>
                 <ListItem
                   button
-                  onClick={() => requestSetPreference('darkTheme', !darkTheme)}
+                  onClick={() => {
+                    requestSetPreference('darkTheme', !darkTheme);
+                    onOpenDialogRelaunch();
+                  }}
                 >
                   <ListItemText
                     primary={STRING_DARK_THEME}
@@ -306,7 +329,10 @@ class PreferencesDialog extends React.Component {
                   <ListItemSecondaryAction>
                     <Switch
                       checked={darkTheme}
-                      onChange={(e, checked) => requestSetPreference('darkTheme', checked)}
+                      onChange={(e, checked) => {
+                        requestSetPreference('darkTheme', checked);
+                        onOpenDialogRelaunch();
+                      }}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -342,6 +368,7 @@ class PreferencesDialog extends React.Component {
                     >
                       {['left', 'right', 'top'].map(option => (
                         <MenuItem
+                          key={option}
                           onClick={() => requestSetPreference('navigationBarPosition', option)}
                         >
                           {getNavigationBarPositionString(option)}
@@ -448,13 +475,16 @@ class PreferencesDialog extends React.Component {
                     )}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={onOpenDialogClearBrowsingData}>
                   <ListItemText
                     primary={STRING_CLEAR_BROWSING_DATA}
                     secondary={STRING_CLEAR_BROWSING_DATA_DESC}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label={STRING_CONTINUE}>
+                    <IconButton
+                      aria-label={STRING_CONTINUE}
+                      onClick={onOpenDialogClearBrowsingData}
+                    >
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -474,7 +504,10 @@ class PreferencesDialog extends React.Component {
               <List dense>
                 <ListItem
                   button
-                  onClick={() => requestSetPreference('useHardwareAcceleration', !useHardwareAcceleration)}
+                  onClick={() => {
+                    requestSetPreference('useHardwareAcceleration', !useHardwareAcceleration);
+                    onOpenDialogRelaunch();
+                  }}
                 >
                   <ListItemText
                     primary={STRING_USE_HARDWARE_ACCELERATION}
@@ -482,7 +515,10 @@ class PreferencesDialog extends React.Component {
                   <ListItemSecondaryAction>
                     <Switch
                       checked={useHardwareAcceleration}
-                      onChange={(e, checked) => requestSetPreference('useHardwareAcceleration', checked)}
+                      onChange={(e, checked) => {
+                        requestSetPreference('useHardwareAcceleration', checked);
+                        onOpenDialogRelaunch();
+                      }}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -502,37 +538,52 @@ class PreferencesDialog extends React.Component {
             </div>
             <Paper className={classes.paper}>
               <List dense>
-                <ListItem button>
+                <ListItem button onClick={onOpenDialogUserAgent}>
                   <ListItemText
                     primary={STRING_USER_AGENT}
-                    secondary={userAgent && userAgent.length > 0 ? userAgent : STRING_DEFAULT}
+                    secondary={
+                      userAgent && userAgent.length > 0 ?
+                        getSecondaryText(userAgent)
+                        : STRING_DEFAULT
+                    }
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label={STRING_CHANGE}>
+                    <IconButton aria-label={STRING_CHANGE} onClick={onOpenDialogUserAgent}>
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-                <ListItem button>
+                <ListItem button onClick={onOpenDialogInjectCSS}>
                   <ListItemText
                     primary={STRING_INJECT_CSS}
-                    secondary={injectCSS && injectCSS.length > 0 ? injectCSS : STRING_NONE}
+                    secondary={
+                      injectCSS && injectCSS.length > 0 ?
+                        getSecondaryText(injectCSS)
+                        : STRING_NONE
+                    }
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label="Change">
+                    <IconButton
+                      aria-label={STRING_CHANGE}
+                      onClick={onOpenDialogInjectCSS}
+                    >
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-                <ListItem button>
+                <ListItem button onClick={onOpenDialogInjectJS}>
                   <ListItemText
                     primary={STRING_INJECT_JS}
-                    secondary={injectJS && injectJS.length > 0 ? injectJS : STRING_NONE}
+                    secondary={
+                      injectJS && injectJS.length > 0 ?
+                        getSecondaryText(injectJS)
+                        : STRING_NONE
+                    }
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label={STRING_CHANGE}>
+                    <IconButton aria-label={STRING_CHANGE} onClick={onOpenDialogInjectJS}>
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -550,13 +601,16 @@ class PreferencesDialog extends React.Component {
             </div>
             <Paper className={classes.paper}>
               <List dense>
-                <ListItem button>
+                <ListItem button onClick={onOpenDialogReset}>
                   <ListItemText
                     primary={STRING_RESET}
                     secondary={STRING_RESET_DESC}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label={STRING_CONTINUE}>
+                    <IconButton
+                      aria-label={STRING_CONTINUE}
+                      onClick={onOpenDialogReset}
+                    >
                       <KeyboardArrowRightIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -592,6 +646,12 @@ PreferencesDialog.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   navigationBarPosition: PropTypes.oneOf(['top', 'left', 'right']),
   onClose: PropTypes.func.isRequired,
+  onOpenDialogClearBrowsingData: PropTypes.func.isRequired,
+  onOpenDialogInjectCSS: PropTypes.func.isRequired,
+  onOpenDialogInjectJS: PropTypes.func.isRequired,
+  onOpenDialogRelaunch: PropTypes.func.isRequired,
+  onOpenDialogReset: PropTypes.func.isRequired,
+  onOpenDialogUserAgent: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   showNavigationBar: PropTypes.bool,
   swipeToNavigate: PropTypes.bool,
@@ -628,6 +688,12 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   close,
+  openDialogClearBrowsingData,
+  openDialogInjectCSS,
+  openDialogInjectJS,
+  openDialogRelaunch,
+  openDialogReset,
+  openDialogUserAgent,
 };
 
 export default connectComponent(

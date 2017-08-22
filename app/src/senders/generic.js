@@ -7,3 +7,5 @@ export const requestOpenInBrowser = url => ipcRenderer.send('request-open-in-bro
 export const isFullScreen = () => ipcRenderer.sendSync('is-full-screen');
 
 export const requestForceReload = () => ipcRenderer.send('request-force-reload');
+
+export const requestRelaunch = () => ipcRenderer.send('request-relaunch');

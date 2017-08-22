@@ -2,25 +2,28 @@
 
 import {
   setAuthToken,
-} from './state/root/auth/actions';
+} from '../state/root/auth/actions';
 
 import {
   getUser,
   removeUser,
-} from './state/root/user/actions';
+} from '../state/root/user/actions';
 
 import {
   openSnackbar,
-} from './state/root/snackbar/actions';
+} from '../state/root/snackbar/actions';
 
 import {
   setPreference,
-} from './state/root/preferences/actions';
+} from '../state/root/preferences/actions';
 
 import {
   open as openDialogPreferences,
-} from './state/dialogs/preferences/actions';
+} from '../state/dialogs/preferences/actions';
 
+import {
+  open as openDialogClearBrowsingData,
+} from '../state/dialogs/clear-browsing-data/actions';
 
 const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
@@ -46,6 +49,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('open-preferences-dialog', () => {
     store.dispatch(openDialogPreferences());
+  });
+
+  ipcRenderer.on('open-clear-browsing-data-dialog', () => {
+    store.dispatch(openDialogClearBrowsingData());
   });
 
   ipcRenderer.on('set-preference', (e, name, value) => {

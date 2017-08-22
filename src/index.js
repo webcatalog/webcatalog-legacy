@@ -26,6 +26,7 @@ const createAppAsync = (id, name, url, icon, out) =>
             .then((packageJsonTemplate) => {
               const packageJson = Object.assign({}, packageJsonTemplate, {
                 name: id,
+                productName: name,
                 webApp: {
                   id,
                   name,

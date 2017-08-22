@@ -1,4 +1,5 @@
 const {
+  app,
   BrowserWindow,
   ipcMain,
   shell,
@@ -28,6 +29,11 @@ const loadListeners = () => {
     if (windows.length > 0) {
       windows[0].reload();
     }
+  });
+
+  ipcMain.on('request-relaunch', () => {
+    app.relaunch();
+    app.exit(0);
   });
 };
 

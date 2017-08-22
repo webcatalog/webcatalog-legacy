@@ -147,12 +147,32 @@ function createMenu() {
     },
   ];
 
-  if (process.platform !== 'darwin') {
+  if (process.platform === 'linux') {
+    template[0].submenu.push({ role: 'separator' });
+    template[0].submenu.push({
+      label: 'Preferences...',
+      accelerator: 'Ctrl+P',
+      click: () => sendMessageToWindow('open-preferences-dialog'),
+    });
+
     template.splice(4, 0, {
       label: 'Tools',
       submenu: [
         {
-          label: 'Options...',
+          label: 'Clear Browsing Data...',
+          accelerator: 'Ctrl+Shift+Delete',
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
+        },
+      ],
+    });
+  }
+
+  if (process.platform === 'win32') {
+    template.splice(4, 0, {
+      label: 'Tools',
+      submenu: [
+        {
+          label: 'Preferences...',
           accelerator: 'Ctrl+P',
           click: () => sendMessageToWindow('open-preferences-dialog'),
         },
@@ -160,7 +180,7 @@ function createMenu() {
         {
           label: 'Clear Browsing Data...',
           accelerator: 'Ctrl+Shift+Delete',
-          click: () => {},
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
         },
       ],
     });
@@ -181,7 +201,7 @@ function createMenu() {
         {
           label: 'Clear Browsing Data...',
           accelerator: 'Cmd+Shift+Delete',
-          click: () => {},
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
         },
         { type: 'separator' },
         { role: 'services', submenu: [] },
