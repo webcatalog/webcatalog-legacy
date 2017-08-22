@@ -1,7 +1,7 @@
 {
   "name": "Molecule",
   "main": "main/electron.js",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "rebuild": "electron-rebuild",
@@ -15,11 +15,10 @@
     "concurrently": "3.5.0",
     "cross-env": "5.0.5",
     "electron-rebuild": "1.6.0",
-    "material-ui": "1.0.0-beta.5",
-    "material-ui-icons": "1.0.0-alpha.19",
+    "material-ui": "1.0.0-beta.6",
+    "material-ui-icons": "1.0.0-beta.5",
     "react": "15.6.1",
     "react-dom": "15.6.1",
-    "react-draggable": "2.2.6",
     "react-redux": "5.0.6",
     "react-scripts": "1.0.11",
     "redux": "3.7.2",

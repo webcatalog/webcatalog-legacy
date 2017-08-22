@@ -9,7 +9,7 @@ dependencies:
     - nvm install 8
     - nvm use 8
     - yarn
-    - yarn install:client:full
+    - yarn install-client-full
   cache_directories:
     - ~/.cache/yarn
 
