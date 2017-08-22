@@ -6,7 +6,7 @@
   "repository": "https://github.com/webcatalog/molecule.git",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
-    "install-client-full": "cd app && yarn && yarn rebuild",
+    "install-client-full": "cd app && yarn",
     "install": "cd app && yarn --production=true",
     "dev": "babel-node src",
     "start": "node lib",

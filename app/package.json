@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
-    "rebuild": "electron-rebuild",
+    "install": "electron-rebuild",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
