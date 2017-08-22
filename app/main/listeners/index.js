@@ -1,12 +1,16 @@
+const path = require('path');
 const {
   app,
   BrowserWindow,
   ipcMain,
+  session,
   shell,
 } = require('electron');
 
 const loadAuthListeners = require('./auth');
 const loadPreferencesListeners = require('./preferences');
+
+const sendMessageToWindow = require('../libs/send-message-to-window');
 
 const loadListeners = () => {
   loadAuthListeners();
@@ -34,6 +38,22 @@ const loadListeners = () => {
   ipcMain.on('request-relaunch', () => {
     app.relaunch();
     app.exit(0);
+  });
+
+  ipcMain.on('request-clear-browsing-data', () => {
+    const s = session.fromPartition('persist:app');
+    if (!s) return;
+    s.clearStorageData((err) => {
+      if (err) {
+        sendMessageToWindow('log', `Clearing browsing data err: ${err.message}`);
+        return;
+      }
+      sendMessageToWindow('reload');
+    });
+  });
+
+  ipcMain.on('get-web-view-preload-path', (e) => {
+    e.returnValue = path.resolve(__dirname, '..', 'web-view-preload.js');
   });
 };
 

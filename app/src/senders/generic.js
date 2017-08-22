@@ -9,3 +9,7 @@ export const isFullScreen = () => ipcRenderer.sendSync('is-full-screen');
 export const requestForceReload = () => ipcRenderer.send('request-force-reload');
 
 export const requestRelaunch = () => ipcRenderer.send('request-relaunch');
+
+export const requestClearBrowsingData = () => ipcRenderer.send('request-clear-browsing-data');
+
+export const getWebViewPreloadPath = () => ipcRenderer.sendSync('get-web-view-preload-path');

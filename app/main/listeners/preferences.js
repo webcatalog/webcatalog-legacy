@@ -1,6 +1,7 @@
 const { ipcMain } = require('electron');
 const {
   getPreferences,
+  resetPreferences,
   setPreference,
 } = require('../libs/preferences');
 
@@ -12,6 +13,10 @@ const loadPreferencesListeners = () => {
 
   ipcMain.on('request-set-preference', (e, name, value) => {
     setPreference(name, value);
+  });
+
+  ipcMain.on('request-reset-preferences', () => {
+    resetPreferences();
   });
 };
 

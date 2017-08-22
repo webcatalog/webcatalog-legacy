@@ -13,6 +13,8 @@ import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/clear-browsing-data/actions';
 
+import { requestClearBrowsingData } from '../../senders/generic';
+
 import {
   STRING_ARE_YOU_SURE,
   STRING_CANCEL,
@@ -40,7 +42,13 @@ const DialogClearBrowsingData = (props) => {
         <Button onClick={onClose} color="primary">
           {STRING_CANCEL}
         </Button>
-        <Button onClick={this.handleRequestClose} color="primary">
+        <Button
+          color="primary"
+          onClick={() => {
+            requestClearBrowsingData();
+            onClose();
+          }}
+        >
           {STRING_CLEAR_BROWSING_DATA}
         </Button>
       </DialogActions>

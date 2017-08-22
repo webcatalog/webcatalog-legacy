@@ -12,6 +12,9 @@ import Dialog, {
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/reset/actions';
+import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
+
+import { requestResetPreferences } from '../../senders/preferences';
 
 import {
   STRING_ARE_YOU_SURE,
@@ -24,6 +27,7 @@ const DialogReset = (props) => {
   const {
     open,
     onClose,
+    onOpenDialogRelaunch,
   } = props;
 
   return (
@@ -40,7 +44,14 @@ const DialogReset = (props) => {
         <Button onClick={onClose} color="primary">
           {STRING_CANCEL}
         </Button>
-        <Button onClick={this.handleRequestClose} color="primary">
+        <Button
+          onClick={() => {
+            requestResetPreferences();
+            onClose();
+            onOpenDialogRelaunch();
+          }}
+          color="primary"
+        >
           {STRING_RESET}
         </Button>
       </DialogActions>
@@ -51,6 +62,7 @@ const DialogReset = (props) => {
 DialogReset.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
+  onOpenDialogRelaunch: PropTypes.func.isRequired,
 };
 
 DialogReset.defaultProps = {
@@ -63,6 +75,7 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
+  openDialogRelaunch,
 };
 
 export default connectComponent(

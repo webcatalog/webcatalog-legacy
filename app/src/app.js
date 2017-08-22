@@ -24,6 +24,7 @@ import { screenResize } from './state/root/screen/actions';
 
 import {
   requestOpenInBrowser,
+  getWebViewPreloadPath,
 } from './senders/generic';
 
 import EnhancedSnackbar from './root/enhanced-snackbar';
@@ -274,15 +275,16 @@ class App extends React.Component {
   render() {
     const {
       classes,
+      customUserAgent,
       findInPageIsOpen,
       isFailed,
       isLoading,
       navigationBarPosition,
-      showNavigationBar,
       onUpdateFindInPageMatches,
       onUpdateIsFailed,
       onUpdateIsLoading,
       onUpdateTargetUrl,
+      showNavigationBar,
     } = this.props;
 
     const {
@@ -305,6 +307,12 @@ class App extends React.Component {
         onRefreshButtonClick={onReload}
       />
     );
+
+    console.log(getWebViewPreloadPath());
+
+    // remove Electron to prevent some apps to call private Electron APIs.
+    const userAgent = window.navigator.userAgent
+      .replace(`Electron/${window.versions.electron} `, '') || customUserAgent;
 
     return (
       <div className={classes.root}>
@@ -343,14 +351,16 @@ class App extends React.Component {
             />
           )}
           <WebView
-            ref={(c) => { this.webView = c; }}
-            parentClassName={classes.webviewContainer}
-            className={classes.webview}
-            plugins
             allowpopups
             autoresize
-            partition="persist:app"
+            className={classes.webview}
             nodeintegration={false}
+            parentClassName={classes.webviewContainer}
+            partition="persist:app"
+            plugins
+            preload={`file:${getWebViewPreloadPath()}`}
+            ref={(c) => { this.webView = c; }}
+            useragent={userAgent}
             webpreferences="nativeWindowOpen=no"
             src={window.shellInfo.url}
             onDidFailLoad={onDidFailLoad}
@@ -382,6 +392,7 @@ class App extends React.Component {
 
 App.defaultProps = {
   customHome: null,
+  customUserAgent: null,
   isFailed: false,
   isFullScreen: false,
   isLoading: false,
@@ -392,12 +403,12 @@ App.defaultProps = {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   customHome: PropTypes.string,
+  customUserAgent: PropTypes.string,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
   isFailed: PropTypes.bool,
   isLoading: PropTypes.bool,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
-  showNavigationBar: PropTypes.bool,
   onScreenResize: PropTypes.func.isRequired,
   onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateCanGoBack: PropTypes.func.isRequired,
@@ -406,9 +417,11 @@ App.propTypes = {
   onUpdateIsFailed: PropTypes.func.isRequired,
   onUpdateIsLoading: PropTypes.func.isRequired,
   onUpdateTargetUrl: PropTypes.func.isRequired,
+  showNavigationBar: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  customUserAgent: state.preferences.userAgent,
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
   isFailed: state.nav.isFailed,

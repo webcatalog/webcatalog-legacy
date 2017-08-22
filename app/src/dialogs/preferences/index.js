@@ -392,7 +392,10 @@ class PreferencesDialog extends React.Component {
               <List dense>
                 <ListItem
                   button
-                  onClick={() => requestSetPreference('swipeToNavigate', !swipeToNavigate)}
+                  onClick={() => {
+                    requestSetPreference('swipeToNavigate', !swipeToNavigate);
+                    onOpenDialogRelaunch();
+                  }}
                 >
                   <ListItemText
                     primary={STRING_SWIPE_TO_NAVIGATE}
@@ -405,7 +408,10 @@ class PreferencesDialog extends React.Component {
                   <ListItemSecondaryAction>
                     <Switch
                       checked={swipeToNavigate}
-                      onChange={(e, checked) => requestSetPreference('swipeToNavigate', checked)}
+                      onChange={(e, checked) => {
+                        requestSetPreference('swipeToNavigate', checked);
+                        onOpenDialogRelaunch();
+                      }}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>

@@ -11,11 +11,24 @@ const windowStateKeeper = require('electron-window-state');
 const loadListeners = require('./listeners');
 const createMenu = require('./libs/create-menu');
 
+const { getPreferences } = require('./libs/preferences');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 loadListeners();
+
+const preferences = getPreferences();
+const {
+  swipeToNavigate,
+  useHardwareAcceleration,
+} = preferences;
+
+// Disable Hardware acceleration
+if (!useHardwareAcceleration) {
+  app.disableHardwareAcceleration();
+}
 
 const createWindow = () => {
   // Keep window size and restore on startup
@@ -58,6 +71,17 @@ const createWindow = () => {
   });
 
   createMenu();
+
+  // Enable swipe to navigate
+  if (swipeToNavigate) {
+    mainWindow.on('swipe', (e, direction) => {
+      if (direction === 'left') {
+        e.sender.send('go-back');
+      } else if (direction === 'right') {
+        e.sender.send('go-forward');
+      }
+    });
+  }
 };
 
 // This method will be called when Electron has finished

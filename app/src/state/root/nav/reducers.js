@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isFailed: false,
-  isLoading: false,
+  isLoading: true,
   targetUrl: null,
   canGoBack: false,
   canGoForward: false,

@@ -25,8 +25,18 @@ const setPreference = (name, value) => {
   sendMessageToWindow('set-preference', name, value);
 };
 
+const resetPreferences = () => {
+  settings.deleteAll();
+
+  const preferences = getPreference();
+  Object.keys(preferences).forEach((name) => {
+    sendMessageToWindow('set-preference', name, preferences[name]);
+  });
+};
+
 module.exports = {
-  getPreferences,
   getPreference,
+  getPreferences,
+  resetPreferences,
   setPreference,
 };
