@@ -102,11 +102,17 @@ Promise.resolve()
           },
         },
         afterPack: ({ appOutDir }) => {
+          console.log('appOutDir:', appOutDir);
+
           const sourcePath = path.join(__dirname,
             'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules');
-          const destPath = path.join(appOutDir, 'WebCatalog.app', 'Contents',
-            'Resources', 'app', 'node_modules',
-            '@webcatalog', 'molecule', 'app', 'node_modules');
+          const destPath = process.platform === 'darwin'
+            ? path.join(appOutDir, 'WebCatalog.app', 'Contents',
+              'Resources', 'app', 'node_modules',
+              '@webcatalog', 'molecule', 'app', 'node_modules')
+            : path.join(appOutDir,
+              'resources', 'app', 'node_modules',
+              '@webcatalog', 'molecule', 'app', 'node_modules');
 
           console.log(`Copying ${sourcePath} to ${destPath}...`);
 
