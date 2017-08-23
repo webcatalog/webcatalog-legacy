@@ -32,7 +32,7 @@ export const fetchMyApps = () => (dispatch, getState) => {
     status: LOADING,
   });
 
-  secureFetch('/api/user/apps', auth.get('token'))
+  secureFetch(`/api/user/apps?page=${currentPage}`, auth.get('token'))
   .then(response => response.json())
   .then(({ apps, totalPage }) => {
     dispatch(batchActions([

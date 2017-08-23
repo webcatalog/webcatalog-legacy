@@ -315,12 +315,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-app.on('open-url', (e, protocolUrl) => {
-  if (!isShell && mainWindow) {
-    if (protocolUrl.startsWith('webcatalog://apps/')) {
-      const id = protocolUrl.substring(18);
-      mainWindow.webContents.send('show-single-app', id);
-    }
-  }
-});

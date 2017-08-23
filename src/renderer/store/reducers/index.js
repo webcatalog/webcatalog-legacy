@@ -7,7 +7,6 @@ import home from './home';
 import search from './search';
 import installed from './installed';
 import auth from './auth';
-import single from './single';
 import myApps from './myApps';
 
 const rootReducer = combineReducers({
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
   search,
   installed,
   auth,
-  single,
   myApps,
 });
 

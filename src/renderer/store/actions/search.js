@@ -24,7 +24,7 @@ export const search = () => (dispatch, getState) => {
     process.env.ALGOLIASEARCH_APPLICATION_ID,
     process.env.ALGOLIASEARCH_API_KEY_SEARCH,
   );
-  const index = client.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+  const index = client.initIndex('apps');
   index.search(query, { hitsPerPage: 48 })
     .then((content) => {
       dispatch(batchActions([

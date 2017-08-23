@@ -5,7 +5,6 @@ import { search } from './search';
 import { fetchApps } from './home';
 import { fetchMyApps } from './myApps';
 import { fetchInstalledApps } from './installed';
-import { fetchSingleApp } from './single';
 
 export const refresh = routeId => ((dispatch, getState) => {
   const state = getState();
@@ -13,8 +12,6 @@ export const refresh = routeId => ((dispatch, getState) => {
     dispatch(search());
   } if (routeId === 'installed') {
     dispatch(fetchInstalledApps());
-  } else if (routeId === 'single') {
-    dispatch(fetchSingleApp(state.single.getIn(['app', 'id'])));
   } else if (routeId === 'my-apps' && state.myApps.get('status') !== LOADING) {
     dispatch({ type: REMOVE_MY_APPS_RESULTS });
     dispatch(fetchMyApps());

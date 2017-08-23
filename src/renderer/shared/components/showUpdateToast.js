@@ -26,7 +26,7 @@ const showUpdateToast = () =>
         message: `An update (${latestVersion}) is now available.`,
         timeout: 0,
         action: {
-          onClick: () => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com'),
+          onClick: () => ipcRenderer.send('open-in-browser', `https://webcatalog.io?currentVersion=${process.env.VERSION}`),
           text: 'Download',
         },
       });

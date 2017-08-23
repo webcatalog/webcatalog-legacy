@@ -13,10 +13,6 @@ import '../shared/styles/main.scss';
 // http://blueprintjs.com/docs/#a11y.focus
 FocusStyleManager.onlyShowFocusOnTabs();
 
-// disable zoom
-webFrame.setVisualZoomLevelLimits(1, 1);
-webFrame.setLayoutZoomLevelLimits(0, 0);
-
 // log message
 ipcRenderer.on('log', (event, message) => {
   /* eslint-disable no-console */

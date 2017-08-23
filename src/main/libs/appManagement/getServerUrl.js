@@ -1,5 +1,5 @@
 const getServerUrl = (path) => {
-  const endpoint = 'https://getwebcatalog.com';
+  const endpoint = 'https://webcatalog.io';
 
   return `${endpoint}${path}`;
 };

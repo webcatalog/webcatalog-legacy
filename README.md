@@ -3,13 +3,13 @@
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/webcatalog?branch=master&svg=true)](https://ci.appveyor.com/project/webcatalog/webcatalog/branch/master)
 [![Apache License](http://img.shields.io/:license-apache-blue.svg)](https://github.com/webcatalog/webcatalog/blob/master/LICENSE)
-#### Homepage: https://getwebcatalog.com
+#### Homepage: https://webcatalog.io
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)). 
+WebCatalog is a desktop app which allows users to install and run any web app natively (See [site-specific browser](https://en.wikipedia.org/wiki/Site-specific_browser)).
 
 ## Development
-1. Install [Node.js 7](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
+1. Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com), [node-gyp](https://github.com/nodejs/node-gyp#installation).
 
 2. Run
 ```bash

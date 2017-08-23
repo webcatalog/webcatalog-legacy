@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Immutable from 'immutable';
 
 import { screenResize } from '../actions/screen';
 import { bootIntercom } from '../actions/intercom';
 import { signIn } from '../actions/auth';
 import { setManagedApp, removeManagedApp } from '../actions/appManagement';
-import { setSingleApp } from '../actions/single';
-import { setRoute } from '../actions/route';
 
 import Nav from './Nav';
 import Auth from './Auth';
@@ -16,7 +13,6 @@ import Home from './Home';
 import Search from './Search';
 import Installed from './Installed';
 import MyApps from './MyApps';
-import Single from './Single';
 import showUpdateToast from '../../shared/components/showUpdateToast';
 
 class App extends React.Component {
@@ -24,7 +20,6 @@ class App extends React.Component {
     const {
       requestBootIntercom,
       requestSetManagedApp, requestRemoveManagedApp,
-      requestLoadSingleApp,
       onResize, onReceiveToken,
     } = this.props;
 
@@ -40,10 +35,6 @@ class App extends React.Component {
       if (status === null) return requestRemoveManagedApp(id);
 
       return requestSetManagedApp(id, status, app);
-    });
-
-    ipcRenderer.on('show-single-app', (e, id) => {
-      requestLoadSingleApp(Immutable.Map({ id }));
     });
 
     requestBootIntercom();
@@ -76,8 +67,6 @@ class App extends React.Component {
               return <Installed />;
             case 'my-apps':
               return <MyApps />;
-            case 'single':
-              return <Single />;
             default:
               return <Home />;
           }
@@ -95,7 +84,6 @@ App.propTypes = {
   requestBootIntercom: PropTypes.func.isRequired,
   requestSetManagedApp: PropTypes.func.isRequired,
   requestRemoveManagedApp: PropTypes.func.isRequired,
-  requestLoadSingleApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -109,10 +97,6 @@ const mapDispatchToProps = dispatch => ({
   requestBootIntercom: () => dispatch(bootIntercom()),
   requestSetManagedApp: (id, status, app) => dispatch(setManagedApp(id, status, app)),
   requestRemoveManagedApp: id => dispatch(removeManagedApp(id)),
-  requestLoadSingleApp: (app) => {
-    dispatch(setSingleApp(app));
-    dispatch(setRoute('single'));
-  },
 });
 
 export default connect(

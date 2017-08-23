@@ -85,12 +85,12 @@ const Nav = ({
             <MenuItem
               iconName="help"
               text="Help"
-              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/help')}
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/help')}
             />
             <MenuItem
               iconName="globe"
               text="Website"
-              onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com')}
+              onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io')}
             />
             <MenuItem
               iconName="info-sign"

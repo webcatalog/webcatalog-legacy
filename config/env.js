@@ -77,7 +77,6 @@ function getClientEnvironment(publicUrl) {
       VERSION: process.env.npm_package_version,
       ALGOLIASEARCH_API_KEY_SEARCH: process.env.ALGOLIASEARCH_API_KEY_SEARCH,
       ALGOLIASEARCH_APPLICATION_ID: process.env.ALGOLIASEARCH_APPLICATION_ID,
-      ALGOLIASEARCH_INDEX_NAME: process.env.ALGOLIASEARCH_INDEX_NAME,
     });
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {

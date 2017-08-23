@@ -28,6 +28,3 @@ export const SIGN_IN = 'SIGN_IN';
 export const LOG_OUT = 'LOG_OUT';
 
 export const SET_INSTALLED_APPS = 'SET_INSTALLED_APPS';
-
-export const SET_SINGLE_APP = 'SET_SINGLE_APP';
-export const SET_SINGLE_IS_FAILED = 'SET_SINGLE_IS_FAILED';

@@ -6,7 +6,7 @@ os: Visual Studio 2015
 
 # Test against this version of Node.js
 environment:
-  nodejs_version: "7"
+  nodejs_version: "8"
   BONJOUR_SDK_HOME: "C:\\Program Files\\Bonjour SDK"
   GH_TOKEN:
     secure: 6mE0K0NLBpBsasGH49vKu7E1p2uYwqKcFdbwKv9uEW7FwmVlml+PH8kmVT9OSAUM # your encrypted token from GitHub
@@ -18,7 +18,6 @@ environment:
     secure: YgSPtgsrdGTI8gIFQy5JNw==
   ALGOLIASEARCH_API_KEY_SEARCH:
     secure: tsz8/jSO3Y7EbieIajCoGZbELo+wVey4y/JUYWbJRuDxEnuAECWdpw8jG1pyMHfV
-  ALGOLIASEARCH_INDEX_NAME: "apps"
 
 platform: x64
 

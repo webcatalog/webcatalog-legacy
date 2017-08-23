@@ -24,9 +24,16 @@ const scanInstalledAsync = () =>
             if (fileName === '.DS_Store') return;
 
             const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
-            const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
 
-            installedApps.push(appInfo);
+            try {
+              const appInfo = JSON.parse(fs.readFileSync(infoPath, 'utf8'));
+
+              installedApps.push(appInfo);
+            } catch (e) {
+              /* eslint-disable no-console */
+              sendMessageToWindow('log', `Failed to parse file ${fileName}`);
+              /* eslint-enable no-console */
+            }
           });
 
           resolve(installedApps);
@@ -43,9 +50,15 @@ const scanInstalledAsync = () =>
           files.forEach((fileName) => {
             if (!fileName.startsWith('webcatalog-')) return;
 
-            const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
+            try {
+              const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
 
-            installedApps.push(appInfo);
+              installedApps.push(appInfo);
+            } catch (e) {
+              /* eslint-disable no-console */
+              sendMessageToWindow('log', `Failed to parse file ${fileName}`);
+              /* eslint-enable no-console */
+            }
           });
           resolve(installedApps);
         });

@@ -326,13 +326,13 @@ function createMenu({
       {
         label: 'Help',
         click: () => {
-          shell.openExternal('https://getwebcatalog.com/help');
+          shell.openExternal('https://webcatalog.io/help');
         },
       },
       {
         label: 'Website',
         click: () => {
-          shell.openExternal('https://getwebcatalog.com');
+          shell.openExternal('https://webcatalog.io');
         },
       },
     ],

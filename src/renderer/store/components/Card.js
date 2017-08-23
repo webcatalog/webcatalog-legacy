@@ -7,13 +7,11 @@ import semver from 'semver';
 import classNames from 'classnames';
 
 import getServerUrl from '../libs/getServerUrl';
+import extractHostname from '../libs/extractHostname';
 import { LATEST_SHELL_VERSION } from '../constants/versions';
 
-import { setSingleApp } from '../actions/single';
-import { setRoute } from '../actions/route';
-
 const Card = ({
-  app, managedApps, token, requestLoadSingleApp,
+  app, managedApps, token,
 }) => (
   <div className="col">
     <div className="pt-card pt-elevation-1" style={{ textAlign: 'center', padding: 12, position: 'relative' }}>
@@ -26,7 +24,6 @@ const Card = ({
           width: 64,
           marginBottom: 8,
         }}
-        onClick={() => requestLoadSingleApp(app)}
       />
       <h5
         style={{
@@ -34,11 +31,24 @@ const Card = ({
           textOverflow: 'ellipsis',
           lineHeight: 'normal',
           whiteSpace: 'nowrap',
-          margin: '0 0 8px',
+          margin: '8px 0 0 0',
+          fontSize: 15,
         }}
       >
-        <a onClick={() => requestLoadSingleApp(app)}>{app.get('name')}</a>
+        {app.get('name')}
       </h5>
+      <h6
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          lineHeight: 'normal',
+          whiteSpace: 'nowrap',
+          margin: '0 0 16px',
+          fontSize: 14,
+        }}
+      >
+        <a onClick={() => ipcRenderer.send('open-in-browser', app.get('url'))}>{extractHostname(app.get('url'))}</a>
+      </h6>
       {(() => {
         let appStatus = null;
 
@@ -83,7 +93,7 @@ const Card = ({
                 <div>
                   <h5>Are you sure?</h5>
                   <p>
-                    All of your browsing data will be removed and cannot be recovered.
+                    All of your browsing data will be removed and can&#39;t be recovered.
                   </p>
                   <Button
                     text="Yes, I'm sure"
@@ -131,7 +141,6 @@ Card.propTypes = {
   app: PropTypes.instanceOf(Immutable.Map).isRequired,
   managedApps: PropTypes.instanceOf(Immutable.Map).isRequired,
   token: PropTypes.string.isRequired,
-  requestLoadSingleApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -139,13 +148,7 @@ const mapStateToProps = state => ({
   token: state.auth.get('token'),
 });
 
-const mapDispatchToProps = dispatch => ({
-  requestLoadSingleApp: (app) => {
-    dispatch(setSingleApp(app));
-    dispatch(setRoute('single'));
-  },
-});
 
 export default connect(
-  mapStateToProps, mapDispatchToProps,
+  mapStateToProps,
 )(Card);

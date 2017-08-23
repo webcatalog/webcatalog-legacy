@@ -5,7 +5,6 @@ const { MenuItem } = remote;
 
 const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = spellChecker;
 
-
 window.global = {};
 window.ipcRenderer = ipcRenderer;
 

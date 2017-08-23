@@ -96,15 +96,11 @@ class Home extends React.Component {
               content={(
                 <Menu>
                   <MenuItem
-                    text="Most Downloaded"
+                    text="Top Apps"
                     onClick={() => requestSetSort('installCount')}
                   />
                   <MenuItem
-                    text="Name"
-                    onClick={() => requestSetSort('name')}
-                  />
-                  <MenuItem
-                    text="Recently Added"
+                    text="New Apps"
                     onClick={() => requestSetSort('createdAt')}
                   />
                 </Menu>
@@ -112,17 +108,14 @@ class Home extends React.Component {
               position={Position.BOTTOM_RIGHT}
             >
               <p>
-                <span>Sort by: </span>
                 <Button
                   rightIconName="chevron-down"
                   text={(() => {
                     switch (sort) {
-                      case 'name':
-                        return 'Name';
                       case 'createdAt':
-                        return 'Recently Added';
+                        return 'New Apps';
                       default:
-                        return 'Most Downloaded';
+                        return 'Top Apps';
                     }
                   })()}
                 />
@@ -134,8 +127,8 @@ class Home extends React.Component {
           className="pt-card"
           style={{ maxWidth: 960, margin: '48px auto 0', textAlign: 'center', padding: 10 }}
         >
-          <span>Cannot find your favorite app?&#32;</span>
-          <a onClick={() => ipcRenderer.send('open-in-browser', 'https://getwebcatalog.com/submit')}>
+          <span>Can&#39;t find your favorite app?&#32;</span>
+          <a onClick={() => ipcRenderer.send('open-in-browser', 'https://webcatalog.io/submit')}>
             <span className="pt-icon-standard pt-icon-add" />
             <span>&#32;Submit new app</span>
           </a>.
