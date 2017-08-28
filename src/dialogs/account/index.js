@@ -1,12 +1,11 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 
-import { light } from 'material-ui/styles/palette';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import LockIcon from 'material-ui-icons/Lock';
-import { MenuItem } from 'material-ui/Menu';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
+import LockIcon from 'material-ui-icons/Lock';
+import { light } from 'material-ui/styles/palette';
+import { MenuItem } from 'material-ui/Menu';
 
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
@@ -55,32 +54,32 @@ const styles = {
     padding: 0,
   },
   dialogContentText: {
-    padding: 24,
-    width: 320,
-    height: 320,
     display: 'flex',
     flexDirection: 'column',
+    height: 320,
     justifyContent: 'space-between',
+    padding: 24,
+    width: 320,
   },
   appBar: {
     position: 'relative',
     zIndex: 1,
   },
   list: {
+    borderRight: `1px solid ${light.text.divider}`,
     display: 'flex',
     flexDirection: 'column',
-    borderRight: `1px solid ${light.text.divider}`,
   },
   flex: {
     flex: 1,
   },
   title: {
-    padding: '0 16px',
     flex: 1,
-    userSelect: 'none',
     overflow: 'hidden',
-    whiteSpace: 'nowrap',
+    padding: '0 16px',
     textOverflow: 'ellipsis',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
   },
   textField: {
     width: '100%',
@@ -105,11 +104,11 @@ const styles = {
 const Account = (props) => {
   const {
     classes,
-    onClose,
-    open,
-    onSectionChange,
-    isProfileActive,
     isPasswordActive,
+    isProfileActive,
+    onClose,
+    onSectionChange,
+    open,
   } = props;
 
   let contentElement;
@@ -118,7 +117,6 @@ const Account = (props) => {
 
   return (
     <Dialog
-      // fullScreen
       className={classes.root}
       onRequestClose={onClose}
       open={open}
@@ -131,10 +129,10 @@ const Account = (props) => {
       <DialogContent className={classes.dialogContent}>
         <List className={classes.list}>
           <MenuItem
-            selected={isProfileActive}
             button
-            onClick={() => onSectionChange(SECTIONS.PROFILE)}
             className={classes[`${isProfileActive ? 'menuItemSelected' : 'menuItem'}`]}
+            onClick={() => onSectionChange(SECTIONS.PROFILE)}
+            selected={isProfileActive}
           >
             <ListItemIcon>
               <AccountCircleIcon />
@@ -142,10 +140,10 @@ const Account = (props) => {
             <ListItemText primary={STRING_PROFILE} />
           </MenuItem>
           <MenuItem
-            selected={isPasswordActive}
             button
-            onClick={() => onSectionChange(SECTIONS.PASSWORD)}
             className={classes[`${isPasswordActive ? 'menuItemSelected' : 'menuItem'}`]}
+            onClick={() => onSectionChange(SECTIONS.PASSWORD)}
+            selected={isPasswordActive}
           >
             <ListItemIcon>
               <LockIcon />
@@ -167,21 +165,19 @@ Account.defaultProps = {
 
 Account.propTypes = {
   classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  onSectionChange: PropTypes.func.isRequired,
-  isProfileActive: PropTypes.bool.isRequired,
   isPasswordActive: PropTypes.bool.isRequired,
+  isProfileActive: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSectionChange: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const { open } = state.dialogs.account;
-
   return {
-    // open: true,
-    open,
-    isProfileActive: isSectionActiveSelector(state, SECTIONS.PROFILE),
     isPasswordActive: isSectionActiveSelector(state, SECTIONS.PASSWORD),
+    isProfileActive: isSectionActiveSelector(state, SECTIONS.PROFILE),
+    open,
   };
 };
 

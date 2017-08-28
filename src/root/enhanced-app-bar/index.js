@@ -1,43 +1,47 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import AddBoxIcon from 'material-ui-icons/AddBox';
-import FeedbackIcon from 'material-ui-icons/Feedback';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import InsertChartIcon from 'material-ui-icons/InsertChart';
-import FileDownloadIcon from 'material-ui-icons/FileDownload';
-import LocalOfferIcon from 'material-ui-icons/LocalOffer';
-import Divider from 'material-ui/Divider';
-import HelpIcon from 'material-ui-icons/Help';
+import AddBoxIcon from 'material-ui-icons/AddBox';
+import AppBar from 'material-ui/AppBar';
+import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import Avatar from 'material-ui/Avatar';
-import InfoIcon from 'material-ui-icons/Info';
-import PublicIcon from 'material-ui-icons/Public';
-import { MenuItem } from 'material-ui/Menu';
-import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import SearchIcon from 'material-ui-icons/Search';
-import MenuIcon from 'material-ui-icons/Menu';
+import blue from 'material-ui/colors/blue';
+import CloseIcon from 'material-ui-icons/Close';
+import common from 'material-ui/colors/common';
+import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
+import FeedbackIcon from 'material-ui-icons/Feedback';
+import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import grey from 'material-ui/colors/grey';
+import HelpIcon from 'material-ui-icons/Help';
+import IconButton from 'material-ui/IconButton';
+import InfoIcon from 'material-ui-icons/Info';
+import InsertChartIcon from 'material-ui-icons/InsertChart';
+import List, { ListItemIcon, ListItemText } from 'material-ui/List';
+import LocalOfferIcon from 'material-ui-icons/LocalOffer';
+import MenuIcon from 'material-ui-icons/Menu';
+import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
+import PublicIcon from 'material-ui-icons/Public';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import grey from 'material-ui/colors/grey';
-import blue from 'material-ui/colors/blue';
-import common from 'material-ui/colors/common';
+import { MenuItem } from 'material-ui/Menu';
 
 import connectComponent from '../../helpers/connect-component';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
-import SearchBox from './search-box';
 
-import { changeRoute } from '../../state/root/router/actions';
+import { formUpdate } from '../../state/pages/search/actions';
+import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogAccount } from '../../state/dialogs/account/actions';
 import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
-import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
+import {
+  goBack,
+  changeRoute,
+} from '../../state/root/router/actions';
 
 import {
   ROUTE_INSTALLED_APPS,
@@ -49,13 +53,14 @@ import {
 import {
   STRING_ABOUT,
   STRING_ACCOUNT,
+  STRING_BACK,
+  STRING_CLEAR,
   STRING_HELP,
   STRING_INSTALLED_APPS,
   STRING_LOG_IN,
   STRING_LOG_OUT,
   STRING_MENU,
   STRING_MY_APPS,
-  STRING_SEARCH,
   STRING_SEND_FEEDBACK,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
@@ -157,6 +162,61 @@ const styles = {
   signInAppBar: {
     cursor: 'pointer',
   },
+  toolbarSectionContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  toolbarSection: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  toolbarSectionSearch: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: blue[300],
+    borderRadius: 2,
+    // padding: '8px 12px',
+    width: '35%',
+    height: 40,
+  },
+  searchBarText: {
+    lineHeight: 1.5,
+    padding: '0 4px',
+    flex: 1,
+    userSelect: 'none',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    transform: 'translateY(-1px)',
+    fontWeight: 'normal',
+    fontSize: 18,
+  },
+  input: {
+    font: 'inherit',
+    border: 0,
+    display: 'block',
+    verticalAlign: 'middle',
+    whiteSpace: 'normal',
+    background: 'none',
+    margin: 0, // Reset for Safari
+    color: 'white',
+    width: '100%',
+    '&:focus': {
+      outline: 0,
+    },
+    '&::placeholder': {
+      color: 'rgba(255, 255, 255, .45)',
+    },
+  },
+  searchIcon: {
+    paddingLeft: 12,
+    paddingRight: 6,
+  },
 };
 
 class EnhancedAppBar extends React.Component {
@@ -202,8 +262,11 @@ class EnhancedAppBar extends React.Component {
       email,
       isLoggedIn,
       onChangeRoute,
+      onFormUpdate,
+      onGoBack,
       onOpenDialogFeedback,
       profilePicture,
+      query,
       route,
     } = this.props;
 
@@ -253,9 +316,10 @@ class EnhancedAppBar extends React.Component {
       </AppBar>
     );
 
-    return (
-      <div className={classes.root}>
-        <FakeTitleBar />
+    const isSearching = route === ROUTE_SEARCH;
+
+    const drawerElement = !isSearching
+      ? (
         <Drawer
           open={this.state.isDrawerOpen}
           onRequestClose={this.handleToggleDrawer}
@@ -338,31 +402,90 @@ class EnhancedAppBar extends React.Component {
             </List>
           </div>
         </Drawer>
-        <SearchBox />
+      ) : null;
+
+    const titleElement = !isSearching
+      ? (
+        <div className={classes.toolbarSection}>
+          <IconButton
+            color="contrast"
+            aria-label={STRING_MENU}
+            onClick={() => this.handleToggleDrawer()}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            className={classes.title}
+            color="inherit"
+            type="title"
+          >
+            {routeLabel}
+          </Typography>
+        </div>
+      ) : null;
+
+    const cancelSearchAction = isSearching
+      ? (
+        <IconButton
+          aria-label={STRING_BACK}
+          color="contrast"
+          onClick={() => {
+            onFormUpdate({ query: '' });
+            onGoBack();
+          }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
+      ) : null;
+
+    const refreshAction = !isSearching
+      ? (
+        <RefreshButton />
+      ) : null;
+
+    const clearSearchAction = query.length > 0
+      ? (
+        <IconButton
+          color="contrast"
+          aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
+          onClick={() => onFormUpdate({ query: '' })}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null;
+
+    return (
+      <div className={classes.root}>
+        <FakeTitleBar />
+        {drawerElement}
         <AppBar position="static" key="appBar" className={classes.appBar} elevation={3}>
           <Toolbar className={classes.toolbar}>
-            <IconButton
-              color="contrast"
-              aria-label={STRING_MENU}
-              onClick={() => this.handleToggleDrawer()}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              className={classes.title}
-              color="inherit"
-              type="title"
-            >
-              {routeLabel}
-            </Typography>
-            <IconButton
-              color="contrast"
-              aria-label={STRING_SEARCH}
-              onClick={() => onChangeRoute(ROUTE_SEARCH)}
-            >
-              <SearchIcon />
-            </IconButton>
-            <RefreshButton />
+            <div className={classes.toolbarSectionContainer}>
+              {titleElement}
+              {cancelSearchAction}
+              <div className={classes.toolbarSectionSearch}>
+                <SearchIcon className={classes.searchIcon} />
+                <Typography
+                  className={classes.searchBarText}
+                  color="inherit"
+                  type="title"
+                >
+                  <input
+                    className={classes.input}
+                    onChange={e => onFormUpdate({ query: e.target.value })}
+                    onClick={() => onChangeRoute(ROUTE_SEARCH)}
+                    onInput={e => onFormUpdate({ query: e.target.value })}
+                    placeholder="Search Apps"
+                    ref={(inputBox) => { this.inputBox = inputBox; }}
+                    value={query}
+                  />
+                </Typography>
+                {clearSearchAction}
+              </div>
+              <div className={classes.toolbarSection}>
+                {refreshAction}
+              </div>
+            </div>
           </Toolbar>
         </AppBar>
       </div>
@@ -375,6 +498,7 @@ EnhancedAppBar.defaultProps = {
   displayName: null,
   email: null,
   profilePicture: null,
+  query: '',
 };
 
 EnhancedAppBar.propTypes = {
@@ -383,11 +507,14 @@ EnhancedAppBar.propTypes = {
   email: PropTypes.string,
   isLoggedIn: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
+  onFormUpdate: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
   onOpenDialogFeedback: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   profilePicture: PropTypes.string,
+  query: PropTypes.string,
   route: PropTypes.string.isRequired,
 };
 
@@ -395,12 +522,15 @@ const mapStateToProps = state => ({
   displayName: state.user.apiData.displayName,
   email: state.user.apiData.email,
   isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
-  route: state.router.route,
   profilePicture: state.user.apiData.profilePicture,
+  query: state.pages.search.form.query,
+  route: state.router.route,
 });
 
 const actionCreators = {
   changeRoute,
+  formUpdate,
+  goBack,
   openDialogAbout,
   openDialogAccount,
   openDialogFeedback,

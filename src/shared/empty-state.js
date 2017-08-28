@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
 import grey from 'material-ui/colors/grey';
+import Typography from 'material-ui/Typography';
+import { withStyles } from 'material-ui/styles';
 
 const styles = {
   root: {
@@ -12,8 +12,8 @@ const styles = {
     flex: 1,
     flexDirection: 'column',
     height: '100%',
-    width: '100%',
     justifyContent: 'center',
+    width: '100%',
   },
   title: {
     color: grey[600],

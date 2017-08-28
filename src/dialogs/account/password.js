@@ -1,11 +1,11 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+
 import Button from 'material-ui/Button';
-import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
+import Input from 'material-ui/Input';
+import InputLabel from 'material-ui/Input/InputLabel';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -15,12 +15,12 @@ import {
 } from '../../state/dialogs/account/password/actions';
 
 import {
-  STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER,
   STRING_CONFIRM_NEW_PASSWORD,
-  STRING_CURRENT_PASSWORD_PLACEHOLDER,
+  STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER,
   STRING_CURRENT_PASSWORD,
-  STRING_NEW_PASSWORD_PLACEHOLDER,
+  STRING_CURRENT_PASSWORD_PLACEHOLDER,
   STRING_NEW_PASSWORD,
+  STRING_NEW_PASSWORD_PLACEHOLDER,
   STRING_SAVE,
   STRING_SAVING,
 } from '../../constants/strings';
@@ -44,15 +44,15 @@ const styles = {
 const Password = (props) => {
   const {
     classes,
-    isSaving,
-    currentPassword,
-    currentPasswordError,
-    password,
-    passwordError,
     confirmPassword,
     confirmPasswordError,
+    currentPassword,
+    currentPasswordError,
+    isSaving,
     onFormUpdate,
     onSave,
+    password,
+    passwordError,
   } = props;
 
   return (
@@ -61,11 +61,11 @@ const Password = (props) => {
         <FormControl className={classes.formControl} error={currentPasswordError}>
           <InputLabel htmlFor="currentPassword">{STRING_CURRENT_PASSWORD}</InputLabel>
           <Input
-            type="password"
-            placeholder={STRING_CURRENT_PASSWORD_PLACEHOLDER}
             id="currentPassword"
-            value={currentPassword}
             onChange={e => onFormUpdate({ currentPassword: e.target.value })}
+            placeholder={STRING_CURRENT_PASSWORD_PLACEHOLDER}
+            type="password"
+            value={currentPassword}
           />
           {currentPasswordError ? <FormHelperText>{currentPasswordError}</FormHelperText> : null}
         </FormControl>
@@ -74,11 +74,11 @@ const Password = (props) => {
         <FormControl className={classes.formControl} error={passwordError}>
           <InputLabel htmlFor="password">{STRING_NEW_PASSWORD}</InputLabel>
           <Input
-            type="password"
             id="password"
-            placeholder={STRING_NEW_PASSWORD_PLACEHOLDER}
-            value={password}
             onChange={e => onFormUpdate({ password: e.target.value })}
+            placeholder={STRING_NEW_PASSWORD_PLACEHOLDER}
+            type="password"
+            value={password}
           />
           {passwordError ? <FormHelperText>{passwordError}</FormHelperText> : null}
         </FormControl>
@@ -87,19 +87,19 @@ const Password = (props) => {
         <FormControl className={classes.formControl} error={confirmPasswordError}>
           <InputLabel htmlFor="confirmPassword">{STRING_CONFIRM_NEW_PASSWORD}</InputLabel>
           <Input
-            type="password"
-            placeholder={STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER}
             id="confirmPassword"
-            value={confirmPassword}
             onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
+            placeholder={STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER}
+            type="password"
+            value={confirmPassword}
           />
           {confirmPasswordError ? <FormHelperText>{confirmPasswordError}</FormHelperText> : null}
         </FormControl>
       </div>
       <div className={classes.formFooter}>
         <Button
-          disabled={isSaving}
           color="primary"
+          disabled={isSaving}
           onClick={onSave}
         >
           {isSaving ? STRING_SAVING : STRING_SAVE}
@@ -114,37 +114,37 @@ Password.defaultProps = {
 
 Password.propTypes = {
   classes: PropTypes.object.isRequired,
+  confirmPassword: PropTypes.string.isRequired,
+  confirmPasswordError: PropTypes.string.isRequired,
   currentPassword: PropTypes.string.isRequired,
   currentPasswordError: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  password: PropTypes.string.isRequired,
-  passwordError: PropTypes.string.isRequired,
-  confirmPassword: PropTypes.string.isRequired,
-  confirmPasswordError: PropTypes.string.isRequired,
   onFormUpdate: PropTypes.bool.isRequired,
   onSave: PropTypes.bool.isRequired,
+  password: PropTypes.string.isRequired,
+  passwordError: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const {
+    confirmPassword,
+    confirmPasswordError,
     currentPassword,
     currentPasswordError,
     password,
     passwordError,
-    confirmPassword,
-    confirmPasswordError,
   } = state.dialogs.account.password.form;
 
   const { isSaving } = state.dialogs.account.password;
 
   return {
-    currentPassword,
-    currentPasswordError,
-    password,
-    passwordError,
     confirmPassword,
     confirmPasswordError,
+    currentPassword,
+    currentPasswordError,
     isSaving,
+    password,
+    passwordError,
   };
 };
 

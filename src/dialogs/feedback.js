@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import Slide from 'material-ui/transitions/Slide';
-import { LinearProgress } from 'material-ui/Progress';
-import Input from 'material-ui/Input';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
+import Input from 'material-ui/Input';
+import Slide from 'material-ui/transitions/Slide';
+import { LinearProgress } from 'material-ui/Progress';
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -24,8 +24,8 @@ import {
 import {
   STRING_CANCEL,
   STRING_LEAVE_FEEDBACK,
-  STRING_SEND_FEEDBACK,
   STRING_SEND,
+  STRING_SEND_FEEDBACK,
   STRING_SENDING,
 } from '../constants/strings';
 
@@ -51,13 +51,13 @@ const styles = {
 
 const Feedback = (props) => {
   const {
-    isSaving,
     classes,
     content,
     contentError,
-    onSave,
+    isSaving,
     onClose,
     onFormUpdate,
+    onSave,
     open,
   } = props;
 
@@ -65,8 +65,8 @@ const Feedback = (props) => {
 
   return (
     <Dialog
-      ignoreBackdropClick={isSaving}
       className={classes.root}
+      ignoreBackdropClick={isSaving}
       onRequestClose={onClose}
       open={open}
       transition={<Slide direction="left" />}
@@ -81,12 +81,12 @@ const Feedback = (props) => {
       <DialogContent className={classes.dialogContent}>
         <FormControl className={classes.formControl} error={contentError}>
           <Input
-            placeholder={STRING_LEAVE_FEEDBACK}
             id="content"
-            value={content}
             multiline
-            rows="10"
             onChange={e => onFormUpdate({ content: e.target.value })}
+            placeholder={STRING_LEAVE_FEEDBACK}
+            rows="10"
+            value={content}
           />
           {contentError ? <FormHelperText>{contentError}</FormHelperText> : null}
         </FormControl>
@@ -99,8 +99,8 @@ const Feedback = (props) => {
           {STRING_CANCEL}
         </Button>
         <Button
-          disabled={isSaving}
           color="primary"
+          disabled={isSaving}
           onClick={onSave}
         >
           {saveButtonText}
@@ -118,9 +118,9 @@ Feedback.defaultProps = {
 
 Feedback.propTypes = {
   classes: PropTypes.object.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   content: PropTypes.string,
   contentError: PropTypes.string,
+  isSaving: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -128,9 +128,9 @@ Feedback.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSaving: state.dialogs.feedback.isSaving,
   content: state.dialogs.feedback.form.content,
   contentError: state.dialogs.feedback.form.contentError,
+  isSaving: state.dialogs.feedback.isSaving,
   open: state.dialogs.feedback.open,
 });
 
