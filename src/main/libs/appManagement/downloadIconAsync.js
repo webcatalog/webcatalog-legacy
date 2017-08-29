@@ -5,7 +5,7 @@ const { https } = require('follow-redirects');
 
 const getServerUrl = require('./getServerUrl');
 
-const downloadIconAsync = id =>
+const downloadIconAsync = (id, version) =>
   new Promise((resolve, reject) => {
     let iconExt;
     switch (os.platform()) {
@@ -26,7 +26,7 @@ const downloadIconAsync = id =>
     const iconPath = `${app.getPath('temp')}/${Math.floor(Date.now())}.${iconExt}`;
     const iconFile = fs.createWriteStream(iconPath);
 
-    const req = https.get(getServerUrl(`/s3/${id}.${iconExt}`), (response) => {
+    const req = https.get(getServerUrl(`/s3/${id}.${iconExt}?v=${version}`), (response) => {
       response.pipe(iconFile);
 
       iconFile.on('error', (err) => {

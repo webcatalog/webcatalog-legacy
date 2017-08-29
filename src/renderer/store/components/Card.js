@@ -16,7 +16,7 @@ const Card = ({
   <div className="col">
     <div className="pt-card pt-elevation-1" style={{ textAlign: 'center', padding: 12, position: 'relative' }}>
       <img
-        src={getServerUrl(`/s3/${app.get('id')}@128px.webp`)}
+        src={getServerUrl(`/s3/${app.get('id')}@128px.webp?v=${app.get('version')}`)}
         role="presentation"
         alt={app.get('name')}
         style={{
@@ -37,7 +37,7 @@ const Card = ({
       >
         {app.get('name')}
       </h5>
-      <h6
+      <p
         style={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -45,10 +45,11 @@ const Card = ({
           whiteSpace: 'nowrap',
           margin: '0 0 16px',
           fontSize: 14,
+          fontWeight: 400,
         }}
       >
-        <a onClick={() => ipcRenderer.send('open-in-browser', app.get('url'))}>{extractHostname(app.get('url'))}</a>
-      </h6>
+        {extractHostname(app.get('url'))}
+      </p>
       {(() => {
         let appStatus = null;
 

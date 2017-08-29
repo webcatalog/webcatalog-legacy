@@ -9,18 +9,22 @@ const downloadIconAsync = require('./downloadIconAsync');
 const secureFetch = require('./secureFetch');
 
 const installAppAsync = (id, token, opts) =>
-  downloadIconAsync(id)
-    .then((iconPath) => {
+  Promise.resolve()
+    .then(() => {
       if (opts && opts.preloadedApp) {
-        return Object.assign({}, opts.preloadedApp, { iconPath });
+        return opts.preloadedApp;
       }
 
       const actionName = (opts && opts.action) ? opts.action : 'install';
 
       return secureFetch(`/api/apps/${id}?action=${actionName}`, token)
         .then(response => response.json())
-        .then(content => Object.assign({}, content.app, { iconPath }));
+        .then(content => content.app);
     })
+    .then(contentApp =>
+      downloadIconAsync(id, contentApp.version)
+        .then(iconPath => Object.assign({}, contentApp, { iconPath })),
+    )
     .then(({ name, url, version, iconPath }) => {
       const appObj = {
         id,
