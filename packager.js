@@ -27,6 +27,7 @@ switch (process.platform) {
 // Promise is returned
 builder.build({
   targets,
+  publish: 'onTagOrDraft',
   config: {
     electronVersion,
     appId: 'com.webcatalog.app',
