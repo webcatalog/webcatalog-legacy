@@ -2,7 +2,7 @@
 
 const builder = require('electron-builder');
 const execFile = require('child_process').execFile;
-const electronVersion = require('./package.json').devDependencies.electron.substr(1);
+const electronVersion = require('./package.json').devDependencies.electron;
 
 const { Platform, Arch } = builder;
 
