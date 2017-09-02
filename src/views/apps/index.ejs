@@ -3,18 +3,6 @@
 
 <section class="section apps">
   <div class="container">
-    <nav class="breadcrumb is-medium">
-      <ul>
-        <li><a href="/">WebCatalog</a></li>
-        <li><a href="/apps">Apps</a></li>
-        <% if (category) { %>
-        <li>
-          <a class="category" href="/apps/category/<%= category %>"><%= category.replace('+', ' & ') %></a>
-        </li>
-        <% } %>
-      </ul>
-    </nav>
-    <hr />
     <div class="columns">
       <div class="column is-one-quarter">
         <aside class="menu">

@@ -1,47 +1,48 @@
 <% include ./partials/header %>
 
-<section class="hero intro intro-<%= platform %>">
+<section class="hero is-info intro intro-<%= platform %>">
   <div class="hero-body">
     <div class="container has-text-centered">
-      <h1 class="title">Get WebCatalog for <% if (platform === "mac") { %>Mac<% } else if (platform === "linux") { %>Linux<% } else { %>Windows<% } %>
+      <h1 class="title is-3">
+        Run Thousands of Web Apps Like Real Apps
       </h1>
-      <p class="subtitle" style="margin-top: -1em">
-        Explore thousands of exclusive apps,<br>get desktop notifications, and launch right from your <%= dockName %>.
+      <p class="subtitle is-5" style="margin-top: -1em">
+        Get rid of clunky browser tabs. Protect you from cross-website trackers.
       </p>
 
       <% if (platform === "mac") { %>
-      <p>
-        <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+      <a class="button is-large download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
           <i class="fa fa-apple"></i>
-          <span>&nbsp;Download for macOS</span>
-        </a>
-      </p>
+        </span>
+        <span>&nbsp;Download for macOS</span>
+      </a>
       <% } else if (platform === "linux") { %>
-      <p>
-        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+      <a class="button is-medium download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
           <i class="fa fa-linux"></i>
-          <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
-        </a>
-      </p>
-      <p>
-        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.x86_64.rpm" target="_blank" rel="noopener noreferrer">
+        </span>
+        <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
+      </a>
+      <a class="button is-medium download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.x86_64.rpm" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
           <i class="fa fa-linux"></i>
-          <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
-        </a>
-      </p>
-      <p>
-        <a class="button is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
+        </span>
+        <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
+      </a>
+      <a class="button is-medium download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
           <i class="fa fa-linux"></i>
-          <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
-        </a>
-      </p>
+        </span>
+        <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
+      </a>
       <% } else { %>
-      <p>
-        <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+      <a class="button is-large download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
           <i class="fa fa-windows"></i>
-          <span>&nbsp;Download for Windows</span>
-        </a>
-      </p>
+        </span>
+        <span>&nbsp;Download for Windows</span>
+      </a>
       <% } %>
 
       <p>
@@ -66,5 +67,24 @@
     </div>
   </div>
 </section>
+
+<!--
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h3 class="title is-3">
+          1000+ Apps
+        </h3>
+        <p class="subtitle is-5" style="margin-top: -1em">
+          WebCatalog has most of your favorite apps!
+        </p>
+      </div>
+      <div class="column">
+      </div>
+    </div>
+  </div>
+</section>
+-->
 
 <% include ./partials/footer %>

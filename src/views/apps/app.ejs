@@ -3,25 +3,11 @@
 
 <section class="section app">
   <div class="container">
-    <nav class="breadcrumb is-medium">
-      <ul>
-        <li><a href="/">WebCatalog</a></li>
-        <li><a href="/apps">Apps</a></li>
-        <% if (app.category) { %>
-        <li>
-          <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a>
-        </li>
-        <% } %>
-        <li>
-          <a href="/apps/details/<%= app.slug %>/<%= app.id %>"><%= app.name %></a>
-        </li>
-      </ul>
-    </nav>
-    <hr>
     <div class="columns">
       <div class="column is-4">
         <div class="content">
           <div class="has-text-centered">
+            <p><a href="/apps">Apps</a> > <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a></p>
             <a href="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>">
               <figure class="image is-128x128 app-icon">
                 <picture>

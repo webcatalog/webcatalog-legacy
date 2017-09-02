@@ -16,13 +16,11 @@ $navbar-height: 56px
 $navbar-dropdown-background: #1565C0
 $navbar-dropdown-item-hover-background: #0D47A1
 
-// Use the new serif family
-$family-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif
 
 @import "../../../node_modules/bulma/bulma"
 
 html
-  background-color: $blue
+  background-color: #1976D2
 
 body
   background-color: #fff
@@ -50,29 +48,27 @@ body
 
 .main-content
   width: 100%
-  min-height: calc(100vh - 120px)
+  min-height: calc(100vh - 56px)
 
 .footer
-  min-height: 64px
-  padding: 24px 12px
-  box-sizing: border-box
-  background-color: #fff
-  +tablet
-    padding: 0
+  background-color: #FAFAFA
+  padding-top: 2em
+  padding-bottom: 2em
   ul.footer-items
     list-style-type: none
     margin-left: 0
-    margin-top: 0
-    +tablet
-      display: flex
-      justify-content: center
+    &.right
+      +desktop
+        float: right
     li
-      +tablet
+      margin-top: 12px
+      line-height: 2em
+      +desktop
         float: left
         padding: 0
         margin: 0
         &:not(:last-child)
-          margin-right: 36px
+          margin: 0 36px 0 0
 
 
 .card
@@ -92,20 +88,23 @@ body
     height: 64px
 
 .intro
-  min-height: calc(100vh - 120px)
+  min-height: calc(100vh - 56px)
+  background-color: #1565C0 !important
+  padding-top: 36px
+  padding-bottom: 36px
+  display: flex
+  align-items: center
+  justify-content: center
   .hero-body
-    height: 100%
-    display: flex
-    align-items: center
-    justify-content: center
+    flex: 0
     .download-button
-      margin-top: 6px
+      margin-top: 32px
       margin-bottom: 6px
     a:not(.button)
       &:hover
         text-decoration: underline
     .other-platforms
-      margin-top: 36px
+      margin-top: 48px
       a
         font-weight: 600
 
@@ -131,7 +130,6 @@ body
   width: 100vw
   height: 100vh
   +tablet
-    background-color: $blue
     min-height: 100vh
     width: 100vw
     padding: 12px 0
@@ -140,7 +138,7 @@ body
     justify-content: center
   hr
     margin-top: 0.5em
-  .box
+  .auth-inner
     +mobile
       box-shadow: none
     +tablet

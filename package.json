@@ -24,7 +24,7 @@
     "babel-preset-es2016": "^6.24.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "bulma": "^0.5.0",
+    "bulma": "^0.5.1",
     "connect-session-sequelize": "^4.1.0",
     "ejs": "^2.5.6",
     "express": "^4.15.3",

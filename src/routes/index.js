@@ -58,6 +58,14 @@ router.get('/team', (req, res) => {
   res.render('team', { title: 'Team' });
 });
 
+router.get('/privacy', (req, res) => {
+  res.render('privacy', { title: 'Privacy Policy' });
+});
+
+router.get('/terms', (req, res) => {
+  res.render('terms', { title: 'Terms of Service' });
+});
+
 router.get('/s3/:name.:ext', (req, res) => {
   if (req.query.v) {
     res.redirect(`https://s3.getwebcatalog.com/${req.params.name}.${req.params.ext}?v=${req.query.v}`);
