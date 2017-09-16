@@ -18,6 +18,8 @@ const appApiRouter = express.Router();
 
 const unretrievableAttributes = ['installCount', 'isActive', 'updatedAt', 'createdAt'];
 
+const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+
 appApiRouter.get('/', (req, res, next) => {
   const currentPage = parseInt(req.query.page, 10) || 1;
   const limit = parseInt(req.query.limit, 10) || 24;
@@ -252,7 +254,6 @@ appApiRouter.patch('/:id', passport.authenticate('jwt', { session: false }), upl
           const plainApp = app.get({ plain: true });
           plainApp.objectID = plainApp.id;
 
-          const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
           return index.addObject(plainApp)
             .then(() => App.find({
               attributes: { exclude: unretrievableAttributes },
@@ -306,7 +307,6 @@ appApiRouter.post('/', passport.authenticate('jwt', { session: false }), upload.
       const plainApp = app.get({ plain: true });
       plainApp.objectID = plainApp.id;
 
-      const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
       return index.addObject(plainApp)
         .then(() => App.find({
           attributes: { exclude: unretrievableAttributes },
