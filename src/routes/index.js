@@ -2,6 +2,8 @@ import express from 'express';
 import fetch from 'node-fetch';
 import marked from 'marked';
 
+import App from '../models/App';
+
 const router = express.Router();
 
 router.get(['/', '/download', '/downloads'], (req, res) => {
@@ -22,19 +24,58 @@ router.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
 });
 
 router.get('/download/:platform(mac|windows|linux)', (req, res) => {
-  const platform = req.params.platform;
-  const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+  Promise.resolve()
+    .then(() => {
+      const promises = [];
 
-  let dockName = 'dock';
-  if (platform === 'windows') dockName = 'taskbar';
-  if (platform === 'linux') dockName = 'launcher';
+      let topApps = [];
+      let newApps = [];
 
-  res.render('download', {
-    version: process.env.VERSION,
-    platform,
-    dockName,
-    title: `Download WebCatalog for ${platformName}`,
-  });
+      const opts = {
+        where: { isActive: true },
+        offset: 0,
+        limit: 12,
+      };
+      const topAppOpts = Object.assign({}, opts, { order: [['installCount', 'DESC'], ['createdAt', 'DESC']] });
+      const newAppOpts = Object.assign({}, opts, { order: [['createdAt', 'DESC']] });
+
+      promises.push(
+        App.findAll(topAppOpts)
+          .then((rows) => {
+            topApps = rows;
+          }),
+      );
+
+      promises.push(
+        App.findAll(newAppOpts)
+          .then((rows) => {
+            newApps = rows;
+          }),
+      );
+
+      return Promise.all(promises)
+        .then(() => ({
+          topApps,
+          newApps,
+        }));
+    })
+    .then(({ topApps, newApps }) => {
+      const platform = req.params.platform;
+      const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+
+      let dockName = 'dock';
+      if (platform === 'windows') dockName = 'taskbar';
+      if (platform === 'linux') dockName = 'launcher';
+
+      res.render('download', {
+        version: process.env.VERSION,
+        platform,
+        dockName,
+        title: `Download WebCatalog for ${platformName}`,
+        topApps,
+        newApps,
+      });
+    });
 });
 
 router.get('/release-notes', (req, res, next) => {
