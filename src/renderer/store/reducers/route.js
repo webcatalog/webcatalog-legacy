@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import { SET_ROUTE, GO_BACK } from '../constants/actions';
+import { SET_SEARCH_QUERY, SET_ROUTE, GO_BACK } from '../constants/actions';
 
 const initialState = Immutable.Map({
   routeId: 'home',
@@ -13,6 +13,7 @@ const route = (state = initialState, action) => {
       return state
         .set('lastRouteId', state.get('routeId'))
         .set('routeId', action.routeId);
+    case SET_SEARCH_QUERY:
     case GO_BACK:
       if (!state.get('lastRouteId')) {
         return state

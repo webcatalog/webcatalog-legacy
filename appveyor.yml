@@ -14,10 +14,6 @@ environment:
     secure: KI1E0I136MgiTRD5We80ADFn0L/DW4M7PuM+/YM7DOknG3WRdWArNOtTCyjmNW2p2Bq8CQUNWjvmppueg7MO3bVgKXsqjKzpEvln43fT6rk=
   CSC_KEY_PASSWORD:
     secure: Yj6GEtCvUAF1KGTBVuEH7A==
-  ALGOLIASEARCH_APPLICATION_ID:
-    secure: YgSPtgsrdGTI8gIFQy5JNw==
-  ALGOLIASEARCH_API_KEY_SEARCH:
-    secure: tsz8/jSO3Y7EbieIajCoGZbELo+wVey4y/JUYWbJRuDxEnuAECWdpw8jG1pyMHfV
 
 platform: x64
 

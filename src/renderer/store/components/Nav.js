@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Menu, MenuItem, MenuDivider, Popover, Button, Position, Classes } from '@blueprintjs/core';
+import { Menu, MenuItem, MenuDivider, Popover, Button, Position, Classes, Intent } from '@blueprintjs/core';
 import classNames from 'classnames';
 
 import { refresh } from '../actions/refresh';
@@ -42,14 +42,25 @@ const Nav = ({
           }}
           onChange={e => requestSetSearchQuery(e.target.value, routeId)}
         />
-        {query.length > 0 ? (
+        <div style={{ position: 'absolute', top: 0, right: 0 }}>
+          {query.length > 0 ? (
+            <Button
+              iconName="cross"
+              className={Classes.MINIMAL}
+              style={{ WebkitAppRegion: 'no-drag' }}
+              onClick={() => requestSetSearchQuery('', routeId)}
+            />
+          ) : null}
           <Button
-            iconName="cross"
-            className={Classes.MINIMAL}
+            intent={Intent.PRIMARY}
             style={{ WebkitAppRegion: 'no-drag' }}
-            onClick={() => requestSetSearchQuery('', routeId)}
-          />
-        ) : null}
+            onClick={() => {
+              requestSearch();
+            }}
+          >
+            Search
+          </Button>
+        </div>
       </div>
     </div>
     <div className="pt-navbar-group pt-align-right">

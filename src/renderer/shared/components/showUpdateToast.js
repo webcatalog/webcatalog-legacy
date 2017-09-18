@@ -33,6 +33,6 @@ const showUpdateToast = () =>
     })
     /* eslint-disable no-console */
     .catch(console.log);
-    /* eslint-enable no-console */
+  /* eslint-enable no-console */
 
 export default showUpdateToast;
