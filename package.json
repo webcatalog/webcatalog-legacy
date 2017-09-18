@@ -50,7 +50,7 @@
     "cross-env": "5.0.5",
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
-    "electron": "1.7.6",
+    "electron": "1.8.0",
     "electron-builder": "19.27.7",
     "electron-builder-squirrel-windows": "19.28.3",
     "eslint": "4.7.0",
