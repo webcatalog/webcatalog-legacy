@@ -102,19 +102,19 @@ const scanInstalledAsync = () =>
       }
     }
   })
-  // uninstall < 5.0 apps
-  .then(installedApps => installedApps.filter((app) => {
-    if (!app.shellVersion) {
-      uninstallAppAsync(
-        app.id,
-        app.name,
-        { shouldClearStorageData: true },
-      );
+    // uninstall < 5.0 apps
+    .then(installedApps => installedApps.filter((app) => {
+      if (!app.shellVersion) {
+        uninstallAppAsync(
+          app.id,
+          app.name,
+          { shouldClearStorageData: true },
+        );
 
-      return false;
-    }
+        return false;
+      }
 
-    return true;
-  }));
+      return true;
+    }));
 
 module.exports = scanInstalledAsync;

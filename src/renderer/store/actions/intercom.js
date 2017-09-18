@@ -6,26 +6,26 @@ export const bootIntercom = () => (dispatch, getState) => {
 
   if (auth.get('token') && auth.get('token') !== 'anonnymous') {
     secureFetch('/api/user', auth.get('token'))
-    .then(response => response.json())
-    .then(({ user }) => {
-      window.Intercom('boot', {
-        app_id: 'rzjr1fun',
-        email: user.email,
-        user_id: user.id,
-        user_hash: user.intercomUserHash,
-        signed_up_at: Math.floor(new Date(user.createdAt).getTime() / 1000),
-      });
-    })
-    .catch((err) => {
-      if (err && err.response && err.response.status === 401) {
-        dispatch(logOut());
-        return;
-      }
+      .then(response => response.json())
+      .then(({ user }) => {
+        window.Intercom('boot', {
+          app_id: 'rzjr1fun',
+          email: user.email,
+          user_id: user.id,
+          user_hash: user.intercomUserHash,
+          signed_up_at: Math.floor(new Date(user.createdAt).getTime() / 1000),
+        });
+      })
+      .catch((err) => {
+        if (err && err.response && err.response.status === 401) {
+          dispatch(logOut());
+          return;
+        }
 
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
-    });
+        /* eslint-disable no-console */
+        console.log(err);
+        /* eslint-enable no-console */
+      });
   }
 };
 

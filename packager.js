@@ -103,10 +103,10 @@ builder.build({
       }),
   },
 })
-.then(() => {
-  console.log('build successful');
-})
-.catch((err) => {
-  console.log(err);
-  process.exit(1);
-});
+  .then(() => {
+    console.log('build successful');
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit(1);
+  });

@@ -33,37 +33,37 @@ export const fetchMyApps = () => (dispatch, getState) => {
   });
 
   secureFetch(`/api/user/apps?page=${currentPage}`, auth.get('token'))
-  .then(response => response.json())
-  .then(({ apps, totalPage }) => {
-    dispatch(batchActions([
-      {
+    .then(response => response.json())
+    .then(({ apps, totalPage }) => {
+      dispatch(batchActions([
+        {
+          type: SET_MY_APPS_STATUS,
+          status: DONE,
+        },
+        {
+          type: ADD_MY_APPS_APPS,
+          chunk: apps,
+          currentPage,
+          totalPage,
+        },
+      ]));
+    })
+    .catch((err) => {
+      if (err && err.response && err.response.status === 401) {
+        dispatch(logOut());
+        return;
+      }
+
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+
+      dispatch({
         type: SET_MY_APPS_STATUS,
-        status: DONE,
-      },
-      {
-        type: ADD_MY_APPS_APPS,
-        chunk: apps,
-        currentPage,
-        totalPage,
-      },
-    ]));
-  })
-  .catch((err) => {
-    if (err && err.response && err.response.status === 401) {
-      dispatch(logOut());
-      return;
-    }
-
-    /* eslint-disable no-console */
-    console.log(err);
-    /* eslint-enable no-console */
-
-    dispatch({
-      type: SET_MY_APPS_STATUS,
-      status: FAILED,
+        status: FAILED,
+      });
+    })
+    .then(() => {
+      fetching = false;
     });
-  })
-  .then(() => {
-    fetching = false;
-  });
 };
