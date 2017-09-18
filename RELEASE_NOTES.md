@@ -1,3 +1,9 @@
+## 6.4
+- Improves stability.
+- Fixes bugs.
+
+---
+
 ## 6.3
 - Improves user experience.
 - Fixes bugs.
@@ -8,4 +14,4 @@
 - Adds spell checker.
 
 ---
-[Older Versions](RELEASE_NOTES_0.md)
+[Older Versions](https://raw.githubusercontent.com/webcatalog/webcatalog/master/RELEASE_NOTES0.md)
