@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "6.2.0",
+  "version": "6.4.0",
   "description": "WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.",
   "main": "public/electron.js",
   "scripts": {
