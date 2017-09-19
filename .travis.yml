@@ -3,6 +3,7 @@ matrix:
   fast_finish: true
   include:
   - os: osx
+    osx_image: xcode8.3
     node_js: 8
   - os: linux
     node_js: 8
@@ -15,9 +16,12 @@ addons:
     packages:
     - rpm
     - bsdtar
-    - libxkbfile-dev
+before_install:
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+- npm whoami
 before_script:
 - yarn lint
 script:
 - yarn dist
-- ./scripts/test.sh
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3; fi
+- yarn test

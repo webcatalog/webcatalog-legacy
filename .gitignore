@@ -46,6 +46,8 @@ dist
 .DS_Store
 .eslintcache
 
-/app
-
 .env
+
+_src
+
+/build

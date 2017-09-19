@@ -1,21 +1,15 @@
 {
   "extends": "airbnb",
   "globals": {
-    "document": true,
     "window": true,
-    "ipcRenderer": true,
-    "clipboard": true,
-    "webFrame": true,
+    "document": true,
+    "fetch": true
   },
   "rules": {
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "class-methods-use-this": [0],
+    "react/forbid-prop-types": [0],
     "import/prefer-default-export": [0],
-    "linebreak-style": [0],
-    "jsx-a11y/no-static-element-interactions": [0],
-    "react/require-default-props": [0],
-    "global-require": [0],
-    "max-len": [0]
+    "import/no-unresolved": [2, { caseSensitive: false }]
   }
 }
