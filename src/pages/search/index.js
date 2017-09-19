@@ -5,12 +5,20 @@ import SearchIcon from 'material-ui-icons/Search';
 
 import { LinearProgress } from 'material-ui/Progress';
 import Grid from 'material-ui/Grid';
-import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 
 import connectComponent from '../../helpers/connect-component';
 
+import { search } from '../../state/pages/search/actions';
+
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
+import NoConnection from '../../shared/no-connection';
+
+import {
+  STRING_NO_RESULTS_HINT,
+  STRING_NO_RESULTS,
+  STRING_SEARCH_APPS,
+} from '../../constants/strings';
 
 const styles = () => ({
   scrollContainer: {
@@ -28,12 +36,20 @@ const Search = (props) => {
   const {
     apps,
     classes,
+    hasFailed,
     isGetting,
+    onSearch,
     query,
   } = props;
 
-  if (!isGetting && !apps.length) {
-    if (query === '') return <EmptyState icon={SearchIcon} title="Search hundreds of apps" />;
+  if (query === '') return <EmptyState icon={SearchIcon} />;
+
+  if (!isGetting && !hasFailed && apps.length < 1) {
+    return (
+      <EmptyState icon={SearchIcon} title={STRING_NO_RESULTS}>
+        {STRING_NO_RESULTS_HINT}
+      </EmptyState>
+    );
   }
 
   return (
@@ -41,13 +57,19 @@ const Search = (props) => {
       className={classes.scrollContainer}
       ref={(container) => { this.scrollContainer = container; }}
     >
-      <Grid container className={classes.grid}>
-        <Grid item xs={12}>
-          <Grid container justify="center" spacing={24}>
-            {apps.map(app => <AppCard key={app.id} app={app} />)}
+      {hasFailed ? (
+        <NoConnection
+          onTryAgainButtonClick={onSearch}
+        />
+      ) : (
+        <Grid container className={classes.grid}>
+          <Grid item xs={12}>
+            <Grid container justify="center" spacing={24}>
+              {apps.map(app => <AppCard key={app.id} app={app} />)}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
       {isGetting && (<LinearProgress />)}
     </div>
   );
@@ -60,19 +82,26 @@ Search.defaultProps = {
 Search.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
+  hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
+  onSearch: PropTypes.func.isRequired,
   query: '',
 };
 
 const mapStateToProps = state => ({
   apps: state.pages.search.apps,
+  hasFailed: state.pages.search.hasFailed,
   isGetting: state.pages.search.isGetting,
   query: state.pages.search.form.query,
 });
 
+const actionCreators = {
+  search,
+};
+
 export default connectComponent(
   Search,
   mapStateToProps,
-  null,
+  actionCreators,
   styles,
 );

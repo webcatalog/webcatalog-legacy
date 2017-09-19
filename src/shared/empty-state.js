@@ -63,6 +63,7 @@ const EmptyState = (props) => {
 };
 
 EmptyState.defaultProps = {
+  children: null,
   title: null,
 };
 
@@ -70,7 +71,7 @@ EmptyState.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
-  ]).isRequired,
+  ]),
   classes: PropTypes.object.isRequired,
   icon: PropTypes.element.isRequired,
   title: PropTypes.string,

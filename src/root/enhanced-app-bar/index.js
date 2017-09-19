@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
+import { MenuItem } from 'material-ui/Menu';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AddBoxIcon from 'material-ui-icons/AddBox';
 import AppBar from 'material-ui/AppBar';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import Avatar from 'material-ui/Avatar';
-import SearchIcon from 'material-ui-icons/Search';
 import blue from 'material-ui/colors/blue';
 import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
@@ -22,11 +23,12 @@ import InsertChartIcon from 'material-ui-icons/InsertChart';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import MenuIcon from 'material-ui-icons/Menu';
+import Paper from 'material-ui/Paper';
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 import PublicIcon from 'material-ui-icons/Public';
+import SearchIcon from 'material-ui-icons/Search';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import { MenuItem } from 'material-ui/Menu';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -61,6 +63,7 @@ import {
   STRING_LOG_OUT,
   STRING_MENU,
   STRING_MY_APPS,
+  STRING_SEARCH_APPS,
   STRING_SEND_FEEDBACK,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
@@ -72,10 +75,9 @@ import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestScanInstalledApps } from '../../senders/local';
 
+const { fullWhite, lightWhite, fullBlack, lightBlack } = common;
 
-const { fullWhite } = common;
-
-const styles = {
+const styles = theme => ({
   root: {
     zIndex: 1,
   },
@@ -173,16 +175,34 @@ const styles = {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
+    flexBasis: '20%',
+  },
+  toolbarSectionRight: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    flexBasis: '20%',
+  },
+  toolbarSearchContainer: {
+    flex: 1,
   },
   toolbarSectionSearch: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: blue[300],
+    backgroundColor: blue[400],
     borderRadius: 2,
-    // padding: '8px 12px',
-    width: '35%',
     height: 40,
+    maxWidth: 480,
+    margin: '0 auto',
+  },
+  toolbarSectionSearchInactive: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+  toolbarSectionSearchActive: {
+    backgroundColor: fullWhite,
   },
   searchBarText: {
     lineHeight: 1.5,
@@ -204,20 +224,34 @@ const styles = {
     whiteSpace: 'normal',
     background: 'none',
     margin: 0, // Reset for Safari
-    color: 'white',
+    color: fullWhite,
     width: '100%',
     '&:focus': {
       outline: 0,
     },
     '&::placeholder': {
-      color: 'rgba(255, 255, 255, .45)',
+      color: lightWhite,
+    },
+  },
+  inputActive: {
+    color: fullBlack,
+    '&::placeholder': {
+      color: lightBlack,
     },
   },
   searchIcon: {
     paddingLeft: 12,
     paddingRight: 6,
   },
-};
+  searchIconActive: {
+    fill: lightBlack,
+  },
+  searchButton: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+});
 
 class EnhancedAppBar extends React.Component {
   constructor() {
@@ -422,31 +456,42 @@ class EnhancedAppBar extends React.Component {
             {routeLabel}
           </Typography>
         </div>
-      ) : null;
-
-    const cancelSearchAction = isSearching
-      ? (
-        <IconButton
-          aria-label={STRING_BACK}
-          color="contrast"
-          onClick={() => {
-            onFormUpdate({ query: '' });
-            onGoBack();
-          }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      ) : null;
+      ) : (
+        <div className={classes.toolbarSection}>
+          <IconButton
+            aria-label={STRING_BACK}
+            color="contrast"
+            onClick={() => {
+              onFormUpdate({ query: '' });
+              onGoBack();
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </div>
+      );
 
     const refreshAction = !isSearching
       ? (
         <RefreshButton />
       ) : null;
 
+    const searchAction = !isSearching
+      ? (
+        <IconButton
+          className={classes.searchButton}
+          color={isSearching ? 'default' : 'contrast'}
+          aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
+          onClick={() => onChangeRoute(ROUTE_SEARCH)}
+        >
+          <SearchIcon />
+        </IconButton>
+      ) : null;
+
     const clearSearchAction = query.length > 0
       ? (
         <IconButton
-          color="contrast"
+          color={isSearching ? 'default' : 'contrast'}
           aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
           onClick={() => onFormUpdate({ query: '' })}
         >
@@ -462,28 +507,45 @@ class EnhancedAppBar extends React.Component {
           <Toolbar className={classes.toolbar}>
             <div className={classes.toolbarSectionContainer}>
               {titleElement}
-              {cancelSearchAction}
-              <div className={classes.toolbarSectionSearch}>
-                <SearchIcon className={classes.searchIcon} />
-                <Typography
-                  className={classes.searchBarText}
-                  color="inherit"
-                  type="title"
+              <div className={classes.toolbarSearchContainer}>
+                <Paper
+                  className={classNames(
+                    classes.toolbarSectionSearch,
+                    { [classes.toolbarSectionSearchInactive]: !isSearching },
+                    { [classes.toolbarSectionSearchActive]: isSearching },
+                  )}
+                  elevation={isSearching ? 1 : 0}
                 >
-                  <input
-                    className={classes.input}
-                    onChange={e => onFormUpdate({ query: e.target.value })}
-                    onClick={() => onChangeRoute(ROUTE_SEARCH)}
-                    onInput={e => onFormUpdate({ query: e.target.value })}
-                    placeholder="Search Apps"
-                    ref={(inputBox) => { this.inputBox = inputBox; }}
-                    value={query}
+                  <SearchIcon
+                    className={classNames(
+                      classes.searchIcon,
+                      { [classes.searchIconActive]: isSearching },
+                    )}
                   />
-                </Typography>
-                {clearSearchAction}
+                  <Typography
+                    className={classes.searchBarText}
+                    color="inherit"
+                    type="title"
+                  >
+                    <input
+                      className={classNames(
+                        classes.input,
+                        { [classes.inputActive]: isSearching },
+                      )}
+                      onChange={e => onFormUpdate({ query: e.target.value })}
+                      onClick={() => onChangeRoute(ROUTE_SEARCH)}
+                      onInput={e => onFormUpdate({ query: e.target.value })}
+                      placeholder={STRING_SEARCH_APPS}
+                      ref={(inputBox) => { this.inputBox = inputBox; }}
+                      value={query}
+                    />
+                  </Typography>
+                  {clearSearchAction}
+                </Paper>
               </div>
-              <div className={classes.toolbarSection}>
+              <div className={classes.toolbarSectionRight}>
                 {refreshAction}
+                {searchAction}
               </div>
             </div>
           </Toolbar>

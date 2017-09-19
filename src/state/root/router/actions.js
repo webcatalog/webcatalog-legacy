@@ -10,6 +10,8 @@ export const changeRoute = newRoute =>
     const router = getState().router;
     const { route } = router;
 
+    if (newRoute === route) return;
+
     dispatch(routeChange(newRoute, route));
   };
 

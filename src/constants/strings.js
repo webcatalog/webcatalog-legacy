@@ -75,3 +75,6 @@ export const STRING_AUTH_REQUIRED_DESC = 'You need to sign in to access this pag
 export const STRING_CLOSE = 'Close';
 export const STRING_TERMS = 'Terms of Service';
 export const STRING_UPDATE = 'Update';
+export const STRING_SEARCH_APPS = 'Search Apps';
+export const STRING_NO_RESULTS_HINT = 'Try a synonym, a domain or more general keyword';
+export const STRING_NO_RESULTS = 'No Results';

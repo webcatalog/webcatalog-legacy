@@ -27,12 +27,6 @@ cd webcatalog
 yarn
 ```
 
-To work with Algolia, create `.env`:
-```
-REACT_APP_ALGOLIASEARCH_APPLICATION_ID=
-REACT_APP_ALGOLIASEARCH_API_KEY_SEARCH=
-```
-
 To run the app for development: `yarn electron-dev`
 
 To build the app for release: `yarn dist`
