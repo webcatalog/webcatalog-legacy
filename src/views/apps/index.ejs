@@ -14,7 +14,7 @@
           </p>
           <ul class="menu-list">
             <% categories.forEach(function (c) { %>
-            <li><a class="category<% if (c === category) { %> is-active<% } %>" href="/apps/category/<%= c %><% if (sort) { %>&sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
+            <li><a class="category<% if (c === category) { %> is-active<% } %>" href="/apps/category/<%= c %><% if (sort) { %>?sort=<%= sort %><% } %>"><%= c.replace('+', ' & ') %></a></li>
             <% }) %>
           </ul>
         </aside>
