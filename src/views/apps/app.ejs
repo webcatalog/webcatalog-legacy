@@ -8,12 +8,12 @@
         <div class="content">
           <div class="has-text-centered">
             <p><a href="/apps">Apps</a> > <a class="category" href="/apps/category/<%= app.category %>"><%= app.category.replace('+', ' & ') %></a></p>
-            <a href="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>">
+            <a href="https://s3.getwebcatalog.com/<%= app.id %>.png">
               <figure class="image is-128x128 app-icon">
                 <picture>
-                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.webp?v=<%= app.version %>" type="image/webp">
-                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>" type="image/jpeg">
-                  <img src="https://s3.getwebcatalog.com/<%= app.id %>.png?v=<%= app.version %>" alt="<%= app.name %>">
+                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.webp" type="image/webp">
+                  <source srcset="https://s3.getwebcatalog.com/<%= app.id %>.png" type="image/jpeg">
+                  <img src="https://s3.getwebcatalog.com/<%= app.id %>.png" alt="<%= app.name %>">
                 </picture>
               </figure>
             </a>

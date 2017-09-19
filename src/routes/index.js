@@ -108,11 +108,7 @@ router.get('/terms', (req, res) => {
 });
 
 router.get('/s3/:name.:ext', (req, res) => {
-  if (req.query.v) {
-    res.redirect(`https://s3.getwebcatalog.com/${req.params.name}.${req.params.ext}?v=${req.query.v}`);
-  } else {
-    res.redirect(`https://s3.getwebcatalog.com/${req.params.name}.${req.params.ext}`);
-  }
+  res.redirect(`https://s3.getwebcatalog.com/${req.params.name}.${req.params.ext}`);
 });
 
 router.use('/sitemap.xml', require('./sitemap'));
