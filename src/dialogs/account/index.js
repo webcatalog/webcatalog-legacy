@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import LockIcon from 'material-ui-icons/Lock';
-import { light } from 'material-ui/styles/palette';
 import { MenuItem } from 'material-ui/Menu';
 
 import Divider from 'material-ui/Divider';
@@ -38,7 +37,7 @@ import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 import Profile from './profile';
 import Password from './password';
 
-const styles = {
+const styles = theme => ({
   linearProgress: {
     opacity: 0,
   },
@@ -46,7 +45,7 @@ const styles = {
     padding: '0 12px',
   },
   dialogTitle: {
-    borderBottom: `1px solid ${light.text.divider}`,
+    borderBottom: `1px solid ${theme.palette.text.divider}`,
   },
   dialogContent: {
     display: 'flex',
@@ -66,7 +65,7 @@ const styles = {
     zIndex: 1,
   },
   list: {
-    borderRight: `1px solid ${light.text.divider}`,
+    borderRight: `1px solid ${theme.palette.text.divider}`,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -99,7 +98,7 @@ const styles = {
       background: grey[400],
     },
   },
-};
+});
 
 const Account = (props) => {
   const {
