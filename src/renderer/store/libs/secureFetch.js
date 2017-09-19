@@ -8,7 +8,7 @@ const secureFetch = (path, token) => {
       headers: token !== 'anonnymous' ? new window.Headers({
         Accept: 'application/json',
         Authorization: `JWT ${token}`,
-      }) : null,
+      }) : new window.Headers({}),
     },
   );
 
