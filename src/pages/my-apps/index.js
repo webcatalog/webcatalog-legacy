@@ -15,6 +15,7 @@ import {
 } from '../../state/pages/my-apps/actions';
 import EmptyState from '../../shared/empty-state';
 import RequireLogIn from '../../shared/require-log-in';
+import NoConnection from '../../shared/no-connection';
 
 import {
   STRING_NO_APPS,
@@ -112,17 +113,19 @@ class MyApps extends React.Component {
 
   renderContent() {
     const {
+      apps,
+      classes,
+      hasFailed,
       isGetting,
       isLoggedIn,
-      classes,
-      apps,
+      onGetMyApps,
     } = this.props;
 
     if (!isLoggedIn) {
       return <RequireLogIn />;
     }
 
-    if (!isGetting && !apps.length) {
+    if (!isGetting && !hasFailed && apps.length < 1) {
       return (
         <EmptyState icon={LocalOfferIcon} title={STRING_NO_APPS}>
           {STRING_NO_APPS_DESC}
@@ -130,7 +133,11 @@ class MyApps extends React.Component {
       );
     }
 
-    return (
+    return hasFailed ? (
+      <NoConnection
+        onTryAgainButtonClick={onGetMyApps}
+      />
+    ) : (
       <Grid container className={classes.grid}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={24}>
@@ -161,10 +168,11 @@ class MyApps extends React.Component {
 }
 
 MyApps.propTypes = {
+  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
+  hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   onGetMyApps: PropTypes.func.isRequired,
   onResetAndGetMyApps: PropTypes.func.isRequired,
 };

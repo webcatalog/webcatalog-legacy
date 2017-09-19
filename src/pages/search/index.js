@@ -17,7 +17,6 @@ import NoConnection from '../../shared/no-connection';
 import {
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
-  STRING_SEARCH_APPS,
 } from '../../constants/strings';
 
 const styles = () => ({
