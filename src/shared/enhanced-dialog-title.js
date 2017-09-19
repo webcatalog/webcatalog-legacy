@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
 import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
 import { DialogTitle } from 'material-ui/Dialog';
 import { withStyles } from 'material-ui/styles';
 
@@ -27,8 +27,8 @@ const styles = {
 
 const EnhancedDialogTitle = (props) => {
   const {
-    classes,
     children,
+    classes,
     onCloseButtonClick,
   } = props;
 
@@ -37,10 +37,9 @@ const EnhancedDialogTitle = (props) => {
       <span className={classes.text}>
         {children}
       </span>
-
       <IconButton
-        className={classes.closeButton}
         aria-label={STRING_CLOSE}
+        className={classes.closeButton}
         onClick={onCloseButtonClick}
       >
         <CloseIcon />

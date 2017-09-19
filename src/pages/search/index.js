@@ -1,13 +1,16 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import SearchIcon from 'material-ui-icons/Search';
 
 import { LinearProgress } from 'material-ui/Progress';
 import Grid from 'material-ui/Grid';
+import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 
 import connectComponent from '../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
+import EmptyState from '../../shared/empty-state';
 
 const styles = () => ({
   scrollContainer: {
@@ -26,7 +29,12 @@ const Search = (props) => {
     apps,
     classes,
     isGetting,
+    query,
   } = props;
+
+  if (!isGetting && !apps.length) {
+    if (query === '') return <EmptyState icon={SearchIcon} title="Search hundreds of apps" />;
+  }
 
   return (
     <div
@@ -45,15 +53,21 @@ const Search = (props) => {
   );
 };
 
+Search.defaultProps = {
+  query: '',
+};
+
 Search.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   isGetting: PropTypes.bool.isRequired,
+  query: '',
 };
 
 const mapStateToProps = state => ({
-  isGetting: state.pages.search.isGetting,
   apps: state.pages.search.apps,
+  isGetting: state.pages.search.isGetting,
+  query: state.pages.search.form.query,
 });
 
 export default connectComponent(

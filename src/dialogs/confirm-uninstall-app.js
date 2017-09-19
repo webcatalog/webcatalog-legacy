@@ -22,8 +22,8 @@ import {
   STRING_BROWSING_DATA_REMOVED,
   STRING_CANCEL,
   STRING_UNINSTALL,
-  STRING_UNINSTALLING_APP_NAME,
   STRING_UNINSTALLING,
+  STRING_UNINSTALLING_APP_NAME,
 } from '../constants/strings';
 
 const styles = {
@@ -41,10 +41,10 @@ const styles = {
 const ConfirmUninstallApp = (props) => {
   const {
     app,
-    isSaving,
     classes,
-    onSave,
+    isSaving,
     onClose,
+    onSave,
     open,
   } = props;
 
@@ -52,8 +52,8 @@ const ConfirmUninstallApp = (props) => {
 
   return (
     <Dialog
-      ignoreBackdropClick={isSaving}
       className={classes.root}
+      ignoreBackdropClick={isSaving}
       onRequestClose={onClose}
       open={open}
       transition={Fade}
@@ -93,27 +93,27 @@ ConfirmUninstallApp.defaultProps = {
 };
 
 ConfirmUninstallApp.propTypes = {
+  app: PropTypes.object,
   classes: PropTypes.object.isRequired,
   isSaving: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  app: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
   const {
+    form,
     isSaving,
     open,
-    form,
   } = state.dialogs.confirmUninstallApp;
 
   const { app } = form;
 
   return {
+    app,
     isSaving,
     open,
-    app,
   };
 };
 

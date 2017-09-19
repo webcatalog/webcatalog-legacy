@@ -10,7 +10,6 @@ const styles = {
   },
 };
 
-
 class EnhancedMenu extends React.Component {
   constructor(props) {
     super(props);

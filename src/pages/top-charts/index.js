@@ -34,6 +34,9 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  tab: {
+    width: 225,
+  },
   paper: {
     zIndex: 1,
     display: 'flex',
@@ -111,8 +114,14 @@ class TopCharts extends React.Component {
               return onSetSortBy('createdAt', 'desc');
             }}
           >
-            <Tab label={category ? STRING_TOP_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_TOP_APPS} />
-            <Tab label={category ? STRING_NEW_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_NEW_APPS} />
+            <Tab
+              className={classes.tab}
+              label={category ? STRING_TOP_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_TOP_APPS}
+            />
+            <Tab
+              className={classes.tab}
+              label={category ? STRING_NEW_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_NEW_APPS}
+            />
           </Tabs>
 
           <div className={classes.buttonContainer}>

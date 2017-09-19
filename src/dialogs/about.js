@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -29,12 +28,12 @@ import {
   STRING_PRIVACY_POLICY,
   STRING_QUIT_AND_INSTALL,
   STRING_RELEASE_NOTES,
+  STRING_TERMS,
   STRING_UPDATE_AVAILABLE,
   STRING_UPDATE_DOWNLOADED,
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
   STRING_UPDATE_PROGRESS,
-  STRING_TERMS,
 } from '../constants/strings';
 
 import {
@@ -132,18 +131,18 @@ const About = (props) => {
 
         {updaterStatus === UPDATE_DOWNLOADED ? (
           <Button
-            raised
             color="primary"
             onClick={requestQuitAndInstall}
+            raised
           >
             {STRING_QUIT_AND_INSTALL}
           </Button>
         ) : (
           <Button
-            raised
             color="primary"
             disabled={isUpdaterRunning}
             onClick={requestCheckForUpdates}
+            raised
           >
             {STRING_CHECK_FOR_UPDATES}
           </Button>

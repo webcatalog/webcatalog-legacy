@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
 import Fade from 'material-ui/transitions/Fade';
-import Slide from 'material-ui/transitions/Slide';
-import { LinearProgress } from 'material-ui/Progress';
-import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
 import FormControl from 'material-ui/Form/FormControl';
 import FormHelperText from 'material-ui/Form/FormHelperText';
+import Input from 'material-ui/Input';
+import InputLabel from 'material-ui/Input/InputLabel';
+import Slide from 'material-ui/transitions/Slide';
+import { LinearProgress } from 'material-ui/Progress';
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -25,13 +25,13 @@ import {
 } from '../state/dialogs/submit-app/actions';
 
 import {
-  STRING_SUBMIT_APP,
   STRING_APP_NAME,
-  STRING_APP_URL,
   STRING_APP_NAME_PLACEHOLDER,
+  STRING_APP_URL,
   STRING_APP_URL_PLACEHOLDER,
   STRING_CANCEL,
   STRING_SUBMIT,
+  STRING_SUBMIT_APP,
   STRING_SUBMITTING,
 } from '../constants/strings';
 
@@ -58,14 +58,14 @@ const styles = {
 
 const SubmitApp = (props) => {
   const {
+    classes,
     isLoggedIn,
     isSaving,
-    classes,
     name,
     nameError,
-    onSave,
     onClose,
     onFormUpdate,
+    onSave,
     open,
     url,
     urlError,
@@ -75,8 +75,8 @@ const SubmitApp = (props) => {
 
   return (
     <Dialog
-      ignoreBackdropClick={isSaving}
       className={classes.root}
+      ignoreBackdropClick={isSaving}
       onRequestClose={onClose}
       open={open}
       transition={<Slide direction="left" />}
@@ -97,10 +97,10 @@ const SubmitApp = (props) => {
           <FormControl className={classes.formControl} error={nameError}>
             <InputLabel htmlFor="name">{STRING_APP_NAME}</InputLabel>
             <Input
-              placeholder={STRING_APP_NAME_PLACEHOLDER}
               id="name"
-              value={name}
               onChange={e => onFormUpdate({ name: e.target.value })}
+              placeholder={STRING_APP_NAME_PLACEHOLDER}
+              value={name}
             />
             {nameError ? <FormHelperText>{nameError}</FormHelperText> : null}
           </FormControl>
@@ -109,10 +109,10 @@ const SubmitApp = (props) => {
           <FormControl className={classes.formControl} error={urlError}>
             <InputLabel htmlFor="url">{STRING_APP_URL}</InputLabel>
             <Input
-              placeholder={STRING_APP_URL_PLACEHOLDER}
               id="url"
-              value={url}
               onChange={e => onFormUpdate({ url: e.target.value })}
+              placeholder={STRING_APP_URL_PLACEHOLDER}
+              value={url}
             />
             {urlError ? <FormHelperText>{urlError}</FormHelperText> : null}
           </FormControl>
@@ -147,8 +147,8 @@ SubmitApp.defaultProps = {
 
 SubmitApp.propTypes = {
   classes: PropTypes.object.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  isSaving: PropTypes.bool.isRequired,
   name: PropTypes.string,
   nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import ErrorIcon from 'material-ui-icons/Error';
 import grey from 'material-ui/colors/grey';
 import Typography from 'material-ui/Typography';
+import { withStyles } from 'material-ui/styles';
 
 import {
   STRING_FAILED_TO_CONNECT,
@@ -64,10 +64,10 @@ const NoConnection = (props) => {
         {STRING_FAILED_TO_CONNECT_DESC}
       </Typography>
       <Button
-        raised
-        color="primary"
         className={classes.tryAgainButton}
+        color="primary"
         onClick={onTryAgainButtonClick}
+        raised
       >
         {STRING_TRY_AGAIN}
       </Button>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -19,10 +18,10 @@ import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-
 import { installApp } from '../state/root/local/actions';
 
 import {
-  isInstalled as isInstalledUtil,
-  isUninstalling as isUninstallingUtil,
-  isInstalling as isInstallingUtil,
   getMoleculeVersion,
+  isInstalled as isInstalledUtil,
+  isInstalling as isInstallingUtil,
+  isUninstalling as isUninstallingUtil,
 } from '../state/root/local/utils';
 
 import {
@@ -38,10 +37,10 @@ import getCurrentMoleculeVersion from '../helpers/get-current-molecule-version';
 
 const styles = (theme) => {
   const cardContentDefaults = {
-    position: 'relative',
+    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    position: 'relative',
   };
 
   return {
@@ -52,10 +51,10 @@ const styles = (theme) => {
       },
     },
     scrollContainer: {
-      flex: 1,
-      padding: 36,
-      overflow: 'auto',
       boxSizing: 'border-box',
+      flex: 1,
+      overflow: 'auto',
+      padding: 36,
     },
     buttonText: {
       fontSize: 12,
@@ -69,17 +68,14 @@ const styles = (theme) => {
       flexDirection: 'column',
       width: '100%',
     },
-
     card: {
       width: 240,
       boxSizing: 'border-box',
     },
-
     cardIsViewing: {
-      width: '90vw',
       padding: 0,
+      width: '90vw',
     },
-
     appName: {
       marginTop: 16,
       overflow: 'hidden',
@@ -90,17 +86,14 @@ const styles = (theme) => {
       width: 72,
       height: 72,
     },
-
     cardContent: {
       ...cardContentDefaults,
     },
-
     cardContentIsViewing: {
       ...cardContentDefaults,
       backgroundColor: 'white',
       padding: 0,
     },
-
     domainText: {
       fontWeight: 400,
       lineHeight: 1,
@@ -109,6 +102,9 @@ const styles = (theme) => {
     cardActions: {
       justifyContent: 'center',
       overflow: 'hidden',
+    },
+    linearProgress: {
+      marginTop: -5,
     },
     linearProgressContainer: {
       flex: 1,
@@ -120,7 +116,6 @@ const styles = (theme) => {
     iconButton: {
       margin: 0,
     },
-
     moreIconMenu: {
       position: 'absolute',
       transform: 'translate(82px, -16px)',
@@ -182,23 +177,27 @@ const AppCard = (props) => {
       );
     }
 
-    if (isInstalling || isUninstalling) {
-      return (
-        <div className={classes.linearProgressContainer}><LinearProgress /></div>
-      );
-    }
+    let label;
+    if (isInstalling) label = 'Installing...';
+    else if (isUninstalling) label = 'Uninstalling...';
+    else label = STRING_INSTALL;
 
     return (
       <Button
         color="primary"
         dense
+        disabled={isInstalling || isUninstalling}
         onClick={() => onInstallApp(app.id, app.name)}
       >
         <GetAppIcon color="inherit" />
-        <span className={classes.buttonText}>{STRING_INSTALL}</span>
+        <span className={classes.buttonText}>{label}</span>
       </Button>
     );
   };
+
+  const cardLinearProgresss = isInstalling || isUninstalling
+    ? <LinearProgress className={classes.linearProgress} />
+    : null;
 
   return (
     <Grid key={app.id} item>
@@ -215,6 +214,7 @@ const AppCard = (props) => {
         <CardActions className={classes.cardActions}>
           {renderActionsElement()}
         </CardActions>
+        {cardLinearProgresss}
       </Card>
     </Grid>
   );
