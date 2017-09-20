@@ -28,18 +28,24 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: 64,
+    width: 68,
     padding: theme.spacing.unit,
     paddingTop: 18,
     boxSizing: 'border-box',
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
+  containerWithoutTitlebar: {
+    paddingTop: 28,
+  },
   containerVert: {
     width: '100%',
     height: 'auto',
     flexDirection: 'row',
     padding: '0 4px',
+  },
+  containerVertWithoutTitleBar: {
+    paddingLeft: 68,
   },
   innerContainer: {
     width: '100%',
@@ -86,11 +92,20 @@ const NavigationBar = (props) => {
     onHomeButtonClick,
     onOpenDialogPreferences,
     onRefreshButtonClick,
+    showTitleBar,
     vert,
   } = props;
 
   return (
-    <Paper elevation={2} className={classnames(classes.container, vert && classes.containerVert)}>
+    <Paper
+      elevation={2}
+      className={classnames(
+        classes.container,
+        vert && classes.containerVert,
+        window.platform === 'darwin' && !showTitleBar && classes.containerWithoutTitlebar,
+        vert && window.platform === 'darwin' && !showTitleBar && classes.containerVertWithoutTitleBar,
+      )}
+    >
       <div className={classnames(classes.innerContainer, vert && classes.innerContainerVert)}>
         <IconButton
           aria-label={STRING_HOME}
@@ -135,6 +150,7 @@ const NavigationBar = (props) => {
 NavigationBar.defaultProps = {
   canGoBack: false,
   canGoForward: false,
+  showTitleBar: false,
   vert: false,
 };
 
@@ -147,12 +163,14 @@ NavigationBar.propTypes = {
   onHomeButtonClick: PropTypes.func.isRequired,
   onOpenDialogPreferences: PropTypes.func.isRequired,
   onRefreshButtonClick: PropTypes.func.isRequired,
+  showTitleBar: PropTypes.bool,
   vert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   canGoBack: state.nav.canGoBack,
   canGoForward: state.nav.canGoForward,
+  showTitleBar: state.preferences.showTitleBar,
 });
 
 const actionCreators = {

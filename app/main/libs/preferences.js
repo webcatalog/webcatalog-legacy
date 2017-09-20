@@ -7,13 +7,14 @@ const v = '1.0.0';
 
 const defaultPreferences = {
   darkTheme: false,
-  showNavigationBar: true,
+  injectCSS: '',
+  injectJS: '',
   navigationBarPosition: 'left',
+  showNavigationBar: true,
+  showTitleBar: false,
   swipeToNavigate: true,
   useHardwareAcceleration: true,
   userAgent: null,
-  injectCSS: '',
-  injectJS: '',
 };
 
 const getPreferences = () => settings.get(`preferences.${v}`, defaultPreferences);

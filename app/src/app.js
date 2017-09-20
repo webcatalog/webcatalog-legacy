@@ -33,6 +33,7 @@ import NavigationBar from './root/navigation-bar';
 import NoConnection from './root/no-connection';
 import WebView from './root/web-view';
 import Loading from './root/loading';
+import FakeTitleBar from './shared/fake-title-bar';
 
 import DialogClearBrowsingData from './dialogs/clear-browsing-data';
 import DialogInjectCSS from './dialogs/inject-css';
@@ -43,9 +44,14 @@ import DialogReset from './dialogs/reset';
 import DialogUserAgent from './dialogs/user-agent';
 
 const styles = theme => ({
-  root: {
+  rootParent: {
     width: '100vw',
     height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  root: {
+    flex: 1,
     display: 'flex',
   },
   leftNav: {
@@ -66,7 +72,7 @@ const styles = theme => ({
   },
   rightContent: {
     flex: 1,
-    height: '100vh',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
@@ -90,7 +96,6 @@ const styles = theme => ({
   },
   webviewContainer: {
     flex: 1,
-    // height: '100vh',
     display: 'flex',
   },
   webview: {
@@ -285,6 +290,7 @@ class App extends React.Component {
       onUpdateIsLoading,
       onUpdateTargetUrl,
       showNavigationBar,
+      showTitleBar,
     } = this.props;
 
     const {
@@ -308,14 +314,15 @@ class App extends React.Component {
       />
     );
 
-    console.log(getWebViewPreloadPath());
-
     // remove Electron to prevent some apps to call private Electron APIs.
     const userAgent = window.navigator.userAgent
       .replace(`Electron/${window.versions.electron} `, '') || customUserAgent;
 
+    // force user to have title bar if they hide navigation bar
+    const shouldShowTitleBar = showTitleBar || !showNavigationBar;
+
     return (
-      <div className={classes.root}>
+      <div className={classes.rootParent}>
         <DialogClearBrowsingData />
         <DialogInjectCSS />
         <DialogInjectJS />
@@ -324,67 +331,73 @@ class App extends React.Component {
         <DialogReset />
         <DialogUserAgent />
 
-        {navigationBarPosition === 'left' && navElement}
-        {isFailed && (
-          <NoConnection
-            onTryAgainButtonClick={() => {
-              onUpdateIsFailed(false);
-              const c = this.webView;
-              c.reload();
-            }}
-          />
+        {shouldShowTitleBar && (
+          <FakeTitleBar background="-webkit-linear-gradient(top, #ebebeb, #d5d5d5)" />
         )}
-        <div className={classes.rightContent}>
-          {isLoading && <Loading />}
-          {navigationBarPosition === 'top' && navElement}
-          {findInPageIsOpen && (
-            <FindInPage
-              onRequestFind={(text, forward) => {
+
+        <div className={classes.root}>
+          {navigationBarPosition === 'left' && navElement}
+          {isFailed && (
+            <NoConnection
+              onTryAgainButtonClick={() => {
+                onUpdateIsFailed(false);
                 const c = this.webView;
-                c.findInPage(text, { forward });
-              }}
-              onRequestStopFind={() => {
-                const c = this.webView;
-                c.stopFindInPage('clearSelection');
-                onUpdateFindInPageMatches(0, 0);
+                c.reload();
               }}
             />
           )}
-          <WebView
-            allowpopups
-            autoresize
-            className={classes.webview}
-            nodeintegration={false}
-            parentClassName={classes.webviewContainer}
-            partition="persist:app"
-            plugins
-            preload={`file:${getWebViewPreloadPath()}`}
-            ref={(c) => { this.webView = c; }}
-            useragent={userAgent}
-            webpreferences="nativeWindowOpen=no"
-            src={window.shellInfo.url}
-            onDidFailLoad={onDidFailLoad}
-            onDidStartLoading={() => onUpdateIsLoading(true)}
-            onDidStopLoading={onDidStopLoading}
-            onFoundInPage={({ result }) =>
-              onUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
-            onNewWindow={onNewWindow}
-            onPageTitleUpdated={({ url, title }) => {
-              document.title = title;
-              onUpdateTargetUrl(url);
+          <div className={classes.rightContent}>
+            {isLoading && <Loading />}
+            {navigationBarPosition === 'top' && navElement}
+            {findInPageIsOpen && (
+              <FindInPage
+                onRequestFind={(text, forward) => {
+                  const c = this.webView;
+                  c.findInPage(text, { forward });
+                }}
+                onRequestStopFind={() => {
+                  const c = this.webView;
+                  c.stopFindInPage('clearSelection');
+                  onUpdateFindInPageMatches(0, 0);
+                }}
+              />
+            )}
+            <WebView
+              allowpopups
+              autoresize
+              className={classes.webview}
+              nodeintegration={false}
+              parentClassName={classes.webviewContainer}
+              partition="persist:app"
+              plugins
+              preload={`file:${getWebViewPreloadPath()}`}
+              ref={(c) => { this.webView = c; }}
+              useragent={userAgent}
+              webpreferences="nativeWindowOpen=no"
+              src={window.shellInfo.url}
+              onDidFailLoad={onDidFailLoad}
+              onDidStartLoading={() => onUpdateIsLoading(true)}
+              onDidStopLoading={onDidStopLoading}
+              onFoundInPage={({ result }) =>
+                onUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
+              onNewWindow={onNewWindow}
+              onPageTitleUpdated={({ url, title }) => {
+                document.title = title;
+                onUpdateTargetUrl(url);
 
-              ipcRenderer.send('set-title', title);
+                ipcRenderer.send('set-title', title);
 
-              const itemCountRegex = /[([{](\d*?)[}\])]/;
-              const match = itemCountRegex.exec(title);
-              const newBadge = match ? match[1] : '';
+                const itemCountRegex = /[([{](\d*?)[}\])]/;
+                const match = itemCountRegex.exec(title);
+                const newBadge = match ? match[1] : '';
 
-              ipcRenderer.send('badge', newBadge);
-            }}
-          />
+                ipcRenderer.send('badge', newBadge);
+              }}
+            />
+          </div>
+          {navigationBarPosition === 'right' && navElement}
+          <EnhancedSnackbar />
         </div>
-        {navigationBarPosition === 'right' && navElement}
-        <EnhancedSnackbar />
       </div>
     );
   }
@@ -398,6 +411,7 @@ App.defaultProps = {
   isLoading: false,
   navigationBarPosition: 'left',
   showNavigationBar: true,
+  showTitleBar: false,
 };
 
 App.propTypes = {
@@ -418,6 +432,7 @@ App.propTypes = {
   onUpdateIsLoading: PropTypes.func.isRequired,
   onUpdateTargetUrl: PropTypes.func.isRequired,
   showNavigationBar: PropTypes.bool,
+  showTitleBar: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -429,6 +444,7 @@ const mapStateToProps = state => ({
   isLoading: state.nav.isLoading,
   navigationBarPosition: state.preferences.navigationBarPosition,
   showNavigationBar: state.preferences.showNavigationBar,
+  showTitleBar: state.preferences.showTitleBar,
 });
 
 const actionCreators = {

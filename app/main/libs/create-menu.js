@@ -1,6 +1,7 @@
 const { Menu, shell, app } = require('electron');
 
 const sendMessageToWindow = require('./send-message-to-window');
+const { getPreference, setPreference } = require('./preferences');
 
 function createMenu() {
   let currentZoom = 1;
@@ -40,6 +41,15 @@ function createMenu() {
           accelerator: 'CmdOrCtrl+R',
         },
         { role: 'forcereload' },
+        { type: 'separator' },
+        {
+          label: 'Toggle Navigation Bar',
+          click: () => {
+            const showNavigationBar = getPreference('showNavigationBar');
+            setPreference('showNavigationBar', !showNavigationBar);
+          },
+          accelerator: 'Shift+CmdOrCtrl+N',
+        },
         { type: 'separator' },
         {
           label: 'Actual Size',

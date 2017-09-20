@@ -36,6 +36,11 @@ try {
 }
 
 const createWindow = () => {
+  const preferences = getPreferences();
+  const {
+    swipeToNavigate,
+  } = preferences;
+
   // Keep window size and restore on startup
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1024,
@@ -50,7 +55,7 @@ const createWindow = () => {
     height: mainWindowState.height,
     minWidth: 480,
     minHeight: 568,
-    titleBarStyle: 'default',
+    titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
@@ -78,8 +83,6 @@ const createWindow = () => {
   createMenu();
 
   // Enable swipe to navigate
-  const preferences = getPreferences();
-  const { swipeToNavigate } = preferences;
   if (swipeToNavigate) {
     mainWindow.on('swipe', (e, direction) => {
       if (direction === 'left') {

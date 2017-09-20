@@ -72,6 +72,7 @@ import {
   STRING_RESET,
   STRING_RIGHT,
   STRING_SHOW_NAVIGATION_BAR,
+  STRING_SHOW_TITLE_BAR,
   STRING_SIGN_IN_INSTRUCTION,
   STRING_SWIPE_TO_NAVIGATE_DESC,
   STRING_SWIPE_TO_NAVIGATE,
@@ -83,6 +84,7 @@ import {
 } from '../../constants/strings';
 
 import EnhancedMenu from '../../shared/enhanced-menu';
+import FakeTitleBar from '../../shared/fake-title-bar';
 
 const styles = theme => ({
   dialogContent: {
@@ -196,6 +198,7 @@ class PreferencesDialog extends React.Component {
       onOpenDialogUserAgent,
       open,
       showNavigationBar,
+      showTitleBar,
       swipeToNavigate,
       useHardwareAcceleration,
       userAgent,
@@ -210,6 +213,7 @@ class PreferencesDialog extends React.Component {
         open={open}
         transition={<Slide direction="up" />}
       >
+        <FakeTitleBar />
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
@@ -339,7 +343,9 @@ class PreferencesDialog extends React.Component {
                 <Divider />
                 <ListItem
                   button
-                  onClick={() => requestSetPreference('showNavigationBar', !showNavigationBar)}
+                  onClick={() => {
+                    requestSetPreference('showNavigationBar', !showNavigationBar);
+                  }}
                 >
                   <ListItemText
                     primary={STRING_SHOW_NAVIGATION_BAR}
@@ -347,7 +353,9 @@ class PreferencesDialog extends React.Component {
                   <ListItemSecondaryAction>
                     <Switch
                       checked={showNavigationBar}
-                      onChange={(e, checked) => requestSetPreference('showNavigationBar', checked)}
+                      onChange={(e, checked) => {
+                        requestSetPreference('showNavigationBar', checked);
+                      }}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -377,6 +385,27 @@ class PreferencesDialog extends React.Component {
                     </EnhancedMenu>
                   </ListItemSecondaryAction>
                 </ListItem>}
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
+                    if (window.platform !== 'darwin' || !showNavigationBar) return;
+                    requestSetPreference('showTitleBar', !showTitleBar);
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_SHOW_TITLE_BAR}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={window.platform === 'darwin' && showNavigationBar ? showTitleBar : true}
+                      disabled={window.platform !== 'darwin' || !showNavigationBar}
+                      onChange={(e, checked) => {
+                        requestSetPreference('showTitleBar', checked);
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
               </List>
             </Paper>
 
@@ -635,6 +664,7 @@ PreferencesDialog.defaultProps = {
   email: null,
   darkTheme: false,
   showNavigationBar: true,
+  showTitleBar: false,
   navigationBarPosition: 'left',
   swipeToNavigate: true,
   useHardwareAcceleration: true,
@@ -660,6 +690,7 @@ PreferencesDialog.propTypes = {
   onOpenDialogUserAgent: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   showNavigationBar: PropTypes.bool,
+  showTitleBar: PropTypes.bool,
   swipeToNavigate: PropTypes.bool,
   useHardwareAcceleration: PropTypes.bool,
   userAgent: PropTypes.string,
@@ -668,13 +699,14 @@ PreferencesDialog.propTypes = {
 const mapStateToProps = (state) => {
   const {
     darkTheme,
-    showNavigationBar,
+    injectCSS,
+    injectJS,
     navigationBarPosition,
+    showNavigationBar,
+    showTitleBar,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
-    injectCSS,
-    injectJS,
   } = state.preferences;
 
   return {
@@ -686,6 +718,7 @@ const mapStateToProps = (state) => {
     navigationBarPosition,
     open: state.dialogs.preferences.open,
     showNavigationBar,
+    showTitleBar,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
