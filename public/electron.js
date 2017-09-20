@@ -4,8 +4,7 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 
-// const isLegacy = argv.url !== undefined && argv.id !== undefined;
-const isLegacy = true;
+const isLegacy = argv.url !== undefined && argv.id !== undefined;
 const isTesting = argv.testing === 'true'; // Spectron mode
 
 const createMenu = require('./libs/create-menu');
