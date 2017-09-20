@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import createPalette from 'material-ui/styles/palette';
+import createMuiTheme from 'material-ui/styles/createMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/red';
@@ -30,12 +30,12 @@ const runApp = () => {
   const state = store.getState();
 
   const theme = createMuiTheme({
-    palette: createPalette({
+    palette: {
       type: state.preferences.darkTheme ? 'dark' : 'light',
       primary: blue, // Purple and green play nicely together.
       accent: pink,
       error: red,
-    }),
+    },
   });
 
   ReactDOM.render(
