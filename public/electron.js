@@ -1,9 +1,11 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const isDev = require('electron-is-dev');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 
+// const isLegacy = argv.url !== undefined && argv.id !== undefined;
+const isLegacy = true;
 const isTesting = argv.testing === 'true'; // Spectron mode
 
 const createMenu = require('./libs/create-menu');
@@ -60,7 +62,21 @@ const createWindow = () => {
   });
 };
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  if (isLegacy) {
+    dialog.showMessageBox({
+      type: 'error',
+      title: 'The App Needs to Be Updated',
+      message: 'You need to update this app to work with WebCatalog 7.0 and above. Launch WebCatalog to proceed.',
+    }, () => {
+      app.quit();
+    });
+
+    return;
+  }
+
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
