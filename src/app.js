@@ -13,6 +13,7 @@ import DialogFeedback from './dialogs/feedback';
 
 import EnhancedAppBar from './root/enhanced-app-bar';
 import EnhancedSnackBar from './root/enhanced-snackbar';
+import UpdaterMessage from './root/updater-message';
 
 import InstalledApps from './pages/installed-apps';
 import Login from './pages/log-in';
@@ -82,6 +83,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <EnhancedAppBar />
+        <UpdaterMessage />
         {pageContent}
         <EnhancedSnackBar />
         <DialogAbout />
