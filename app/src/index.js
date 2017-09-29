@@ -30,15 +30,6 @@ const runApp = () => {
   const state = store.getState();
 
   const theme = createMuiTheme({
-    breakpoints: {
-      values: {
-        xs: 1,
-        sm: 2,
-        md: 3,
-        lg: 1200,
-        xl: 1440,
-      },
-    },
     palette: {
       type: state.preferences.darkTheme ? 'dark' : 'light',
       primary: blue, // Purple and green play nicely together.
