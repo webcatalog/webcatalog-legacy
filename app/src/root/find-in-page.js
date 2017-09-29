@@ -7,6 +7,7 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui-icons/Search';
 import TextField from 'material-ui/TextField';
+import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography';
 
 import connectComponent from '../helpers/connect-component';
@@ -94,45 +95,65 @@ class FindInPage extends React.Component {
             }}
           />
         </div>
-        <IconButton
-          aria-label={STRING_PREVIOUS}
-          onClick={() => {
-            if (text.length > 0) {
-              onRequestFind(text, false);
-            }
-          }}
+        <Tooltip
+          title={STRING_PREVIOUS}
+          placement="bottom"
         >
-          <ExpandLessIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_NEXT}
-          onClick={() => {
-            if (text.length > 0) {
-              onRequestFind(text, true);
-            }
-          }}
+          <IconButton
+            aria-label={STRING_PREVIOUS}
+            onClick={() => {
+              if (text.length > 0) {
+                onRequestFind(text, false);
+              }
+            }}
+          >
+            <ExpandLessIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_NEXT}
+          placement="bottom"
         >
-          <ExpandMoreIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_FIND}
-          onClick={() => {
-            if (text.length > 0) {
-              onRequestFind(text, true);
-            }
-          }}
+          <IconButton
+            aria-label={STRING_NEXT}
+            onClick={() => {
+              if (text.length > 0) {
+                onRequestFind(text, true);
+              }
+            }}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_FIND}
+          placement="bottom"
         >
-          <SearchIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_CLOSE}
-          onClick={() => {
-            onRequestStopFind();
-            onToggleFindInPageDialog();
-          }}
+          <IconButton
+            aria-label={STRING_FIND}
+            onClick={() => {
+              if (text.length > 0) {
+                onRequestFind(text, true);
+              }
+            }}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_CLOSE}
+          placement="bottom"
         >
-          <CloseIcon />
-        </IconButton>
+          <IconButton
+            aria-label={STRING_CLOSE}
+            onClick={() => {
+              onRequestStopFind();
+              onToggleFindInPageDialog();
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     );
   }
