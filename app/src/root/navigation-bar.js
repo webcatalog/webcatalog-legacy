@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
+import HomeIcon from 'material-ui-icons/Home';
 import IconButton from 'material-ui/IconButton';
-import SettingsIcon from 'material-ui-icons/Settings';
-import Paper from 'material-ui/Paper';
 import KeyboardArrowLeftIcon from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
+import Paper from 'material-ui/Paper';
 import RefreshIcon from 'material-ui-icons/Refresh';
-import HomeIcon from 'material-ui-icons/Home';
+import SettingsIcon from 'material-ui-icons/Settings';
+import Tooltip from 'material-ui/Tooltip';
 
 import connectComponent from '../helpers/connect-component';
 
@@ -87,14 +89,28 @@ const NavigationBar = (props) => {
     canGoBack,
     canGoForward,
     classes,
+    navigationBarPosition,
     onBackButtonClick,
     onForwardButtonClick,
     onHomeButtonClick,
     onOpenDialogPreferences,
     onRefreshButtonClick,
     showTitleBar,
-    vert,
   } = props;
+
+  const vert = navigationBarPosition === 'top';
+
+  let tooltipPlacement;
+  switch (navigationBarPosition) {
+    case 'left':
+      tooltipPlacement = 'right';
+      break;
+    case 'right':
+      tooltipPlacement = 'left';
+      break;
+    default:
+      tooltipPlacement = 'bottom';
+  }
 
   return (
     <Paper
@@ -107,41 +123,66 @@ const NavigationBar = (props) => {
       )}
     >
       <div className={classnames(classes.innerContainer, vert && classes.innerContainerVert)}>
-        <IconButton
-          aria-label={STRING_HOME}
-          onClick={onHomeButtonClick}
+        <Tooltip
+          title={STRING_HOME}
+          placement={tooltipPlacement}
         >
-          <HomeIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_BACK}
-          disabled={!canGoBack}
-          onClick={onBackButtonClick}
+          <IconButton
+            aria-label={STRING_HOME}
+            onClick={onHomeButtonClick}
+          >
+            <HomeIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_BACK}
+          placement={tooltipPlacement}
         >
-          <KeyboardArrowLeftIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_FORWARD}
-          disabled={!canGoForward}
-          onClick={onForwardButtonClick}
+          <IconButton
+            aria-label={STRING_BACK}
+            disabled={!canGoBack}
+            onClick={onBackButtonClick}
+          >
+            <KeyboardArrowLeftIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_FORWARD}
+          placement={tooltipPlacement}
         >
-          <KeyboardArrowRightIcon />
-        </IconButton>
-        <IconButton
-          aria-label={STRING_RELOAD}
-          onClick={onRefreshButtonClick}
+          <IconButton
+            aria-label={STRING_FORWARD}
+            disabled={!canGoForward}
+            onClick={onForwardButtonClick}
+          >
+            <KeyboardArrowRightIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip
+          title={STRING_RELOAD}
+          placement={tooltipPlacement}
         >
-          <RefreshIcon />
-        </IconButton>
+          <IconButton
+            aria-label={STRING_RELOAD}
+            onClick={onRefreshButtonClick}
+          >
+            <RefreshIcon />
+          </IconButton>
+        </Tooltip>
       </div>
 
       <div className={classnames(classes.innerContainerEnd, classes.innerContainerEndVert)}>
-        <IconButton
-          aria-label={STRING_PREFERENCES}
-          onClick={() => onOpenDialogPreferences()}
+        <Tooltip
+          title={STRING_PREFERENCES}
+          placement={tooltipPlacement}
         >
-          <SettingsIcon />
-        </IconButton>
+          <IconButton
+            aria-label={STRING_PREFERENCES}
+            onClick={() => onOpenDialogPreferences()}
+          >
+            <SettingsIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     </Paper>
   );
@@ -158,19 +199,20 @@ NavigationBar.propTypes = {
   canGoBack: PropTypes.bool,
   canGoForward: PropTypes.bool,
   classes: PropTypes.object.isRequired,
+  navigationBarPosition: PropTypes.string.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onForwardButtonClick: PropTypes.func.isRequired,
   onHomeButtonClick: PropTypes.func.isRequired,
   onOpenDialogPreferences: PropTypes.func.isRequired,
   onRefreshButtonClick: PropTypes.func.isRequired,
   showTitleBar: PropTypes.bool,
-  vert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   canGoBack: state.nav.canGoBack,
   canGoForward: state.nav.canGoForward,
   showTitleBar: state.preferences.showTitleBar,
+  navigationBarPosition: state.preferences.navigationBarPosition,
 });
 
 const actionCreators = {

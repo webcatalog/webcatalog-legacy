@@ -306,7 +306,6 @@ class App extends React.Component {
 
     const navElement = showNavigationBar && (
       <NavigationBar
-        vert={navigationBarPosition === 'top'}
         onHomeButtonClick={onGoHome}
         onBackButtonClick={onGoBack}
         onForwardButtonClick={onGoForward}
