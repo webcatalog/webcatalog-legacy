@@ -64,7 +64,6 @@ import {
   STRING_LOGGED_IN_AS,
   STRING_NAVIGATION_BAR_POSITION,
   STRING_NONE,
-  STRING_OPEN_WEBCATALOG,
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
   STRING_PRIVACY_NOTE,
@@ -476,9 +475,11 @@ class PreferencesDialog extends React.Component {
                   <Typography type="body1">
                     {STRING_SIGN_IN_INSTRUCTION}
                   </Typography>
-                  <Button raised className={classes.accountSectionButton}>
-                    {STRING_OPEN_WEBCATALOG}
-                  </Button>
+                  {
+                  // <Button raised className={classes.accountSectionButton}>
+                  // {STRING_OPEN_WEBCATALOG}
+                  // </Button>
+                  }
                 </div>
               )}
             </Paper>
