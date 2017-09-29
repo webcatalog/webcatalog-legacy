@@ -30,7 +30,7 @@
     "electron": "1.7.6",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.1",
-    "electron-spellchecker": "1.2.0",
+    "electron-spellchecker": "tommoor/electron-spellchecker#ba984b5ae1abf78bf11c5de9363a60e1f261712f",
     "electron-window-state": "4.1.1",
     "fs-extra": "4.0.2"
   },
