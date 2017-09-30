@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import about from './about/reducers';
 import clearBrowsingData from './clear-browsing-data/reducers';
 import injectCSS from './inject-css/reducers';
 import injectJS from './inject-js/reducers';
@@ -9,6 +10,7 @@ import relaunch from './relaunch/reducers';
 import reset from './reset/reducers';
 
 export default combineReducers({
+  about,
   clearBrowsingData,
   injectCSS,
   injectJS,

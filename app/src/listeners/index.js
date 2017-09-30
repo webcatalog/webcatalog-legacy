@@ -18,6 +18,10 @@ import {
 } from '../state/root/preferences/actions';
 
 import {
+  open as openDialogAbout,
+} from '../state/dialogs/about/actions';
+
+import {
   open as openDialogPreferences,
 } from '../state/dialogs/preferences/actions';
 
@@ -45,6 +49,7 @@ const loadListeners = (store) => {
   });
 
   ipcRenderer.on('open-about-dialog', () => {
+    store.dispatch(openDialogAbout());
   });
 
   ipcRenderer.on('open-preferences-dialog', () => {

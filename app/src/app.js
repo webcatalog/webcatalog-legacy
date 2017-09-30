@@ -37,6 +37,7 @@ import WebView from './root/web-view';
 import Loading from './root/loading';
 import FakeTitleBar from './shared/fake-title-bar';
 
+import DialogAbout from './dialogs/about';
 import DialogClearBrowsingData from './dialogs/clear-browsing-data';
 import DialogInjectCSS from './dialogs/inject-css';
 import DialogInjectJS from './dialogs/inject-js';
@@ -329,6 +330,7 @@ class App extends React.Component {
 
     return (
       <div className={classes.rootParent}>
+        <DialogAbout />
         <DialogClearBrowsingData />
         <DialogInjectCSS />
         <DialogInjectJS />

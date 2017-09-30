@@ -37,7 +37,7 @@
   "homepage": "./",
   "proxy": "https://webcatalog.io",
   "webApp": {
-    "id": "facebook-messenger",
+    "id": "621434c9-8f4d-4c06-83fa-9b3b99e3820b",
     "url": "https://messenger.com",
     "name": "Facebook Messenger"
   }

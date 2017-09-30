@@ -237,8 +237,9 @@ NavigationBar.propTypes = {
 const mapStateToProps = state => ({
   canGoBack: state.nav.canGoBack,
   canGoForward: state.nav.canGoForward,
-  showTitleBar: state.preferences.showTitleBar,
+  latestMoleculeVersion: state.version.moleculeVersion,
   navigationBarPosition: state.preferences.navigationBarPosition,
+  showTitleBar: state.preferences.showTitleBar,
 });
 
 const actionCreators = {

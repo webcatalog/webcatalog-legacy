@@ -3,6 +3,10 @@ const { Menu, shell, app } = require('electron');
 const sendMessageToWindow = require('./send-message-to-window');
 const { getPreference, setPreference } = require('./preferences');
 
+const packageJson = require('../../package.json');
+
+const { webApp } = packageJson;
+
 function createMenu() {
   let currentZoom = 1;
   const ZOOM_INTERVAL = 0.1;
@@ -157,6 +161,13 @@ function createMenu() {
     },
   ];
 
+  if (process.platform !== 'darwin') {
+    template[template.length - 1].submenu.push({
+      label: `About ${webApp.name}`,
+      click: () => sendMessageToWindow('open-about-dialog'),
+    });
+  }
+
   if (process.platform === 'linux') {
     template[0].submenu.push({ role: 'separator' });
     template[0].submenu.push({
@@ -200,7 +211,10 @@ function createMenu() {
     template.unshift({
       label: app.getName(),
       submenu: [
-        { role: 'about' },
+        {
+          label: `About ${webApp.name}`,
+          click: () => sendMessageToWindow('open-about-dialog'),
+        },
         { type: 'separator' },
         {
           label: 'Preferences...',
