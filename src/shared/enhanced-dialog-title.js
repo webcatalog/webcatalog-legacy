@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CloseIcon from 'material-ui-icons/Close';
-import common from 'material-ui/colors/common';
 import IconButton from 'material-ui/IconButton';
 import { DialogTitle } from 'material-ui/Dialog';
 import { withStyles } from 'material-ui/styles';
@@ -11,11 +10,9 @@ import {
   STRING_CLOSE,
 } from '../constants/strings';
 
-const { lightBlack } = common;
-
-const styles = {
+const styles = theme => ({
   text: {
-    color: lightBlack,
+    color: theme.palette.text.primary,
     lineHeight: '32px',
   },
   closeButton: {
@@ -23,7 +20,7 @@ const styles = {
     height: 32,
     width: 32,
   },
-};
+});
 
 const EnhancedDialogTitle = (props) => {
   const {

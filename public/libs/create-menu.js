@@ -49,6 +49,13 @@ const createMenu = () => {
     },
   ];
 
+  if (process.platform !== 'darwin') {
+    template[template.length - 1].submenu.push({
+      label: 'About WebCatalog',
+      click: () => sendMessageToWindow('open-about-dialog'),
+    });
+  }
+
   if (process.platform === 'darwin') {
     template.unshift({
       label: app.getName(),
