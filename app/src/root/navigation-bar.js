@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import semver from 'semver';
 
 import HomeIcon from 'material-ui-icons/Home';
 import IconButton from 'material-ui/IconButton';
@@ -10,6 +11,7 @@ import Paper from 'material-ui/Paper';
 import RefreshIcon from 'material-ui-icons/Refresh';
 import SettingsIcon from 'material-ui-icons/Settings';
 import Tooltip from 'material-ui/Tooltip';
+import SystemUpdateAltIcon from 'material-ui-icons/SystemUpdateAlt';
 
 import connectComponent from '../helpers/connect-component';
 
@@ -21,6 +23,7 @@ import {
   STRING_HOME,
   STRING_PREFERENCES,
   STRING_RELOAD,
+  STRING_UPDATE_AVAILABLE,
 } from '../constants/strings';
 
 const styles = theme => ({
@@ -82,12 +85,16 @@ const styles = theme => ({
   menuItem: {
     cursor: 'pointer',
   },
+  badge: {
+    marginLeft: 12,
+  },
 });
 
 const NavigationBar = (props) => {
   const {
     canGoBack,
     canGoForward,
+    latestMoleculeVersion,
     classes,
     navigationBarPosition,
     onBackButtonClick,
@@ -111,6 +118,10 @@ const NavigationBar = (props) => {
     default:
       tooltipPlacement = 'bottom';
   }
+
+  // check for update
+  const currentVersion = window.packageJson.version;
+  const isLatestVersion = semver.gte(currentVersion, latestMoleculeVersion);
 
   return (
     <Paper
@@ -172,6 +183,19 @@ const NavigationBar = (props) => {
       </div>
 
       <div className={classnames(classes.innerContainerEnd, classes.innerContainerEndVert)}>
+        {!isLatestVersion ? (
+          <Tooltip
+            title={STRING_UPDATE_AVAILABLE}
+            placement={tooltipPlacement}
+          >
+            <IconButton
+              aria-label={STRING_UPDATE_AVAILABLE}
+              color="accent"
+            >
+              <SystemUpdateAltIcon />
+            </IconButton>
+          </Tooltip>
+        ) : null}
         <Tooltip
           title={STRING_PREFERENCES}
           placement={tooltipPlacement}
@@ -191,6 +215,7 @@ const NavigationBar = (props) => {
 NavigationBar.defaultProps = {
   canGoBack: false,
   canGoForward: false,
+  latestMoleculeVersion: '1.0.0',
   showTitleBar: false,
   vert: false,
 };
@@ -199,6 +224,7 @@ NavigationBar.propTypes = {
   canGoBack: PropTypes.bool,
   canGoForward: PropTypes.bool,
   classes: PropTypes.object.isRequired,
+  latestMoleculeVersion: PropTypes.string,
   navigationBarPosition: PropTypes.string.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onForwardButtonClick: PropTypes.func.isRequired,

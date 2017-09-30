@@ -22,6 +22,8 @@ import {
 
 import { screenResize } from './state/root/screen/actions';
 
+import { getLatestVersion } from './state/root/version/actions';
+
 import {
   requestOpenInBrowser,
   getWebViewPreloadPath,
@@ -121,7 +123,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { onScreenResize } = this.props;
+    const {
+      onScreenResize,
+      onGetLatestVersion,
+    } = this.props;
 
     const {
       onCopyUrl,
@@ -132,6 +137,8 @@ class App extends React.Component {
       onSetZoomFactor,
       onToggleDevTools,
     } = this;
+
+    onGetLatestVersion();
 
     window.addEventListener('resize', onScreenResize);
 
@@ -422,6 +429,7 @@ App.propTypes = {
   isFailed: PropTypes.bool,
   isLoading: PropTypes.bool,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
+  onGetLatestVersion: PropTypes.func.isRequired,
   onScreenResize: PropTypes.func.isRequired,
   onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateCanGoBack: PropTypes.func.isRequired,
@@ -441,20 +449,22 @@ const mapStateToProps = state => ({
   isFailed: state.nav.isFailed,
   isFullScreen: state.screen.isFullScreen,
   isLoading: state.nav.isLoading,
+  latestMoleculeVersion: state.version.moleculeVersion,
   navigationBarPosition: state.preferences.navigationBarPosition,
   showNavigationBar: state.preferences.showNavigationBar,
   showTitleBar: state.preferences.showTitleBar,
 });
 
 const actionCreators = {
+  getLatestVersion,
   screenResize,
-  updateTargetUrl,
-  updateIsFailed,
-  updateIsLoading,
+  toggleFindInPageDialog,
   updateCanGoBack,
   updateCanGoForward,
-  toggleFindInPageDialog,
   updateFindInPageMatches,
+  updateIsFailed,
+  updateIsLoading,
+  updateTargetUrl,
 };
 
 export default connectComponent(

@@ -4,9 +4,12 @@ const {
   webFrame,
 } = require('electron');
 
-const webApp = require('../package.json').webApp;
+const packageJson = require('../package.json');
+
+const { webApp } = packageJson;
 
 window.platform = process.platform;
+window.packageJson = packageJson;
 window.shellInfo = webApp;
 
 // disable zoom
