@@ -27,7 +27,7 @@
     "wait-on": "2.0.2"
   },
   "dependencies": {
-    "electron": "1.8.1",
+    "electron": "1.7.8",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.2",
     "electron-spellchecker": "tommoor/electron-spellchecker#ba984b5ae1abf78bf11c5de9363a60e1f261712f",
