@@ -451,7 +451,6 @@ const mapStateToProps = state => ({
   isFailed: state.nav.isFailed,
   isFullScreen: state.screen.isFullScreen,
   isLoading: state.nav.isLoading,
-  latestMoleculeVersion: state.version.moleculeVersion,
   navigationBarPosition: state.preferences.navigationBarPosition,
   showNavigationBar: state.preferences.showNavigationBar,
   showTitleBar: state.preferences.showTitleBar,

@@ -175,7 +175,7 @@ About.propTypes = {
 
 const mapStateToProps = state => ({
   isGettingVersion: state.version.isGetting,
-  latestMoleculeVersion: state.version.moleculeVersion,
+  latestMoleculeVersion: state.version.apiData.moleculeVersion,
   open: state.dialogs.about.open,
 });
 
