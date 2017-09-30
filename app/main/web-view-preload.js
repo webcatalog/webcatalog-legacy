@@ -1,13 +1,16 @@
-const { ipcRenderer, remote } = require('electron');
-const spellChecker = require('electron-spellchecker');
+const {
+  ipcRenderer,
+  // remote,
+} = require('electron');
+// const spellChecker = require('electron-spellchecker');
 
 const { getPreferences } = require('./libs/preferences');
 
 const webApp = require('../package.json').webApp;
 
-const { MenuItem } = remote;
+// const { MenuItem } = remote;
 
-const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = spellChecker;
+// const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = spellChecker;
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
@@ -15,12 +18,13 @@ window.ipcRenderer = ipcRenderer;
 const preferences = getPreferences();
 const { injectCSS, injectJS } = preferences;
 
-window.spellCheckHandler = new SpellCheckHandler();
+// window.spellCheckHandler = new SpellCheckHandler();
 setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
 
 window.spellCheckHandler.switchLanguage('en-US');
 window.spellCheckHandler.autoUnloadDictionariesOnBlur();
 
+/*
 window.contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler, null, true, (menu) => {
   menu.append(new MenuItem({ type: 'separator' }));
   menu.append(new MenuItem({
@@ -46,6 +50,7 @@ window.contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler, nul
 window.contextMenuListener = new ContextMenuListener((info) => {
   window.contextMenuBuilder.showPopupMenu(info);
 });
+*/
 
 window.onload = () => {
   // inject JS
