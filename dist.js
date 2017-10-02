@@ -43,8 +43,6 @@ Promise.resolve()
       }
     }
 
-    if (process.platform === 'linux') process.exit(0);
-
     // const asarUnpack = [
     // ...asarUnpackedMainDependencies.map(name => `node_modules/${name}/**/*`),
     // 'build/libs/install-app-async/script.js',
