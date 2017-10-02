@@ -17,6 +17,8 @@ const {
   homePath,
 } = argv;
 
+const iconDirPath = path.join(homePath, '.webcatalog', 'icons');
+
 const getFileNameFromUrl = u => u.substring(u.lastIndexOf('/') + 1);
 
 const createTmpDirAsync = () =>
@@ -29,6 +31,32 @@ const createTmpDirAsync = () =>
       return resolve(dirPath);
     });
   });
+
+const downloadFilePngAsync = fileUrl =>
+  fs.ensureDir(iconDirPath)
+    .then(() =>
+      new Promise((resolve, reject) => {
+        const iconFileName = `${id}.png`;
+        const iconPath = path.join(iconDirPath, iconFileName);
+        const iconFile = fs.createWriteStream(iconPath);
+
+        const req = https.get(fileUrl, (response) => {
+          response.pipe(iconFile);
+
+          iconFile.on('error', (err) => {
+            reject(err);
+          });
+
+          iconFile.on('finish', () => {
+            resolve(iconPath);
+          });
+        });
+
+        req.on('error', (err) => {
+          reject(err);
+        });
+      }),
+    );
 
 const downloadFileTempAsync = fileUrl =>
   createTmpDirAsync()
@@ -78,7 +106,8 @@ const createWindowsShortcutAsync = (shortcutPath, options) =>
     });
   });
 
-downloadFileTempAsync(getIconUrl())
+downloadFilePngAsync(pngIconUrl)
+  .then(() => downloadFileTempAsync(getIconUrl()))
   .then(iconPath =>
     createAppAsync(
       id,
@@ -107,7 +136,7 @@ downloadFileTempAsync(getIconUrl())
       const desktopFileContent = `[Desktop Entry]
 Name="${name}"
 Exec="${execPath}"
-Icon="${path.join(homePath, 'icon.png')}"
+Icon="${path.join(iconDirPath, `${id}.png`)}"
 Type=Application`;
 
       return fs.outputFile(desktopFilePath, desktopFileContent);

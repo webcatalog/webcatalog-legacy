@@ -57,6 +57,11 @@ const uninstallAppAsync = (appId, appName, opts) =>
           }
         }
       }
+
+      const pngIconPath = path.join(app.getPath('home'), '.webcatalog', 'icons', `${appId}.png`);
+      if (fs.existsSync(pngIconPath)) {
+        fs.unlinkSync(pngIconPath);
+      }
     } catch (err) {
       reject(err);
     }
