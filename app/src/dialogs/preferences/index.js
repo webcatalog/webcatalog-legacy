@@ -503,7 +503,7 @@ class PreferencesDialog extends React.Component {
                           className={classes.link}
                           role="link"
                           tabIndex="0"
-                          onClick={() => requestOpenInBrowser('https://www.intercom.com/in-app-messaging')}
+                          onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
                         >
                           {STRING_LEARN_MORE}
                         </a>
