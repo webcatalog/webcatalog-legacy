@@ -139,7 +139,8 @@ const scanInstalledAsync = () =>
               }),
           );
 
-          return Promise.all(p);
+          return Promise.all(p)
+            .then(() => installedApps);
         }
         case 'win32':
         default: {
@@ -236,7 +237,10 @@ const scanInstalledAsync = () =>
         uninstallAppAsync(
           app.id,
           app.name,
-          { shouldClearStorageData: true });
+          { shouldClearStorageData: true },
+        )
+        // eslint-disable-next-line no-console
+          .catch(console.log);
 
         return false;
       }

@@ -136,7 +136,7 @@ downloadFilePngAsync(pngIconUrl)
       const desktopFileContent = `[Desktop Entry]
 Name="${name}"
 Exec="${execPath}"
-Icon="${path.join(iconDirPath, `${id}.png`)}"
+Icon=${path.join(iconDirPath, `${id}.png`)}
 Type=Application`;
 
       return fs.outputFile(desktopFilePath, desktopFileContent);

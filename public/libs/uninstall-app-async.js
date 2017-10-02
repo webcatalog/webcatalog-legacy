@@ -35,8 +35,13 @@ const uninstallAppAsync = (appId, appName, opts) =>
           break;
         }
         case 'linux': {
-          const appPath = path.join(allAppPath, `webcatalog-${appId}.desktop`);
-          fs.unlinkSync(appPath);
+          const desktopPath = path.join(app.getPath('home'), '.local', 'share', 'applications', `webcatalog-${appId}.desktop`);
+          if (fs.existsSync(desktopPath)) {
+            fs.unlinkSync(desktopPath);
+          }
+
+          const appPath = path.join(allAppPath, appId);
+          deleteFolderRecursive(appPath);
           break;
         }
         case 'win32':
