@@ -19,6 +19,18 @@ let mainWindow;
 
 loadListeners();
 
+// ensure only one instance is running.
+const isSecondInstance = app.makeSingleInstance(() => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
+
+if (isSecondInstance) {
+  app.quit();
+}
 
 // Disable Hardware acceleration
 // Normally, electron-settings needs to init and run in onReady
