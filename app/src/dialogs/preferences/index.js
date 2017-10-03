@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { MenuItem } from 'material-ui/Menu';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AppBar from 'material-ui/AppBar';
 import blue from 'material-ui/colors/blue';
@@ -13,6 +14,7 @@ import Divider from 'material-ui/Divider';
 import HistoryIcon from 'material-ui-icons/History';
 import IconButton from 'material-ui/IconButton';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
+import LanguageIcon from 'material-ui-icons/Language';
 import MouseIcon from 'material-ui-icons/Mouse';
 import Paper from 'material-ui/Paper';
 import SecurityIcon from 'material-ui-icons/Security';
@@ -20,7 +22,6 @@ import Slide from 'material-ui/transitions/Slide';
 import Switch from 'material-ui/Switch';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import { MenuItem } from 'material-ui/Menu';
 import List, {
   ListItem,
   ListItemIcon,
@@ -58,6 +59,7 @@ import {
   STRING_GENERAL,
   STRING_INJECT_CSS,
   STRING_INJECT_JS,
+  STRING_LANGUAGES,
   STRING_LEARN_MORE,
   STRING_LEFT,
   STRING_LOG_OUT,
@@ -73,6 +75,7 @@ import {
   STRING_SHOW_NAVIGATION_BAR,
   STRING_SHOW_TITLE_BAR,
   STRING_SIGN_IN_INSTRUCTION,
+  STRING_SPELL_CHECKER,
   STRING_SWIPE_TO_NAVIGATE_DESC,
   STRING_SWIPE_TO_NAVIGATE,
   STRING_SYSTEM,
@@ -198,6 +201,7 @@ class PreferencesDialog extends React.Component {
       open,
       showNavigationBar,
       showTitleBar,
+      useSpellChecker,
       swipeToNavigate,
       useHardwareAcceleration,
       userAgent,
@@ -235,6 +239,17 @@ class PreferencesDialog extends React.Component {
                 <ListItemText
                   primary={STRING_APPERANCE}
                   onClick={() => scrollIntoView('apperanceTitle')}
+                />
+              </ListItem>
+              <ListItem
+                button
+              >
+                <ListItemIcon>
+                  <LanguageIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={STRING_LANGUAGES}
+                  onClick={() => scrollIntoView('languagesTitle')}
                 />
               </ListItem>
               {window.platform === 'darwin' && <ListItem
@@ -401,6 +416,39 @@ class PreferencesDialog extends React.Component {
                       disabled={window.platform !== 'darwin' || !showNavigationBar}
                       onChange={(e, checked) => {
                         requestSetPreference('showTitleBar', checked);
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </List>
+            </Paper>
+
+            <div
+              className={classes.paperTitleContainer}
+              ref={(el) => { this.languagesTitle = el; }}
+            >
+              <Typography type="body2" className={classes.paperTitle}>
+                {STRING_LANGUAGES}
+              </Typography>
+            </div>
+            <Paper className={classes.paper}>
+              <List dense>
+                <ListItem
+                  button
+                  onClick={() => {
+                    requestSetPreference('useSpellChecker', !useSpellChecker);
+                    onOpenDialogRelaunch();
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_SPELL_CHECKER}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={useSpellChecker}
+                      onChange={(e, checked) => {
+                        requestSetPreference('useSpellChecker', checked);
+                        onOpenDialogRelaunch();
                       }}
                     />
                   </ListItemSecondaryAction>
@@ -661,17 +709,18 @@ class PreferencesDialog extends React.Component {
 }
 
 PreferencesDialog.defaultProps = {
-  open: false,
-  email: null,
   darkTheme: false,
+  email: null,
+  injectCSS: '',
+  injectJS: '',
+  navigationBarPosition: 'left',
+  open: false,
   showNavigationBar: true,
   showTitleBar: false,
-  navigationBarPosition: 'left',
+  useSpellChecker: true,
   swipeToNavigate: true,
   useHardwareAcceleration: true,
   userAgent: null,
-  injectCSS: '',
-  injectJS: '',
 };
 
 PreferencesDialog.propTypes = {
@@ -692,6 +741,7 @@ PreferencesDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
+  useSpellChecker: PropTypes.bool,
   swipeToNavigate: PropTypes.bool,
   useHardwareAcceleration: PropTypes.bool,
   userAgent: PropTypes.string,
@@ -705,6 +755,7 @@ const mapStateToProps = (state) => {
     navigationBarPosition,
     showNavigationBar,
     showTitleBar,
+    useSpellChecker,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
@@ -720,6 +771,7 @@ const mapStateToProps = (state) => {
     open: state.dialogs.preferences.open,
     showNavigationBar,
     showTitleBar,
+    useSpellChecker,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,

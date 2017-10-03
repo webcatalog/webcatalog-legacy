@@ -73,3 +73,5 @@ export const STRING_ABOUT = 'About';
 export const STRING_RELEASE_NOTES = 'Release Notes';
 export const STRING_TERMS = 'Terms of Service';
 export const STRING_PRIVACY_POLICY = 'Privacy Policy';
+export const STRING_LANGUAGES = 'Languages';
+export const STRING_SPELL_CHECKER = 'Uses spell checker';

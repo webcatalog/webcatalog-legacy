@@ -12,12 +12,13 @@ const defaultPreferences = {
   navigationBarPosition: 'left',
   showNavigationBar: true,
   showTitleBar: false,
+  useSpellChecker: true,
   swipeToNavigate: true,
   useHardwareAcceleration: true,
   userAgent: null,
 };
 
-const getPreferences = () => settings.get(`preferences.${v}`, defaultPreferences);
+const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
 
 const getPreference = name => settings.get(`preferences.${v}.${name}`, defaultPreferences[name]);
 
