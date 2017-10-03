@@ -7,6 +7,7 @@ const path = require('path');
 
 const isDev = require('electron-is-dev');
 const windowStateKeeper = require('electron-window-state');
+const widevine = require('electron-widevinecdm');
 
 const loadListeners = require('./listeners');
 const createMenu = require('./libs/create-menu');
@@ -16,8 +17,6 @@ const { getPreferences } = require('./libs/preferences');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-loadListeners();
 
 // ensure only one instance is running.
 const isSecondInstance = app.makeSingleInstance(() => {
@@ -31,6 +30,12 @@ const isSecondInstance = app.makeSingleInstance(() => {
 if (isSecondInstance) {
   app.quit();
 }
+
+// load widevinecdm
+const widevinePath = path.join(app.getPath('home'), '.webcatalog', 'widevine');
+widevine.load(app, widevinePath);
+
+loadListeners();
 
 // Disable Hardware acceleration
 // Normally, electron-settings needs to init and run in onReady
