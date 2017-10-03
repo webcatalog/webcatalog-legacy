@@ -378,7 +378,7 @@ class App extends React.Component {
               parentClassName={classes.webviewContainer}
               partition="persist:app"
               plugins
-              preload={`file:${getWebViewPreloadPath()}`}
+              preload={`file://${getWebViewPreloadPath()}`}
               ref={(c) => { this.webView = c; }}
               useragent={userAgent}
               webpreferences="nativeWindowOpen=no"
