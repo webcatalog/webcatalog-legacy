@@ -13,8 +13,6 @@ environment:
     secure: KI1E0I136MgiTRD5We80ADFn0L/DW4M7PuM+/YM7DOknG3WRdWArNOtTCyjmNW2p2Bq8CQUNWjvmppueg7MO3bVgKXsqjKzpEvln43fT6rk=
   CSC_KEY_PASSWORD:
     secure: Yj6GEtCvUAF1KGTBVuEH7A==
-  npm_auth_token:
-    secure: Ar7ZFSrA851a0wDpOcRSJ28DtoDr4k4mmii6fsKPS83gTmkn4JrMeJNVgTgBe+S8
 platform: x64
 
 init:
@@ -25,9 +23,6 @@ cache:
 
 # Install scripts. (runs after repo cloning)
 install:
-  # Setup npm private
-  - ps: '"//registry.npmjs.org/:_authToken=$env:npm_auth_token`n" | out-file "$env:userprofile\.npmrc" -Encoding ASCII'
-  - npm whoami
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version x64
   # install modules
