@@ -16,6 +16,7 @@ addons:
     packages:
     - rpm
     - bsdtar
+    - libxkbfile-dev
 before_script:
 - yarn lint
 script:
