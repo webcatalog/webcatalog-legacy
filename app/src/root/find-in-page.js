@@ -22,8 +22,9 @@ import {
   STRING_CLOSE,
 } from '../constants/strings';
 
-const styles = {
+const styles = theme => ({
   root: {
+    background: theme.palette.background.default,
     display: 'flex',
     alignItems: 'center',
     padding: 4,
@@ -32,7 +33,7 @@ const styles = {
     flex: 1,
     padding: '0 12px',
   },
-};
+});
 
 class FindInPage extends React.Component {
   render() {
