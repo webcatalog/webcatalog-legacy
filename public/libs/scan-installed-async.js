@@ -68,7 +68,7 @@ const scanInstalledAsync = () =>
                   });
               }
 
-              return null;
+              return [];
             });
         }
         case 'linux': {
@@ -107,7 +107,7 @@ const scanInstalledAsync = () =>
                     });
                 }
 
-                return null;
+                return [];
               }),
           );
 
@@ -135,7 +135,7 @@ const scanInstalledAsync = () =>
                     });
                 }
 
-                return null;
+                return [];
               }),
           );
 
@@ -221,7 +221,7 @@ const scanInstalledAsync = () =>
                       });
                     });
                 }
-                return null;
+                return [];
               }),
           );
 
