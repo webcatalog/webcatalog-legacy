@@ -53,7 +53,6 @@ const loadListeners = () => {
   });
 
   ipcMain.on('get-web-view-preload-path', (e) => {
-    console.log(path.resolve(__dirname, '..', 'web-view-preload.js'));
     e.returnValue = path.resolve(__dirname, '..', 'web-view-preload.js');
   });
 };
