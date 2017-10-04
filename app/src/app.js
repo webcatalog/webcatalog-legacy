@@ -35,6 +35,7 @@ import FindInPage from './root/find-in-page';
 import Loading from './root/loading';
 import NavigationBar from './root/navigation-bar';
 import NoConnection from './root/no-connection';
+import TargetUrlBar from './root/target-url-bar';
 import UpdaterMessage from './root/updater-message';
 import WebView from './root/web-view';
 
@@ -391,9 +392,8 @@ class App extends React.Component {
               onFoundInPage={({ result }) =>
                 onUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
               onNewWindow={onNewWindow}
-              onPageTitleUpdated={({ url, title }) => {
+              onPageTitleUpdated={({ title }) => {
                 document.title = title;
-                onUpdateTargetUrl(url);
 
                 ipcRenderer.send('set-title', title);
 
@@ -403,7 +403,11 @@ class App extends React.Component {
 
                 ipcRenderer.send('badge', newBadge);
               }}
+              onUpdateTargetUrl={({ url }) => {
+                onUpdateTargetUrl(url);
+              }}
             />
+            <TargetUrlBar />
           </div>
           {navigationBarPosition === 'right' && navElement}
           <EnhancedSnackbar />
