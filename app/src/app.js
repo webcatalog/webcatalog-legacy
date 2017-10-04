@@ -29,6 +29,8 @@ import {
   getWebViewPreloadPath,
 } from './senders/generic';
 
+import { requestSetPreference } from './senders/preferences';
+
 import EnhancedSnackbar from './root/enhanced-snackbar';
 import FakeTitleBar from './shared/fake-title-bar';
 import FindInPage from './root/find-in-page';
@@ -41,6 +43,7 @@ import WebView from './root/web-view';
 
 import DialogAbout from './dialogs/about';
 import DialogClearBrowsingData from './dialogs/clear-browsing-data';
+import DialogHomePage from './dialogs/home-page';
 import DialogInjectCSS from './dialogs/inject-css';
 import DialogInjectJS from './dialogs/inject-js';
 import DialogPreferences from './dialogs/preferences';
@@ -211,6 +214,8 @@ class App extends React.Component {
     onUpdateIsLoading(false);
     onUpdateCanGoBack(c.canGoBack());
     onUpdateCanGoForward(c.canGoForward());
+
+    requestSetPreference('lastPage', c.getURL());
   }
 
   onNewWindow(e) {
@@ -267,7 +272,14 @@ class App extends React.Component {
 
   onGoHome() {
     const c = this.webView;
-    c.loadURL(this.props.customHome || window.shellInfo.url);
+    const { homePage } = this.props;
+
+    let homeUrl = window.shellInfo.url;
+    if (homePage && homePage.length > 1) {
+      homeUrl = homePage;
+    }
+
+    c.loadURL(homeUrl);
   }
 
   onGoBack() {
@@ -292,13 +304,16 @@ class App extends React.Component {
       classes,
       customUserAgent,
       findInPageIsOpen,
+      homePage,
       isFailed,
       isLoading,
+      lastPage,
       navigationBarPosition,
       onUpdateFindInPageMatches,
       onUpdateIsFailed,
       onUpdateIsLoading,
       onUpdateTargetUrl,
+      rememberLastPage,
       showNavigationBar,
       showTitleBar,
     } = this.props;
@@ -330,10 +345,19 @@ class App extends React.Component {
     // force user to have title bar if they hide navigation bar
     const shouldShowTitleBar = showTitleBar || !showNavigationBar;
 
+    let startUrl = window.shellInfo.url;
+    if (homePage && homePage.length > 1) {
+      startUrl = homePage;
+    }
+    if (rememberLastPage && lastPage) {
+      startUrl = lastPage;
+    }
+
     return (
       <div className={classes.rootParent}>
         <DialogAbout />
         <DialogClearBrowsingData />
+        <DialogHomePage />
         <DialogInjectCSS />
         <DialogInjectJS />
         <DialogPreferences />
@@ -385,7 +409,7 @@ class App extends React.Component {
               ref={(c) => { this.webView = c; }}
               useragent={userAgent}
               webpreferences="nativeWindowOpen=no"
-              src={window.shellInfo.url}
+              src={startUrl}
               onDidFailLoad={onDidFailLoad}
               onDidStartLoading={() => onUpdateIsLoading(true)}
               onDidStopLoading={onDidStopLoading}
@@ -418,24 +442,27 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
-  customHome: null,
   customUserAgent: null,
+  homePage: null,
   isFailed: false,
   isFullScreen: false,
   isLoading: false,
+  lastPage: null,
   navigationBarPosition: 'left',
+  rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
 };
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  customHome: PropTypes.string,
   customUserAgent: PropTypes.string,
   findInPageIsOpen: PropTypes.bool.isRequired,
   findInPageText: PropTypes.string.isRequired,
+  homePage: PropTypes.string,
   isFailed: PropTypes.bool,
   isLoading: PropTypes.bool,
+  lastPage: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
   onGetLatestVersion: PropTypes.func.isRequired,
   onScreenResize: PropTypes.func.isRequired,
@@ -446,6 +473,7 @@ App.propTypes = {
   onUpdateIsFailed: PropTypes.func.isRequired,
   onUpdateIsLoading: PropTypes.func.isRequired,
   onUpdateTargetUrl: PropTypes.func.isRequired,
+  rememberLastPage: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
 };
@@ -454,10 +482,13 @@ const mapStateToProps = state => ({
   customUserAgent: state.preferences.userAgent,
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
+  homePage: state.preferences.homePage,
   isFailed: state.nav.isFailed,
   isFullScreen: state.screen.isFullScreen,
   isLoading: state.nav.isLoading,
+  lastPage: state.preferences.lastPage,
   navigationBarPosition: state.preferences.navigationBarPosition,
+  rememberLastPage: state.preferences.rememberLastPage,
   showNavigationBar: state.preferences.showNavigationBar,
   showTitleBar: state.preferences.showTitleBar,
 });

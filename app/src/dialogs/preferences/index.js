@@ -16,6 +16,7 @@ import IconButton from 'material-ui/IconButton';
 import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
 import LanguageIcon from 'material-ui-icons/Language';
 import MouseIcon from 'material-ui-icons/Mouse';
+import NavigationIcon from 'material-ui-icons/Navigation';
 import Paper from 'material-ui/Paper';
 import SecurityIcon from 'material-ui-icons/Security';
 import Slide from 'material-ui/transitions/Slide';
@@ -34,11 +35,12 @@ import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/preferences/actions';
 import { open as openDialogClearBrowsingData } from '../../state/dialogs/clear-browsing-data/actions';
+import { open as openDialogHomePage } from '../../state/dialogs/home-page/actions';
 import { open as openDialogInjectCSS } from '../../state/dialogs/inject-css/actions';
 import { open as openDialogInjectJS } from '../../state/dialogs/inject-js/actions';
-import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
-import { open as openDialogReset } from '../../state/dialogs/reset/actions';
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
+import { open as openDialogReset } from '../../state/dialogs/reset/actions';
+import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
 import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestSetPreference } from '../../senders/preferences';
@@ -57,6 +59,7 @@ import {
   STRING_DEFAULT,
   STRING_DEVELOPERS,
   STRING_GENERAL,
+  STRING_HOME_PAGE,
   STRING_INJECT_CSS,
   STRING_INJECT_JS,
   STRING_LANGUAGES,
@@ -65,10 +68,12 @@ import {
   STRING_LOG_OUT,
   STRING_LOGGED_IN_AS,
   STRING_NAVIGATION_BAR_POSITION,
+  STRING_NAVIGATION,
   STRING_NONE,
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
   STRING_PRIVACY_NOTE,
+  STRING_REMEMER_LAST_PAGE,
   STRING_RESET_DESC,
   STRING_RESET,
   STRING_RIGHT,
@@ -187,24 +192,27 @@ class PreferencesDialog extends React.Component {
       classes,
       darkTheme,
       email,
+      homePage,
       injectCSS,
       injectJS,
       isLoggedIn,
       navigationBarPosition,
       onClose,
       onOpenDialogClearBrowsingData,
+      onOpenDialogHomePage,
       onOpenDialogInjectCSS,
       onOpenDialogInjectJS,
       onOpenDialogRelaunch,
       onOpenDialogReset,
       onOpenDialogUserAgent,
       open,
+      rememberLastPage,
       showNavigationBar,
       showTitleBar,
-      useSpellChecker,
       swipeToNavigate,
       useHardwareAcceleration,
       userAgent,
+      useSpellChecker,
     } = this.props;
 
     const { scrollIntoView } = this;
@@ -230,6 +238,17 @@ class PreferencesDialog extends React.Component {
         <div className={classes.dialogContent}>
           <div className={classes.listContainer}>
             <List subheader={<ListSubheader>{STRING_GENERAL}</ListSubheader>} dense>
+              <ListItem
+                button
+              >
+                <ListItemIcon>
+                  <NavigationIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={STRING_NAVIGATION}
+                  onClick={() => scrollIntoView('navigationTitle')}
+                />
+              </ListItem>
               <ListItem
                 button
               >
@@ -323,6 +342,52 @@ class PreferencesDialog extends React.Component {
             </List>
           </div>
           <div className={classes.dialogContentRight}>
+            <div
+              className={classes.paperTitleContainer}
+              ref={(el) => { this.navigationTitle = el; }}
+            >
+              <Typography type="body2" className={classes.paperTitle}>
+                {STRING_NAVIGATION}
+              </Typography>
+            </div>
+            <Paper className={classes.paper}>
+              <List dense>
+                <ListItem button onClick={onOpenDialogHomePage}>
+                  <ListItemText
+                    primary={STRING_HOME_PAGE}
+                    secondary={
+                      homePage && homePage.length > 0 ?
+                        homePage
+                        : window.shellInfo.url
+                    }
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton aria-label={STRING_CHANGE} onClick={onOpenDialogHomePage}>
+                      <KeyboardArrowRightIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
+                    requestSetPreference('rememberLastPage', !rememberLastPage);
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_REMEMER_LAST_PAGE}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={rememberLastPage}
+                      onChange={(e, checked) => {
+                        requestSetPreference('rememberLastPage', checked);
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </List>
+            </Paper>
             <div
               className={classes.paperTitleContainer}
               ref={(el) => { this.apperanceTitle = el; }}
@@ -711,76 +776,86 @@ class PreferencesDialog extends React.Component {
 PreferencesDialog.defaultProps = {
   darkTheme: false,
   email: null,
+  homePage: null,
   injectCSS: '',
   injectJS: '',
   navigationBarPosition: 'left',
   open: false,
+  rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
-  useSpellChecker: true,
   swipeToNavigate: true,
   useHardwareAcceleration: true,
   userAgent: null,
+  useSpellChecker: true,
 };
 
 PreferencesDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   darkTheme: PropTypes.bool,
   email: PropTypes.string,
+  homePage: PropTypes.string,
   injectCSS: PropTypes.string,
   injectJS: PropTypes.string,
   isLoggedIn: PropTypes.bool.isRequired,
   navigationBarPosition: PropTypes.oneOf(['top', 'left', 'right']),
   onClose: PropTypes.func.isRequired,
   onOpenDialogClearBrowsingData: PropTypes.func.isRequired,
+  onOpenDialogHomePage: PropTypes.func.isRequired,
   onOpenDialogInjectCSS: PropTypes.func.isRequired,
   onOpenDialogInjectJS: PropTypes.func.isRequired,
   onOpenDialogRelaunch: PropTypes.func.isRequired,
   onOpenDialogReset: PropTypes.func.isRequired,
   onOpenDialogUserAgent: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  rememberLastPage: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
-  useSpellChecker: PropTypes.bool,
   swipeToNavigate: PropTypes.bool,
   useHardwareAcceleration: PropTypes.bool,
   userAgent: PropTypes.string,
+  useSpellChecker: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   const {
     darkTheme,
+    homePage,
     injectCSS,
     injectJS,
     navigationBarPosition,
+    rememberLastPage,
     showNavigationBar,
     showTitleBar,
-    useSpellChecker,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
+    useSpellChecker,
   } = state.preferences;
 
   return {
     darkTheme,
     email: state.user.apiData.email,
+    homePage,
     injectCSS,
     injectJS,
     isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
     navigationBarPosition,
     open: state.dialogs.preferences.open,
+    rememberLastPage,
     showNavigationBar,
     showTitleBar,
-    useSpellChecker,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
+    useSpellChecker,
   };
 };
 
 const actionCreators = {
   close,
   openDialogClearBrowsingData,
+  openDialogHomePage,
   openDialogInjectCSS,
   openDialogInjectJS,
   openDialogRelaunch,

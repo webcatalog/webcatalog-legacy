@@ -7,15 +7,18 @@ const v = '1.0.0';
 
 const defaultPreferences = {
   darkTheme: false,
+  homePage: null,
   injectCSS: '',
   injectJS: '',
   navigationBarPosition: 'left',
+  rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
-  useSpellChecker: true,
   swipeToNavigate: true,
   useHardwareAcceleration: true,
   userAgent: null,
+  useSpellChecker: true,
+  lastPage: null,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
