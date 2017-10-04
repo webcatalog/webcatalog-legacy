@@ -5,11 +5,12 @@ import connectComponent from './helpers/connect-component';
 
 import { getUser } from './state/root/user/actions';
 
-import DialogAccount from './dialogs/account';
 import DialogAbout from './dialogs/about';
-import DialogSubmitApp from './dialogs/submit-app';
+import DialogAccount from './dialogs/account';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogFeedback from './dialogs/feedback';
+import DialogSubmitApp from './dialogs/submit-app';
+import DialogUpdateMainAppFirst from './dialogs/update-main-app-first';
 
 import EnhancedAppBar from './root/enhanced-app-bar';
 import EnhancedSnackBar from './root/enhanced-snackbar';
@@ -91,6 +92,7 @@ class App extends React.Component {
         <DialogConfirmUninstallApp />
         <DialogAccount />
         <DialogFeedback />
+        <DialogUpdateMainAppFirst />
       </div>
     );
   }

@@ -63,6 +63,7 @@
     "redux-thunk": "2.2.0",
     "replace-in-file": "2.5.4",
     "request": "2.83.0",
+    "semver": "5.4.1",
     "spectron": "3.7.2",
     "typeface-roboto": "0.0.35",
     "wait-on": "2.0.2"

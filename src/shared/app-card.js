@@ -15,7 +15,10 @@ import connectComponent from '../helpers/connect-component';
 
 import extractHostname from '../helpers/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
-import { installApp } from '../state/root/local/actions';
+import {
+  installApp,
+  updateApp,
+} from '../state/root/local/actions';
 
 import {
   getMoleculeVersion,
@@ -26,8 +29,10 @@ import {
 
 import {
   STRING_INSTALL,
+  STRING_INSTALLING,
   STRING_OPEN,
   STRING_UNINSTALL,
+  STRING_UNINSTALLING,
   STRING_UPDATE,
 } from '../constants/strings';
 
@@ -136,6 +141,7 @@ const AppCard = (props) => {
     moleculeVersion,
     onInstallApp,
     onOpenConfirmUninstallAppDialog,
+    onUpdateApp,
   } = props;
 
   const handleOpenApp = () => {
@@ -159,7 +165,7 @@ const AppCard = (props) => {
             <Button
               className={classes.button}
               dense
-              onClick={() => onInstallApp(app.id, app.name)}
+              onClick={() => onUpdateApp(app.id, app.name)}
             >
               <GetAppIcon color="inherit" />
               <span className={classes.buttonText}>{STRING_UPDATE}</span>
@@ -178,8 +184,8 @@ const AppCard = (props) => {
     }
 
     let label;
-    if (isInstalling) label = 'Installing...';
-    else if (isUninstalling) label = 'Uninstalling...';
+    if (isInstalling) label = STRING_INSTALLING;
+    else if (isUninstalling) label = STRING_UNINSTALLING;
     else label = STRING_INSTALL;
 
     return (
@@ -233,6 +239,7 @@ AppCard.propTypes = {
   moleculeVersion: PropTypes.string,
   onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
+  onUpdateApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -249,6 +256,7 @@ const mapStateToProps = (state, ownProps) => {
 const actionCreators = {
   installApp,
   openConfirmUninstallAppDialog,
+  updateApp,
 };
 
 export default connectComponent(
