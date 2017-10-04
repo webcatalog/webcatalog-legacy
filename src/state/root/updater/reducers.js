@@ -10,4 +10,13 @@ const status = (state = UPDATE_NOT_AVAILABLE, action) => {
   }
 };
 
-export default combineReducers({ status });
+const data = (state = {}, action) => {
+  if (action.data && typeof action.data === 'object') return action.data;
+  return state;
+};
+
+
+export default combineReducers({
+  data,
+  status,
+});

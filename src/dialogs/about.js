@@ -82,6 +82,7 @@ const About = (props) => {
     classes,
     onClose,
     open,
+    updaterData,
     updaterStatus,
   } = props;
 
@@ -107,8 +108,12 @@ const About = (props) => {
       updaterStatusMessage = STRING_UPDATE_NOT_AVAILABLE;
   }
 
-  const isUpdaterRunning = updaterStatus === CHECKING_FOR_UPDATES
-    || updaterStatus === UPDATE_PROGRESS;
+  const isUpdaterRunning = (
+    updaterStatus === CHECKING_FOR_UPDATES
+    || updaterStatus === UPDATE_PROGRESS
+    || updaterStatus === UPDATE_DOWNLOADED
+    || updaterStatus === UPDATE_AVAILABLE
+  );
 
   return (
     <Dialog
@@ -126,7 +131,17 @@ const About = (props) => {
         <Typography type="body1" className={classes.version}>Version {window.version}</Typography>
 
         <Typography type="body1" className={classes.updaterStatus}>
-          {updaterStatusMessage}
+          <span>{updaterStatusMessage}</span>
+          {updaterStatus === UPDATE_AVAILABLE && updaterData.version && (
+            <span>
+              {` (${updaterData.version})`}
+            </span>
+          )}
+          {updaterStatus === UPDATE_PROGRESS && updaterData.percent && (
+            <span>
+              {` (${updaterData.percent.toFixed(2)}%)`}
+            </span>
+          )}
         </Typography>
 
         {updaterStatus === UPDATE_DOWNLOADED ? (
@@ -190,18 +205,22 @@ const About = (props) => {
   );
 };
 
-About.defaultProps = {};
+About.defaultProps = {
+  updaterData: {},
+};
 
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  updaterStatus: state.updater.status,
   open: state.dialogs.about.open,
+  updaterData: state.updater.data,
+  updaterStatus: state.updater.status,
 });
 
 const actionCreators = {

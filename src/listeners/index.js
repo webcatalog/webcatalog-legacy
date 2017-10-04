@@ -52,9 +52,7 @@ const loadListeners = (store) => {
   });
 
   ipcRenderer.on('set-updater-status', (e, status, info) => {
-    store.dispatch(setUpdaterStatus(status));
-    // eslint-disable-next-line
-    if (info) console.log(info);
+    store.dispatch(setUpdaterStatus(status, info || {}));
   });
 
   ipcRenderer.on('open-about-dialog', () => {
