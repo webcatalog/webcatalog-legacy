@@ -11,6 +11,6 @@ export const getLatestVersion = () =>
   (dispatch) => {
     dispatch(versionGetRequest());
     return dispatch(apiGet('/version/latest'))
-      .then(res => dispatch(versionGetSuccess(res.user)))
+      .then(res => dispatch(versionGetSuccess(res)))
       .catch(() => dispatch(versionGetFailed()));
   };

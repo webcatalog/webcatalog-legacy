@@ -30,12 +30,13 @@ import {
 } from './senders/generic';
 
 import EnhancedSnackbar from './root/enhanced-snackbar';
+import FakeTitleBar from './shared/fake-title-bar';
 import FindInPage from './root/find-in-page';
+import Loading from './root/loading';
 import NavigationBar from './root/navigation-bar';
 import NoConnection from './root/no-connection';
+import UpdaterMessage from './root/updater-message';
 import WebView from './root/web-view';
-import Loading from './root/loading';
-import FakeTitleBar from './shared/fake-title-bar';
 
 import DialogAbout from './dialogs/about';
 import DialogClearBrowsingData from './dialogs/clear-browsing-data';
@@ -355,6 +356,7 @@ class App extends React.Component {
             />
           )}
           <div className={classes.rightContent}>
+            <UpdaterMessage />
             {isLoading && <Loading />}
             {navigationBarPosition === 'top' && navElement}
             {findInPageIsOpen && (
