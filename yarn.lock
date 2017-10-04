@@ -26,9 +26,9 @@
   version "8.0.31"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.31.tgz#d9af61093cf4bfc9f066ca34de0175012cfb0ce9"
 
-"@webcatalog/molecule@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.6.tgz#ebb6d19f9f33e95d8b3b65ab2c68c7b159a19480"
+"@webcatalog/molecule@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.7.tgz#5476944a74ad3f1cb2e3b4be5e68f441fe297bae"
   dependencies:
     electron-packager "9.1.0"
     fs-extra "4.0.2"
@@ -1466,7 +1466,28 @@ builder-util-runtime@1.0.6, builder-util-runtime@^1.0.5, builder-util-runtime@^1
     debug "^3.1.0"
     fs-extra-p "^4.4.2"
 
-builder-util@2.0.6, builder-util@^2.0.2, builder-util@^2.0.5, builder-util@^2.0.6:
+builder-util@2.0.7, builder-util@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-2.0.7.tgz#f6172303561d7fbf8944d5989bce806ffc76480f"
+  dependencies:
+    "7zip-bin" "^2.2.4"
+    bluebird-lst "^1.0.3"
+    builder-util-runtime "^1.0.6"
+    chalk "^2.1.0"
+    debug "^3.1.0"
+    fs-extra-p "^4.4.2"
+    ini "^1.3.4"
+    is-ci "^1.0.10"
+    js-yaml "^3.10.0"
+    lazy-val "^1.0.2"
+    node-emoji "^1.8.1"
+    semver "^5.4.1"
+    source-map-support "^0.5.0"
+    stat-mode "^0.2.2"
+    temp-file "^2.0.3"
+    tunnel-agent "^0.6.0"
+
+builder-util@^2.0.2, builder-util@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-2.0.6.tgz#2a3eec93c77709e45f879c2eccdcbe5f29a70271"
   dependencies:
@@ -2548,26 +2569,26 @@ ejs@^2.5.7, ejs@~2.5.6:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.7.tgz#cc872c168880ae3c7189762fd5ffc00896c9518a"
 
-electron-builder-squirrel-windows@19.33.0:
-  version "19.33.0"
-  resolved "https://registry.yarnpkg.com/electron-builder-squirrel-windows/-/electron-builder-squirrel-windows-19.33.0.tgz#3e2828819664fd3677f69f3569ab0ea46e45af39"
+electron-builder-squirrel-windows@19.34.0:
+  version "19.34.0"
+  resolved "https://registry.yarnpkg.com/electron-builder-squirrel-windows/-/electron-builder-squirrel-windows-19.34.0.tgz#4ff5e6948c72dba0464fd3bbe630439f8e920443"
   dependencies:
     archiver "^2.0.3"
     bluebird-lst "^1.0.3"
-    builder-util "^2.0.6"
+    builder-util "^2.0.7"
     fs-extra-p "^4.4.2"
     sanitize-filename "^1.6.1"
 
-electron-builder@19.33.0:
-  version "19.33.0"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.33.0.tgz#2b0ac41fb9ece5b07f3df57f21064ac3e705f225"
+electron-builder@19.34.1:
+  version "19.34.1"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.34.1.tgz#73af56ff486132080efd39e88a7ab37f5bc4a6e4"
   dependencies:
     "7zip-bin" "^2.2.4"
     app-package-builder "1.0.3"
     asar-integrity "0.2.1"
     async-exit-hook "^2.0.1"
     bluebird-lst "^1.0.3"
-    builder-util "2.0.6"
+    builder-util "2.0.7"
     builder-util-runtime "1.0.6"
     chalk "^2.1.0"
     chromium-pickle-js "^0.2.0"
@@ -2579,7 +2600,7 @@ electron-builder@19.33.0:
     ejs "^2.5.7"
     electron-download-tf "4.3.4"
     electron-osx-sign "0.4.7"
-    electron-publish "19.32.0"
+    electron-publish "19.34.0"
     fs-extra-p "^4.4.2"
     hosted-git-info "^2.5.0"
     is-ci "^1.0.10"
@@ -2683,12 +2704,12 @@ electron-packager@9.1.0:
     sanitize-filename "^1.6.0"
     semver "^5.3.0"
 
-electron-publish@19.32.0:
-  version "19.32.0"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.32.0.tgz#ee25b1cc3a0d54a37a01679bff07b28925ff2818"
+electron-publish@19.34.0:
+  version "19.34.0"
+  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.34.0.tgz#b29b95ecf205eabf193b521881a8189457e67a55"
   dependencies:
     bluebird-lst "^1.0.3"
-    builder-util "^2.0.5"
+    builder-util "^2.0.7"
     builder-util-runtime "^1.0.6"
     chalk "^2.1.0"
     fs-extra-p "^4.4.2"
@@ -7413,6 +7434,12 @@ source-map-support@^0.4.15, source-map-support@^0.4.18:
   dependencies:
     source-map "^0.5.6"
 
+source-map-support@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.0.tgz#2018a7ad2bdf8faf2691e5fddab26bed5a2bacab"
+  dependencies:
+    source-map "^0.6.0"
+
 source-map-url@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.3.0.tgz#7ecaf13b57bcd09da8a40c5d269db33799d4aaf9"
@@ -7436,6 +7463,10 @@ source-map@^0.4.4:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
   dependencies:
     amdefine ">=0.0.4"
+
+source-map@^0.6.0:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 spawn-command@^0.0.2-1:
   version "0.0.2"
