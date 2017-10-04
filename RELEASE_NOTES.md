@@ -18,9 +18,6 @@ We also added Dark Mode, Navigation Bar Toggle, etc. And we planned to add many 
 #### Auto Update
 WebCatalog 7+ will download and install new update in background!
 
-#### Breaking Changes
-- Spell checker is temporarily removed due to a technical issue.
-
 **[Read More on Our Official Blog](https://medium.com/webcatalog/announcing-webcatalog-7-0-c5bafe5442a8)**
 
 ---
