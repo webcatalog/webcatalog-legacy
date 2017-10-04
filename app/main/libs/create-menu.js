@@ -137,6 +137,11 @@ function createMenu() {
           accelerator: 'CmdOrCtrl+R',
           click: () => sendMessageToWindow('reload'),
         },
+        { type: 'separator' },
+        {
+          label: 'Copy URL',
+          click: () => sendMessageToWindow('copy-url'),
+        },
       ],
     },
     {

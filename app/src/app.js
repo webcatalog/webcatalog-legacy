@@ -1,4 +1,4 @@
-/* global ipcRenderer clipboard */
+/* global ipcRenderer */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -27,6 +27,7 @@ import { getLatestVersion } from './state/root/version/actions';
 import {
   requestOpenInBrowser,
   getWebViewPreloadPath,
+  writeToClipboard,
 } from './senders/generic';
 
 import { requestSetPreference } from './senders/preferences';
@@ -296,7 +297,7 @@ class App extends React.Component {
   onCopyUrl() {
     const c = this.webView;
     const currentURL = c.getURL();
-    clipboard.writeText(currentURL);
+    writeToClipboard(currentURL);
   }
 
   render() {

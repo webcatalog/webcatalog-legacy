@@ -2,6 +2,7 @@ const path = require('path');
 const {
   app,
   BrowserWindow,
+  clipboard,
   ipcMain,
   session,
   shell,
@@ -54,6 +55,10 @@ const loadListeners = () => {
 
   ipcMain.on('get-web-view-preload-path', (e) => {
     e.returnValue = path.resolve(__dirname, '..', 'web-view-preload.js');
+  });
+
+  ipcMain.on('write-to-clipboard', (e, text) => {
+    clipboard.writeText(text);
   });
 };
 
