@@ -71,7 +71,7 @@ const createWindow = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minWidth: 480,
-    minHeight: 568,
+    minHeight: 320,
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     webPreferences: {
       nodeIntegration: false,
