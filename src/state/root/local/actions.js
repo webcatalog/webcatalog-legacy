@@ -36,7 +36,7 @@ export const installApp = (id, name) =>
 
 export const updateApp = (id, name) =>
   (dispatch, getState) => {
-    const managedApp = getState().local.apps[id];
+    const managedApp = getState().local.apps[id].app;
 
     return Promise.resolve()
       .then(() => {
