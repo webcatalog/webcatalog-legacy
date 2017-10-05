@@ -28,6 +28,7 @@
     "wait-on": "2.0.2"
   },
   "dependencies": {
+    "chokidar": "1.7.0",
     "electron": "1.7.8",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.2",
