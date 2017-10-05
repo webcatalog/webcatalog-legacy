@@ -8,16 +8,12 @@ import connectComponent from '../helpers/connect-component';
 
 const styles = {
   root: {
-    backgroundColor: grey[100],
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    zIndex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    bottom: 0,
+    height: 36,
+    position: 'fixed',
+    right: 0,
+    width: 36,
+    zIndex: 100,
   },
 };
 
@@ -26,7 +22,7 @@ const Loading = (props) => {
 
   return (
     <div className={classes.root}>
-      <CircularProgress size={50} />
+      <CircularProgress size={24} />
     </div>
   );
 };
