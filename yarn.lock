@@ -26,9 +26,9 @@
   version "8.0.31"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.31.tgz#d9af61093cf4bfc9f066ca34de0175012cfb0ce9"
 
-"@webcatalog/molecule@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.7.tgz#5476944a74ad3f1cb2e3b4be5e68f441fe297bae"
+"@webcatalog/molecule@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.8.tgz#4c5cdb98dbf3a2f8e272531f6c8057c1ab62c461"
   dependencies:
     electron-packager "9.1.0"
     fs-extra "4.0.2"
@@ -2748,9 +2748,9 @@ electron-updater@2.10.1:
     source-map-support "^0.4.18"
     xelement "^1.0.16"
 
-electron-widevinecdm@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.1.2.tgz#02efa97e02ba095d764fe6fa2b82c869254da3ee"
+electron-widevinecdm@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.2.1.tgz#1453f12c3f9013a50cef955f93ff67478f201c9c"
   dependencies:
     archiver-promise "^1.0.0"
     compare-versions "^3.1.0"
@@ -5277,9 +5277,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-material-ui-icons@1.0.0-beta.14:
-  version "1.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/material-ui-icons/-/material-ui-icons-1.0.0-beta.14.tgz#72b91af379bcddb6c830003ac922443b53d57e5f"
+material-ui-icons@1.0.0-beta.15:
+  version "1.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/material-ui-icons/-/material-ui-icons-1.0.0-beta.15.tgz#fa6c2481517d380a0c2d0daebb7aacf39c2c68a0"
   dependencies:
     recompose "^0.25.1"
 
