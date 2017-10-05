@@ -33,7 +33,6 @@ const loadAuthListeners = () => {
   });
 
   chokidar.watch(configPath).on('all', () => {
-    console.log('ok');
     // Try to load token
     fs.readJson(configPath)
       .then(({ token }) => {
