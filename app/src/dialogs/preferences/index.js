@@ -464,27 +464,29 @@ class PreferencesDialog extends React.Component {
                     </EnhancedMenu>
                   </ListItemSecondaryAction>
                 </ListItem>}
-                <Divider />
-                <ListItem
-                  button
-                  onClick={() => {
-                    if (window.platform !== 'darwin' || !showNavigationBar) return;
-                    requestSetPreference('showTitleBar', !showTitleBar);
-                  }}
-                >
-                  <ListItemText
-                    primary={STRING_SHOW_TITLE_BAR}
-                  />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      checked={window.platform === 'darwin' && showNavigationBar ? showTitleBar : true}
-                      disabled={window.platform !== 'darwin' || !showNavigationBar}
-                      onChange={(e, checked) => {
-                        requestSetPreference('showTitleBar', checked);
-                      }}
+                {window.platform === 'darwin' && <Divider />}
+                {window.platform === 'darwin' && (
+                  <ListItem
+                    button
+                    onClick={() => {
+                      if (!showNavigationBar) return;
+                      requestSetPreference('showTitleBar', !showTitleBar);
+                    }}
+                  >
+                    <ListItemText
+                      primary={STRING_SHOW_TITLE_BAR}
                     />
-                  </ListItemSecondaryAction>
-                </ListItem>
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={showNavigationBar ? showTitleBar : true}
+                        disabled={!showNavigationBar}
+                        onChange={(e, checked) => {
+                          requestSetPreference('showTitleBar', checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
               </List>
             </Paper>
 
