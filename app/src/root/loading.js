@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import grey from 'material-ui/colors/grey';
 import { CircularProgress } from 'material-ui/Progress';
 
 import connectComponent from '../helpers/connect-component';
 
 const styles = {
   root: {
+    alignItems: 'center',
     bottom: 0,
     height: 36,
+    justifyContent: 'center',
     position: 'fixed',
     right: 0,
     width: 36,
