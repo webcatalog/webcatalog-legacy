@@ -89,7 +89,15 @@ const createWindow = () => {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
+  // Hide window instead closing on macos
+  mainWindow.on('close', (e) => {
+    if (process.platform === 'darwin' && !mainWindow.forceClose) {
+      e.preventDefault();
+      mainWindow.hide();
+    }
+  });
+
+  // Emitted when the window is closed
   mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -125,11 +133,22 @@ app.on('window-all-closed', () => {
   }
 });
 
+app.on('before-quit', () => {
+  // https://github.com/atom/electron/issues/444#issuecomment-76492576
+  if (process.platform === 'darwin') {
+    if (mainWindow) {
+      mainWindow.forceClose = true;
+    }
+  }
+});
+
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
+  } else {
+    mainWindow.show();
   }
 });
 
