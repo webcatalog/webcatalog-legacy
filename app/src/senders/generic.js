@@ -15,3 +15,5 @@ export const requestClearBrowsingData = () => ipcRenderer.send('request-clear-br
 export const getWebViewPreloadPath = () => ipcRenderer.sendSync('get-web-view-preload-path');
 
 export const writeToClipboard = text => ipcRenderer.send('write-to-clipboard', text);
+
+export const setBadge = text => ipcRenderer.send('badge', text);

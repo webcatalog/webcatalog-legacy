@@ -25,8 +25,9 @@ import { screenResize } from './state/root/screen/actions';
 import { getLatestVersion } from './state/root/version/actions';
 
 import {
-  requestOpenInBrowser,
   getWebViewPreloadPath,
+  requestOpenInBrowser,
+  setBadge,
   writeToClipboard,
 } from './senders/generic';
 
@@ -426,7 +427,7 @@ class App extends React.Component {
                 const match = itemCountRegex.exec(title);
                 const newBadge = match ? match[1] : '';
 
-                ipcRenderer.send('badge', newBadge);
+                setBadge(newBadge);
               }}
               onUpdateTargetUrl={({ url }) => {
                 onUpdateTargetUrl(url);

@@ -60,6 +60,14 @@ const loadListeners = () => {
   ipcMain.on('write-to-clipboard', (e, text) => {
     clipboard.writeText(text);
   });
+
+  /* Badge count */
+  // support macos
+  const setDockBadge = (process.platform === 'darwin') ? app.dock.setBadge : () => {};
+
+  ipcMain.on('badge', (e, badge) => {
+    setDockBadge(badge);
+  });
 };
 
 module.exports = loadListeners;
