@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import semver from 'semver';
 
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -135,10 +136,10 @@ const AppCard = (props) => {
   const {
     app,
     classes,
+    hasUpdate,
     isInstalled,
     isInstalling,
     isUninstalling,
-    moleculeVersion,
     onInstallApp,
     onOpenConfirmUninstallAppDialog,
     onUpdateApp,
@@ -152,7 +153,7 @@ const AppCard = (props) => {
     if (isInstalled) {
       return (
         <div>
-          {moleculeVersion === getCurrentMoleculeVersion() ? (
+          {!hasUpdate ? (
             <Button
               className={classes.button}
               dense
@@ -227,16 +228,16 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
-  moleculeVersion: '0.0.0',
+  hasUpdate: false,
 };
 
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  hasUpdate: PropTypes.bool,
   isInstalled: PropTypes.bool.isRequired,
   isInstalling: PropTypes.bool.isRequired,
   isUninstalling: PropTypes.bool.isRequired,
-  moleculeVersion: PropTypes.string,
   onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
@@ -245,11 +246,17 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
+  const currentMoleculeVersion = getMoleculeVersion(state, app.id);
+  const latestMoleculeVersion = state.version.apiData ?
+    state.version.apiData.moleculeVersion : getCurrentMoleculeVersion();
+
+  const hasUpdate = semver.gt(latestMoleculeVersion, currentMoleculeVersion);
+
   return {
+    hasUpdate,
     isInstalled: isInstalledUtil(state, app.id),
     isInstalling: isInstallingUtil(state, app.id),
     isUninstalling: isUninstallingUtil(state, app.id),
-    moleculeVersion: getMoleculeVersion(state, app.id),
   };
 };
 

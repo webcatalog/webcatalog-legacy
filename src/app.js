@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import connectComponent from './helpers/connect-component';
 
 import { getUser } from './state/root/user/actions';
+import { getVersion } from './state/root/version/actions';
 
 import DialogAbout from './dialogs/about';
 import DialogAccount from './dialogs/account';
@@ -43,11 +44,14 @@ class App extends React.Component {
     const {
       isLoggedIn,
       onGetUser,
+      onGetVersion,
     } = this.props;
 
     if (isLoggedIn) {
       onGetUser();
     }
+
+    onGetVersion();
   }
 
   render() {
@@ -102,6 +106,7 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   onGetUser: PropTypes.func.isRequired,
+  onGetVersion: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
   shouldShowLogIn: PropTypes.bool.isRequired,
 };
@@ -114,6 +119,7 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   getUser,
+  getVersion,
 };
 
 export default connectComponent(

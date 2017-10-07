@@ -10,16 +10,18 @@ import router from './root/router/reducers';
 import snackbar from './root/snackbar/reducers';
 import updater from './root/updater/reducers';
 import user from './root/user/reducers';
+import version from './root/version/reducers';
 
 const rootReducer = combineReducers({
   auth,
   dialogs,
   local,
+  pages,
   router,
   snackbar,
   updater,
   user,
-  pages,
+  version,
 });
 
 const configureStore = initialState =>

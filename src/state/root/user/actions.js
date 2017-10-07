@@ -36,7 +36,3 @@ export const removeUser = () =>
     window.localStorage.removeItem('user');
     dispatch(userGetSuccess({}));
   };
-
-export default {
-  getUser,
-};

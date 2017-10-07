@@ -9,6 +9,8 @@ import { openSnackbar } from '../snackbar/actions';
 import { open as openUpdateMainAppFirstDialog } from '../../dialogs/update-main-app-first/actions';
 
 import { apiGet } from '../../api';
+import { getVersion } from '../../root/version/actions';
+
 import installAppAsync from '../../../helpers/install-app-async';
 
 import {
@@ -42,10 +44,10 @@ export const updateApp = (id, name) =>
       .then(() => {
         dispatch(setLocalApp(id, 'INSTALLING', managedApp));
 
-        return dispatch(apiGet('/version/latest'));
+        return dispatch(getVersion());
       })
-      .then(({ version }) => {
-        const latestVersion = version;
+      .then(() => {
+        const latestVersion = getState().version.apiData.version;
         const localVersion = window.version;
         if (semver.gt(latestVersion, localVersion)) {
           dispatch(setLocalApp(id, 'INSTALLED', managedApp));
