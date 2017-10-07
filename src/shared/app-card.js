@@ -246,11 +246,18 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
+  // app version
   const currentMoleculeVersion = getMoleculeVersion(state, app.id);
-  const latestMoleculeVersion = state.version.apiData ?
-    state.version.apiData.moleculeVersion : getCurrentMoleculeVersion();
 
-  const hasUpdate = semver.gt(latestMoleculeVersion, currentMoleculeVersion);
+  // locally available version
+  const localMoleculeVersion = getCurrentMoleculeVersion();
+
+  // latest version, retrieved from server
+  const latestMoleculeVersion = state.version.apiData ?
+    state.version.apiData.moleculeVersion : '0.0.0';
+
+  const hasUpdate = semver.gt(latestMoleculeVersion, currentMoleculeVersion) ||
+    semver.gt(localMoleculeVersion, currentMoleculeVersion);
 
   return {
     hasUpdate,
