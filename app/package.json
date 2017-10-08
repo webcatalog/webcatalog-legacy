@@ -1,7 +1,7 @@
 {
   "name": "Molecule",
   "main": "main/electron.js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "rebuild": "electron-rebuild",
