@@ -140,6 +140,7 @@ function createMenu() {
         { type: 'separator' },
         {
           label: 'Copy URL',
+          accelerator: 'CmdOrCtrl+L',
           click: () => sendMessageToWindow('copy-url'),
         },
       ],
