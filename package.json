@@ -45,6 +45,7 @@
     "electron": "1.8.1",
     "electron-builder": "19.34.2",
     "electron-builder-squirrel-windows": "19.35.0",
+    "electron-rebuild": "1.6.0",
     "eslint": "4.8.0",
     "eslint-config-airbnb": "16.0.0",
     "eslint-plugin-import": "2.7.0",
