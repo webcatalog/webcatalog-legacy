@@ -118,6 +118,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.onDidFailLoad = this.onDidFailLoad.bind(this);
+    this.onDidGetRedirectRequest = this.onDidGetRedirectRequest.bind(this);
     this.onDidStopLoading = this.onDidStopLoading.bind(this);
     this.onNewWindow = this.onNewWindow.bind(this);
 
@@ -202,6 +203,24 @@ class App extends React.Component {
     if (e.isMainFrame && e.errorCode < 0 && e.errorCode !== -3) {
       onUpdateIsFailed(true);
     }
+  }
+
+  // https://github.com/electron/electron/issues/3471#issuecomment-323139653
+  onDidGetRedirectRequest(e) {
+    const c = this.webView;
+
+    setTimeout(() => {
+      c.executeJavaScript(
+        [
+          'window.onbeforeunload = function(event){',
+          'console.log(event);',
+          'return \'Are you sure you want to leave?\';',
+          '};',
+          `window.location = '${e.newURL}';`,
+        ].join(''),
+      );
+    }, 10);
+    e.preventDefault();
   }
 
   onDidStopLoading() {
@@ -322,6 +341,7 @@ class App extends React.Component {
 
     const {
       onDidStopLoading,
+      onDidGetRedirectRequest,
       onDidFailLoad,
       onNewWindow,
 
@@ -432,6 +452,7 @@ class App extends React.Component {
               onUpdateTargetUrl={({ url }) => {
                 onUpdateTargetUrl(url);
               }}
+              onDidGetRedirectRequest={onDidGetRedirectRequest}
             />
             <TargetUrlBar />
           </div>
