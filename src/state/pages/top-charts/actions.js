@@ -31,8 +31,8 @@ export const getApps = () =>
 
     if (isGetting) return;
 
-    const totalPage = apiData.totalPage;
-    const page = queryParams.page;
+    const { totalPage } = apiData;
+    const { page } = queryParams;
 
     // If all pages have already been fetched, we stop
     if (totalPage && page + 1 > totalPage) return;

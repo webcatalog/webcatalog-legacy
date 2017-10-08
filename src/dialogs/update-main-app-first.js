@@ -63,10 +63,6 @@ const UpdateWebCatalogFirstDialog = (props) => {
   );
 };
 
-UpdateWebCatalogFirstDialog.defaultProps = {
-  updaterData: {},
-};
-
 UpdateWebCatalogFirstDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,

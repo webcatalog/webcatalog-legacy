@@ -29,8 +29,14 @@ const styles = {
     fontSize: '13.5px',
   },
   updaterPaperLink: {
-    textDecoration: 'underline',
+    background: 'none',
+    border: 'none',
+    color: 'inherit',
     cursor: 'pointer',
+    fontSize: '13.5px',
+    margin: 0,
+    padding: 0,
+    textDecoration: 'underline',
   },
 };
 
@@ -44,23 +50,23 @@ const UpdaterMessage = (props) => {
   return (
     <div className={classes.updaterPaper}>
       <span>{STRING_UPDATE_MESSAGE} </span>
-      <a
+      <button
         className={classes.updaterPaperLink}
         onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
         role="link"
         tabIndex="0"
       >
         {STRING_WHATS_NEW}
-      </a>
+      </button>
       <span> {STRING_OR} </span>
-      <a
+      <button
         className={classes.updaterPaperLink}
         onClick={() => requestQuitAndInstall()}
         role="link"
         tabIndex="0"
       >
         {STRING_RESTART_NOW}
-      </a>
+      </button>
       <span>.</span>
     </div>
   );

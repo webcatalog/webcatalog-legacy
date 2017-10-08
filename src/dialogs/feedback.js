@@ -124,7 +124,7 @@ Feedback.propTypes = {
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

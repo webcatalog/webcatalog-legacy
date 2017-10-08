@@ -11,7 +11,7 @@ export const search = () =>
   (dispatch, getState) =>
     Promise.resolve()
       .then(() => {
-        const query = getState().pages.search.form.query;
+        const { query } = getState().pages.search.form;
         if (!query || query.length < 1) return null;
 
         dispatch(searchResultsGetRequest());
@@ -36,7 +36,6 @@ export const formUpdate = changes =>
           setTimeout(() => {
             resolve();
           }, 200);
-        }),
-      )
+        }))
       .then(() => dispatch(search()));
   };

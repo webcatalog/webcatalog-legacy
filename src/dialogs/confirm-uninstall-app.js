@@ -98,7 +98,7 @@ ConfirmUninstallApp.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

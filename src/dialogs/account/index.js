@@ -168,7 +168,7 @@ Account.propTypes = {
   isProfileActive: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSectionChange: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

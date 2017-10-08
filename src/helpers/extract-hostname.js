@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 const extractHostname = (url) => {
   let hostname;
 

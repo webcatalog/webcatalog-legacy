@@ -154,7 +154,7 @@ SubmitApp.propTypes = {
   onClose: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
   url: PropTypes.string,
   urlError: PropTypes.string,
 };

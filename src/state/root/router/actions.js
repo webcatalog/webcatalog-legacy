@@ -7,7 +7,7 @@ import {
 
 export const changeRoute = newRoute =>
   (dispatch, getState) => {
-    const router = getState().router;
+    const { router } = getState();
     const { route } = router;
 
     if (newRoute === route) return;
@@ -17,7 +17,7 @@ export const changeRoute = newRoute =>
 
 export const goBack = () =>
   (dispatch, getState) => {
-    const router = getState().router;
+    const { router } = getState();
     const { route, previousRoute } = router;
 
     dispatch(routeChange(previousRoute || ROUTE_TOP_CHARTS, route));

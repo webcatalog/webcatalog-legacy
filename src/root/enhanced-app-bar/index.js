@@ -75,7 +75,12 @@ import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestScanInstalledApps } from '../../senders/local';
 
-const { fullWhite, lightWhite, fullBlack, lightBlack } = common;
+const {
+  fullBlack,
+  fullWhite,
+  lightBlack,
+  lightWhite,
+} = common;
 
 const styles = theme => ({
   root: {
@@ -556,7 +561,6 @@ class EnhancedAppBar extends React.Component {
 }
 
 EnhancedAppBar.defaultProps = {
-  category: null,
   displayName: null,
   email: null,
   profilePicture: null,

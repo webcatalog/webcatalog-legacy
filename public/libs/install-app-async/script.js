@@ -55,8 +55,7 @@ const downloadFilePngAsync = fileUrl =>
         req.on('error', (err) => {
           reject(err);
         });
-      }),
-    );
+      }));
 
 const downloadFileTempAsync = fileUrl =>
   createTmpDirAsync()
@@ -81,8 +80,7 @@ const downloadFileTempAsync = fileUrl =>
         req.on('error', (err) => {
           reject(err);
         });
-      }),
-    );
+      }));
 
 const getIconUrl = () => {
   switch (process.platform) {
@@ -115,8 +113,7 @@ downloadFilePngAsync(pngIconUrl)
       url,
       iconPath,
       destPath,
-    ),
-  )
+    ))
   .then(() => {
     if (process.platform === 'win32') {
       const startMenuShortcutPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);

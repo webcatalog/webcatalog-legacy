@@ -50,7 +50,7 @@ const validate = (changes, rules) => {
     const val = newChanges[key];
 
     if (rules[key]) {
-      const fieldName = rules[key].fieldName;
+      const { fieldName } = rules[key];
 
       Object.keys(rules[key]).find((ruleName) => {
         if (ruleName === 'fieldName') return false;

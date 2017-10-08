@@ -25,8 +25,8 @@ export const getMyApps = () =>
       queryParams,
     } = state.pages.myApps;
 
-    const totalPage = apiData.totalPage;
-    const page = queryParams.page;
+    const { totalPage } = apiData;
+    const { page } = queryParams;
 
     if (isGetting) return;
 

@@ -28,39 +28,35 @@ const scanInstalledAsync = () =>
 
                       const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
 
-                      promises.push(
-                        fs.pathExists(infoPath)
-                          .then((exists) => {
-                            if (exists) {
-                              return fs.readJson(infoPath)
-                                .then((info) => {
-                                  const appInfo = Object.assign({}, info, {
-                                    moleculeVersion: '0.0.0',
-                                  });
-                                  installedApps.push(appInfo);
+                      promises.push(fs.pathExists(infoPath)
+                        .then((exists) => {
+                          if (exists) {
+                            return fs.readJson(infoPath)
+                              .then((info) => {
+                                const appInfo = Object.assign({}, info, {
+                                  moleculeVersion: '0.0.0',
                                 });
-                            }
-                            return null;
-                          }),
-                      );
+                                installedApps.push(appInfo);
+                              });
+                          }
+                          return null;
+                        }));
 
                       const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
-                      promises.push(
-                        fs.pathExists(packageJsonPath)
-                          .then((exists) => {
-                            if (exists) {
-                              return fs.readJson(packageJsonPath)
-                                .then((packageInfo) => {
-                                  const appInfo = Object.assign({}, packageInfo.webApp, {
-                                    moleculeVersion: packageInfo.version,
-                                  });
-
-                                  installedApps.push(appInfo);
+                      promises.push(fs.pathExists(packageJsonPath)
+                        .then((exists) => {
+                          if (exists) {
+                            return fs.readJson(packageJsonPath)
+                              .then((packageInfo) => {
+                                const appInfo = Object.assign({}, packageInfo.webApp, {
+                                  moleculeVersion: packageInfo.version,
                                 });
-                            }
-                            return null;
-                          }),
-                      );
+
+                                installedApps.push(appInfo);
+                              });
+                          }
+                          return null;
+                        }));
                     });
 
                     return Promise.all(promises)
@@ -75,69 +71,63 @@ const scanInstalledAsync = () =>
           const p = [];
 
           // > 7.0.0
-          p.push(
-            fs.pathExists(allAppPath)
-              .then((allAppPathExists) => {
-                if (allAppPathExists) {
-                  return fs.readdir(allAppPath)
-                    .then((files) => {
-                      const promises = [];
+          p.push(fs.pathExists(allAppPath)
+            .then((allAppPathExists) => {
+              if (allAppPathExists) {
+                return fs.readdir(allAppPath)
+                  .then((files) => {
+                    const promises = [];
 
-                      files.forEach((fileName) => {
-                        const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
-                        promises.push(
-                          fs.pathExists(packageJsonPath)
-                            .then((exists) => {
-                              if (exists) {
-                                return fs.readJson(packageJsonPath)
-                                  .then((packageInfo) => {
-                                    const appInfo = Object.assign({}, packageInfo.webApp, {
-                                      moleculeVersion: packageInfo.version,
-                                    });
+                    files.forEach((fileName) => {
+                      const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                      promises.push(fs.pathExists(packageJsonPath)
+                        .then((exists) => {
+                          if (exists) {
+                            return fs.readJson(packageJsonPath)
+                              .then((packageInfo) => {
+                                const appInfo = Object.assign({}, packageInfo.webApp, {
+                                  moleculeVersion: packageInfo.version,
+                                });
 
-                                    installedApps.push(appInfo);
-                                  });
-                              }
-                              return null;
-                            }),
-                        );
-                      });
-
-                      return Promise.all(promises);
+                                installedApps.push(appInfo);
+                              });
+                          }
+                          return null;
+                        }));
                     });
-                }
 
-                return [];
-              }),
-          );
+                    return Promise.all(promises);
+                  });
+              }
+
+              return [];
+            }));
 
           // legacy, v < 7.0.0
           const legacyAllAppPath = path.join(electron.app.getPath('home'), '.local', 'share', 'applications');
-          p.push(
-            fs.pathExists(legacyAllAppPath)
-              .then((exists) => {
-                if (exists) {
-                  return fs.readdir(allAppPath)
-                    .then((files) => {
-                      files.forEach((fileName) => {
-                        if (!fileName.startsWith('webcatalog-')) return;
+          p.push(fs.pathExists(legacyAllAppPath)
+            .then((exists) => {
+              if (exists) {
+                return fs.readdir(allAppPath)
+                  .then((files) => {
+                    files.forEach((fileName) => {
+                      if (!fileName.startsWith('webcatalog-')) return;
 
-                        try {
-                          const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
+                      try {
+                        const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
 
-                          installedApps.push(appInfo);
-                        } catch (err) {
-                          sendMessageToWindow('log', err);
-                        }
-                      });
-
-                      return installedApps;
+                        installedApps.push(appInfo);
+                      } catch (err) {
+                        sendMessageToWindow('log', err);
+                      }
                     });
-                }
 
-                return [];
-              }),
-          );
+                    return installedApps;
+                  });
+              }
+
+              return [];
+            }));
 
           return Promise.all(p)
             .then(() => installedApps);
@@ -147,83 +137,79 @@ const scanInstalledAsync = () =>
           const p = [];
 
           // >= 7.0.0
-          p.push(
-            fs.pathExists(allAppPath)
-              .then((allAppPathExists) => {
-                if (allAppPathExists) {
-                  return fs.readdir(allAppPath)
-                    .then((files) => {
-                      const promises = [];
+          p.push(fs.pathExists(allAppPath)
+            .then((allAppPathExists) => {
+              if (allAppPathExists) {
+                return fs.readdir(allAppPath)
+                  .then((files) => {
+                    const promises = [];
 
-                      files.forEach((fileName) => {
-                        const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
-                        promises.push(
-                          fs.pathExists(packageJsonPath)
-                            .then((exists) => {
-                              if (exists) {
-                                return fs.readJson(packageJsonPath)
-                                  .then((packageInfo) => {
-                                    const appInfo = Object.assign({}, packageInfo.webApp, {
-                                      moleculeVersion: packageInfo.version,
-                                    });
+                    files.forEach((fileName) => {
+                      const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                      promises.push(fs.pathExists(packageJsonPath)
+                        .then((exists) => {
+                          if (exists) {
+                            return fs.readJson(packageJsonPath)
+                              .then((packageInfo) => {
+                                const appInfo = Object.assign({}, packageInfo.webApp, {
+                                  moleculeVersion: packageInfo.version,
+                                });
 
-                                    installedApps.push(appInfo);
-                                  });
-                              }
-                              return null;
-                            }),
-                        );
-                      });
-
-                      return Promise.all(promises);
+                                installedApps.push(appInfo);
+                              });
+                          }
+                          return null;
+                        }));
                     });
-                }
 
-                return null;
-              }),
-          );
+                    return Promise.all(promises);
+                  });
+              }
+
+              return null;
+            }));
 
           // legacy, v < 7.0.0
           const legacyAllAppPath = path.join(electron.app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-          p.push(
-            fs.pathExists(legacyAllAppPath)
-              .then((exists) => {
-                if (exists) {
-                  return fs.readdir(legacyAllAppPath)
-                    .then((files) => {
-                      if (files.length === 0) return null;
+          p.push(fs.pathExists(legacyAllAppPath)
+            .then((exists) => {
+              if (exists) {
+                return fs.readdir(legacyAllAppPath)
+                  .then((files) => {
+                    if (files.length === 0) return null;
 
-                      return new Promise((resolve, reject) => {
-                        let i = 0;
-                        files.forEach((fileName) => {
-                          /* eslint-disable */
-                          const WindowsShortcuts = require('windows-shortcuts');
-                          /* eslint-enable */
-                          WindowsShortcuts.query(path.join(legacyAllAppPath, fileName),
-                            (wsShortcutErr, { desc }) => {
-                              if (wsShortcutErr) {
-                                reject(wsShortcutErr);
-                              } else {
-                                try {
-                                  const appInfo = JSON.parse(desc);
-                                  installedApps.push(appInfo);
-                                } catch (jsonErr) {
-                                  /* eslint-disable no-console */
-                                  sendMessageToWindow('log', `Failed to parse file ${fileName}`);
-                                  /* eslint-enable no-console */
-                                }
+                    return new Promise((resolve, reject) => {
+                      let i = 0;
+                      files.forEach((fileName) => {
+                        /* eslint-disable */
+                        const WindowsShortcuts = require('windows-shortcuts');
+                        /* eslint-enable */
+                        WindowsShortcuts.query(
+                          path.join(legacyAllAppPath, fileName),
+                          (wsShortcutErr, { desc }) => {
+                            if (wsShortcutErr) {
+                              reject(wsShortcutErr);
+                            } else {
+                              try {
+                                const appInfo = JSON.parse(desc);
+                                installedApps.push(appInfo);
+                              } catch (jsonErr) {
+                                /* eslint-disable no-console */
+                                sendMessageToWindow('log', `Failed to parse file ${fileName}`);
+                                /* eslint-enable no-console */
                               }
+                            }
 
-                              i += 1;
-                              if (i === files.length) resolve();
-                            });
-                        });
+                            i += 1;
+                            if (i === files.length) resolve();
+                          },
+                        );
                       });
                     });
-                }
-                return [];
-              }),
-          );
+                  });
+              }
+              return [];
+            }));
 
           return Promise.all(p)
             .then(() => installedApps);

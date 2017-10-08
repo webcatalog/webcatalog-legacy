@@ -34,7 +34,7 @@ export const formUpdate = changes =>
 
 export const submit = () =>
   (dispatch, getState) => {
-    const form = getState().pages.logIn.form;
+    const { form } = getState().pages.logIn;
 
     const validatedForm = validate(form, getValidationRules());
 
@@ -52,7 +52,7 @@ export const submit = () =>
           // If fetchedResponse exists,
           // it means the request went through but the server returned error code.
           if (err.fetchedResponse) {
-            const code = err.fetchedResponse.error.code;
+            const { code } = err.fetchedResponse.error;
             switch (code) {
               case 'UserNotFound': {
                 dispatch(openSnackbar('The email you entered doesn\'t exist in our database.'));

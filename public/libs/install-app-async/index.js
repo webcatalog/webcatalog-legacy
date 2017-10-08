@@ -1,6 +1,6 @@
 const { app } = require('electron');
 const path = require('path');
-const fork = require('child_process').fork;
+const { fork } = require('child_process');
 const fs = require('fs-extra');
 
 const widevine = require('electron-widevinecdm');
@@ -37,7 +37,9 @@ const installAppAsync = appObj =>
     })
     .then(() =>
       new Promise((resolve, reject) => {
-        const { id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl } = appObj;
+        const {
+          id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl,
+        } = appObj;
 
         const destPath = getAllAppPath();
         const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
