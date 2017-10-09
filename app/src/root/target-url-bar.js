@@ -25,6 +25,7 @@ const TargetUrlBar = (props) => {
   const {
     classes,
     navigationBarPosition,
+    showNavigationBar,
     targetUrl,
   } = props;
 
@@ -36,7 +37,7 @@ const TargetUrlBar = (props) => {
     <div
       className={classnames(
         classes.root,
-        { [classes.rootWithLeftNav]: navigationBarPosition === 'left' },
+        { [classes.rootWithLeftNav]: showNavigationBar && navigationBarPosition === 'left' },
       )}
     >
       {targetUrl}
@@ -45,17 +46,20 @@ const TargetUrlBar = (props) => {
 };
 
 TargetUrlBar.defaultProps = {
+  showNavigationBar: true,
   targetUrl: null,
 };
 
 TargetUrlBar.propTypes = {
   classes: PropTypes.object.isRequired,
   navigationBarPosition: PropTypes.string.isRequired,
+  showNavigationBar: PropTypes.bool,
   targetUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   navigationBarPosition: state.preferences.navigationBarPosition,
+  showNavigationBar: state.preferences.showNavigationBar,
   targetUrl: state.nav.targetUrl,
 });
 
