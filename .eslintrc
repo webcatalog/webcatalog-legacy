@@ -9,7 +9,6 @@
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "react/forbid-prop-types": [0],
-    "import/prefer-default-export": [0],
-    "react/jsx-boolean-value": [0]
+    "import/prefer-default-export": [0]
   }
 }
