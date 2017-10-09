@@ -1,7 +1,7 @@
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
-const electron = require('electron');
+const { app, shell } = require('electron');
 
 const getAllAppPath = require('./get-all-app-path');
 const uninstallAppAsync = require('./uninstall-app-async');
@@ -104,7 +104,7 @@ const scanInstalledAsync = () =>
             }));
 
           // legacy, v < 7.0.0
-          const legacyAllAppPath = path.join(electron.app.getPath('home'), '.local', 'share', 'applications');
+          const legacyAllAppPath = path.join(app.getPath('home'), '.local', 'share', 'applications');
           p.push(fs.pathExists(legacyAllAppPath)
             .then((exists) => {
               if (exists) {
@@ -170,41 +170,27 @@ const scanInstalledAsync = () =>
             }));
 
           // legacy, v < 7.0.0
-          const legacyAllAppPath = path.join(electron.app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+          const legacyAllAppPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
           p.push(fs.pathExists(legacyAllAppPath)
             .then((exists) => {
               if (exists) {
                 return fs.readdir(legacyAllAppPath)
                   .then((files) => {
-                    if (files.length === 0) return null;
+                    if (files.length === 0) return;
 
-                    return new Promise((resolve, reject) => {
-                      let i = 0;
-                      files.forEach((fileName) => {
-                        /* eslint-disable */
-                        const WindowsShortcuts = require('windows-shortcuts');
-                        /* eslint-enable */
-                        WindowsShortcuts.query(
-                          path.join(legacyAllAppPath, fileName),
-                          (wsShortcutErr, { desc }) => {
-                            if (wsShortcutErr) {
-                              reject(wsShortcutErr);
-                            } else {
-                              try {
-                                const appInfo = JSON.parse(desc);
-                                installedApps.push(appInfo);
-                              } catch (jsonErr) {
-                                /* eslint-disable no-console */
-                                sendMessageToWindow('log', `Failed to parse file ${fileName}`);
-                                /* eslint-enable no-console */
-                              }
-                            }
+                    files.forEach((fileName) => {
+                      const fullPath = path.join(legacyAllAppPath, fileName);
+                      const shortcutDetails = shell.readShortcutLink(fullPath);
+                      const { description } = shortcutDetails;
 
-                            i += 1;
-                            if (i === files.length) resolve();
-                          },
-                        );
-                      });
+                      try {
+                        const appInfo = JSON.parse(description);
+                        installedApps.push(appInfo);
+                      } catch (jsonErr) {
+                        /* eslint-disable no-console */
+                        sendMessageToWindow('log', `Failed to parse file ${fileName}`);
+                        /* eslint-enable no-console */
+                      }
                     });
                   });
               }
@@ -216,13 +202,13 @@ const scanInstalledAsync = () =>
         }
       }
     })
-    .then(installedApps => installedApps.filter((app) => {
+    .then(installedApps => installedApps.filter((a) => {
       // without shellVersion or moleculeVersion,
       // it means the app is outdated and should be deleted.
-      if (!app.shellVersion && !app.moleculeVersion) {
+      if (!a.shellVersion && !a.moleculeVersion) {
         uninstallAppAsync(
-          app.id,
-          app.name,
+          a.id,
+          a.name,
           { shouldClearStorageData: true },
         )
         // eslint-disable-next-line no-console

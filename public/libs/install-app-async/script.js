@@ -1,9 +1,10 @@
-const path = require('path');
-const fs = require('fs-extra');
-const tmp = require('tmp');
 const { https } = require('follow-redirects');
-const createAppAsync = require('@webcatalog/molecule');
+const { shell } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
+const createAppAsync = require('@webcatalog/molecule');
+const fs = require('fs-extra');
+const path = require('path');
+const tmp = require('tmp');
 
 const {
   id,
@@ -90,20 +91,6 @@ const getIconUrl = () => {
   }
 };
 
-const createWindowsShortcutAsync = (shortcutPath, options) =>
-  new Promise((resolve, reject) => {
-    // eslint-disable-next-line
-    const WindowsShortcuts = require('windows-shortcuts');
-    WindowsShortcuts.create(shortcutPath, options, (err) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      resolve();
-    });
-  });
-
 downloadFilePngAsync(pngIconUrl)
   .then(() => downloadFileTempAsync(getIconUrl()))
   .then(iconPath =>
@@ -120,11 +107,11 @@ downloadFilePngAsync(pngIconUrl)
       const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
       const opts = {
         target: path.join(destPath, id, `${name}.exe`),
-        desc: path.join(destPath, id, `${name}.exe`),
+        cwd: path.join(destPath, id),
       };
 
-      return createWindowsShortcutAsync(startMenuShortcutPath, opts)
-        .then(() => createWindowsShortcutAsync(desktopShortcutPath, opts));
+      shell.writeShortcutLink(startMenuShortcutPath, opts);
+      shell.writeShortcutLink(desktopShortcutPath, opts);
     }
 
     if (process.platform === 'linux') {

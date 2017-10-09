@@ -68,9 +68,6 @@
     "typeface-roboto": "0.0.35",
     "wait-on": "2.0.2"
   },
-  "optionalDependencies": {
-    "windows-shortcuts": "0.1.6"
-  },
   "homepage": "./",
   "proxy": "https://webcatalog.io"
 }
