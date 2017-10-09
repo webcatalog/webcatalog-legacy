@@ -207,6 +207,12 @@ class App extends React.Component {
 
   // https://github.com/electron/electron/issues/3471#issuecomment-323139653
   onDidGetRedirectRequest(e) {
+    // only do this with Twitter
+    // https://webcatalog.io/apps/details/twitter/1135bccc-0203-4e36-82dc-e3d36bc465a0
+    if (window.shellInfo.id !== '1135bccc-0203-4e36-82dc-e3d36bc465a0') {
+      return;
+    }
+
     const c = this.webView;
 
     setTimeout(() => {
