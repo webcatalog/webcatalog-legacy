@@ -1,5 +1,4 @@
 const { https } = require('follow-redirects');
-const { shell } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const createAppAsync = require('@webcatalog/molecule');
 const fs = require('fs-extra');
@@ -14,7 +13,6 @@ const {
   icoIconUrl,
   icnsIconUrl,
   destPath,
-  desktopPath,
   homePath,
 } = argv;
 
@@ -102,18 +100,6 @@ downloadFilePngAsync(pngIconUrl)
       destPath,
     ))
   .then(() => {
-    if (process.platform === 'win32') {
-      const startMenuShortcutPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-      const opts = {
-        target: path.join(destPath, id, `${name}.exe`),
-        cwd: path.join(destPath, id),
-      };
-
-      shell.writeShortcutLink(startMenuShortcutPath, opts);
-      shell.writeShortcutLink(desktopShortcutPath, opts);
-    }
-
     if (process.platform === 'linux') {
       const execPath = path.join(destPath, id, name);
       const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);

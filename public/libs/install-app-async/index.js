@@ -1,4 +1,4 @@
-const { app } = require('electron');
+const { app, shell } = require('electron');
 const path = require('path');
 const { fork } = require('child_process');
 const fs = require('fs-extra');
@@ -9,6 +9,8 @@ const getAllAppPath = require('../get-all-app-path');
 const sendMessageToWindow = require('../send-message-to-window');
 
 let downloadingWidevine = false;
+
+const destPath = getAllAppPath();
 
 const installAppAsync = appObj =>
   Promise.resolve()
@@ -41,7 +43,6 @@ const installAppAsync = appObj =>
           id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl,
         } = appObj;
 
-        const destPath = getAllAppPath();
         const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
 
         const child = fork(scriptPath, [
@@ -86,6 +87,25 @@ const installAppAsync = appObj =>
             })
             .catch(reject);
         });
-      }));
+      }))
+    .then((finalizedAppObj) => {
+      if (process.platform === 'win32') {
+        const {
+          id, name,
+        } = appObj;
+
+        const startMenuShortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
+        const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
+        const opts = {
+          target: path.join(destPath, id, `${name}.exe`),
+          cwd: path.join(destPath, id),
+        };
+
+        shell.writeShortcutLink(startMenuShortcutPath, 'create', opts);
+        shell.writeShortcutLink(desktopShortcutPath, 'create', opts);
+      }
+
+      return finalizedAppObj;
+    });
 
 module.exports = installAppAsync;
