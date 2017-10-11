@@ -41,13 +41,13 @@ const App = sequelize.define('app', {
 }, {
   getterMethods: {
     pngIconUrl() {
-      return `https://s3.getwebcatalog.com/${this.id}.png`;
+      return `https://cdn.webcatalog.io/${this.id}.png`;
     },
     icnsIconUrl() {
-      return `https://s3.getwebcatalog.com/${this.id}.icns`;
+      return `https://cdn.webcatalog.io/${this.id}.icns`;
     },
     icoIconUrl() {
-      return `https://s3.getwebcatalog.com/${this.id}.ico`;
+      return `https://cdn.webcatalog.io/${this.id}.ico`;
     },
   },
 });
