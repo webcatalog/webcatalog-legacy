@@ -10,6 +10,8 @@
 ## Introduction
 WebCatalog is a desktop app which allows users to install and run any web app natively.
 
+![WebCatalog for macOS](/build-resources/screenshot.png)
+
 ## Development
 Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com).
 
