@@ -73,6 +73,7 @@ const createWindow = () => {
     minWidth: 480,
     minHeight: 320,
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
