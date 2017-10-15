@@ -5,18 +5,18 @@ const tmp = require('tmp');
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
-    tmp.dir((err, dirPath) => {
+    tmp.dir((err, dirPath, cleanupCallback) => {
       if (err) {
         return reject(err);
       }
 
-      return resolve(dirPath);
+      return resolve(dirPath, cleanupCallback);
     });
   });
 
 const createAppAsync = (id, name, url, icon, out) =>
   createTmpDirAsync()
-    .then((tmpDir) => {
+    .then((tmpDir, cleanupCallback) => {
       const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
 
       return fs.copy(appDir, tmpDir)
@@ -86,6 +86,9 @@ const createAppAsync = (id, name, url, icon, out) =>
 
               return Promise.reject(new Error('Unknown platform'));
             });
+        })
+        .then(() => {
+          cleanupCallback();
         });
     });
 
