@@ -210,7 +210,7 @@ const AppCard = (props) => {
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <img src={`https://webcatalog.io/s3/${app.id}@128px.webp`} alt="Messenger" className={classes.paperIcon} />
+          <img src={`https://cdn.webcatalog.io/${app.id}@128px.webp`} alt="Messenger" className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
