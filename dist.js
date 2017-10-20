@@ -18,7 +18,7 @@ Promise.resolve()
           break;
         }
         case 'linux': {
-          targets = Platform.LINUX.createTarget(['deb', 'rpm', 'pacman'], Arch.x64);
+          targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
           break;
         }
         case 'win32':
