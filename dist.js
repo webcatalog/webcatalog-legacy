@@ -62,7 +62,7 @@ Promise.resolve()
           buildResources: 'build-resources',
         },
         linux: {
-          category: 'Utilities',
+          category: 'Utility',
           packageCategory: 'utils',
         },
         mac: {
