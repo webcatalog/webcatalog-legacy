@@ -15,7 +15,7 @@
     "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./app/src",
     "prepublishOnly": "npm run install-app-full && npm run build",
-    "test": "NODE_ENV=test mocha ./tests",
+    "test": "cross-env NODE_ENV=test mocha ./tests",
     "electron-dev": "cd app && yarn electron-dev"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "babel-preset-env": "1.6.0",
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
+    "cross-env": "5.1.0",
     "eslint": "4.4.1",
     "eslint-config-airbnb": "15.1.0",
     "eslint-plugin-import": "2.7.0",
