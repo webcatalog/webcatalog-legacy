@@ -1,3 +1,11 @@
+## 7.1
+- Linux: Uses [AppImage](https://appimage.org/) packaging.
+- Linux: Adds auto-update support.
+- Improves installation speed.
+- Fixes bugs.
+
+---
+
 ## 7.0
 A few months ago, we started building WebCatalog from scratch to provide a simpler, more unified experience. Since then, we’ve redesigned the app, rebuilt the core components and fixed many bugs. Here’s an overview of what you’ll see in 7.0.
 
