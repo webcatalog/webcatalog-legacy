@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const path = require('path');
 
-const createAppAsync = require('../lib');
+const createAppAsync = require('../src');
 
 const getIconFileExt = () => {
   switch (process.platform) {

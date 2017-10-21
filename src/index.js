@@ -5,23 +5,26 @@ const tmp = require('tmp');
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
-    tmp.dir((err, dirPath, cleanupCallback) => {
+    tmp.dir({ unsafeCleanup: true }, (err, dirPath, cleanupCallback) => {
       if (err) {
         return reject(err);
       }
 
-      return resolve(dirPath, cleanupCallback);
+      return resolve({ dirPath, cleanupCallback });
     });
   });
 
 const createAppAsync = (id, name, url, icon, out) =>
   createTmpDirAsync()
-    .then((tmpDir, cleanupCallback) => {
+    .then((tmpObj) => {
       const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
+      const tmpCodeDir = path.resolve(tmpObj.dirPath, 'code');
+      const tmpDistDir = path.resolve(tmpObj.dirPath, 'dist');
 
-      return fs.copy(appDir, tmpDir)
+      return fs.ensureDir(tmpCodeDir)
+        .then(() => fs.copy(appDir, tmpCodeDir))
         .then(() => {
-          const packageJsonPath = path.resolve(tmpDir, 'package.json');
+          const packageJsonPath = path.resolve(tmpCodeDir, 'package.json');
           return fs.readJson(packageJsonPath)
             .then((packageJsonTemplate) => {
               const packageJson = Object.assign({}, packageJsonTemplate, {
@@ -35,15 +38,15 @@ const createAppAsync = (id, name, url, icon, out) =>
               });
               return fs.writeJson(packageJsonPath, packageJson);
             })
-            .then(() => createTmpDirAsync())
-            .then(outTmpDir =>
+            .then(() => fs.ensureDir(tmpDistDir))
+            .then(() =>
               new Promise((resolve, reject) => {
                 const options = {
                   name,
                   icon,
                   platform: process.platform,
-                  dir: tmpDir,
-                  out: outTmpDir,
+                  dir: tmpCodeDir,
+                  out: tmpDistDir,
                   overwrite: true,
                   prune: false,
                   asar: {
@@ -69,8 +72,7 @@ const createAppAsync = (id, name, url, icon, out) =>
                   path.resolve(appPaths[0], binaryFileName),
                   destPath,
                   { overwrite: true },
-                )
-                  .then(() => destPath);
+                ).then(() => destPath);
               }
 
               if (process.platform === 'win32' || process.platform === 'linux') {
@@ -80,14 +82,16 @@ const createAppAsync = (id, name, url, icon, out) =>
                   appPaths[0],
                   destPath,
                   { overwrite: true },
-                )
-                  .then(() => destPath);
+                ).then(() => destPath);
               }
 
               return Promise.reject(new Error('Unknown platform'));
             });
         })
-        .then(() => cleanupCallback());
+        .then((destPath) => {
+          tmpObj.cleanupCallback();
+          return destPath;
+        });
     });
 
 module.exports = createAppAsync;
