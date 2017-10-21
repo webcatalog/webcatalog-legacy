@@ -1,6 +1,6 @@
 {
   "name": "@webcatalog/molecule",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
