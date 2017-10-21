@@ -73,10 +73,20 @@ const createAppAsync = (id, name, url, icon, out) => {
     .then((destPath) => {
       cleanupCallback();
 
-      const packageJsonPath = process.platform === 'darwin' ?
-        path.resolve(destPath, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json')
-        : path.resolve(destPath, 'app.asar.unpacked', 'package.json');
-
+      let packageJsonPath;
+      switch (process.platform) {
+        case 'darwin':
+          packageJsonPath = path.resolve(destPath, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
+          break;
+        case 'win32':
+          packageJsonPath = path.resolve(destPath, 'resources', 'app.asar.unpacked', 'package.json');
+          break;
+        case 'linux':
+          packageJsonPath = path.resolve(destPath, 'app.asar.unpacked', 'package.json');
+          break;
+        default:
+          return Promise.reject(new Error('Unknown platform'));
+      }
 
       return fs.readJson(packageJsonPath)
         .then((packageJsonTemplate) => {
