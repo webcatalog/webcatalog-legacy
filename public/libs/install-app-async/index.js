@@ -3,40 +3,12 @@ const path = require('path');
 const { fork } = require('child_process');
 const fs = require('fs-extra');
 
-const widevine = require('electron-widevinecdm');
-
 const getAllAppPath = require('../get-all-app-path');
-const sendMessageToWindow = require('../send-message-to-window');
-
-let downloadingWidevine = false;
 
 const destPath = getAllAppPath();
 
 const installAppAsync = appObj =>
   Promise.resolve()
-    .then(() => {
-      const widevinePath = path.join(app.getPath('home'), '.webcatalog', 'widevine');
-
-      return widevine.checkForUpdateAsync(widevinePath)
-        .then((hasUpdate) => {
-          if (hasUpdate) {
-            if (!downloadingWidevine) {
-              sendMessageToWindow('log', 'Downloading Widevine...');
-              return fs.ensureDir(widevinePath)
-                .then(() => {
-                  downloadingWidevine = true;
-                })
-                .then(() => widevine.downloadAsync(app, widevinePath))
-                .then(() => {
-                  downloadingWidevine = false;
-                });
-            }
-          }
-
-          sendMessageToWindow('log', 'You have the latest version of Widevine');
-          return null;
-        });
-    })
     .then(() =>
       new Promise((resolve, reject) => {
         const {
