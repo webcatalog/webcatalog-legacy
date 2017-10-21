@@ -26,9 +26,9 @@
   version "8.0.46"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.46.tgz#6e1766b2d0ed06631d5b5f87bb8e72c8dbb6888e"
 
-"@webcatalog/molecule@1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.12.tgz#bc82a729f5839ddb4f15d328f5b0aeed6406234a"
+"@webcatalog/molecule@1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.0.13.tgz#296ae31714b36e92d13d08be3a7ce92d67de05bc"
   dependencies:
     electron-packager "9.1.0"
     fs-extra "4.0.2"
@@ -1857,10 +1857,6 @@ compare-version@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/compare-version/-/compare-version-0.1.2.tgz#0162ec2d9351f5ddd59a9202cba935366a725080"
 
-compare-versions@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-3.1.0.tgz#43310256a5c555aaed4193c04d8f154cf9c6efd5"
-
 compress-commons@^1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/compress-commons/-/compress-commons-1.2.2.tgz#524a9f10903f3a813389b0225d27c48bb751890f"
@@ -2759,12 +2755,11 @@ electron-updater@2.13.0:
     semver "^5.4.1"
     source-map-support "^0.5.0"
 
-electron-widevinecdm@3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.2.1.tgz#1453f12c3f9013a50cef955f93ff67478f201c9c"
+electron-widevinecdm@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.2.4.tgz#4d48cd29df1548694e96f36744400f783f478cda"
   dependencies:
     archiver-promise "^1.0.0"
-    compare-versions "^3.1.0"
     extract-zip "^1.6.5"
     follow-redirects "^1.2.4"
     fs-extra "^3.0.1"

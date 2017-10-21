@@ -22,12 +22,12 @@ const getFileNameFromUrl = u => u.substring(u.lastIndexOf('/') + 1);
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
-    tmp.dir((err, dirPath) => {
+    tmp.dir({ unsafeCleanup: true }, (err, dirPath, cleanupCallback) => {
       if (err) {
         return reject(err);
       }
 
-      return resolve(dirPath);
+      return resolve({ dirPath, cleanupCallback });
     });
   });
 
@@ -58,25 +58,27 @@ const downloadFilePngAsync = fileUrl =>
 
 const downloadFileTempAsync = fileUrl =>
   createTmpDirAsync()
-    .then(tmpPath =>
+    .then(tmpObj =>
       new Promise((resolve, reject) => {
         const iconFileName = getFileNameFromUrl(fileUrl);
-        const iconPath = path.join(tmpPath, iconFileName);
+        const iconPath = path.join(tmpObj.dirPath, iconFileName);
         const iconFile = fs.createWriteStream(iconPath);
 
         const req = https.get(fileUrl, (response) => {
           response.pipe(iconFile);
 
           iconFile.on('error', (err) => {
+            tmpObj.cleanupCallback();
             reject(err);
           });
 
           iconFile.on('finish', () => {
-            resolve(iconPath);
+            resolve({ iconPath, cleanupCallback: tmpObj.cleanupCallback });
           });
         });
 
         req.on('error', (err) => {
+          tmpObj.cleanupCallback();
           reject(err);
         });
       }));
@@ -91,32 +93,33 @@ const getIconUrl = () => {
 
 downloadFilePngAsync(pngIconUrl)
   .then(() => downloadFileTempAsync(getIconUrl()))
-  .then(iconPath =>
+  .then(tmpIconObj =>
     createAppAsync(
       id,
       name,
       url,
-      iconPath,
+      tmpIconObj.iconPath,
       destPath,
-    ))
-  .then(() => {
-    if (process.platform === 'linux') {
-      const execPath = path.join(destPath, id, name);
-      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-      const desktopFileContent = `[Desktop Entry]
-Name="${name}"
-Exec="${execPath}"
-Icon=${path.join(iconDirPath, `${id}.png`)}
-Type=Application`;
+    )
+      .then(() => {
+        if (process.platform === 'linux') {
+          const execPath = path.join(destPath, id, name);
+          const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+          const desktopFileContent = `[Desktop Entry]
+    Name="${name}"
+    Exec="${execPath}"
+    Icon=${path.join(iconDirPath, `${id}.png`)}
+    Type=Application`;
 
-      return fs.outputFile(desktopFilePath, desktopFileContent);
-    }
+          return fs.outputFile(desktopFilePath, desktopFileContent);
+        }
 
-    return null;
-  })
-  .then(() => {
-    process.exit(0);
-  })
+        return null;
+      })
+      .then(() => {
+        tmpIconObj.cleanupCallback();
+        process.exit(0);
+      }))
   .catch((e) => {
     process.send(e);
     process.exit(1);
