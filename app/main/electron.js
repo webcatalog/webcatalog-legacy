@@ -32,8 +32,7 @@ if (isSecondInstance) {
 }
 
 // load widevinecdm
-const widevinePath = path.join(app.getPath('home'), '.webcatalog', 'widevine');
-widevine.load(app, widevinePath);
+widevine.load(app);
 
 loadListeners();
 
