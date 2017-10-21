@@ -28,5 +28,6 @@ before_build:
 
 build_script:
   - yarn build
+  - yarn test
 
 test: off

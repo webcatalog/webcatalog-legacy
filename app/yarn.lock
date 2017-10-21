@@ -2209,9 +2209,9 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.18:
   version "1.3.18"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.18.tgz#3dcc99da3e6b665f6abbc71c28ad51a2cd731a9c"
 
-electron-widevinecdm@3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.2.3.tgz#9983ddf80828ac5a5f267dd16f3ee10af2601013"
+electron-widevinecdm@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/electron-widevinecdm/-/electron-widevinecdm-3.2.4.tgz#4d48cd29df1548694e96f36744400f783f478cda"
   dependencies:
     archiver-promise "^1.0.0"
     extract-zip "^1.6.5"
