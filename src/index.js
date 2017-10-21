@@ -87,9 +87,7 @@ const createAppAsync = (id, name, url, icon, out) =>
               return Promise.reject(new Error('Unknown platform'));
             });
         })
-        .then(() => {
-          cleanupCallback();
-        });
+        .then(() => cleanupCallback());
     });
 
 module.exports = createAppAsync;
