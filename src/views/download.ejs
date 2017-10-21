@@ -18,23 +18,11 @@
         <span>&nbsp;Download for macOS</span>
       </a>
       <% } else if (platform === "linux") { %>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" target="_blank" rel="noopener noreferrer">
+      <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>-x86_64.AppImage" target="_blank" rel="noopener noreferrer">
         <span class="icon is-medium">
           <i class="fa fa-linux"></i>
         </span>
-        <span>&nbsp;Download 64 bit .deb (For Ubuntu)</span>
-      </a>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.x86_64.rpm" target="_blank" rel="noopener noreferrer">
-        <span class="icon is-medium">
-          <i class="fa fa-linux"></i>
-        </span>
-        <span>&nbsp;Download 64 bit .rpm (For Fedora)</span>
-      </a>
-      <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" target="_blank" rel="noopener noreferrer">
-        <span class="icon is-medium">
-          <i class="fa fa-linux"></i>
-        </span>
-        <span>&nbsp;Download 64 bit .pacman (For Arch)</span>
+        <span>&nbsp;Download for Linux</span>
       </a>
       <% } else { %>
       <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
@@ -49,6 +37,7 @@
           <% if (platform === "mac") { %>
             macOS 10.9+.
           <% } else if (platform === "linux") { %>
+            <a href="https://appimage.org" target="_blank" rel="noopener noreferrer">AppImage</a>.
           <% } else { %>
             Windows 7+ (64-bit).
           <% } %>
@@ -63,10 +52,6 @@
         <% } else { %>
           Looking for the <a href="/download/mac">Mac</a> or <a href="/download/linux">Linux</a> desktop apps?
         <% } %>
-      </p>
-
-      <p class="subtitle is-6">
-        Not ready for the big update? <a href="https://github.com/webcatalog/webcatalog/releases/tag/v6.4.1" target="_blank" rel="noopener noreferrer">Download WebCatalog 6</a>.
       </p>
 
       <img src="/public/images/screenshot.png" alt="WebCatalog for macOS" class="screenshot" />
