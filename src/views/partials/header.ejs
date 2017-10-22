@@ -43,35 +43,6 @@
         <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
           Blog
         </a>
-        <% if (user) { %>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            <figure class="image is-32x32 profile-picture">
-              <img src="<%= user.profilePicture %>">
-            </figure>
-
-            Account
-          </a>
-
-          <div class="navbar-dropdown">
-            <% if (user && user.isAdmin) { %>
-              <a class="navbar-item" href="/admin/add">
-                Add new app
-              </a>
-            <% } %>
-            <a class="navbar-item" href="/submit">
-              Submit new app
-            </a>
-            <a class="navbar-item" href="/auth/logout">
-              Sign out
-            </a>
-          </div>
-        </div>
-        <% } else { %>
-        <a class="navbar-item" href="/auth?returnTo=<%= path %>">
-          Log in
-        </a>
-        <% } %>
       </div>
     </div>
   </nav>
