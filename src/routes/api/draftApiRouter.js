@@ -19,7 +19,7 @@ draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req,
   const message = {
     from: {
       type: 'user',
-      id: req.user.id,
+      user_id: req.user.id,
       email: req.user.email,
     },
     body: `App Submission (${new Date()}):

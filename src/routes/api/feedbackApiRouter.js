@@ -19,7 +19,7 @@ feedbackApiRouter.post('/', passport.authenticate('jwt', { session: false }), (r
   const message = {
     from: {
       type: 'user',
-      id: req.user.id,
+      user_id: req.user.id,
       email: req.user.email,
     },
     body: req.body.content,
