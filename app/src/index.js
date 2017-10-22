@@ -10,6 +10,8 @@ import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/red';
 import pink from 'material-ui/colors/pink';
 
+import 'typeface-roboto/index.css';
+
 import './index.css';
 
 import store from './state';
