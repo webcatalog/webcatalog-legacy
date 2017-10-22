@@ -13,7 +13,6 @@ import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
-import FeedbackIcon from 'material-ui-icons/Feedback';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
 import grey from 'material-ui/colors/grey';
 import HelpIcon from 'material-ui-icons/Help';
@@ -38,7 +37,6 @@ import RefreshButton from './refresh-button';
 import { formUpdate } from '../../state/pages/search/actions';
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogAccount } from '../../state/dialogs/account/actions';
-import { open as openDialogFeedback } from '../../state/dialogs/feedback/actions';
 import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
 import {
   goBack,
@@ -64,7 +62,6 @@ import {
   STRING_MENU,
   STRING_MY_APPS,
   STRING_SEARCH_APPS,
-  STRING_SEND_FEEDBACK,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
   STRING_WEBSITE,
@@ -303,7 +300,6 @@ class EnhancedAppBar extends React.Component {
       onChangeRoute,
       onFormUpdate,
       onGoBack,
-      onOpenDialogFeedback,
       profilePicture,
       query,
       route,
@@ -419,13 +415,6 @@ class EnhancedAppBar extends React.Component {
               >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
                 <ListItemText primary={STRING_HELP} />
-              </MenuItem>
-              <MenuItem
-                button
-                onClick={onOpenDialogFeedback}
-              >
-                <ListItemIcon><FeedbackIcon /></ListItemIcon>
-                <ListItemText primary={STRING_SEND_FEEDBACK} />
               </MenuItem>
               <MenuItem
                 button
@@ -577,7 +566,6 @@ EnhancedAppBar.propTypes = {
   onGoBack: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogAccount: PropTypes.func.isRequired,
-  onOpenDialogFeedback: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   profilePicture: PropTypes.string,
   query: PropTypes.string,
@@ -599,7 +587,6 @@ const actionCreators = {
   goBack,
   openDialogAbout,
   openDialogAccount,
-  openDialogFeedback,
   openDialogSubmitApp,
 };
 
