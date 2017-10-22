@@ -7,6 +7,7 @@ import App from '../models/App';
 
 const router = express.Router();
 
+/*
 const whitelist = ['http://localhost:3000', 'https://dashboard.webcatalog.io'];
 const corsOptions = {
   origin(origin, callback) {
@@ -17,6 +18,7 @@ const corsOptions = {
     }
   },
 };
+*/
 
 router.get(['/', '/download', '/downloads'], (req, res) => {
   const ua = req.headers['user-agent'];
@@ -126,7 +128,7 @@ router.get('/s3/:name.:ext', (req, res) => {
 router.use('/sitemap.xml', require('./sitemap'));
 router.use('/apps', require('./apps'));
 router.use('/admin', require('./admin'));
-router.use('/api', cors(corsOptions), require('./api'));
+router.use('/api', cors(), require('./api'));
 router.use('/auth', require('./auth'));
 router.use('/submit', require('./submit'));
 
