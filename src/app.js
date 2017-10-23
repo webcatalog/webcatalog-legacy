@@ -7,7 +7,6 @@ import { getUser } from './state/root/user/actions';
 import { getVersion } from './state/root/version/actions';
 
 import DialogAbout from './dialogs/about';
-import DialogAccount from './dialogs/account';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogSubmitApp from './dialogs/submit-app';
 import DialogUpdateMainAppFirst from './dialogs/update-main-app-first';
@@ -93,7 +92,6 @@ class App extends React.Component {
         <DialogAbout />
         <DialogSubmitApp />
         <DialogConfirmUninstallApp />
-        <DialogAccount />
         <DialogUpdateMainAppFirst />
       </div>
     );
