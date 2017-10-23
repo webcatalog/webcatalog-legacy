@@ -59,13 +59,15 @@ const afterAuthMiddleware = (req, res) => {
     req.logout();
 
     if (req.session.jwtRedirectUri) {
-      res.redirect(url.format({
+      const fullUrl = url.format({
         pathname: req.session.jwtRedirectUri,
         query: {
           token,
         },
-      }));
+      });
       req.session.jwtRedirectUri = null;
+      console.log(fullUrl);
+      res.redirect(fullUrl);
     } else {
       res.render('jwt', { token });
     }
