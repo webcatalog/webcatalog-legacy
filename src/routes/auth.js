@@ -56,6 +56,7 @@ const afterAuthMiddleware = (req, res) => {
       },
     );
     req.session.useJWT = null;
+    req.logout();
 
     if (req.session.jwtRedirectUri) {
       const fullUrl = url.format({
@@ -65,11 +66,10 @@ const afterAuthMiddleware = (req, res) => {
         },
       });
       req.session.jwtRedirectUri = null;
-      res.redirect(fullUrl);
-    } else {
-      req.logout();
-      res.render('jwt', { token });
+      return res.redirect(fullUrl);
     }
+
+    return res.render('jwt', { token });
   }
 
   const returnTo = req.session.returnTo || '/';
