@@ -7,7 +7,7 @@
   "author": "WebCatalog Team <support@getwebcatalog.com>",
   "scripts": {
     "install-app-full": "cd app && yarn && yarn rebuild",
-    "install": "cd app && yarn --production=true",
+    "install": "cd app && yarn --production=true && yarn rebuild",
     "dev": "babel-node src",
     "start": "node lib",
     "build": "npm run build:main && npm run build:app",
