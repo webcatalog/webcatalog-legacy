@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import aws from 'aws-sdk';
 import errors from 'throw.js';
+import url from 'url';
 
 import User from '../models/User';
 import isEmail from '../libs/isEmail';
@@ -33,6 +34,10 @@ const beforeAuthMiddleware = (req, res, next) => {
     req.session.useJWT = true;
   }
 
+  if (req.query.jwt_redirect_uri) {
+    req.session.jwtRedirectUri = req.query.jwt_redirect_uri;
+  }
+
   // hide Intercom
   res.locals.showIntercom = false;
 
@@ -52,7 +57,18 @@ const afterAuthMiddleware = (req, res) => {
     );
     req.session.useJWT = null;
     req.logout();
-    return res.render('jwt', { token });
+
+    if (req.session.jwtRedirectUri) {
+      res.redirect(url.format({
+        pathname: req.session.jwtRedirectUri,
+        query: {
+          token,
+        },
+      }));
+      req.session.jwtRedirectUri = null;
+    } else {
+      res.render('jwt', { token });
+    }
   }
 
   const returnTo = req.session.returnTo || '/';
