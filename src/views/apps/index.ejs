@@ -20,7 +20,7 @@
         </aside>
       </div>
       <div class="column">
-        <div class="tabs is-centered is-boxed">
+        <div class="tabs is-centered is-boxed is-medium">
           <ul>
             <li class="category<% if (!sort || sort === 'installCount') { %> is-active<% } %>"><a href="/apps<% if (category) { %>/category/<%= category %><% } %>?sort=installCount">Top Apps<% if (category) { %> in <%= category.replace('+', ' & ') %><% } %></a></li>
             <li class="category<% if (sort === 'createdAt') { %> is-active<% } %>"><a href="/apps<% if (category) { %>/category/<%= category %><% } %>?sort=createdAt">New Apps<% if (category) { %> in <%= category.replace('+', ' & ') %><% } %></a></li>

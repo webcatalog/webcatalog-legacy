@@ -1,51 +1,44 @@
 <% include ./head %>
 
-<% if (user && !user.isVerified) { %>
-<section class="hero is-danger verify-email">
-  <div class="hero-head">
-    <div class="container has-text-centered">
-      Your account is not verified. Please check your email for further instructions.
-      (<a href="/auth/verify">Resend verification email</a>)
+<nav class="navbar is-info">
+  <div class="container">
+  <div class="navbar-brand">
+    <a class="navbar-item logo" href="/">
+      <img src="/public/images/logo-white.png" alt="WebCatalog" />
+    </a>
+
+    <span class="navbar-burger burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-end">
+      <% if (!locals.path.startsWith('/download')) { %>
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="button" href="/download">
+              Get WebCatalog
+            </a>
+          </p>
+        </div>
+      </div>
+      <% } %>
+      <a class="navbar-item" href="/apps">
+        Catalog
+      </a>
+      <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
+        Blog
+      </a>
+      <a class="navbar-item" href="https://dashboard.webcatalog.io" target="_blank" rel="noopener noreferrer">
+        Account
+      </a>
     </div>
   </div>
-</section>
-<% } %>
+  </div>
+</nav>
 
-<div class="container">
-  <nav class="navbar is-transparent">
-    <div class="navbar-brand">
-      <a class="navbar-item logo" href="/">
-        <img src="/public/images/logo.png" alt="WebCatalog" />
-      </a>
-
-      <span class="navbar-burger burger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
-    </div>
-    <div class="navbar-menu">
-      <div class="navbar-end">
-        <% if (!locals.path.startsWith('/download')) { %>
-        <div class="navbar-item">
-          <div class="field is-grouped">
-            <p class="control">
-              <a class="button is-success" href="/download">
-                Get WebCatalog
-              </a>
-            </p>
-          </div>
-        </div>
-        <% } %>
-        <a class="navbar-item" href="/apps">
-          Apps
-        </a>
-        <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
-          Blog
-        </a>
-      </div>
-    </div>
-  </nav>
-</div>
 
 <div class="main-content">
