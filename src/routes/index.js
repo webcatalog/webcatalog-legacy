@@ -130,6 +130,5 @@ router.use('/apps', require('./apps'));
 router.use('/admin', require('./admin'));
 router.use('/api', cors(), require('./api'));
 router.use('/auth', require('./auth'));
-router.use('/submit', require('./submit'));
 
 module.exports = router;
