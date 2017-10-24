@@ -368,7 +368,7 @@ class App extends React.Component {
 
     // remove Electron to prevent some apps to call private Electron APIs.
     const userAgent = window.navigator.userAgent
-      .replace(`Electron/${window.versions.electron} `, '') || customUserAgent;
+      .replace(`Electron/${window.versions.electron}`, `Molecule/${window.packageJson.version}`) || customUserAgent;
 
     // force user to have title bar if they hide navigation bar
     const shouldShowTitleBar = showTitleBar || !showNavigationBar;
