@@ -4,7 +4,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: 'Amazon RDS',
+    ssl: !process.env.DATABASE_URL.startsWith('postgresql://localhost'),
   },
 });
 
