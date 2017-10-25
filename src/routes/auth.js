@@ -22,10 +22,6 @@ const transporter = nodemailer.createTransport({
 });
 
 const beforeAuthMiddleware = (req, res, next) => {
-  if (req.user) {
-    return res.redirect(req.query.returnTo || '/');
-  }
-
   if (req.query.returnTo) {
     req.session.returnTo = req.query.returnTo;
   }
@@ -283,16 +279,10 @@ authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next)
           resetPasswordExpires: null, // 7 days,
         }),
       )
-      .then(() => new Promise((resolve, reject) => {
-        req.logIn(user, (loginErr) => {
-          if (loginErr) {
-            reject(loginErr);
-            return;
-          }
-          resolve();
-        });
-      }))
-      .then(() => next());
+      .then(() => res.render('auth/info', {
+        title: 'Reset Password',
+        infoMessage: 'Your password has been changed.',
+      }));
   })
   .catch(next);
 }, afterAuthMiddleware);
