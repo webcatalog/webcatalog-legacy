@@ -20,6 +20,9 @@ const form = (state = initialForm, action) => {
       const { changes } = action;
       return Object.assign({}, state, changes);
     }
+    case LOG_IN_SUBMIT_SUCCESS: {
+      return initialForm;
+    }
     default: return state;
   }
 };

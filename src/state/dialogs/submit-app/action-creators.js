@@ -4,6 +4,7 @@ import {
   DIALOG_SUBMIT_APP_FORM_UPDATE,
   DIALOG_SUBMIT_APP_SAVE_REQUEST,
   DIALOG_SUBMIT_APP_SAVE_SUCCESS,
+  DIALOG_SUBMIT_APP_SAVE_FAILED,
 } from '../../../constants/actions';
 
 export const dialogSubmitAppClose = () => ({
@@ -25,4 +26,8 @@ export const dialogSubmitAppSaveRequest = () => ({
 
 export const dialogSubmitAppSaveSuccess = () => ({
   type: DIALOG_SUBMIT_APP_SAVE_SUCCESS,
+});
+
+export const dialogSubmitAppSaveFailed = () => ({
+  type: DIALOG_SUBMIT_APP_SAVE_FAILED,
 });

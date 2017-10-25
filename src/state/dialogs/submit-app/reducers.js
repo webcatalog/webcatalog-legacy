@@ -6,6 +6,7 @@ import {
   DIALOG_SUBMIT_APP_OPEN,
   DIALOG_SUBMIT_APP_SAVE_REQUEST,
   DIALOG_SUBMIT_APP_SAVE_SUCCESS,
+  DIALOG_SUBMIT_APP_SAVE_FAILED,
 } from '../../../constants/actions';
 
 // Submit App Dialog
@@ -23,6 +24,7 @@ const form = (state = initialForm, action) => {
       const { changes } = action;
       return Object.assign({}, state, changes);
     }
+    case DIALOG_SUBMIT_APP_SAVE_SUCCESS: return initialForm;
     default: return state;
   }
 };
@@ -31,6 +33,7 @@ const isSaving = (state = false, action) => {
   switch (action.type) {
     case DIALOG_SUBMIT_APP_SAVE_REQUEST: return true;
     case DIALOG_SUBMIT_APP_SAVE_SUCCESS: return false;
+    case DIALOG_SUBMIT_APP_SAVE_FAILED: return false;
     default: return state;
   }
 };
@@ -43,8 +46,18 @@ const open = (state = false, action) => {
   }
 };
 
+const hasFailed = (state = false, action) => {
+  switch (action.type) {
+    case DIALOG_SUBMIT_APP_SAVE_REQUEST: return false;
+    case DIALOG_SUBMIT_APP_SAVE_SUCCESS: return false;
+    case DIALOG_SUBMIT_APP_SAVE_FAILED: return true;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   form,
+  hasFailed,
   isSaving,
   open,
 });

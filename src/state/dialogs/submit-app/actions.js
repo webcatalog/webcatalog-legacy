@@ -9,6 +9,7 @@ import {
   dialogSubmitAppFormUpdate,
   dialogSubmitAppSaveRequest,
   dialogSubmitAppSaveSuccess,
+  dialogSubmitAppSaveFailed,
 } from './action-creators';
 
 import { apiPost } from '../../api';
@@ -57,8 +58,12 @@ export const save = () =>
         dispatch(dialogSubmitAppSaveSuccess());
         dispatch(openSnackbar(
           'Your app has been submitted for review!',
-          'Got it!',
         ));
-        dispatch(dialogSubmitAppClose());
+      })
+      .catch(() => {
+        dispatch(dialogSubmitAppSaveFailed());
+        dispatch(openSnackbar(
+          'WebCatalog is having trouble connecting to our server.',
+        ));
       });
   };
