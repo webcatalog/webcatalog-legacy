@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import semver from 'semver';
 
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -22,7 +21,7 @@ import {
 } from '../state/root/local/actions';
 
 import {
-  getMoleculeVersion,
+  isUpdatable as isUpdatableUtil,
   isInstalled as isInstalledUtil,
   isInstalling as isInstallingUtil,
   isUninstalling as isUninstallingUtil,
@@ -35,11 +34,10 @@ import {
   STRING_UNINSTALL,
   STRING_UNINSTALLING,
   STRING_UPDATE,
+  STRING_UPDATING,
 } from '../constants/strings';
 
 import { requestOpenApp } from '../senders/local';
-
-import getCurrentMoleculeVersion from '../helpers/get-current-molecule-version';
 
 const styles = (theme) => {
   const cardContentDefaults = {
@@ -136,7 +134,7 @@ const AppCard = (props) => {
   const {
     app,
     classes,
-    hasUpdate,
+    isUpdatable,
     isInstalled,
     isInstalling,
     isUninstalling,
@@ -153,7 +151,7 @@ const AppCard = (props) => {
     if (isInstalled) {
       return (
         <div>
-          {!hasUpdate ? (
+          {!isUpdatable ? (
             <Button
               className={classes.button}
               dense
@@ -185,7 +183,8 @@ const AppCard = (props) => {
     }
 
     let label;
-    if (isInstalling) label = STRING_INSTALLING;
+    if (isInstalling && isUpdatable) label = STRING_UPDATING;
+    else if (isInstalling) label = STRING_INSTALLING;
     else if (isUninstalling) label = STRING_UNINSTALLING;
     else label = STRING_INSTALL;
 
@@ -228,13 +227,13 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
-  hasUpdate: false,
+  isUpdatable: false,
 };
 
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  hasUpdate: PropTypes.bool,
+  isUpdatable: PropTypes.bool,
   isInstalled: PropTypes.bool.isRequired,
   isInstalling: PropTypes.bool.isRequired,
   isUninstalling: PropTypes.bool.isRequired,
@@ -246,21 +245,8 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
-  // app version
-  const currentMoleculeVersion = getMoleculeVersion(state, app.id);
-
-  // locally available version
-  const localMoleculeVersion = getCurrentMoleculeVersion();
-
-  // latest version, retrieved from server
-  const latestMoleculeVersion = state.version.apiData ?
-    state.version.apiData.moleculeVersion : '0.0.0';
-
-  const hasUpdate = semver.gt(latestMoleculeVersion, currentMoleculeVersion) ||
-    semver.gt(localMoleculeVersion, currentMoleculeVersion);
-
   return {
-    hasUpdate,
+    isUpdatable: isUpdatableUtil(state, app.id),
     isInstalled: isInstalledUtil(state, app.id),
     isInstalling: isInstallingUtil(state, app.id),
     isUninstalling: isUninstallingUtil(state, app.id),

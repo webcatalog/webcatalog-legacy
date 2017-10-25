@@ -18,6 +18,10 @@ import {
   STRING_FAILED_TO_UPDATE,
 } from '../../../constants/strings';
 
+import {
+  isUpdatable,
+} from './utils';
+
 
 export const setLocalApp = (id, status, app) =>
   dispatch => dispatch(localAppSet(id, status, app));
@@ -36,13 +40,15 @@ export const installApp = (id, name) =>
         console.log(err);
       });
 
-export const updateApp = (id, name) =>
+export const updateApp = id =>
   (dispatch, getState) => {
-    const managedApp = getState().local.apps[id].app;
+    const managedApp = getState().local.apps[id];
+
+    if (managedApp.status !== 'INSTALLED') return null;
 
     return Promise.resolve()
       .then(() => {
-        dispatch(setLocalApp(id, 'INSTALLING', managedApp));
+        dispatch(setLocalApp(id, 'INSTALLING', managedApp.app));
 
         return dispatch(getVersion());
       })
@@ -50,7 +56,7 @@ export const updateApp = (id, name) =>
         const latestVersion = getState().version.apiData.version;
         const localVersion = window.version;
         if (semver.gt(latestVersion, localVersion)) {
-          dispatch(setLocalApp(id, 'INSTALLED', managedApp));
+          dispatch(setLocalApp(id, 'INSTALLED', managedApp.app));
           return dispatch(openUpdateMainAppFirstDialog());
         }
 
@@ -58,9 +64,21 @@ export const updateApp = (id, name) =>
           .then(({ app }) => installAppAsync(app));
       })
       .catch((err) => {
-        dispatch(setLocalApp(id, 'INSTALLED', managedApp));
-        dispatch(openSnackbar(STRING_FAILED_TO_UPDATE.replace('{name}', name)));
+        dispatch(setLocalApp(id, 'INSTALLED', managedApp.app));
+        dispatch(openSnackbar(STRING_FAILED_TO_UPDATE.replace('{name}', managedApp.app.name)));
         // eslint-disable-next-line
         console.log(err);
       });
+  };
+
+export const updateAllApps = () =>
+  (dispatch, getState) => {
+    const state = getState();
+    const managedApps = state.local.apps;
+
+    Object.keys(managedApps).forEach((id) => {
+      if (isUpdatable(state, id)) {
+        dispatch(updateApp(id));
+      }
+    });
   };

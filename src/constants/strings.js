@@ -78,3 +78,6 @@ export const STRING_UPDATE_WEBCATALOG_FIRST = 'You need to update WebCatalog fir
 export const STRING_UPDATE_WEBCATALOG_FIRST_DESC = 'To continue, you need to open About dialog > Check For Updates to update WebCatalog to the latest version.';
 export const STRING_WEBSITE = 'Website';
 export const STRING_WHATS_NEW = 'what\'s new';
+export const STRING_UPDATE_ALL = 'Update all';
+export const STRING_UPDATING = 'Updating...';
+export const STRING_UPDATES_AVAILABLE = 'Updates available';

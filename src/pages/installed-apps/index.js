@@ -2,9 +2,11 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import Grid from 'material-ui/Grid';
-import grey from 'material-ui/colors/grey';
+import Button from 'material-ui/Button';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import grey from 'material-ui/colors/grey';
+import Grid from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -16,82 +18,61 @@ import {
   INSTALLING,
 } from '../../constants/app-statuses';
 import {
-  STRING_NO_INSTALLED_APPS,
   STRING_NO_INSTALLED_APPS_DESC,
+  STRING_NO_INSTALLED_APPS,
+  STRING_UPDATE_ALL,
+  STRING_UPDATES_AVAILABLE,
 } from '../../constants/strings';
 
-const styles = theme => ({
+import { updateAllApps } from '../../state/root/local/actions';
+import { getAvailableUpdateCount } from '../../state/root/local/utils';
+
+const styles = () => ({
   scrollContainer: {
     flex: 1,
-    padding: 36,
+    paddingTop: 18,
+    paddingLeft: 36,
+    paddingRight: 36,
+    paddingBottom: 36,
     overflow: 'auto',
     boxSizing: 'border-box',
   },
-
-  card: {
-    width: 200,
-    boxSizing: 'border-box',
-  },
-
-  appName: {
-    marginTop: 16,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-
-  paperIcon: {
-    width: 60,
-    height: 'auto',
-  },
-
-  titleText: {
-    fontWeight: 500,
-    lineHeight: 1.5,
-    marginTop: theme.spacing.unit,
-  },
-  cardContent: {
-    position: 'relative',
-    backgroundColor: grey[100],
+  headerContainer: {
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-  },
-  domainText: {
-    fontWeight: 400,
-    lineHeight: 1,
-    marginBottom: theme.spacing.unit,
-  },
-  cardActions: {
     justifyContent: 'center',
+    paddingBottom: 18,
   },
-
-  rightButton: {
-    marginLeft: theme.spacing.unit,
-  },
-  iconButton: {
-    margin: 0,
-  },
-
-  moreIconMenu: {
-    position: 'absolute',
-    transform: 'translate(58px, -16px)',
-  },
-  hiddenMenuItem: {
-    display: 'none',
+  updateAllButton: {
+    marginLeft: 9,
   },
 });
 
 const Installed = (props) => {
   const {
-    classes,
     apps,
+    availableUpdateCount,
+    classes,
+    onUpdateAllApps,
   } = props;
 
   return (
-    <div
-      className={classes.scrollContainer}
-    >
+    <div className={classes.scrollContainer}>
+      <div className={classes.headerContainer}>
+        <Typography type="body1">
+          {STRING_UPDATES_AVAILABLE} ({availableUpdateCount})
+        </Typography>
+        <Button
+          className={classes.updateAllButton}
+          color="primary"
+          onClick={onUpdateAllApps}
+          disabled={availableUpdateCount < 1}
+        >
+          {STRING_UPDATE_ALL}
+        </Button>
+      </div>
+
+
       {(apps.length > 0) ? (
         <Grid container>
           <Grid item xs={12}>
@@ -112,9 +93,15 @@ const Installed = (props) => {
   );
 };
 
+Installed.defaultProps = {
+  availableUpdateCount: 0,
+};
+
 Installed.propTypes = {
-  classes: PropTypes.object.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  availableUpdateCount: PropTypes.number,
+  classes: PropTypes.object.isRequired,
+  onUpdateAllApps: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -128,12 +115,19 @@ const mapStateToProps = (state) => {
     }
   });
 
-  return { apps };
+  return {
+    apps,
+    availableUpdateCount: getAvailableUpdateCount(state),
+  };
+};
+
+const actionCreators = {
+  updateAllApps,
 };
 
 export default connectComponent(
   Installed,
   mapStateToProps,
-  null,
+  actionCreators,
   styles,
 );
