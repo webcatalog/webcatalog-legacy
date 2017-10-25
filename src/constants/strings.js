@@ -81,3 +81,5 @@ export const STRING_WHATS_NEW = 'what\'s new';
 export const STRING_UPDATE_ALL = 'Update all';
 export const STRING_UPDATING = 'Updating...';
 export const STRING_UPDATES_AVAILABLE = 'Updates available';
+export const STRING_CANT_FIND_YOUR_FAVORITE_APP = 'Can\'t find your favorite apps?';
+export const STRING_LET_US_KNOW = 'Let us know';

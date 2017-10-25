@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
-import grey from 'material-ui/colors/grey';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
@@ -27,13 +26,10 @@ import {
 import { updateAllApps } from '../../state/root/local/actions';
 import { getAvailableUpdateCount } from '../../state/root/local/utils';
 
-const styles = () => ({
+const styles = theme => ({
   scrollContainer: {
     flex: 1,
-    paddingTop: 18,
-    paddingLeft: 36,
-    paddingRight: 36,
-    paddingBottom: 36,
+    padding: theme.spacing.unit * 2,
     overflow: 'auto',
     boxSizing: 'border-box',
   },
@@ -41,10 +37,10 @@ const styles = () => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 18,
+    paddingBottom: theme.spacing.unit * 2,
   },
   updateAllButton: {
-    marginLeft: 9,
+    marginLeft: theme.spacing.unit,
   },
 });
 
@@ -77,7 +73,7 @@ const Installed = (props) => {
         <Grid container>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={24}>
-              {apps.map(app => <AppCard app={app} />)}
+              {apps.map(app => <AppCard key={app.id} app={app} />)}
             </Grid>
           </Grid>
         </Grid>

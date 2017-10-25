@@ -13,16 +13,17 @@ import { search } from '../../state/pages/search/actions';
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 import NoConnection from '../../shared/no-connection';
+import PromoBar from '../../shared/promo-bar';
 
 import {
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
 } from '../../constants/strings';
 
-const styles = () => ({
+const styles = theme => ({
   scrollContainer: {
     flex: 1,
-    padding: 36,
+    padding: theme.spacing.unit * 2,
     overflow: 'auto',
     boxSizing: 'border-box',
   },
@@ -62,6 +63,9 @@ const Search = (props) => {
         />
       ) : (
         <Grid container className={classes.grid}>
+          <Grid item xs={12}>
+            <PromoBar />
+          </Grid>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={24}>
               {apps.map(app => <AppCard key={app.id} app={app} />)}

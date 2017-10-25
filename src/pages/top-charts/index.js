@@ -25,10 +25,11 @@ import {
 } from '../../constants/strings';
 
 import NoConnection from '../../shared/no-connection';
+import PromoBar from '../../shared/promo-bar';
 
 import FilterMenuButton from './filter-menu-button';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -40,8 +41,8 @@ const styles = () => ({
   paper: {
     zIndex: 1,
     display: 'flex',
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
   },
   tabs: {
     flex: 1,
@@ -52,12 +53,12 @@ const styles = () => ({
   },
   scrollContainer: {
     flex: 1,
-    padding: 36,
+    padding: theme.spacing.unit * 2,
     overflow: 'auto',
     boxSizing: 'border-box',
   },
   grid: {
-    marginBottom: 16,
+    marginBottom: theme.spacing.unit,
   },
 });
 
@@ -138,6 +139,9 @@ class TopCharts extends React.Component {
             />
           ) : (
             <Grid container className={classes.grid}>
+              <Grid item xs={12}>
+                <PromoBar />
+              </Grid>
               <Grid item xs={12}>
                 <Grid container justify="center" spacing={24}>
                   {apps.map(app => <AppCard key={app.id} app={app} />)}
