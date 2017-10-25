@@ -4,10 +4,13 @@ import bodyParser from 'body-parser';
 import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 import accepts from 'accepts';
+import connectSessionSequelize from 'connect-session-sequelize';
 import { IdentityVerification } from 'intercom-client';
 import md5 from 'md5';
 
 import passport from './passport';
+import sequelize from './sequelize';
+import './models/Session';
 
 const app = express();
 
@@ -27,10 +30,23 @@ app.use(sassMiddleware({
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // passport
+const SequelizeStore = connectSessionSequelize(session.Store);
 app.use(session({
   secret: process.env.SESSION_SECRET,
+  store: new SequelizeStore({
+    db: sequelize,
+    table: 'session',
+    checkExpirationInterval: 15 * 60 * 1000, // interval to cleanup expired sessions
+    expiration: 30 * 24 * 60 * 60 * 1000,  // 1 month
+  }),
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 month
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
