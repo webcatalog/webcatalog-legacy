@@ -311,6 +311,8 @@ class EnhancedAppBar extends React.Component {
         routeLabel = STRING_TOP_CHARTS;
     }
 
+    const shouldShowSearch = route !== ROUTE_INSTALLED_APPS && route !== ROUTE_MY_APPS;
+
     const temp = isLoggedIn ? (
       <div className={classes.headerContainer}>
         <Avatar
@@ -464,7 +466,7 @@ class EnhancedAppBar extends React.Component {
         <RefreshButton />
       ) : null;
 
-    const searchAction = !isSearching
+    const searchAction = shouldShowSearch && !isSearching
       ? (
         <IconButton
           className={classes.searchButton}
@@ -495,42 +497,44 @@ class EnhancedAppBar extends React.Component {
           <Toolbar className={classes.toolbar}>
             <div className={classes.toolbarSectionContainer}>
               {titleElement}
-              <div className={classes.toolbarSearchContainer}>
-                <Paper
-                  className={classNames(
-                    classes.toolbarSectionSearch,
-                    { [classes.toolbarSectionSearchInactive]: !isSearching },
-                    { [classes.toolbarSectionSearchActive]: isSearching },
-                  )}
-                  elevation={isSearching ? 1 : 0}
-                >
-                  <SearchIcon
+              {shouldShowSearch && (
+                <div className={classes.toolbarSearchContainer}>
+                  <Paper
                     className={classNames(
-                      classes.searchIcon,
-                      { [classes.searchIconActive]: isSearching },
+                      classes.toolbarSectionSearch,
+                      { [classes.toolbarSectionSearchInactive]: !isSearching },
+                      { [classes.toolbarSectionSearchActive]: isSearching },
                     )}
-                  />
-                  <Typography
-                    className={classes.searchBarText}
-                    color="inherit"
-                    type="title"
+                    elevation={isSearching ? 1 : 0}
                   >
-                    <input
+                    <SearchIcon
                       className={classNames(
-                        classes.input,
-                        { [classes.inputActive]: isSearching },
+                        classes.searchIcon,
+                        { [classes.searchIconActive]: isSearching },
                       )}
-                      onChange={e => onFormUpdate({ query: e.target.value })}
-                      onClick={() => onChangeRoute(ROUTE_SEARCH)}
-                      onInput={e => onFormUpdate({ query: e.target.value })}
-                      placeholder={STRING_SEARCH_APPS}
-                      ref={(inputBox) => { this.inputBox = inputBox; }}
-                      value={query}
                     />
-                  </Typography>
-                  {clearSearchAction}
-                </Paper>
-              </div>
+                    <Typography
+                      className={classes.searchBarText}
+                      color="inherit"
+                      type="title"
+                    >
+                      <input
+                        className={classNames(
+                          classes.input,
+                          { [classes.inputActive]: isSearching },
+                        )}
+                        onChange={e => onFormUpdate({ query: e.target.value })}
+                        onClick={() => onChangeRoute(ROUTE_SEARCH)}
+                        onInput={e => onFormUpdate({ query: e.target.value })}
+                        placeholder={STRING_SEARCH_APPS}
+                        ref={(inputBox) => { this.inputBox = inputBox; }}
+                        value={query}
+                      />
+                    </Typography>
+                    {clearSearchAction}
+                  </Paper>
+                </div>
+              )}
               <div className={classes.toolbarSectionRight}>
                 {refreshAction}
                 {searchAction}
