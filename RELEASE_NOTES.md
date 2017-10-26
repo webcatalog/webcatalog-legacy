@@ -1,3 +1,9 @@
+## 7.2
+- Adds "Update all" button.
+- Fixes bugs.
+
+---
+
 ## 7.1
 - Linux: Uses [AppImage](https://appimage.org/) packaging.
 - Linux: Adds auto-update support.
