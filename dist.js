@@ -119,9 +119,29 @@ Promise.resolve()
               '@webcatalog', 'molecule', 'app', 'node_modules',
             );
 
+          const widevineLibDir = path.join(
+            destPath,
+            'electron-widevinecdm', 'widevine',
+          );
+
           console.log(`Copying ${sourcePath} to ${destPath}...`);
 
-          return fs.copy(sourcePath, destPath);
+          return fs.copy(sourcePath, destPath)
+            .then(() => fs.readdir(widevineLibDir))
+            .then((dirs) => {
+              const acceptedName = `${process.platform}_${process.arch}`;
+
+              const p = dirs.map((dir) => {
+                if (dir !== acceptedName) {
+                  console.log(`Removing node_modules/electron-widevinecdm/widevine/${dir}`);
+                  return fs.remove(path.join(widevineLibDir, dir));
+                }
+
+                return null;
+              });
+
+              return Promise.all(p);
+            });
         },
       },
     };
