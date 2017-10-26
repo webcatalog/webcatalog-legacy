@@ -41,7 +41,7 @@
     "classnames": "2.2.5",
     "concurrently": "3.5.0",
     "cross-env": "5.1.0",
-    "electron": "1.8.2-beta.1",
+    "electron": "1.7.9",
     "electron-builder": "19.37.2",
     "electron-builder-squirrel-windows": "19.39.0",
     "electron-rebuild": "1.6.0",
