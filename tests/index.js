@@ -10,4 +10,14 @@ harness('start-up', () => {
         assert.equal(count, 2);
       }),
   );
+
+  it('Start video with widevine', () =>
+    global.app.client
+      .windowByIndex(1)
+      .waitUntilWindowLoaded()
+      .getText('#drmUsageDrm')
+      .then((text) => {
+        assert.equal(text, 'widevine');
+      }),
+  );
 }, []);

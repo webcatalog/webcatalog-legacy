@@ -34,6 +34,7 @@ const createAppAsync = (id, name, url, icon, out) => {
           prune: false,
           asar: {
             unpack: 'package.json',
+            unpackDir: path.join('node_modules', 'electron-widevinecdm', 'widevine'),
           },
         };
 
