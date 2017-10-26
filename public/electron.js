@@ -14,6 +14,18 @@ const loadListeners = require('./listeners');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+const isSecondInstance = app.makeSingleInstance(() => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
+
+if (isSecondInstance) {
+  app.quit();
+}
+
 // load ipcMain listeners
 loadListeners();
 
