@@ -33,7 +33,7 @@ const setPreference = (name, value) => {
 const resetPreferences = () => {
   settings.deleteAll();
 
-  const preferences = getPreference();
+  const preferences = getPreferences();
   Object.keys(preferences).forEach((name) => {
     sendMessageToWindow('set-preference', name, preferences[name]);
   });
