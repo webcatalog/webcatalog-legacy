@@ -2,19 +2,22 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import Button from 'material-ui/Button';
 import blueGrey from 'material-ui/colors/blueGrey';
 
 import connectComponent from '../helpers/connect-component';
 
 import {
+  UPDATE_AVAILABLE,
   UPDATE_DOWNLOADED,
 } from '../constants/updater-statuses';
 
 import {
-  STRING_OR,
   STRING_RESTART_NOW,
-  STRING_UPDATE_MESSAGE,
+  STRING_UPDATE_DOWNLOADED,
   STRING_WHATS_NEW,
+  STRING_GO_TO_THE_WEBSITE,
+  STRING_UPDATE_AVAILABLE_LINUX,
 } from '../constants/strings';
 
 import { requestOpenInBrowser } from '../senders/generic';
@@ -29,47 +32,59 @@ const styles = {
     fontSize: '13.5px',
   },
   updaterPaperLink: {
-    background: 'none',
-    border: 'none',
-    color: 'inherit',
-    cursor: 'pointer',
-    fontSize: '13.5px',
-    margin: 0,
-    padding: 0,
-    textDecoration: 'underline',
+    marginLeft: 12,
   },
 };
 
 const UpdaterMessage = (props) => {
   const { classes, updaterStatus } = props;
 
-  if (updaterStatus !== UPDATE_DOWNLOADED) {
-    return null;
+  if (window.platform === 'linux' && updaterStatus === UPDATE_AVAILABLE) {
+    return (
+      <div className={classes.updaterPaper}>
+        <span>{STRING_UPDATE_AVAILABLE_LINUX} </span>
+        <Button
+          raised
+          className={classes.updaterPaperLink}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
+        >
+          {STRING_WHATS_NEW}
+        </Button>
+        <Button
+          raised
+          className={classes.updaterPaperLink}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io')}
+        >
+          {STRING_GO_TO_THE_WEBSITE}
+        </Button>
+      </div>
+    );
   }
 
-  return (
-    <div className={classes.updaterPaper}>
-      <span>{STRING_UPDATE_MESSAGE} </span>
-      <button
-        className={classes.updaterPaperLink}
-        onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
-        role="link"
-        tabIndex="0"
-      >
-        {STRING_WHATS_NEW}
-      </button>
-      <span> {STRING_OR} </span>
-      <button
-        className={classes.updaterPaperLink}
-        onClick={() => requestQuitAndInstall()}
-        role="link"
-        tabIndex="0"
-      >
-        {STRING_RESTART_NOW}
-      </button>
-      <span>.</span>
-    </div>
-  );
+  if (updaterStatus === UPDATE_DOWNLOADED) {
+    return (
+      <div className={classes.updaterPaper}>
+        <span>{STRING_UPDATE_DOWNLOADED} </span>
+        <Button
+          raised
+          className={classes.updaterPaperLink}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
+        >
+          {STRING_WHATS_NEW}
+        </Button>
+        <Button
+          raised
+          className={classes.updaterPaperLink}
+          onClick={() => requestQuitAndInstall()}
+        >
+          {STRING_RESTART_NOW}
+        </Button>
+        <span>.</span>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 UpdaterMessage.propTypes = {

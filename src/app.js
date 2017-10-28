@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import connectComponent from './helpers/connect-component';
 
+import { checkForLinuxUpdates } from './state/root/updater/actions';
 import { getUser } from './state/root/user/actions';
 import { getVersion } from './state/root/version/actions';
 
@@ -41,12 +42,17 @@ class App extends React.Component {
   componentDidMount() {
     const {
       isLoggedIn,
+      onCheckForLinuxUpdates,
       onGetUser,
       onGetVersion,
     } = this.props;
 
     if (isLoggedIn) {
       onGetUser();
+    }
+
+    if (window.platform === 'linux') {
+      onCheckForLinuxUpdates();
     }
 
     onGetVersion();
@@ -101,6 +107,7 @@ class App extends React.Component {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  onCheckForLinuxUpdates: PropTypes.func.isRequired,
   onGetUser: PropTypes.func.isRequired,
   onGetVersion: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
@@ -114,6 +121,7 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
+  checkForLinuxUpdates,
   getUser,
   getVersion,
 };

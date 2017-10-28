@@ -12,6 +12,7 @@ import Dialog, {
 import connectComponent from '../helpers/connect-component';
 
 import { close } from '../state/dialogs/about/actions';
+import { checkForLinuxUpdates } from '../state/root/updater/actions';
 import iconSvg from '../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
@@ -26,14 +27,16 @@ import {
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_PRIVACY_POLICY,
-  STRING_QUIT_AND_INSTALL,
+  STRING_RESTART_NOW,
   STRING_RELEASE_NOTES,
   STRING_TERMS,
   STRING_UPDATE_AVAILABLE,
+  STRING_UPDATE_AVAILABLE_LINUX,
   STRING_UPDATE_DOWNLOADED,
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
   STRING_UPDATE_PROGRESS,
+  STRING_GO_TO_THE_WEBSITE,
 } from '../constants/strings';
 
 import {
@@ -75,12 +78,16 @@ const styles = {
     marginTop: 16,
     marginBottom: 16,
   },
+  goToTheWebsiteButton: {
+    marginRight: 6,
+  },
 };
 
 const About = (props) => {
   const {
     classes,
     onClose,
+    onCheckForLinuxUpdates,
     open,
     updaterData,
     updaterStatus,
@@ -92,7 +99,11 @@ const About = (props) => {
       updaterStatusMessage = STRING_CHECKING_FOR_UPDATES;
       break;
     case UPDATE_AVAILABLE:
-      updaterStatusMessage = STRING_UPDATE_AVAILABLE;
+      if (window.platform === 'linux') {
+        updaterStatusMessage = STRING_UPDATE_AVAILABLE_LINUX;
+      } else {
+        updaterStatusMessage = STRING_UPDATE_AVAILABLE;
+      }
       break;
     case UPDATE_ERROR:
       updaterStatusMessage = STRING_UPDATE_ERROR;
@@ -112,7 +123,7 @@ const About = (props) => {
     updaterStatus === CHECKING_FOR_UPDATES
     || updaterStatus === UPDATE_PROGRESS
     || updaterStatus === UPDATE_DOWNLOADED
-    || updaterStatus === UPDATE_AVAILABLE
+    || (window.platform !== 'linux' && updaterStatus === UPDATE_AVAILABLE)
   );
 
   return (
@@ -144,19 +155,35 @@ const About = (props) => {
           )}
         </Typography>
 
+        {window.platform === 'linux' && updaterStatus === UPDATE_AVAILABLE && (
+          <Button
+            onClick={() => requestOpenInBrowser('https://webcatalog.io')}
+            className={classes.goToTheWebsiteButton}
+            raised
+          >
+            {STRING_GO_TO_THE_WEBSITE}
+          </Button>
+        )}
+
         {updaterStatus === UPDATE_DOWNLOADED ? (
           <Button
             color="primary"
             onClick={requestQuitAndInstall}
             raised
           >
-            {STRING_QUIT_AND_INSTALL}
+            {STRING_RESTART_NOW}
           </Button>
         ) : (
           <Button
             color="primary"
             disabled={isUpdaterRunning}
-            onClick={requestCheckForUpdates}
+            onClick={() => {
+              if (window.platform === 'linux') {
+                onCheckForLinuxUpdates();
+              } else {
+                requestCheckForUpdates();
+              }
+            }}
             raised
           >
             {STRING_CHECK_FOR_UPDATES}
@@ -212,6 +239,7 @@ About.defaultProps = {
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCheckForLinuxUpdates: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
@@ -225,6 +253,7 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
+  checkForLinuxUpdates,
 };
 
 export default connectComponent(
