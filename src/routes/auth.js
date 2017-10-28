@@ -34,9 +34,6 @@ const beforeAuthMiddleware = (req, res, next) => {
     req.session.jwtRedirectUri = req.query.jwt_redirect_uri;
   }
 
-  // hide Intercom
-  res.locals.showIntercom = false;
-
   return next();
 };
 

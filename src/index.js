@@ -5,7 +5,6 @@ import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 import accepts from 'accepts';
 import connectSessionSequelize from 'connect-session-sequelize';
-import { IdentityVerification } from 'intercom-client';
 import md5 from 'md5';
 
 import passport from './passport';
@@ -75,17 +74,7 @@ app.use((req, res, next) => {
   }
   res.locals.user = req.user;
 
-  res.locals.description = 'WebCatalog is an app store with thousands of exclusive apps for your Mac and PC.';
-
-  if (req.user) {
-    res.locals.intercomUserHash =
-      IdentityVerification.userHash({
-        secretKey: process.env.INTERCOM_SECRET,
-        identifier: req.user.id,
-      });
-  }
-
-  res.locals.showIntercom = true;
+  res.locals.description = 'WebCatalog - Run Thousands of Web Apps Like Real Apps.';
 
   next();
 });
