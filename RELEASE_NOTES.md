@@ -1,3 +1,10 @@
+## 7.3
+- Linux: Rolls back to .deb, .rpm & .pacman packaging.
+- Linux: Adds update notification.
+- Fixes bugs.
+
+---
+
 ## 7.2
 - Adds "Update all" button.
 - Fixes bugs.
