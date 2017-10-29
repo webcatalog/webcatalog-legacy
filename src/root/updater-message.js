@@ -79,7 +79,6 @@ const UpdaterMessage = (props) => {
         >
           {STRING_RESTART_NOW}
         </Button>
-        <span>.</span>
       </div>
     );
   }

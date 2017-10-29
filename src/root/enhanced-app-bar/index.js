@@ -24,7 +24,6 @@ import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import MenuIcon from 'material-ui-icons/Menu';
 import Paper from 'material-ui/Paper';
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
-import PublicIcon from 'material-ui-icons/Public';
 import SearchIcon from 'material-ui-icons/Search';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -54,7 +53,7 @@ import {
   STRING_ACCOUNT,
   STRING_BACK,
   STRING_CLEAR,
-  STRING_HELP,
+  STRING_HELP_AND_FEEDBACK,
   STRING_INSTALLED_APPS,
   STRING_LOG_IN,
   STRING_LOG_OUT,
@@ -63,7 +62,6 @@ import {
   STRING_SEARCH_APPS,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
-  STRING_WEBSITE,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
@@ -410,14 +408,7 @@ class EnhancedAppBar extends React.Component {
                 onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
               >
                 <ListItemIcon><HelpIcon /></ListItemIcon>
-                <ListItemText primary={STRING_HELP} />
-              </MenuItem>
-              <MenuItem
-                button
-                onClick={() => requestOpenInBrowser('https://webcatalog.io')}
-              >
-                <ListItemIcon><PublicIcon /></ListItemIcon>
-                <ListItemText primary={STRING_WEBSITE} />
+                <ListItemText primary={STRING_HELP_AND_FEEDBACK} />
               </MenuItem>
               <MenuItem button onClick={this.handleOpenDialogAbout}>
                 <ListItemIcon><InfoIcon /></ListItemIcon>

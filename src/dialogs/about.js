@@ -26,17 +26,18 @@ import {
   STRING_ABOUT,
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
+  STRING_GO_TO_THE_WEBSITE,
   STRING_PRIVACY_POLICY,
-  STRING_RESTART_NOW,
   STRING_RELEASE_NOTES,
+  STRING_RESTART_NOW,
   STRING_TERMS,
-  STRING_UPDATE_AVAILABLE,
   STRING_UPDATE_AVAILABLE_LINUX,
+  STRING_UPDATE_AVAILABLE,
   STRING_UPDATE_DOWNLOADED,
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
   STRING_UPDATE_PROGRESS,
-  STRING_GO_TO_THE_WEBSITE,
+  STRING_WEBSITE,
 } from '../constants/strings';
 
 import {
@@ -206,6 +207,13 @@ const About = (props) => {
             <strong>node:</strong> {window.versions.node}
           </Typography>
         </div>
+
+        <Button
+          onClick={() => requestOpenInBrowser('https://webcatalog.io')}
+        >
+          {STRING_WEBSITE}
+        </Button>
+        <br />
 
         <Button
           onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
