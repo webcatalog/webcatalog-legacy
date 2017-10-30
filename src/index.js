@@ -80,10 +80,8 @@ const createAppAsync = (id, name, url, icon, out) => {
           packageJsonPath = path.resolve(destPath, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
           break;
         case 'win32':
-          packageJsonPath = path.resolve(destPath, 'resources', 'app.asar.unpacked', 'package.json');
-          break;
         case 'linux':
-          packageJsonPath = path.resolve(destPath, 'app.asar.unpacked', 'package.json');
+          packageJsonPath = path.resolve(destPath, 'resources', 'app.asar.unpacked', 'package.json');
           break;
         default:
           return Promise.reject(new Error('Unknown platform'));
