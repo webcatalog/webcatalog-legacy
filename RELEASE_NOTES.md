@@ -1,3 +1,8 @@
+## 7.3.2
+- Linux: Fixes application names (`"Gmail"` instead of `Gmail`).
+
+---
+
 ## 7.3.1
 - Linux: Fixes app installation.
 
