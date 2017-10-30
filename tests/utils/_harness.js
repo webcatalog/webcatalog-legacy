@@ -38,7 +38,7 @@ const getElectronPath = (destPath) => {
     return path.resolve(destPath, 'Contents', 'MacOS', 'Molecule');
   }
 
-  return path.resolve(destPath, 'molecule');
+  return path.resolve(destPath, 'Molecule');
 };
 
 const harness = (name, fn, args) => {
