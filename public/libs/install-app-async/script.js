@@ -106,7 +106,7 @@ downloadFilePngAsync(pngIconUrl)
           const execPath = path.join(destPath, id, name);
           const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
           const desktopFileContent = `[Desktop Entry]
-    Name="${name}"
+    Name=${name}
     Exec="${execPath}"
     Icon=${path.join(iconDirPath, `${id}.png`)}
     Type=Application`;
