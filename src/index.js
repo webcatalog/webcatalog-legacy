@@ -100,6 +100,13 @@ const createAppAsync = (id, name, url, icon, out) => {
           });
           return fs.writeJson(packageJsonPath, packageJson);
         })
+        .then(() => {
+          // icon png for BrowserWindow's nativeImage
+          if (process.platform === 'linux') {
+            return fs.copy(icon, path.join(destPath, 'resources', 'app.asar.unpacked', 'icon.png'));
+          }
+          return null;
+        })
         .then(() => destPath);
     })
     .catch((err) => {
