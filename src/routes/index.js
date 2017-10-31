@@ -109,10 +109,6 @@ router.get('/help', (req, res) => {
   res.render('help', { title: 'Support' });
 });
 
-router.get('/team', (req, res) => {
-  res.render('team', { title: 'Team' });
-});
-
 router.get('/privacy', (req, res) => {
   res.render('privacy', { title: 'Privacy Policy' });
 });
