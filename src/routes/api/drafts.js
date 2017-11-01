@@ -18,8 +18,9 @@ draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req,
   return Draft.create({
     name: req.body.name,
     url: req.body.url,
+    userId: req.user.id,
   })
-  .then(() => res.json({ success: true }));
+    .then(() => res.json({ success: true }));
 });
 
 
