@@ -31,7 +31,6 @@
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
-    "intercom-client": "^2.8.8",
     "jsonwebtoken": "^7.4.1",
     "marked": "^0.3.6",
     "md5": "^2.2.1",

@@ -53,16 +53,12 @@ const sendVerificationEmail = user =>
     );
 
 userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
-  hmac.update(req.user.id);
-
-  return res.json({
+  res.json({
     user: {
       id: req.user.id,
       email: req.user.email,
       displayName: req.user.displayName,
       profilePicture: req.user.profilePicture,
-      intercomUserHash: hmac.digest('hex'),
       hasPassword: Boolean(req.user.password),
     },
   });
@@ -83,21 +79,15 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
       if (req.body.displayName) newAttributes.displayName = req.body.displayName;
 
       return user.updateAttributes(newAttributes)
-        .then(() => {
-          const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
-          hmac.update(user.id);
-
-          res.json({
-            user: {
-              id: user.id,
-              email: user.email,
-              displayName: user.displayName,
-              profilePicture: user.profilePicture,
-              intercomUserHash: hmac.digest('hex'),
-              hasPassword: Boolean(user.password),
-            },
-          });
-        });
+        .then(() => res.json({
+          user: {
+            id: user.id,
+            email: user.email,
+            displayName: user.displayName,
+            profilePicture: user.profilePicture,
+            hasPassword: Boolean(user.password),
+          },
+        }));
     })
     .catch(next);
 });
@@ -171,16 +161,12 @@ userApiRouter.post('/', (req, res, next) => {
       // sendVerificationEmail after signing up
       sendVerificationEmail(user);
 
-      const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
-      hmac.update(user.id);
-
       return res.json({
         user: {
           id: user.id,
           email: user.email,
           displayName: user.displayName,
           profilePicture: user.profilePicture,
-          intercomUserHash: hmac.digest('hex'),
           hasPassword: Boolean(user.password),
         },
       });
@@ -205,16 +191,12 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
 
       return user.updateAttributes(newAttributes)
         .then(() => {
-          const hmac = crypto.createHmac('sha256', process.env.INTERCOM_SECRET);
-          hmac.update(user.id);
-
           res.json({
             user: {
               id: user.id,
               email: user.email,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
-              intercomUserHash: hmac.digest('hex'),
               hasPassword: Boolean(user.password),
             },
           });
