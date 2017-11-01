@@ -40,17 +40,16 @@ const sendVerificationEmail = user =>
       user.updateAttributes({
         verifyToken: token,
       })
-      .then(() => transporter.sendMail({
-        from: 'support@webcatalog.io',
-        to: user.email,
-        subject: 'WebCatalog Email Verification',
-        // eslint-disable-next-line
-        text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
-              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'https://webcatalog.io/auth/verify/' + token + '\n\n' +
-              'If you did not request this, please ignore this email.\n',
-      })),
-    );
+        .then(() => transporter.sendMail({
+          from: 'support@webcatalog.io',
+          to: user.email,
+          subject: 'WebCatalog Email Verification',
+          // eslint-disable-next-line
+          text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
+                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                'https://webcatalog.io/auth/verify/' + token + '\n\n' +
+                'If you did not request this, please ignore this email.\n',
+        })));
 
 userApiRouter.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.json({
@@ -125,8 +124,7 @@ userApiRouter.patch('/password', passport.authenticate('jwt', { session: false }
             .then(() => res.json({
               success: true,
             }));
-        }),
-    )
+        }))
     .catch(next);
 });
 
@@ -155,8 +153,7 @@ userApiRouter.post('/', (req, res, next) => {
         email: req.body.email,
         password: hash,
         isVerified: false,
-      }),
-    )
+      }))
     .then((user) => {
       // sendVerificationEmail after signing up
       sendVerificationEmail(user);
@@ -222,31 +219,31 @@ userApiRouter.get('/apps', passport.authenticate('jwt', { session: false }), (re
     limit,
     order: [['createdAt', 'DESC']],
   })
-  .then(({ count, rows }) => {
-    totalPage = Math.ceil(count / limit);
+    .then(({ count, rows }) => {
+      totalPage = Math.ceil(count / limit);
 
-    const opts = {
-      attributes: ['id', 'slug', 'name', 'url', 'version'],
-      where: {
-        isActive: true,
-        id: {
-          $in: rows.map(action => action.appId),
+      const opts = {
+        attributes: ['id', 'slug', 'name', 'url', 'version'],
+        where: {
+          isActive: true,
+          id: {
+            $in: rows.map(action => action.appId),
+          },
         },
-      },
-    };
+      };
 
-    return App.findAll(opts);
-  })
-  .then((rows) => {
-    console.log(rows);
-    if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
+      return App.findAll(opts);
+    })
+    .then((rows) => {
+      console.log(rows);
+      if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
 
-    return res.json({
-      apps: rows,
-      totalPage,
-    });
-  })
-  .catch(next);
+      return res.json({
+        apps: rows,
+        totalPage,
+      });
+    })
+    .catch(next);
 });
 
 module.exports = userApiRouter;

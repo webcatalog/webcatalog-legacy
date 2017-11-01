@@ -47,7 +47,7 @@ passport.use(new GoogleStrategy(
             displayName: profile.displayName,
             googleId: profile.id,
           })
-          .catch(console.log);
+            .catch(console.log);
         }
 
         cb(null, user);
@@ -80,7 +80,7 @@ passport.use(new LocalStrategy(
 
 
 const jwtOpts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
   secretOrKey: process.env.JWT_SECRET,
   issuer: process.env.JWT_ISSUER,
   audience: process.env.JWT_AUDIENCE,

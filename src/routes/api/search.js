@@ -12,7 +12,7 @@ appApiRouter.get('/apps', (req, res, next) => {
     return next(new errors.BadRequest());
   }
 
-  const q = req.query.q;
+  const { q } = req.query;
 
   return index.search(q, { hitsPerPage: 48 })
     .then(result => res.json(result))

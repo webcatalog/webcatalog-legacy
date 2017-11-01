@@ -93,30 +93,29 @@ appApiRouter.get('/:id', (req, res, next) => {
         attributes: { exclude: unretrievableAttributes },
         where: { id: req.params.id, isActive: true },
       })
-      .then((app) => {
-        if (!app) throw new errors.NotFound();
+        .then((app) => {
+          if (!app) throw new errors.NotFound();
 
-        if (user && (req.query.action === 'install' || req.query.action === 'update')) {
-          return Action.findOne({ where: { appId: app.id, userId: user.id } })
-            .then((action) => {
-              if (!action) {
-                return app.increment('installCount');
-              }
-              return null;
-            })
-            .then(() => Action.create({ actionName: req.query.action }))
-            .then(action =>
-              Promise.all([
-                action.setApp(app),
-                action.setUser(user),
-              ]),
-            )
-            .then(() => res.json({ app }));
-        }
+          if (user && (req.query.action === 'install' || req.query.action === 'update')) {
+            return Action.findOne({ where: { appId: app.id, userId: user.id } })
+              .then((action) => {
+                if (!action) {
+                  return app.increment('installCount');
+                }
+                return null;
+              })
+              .then(() => Action.create({ actionName: req.query.action }))
+              .then(action =>
+                Promise.all([
+                  action.setApp(app),
+                  action.setUser(user),
+                ]))
+              .then(() => res.json({ app }));
+          }
 
-        return res.json({ app });
-      })
-      .catch(next);
+          return res.json({ app });
+        })
+        .catch(next);
     }
   })(req, res, next);
 });
@@ -124,8 +123,8 @@ appApiRouter.get('/:id', (req, res, next) => {
 const upload = multer({ dest: 'uploads/' });
 
 const s3Client = s3.createClient({
-  maxAsyncS3: 20,     // this is the default
-  s3RetryCount: 3,    // this is the default
+  maxAsyncS3: 20, // this is the default
+  s3RetryCount: 3, // this is the default
   s3RetryDelay: 1000, // this is the default
   multipartUploadThreshold: 20971520, // this is the default (20 MB)
   multipartUploadSize: 15728640, // this is the default (15 MB)
@@ -295,14 +294,12 @@ appApiRouter.post('/', passport.authenticate('jwt', { session: false }), upload.
         description,
         wikipediaTitle: req.body.wikipediaTitle,
         userId: req.body.public ? null : req.user.id,
-      }),
-    )
+      }))
     .then(app =>
       compileUploadImagesAsync(req.file.filename, app.id)
         .then(() => app.updateAttributes({
           isActive: true,
-        })),
-    )
+        })))
     .then((app) => {
       const plainApp = app.get({ plain: true });
       plainApp.objectID = plainApp.id;

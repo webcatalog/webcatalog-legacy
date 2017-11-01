@@ -32,7 +32,7 @@ router.get(['/', '/download', '/downloads'], (req, res) => {
 });
 
 router.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
-  const platform = req.params.platform;
+  const { platform } = req.params;
 
   res.redirect(`/download/${platform}`);
 });
@@ -53,19 +53,15 @@ router.get('/download/:platform(mac|windows|linux)', (req, res) => {
       const topAppOpts = Object.assign({}, opts, { order: [['installCount', 'DESC'], ['createdAt', 'DESC']] });
       const newAppOpts = Object.assign({}, opts, { order: [['createdAt', 'DESC']] });
 
-      promises.push(
-        App.findAll(topAppOpts)
-          .then((rows) => {
-            topApps = rows;
-          }),
-      );
+      promises.push(App.findAll(topAppOpts)
+        .then((rows) => {
+          topApps = rows;
+        }));
 
-      promises.push(
-        App.findAll(newAppOpts)
-          .then((rows) => {
-            newApps = rows;
-          }),
-      );
+      promises.push(App.findAll(newAppOpts)
+        .then((rows) => {
+          newApps = rows;
+        }));
 
       return Promise.all(promises)
         .then(() => ({
@@ -74,7 +70,7 @@ router.get('/download/:platform(mac|windows|linux)', (req, res) => {
         }));
     })
     .then(({ topApps, newApps }) => {
-      const platform = req.params.platform;
+      const { platform } = req.params;
       const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
 
       let dockName = 'dock';

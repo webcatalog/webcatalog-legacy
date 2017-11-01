@@ -89,23 +89,23 @@ const sendVerificationEmail = user =>
       user.updateAttributes({
         verifyToken: token,
       })
-      .then(() => transporter.sendMail({
-        from: 'support@webcatalog.io',
-        to: user.email,
-        subject: 'WebCatalog Email Verification',
-        // eslint-disable-next-line
-        text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
-              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'https://webcatalog.io/auth/verify/' + token + '\n\n' +
-              'If you did not request this, please ignore this email.\n',
-      })),
-    );
+        .then(() => transporter.sendMail({
+          from: 'support@webcatalog.io',
+          to: user.email,
+          subject: 'WebCatalog Email Verification',
+          // eslint-disable-next-line
+          text: 'Please confirm that you want to use this as your WebCatalog account email address.\n\n' +
+                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                'https://webcatalog.io/auth/verify/' + token + '\n\n' +
+                'If you did not request this, please ignore this email.\n',
+        })));
 
 authRouter.get('/', beforeAuthMiddleware, (req, res) => {
   res.render('auth/index', { title: 'Sign in to WebCatalog' });
 });
 
-authRouter.post('/',
+authRouter.post(
+  '/',
   beforeAuthMiddleware,
   (req, res, next) => {
     passport.authenticate('local', (err, user) => {
@@ -134,7 +134,8 @@ authRouter.post('/',
       });
     })(req, res, next);
   },
-  afterAuthMiddleware);
+  afterAuthMiddleware,
+);
 
 authRouter.get('/sign-up', beforeAuthMiddleware, (req, res) => {
   res.render('auth/sign-up', { title: 'Join WebCatalog' });
@@ -167,8 +168,7 @@ authRouter.post('/sign-up', beforeAuthMiddleware, (req, res, next) => {
             email: req.body.email,
             password: hash,
             isVerified: false,
-          }),
-        )
+          }))
         .then(createdUser => new Promise((resolve, reject) => {
           req.logIn(createdUser, (loginErr) => {
             if (loginErr) {
@@ -215,8 +215,7 @@ authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                     'https://webcatalog.io/auth/reset-password/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n',
-            })),
-          )
+            })))
           .then(() => res.render('auth/info', {
             title: 'Reset Password',
             infoMessage: `An e-mail has been sent to ${req.body.email} with instructions on resetting your password.`,
@@ -238,16 +237,16 @@ authRouter.get('/reset-password/:token', beforeAuthMiddleware, (req, res, next) 
       resetPasswordExpires: { $gt: Date.now() },
     },
   })
-  .then((user) => {
-    if (!user) {
-      return next(new errors.BadRequest('Token is invalid'));
-    }
+    .then((user) => {
+      if (!user) {
+        return next(new errors.BadRequest('Token is invalid'));
+      }
 
-    return res.render('auth/reset-password-reset', {
-      title: 'Reset Password',
-    });
-  })
-  .catch(next);
+      return res.render('auth/reset-password-reset', {
+        title: 'Reset Password',
+      });
+    })
+    .catch(next);
 });
 
 authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next) => {
@@ -263,25 +262,24 @@ authRouter.post('/reset-password/:token', beforeAuthMiddleware, (req, res, next)
       resetPasswordExpires: { $gt: Date.now() },
     },
   })
-  .then((user) => {
-    if (!user) {
-      return next(new errors.BadRequest('Token is expired or invalid.'));
-    }
+    .then((user) => {
+      if (!user) {
+        return next(new errors.BadRequest('Token is expired or invalid.'));
+      }
 
-    return bcrypt.hash(req.body.password, 10)
-      .then(hash =>
-        user.updateAttributes({
-          password: hash,
-          resetPasswordToken: null,
-          resetPasswordExpires: null, // 7 days,
-        }),
-      )
-      .then(() => res.render('auth/info', {
-        title: 'Reset Password',
-        infoMessage: 'Your password has been changed.',
-      }));
-  })
-  .catch(next);
+      return bcrypt.hash(req.body.password, 10)
+        .then(hash =>
+          user.updateAttributes({
+            password: hash,
+            resetPasswordToken: null,
+            resetPasswordExpires: null, // 7 days,
+          }))
+        .then(() => res.render('auth/info', {
+          title: 'Reset Password',
+          infoMessage: 'Your password has been changed.',
+        }));
+    })
+    .catch(next);
 }, afterAuthMiddleware);
 
 authRouter.get('/verify', ensureLoggedIn, (req, res, next) => {
@@ -299,30 +297,33 @@ authRouter.get('/verify/:token', (req, res, next) => {
       verifyToken: req.params.token,
     },
   })
-  .then((user) => {
-    if (!user) {
-      return next(new errors.BadRequest('Token is invalid.'));
-    }
+    .then((user) => {
+      if (!user) {
+        return next(new errors.BadRequest('Token is invalid.'));
+      }
 
-    return user.updateAttributes({
-      isVerified: true,
+      return user.updateAttributes({
+        isVerified: true,
+      })
+        .then(() => res.render('auth/info', {
+          title: 'Verify Email',
+          infoMessage: 'Congrats! Your account is now verified.',
+        }));
     })
-    .then(() => res.render('auth/info', {
-      title: 'Verify Email',
-      infoMessage: 'Congrats! Your account is now verified.',
-    }));
-  })
-  .catch(next);
+    .catch(next);
 });
 
-authRouter.get('/google',
+authRouter.get(
+  '/google',
   beforeAuthMiddleware,
-  passport.authenticate('google', { scope: ['profile', 'email'] }));
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+);
 
 authRouter.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
-  afterAuthMiddleware);
+  afterAuthMiddleware,
+);
 
 authRouter.get('/logout', (req, res) => {
   req.logout();

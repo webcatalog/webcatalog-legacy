@@ -18,8 +18,8 @@ const adminRouter = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 const s3Client = s3.createClient({
-  maxAsyncS3: 20,     // this is the default
-  s3RetryCount: 3,    // this is the default
+  maxAsyncS3: 20, // this is the default
+  s3RetryCount: 3, // this is the default
   s3RetryDelay: 1000, // this is the default
   multipartUploadThreshold: 20971520, // this is the default (20 MB)
   multipartUploadSize: 15728640, // this is the default (15 MB)
@@ -146,8 +146,7 @@ adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res,
             version: Date.now().toString(),
             description,
             wikipediaTitle: req.body.wikipediaTitle,
-          }),
-        )
+          }))
         .then(() => {
           const plainApp = app.get({ plain: true });
           plainApp.objectID = plainApp.id;
@@ -157,9 +156,8 @@ adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res,
             .then(() => {
               res.redirect(`/apps/details/${app.slug}/${app.id}`);
             });
-        }),
-      )
-      .catch(next);
+        }))
+    .catch(next);
 });
 
 adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
@@ -189,14 +187,12 @@ adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) 
         version: Date.now().toString(),
         description,
         wikipediaTitle: req.body.wikipediaTitle,
-      }),
-    )
+      }))
     .then(app =>
       compileUploadImagesAsync(req.file.filename, app.id)
         .then(() => app.updateAttributes({
           isActive: true,
-        })),
-    )
+        })))
     .then((app) => {
       const plainApp = app.get({ plain: true });
       plainApp.objectID = plainApp.id;

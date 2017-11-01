@@ -5,7 +5,8 @@ import errors from 'throw.js';
 
 const authApiRouter = express.Router();
 
-authApiRouter.post('/',
+authApiRouter.post(
+  '/',
   (req, res, next) => {
     passport.authenticate('local', (err, user) => {
       if (err) {
@@ -28,6 +29,7 @@ authApiRouter.post('/',
 
       return res.json({ jwt: token });
     })(req, res, next);
-  });
+  },
+);
 
 module.exports = authApiRouter;

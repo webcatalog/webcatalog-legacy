@@ -36,7 +36,7 @@ app.use(session({
     db: sequelize,
     table: 'session',
     checkExpirationInterval: 15 * 60 * 1000, // interval to cleanup expired sessions
-    expiration: 30 * 24 * 60 * 60 * 1000,  // 1 month
+    expiration: 30 * 24 * 60 * 60 * 1000, // 1 month
   }),
   resave: false,
   saveUninitialized: true,

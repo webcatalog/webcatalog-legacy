@@ -80,8 +80,7 @@ appsRouter.get('/search', (req, res, next) => {
         pages: generatePageList(currentPage, nbPages),
         totalPage: nbPages,
         searchQuery: req.query.query,
-      }),
-    )
+      }))
     .catch(next);
 });
 

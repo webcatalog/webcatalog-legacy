@@ -9,10 +9,7 @@ const convertToIco = (pngSrc, icoDest) =>
   new Promise((resolve, reject) => {
     shell.exec(`${PNG_TO_ICO_BIN_PATH} ${pngSrc} ${icoDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
       if (exitCode) {
-        reject({
-          stdOut,
-          stdError,
-        });
+        reject(new Error(stdError));
         return;
       }
 

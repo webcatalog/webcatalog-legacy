@@ -10,10 +10,7 @@ const convertToIcns = (pngSrc, icnsDest) =>
     shell.exec(`${PNG_TO_ICNS_BIN_PATH} ${pngSrc} ${icnsDest}`, { silent: true }, (exitCode, stdOut, stdError) => {
       if (stdOut.includes('icon.iconset:error') || exitCode) {
         if (exitCode) {
-          reject({
-            stdOut,
-            stdError,
-          });
+          reject(new Error(stdError));
           return;
         }
 
