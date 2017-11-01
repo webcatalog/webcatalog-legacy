@@ -1,5 +1,5 @@
 const categories = [
-  'books',
+  'books+reference',
   'business',
   'education',
   'entertainment',
@@ -7,21 +7,18 @@ const categories = [
   'food+drink',
   'games',
   'heath+fitness',
-  'kids',
   'lifestyle',
   'medical',
   'music',
   'navigation',
-  'news',
+  'news+weather',
   'photo+video',
   'productivity',
-  'reference',
   'shopping',
   'social',
   'sports',
   'travel',
   'utilities',
-  'weather',
 ];
 
 module.exports = categories;
