@@ -98,7 +98,8 @@ const createAppAsync = (id, name, url, icon, out) => {
       const sharedAppAsarPath = path.join(versionPath, 'app.asar');
 
       const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
-      const sharedAppAsarUnpackedPath = path.join(versionPath, 'app.asar.unpacked');
+      const appAsarUnpackedNodeModulesPath = path.join(appAsarUnpackedPath, 'node_modules');
+      const sharedAppAsarUnpackedNodeModulesPath = path.join(versionPath, 'app.asar.unpacked', 'node_modules');
 
       return fs.readJson(packageJsonPath)
         .then((packageJsonTemplate) => {
@@ -123,8 +124,15 @@ const createAppAsync = (id, name, url, icon, out) => {
         .then(() => fs.ensureDir(versionPath))
         .then(() => fs.move(appAsarPath, sharedAppAsarPath, { overwrite: true }))
         .then(() => fs.ensureSymlink(sharedAppAsarPath, appAsarPath))
-        .then(() => fs.move(appAsarUnpackedPath, sharedAppAsarUnpackedPath, { overwrite: true }))
-        .then(() => fs.ensureSymlink(sharedAppAsarUnpackedPath, appAsarUnpackedPath))
+        .then(() =>
+          fs.move(
+            appAsarUnpackedNodeModulesPath,
+            sharedAppAsarUnpackedNodeModulesPath,
+            { overwrite: true },
+          ),
+        )
+        .then(() =>
+          fs.ensureSymlink(sharedAppAsarUnpackedNodeModulesPath, appAsarUnpackedNodeModulesPath))
         .then(() => destPath);
     })
     .catch((err) => {
