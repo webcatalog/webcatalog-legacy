@@ -175,6 +175,8 @@ const getSecondaryText = (text) => {
   return text;
 };
 
+const Transition = props => <Slide direction="left" {...props} />;
+
 class PreferencesDialog extends React.Component {
   constructor(props) {
     super(props);
@@ -222,7 +224,7 @@ class PreferencesDialog extends React.Component {
         fullScreen
         onRequestClose={onClose}
         open={open}
-        transition={<Slide direction="up" />}
+        transition={Transition}
       >
         <FakeTitleBar />
         <AppBar className={classes.appBar}>
