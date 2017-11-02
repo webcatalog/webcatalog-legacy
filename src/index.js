@@ -1,7 +1,10 @@
 const fs = require('fs-extra');
+const os = require('os');
 const packager = require('electron-packager');
 const path = require('path');
 const tmp = require('tmp');
+
+const moleculePackageJson = require('../package.json');
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
@@ -50,17 +53,17 @@ const createAppAsync = (id, name, url, icon, out) => {
     .then((appPaths) => {
       if (process.platform === 'darwin') {
         const binaryFileName = `${name}.app`;
-        const destPath = path.resolve(out, binaryFileName);
+        const destPath = path.join(out, binaryFileName);
 
         return fs.move(
-          path.resolve(appPaths[0], binaryFileName),
+          path.join(appPaths[0], binaryFileName),
           destPath,
           { overwrite: true },
         ).then(() => destPath);
       }
 
       if (process.platform === 'win32' || process.platform === 'linux') {
-        const destPath = path.resolve(out, id);
+        const destPath = path.join(out, id);
 
         return fs.move(
           appPaths[0],
@@ -74,18 +77,28 @@ const createAppAsync = (id, name, url, icon, out) => {
     .then((destPath) => {
       cleanupCallback();
 
-      let packageJsonPath;
+      let resourcesPath;
       switch (process.platform) {
         case 'darwin':
-          packageJsonPath = path.resolve(destPath, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
+          resourcesPath = path.join(destPath, 'Contents', 'Resources');
           break;
         case 'win32':
         case 'linux':
-          packageJsonPath = path.resolve(destPath, 'resources', 'app.asar.unpacked', 'package.json');
+          resourcesPath = path.join(destPath, 'resources');
           break;
         default:
           return Promise.reject(new Error('Unknown platform'));
       }
+
+      const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
+
+      const versionPath = path.join(os.homedir(), '.webcatalog', 'versions', moleculePackageJson.version);
+
+      const appAsarPath = path.join(resourcesPath, 'app.asar');
+      const sharedAppAsarPath = path.join(versionPath, 'app.asar');
+
+      const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
+      const sharedAppAsarUnpackedPath = path.join(versionPath, 'app.asar.unpacked');
 
       return fs.readJson(packageJsonPath)
         .then((packageJsonTemplate) => {
@@ -100,6 +113,11 @@ const createAppAsync = (id, name, url, icon, out) => {
           });
           return fs.writeJson(packageJsonPath, packageJson);
         })
+        .then(() => fs.ensureDir(versionPath))
+        .then(() => fs.move(appAsarPath, sharedAppAsarPath, { overwrite: true }))
+        .then(() => fs.ensureSymlink(sharedAppAsarPath, appAsarPath))
+        .then(() => fs.move(appAsarUnpackedPath, sharedAppAsarUnpackedPath, { overwrite: true }))
+        .then(() => fs.ensureSymlink(sharedAppAsarUnpackedPath, appAsarUnpackedPath))
         .then(() => destPath);
     })
     .catch((err) => {
