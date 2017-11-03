@@ -50,7 +50,7 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.3.0",
-    "material-ui": "1.0.0-beta.17",
+    "material-ui": "1.0.0-beta.18",
     "material-ui-icons": "1.0.0-beta.17",
     "mocha": "4.0.1",
     "prop-types": "15.6.0",

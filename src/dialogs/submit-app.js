@@ -55,6 +55,7 @@ const styles = {
   },
 };
 
+const Transition = props => <Slide direction="left" {...props} />;
 
 const SubmitApp = (props) => {
   const {
@@ -79,7 +80,7 @@ const SubmitApp = (props) => {
       ignoreBackdropClick={isSaving}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="left" />}
+      transition={Transition}
     >
       <Fade in={isSaving}>
         <LinearProgress className={classes.linearProgress} />

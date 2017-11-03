@@ -56,7 +56,6 @@ const ConfirmUninstallApp = (props) => {
       ignoreBackdropClick={isSaving}
       onRequestClose={onClose}
       open={open}
-      transition={Fade}
     >
       <Fade in={isSaving}>
         <LinearProgress className={classes.linearProgress} />

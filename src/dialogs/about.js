@@ -84,6 +84,8 @@ const styles = {
   },
 };
 
+const Transition = props => <Slide direction="left" {...props} />;
+
 const About = (props) => {
   const {
     classes,
@@ -132,7 +134,7 @@ const About = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="left" />}
+      transition={Transition}
     >
       <EnhancedDialogTitle onCloseButtonClick={onClose}>
         {STRING_ABOUT}
