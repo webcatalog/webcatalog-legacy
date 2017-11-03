@@ -22,7 +22,7 @@ import {
   close,
   formUpdate,
   save,
-} from '../state/dialogs/submit-app/actions';
+} from '../actions/dialogs/submit-app/actions';
 
 import {
   STRING_APP_NAME,

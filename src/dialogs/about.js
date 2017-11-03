@@ -11,8 +11,8 @@ import Dialog, {
 
 import connectComponent from '../helpers/connect-component';
 
-import { close } from '../state/dialogs/about/actions';
-import { checkForLinuxUpdates } from '../state/root/updater/actions';
+import { close } from '../actions/dialogs/about/actions';
+import { checkForLinuxUpdates } from '../actions/root/updater/actions';
 import iconSvg from '../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,

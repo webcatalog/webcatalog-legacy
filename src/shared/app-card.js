@@ -14,18 +14,18 @@ import { LinearProgress } from 'material-ui/Progress';
 import connectComponent from '../helpers/connect-component';
 
 import extractHostname from '../helpers/extract-hostname';
-import { open as openConfirmUninstallAppDialog } from '../state/dialogs/confirm-uninstall-app/actions';
+import { open as openConfirmUninstallAppDialog } from '../actions/dialogs/confirm-uninstall-app/actions';
 import {
   installApp,
   updateApp,
-} from '../state/root/local/actions';
+} from '../actions/root/local/actions';
 
 import {
   isUpdatable as isUpdatableUtil,
   isInstalled as isInstalledUtil,
   isInstalling as isInstallingUtil,
   isUninstalling as isUninstallingUtil,
-} from '../state/root/local/utils';
+} from '../reducers/root/local/utils';
 
 import {
   STRING_INSTALL,

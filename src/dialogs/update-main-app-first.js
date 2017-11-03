@@ -10,8 +10,8 @@ import Dialog, {
 
 import connectComponent from '../helpers/connect-component';
 
-import { close } from '../state/dialogs/update-main-app-first/actions';
-import { open as openAboutDialog } from '../state/dialogs/about/actions';
+import { close } from '../actions/dialogs/update-main-app-first/actions';
+import { open as openAboutDialog } from '../actions/dialogs/about/actions';
 import {
   STRING_UPDATE_WEBCATALOG_FIRST,
   STRING_UPDATE_WEBCATALOG_FIRST_DESC,

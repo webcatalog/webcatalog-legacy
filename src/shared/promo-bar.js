@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 
 import connectComponent from '../helpers/connect-component';
 
-import { open as openDialogSubmitApp } from '../state/dialogs/submit-app/actions';
+import { open as openDialogSubmitApp } from '../actions/dialogs/submit-app/actions';
 
 import {
   STRING_CANT_FIND_YOUR_FAVORITE_APP,

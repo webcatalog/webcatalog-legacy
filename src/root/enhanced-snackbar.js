@@ -6,7 +6,7 @@ import Snackbar from 'material-ui/Snackbar';
 
 import connectComponent from '../helpers/connect-component';
 
-import { closeSnackbar } from '../state/root/snackbar/actions';
+import { closeSnackbar } from '../actions/root/snackbar/actions';
 
 const EnhancedSnackbar = (props) => {
   const {

@@ -16,7 +16,7 @@ import connectComponent from '../helpers/connect-component';
 import {
   close,
   save,
-} from '../state/dialogs/confirm-uninstall-app/actions';
+} from '../actions/dialogs/confirm-uninstall-app/actions';
 
 import {
   STRING_BROWSING_DATA_REMOVED,

@@ -12,7 +12,7 @@ import AppCard from '../../shared/app-card';
 import {
   getMyApps,
   resetAndGetMyApps,
-} from '../../state/pages/my-apps/actions';
+} from '../../actions/pages/my-apps/actions';
 import EmptyState from '../../shared/empty-state';
 import RequireLogIn from '../../shared/require-log-in';
 import NoConnection from '../../shared/no-connection';

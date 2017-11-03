@@ -20,7 +20,7 @@ import {
 
 import {
   isUpdatable,
-} from './utils';
+} from '../../../reducers/root/local/utils';
 
 
 export const setLocalApp = (id, status, app) =>

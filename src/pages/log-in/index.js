@@ -16,7 +16,7 @@ import logoPng from '../../assets/logo.png';
 import {
   submit,
   formUpdate,
-} from '../../state/pages/log-in/actions';
+} from '../../actions/pages/log-in/actions';
 
 import {
   STRING_CONTINUE_WITHOUT_LOGGING_IN,

@@ -11,7 +11,7 @@ import connectComponent from '../../helpers/connect-component';
 import EnhancedMenu from '../../shared/enhanced-menu';
 
 import categories from '../../constants/categories';
-import { setCategory } from '../../state/pages/top-charts/actions';
+import { setCategory } from '../../actions/pages/top-charts/actions';
 
 import { STRING_FILTER } from '../../constants/strings';
 

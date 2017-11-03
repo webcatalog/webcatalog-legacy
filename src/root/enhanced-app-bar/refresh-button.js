@@ -8,10 +8,10 @@ import connectComponent from '../../helpers/connect-component';
 
 import {
   resetAndGetApps as refreshTopCharts,
-} from '../../state/pages/top-charts/actions';
+} from '../../actions/pages/top-charts/actions';
 import {
   resetAndGetMyApps as refreshMyApps,
-} from '../../state/pages/my-apps/actions';
+} from '../../actions/pages/my-apps/actions';
 
 import {
   ROUTE_MY_APPS,

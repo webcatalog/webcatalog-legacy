@@ -8,7 +8,7 @@ import Grid from 'material-ui/Grid';
 
 import connectComponent from '../../helpers/connect-component';
 
-import { search } from '../../state/pages/search/actions';
+import { search } from '../../actions/pages/search/actions';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';

@@ -33,13 +33,13 @@ import connectComponent from '../../helpers/connect-component';
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
 
-import { formUpdate } from '../../state/pages/search/actions';
-import { open as openDialogAbout } from '../../state/dialogs/about/actions';
-import { open as openDialogSubmitApp } from '../../state/dialogs/submit-app/actions';
+import { formUpdate } from '../../actions/pages/search/actions';
+import { open as openDialogAbout } from '../../actions/dialogs/about/actions';
+import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app/actions';
 import {
   goBack,
   changeRoute,
-} from '../../state/root/router/actions';
+} from '../../actions/root/router/actions';
 
 import {
   ROUTE_INSTALLED_APPS,

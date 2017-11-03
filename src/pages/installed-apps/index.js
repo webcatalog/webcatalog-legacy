@@ -23,8 +23,8 @@ import {
   STRING_UPDATES_AVAILABLE,
 } from '../../constants/strings';
 
-import { updateAllApps } from '../../state/root/local/actions';
-import { getAvailableUpdateCount } from '../../state/root/local/utils';
+import { updateAllApps } from '../../actions/root/local/actions';
+import { getAvailableUpdateCount } from '../../reducers/root/local/utils';
 
 const styles = theme => ({
   scrollContainer: {

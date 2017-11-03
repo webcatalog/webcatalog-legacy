@@ -15,7 +15,7 @@ import {
   getApps,
   resetAndGetApps,
   setSortBy,
-} from '../../state/pages/top-charts/actions';
+} from '../../actions/pages/top-charts/actions';
 
 import {
   STRING_NEW_APPS_IN_CATEGORY,
