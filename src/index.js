@@ -107,7 +107,7 @@ const createAppAsync = (id, name, url, icon, out) => {
         case 'win32': {
           symlinks = [
             path.join('resources', 'app.asar'), // 251 MB
-            path.join('resources', 'app.asar.unpacked', 'node_modules'), // 22.1 MB
+            // path.join('resources', 'app.asar.unpacked', 'node_modules'), // 22.1 MB
             'content_shell.pak', // 11.4 MB
             'node.dll', // 17.7 MB
           ];
