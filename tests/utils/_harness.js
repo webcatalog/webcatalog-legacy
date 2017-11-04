@@ -1,16 +1,13 @@
 /* global describe before after */
-const os = require('os');
 const Application = require('spectron').Application;
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
-const getSize = require('get-folder-size');
 
 chai.should();
 chai.use(chaiAsPromised);
 
 const createAppAsync = require('../../src');
-const moleculePackageJson = require('../../package.json');
 
 const getIconFileExt = () => {
   switch (process.platform) {
@@ -41,17 +38,6 @@ const getElectronPath = (destPath) => {
 
   return path.resolve(destPath, 'Molecule');
 };
-
-const getSizeAsync = myFolder =>
-  new Promise((resolve, reject) => {
-    getSize(myFolder, (err, size) => {
-      if (err) {
-        return reject(err);
-      }
-
-      return resolve(size);
-    });
-  });
 
 const harness = (name, fn, args) => {
   describe('When Molecule is created and then launches', function describeWrap() {
@@ -97,30 +83,16 @@ const harness = (name, fn, args) => {
         path.resolve(__dirname, '..', `828296a5-0969-4a56-8e68-e188b03584b0.${getIconFileExt()}`),
         path.resolve(__dirname, '..', 'dist'),
       )
-        .then(destPath =>
-          getSizeAsync(destPath)
-            .then((size) => {
-              // eslint-disable-next-line
-              console.log(`Package size: ${(size / 1024 / 1024).toFixed(2)} Mb`);
-
-              const versionPath = path.join(os.homedir(), '.webcatalog', 'versions', moleculePackageJson.version);
-              return getSizeAsync(versionPath);
-            })
-            .then((size) => {
-              // eslint-disable-next-line
-              console.log(`Shared resources size: ${(size / 1024 / 1024).toFixed(2)} Mb`);
-            })
-            .then(() => {
-              global.app = new Application({
-                path: getElectronPath(destPath),
-                args,
-                startTimeout: 50000,
-                waitTimeout: 50000,
-                requireName: 'electronRequire',
-              });
-              return global.app.start();
-            }),
-        )
+        .then((destPath) => {
+          global.app = new Application({
+            path: getElectronPath(destPath),
+            args,
+            startTimeout: 50000,
+            waitTimeout: 50000,
+            requireName: 'electronRequire',
+          });
+          return global.app.start();
+        })
         .then(() => {
           chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
         }),
