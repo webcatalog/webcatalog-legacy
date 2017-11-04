@@ -1,10 +1,7 @@
 const fs = require('fs-extra');
-const os = require('os');
 const packager = require('electron-packager');
 const path = require('path');
 const tmp = require('tmp');
-
-const moleculePackageJson = require('../package.json');
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
@@ -93,42 +90,6 @@ const createAppAsync = (id, name, url, icon, out) => {
       const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
       const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
 
-
-      let symlinks;
-      switch (process.platform) {
-        case 'darwin': {
-          symlinks = [
-            path.join('Contents', 'Resources', 'app.asar'), // 299.1 MB
-            path.join('Contents', 'Resources', 'app.asar.unpacked', 'node_modules'), // 25.6 MB
-            path.join('Contents', 'Frameworks', 'Electron Framework.framework'), // 118 MB
-          ];
-          break;
-        }
-        case 'win32': {
-          symlinks = [
-            path.join('resources', 'app.asar'), // 251 MB
-            path.join('resources', 'app.asar.unpacked', 'node_modules'), // 22.1 MB
-            'content_shell.pak', // 11.4 MB
-            'node.dll', // 17.7 MB
-          ];
-          break;
-        }
-        case 'linux': {
-          symlinks = [
-            path.join('resources', 'app.asar'), // 172 MB
-            path.join('resources', 'app.asar.unpacked', 'node_modules'), // 7.2 MB
-            'content_shell.pak', // 12.0 MB
-            'libnode.so', // 21.1 MB
-            'icudtl.dat', // 10.MB
-            'libffmpeg.so', // 3.0 MB
-            'snapshot_blob.bin', // 1.4 MB
-          ];
-          break;
-        }
-        default:
-          symlinks = [];
-      }
-
       return fs.readJson(packageJsonPath)
         .then((packageJsonTemplate) => {
           const packageJson = Object.assign({}, packageJsonTemplate, {
@@ -148,19 +109,6 @@ const createAppAsync = (id, name, url, icon, out) => {
             return fs.copy(icon, path.join(appAsarUnpackedPath, 'icon.png'));
           }
           return null;
-        })
-        .then(() => {
-          const versionPath = path.join(os.homedir(), '.webcatalog', 'versions', moleculePackageJson.version);
-
-          const p = symlinks.map((l) => {
-            const origin = path.join(destPath, l);
-            const dest = path.join(versionPath, l);
-
-            return fs.move(origin, dest, { overwrite: true })
-              .then(() => fs.ensureSymlink(dest, origin));
-          });
-
-          return Promise.all(p);
         })
         .then(() => destPath);
     })
