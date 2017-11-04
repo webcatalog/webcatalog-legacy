@@ -1,3 +1,8 @@
+## 7.4.2
+- Disables resource sharing on Windows.
+
+---
+
 ## 7.4.1
 - Improves stability.
 - Fixes bugs.
