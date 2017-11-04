@@ -4,8 +4,9 @@ const fs = require('fs-extra');
 const { app, shell } = require('electron');
 
 const getAllAppPath = require('./get-all-app-path');
-const uninstallAppAsync = require('./uninstall-app-async');
+const removeOldVersionsAsync = require('./remove-old-versions-async');
 const sendMessageToWindow = require('./send-message-to-window');
+const uninstallAppAsync = require('./uninstall-app-async');
 
 const scanInstalledAsync = () =>
   Promise.resolve()
@@ -206,11 +207,7 @@ const scanInstalledAsync = () =>
       // without shellVersion or moleculeVersion,
       // it means the app is outdated and should be deleted.
       if (!a.shellVersion && !a.moleculeVersion) {
-        uninstallAppAsync(
-          a.id,
-          a.name,
-          { shouldClearStorageData: true },
-        )
+        uninstallAppAsync(a.id, a.name)
         // eslint-disable-next-line no-console
           .catch(console.log);
 
@@ -218,6 +215,11 @@ const scanInstalledAsync = () =>
       }
 
       return true;
-    }));
+    }))
+    .then((installedApps) => {
+      removeOldVersionsAsync(installedApps);
+
+      return installedApps;
+    });
 
 module.exports = scanInstalledAsync;

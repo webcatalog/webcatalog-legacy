@@ -5,12 +5,14 @@ const fs = require('fs-extra');
 
 const getAllAppPath = require('../get-all-app-path');
 
-const destPath = getAllAppPath();
+const allAppPath = getAllAppPath();
 
 const installAppAsync = appObj =>
-  Promise.resolve()
-    .then(() =>
-      new Promise((resolve, reject) => {
+  fs.readJson(path.join(app.getAppPath(), 'package.json'))
+    .then((moleculePackageJson) => {
+      const moleculeVersion = moleculePackageJson.dependencies['@webcatalog/molecule'];
+
+      return new Promise((resolve, reject) => {
         const {
           id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl,
         } = appObj;
@@ -30,12 +32,14 @@ const installAppAsync = appObj =>
           icoIconUrl,
           '--pngIconUrl',
           pngIconUrl,
-          '--destPath',
-          destPath,
+          '--allAppPath',
+          getAllAppPath(),
           '--desktopPath',
           app.getPath('desktop'),
           '--homePath',
           app.getPath('home'),
+          '--moleculeVersion',
+          moleculeVersion,
         ], {
           env: {
             ELECTRON_RUN_AS_NODE: 'true',
@@ -43,41 +47,42 @@ const installAppAsync = appObj =>
           },
         });
 
+        child.on('message', (message) => {
+          reject(new Error(message));
+        });
+
         child.on('exit', (code) => {
-          if (code === 1) {
-            reject(new Error('failed'));
+          if (code === 0) {
+            resolve();
             return;
           }
 
-          // get current molecule version
-          fs.readJson(path.join(app.getAppPath(), 'package.json'))
-            .then((packageJson) => {
-              const finalizedAppObj = Object.assign({}, appObj, {
-                moleculeVersion: packageJson.dependencies['@webcatalog/molecule'],
-              });
-              resolve(finalizedAppObj);
-            })
-            .catch(reject);
+          reject(new Error('Forked script error'));
         });
-      }))
-    .then((finalizedAppObj) => {
-      if (process.platform === 'win32') {
-        const {
-          id, name,
-        } = appObj;
+      })
+        .then(() => {
+          if (process.platform === 'win32') {
+            const {
+              id, name,
+            } = appObj;
 
-        const startMenuShortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
-        const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
-        const opts = {
-          target: path.join(destPath, id, `${name}.exe`),
-          cwd: path.join(destPath, id),
-        };
+            const startMenuShortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
+            const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
+            const opts = {
+              target: path.join(allAppPath, id, `${name}.exe`),
+              cwd: path.join(allAppPath, id),
+            };
 
-        shell.writeShortcutLink(startMenuShortcutPath, 'create', opts);
-        shell.writeShortcutLink(desktopShortcutPath, 'create', opts);
-      }
+            shell.writeShortcutLink(startMenuShortcutPath, 'create', opts);
+            shell.writeShortcutLink(desktopShortcutPath, 'create', opts);
+          }
 
-      return finalizedAppObj;
+          const finalizedAppObj = Object.assign({}, appObj, {
+            moleculeVersion,
+          });
+
+          return finalizedAppObj;
+        });
     });
 
 module.exports = installAppAsync;

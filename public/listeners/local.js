@@ -16,9 +16,7 @@ const loadLocalListeners = () => {
         });
       })
       .catch((err) => {
-        // eslint-disable-next-line
-        console.log(err);
-        e.sender.send('log', err);
+        e.sender.send('log', err.stack);
       });
   });
 
@@ -29,10 +27,10 @@ const loadLocalListeners = () => {
   ipcMain.on('request-uninstall-app', (e, id, name) => {
     e.sender.send('set-local-app', id, 'UNINSTALLING');
 
-    uninstallAppAsync(id, name, { shouldClearStorageData: true })
+    uninstallAppAsync(id, name)
       .then(() => e.sender.send('set-local-app', id, null))
       .catch((err) => {
-        e.sender.send('log', err);
+        e.sender.send('log', err.stack);
         e.sender.send('set-local-app', id, 'INSTALLED');
       });
   });
@@ -45,7 +43,7 @@ const loadLocalListeners = () => {
     p = p.then(() => installAppAsync(appObj))
       .then(finalizedAppObj => e.sender.send('set-local-app', appObj.id, 'INSTALLED', finalizedAppObj))
       .catch((err) => {
-        e.sender.send('log', err);
+        e.sender.send('log', err.stack);
         e.sender.send('set-local-app', appObj.id, null);
       });
   });
