@@ -1,3 +1,9 @@
+## 7.4.1
+- Improves stability.
+- Fixes bugs.
+
+---
+
 ## 7.4.0
 - If you have many apps installed, WebCatalog will use much less disk space.
   - Up to 95% on macOS.
