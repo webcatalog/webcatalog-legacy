@@ -146,6 +146,8 @@ downloadFilePngAsync(pngIconUrl)
               const origin = path.join(destPath, l);
               const dest = path.join(versionPath, l);
 
+              if (process.platform === 'win32') return null;
+
               return fs.pathExists(dest)
                 .then((exists) => {
                   if (exists) return fs.remove(origin);
