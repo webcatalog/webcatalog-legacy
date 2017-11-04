@@ -34,7 +34,7 @@ import {
   STRING_UNINSTALL,
   STRING_UNINSTALLING,
   STRING_UPDATE,
-  STRING_UPDATING,
+  // STRING_UPDATING,
 } from '../constants/strings';
 
 import { requestOpenApp } from '../senders/local';
@@ -183,8 +183,8 @@ const AppCard = (props) => {
     }
 
     let label;
-    if (isInstalling && isUpdatable) label = STRING_UPDATING;
-    else if (isInstalling) label = STRING_INSTALLING;
+    // if (isInstalling && isUpdatable) label = STRING_UPDATING;
+    if (isInstalling) label = STRING_INSTALLING;
     else if (isUninstalling) label = STRING_UNINSTALLING;
     else label = STRING_INSTALL;
 
