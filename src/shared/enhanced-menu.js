@@ -10,6 +10,8 @@ const styles = {
   },
 };
 
+const ITEM_HEIGHT = 48;
+
 class EnhancedMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -51,6 +53,12 @@ class EnhancedMenu extends React.Component {
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onRequestClose={this.handleRequestClose}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 10.6,
+              width: 200,
+            },
+          }}
         >
           {React.Children.map(children, child => React.cloneElement(child, {
             onClick: () => {
