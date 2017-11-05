@@ -35,6 +35,7 @@ import RefreshButton from './refresh-button';
 
 import { formUpdate } from '../../actions/pages/search/actions';
 import { open as openDialogAbout } from '../../actions/dialogs/about/actions';
+import { open as openDialogAccount } from '../../actions/dialogs/account/actions';
 import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app/actions';
 import {
   goBack,
@@ -261,6 +262,7 @@ class EnhancedAppBar extends React.Component {
     };
 
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
+    this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
     this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
     this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
@@ -273,6 +275,10 @@ class EnhancedAppBar extends React.Component {
 
   handleToggleDrawer() {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+  }
+
+  handleOpenDialogAccount() {
+    this.props.onOpenDialogAccount();
   }
 
   handleOpenDialogAbout() {
@@ -387,7 +393,7 @@ class EnhancedAppBar extends React.Component {
               </MenuItem>
               <Divider />
               {isLoggedIn && (
-                <MenuItem button onClick={() => requestOpenInBrowser('https://dashboard.webcatalog.io')}>
+                <MenuItem button onClick={this.handleOpenDialogAccount}>
                   <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                   <ListItemText primary={STRING_ACCOUNT} />
                 </MenuItem>
@@ -554,6 +560,7 @@ EnhancedAppBar.propTypes = {
   onFormUpdate: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogAccount: PropTypes.func.isRequired,
   onOpenDialogSubmitApp: PropTypes.func.isRequired,
   profilePicture: PropTypes.string,
   query: PropTypes.string,
@@ -574,6 +581,7 @@ const actionCreators = {
   formUpdate,
   goBack,
   openDialogAbout,
+  openDialogAccount,
   openDialogSubmitApp,
 };
 
