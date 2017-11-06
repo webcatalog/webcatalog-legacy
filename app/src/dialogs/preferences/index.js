@@ -175,7 +175,7 @@ const getSecondaryText = (text) => {
   return text;
 };
 
-const Transition = props => <Slide direction="left" {...props} />;
+const Transition = props => <Slide direction="up" {...props} />;
 
 class PreferencesDialog extends React.Component {
   constructor(props) {
