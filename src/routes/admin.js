@@ -122,6 +122,25 @@ adminRouter.get('/', (req, res, next) => {
     .catch(next);
 });
 
+adminRouter.get('/update-algolia-data', (req, res, next) => {
+  const opts = {
+    attributes: ['id', 'installCount'],
+    where: { isActive: true },
+    raw: true,
+  };
+
+  return App.findAll(opts)
+    .then((apps) => {
+      const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
+      return index.partialUpdateObjects(apps.map(app => ({
+        objectID: app.id,
+        installCount: app.installCount,
+      })));
+    })
+    .then(() => res.redirect('/admin'))
+    .catch(next);
+});
+
 adminRouter.get('/drafts/set-status', (req, res, next) => {
   if (!req.query || !req.query.id || !req.query.status) {
     return next(new errors.BadRequest());
