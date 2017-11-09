@@ -3,23 +3,15 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import nodemailer from 'nodemailer';
-import aws from 'aws-sdk';
 import errors from 'throw.js';
 import url from 'url';
 
 import User from '../models/User';
 import isEmail from '../libs/isEmail';
 import ensureLoggedIn from '../middlewares/ensureLoggedIn';
+import mailTransporter from '../mailTransporter';
 
 const authRouter = express.Router();
-
-const transporter = nodemailer.createTransport({
-  SES: new aws.SES({
-    apiVersion: '2010-12-01',
-    region: 'us-east-1',
-  }),
-});
 
 const beforeAuthMiddleware = (req, res, next) => {
   if (req.query.returnTo) {
@@ -89,8 +81,11 @@ const sendVerificationEmail = user =>
       user.updateAttributes({
         verifyToken: token,
       })
-        .then(() => transporter.sendMail({
-          from: 'support@webcatalog.io',
+        .then(() => mailTransporter.sendMail({
+          from: {
+            name: 'WebCatalog Team',
+            address: 'support@webcatalog.io',
+          },
           to: user.email,
           subject: 'WebCatalog Email Verification',
           // eslint-disable-next-line
@@ -206,8 +201,11 @@ authRouter.post('/reset-password', beforeAuthMiddleware, (req, res, next) => {
             user.updateAttributes({
               resetPasswordToken: token,
               resetPasswordExpires: Date.now() + (3600000 * 7), // 7 days,
-            }).then(() => transporter.sendMail({
-              from: 'support@webcatalog.io',
+            }).then(() => mailTransporter.sendMail({
+              from: {
+                name: 'WebCatalog Team',
+                address: 'support@webcatalog.io',
+              },
               to: req.body.email,
               subject: 'WebCatalog Password Reset',
               // eslint-disable-next-line

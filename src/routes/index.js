@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import fetch from 'node-fetch';
 import marked from 'marked';
+import ensureIsAdmin from '../middlewares/ensureIsAdmin';
 
 import App from '../models/App';
 
@@ -119,7 +120,7 @@ router.get('/s3/:name.:ext', (req, res) => {
 
 router.use('/sitemap.xml', require('./sitemap'));
 router.use('/apps', require('./apps'));
-router.use('/admin', require('./admin'));
+router.use('/admin', ensureIsAdmin, require('./admin'));
 router.use('/api', cors(), require('./api'));
 router.use('/auth', require('./auth'));
 

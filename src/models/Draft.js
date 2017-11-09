@@ -16,6 +16,9 @@ const Draft = sequelize.define('draft', {
   url: {
     type: Sequelize.STRING,
   },
+  status: {
+    type: Sequelize.STRING,
+  },
 });
 
 Draft.User = Draft.belongsTo(User);

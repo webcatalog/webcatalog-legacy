@@ -5,13 +5,16 @@ import sharp from 'sharp';
 import slug from 'slug';
 import fetch from 'node-fetch';
 import errors from 'throw.js';
+import moment from 'moment';
 
 import App from '../models/App';
+import Draft from '../models/Draft';
+import User from '../models/User';
 import categories from '../constants/categories';
 import convertToIcns from '../libs/convertToIcns';
 import convertToIco from '../libs/convertToIco';
 import algoliaClient from '../algoliaClient';
-import ensureIsAdmin from '../middlewares/ensureIsAdmin';
+import mailTransporter from '../mailTransporter';
 
 const adminRouter = express.Router();
 
@@ -99,21 +102,113 @@ const compileUploadImagesAsync = (fileName, appId) =>
       return Promise.all(p);
     });
 
-adminRouter.get('/', (req, res) => {
-  res.redirect('/admin/add');
+adminRouter.get('/', (req, res, next) => {
+  const opts = {
+    where: { status: null },
+    order: [['createdAt', 'DESC']],
+    include: [User],
+  };
+
+  return Draft.findAndCountAll(opts)
+    .then(({ rows, count }) => {
+      res.render('admin/index', {
+        title: 'AdminCP',
+        drafts: rows.map(row => Object.assign({}, row.get({ plain: true }), {
+          createdAt: moment(row.createdAt).fromNow(),
+        })),
+        draftCount: count,
+      });
+    })
+    .catch(next);
 });
 
-adminRouter.get('/add', ensureIsAdmin, (req, res) => {
-  res.render('admin/add', { title: 'Add New App', categories });
+adminRouter.get('/drafts/set-status', (req, res, next) => {
+  if (!req.query || !req.query.id || !req.query.status) {
+    return next(new errors.BadRequest());
+  }
+
+  const { id, status } = req.query;
+
+  if (['rejected', 'added', 'already_added', 'neutral'].indexOf(status) < 0) {
+    return next(new errors.BadRequest());
+  }
+
+  return Draft.findOne({ where: { id }, include: [User] })
+    .then((draft) => {
+      let subject;
+      let text;
+      switch (status) {
+        case 'rejected': {
+          subject = `${draft.name} has been rejected by Webcatalog`;
+          text = `Hi,
+Thank you very much for submitting ${draft.name} (${draft.url}) to WebCatalog. We've reviewed the application and, consistent with criteria considered in our approval process, we have chosen not to publish it. We're really sorry.
+If you have any questions, please reply directly to this email.
+
+Best regards,
+WebCatalog Team`;
+          break;
+        }
+        case 'added': {
+          subject = `${draft.name} has been approved by Webcatalog`;
+          text = `Hi,
+Thank you very much for submitting ${draft.name} (${draft.url}) to WebCatalog. We've reviewed the application and the app is now available on WebCatalog. You can now search for and install the app.
+If you have any questions, please reply directly to this email.
+
+Best regards,
+WebCatalog Team`;
+          break;
+        }
+        case 'already_added': {
+          subject = `${draft.name} has been approved by Webcatalog`;
+          text = `Hi,
+Thank you very much for submitting ${draft.name} (${draft.url}) to WebCatalog. The app you submitted is already available on WebCatalog. You can search for and install the app.
+If you have any questions, please reply directly to this email.
+
+Best regards,
+WebCatalog Team`;
+          break;
+        }
+        default: break;
+      }
+
+      mailTransporter.sendMail({
+        from: {
+          name: 'WebCatalog Team',
+          address: 'support@webcatalog.io',
+        },
+        to: draft.user.email,
+        subject,
+        text,
+      });
+
+      return draft.updateAttributes({ status });
+    })
+    .then(() => res.redirect('/admin'))
+    .catch(next);
 });
 
-adminRouter.get('/edit/id:id', ensureIsAdmin, (req, res, next) => {
+adminRouter.get('/apps/add', (req, res, next) => {
+  if (req.query.draftId) {
+    return Draft.findById(req.query.draftId)
+      .then((draft) => {
+        const { name, url } = draft;
+        return res.render('admin/add', {
+          title: 'Add New App', categories, name, url,
+        });
+      })
+      .catch(next);
+  }
+
+  return res.render('admin/add', { title: 'Add New App', categories });
+});
+
+adminRouter.get('/edit/id:id', (req, res, next) => {
   App.findById(req.params.id)
     .then(app => res.render('admin/edit', { title: `Edit ${app.name}`, categories, app }))
     .catch(next);
 });
 
-adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
+adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
   if (!req.body) return next(new errors.BadRequest());
 
   if (!req.body.name || !req.body.url || !req.body.category) {
@@ -160,7 +255,7 @@ adminRouter.post('/edit/id:id', ensureIsAdmin, upload.single('icon'), (req, res,
     .catch(next);
 });
 
-adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) => {
+adminRouter.post('/apps/add', upload.single('icon'), (req, res, next) => {
   if (!req.body || !req.file) return next(new errors.BadRequest());
 
   if (!req.body.name || !req.body.url || !req.body.category) {
@@ -200,7 +295,10 @@ adminRouter.post('/add', ensureIsAdmin, upload.single('icon'), (req, res, next) 
       const index = algoliaClient.initIndex(process.env.ALGOLIASEARCH_INDEX_NAME);
       return index.addObject(plainApp)
         .then(() => {
-          res.redirect(`/apps/details/${app.slug}/${app.id}`);
+          if (req.query.draftId) {
+            return res.redirect(`/admin/drafts/set-status?id=${req.query.draftId}&status=added`);
+          }
+          return res.redirect('/admin');
         });
     })
     .catch(next);
