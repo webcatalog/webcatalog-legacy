@@ -1,3 +1,10 @@
+## 7.5.0
+- Adds proxy support.
+- Improves stability.
+- Fixes bugs.
+
+---
+
 ## 7.4.2
 - Disables resource sharing on Windows.
 
