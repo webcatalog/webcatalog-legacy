@@ -1377,7 +1377,16 @@ buffers@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
 
-builder-util-runtime@3.1.0, builder-util-runtime@^3.0.0, builder-util-runtime@^3.1.0, builder-util-runtime@~3.1.0:
+builder-util-runtime@3.2.0, builder-util-runtime@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-3.2.0.tgz#b946032b61c940533fa5e8f05afc550b8e56c94c"
+  dependencies:
+    bluebird-lst "^1.0.5"
+    debug "^3.1.0"
+    fs-extra-p "^4.4.4"
+    sax "^1.2.4"
+
+builder-util-runtime@^3.0.0, builder-util-runtime@^3.1.0, builder-util-runtime@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-3.1.0.tgz#60ec66d3c49f028655230a09d7767e77ff6f15b8"
   dependencies:
@@ -1386,7 +1395,28 @@ builder-util-runtime@3.1.0, builder-util-runtime@^3.0.0, builder-util-runtime@^3
     fs-extra-p "^4.4.4"
     sax "^1.2.4"
 
-builder-util@3.2.1, builder-util@^3.2.1:
+builder-util@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-3.2.2.tgz#9660f74f168f6d4e175ca3c25c8e0d0ed7ff965c"
+  dependencies:
+    "7zip-bin" "^2.2.7"
+    bluebird-lst "^1.0.5"
+    builder-util-runtime "^3.2.0"
+    chalk "^2.3.0"
+    debug "^3.1.0"
+    fs-extra-p "^4.4.4"
+    ini "^1.3.4"
+    is-ci "^1.0.10"
+    js-yaml "^3.10.0"
+    lazy-val "^1.0.2"
+    node-emoji "^1.8.1"
+    semver "^5.4.1"
+    source-map-support "^0.5.0"
+    stat-mode "^0.2.2"
+    temp-file "^2.0.3"
+    tunnel-agent "^0.6.0"
+
+builder-util@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-3.2.1.tgz#3b4f4df06cc30307a89343caa0dd361eae363ba5"
   dependencies:
@@ -2473,17 +2503,17 @@ electron-builder-squirrel-windows@19.45.0:
   optionalDependencies:
     "7zip-bin" "~2.2.7"
 
-electron-builder@19.45.0:
-  version "19.45.0"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.45.0.tgz#4a4d9eef6fa2b94d35f5a6e124e0305257a0c0f6"
+electron-builder@19.45.4:
+  version "19.45.4"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.45.4.tgz#cfa1b68e76b02495c233ade0af52c6b3b24695c4"
   dependencies:
     "7zip-bin" "^2.2.7"
     app-package-builder "1.5.0"
     asar-integrity "0.2.3"
     async-exit-hook "^2.0.1"
     bluebird-lst "^1.0.5"
-    builder-util "3.2.1"
-    builder-util-runtime "3.1.0"
+    builder-util "3.2.2"
+    builder-util-runtime "3.2.0"
     chalk "^2.3.0"
     chromium-pickle-js "^0.2.0"
     debug "^3.1.0"
@@ -6442,9 +6472,9 @@ react-dev-utils@^4.2.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-dom@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0.tgz#9cc3079c3dcd70d4c6e01b84aab2a7e34c303f58"
+react-dom@16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.1.0.tgz#ab6fd2a285096f388aeba51919a573d06c9bdde4"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -6558,9 +6588,9 @@ react-transition-group@^2.2.1:
     prop-types "^15.5.8"
     warning "^3.0.0"
 
-react@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+react@16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.1.0.tgz#1c2bdac3c17fe7ee9282fa35aca6cc36387903e1"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
