@@ -7,7 +7,7 @@ Inspired by https://github.com/reddit/reddit/blob/f943ac95dea022c65e1b131b1936b2
 
 This is the primary codebase that powers [webcatalog.io](https://webcatalog.io).
 
-For notices about major changes and general discussion of reddit development, go to [webcatalog/webcatalog](https://github.com/webcatalog/webcatalog) repo.
+For notices about major changes and general discussion of WebCatalog development, go to [webcatalog/webcatalog](https://github.com/webcatalog/webcatalog) repo.
 
 ### Requirements
 - Node.js 8+
