@@ -88,7 +88,7 @@ Search.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onSearch: PropTypes.func.isRequired,
-  query: '',
+  query: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

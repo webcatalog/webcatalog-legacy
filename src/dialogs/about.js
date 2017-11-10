@@ -29,7 +29,7 @@ import {
   STRING_GO_TO_THE_WEBSITE,
   STRING_PRIVACY_POLICY,
   STRING_RELEASE_NOTES,
-  STRING_RESTART_NOW,
+  STRING_UPDATE_AND_RELAUNCH,
   STRING_TERMS,
   STRING_UPDATE_AVAILABLE_LINUX,
   STRING_UPDATE_AVAILABLE,
@@ -174,7 +174,7 @@ const About = (props) => {
             onClick={requestQuitAndInstall}
             raised
           >
-            {STRING_RESTART_NOW}
+            {STRING_UPDATE_AND_RELAUNCH}
           </Button>
         ) : (
           <Button

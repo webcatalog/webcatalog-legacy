@@ -8,10 +8,7 @@ import { MenuItem } from 'material-ui/Menu';
 
 import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
-import Dialog, {
-  DialogContent,
-  DialogContentText,
-} from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog';
 import grey from 'material-ui/colors/grey';
 
 import connectComponent from '../../helpers/connect-component';
@@ -100,6 +97,8 @@ const styles = theme => ({
   },
 });
 
+const Transition = props => <Slide direction="left" {...props} />;
+
 const Account = (props) => {
   const {
     classes,
@@ -119,13 +118,13 @@ const Account = (props) => {
       className={classes.root}
       onRequestClose={onClose}
       open={open}
-      transition={<Slide direction="left" />}
+      transition={Transition}
     >
       <EnhancedDialogTitle onCloseButtonClick={onClose}>
         {STRING_ACCOUNT}
       </EnhancedDialogTitle>
       <Divider />
-      <DialogContent className={classes.dialogContent}>
+      <div className={classes.dialogContent}>
         <List className={classes.list}>
           <MenuItem
             button
@@ -150,10 +149,10 @@ const Account = (props) => {
             <ListItemText primary={STRING_PASSWORD} />
           </MenuItem>
         </List>
-        <DialogContentText className={classes.dialogContentText}>
+        <div className={classes.dialogContentText}>
           {contentElement}
-        </DialogContentText>
-      </DialogContent>
+        </div>
+      </div>
     </Dialog>
   );
 };

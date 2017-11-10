@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
-import FormControl from 'material-ui/Form/FormControl';
-import FormHelperText from 'material-ui/Form/FormHelperText';
-import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
+import {
+  DialogActions,
+  DialogContent,
+} from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -26,18 +27,11 @@ import {
 } from '../../constants/strings';
 
 const styles = {
-  formControl: {
-    width: '100%',
-  },
   root: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  formFooter: {
-    alignSelf: 'flex-end',
-    transform: 'translate(16px, 16px)',
   },
 };
 
@@ -56,47 +50,43 @@ const Password = (props) => {
   } = props;
 
   return (
-    <div className={classes.root}>
-      <div>
-        <FormControl className={classes.formControl} error={currentPasswordError}>
-          <InputLabel htmlFor="currentPassword">{STRING_CURRENT_PASSWORD}</InputLabel>
-          <Input
-            id="currentPassword"
-            onChange={e => onFormUpdate({ currentPassword: e.target.value })}
-            placeholder={STRING_CURRENT_PASSWORD_PLACEHOLDER}
-            type="password"
-            value={currentPassword}
-          />
-          {currentPasswordError ? <FormHelperText>{currentPasswordError}</FormHelperText> : null}
-        </FormControl>
-        <br />
-        <br />
-        <FormControl className={classes.formControl} error={passwordError}>
-          <InputLabel htmlFor="password">{STRING_NEW_PASSWORD}</InputLabel>
-          <Input
-            id="password"
-            onChange={e => onFormUpdate({ password: e.target.value })}
-            placeholder={STRING_NEW_PASSWORD_PLACEHOLDER}
-            type="password"
-            value={password}
-          />
-          {passwordError ? <FormHelperText>{passwordError}</FormHelperText> : null}
-        </FormControl>
-        <br />
-        <br />
-        <FormControl className={classes.formControl} error={confirmPasswordError}>
-          <InputLabel htmlFor="confirmPassword">{STRING_CONFIRM_NEW_PASSWORD}</InputLabel>
-          <Input
-            id="confirmPassword"
-            onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
-            placeholder={STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER}
-            type="password"
-            value={confirmPassword}
-          />
-          {confirmPasswordError ? <FormHelperText>{confirmPasswordError}</FormHelperText> : null}
-        </FormControl>
-      </div>
-      <div className={classes.formFooter}>
+    <div>
+      <DialogContent className={classes.dialogContent}>
+        <TextField
+          fullWidth
+          disabled={isSaving}
+          id="currentPassword"
+          label={currentPasswordError || STRING_CURRENT_PASSWORD}
+          margin="normal"
+          onChange={e => onFormUpdate({ currentPassword: e.target.value })}
+          placeholder={STRING_CURRENT_PASSWORD_PLACEHOLDER}
+          value={currentPassword}
+          error={Boolean(currentPasswordError)}
+        />
+        <TextField
+          fullWidth
+          disabled={isSaving}
+          id="password"
+          label={passwordError || STRING_NEW_PASSWORD}
+          margin="normal"
+          onChange={e => onFormUpdate({ password: e.target.value })}
+          placeholder={STRING_NEW_PASSWORD_PLACEHOLDER}
+          value={password}
+          error={Boolean(passwordError)}
+        />
+        <TextField
+          fullWidth
+          disabled={isSaving}
+          id="confirmPassword"
+          label={confirmPasswordError || STRING_CONFIRM_NEW_PASSWORD}
+          margin="normal"
+          onChange={e => onFormUpdate({ confirmPassword: e.target.value })}
+          placeholder={STRING_CONFIRM_NEW_PASSWORD_PLACEHOLDER}
+          value={confirmPassword}
+          error={Boolean(confirmPasswordError)}
+        />
+      </DialogContent>
+      <DialogActions>
         <Button
           color="primary"
           disabled={isSaving}
@@ -104,25 +94,28 @@ const Password = (props) => {
         >
           {isSaving ? STRING_SAVING : STRING_SAVE}
         </Button>
-      </div>
+      </DialogActions>
     </div>
   );
 };
 
 Password.defaultProps = {
+  confirmPasswordError: null,
+  currentPasswordError: null,
+  passwordError: null,
 };
 
 Password.propTypes = {
   classes: PropTypes.object.isRequired,
   confirmPassword: PropTypes.string.isRequired,
-  confirmPasswordError: PropTypes.string.isRequired,
+  confirmPasswordError: PropTypes.string,
   currentPassword: PropTypes.string.isRequired,
-  currentPasswordError: PropTypes.string.isRequired,
+  currentPasswordError: PropTypes.string,
   isSaving: PropTypes.bool.isRequired,
-  onFormUpdate: PropTypes.bool.isRequired,
-  onSave: PropTypes.bool.isRequired,
+  onFormUpdate: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
-  passwordError: PropTypes.string.isRequired,
+  passwordError: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

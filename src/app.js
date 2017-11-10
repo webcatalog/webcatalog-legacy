@@ -19,13 +19,11 @@ import UpdaterMessage from './root/updater-message';
 
 import InstalledApps from './pages/installed-apps';
 import Login from './pages/log-in';
-import MyApps from './pages/my-apps';
 import TopCharts from './pages/top-charts';
 import Search from './pages/search';
 
 import {
   ROUTE_INSTALLED_APPS,
-  ROUTE_MY_APPS,
   ROUTE_SEARCH,
 } from './constants/routes';
 
@@ -77,9 +75,6 @@ class App extends React.Component {
 
     let pageContent;
     switch (route) {
-      case ROUTE_MY_APPS:
-        pageContent = <MyApps key="myApps" />;
-        break;
       case ROUTE_INSTALLED_APPS:
         pageContent = <InstalledApps key="InstalledApps" />;
         break;

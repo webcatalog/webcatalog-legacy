@@ -15,9 +15,9 @@ export const search = () =>
         if (!query || query.length < 1) return null;
 
         dispatch(searchResultsGetRequest());
-        return dispatch(apiGet(encodeURI(`/search/apps?q=${query}`)))
+        return dispatch(apiGet(encodeURI(`/search/apps?q=${query}&hitsPerPage=72`)))
           .then((res) => {
-            if (res.query !== query) return null;
+            if (res.query !== getState().pages.search.form.query) return null;
             return dispatch(searchResultsGetSuccess(res));
           })
           .catch(err => dispatch(searchResultsGetFailed(err)));
@@ -35,7 +35,7 @@ export const formUpdate = changes =>
         new Promise((resolve) => {
           setTimeout(() => {
             resolve();
-          }, 200);
+          }, 300);
         }))
       .then(() => dispatch(search()));
   };

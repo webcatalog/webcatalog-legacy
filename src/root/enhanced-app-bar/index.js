@@ -20,7 +20,6 @@ import IconButton from 'material-ui/IconButton';
 import InfoIcon from 'material-ui-icons/Info';
 import InsertChartIcon from 'material-ui-icons/InsertChart';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
-import LocalOfferIcon from 'material-ui-icons/LocalOffer';
 import MenuIcon from 'material-ui-icons/Menu';
 import Paper from 'material-ui/Paper';
 import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
@@ -44,7 +43,6 @@ import {
 
 import {
   ROUTE_INSTALLED_APPS,
-  ROUTE_MY_APPS,
   ROUTE_SEARCH,
   ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
@@ -59,7 +57,6 @@ import {
   STRING_LOG_IN,
   STRING_LOG_OUT,
   STRING_MENU,
-  STRING_MY_APPS,
   STRING_SEARCH_APPS,
   STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
@@ -308,14 +305,11 @@ class EnhancedAppBar extends React.Component {
       case ROUTE_INSTALLED_APPS:
         routeLabel = STRING_INSTALLED_APPS;
         break;
-      case ROUTE_MY_APPS:
-        routeLabel = STRING_MY_APPS;
-        break;
       default:
         routeLabel = STRING_TOP_CHARTS;
     }
 
-    const shouldShowSearch = route !== ROUTE_INSTALLED_APPS && route !== ROUTE_MY_APPS;
+    const shouldShowSearch = route !== ROUTE_INSTALLED_APPS;
 
     const temp = isLoggedIn ? (
       <div className={classes.headerContainer}>
@@ -381,15 +375,6 @@ class EnhancedAppBar extends React.Component {
               >
                 <ListItemIcon><FileDownloadIcon /></ListItemIcon>
                 <ListItemText primary={STRING_INSTALLED_APPS} />
-              </MenuItem>
-              <MenuItem
-                selected={route === ROUTE_MY_APPS}
-                button
-                onClick={() => onChangeRoute(ROUTE_MY_APPS)}
-                className={classes.menuItem}
-              >
-                <ListItemIcon><LocalOfferIcon /></ListItemIcon>
-                <ListItemText primary={STRING_MY_APPS} />
               </MenuItem>
               <Divider />
               {isLoggedIn && (

@@ -247,7 +247,7 @@ Auth.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   passwordError: PropTypes.string,
-  isSubmitting: PropTypes.boolean,
+  isSubmitting: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

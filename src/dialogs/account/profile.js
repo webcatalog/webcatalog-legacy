@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
-import FormControl from 'material-ui/Form/FormControl';
-import FormHelperText from 'material-ui/Form/FormHelperText';
-import Input from 'material-ui/Input';
-import InputLabel from 'material-ui/Input/InputLabel';
 import TextField from 'material-ui/TextField';
+import {
+  DialogActions,
+  DialogContent,
+} from 'material-ui/Dialog';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -25,21 +25,11 @@ import {
 } from '../../constants/strings';
 
 const styles = {
-  textField: {
-    width: '100%',
-  },
-  formControl: {
-    width: '100%',
-  },
   root: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  formFooter: {
-    alignSelf: 'flex-end',
-    transform: 'translate(16px, 16px)',
   },
 };
 
@@ -56,31 +46,30 @@ const Profile = (props) => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <FormControl className={classes.formControl} error={emailError}>
-          <InputLabel htmlFor="email">{STRING_EMAIL}</InputLabel>
-          <Input
-            id="email"
-            onChange={e => onFormUpdate({ email: e.target.value })}
-            placeholder={STRING_EMAIL_PLACEHOLDER}
-            value={email}
-          />
-          {emailError ? <FormHelperText>{emailError}</FormHelperText> : null}
-        </FormControl>
-        <br />
-        <br />
+      <DialogContent className={classes.dialogContent}>
         <TextField
-          className={classes.textField}
+          fullWidth
+          disabled={isSaving}
+          id="email"
+          label={emailError || STRING_EMAIL}
+          margin="normal"
+          onChange={e => onFormUpdate({ email: e.target.value })}
+          placeholder={STRING_EMAIL_PLACEHOLDER}
+          value={email}
+          error={Boolean(emailError)}
+        />
+        <TextField
+          fullWidth
           disabled={isSaving}
           id="displayName"
           label={STRING_DISPLAY_NAME}
-          marginForm
+          margin="normal"
           onChange={e => onFormUpdate({ displayName: e.target.value })}
           placeholder={STRING_DISPLAY_NAME_PLACEHOLDER}
           value={displayName}
         />
-      </div>
-      <div className={classes.formFooter}>
+      </DialogContent>
+      <DialogActions>
         <Button
           color="primary"
           disabled={isSaving}
@@ -88,22 +77,25 @@ const Profile = (props) => {
         >
           {isSaving ? STRING_SAVING : STRING_SAVE}
         </Button>
-      </div>
+      </DialogActions>
     </div>
   );
 };
 
 Profile.defaultProps = {
+  displayName: null,
+  email: null,
+  emailError: null,
 };
 
 Profile.propTypes = {
   classes: PropTypes.object.isRequired,
-  displayName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.string.isRequired,
+  displayName: PropTypes.string,
+  email: PropTypes.string,
+  emailError: PropTypes.string,
   isSaving: PropTypes.bool.isRequired,
-  onFormUpdate: PropTypes.bool.isRequired,
-  onSave: PropTypes.bool.isRequired,
+  onFormUpdate: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

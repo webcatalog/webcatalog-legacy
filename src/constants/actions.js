@@ -25,12 +25,6 @@ export const USER_GET_REQUEST = 'USER_GET_REQUEST';
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
 export const USER_GET_FAILED = 'USER_GET_FAILED';
 
-// My Apps
-export const MY_APPS_RESET = 'MY_APPS_RESET';
-export const MY_APPS_GET_FAILED = 'MY_APPS_GET_FAILED';
-export const MY_APPS_GET_REQUEST = 'MY_APPS_GET_REQUEST';
-export const MY_APPS_GET_SUCCESS = 'MY_APPS_GET_SUCCESS';
-
 // updater
 export const SET_UPDATER_STATUS = 'SET_UPDATER_STATUS';
 

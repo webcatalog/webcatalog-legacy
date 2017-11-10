@@ -9,12 +9,8 @@ import connectComponent from '../../helpers/connect-component';
 import {
   resetAndGetApps as refreshTopCharts,
 } from '../../actions/pages/top-charts/actions';
-import {
-  resetAndGetMyApps as refreshMyApps,
-} from '../../actions/pages/my-apps/actions';
 
 import {
-  ROUTE_MY_APPS,
   ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
 
@@ -25,7 +21,6 @@ import {
 const RefreshButton = (props) => {
   const {
     route,
-    onRefreshMyApps,
     onRefreshTopCharts,
   } = props;
 
@@ -33,9 +28,6 @@ const RefreshButton = (props) => {
   switch (route) {
     case ROUTE_TOP_CHARTS:
       handleClick = onRefreshTopCharts;
-      break;
-    case ROUTE_MY_APPS:
-      handleClick = onRefreshMyApps;
       break;
     default:
       handleClick = null;
@@ -58,7 +50,6 @@ RefreshButton.defaultProps = {
 };
 
 RefreshButton.propTypes = {
-  onRefreshMyApps: PropTypes.func.isRequired,
   onRefreshTopCharts: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
@@ -68,7 +59,6 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  refreshMyApps,
   refreshTopCharts,
 };
 

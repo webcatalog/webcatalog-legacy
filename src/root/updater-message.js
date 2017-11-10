@@ -13,7 +13,7 @@ import {
 } from '../constants/updater-statuses';
 
 import {
-  STRING_RESTART_NOW,
+  STRING_UPDATE_AND_RELAUNCH,
   STRING_UPDATE_DOWNLOADED,
   STRING_WHATS_NEW,
   STRING_GO_TO_THE_WEBSITE,
@@ -77,7 +77,7 @@ const UpdaterMessage = (props) => {
           className={classes.updaterPaperLink}
           onClick={() => requestQuitAndInstall()}
         >
-          {STRING_RESTART_NOW}
+          {STRING_UPDATE_AND_RELAUNCH}
         </Button>
       </div>
     );

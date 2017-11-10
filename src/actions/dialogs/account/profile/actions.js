@@ -15,6 +15,7 @@ import { apiPatch } from '../../../api';
 const getValidationRules = () => ({
   email: {
     fieldName: 'Email',
+    email: true,
     required: true,
   },
 });

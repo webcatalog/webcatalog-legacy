@@ -69,11 +69,12 @@ EmptyState.defaultProps = {
 
 EmptyState.propTypes = {
   children: PropTypes.oneOfType([
-    PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+    PropTypes.string,
   ]),
   classes: PropTypes.object.isRequired,
-  icon: PropTypes.element.isRequired,
+  icon: PropTypes.func.isRequired,
   title: PropTypes.string,
 };
 
