@@ -3,16 +3,23 @@ import fetch from 'node-fetch';
 
 const versionApiRouter = express.Router();
 
+let cachedResponse;
 versionApiRouter.get('/latest', (req, res, next) => {
-  fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/package.json`)
+  if (cachedResponse) {
+    return res.json(cachedResponse);
+  }
+
+  return fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/package.json`)
     .then(response => response.json())
     .then((packageJson) => {
       const { version, dependencies } = packageJson;
 
-      res.json({
+      cachedResponse = {
         moleculeVersion: dependencies['@webcatalog/molecule'],
         version,
-      });
+      };
+
+      return res.json(cachedResponse);
     })
     .catch(next);
 });

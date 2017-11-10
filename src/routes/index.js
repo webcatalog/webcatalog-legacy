@@ -89,11 +89,17 @@ router.get('/download/:platform(mac|windows|linux)', (req, res) => {
     });
 });
 
+let cachedContent;
 router.get('/release-notes', (req, res, next) => {
-  fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/RELEASE_NOTES.md`)
+  if (cachedContent) {
+    return res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(cachedContent) });
+  }
+
+  return fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/RELEASE_NOTES.md`)
     .then(response => response.text())
     .then((mdContent) => {
-      res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
+      cachedContent = mdContent;
+      return res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
     })
     .catch(next);
 });
