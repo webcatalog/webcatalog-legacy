@@ -68,6 +68,10 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
     return next(new errors.BadRequest());
   }
 
+  if (req.body.email && !isEmail(req.body.email)) {
+    return next(new errors.BadRequest());
+  }
+
   return User.findById(req.user.id)
     .then((user) => {
       const newAttributes = {};
