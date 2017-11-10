@@ -38,6 +38,7 @@ import { open as openDialogClearBrowsingData } from '../../state/dialogs/clear-b
 import { open as openDialogHomePage } from '../../state/dialogs/home-page/actions';
 import { open as openDialogInjectCSS } from '../../state/dialogs/inject-css/actions';
 import { open as openDialogInjectJS } from '../../state/dialogs/inject-js/actions';
+import { open as openDialogProxyRules } from '../../state/dialogs/proxy-rules/actions';
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { open as openDialogReset } from '../../state/dialogs/reset/actions';
 import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
@@ -73,6 +74,7 @@ import {
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
   STRING_PRIVACY_NOTE,
+  STRING_PROXIES,
   STRING_REMEMER_LAST_PAGE,
   STRING_RESET_DESC,
   STRING_RESET,
@@ -204,10 +206,12 @@ class PreferencesDialog extends React.Component {
       onOpenDialogHomePage,
       onOpenDialogInjectCSS,
       onOpenDialogInjectJS,
+      onOpenDialogProxyRules,
       onOpenDialogRelaunch,
       onOpenDialogReset,
       onOpenDialogUserAgent,
       open,
+      proxyRules,
       rememberLastPage,
       showNavigationBar,
       showTitleBar,
@@ -675,6 +679,25 @@ class PreferencesDialog extends React.Component {
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
+                <Divider />
+                <ListItem button onClick={onOpenDialogProxyRules}>
+                  <ListItemText
+                    primary={STRING_PROXIES}
+                    secondary={
+                      proxyRules && proxyRules.length > 0 ?
+                        proxyRules
+                        : STRING_NONE
+                    }
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      aria-label={STRING_CHANGE}
+                      onClick={onOpenDialogProxyRules}
+                    >
+                      <KeyboardArrowRightIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
               </List>
             </Paper>
 
@@ -785,6 +808,7 @@ PreferencesDialog.defaultProps = {
   injectJS: '',
   navigationBarPosition: 'left',
   open: false,
+  proxyRules: null,
   rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
@@ -808,10 +832,12 @@ PreferencesDialog.propTypes = {
   onOpenDialogHomePage: PropTypes.func.isRequired,
   onOpenDialogInjectCSS: PropTypes.func.isRequired,
   onOpenDialogInjectJS: PropTypes.func.isRequired,
+  onOpenDialogProxyRules: PropTypes.func.isRequired,
   onOpenDialogRelaunch: PropTypes.func.isRequired,
   onOpenDialogReset: PropTypes.func.isRequired,
   onOpenDialogUserAgent: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  proxyRules: PropTypes.string,
   rememberLastPage: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
@@ -828,6 +854,7 @@ const mapStateToProps = (state) => {
     injectCSS,
     injectJS,
     navigationBarPosition,
+    proxyRules,
     rememberLastPage,
     showNavigationBar,
     showTitleBar,
@@ -846,6 +873,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
     navigationBarPosition,
     open: state.dialogs.preferences.open,
+    proxyRules,
     rememberLastPage,
     showNavigationBar,
     showTitleBar,
@@ -862,6 +890,7 @@ const actionCreators = {
   openDialogHomePage,
   openDialogInjectCSS,
   openDialogInjectJS,
+  openDialogProxyRules,
   openDialogRelaunch,
   openDialogReset,
   openDialogUserAgent,

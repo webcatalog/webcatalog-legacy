@@ -10,7 +10,9 @@ const defaultPreferences = {
   homePage: null,
   injectCSS: '',
   injectJS: '',
+  lastPage: null,
   navigationBarPosition: 'left',
+  proxyRules: null,
   rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
@@ -18,7 +20,6 @@ const defaultPreferences = {
   useHardwareAcceleration: true,
   userAgent: null,
   useSpellChecker: true,
-  lastPage: null,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));

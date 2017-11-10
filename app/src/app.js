@@ -49,6 +49,7 @@ import DialogHomePage from './dialogs/home-page';
 import DialogInjectCSS from './dialogs/inject-css';
 import DialogInjectJS from './dialogs/inject-js';
 import DialogPreferences from './dialogs/preferences';
+import DialogProxyRules from './dialogs/proxy-rules';
 import DialogRelaunch from './dialogs/relaunch';
 import DialogReset from './dialogs/reset';
 import DialogUserAgent from './dialogs/user-agent';
@@ -389,6 +390,7 @@ class App extends React.Component {
         <DialogInjectCSS />
         <DialogInjectJS />
         <DialogPreferences />
+        <DialogProxyRules />
         <DialogRelaunch />
         <DialogReset />
         <DialogUserAgent />

@@ -3,6 +3,7 @@ const {
   app,
   BrowserWindow,
   nativeImage,
+  session,
 } = require('electron');
 const path = require('path');
 
@@ -55,6 +56,7 @@ try {
 const createWindow = () => {
   const preferences = getPreferences();
   const {
+    proxyRules,
     swipeToNavigate,
   } = preferences;
 
@@ -84,6 +86,12 @@ const createWindow = () => {
 
   // link window with window size management lib
   mainWindowState.manage(mainWindow);
+
+  // set proxy
+  session.fromPartition('persist:app').setProxy({ proxyRules }, () => {
+    // eslint-disable-next-line
+    console.log('Proxies are set');
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.resolve(__dirname, '..', 'build', 'index.html')}`);

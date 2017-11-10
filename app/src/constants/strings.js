@@ -79,3 +79,4 @@ export const STRING_USE_AT_YOUR_OWN_RISK = 'Use at your at your own risk. If you
 export const STRING_USE_HARDWARE_ACCELERATION = 'Use hardware acceleration when available';
 export const STRING_USER_AGENT = 'User agent';
 export const STRING_RESET_TO_DEFAULT = 'Reset to Default';
+export const STRING_PROXIES = 'Proxies';
