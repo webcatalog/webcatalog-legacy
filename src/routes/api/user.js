@@ -1,6 +1,5 @@
 import express from 'express';
 import passport from 'passport';
-import sequelize from 'sequelize';
 import crypto from 'crypto';
 import errors from 'throw.js';
 import bcrypt from 'bcryptjs';
@@ -8,8 +7,6 @@ import aws from 'aws-sdk';
 import nodemailer from 'nodemailer';
 
 import User from '../../models/User';
-import App from '../../models/App';
-import Action from '../../models/Action';
 
 import isEmail from '../../libs/isEmail';
 
@@ -203,51 +200,6 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
           });
         });
     });
-});
-
-userApiRouter.get('/apps', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  const currentPage = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 24;
-  const offset = (currentPage - 1) * limit;
-
-  if (limit > 100) {
-    return next(new errors.BadRequest('Maximum limit: 100'));
-  }
-
-  let totalPage = 1;
-
-  return Action.findAndCountAll({
-    attributes: [[sequelize.fn('DISTINCT', sequelize.col('appId')), 'appId'], 'createdAt'],
-    where: { userId: req.user.id },
-    offset,
-    limit,
-    order: [['createdAt', 'DESC']],
-  })
-    .then(({ count, rows }) => {
-      totalPage = Math.ceil(count / limit);
-
-      const opts = {
-        attributes: ['id', 'slug', 'name', 'url', 'version'],
-        where: {
-          isActive: true,
-          id: {
-            $in: rows.map(action => action.appId),
-          },
-        },
-      };
-
-      return App.findAll(opts);
-    })
-    .then((rows) => {
-      console.log(rows);
-      if (currentPage > totalPage && currentPage > 1) throw new errors.NotFound();
-
-      return res.json({
-        apps: rows,
-        totalPage,
-      });
-    })
-    .catch(next);
 });
 
 module.exports = userApiRouter;
