@@ -13,8 +13,10 @@ appApiRouter.get('/apps', (req, res, next) => {
   }
 
   const { q } = req.query;
+  const page = req.query.page || 0;
+  const hitsPerPage = req.query.hitsPerPage || 48;
 
-  return index.search(q, { hitsPerPage: 48 })
+  return index.search(q, { hitsPerPage, page })
     .then(result => res.json(result))
     .catch(next);
 });
