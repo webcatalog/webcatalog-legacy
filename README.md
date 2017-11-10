@@ -1,8 +1,9 @@
 <!--
-Inspired by https://github.com/reddit/reddit/blob/f943ac95dea022c65e1b131b1936b2453da8cd3e/README.md 
+Inspired by https://github.com/reddit/reddit/blob/f943ac95dea022c65e1b131b1936b2453da8cd3e/README.md
 -->
 
 # WebCatalog Server
+[![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog-server.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog-server)
 
 This is the primary codebase that powers [webcatalog.io](https://webcatalog.io).
 
