@@ -105,11 +105,15 @@ router.get('/release-notes', (req, res, next) => {
 });
 
 router.get('/support', (req, res) => {
-  res.redirect('/help');
+  res.redirect('/contact');
 });
 
 router.get('/help', (req, res) => {
-  res.render('help', { title: 'Support' });
+  res.redirect('/contact');
+});
+
+router.get('/contact', (req, res) => {
+  res.render('contact', { title: 'Contact' });
 });
 
 router.get('/privacy', (req, res) => {
