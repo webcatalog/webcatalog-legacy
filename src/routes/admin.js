@@ -1,11 +1,12 @@
+import aws from 'aws-sdk';
+import errors from 'throw.js';
 import express from 'express';
+import fetch from 'node-fetch';
+import moment from 'moment';
 import multer from 'multer';
 import s3 from 's3';
 import sharp from 'sharp';
 import slug from 'slug';
-import fetch from 'node-fetch';
-import errors from 'throw.js';
-import moment from 'moment';
 
 import App from '../models/App';
 import Draft from '../models/Draft';
@@ -32,6 +33,8 @@ const s3Client = s3.createClient({
     region: 'us-east-1',
   },
 });
+
+const cloudfront = new aws.CloudFront({ apiVersion: '2017-03-25' });
 
 const uploadToS3Async = (localPath, s3Path) =>
   new Promise((resolve, reject) => {
@@ -261,6 +264,27 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
             description,
             wikipediaTitle: req.body.wikipediaTitle,
           }))
+        .then(() => {
+          const params = {
+            DistributionId: process.env.CLOUDFRONT_DISTRIBUTION_ID, /* required */
+            InvalidationBatch: { /* required */
+              CallerReference: String(Math.floor(Date.now() / 1000)), /* required */
+              Paths: { /* required */
+                Quantity: 1, /* required */
+                Items: [
+                  `/${app.id}*`,
+                ],
+              },
+            },
+          };
+
+          return new Promise((resolve, reject) => {
+            cloudfront.createInvalidation(params, (err, data) => {
+              if (err) reject(err); // an error occurred
+              else resolve(data); // successful response
+            });
+          });
+        })
         .then(() => {
           const plainApp = app.get({ plain: true });
           plainApp.objectID = plainApp.id;
