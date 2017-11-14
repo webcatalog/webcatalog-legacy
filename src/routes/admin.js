@@ -7,6 +7,7 @@ import multer from 'multer';
 import s3 from 's3';
 import sharp from 'sharp';
 import slug from 'slug';
+import cloudflare from 'cloudflare';
 
 import App from '../models/App';
 import Draft from '../models/Draft';
@@ -35,6 +36,11 @@ const s3Client = s3.createClient({
 });
 
 const cloudfront = new aws.CloudFront({ apiVersion: '2017-03-25' });
+
+const cf = cloudflare({
+  email: process.env.CLOUDFLARE_EMAIL,
+  key: process.env.CLOUDFLARE_API_KEY,
+});
 
 const uploadToS3Async = (localPath, s3Path) =>
   new Promise((resolve, reject) => {
@@ -284,6 +290,19 @@ adminRouter.post('/edit/id:id', upload.single('icon'), (req, res, next) => {
               else resolve(data); // successful response
             });
           });
+        })
+        .then(() => {
+          const params = {
+            files: [
+              `https://cdn.webcatalog.io/${app.id}.png`,
+              `https://cdn.webcatalog.io/${app.id}.webp`,
+              `https://cdn.webcatalog.io/${app.id}@128px.png`,
+              `https://cdn.webcatalog.io/${app.id}@128px.webp`,
+              `https://cdn.webcatalog.io/${app.id}.icns`,
+              `https://cdn.webcatalog.io/${app.id}.ico`,
+            ],
+          };
+          return cf.zones.purgeCache(process.env.CLOUDFLARE_ZONE_ID, params);
         })
         .then(() => {
           const plainApp = app.get({ plain: true });

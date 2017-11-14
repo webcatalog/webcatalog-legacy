@@ -18,6 +18,7 @@ For notices about major changes and general discussion of WebCatalog development
 - Amazon CloudFront
 - Google OAuth
 - Algolia
+- Cloudflare
 
 Then, set the environment variables:
 ```
@@ -27,6 +28,9 @@ ALGOLIASEARCH_APPLICATION_ID=
 ALGOLIASEARCH_INDEX_NAME=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+CLOUDFLARE_API_KEY=
+CLOUDFLARE_EMAIL=
+CLOUDFLARE_ZONE_ID=
 CLOUDFRONT_DISTRIBUTION_ID=
 DATABASE_URL=
 GOOGLE_CALLBACK_URL=

@@ -220,6 +220,10 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
+autocreate@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/autocreate/-/autocreate-1.1.0.tgz#d85351fea404ea73ccd1d661c02877e96f0f090d"
+
 aws-sdk@2.141.0:
   version "2.141.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.141.0.tgz#3d96a5970fd9f540ceabcc1d4baeb33b71583aa7"
@@ -1008,6 +1012,17 @@ cliui@^3.2.0:
     strip-ansi "^3.0.1"
     wrap-ansi "^2.0.0"
 
+cloudflare@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/cloudflare/-/cloudflare-2.2.0.tgz#1e1d135f3590e88698ea7a795ecb5aaf4d6667bd"
+  dependencies:
+    autocreate "^1.1.0"
+    es-class "^2.1.1"
+    got "^6.3.0"
+    object-assign "^4.1.0"
+    url-join "^1.1.0"
+    url-pattern "^1.0.3"
+
 cls-bluebird@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/cls-bluebird/-/cls-bluebird-2.0.1.tgz#c259a480ae02c0e506134307bb13db30446ee2e7"
@@ -1389,6 +1404,10 @@ es-abstract@^1.7.0:
     has "^1.0.1"
     is-callable "^1.1.3"
     is-regex "^1.0.4"
+
+es-class@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/es-class/-/es-class-2.1.1.tgz#6ec2243b5a1e3581c0b7eecee0130c9c0d6fb2b7"
 
 es-to-primitive@^1.1.1:
   version "1.1.1"
@@ -1964,7 +1983,7 @@ globule@^1.0.0:
     lodash "~4.17.4"
     minimatch "~3.0.2"
 
-got@^6.7.1:
+got@^6.3.0, got@^6.7.1:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/got/-/got-6.7.1.tgz#240cd05785a9a18e561dc1b44b41c763ef1e8db0"
   dependencies:
@@ -4380,11 +4399,19 @@ update-notifier@^2.2.0:
     semver-diff "^2.0.0"
     xdg-basedir "^3.0.0"
 
+url-join@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/url-join/-/url-join-1.1.0.tgz#741c6c2f4596c4830d6718460920d0c92202dc78"
+
 url-parse-lax@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/url-parse-lax/-/url-parse-lax-1.0.0.tgz#7af8f303645e9bd79a272e7a14ac68bc0609da73"
   dependencies:
     prepend-http "^1.0.1"
+
+url-pattern@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/url-pattern/-/url-pattern-1.0.3.tgz#0409292471b24f23c50d65a47931793d2b5acfc1"
 
 url-to-options@^1.0.1:
   version "1.0.1"

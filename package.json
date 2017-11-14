@@ -26,6 +26,7 @@
     "bcryptjs": "2.4.3",
     "body-parser": "1.18.2",
     "bulma": "0.6.0",
+    "cloudflare": "2.2.0",
     "connect-session-sequelize": "5.0.0",
     "cors": "2.8.4",
     "ejs": "2.5.7",
