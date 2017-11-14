@@ -67,10 +67,7 @@ const sharpAsync = (inputPath, outputPath, newSize) =>
     // Generate WebP & PNG
     let p = sharp(inputPath);
     if (newSize) {
-      p = p.resize(newSize, newSize, {
-        kernel: sharp.kernel.cubic,
-        interpolator: sharp.interpolator.bicubic,
-      });
+      p = p.resize(newSize, newSize);
     }
 
     p = p.toFile(outputPath, (err) => {
