@@ -51,12 +51,13 @@ mkdir -p "${ICONSET}"
 PNG_PATH=$1
 
 # Resample image into iconset
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 16x16 "${ICONSET}/icon_16x16.png"
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 32x32 "${ICONSET}/icon_32x32.png"
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 128x128 "${ICONSET}/icon_128x128.png"
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 256x256 "${ICONSET}/icon_256x256.png"
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 512x512 "${ICONSET}/icon_512x512.png"
-convert "${PNG_PATH}" -define png:big-depth=16 -define png:color-type=6 -sample 1024x1024 "${ICONSET}/icon_1024x1024.png"
+convert "${PNG_PATH}" -resize 16x16 "${ICONSET}/icon_16x16.png"
+convert "${PNG_PATH}" -resize 32x32 "${ICONSET}/icon_32x32.png"
+convert "${PNG_PATH}" -resize 64x64 "${ICONSET}/icon_32x32@2x.png"
+convert "${PNG_PATH}" -resize 128x128 "${ICONSET}/icon_128x128.png"
+convert "${PNG_PATH}" -resize 256x256 "${ICONSET}/icon_256x256.png"
+convert "${PNG_PATH}" -resize 512x512 "${ICONSET}/icon_512x512.png"
+convert "${PNG_PATH}" -resize 1024x1024 "${ICONSET}/icon_1024x1024.png"
 
 # Create an icns file lefrom the iconset
 png2icns "${DEST}" "${ICONSET}"/icon_*.png
