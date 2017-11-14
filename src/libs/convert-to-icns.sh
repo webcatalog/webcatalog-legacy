@@ -53,7 +53,6 @@ PNG_PATH=$1
 # Resample image into iconset
 convert "${PNG_PATH}" -resize 16x16 "${ICONSET}/icon_16x16.png"
 convert "${PNG_PATH}" -resize 32x32 "${ICONSET}/icon_32x32.png"
-convert "${PNG_PATH}" -resize 64x64 "${ICONSET}/icon_32x32@2x.png"
 convert "${PNG_PATH}" -resize 128x128 "${ICONSET}/icon_128x128.png"
 convert "${PNG_PATH}" -resize 256x256 "${ICONSET}/icon_256x256.png"
 convert "${PNG_PATH}" -resize 512x512 "${ICONSET}/icon_512x512.png"
