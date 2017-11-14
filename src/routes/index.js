@@ -5,13 +5,13 @@ import ensureIsAdmin from '../middlewares/ensure-is-admin';
 
 import App from '../models/app';
 
-const router = express.Router();
-
 import adminRoutes from './admin';
 import apiRoutes from './api';
 import appRoutes from './apps';
 import authRoutes from './auth';
 import sitemapRoute from './sitemap';
+
+const router = express.Router();
 
 router.get(['/', '/download', '/downloads'], (req, res) => {
   const ua = req.headers['user-agent'];
