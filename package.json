@@ -28,7 +28,6 @@
     "bulma": "0.6.0",
     "cloudflare": "2.2.0",
     "connect-session-sequelize": "5.0.0",
-    "cors": "2.8.4",
     "ejs": "2.5.7",
     "express": "4.16.2",
     "express-session": "1.15.6",

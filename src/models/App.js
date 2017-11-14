@@ -2,8 +2,6 @@ import Sequelize from 'sequelize';
 
 import sequelize from '../sequelize';
 
-import User from './User';
-
 const App = sequelize.define('app', {
   id: {
     primaryKey: true,
@@ -52,8 +50,4 @@ const App = sequelize.define('app', {
   },
 });
 
-App.User = App.belongsTo(User);
-
-App.sync();
-
-module.exports = App;
+export default App;

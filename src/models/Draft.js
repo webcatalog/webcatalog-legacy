@@ -2,8 +2,6 @@ import Sequelize from 'sequelize';
 
 import sequelize from '../sequelize';
 
-import User from './User';
-
 const Draft = sequelize.define('draft', {
   id: {
     primaryKey: true,
@@ -21,8 +19,4 @@ const Draft = sequelize.define('draft', {
   },
 });
 
-Draft.User = Draft.belongsTo(User);
-
-Draft.sync();
-
-module.exports = Draft;
+export default Draft;

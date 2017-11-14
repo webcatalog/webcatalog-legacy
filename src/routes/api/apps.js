@@ -2,8 +2,8 @@ import express from 'express';
 import passport from 'passport';
 import errors from 'throw.js';
 
-import App from '../../models/App';
-import Action from '../../models/Action';
+import App from '../../models/app';
+import Action from '../../models/action';
 import categories from '../../constants/categories';
 
 const appApiRouter = express.Router();
@@ -110,4 +110,4 @@ appApiRouter.get('/:id', (req, res, next) => {
   })(req, res, next);
 });
 
-module.exports = appApiRouter;
+export default appApiRouter;

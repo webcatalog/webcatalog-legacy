@@ -9,14 +9,14 @@ import sharp from 'sharp';
 import slug from 'slug';
 import cloudflare from 'cloudflare';
 
-import App from '../models/App';
-import Draft from '../models/Draft';
-import User from '../models/User';
+import App from '../models/app';
+import Draft from '../models/draft';
+import User from '../models/user';
 import categories from '../constants/categories';
-import convertToIcns from '../libs/convertToIcns';
-import convertToIco from '../libs/convertToIco';
-import algoliaClient from '../algoliaClient';
-import mailTransporter from '../mailTransporter';
+import convertToIcns from '../libs/convert-to-icns';
+import convertToIco from '../libs/convert-to-ico';
+import algoliaClient from '../algolia-client';
+import mailTransporter from '../mail-transporter';
 
 const adminRouter = express.Router();
 
@@ -366,4 +366,4 @@ adminRouter.post('/apps/add', upload.single('icon'), (req, res, next) => {
     .catch(next);
 });
 
-module.exports = adminRouter;
+export default adminRouter;

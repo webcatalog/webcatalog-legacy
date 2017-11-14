@@ -4,8 +4,8 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: !process.env.DATABASE_URL.startsWith('postgresql://localhost'),
+    ssl: !process.env.DATABASE_URL.includes('localhost'),
   },
 });
 
-module.exports = sequelize;
+export default sequelize;

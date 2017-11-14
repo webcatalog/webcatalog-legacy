@@ -9,4 +9,4 @@ const ensureLoggedIn = (req, res, next) => {
   return next();
 };
 
-module.exports = ensureLoggedIn;
+export default ensureLoggedIn;

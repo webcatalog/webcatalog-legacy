@@ -24,4 +24,4 @@ versionApiRouter.get('/latest', (req, res, next) => {
     .catch(next);
 });
 
-module.exports = versionApiRouter;
+export default versionApiRouter;

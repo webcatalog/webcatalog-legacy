@@ -11,6 +11,4 @@ const Session = sequelize.define('session', {
   data: Sequelize.STRING(50000),
 });
 
-Session.sync();
-
-module.exports = Session;
+export default Session;

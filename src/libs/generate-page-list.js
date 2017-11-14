@@ -14,4 +14,4 @@ const generatePageList = (currentPage, totalPage) => {
   return pages;
 };
 
-module.exports = generatePageList;
+export default generatePageList;

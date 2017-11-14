@@ -32,4 +32,4 @@ authApiRouter.post(
   },
 );
 
-module.exports = authApiRouter;
+export default authApiRouter;

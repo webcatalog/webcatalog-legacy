@@ -6,10 +6,10 @@ import crypto from 'crypto';
 import errors from 'throw.js';
 import url from 'url';
 
-import User from '../models/User';
-import isEmail from '../libs/isEmail';
-import ensureLoggedIn from '../middlewares/ensureLoggedIn';
-import mailTransporter from '../mailTransporter';
+import User from '../models/user';
+import isEmail from '../libs/is-email';
+import ensureLoggedIn from '../middlewares/ensure-logged-in';
+import mailTransporter from '../mail-transporter';
 
 const authRouter = express.Router();
 
@@ -328,4 +328,4 @@ authRouter.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-module.exports = authRouter;
+export default authRouter;

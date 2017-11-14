@@ -6,9 +6,9 @@ import bcrypt from 'bcryptjs';
 import aws from 'aws-sdk';
 import nodemailer from 'nodemailer';
 
-import User from '../../models/User';
+import User from '../../models/user';
 
-import isEmail from '../../libs/isEmail';
+import isEmail from '../../libs/is-email';
 
 const userApiRouter = express.Router();
 
@@ -202,4 +202,4 @@ userApiRouter.patch('/', passport.authenticate('jwt', { session: false }), (req,
     });
 });
 
-module.exports = userApiRouter;
+export default userApiRouter;

@@ -4,4 +4,4 @@ const isEmail = (email) => {
   return re.test(email);
 };
 
-module.exports = isEmail;
+export default isEmail;

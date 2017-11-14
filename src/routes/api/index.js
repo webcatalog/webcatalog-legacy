@@ -16,4 +16,4 @@ apiRouter.use('/user', user);
 apiRouter.use('/version', version);
 apiRouter.use('/search', search);
 
-module.exports = apiRouter;
+export default apiRouter;

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import App from '../models/App';
+import App from '../models/app';
 import categories from '../constants/categories';
 
 const sitemapRoute = express.Router();
@@ -34,4 +34,4 @@ sitemapRoute.get('/', (req, res, next) => {
     .catch(next);
 });
 
-module.exports = sitemapRoute;
+export default sitemapRoute;

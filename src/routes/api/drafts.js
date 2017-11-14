@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import errors from 'throw.js';
 
-import Draft from '../../models/Draft';
+import Draft from '../../models/draft';
 
 const draftApiRouter = express.Router();
 
@@ -24,4 +24,4 @@ draftApiRouter.post('/', passport.authenticate('jwt', { session: false }), (req,
 });
 
 
-module.exports = draftApiRouter;
+export default draftApiRouter;

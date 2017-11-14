@@ -21,4 +21,4 @@ const categories = [
   'utilities',
 ];
 
-module.exports = categories;
+export default categories;

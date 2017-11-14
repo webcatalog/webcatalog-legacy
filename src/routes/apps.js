@@ -1,11 +1,11 @@
 import express from 'express';
 import errors from 'throw.js';
 
-import App from '../models/App';
+import App from '../models/app';
 import categories from '../constants/categories';
-import extractDomain from '../libs/extractDomain';
-import generatePageList from '../libs/generatePageList';
-import algoliaClient from '../algoliaClient';
+import extractDomain from '../libs/extract-domain';
+import generatePageList from '../libs/generate-page-list';
+import algoliaClient from '../algolia-client';
 
 const appsRouter = express.Router();
 
@@ -114,4 +114,4 @@ appsRouter.get(['/details/:id', '/details/:slug/:id'], (req, res, next) => {
     .catch(next);
 });
 
-module.exports = appsRouter;
+export default appsRouter;

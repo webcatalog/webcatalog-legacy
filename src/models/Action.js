@@ -2,9 +2,6 @@ import Sequelize from 'sequelize';
 
 import sequelize from '../sequelize';
 
-import App from './App';
-import User from './User';
-
 const Action = sequelize.define('action', {
   id: {
     primaryKey: true,
@@ -16,9 +13,4 @@ const Action = sequelize.define('action', {
   },
 });
 
-Action.App = Action.belongsTo(App);
-Action.User = Action.belongsTo(User);
-
-Action.sync();
-
-module.exports = Action;
+export default Action;

@@ -5,7 +5,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import errors from 'throw.js';
 
-import User from './models/User';
+import User from './models/user';
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -92,4 +92,4 @@ passport.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
     .catch(err => done(err, false));
 }));
 
-module.exports = passport;
+export default passport;

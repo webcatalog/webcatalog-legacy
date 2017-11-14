@@ -15,4 +15,4 @@ const ensureIsAdmin = (req, res, next) => {
   return next();
 };
 
-module.exports = ensureIsAdmin;
+export default ensureIsAdmin;

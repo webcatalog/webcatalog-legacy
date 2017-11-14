@@ -1,9 +1,9 @@
 // https://raw.githubusercontent.com/jiahaog/nativefier/9243f6689fe1cacc2311ee009bd96b705b32d8ad/src/helpers/convertToIco.js
 
-const shell = require('shelljs');
-const path = require('path');
+import shell from 'shelljs';
+import path from 'path';
 
-const PNG_TO_ICO_BIN_PATH = path.join(__dirname, 'convertToIco.sh');
+const PNG_TO_ICO_BIN_PATH = path.join(__dirname, 'convert-to-ico.sh');
 
 const convertToIco = (pngSrc, icoDest) =>
   new Promise((resolve, reject) => {
@@ -17,4 +17,4 @@ const convertToIco = (pngSrc, icoDest) =>
     });
   });
 
-module.exports = convertToIco;
+export default convertToIco;

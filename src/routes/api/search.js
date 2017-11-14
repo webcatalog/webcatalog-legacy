@@ -1,7 +1,7 @@
 import express from 'express';
 import errors from 'throw.js';
 
-import algoliaClient from '../../algoliaClient';
+import algoliaClient from '../../algolia-client';
 
 const appApiRouter = express.Router();
 
@@ -21,4 +21,4 @@ appApiRouter.get('/apps', (req, res, next) => {
     .catch(next);
 });
 
-module.exports = appApiRouter;
+export default appApiRouter;
