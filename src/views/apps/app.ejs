@@ -49,10 +49,12 @@
             <div class="twitter-share-button-container"><a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a></div>
 
             <% if (user && user.isAdmin) { %>
+            <hr />
             <a class="button" href="/admin/edit/id<%= app.id %>">
               <span class="icon">
                 <i class="fa fa-pencil"></i>
               </span>
+              <span>Edit This App</span>
             </a>
             <% } %>
           </div>
