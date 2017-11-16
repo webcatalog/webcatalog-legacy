@@ -19,7 +19,7 @@ import {
 } from '../../actions/pages/log-in/actions';
 
 import {
-  STRING_CONTINUE_WITHOUT_LOGGING_IN,
+  STRING_CONTINUE_WITHOUT_AN_ACCOUNT,
   STRING_CREATE_ACCOUNT,
   STRING_EMAIL,
   STRING_FORGOT_PASSWORD,
@@ -226,7 +226,7 @@ const Auth = (props) => {
         <Button
           onClick={() => requestWriteTokenToDisk('anonymous')}
         >
-          {STRING_CONTINUE_WITHOUT_LOGGING_IN}
+          {STRING_CONTINUE_WITHOUT_AN_ACCOUNT}
         </Button>
       </div>
     </div>
