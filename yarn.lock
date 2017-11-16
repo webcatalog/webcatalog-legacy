@@ -26,9 +26,9 @@
   version "7.0.46"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.46.tgz#c3dedd25558c676b3d6303e51799abb9c3f8f314"
 
-"@webcatalog/molecule@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.4.0.tgz#b7cd82f2b51f326299851c5b04987f92545fb1a0"
+"@webcatalog/molecule@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@webcatalog/molecule/-/molecule-1.5.0.tgz#e76804d25d69ba192d07ba479a739ccb8ffae483"
   dependencies:
     electron-packager "9.1.0"
     fs-extra "4.0.2"
