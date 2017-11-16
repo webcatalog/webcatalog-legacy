@@ -373,7 +373,7 @@ class App extends React.Component {
       .replace(`Electron/${window.versions.electron}`, `Molecule/${window.packageJson.version}`) || customUserAgent;
 
     // force user to have title bar if they hide navigation bar
-    const shouldShowTitleBar = !isFullScreen && (showTitleBar || !showNavigationBar);
+    const shouldShowTitleBar = !isFullScreen && showTitleBar;
 
     let startUrl = window.shellInfo.url;
     if (homePage && homePage.length > 1) {

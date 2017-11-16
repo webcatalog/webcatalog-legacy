@@ -478,7 +478,6 @@ class PreferencesDialog extends React.Component {
                   <ListItem
                     button
                     onClick={() => {
-                      if (!showNavigationBar) return;
                       requestSetPreference('showTitleBar', !showTitleBar);
                     }}
                   >
@@ -487,8 +486,7 @@ class PreferencesDialog extends React.Component {
                     />
                     <ListItemSecondaryAction>
                       <Switch
-                        checked={showNavigationBar ? showTitleBar : true}
-                        disabled={!showNavigationBar}
+                        checked={showTitleBar}
                         onChange={(e, checked) => {
                           requestSetPreference('showTitleBar', checked);
                         }}
