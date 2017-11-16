@@ -334,6 +334,7 @@ class App extends React.Component {
       findInPageIsOpen,
       homePage,
       isFailed,
+      isFullScreen,
       isLoading,
       lastPage,
       navigationBarPosition,
@@ -358,7 +359,7 @@ class App extends React.Component {
       onReload,
     } = this;
 
-    const navElement = showNavigationBar && (
+    const navElement = !isFullScreen && showNavigationBar && (
       <NavigationBar
         onHomeButtonClick={onGoHome}
         onBackButtonClick={onGoBack}
@@ -372,7 +373,7 @@ class App extends React.Component {
       .replace(`Electron/${window.versions.electron}`, `Molecule/${window.packageJson.version}`) || customUserAgent;
 
     // force user to have title bar if they hide navigation bar
-    const shouldShowTitleBar = showTitleBar || !showNavigationBar;
+    const shouldShowTitleBar = !isFullScreen && (showTitleBar || !showNavigationBar);
 
     let startUrl = window.shellInfo.url;
     if (homePage && homePage.length > 1) {
@@ -492,6 +493,7 @@ App.propTypes = {
   findInPageText: PropTypes.string.isRequired,
   homePage: PropTypes.string,
   isFailed: PropTypes.bool,
+  isFullScreen: PropTypes.bool,
   isLoading: PropTypes.bool,
   lastPage: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
