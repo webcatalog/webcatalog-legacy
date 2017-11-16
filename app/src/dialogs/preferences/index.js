@@ -510,6 +510,7 @@ class PreferencesDialog extends React.Component {
                         checked={autoHideMenuBar}
                         onChange={(e, checked) => {
                           requestSetPreference('autoHideMenuBar', checked);
+                          onOpenDialogRelaunch();
                         }}
                       />
                     </ListItemSecondaryAction>
