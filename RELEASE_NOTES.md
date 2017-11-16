@@ -1,3 +1,10 @@
+## 7.6.0
+- Adds a shortcut to the “Installed Apps” page whenever updates are available.
+- Adds option to auto hide menu bar.
+- macOS: Adds option to hide both navigation bar and menu bar.
+
+---
+
 ## 7.5.0
 - Adds proxy support.
 - Improves stability.
