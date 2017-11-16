@@ -56,6 +56,7 @@ try {
 const createWindow = () => {
   const preferences = getPreferences();
   const {
+    autoHideMenuBar,
     proxyRules,
     swipeToNavigate,
   } = preferences;
@@ -75,7 +76,7 @@ const createWindow = () => {
     minWidth: 480,
     minHeight: 320,
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
-    autoHideMenuBar: false,
+    autoHideMenuBar,
     icon: process.platform === 'linux' ? nativeImage.createFromPath(path.join(app.getAppPath(), 'icon.png').replace('app.asar', 'app.asar.unpacked')) : null,
     webPreferences: {
       nodeIntegration: false,

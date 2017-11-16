@@ -80,3 +80,5 @@ export const STRING_USE_HARDWARE_ACCELERATION = 'Use hardware acceleration when 
 export const STRING_USER_AGENT = 'User agent';
 export const STRING_RESET_TO_DEFAULT = 'Reset to Default';
 export const STRING_PROXIES = 'Proxies';
+export const STRING_AUTO_HIDE_MENU_BAR = 'Auto hide menu bar';
+export const STRING_AUTO_HIDE_MENU_BAR_DESC = 'Auto hide the menu bar unless the Alt key is pressed';

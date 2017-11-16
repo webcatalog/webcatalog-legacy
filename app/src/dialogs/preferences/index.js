@@ -50,6 +50,8 @@ import {
   STRING_ACCOUNT,
   STRING_ADVANCED,
   STRING_APPERANCE,
+  STRING_AUTO_HIDE_MENU_BAR_DESC,
+  STRING_AUTO_HIDE_MENU_BAR,
   STRING_CHANGE,
   STRING_CLEAR_BROWSING_DATA_DESC,
   STRING_CLEAR_BROWSING_DATA,
@@ -193,6 +195,7 @@ class PreferencesDialog extends React.Component {
 
   render() {
     const {
+      autoHideMenuBar,
       classes,
       darkTheme,
       email,
@@ -488,6 +491,27 @@ class PreferencesDialog extends React.Component {
                         disabled={!showNavigationBar}
                         onChange={(e, checked) => {
                           requestSetPreference('showTitleBar', checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
+                {window.platform !== 'darwin' && (
+                  <ListItem
+                    button
+                    onClick={() => {
+                      requestSetPreference('autoHideMenuBar', !autoHideMenuBar);
+                    }}
+                  >
+                    <ListItemText
+                      primary={STRING_AUTO_HIDE_MENU_BAR}
+                      secondary={STRING_AUTO_HIDE_MENU_BAR_DESC}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={autoHideMenuBar}
+                        onChange={(e, checked) => {
+                          requestSetPreference('autoHideMenuBar', checked);
                         }}
                       />
                     </ListItemSecondaryAction>
@@ -801,6 +825,7 @@ class PreferencesDialog extends React.Component {
 }
 
 PreferencesDialog.defaultProps = {
+  autoHideMenuBar: false,
   darkTheme: false,
   email: null,
   homePage: null,
@@ -819,6 +844,7 @@ PreferencesDialog.defaultProps = {
 };
 
 PreferencesDialog.propTypes = {
+  autoHideMenuBar: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   darkTheme: PropTypes.bool,
   email: PropTypes.string,
@@ -849,6 +875,7 @@ PreferencesDialog.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
+    autoHideMenuBar,
     darkTheme,
     homePage,
     injectCSS,
@@ -865,6 +892,7 @@ const mapStateToProps = (state) => {
   } = state.preferences;
 
   return {
+    autoHideMenuBar,
     darkTheme,
     email: state.user.apiData.email,
     homePage,

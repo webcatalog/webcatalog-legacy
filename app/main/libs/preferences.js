@@ -6,6 +6,7 @@ const sendMessageToWindow = require('./send-message-to-window');
 const v = '1.0.0';
 
 const defaultPreferences = {
+  autoHideMenuBar: false,
   darkTheme: false,
   homePage: null,
   injectCSS: '',
