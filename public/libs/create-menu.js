@@ -26,7 +26,10 @@ const createMenu = () => {
       label: 'View',
       submenu: [
         { role: 'reload' },
-        { role: 'toggledevtools' },
+        {
+          label: 'Debug...',
+          role: 'toggledevtools',
+        },
         { type: 'separator' },
         { role: 'togglefullscreen' },
       ],
