@@ -66,7 +66,7 @@ appsRouter.get('/search', (req, res, next) => {
     return res.render('apps/search', {
       title: 'Search',
       apps: null,
-      searchQuery: req.query.query,
+      searchQuery: null,
     });
   }
 
@@ -74,7 +74,7 @@ appsRouter.get('/search', (req, res, next) => {
   return index.search(req.query.query, { page: currentPage - 1, hitsPerPage: limit })
     .then(({ hits, nbPages }) =>
       res.render('apps/search', {
-        title: `Search Results for "${req.query.query}"`,
+        title: `${req.query.query} - Search Results`,
         apps: hits,
         currentPage,
         pages: generatePageList(currentPage, nbPages),

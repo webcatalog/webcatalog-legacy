@@ -3,7 +3,12 @@
 
 <section class="section apps">
   <div class="container">
+    <% if (searchQuery) { %>
+      <h1 class="title"><%= searchQuery %></h1>
+      <hr />
+    <% } %>
     <% if (apps) { %>
+    <% if (apps.length > 0) { %>
     <div class="columns">
       <div class="column">
         <div class="columns is-multiline">
@@ -31,6 +36,18 @@
         </nav>
       </div>
     </div>
+    <% } else { %>
+    <div class="has-text-centered">
+      <p class="title is-4">No Results</p>
+      <p class="subtitle is-4">Try a synonym, a domain or more general keyword.</p>
+    </div>
+    <% } %>
+    <hr />
+    <p class="has-text-centered">
+      <a href="https://www.algolia.com" target="_blank" rel="noopener noreferrer">
+        <img src="/public/images/search-by-algolia.png" alt="Search by Algolia" height="18" width="130">
+      </a>
+    </p>
     <% } %>
   </div>
 </section>
