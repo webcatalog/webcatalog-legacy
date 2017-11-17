@@ -1,11 +1,9 @@
 const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
-const { app, shell } = require('electron');
 
 const getAllAppPath = require('./get-all-app-path');
 const removeOldVersionsAsync = require('./remove-old-versions-async');
-const sendMessageToWindow = require('./send-message-to-window');
 const uninstallAppAsync = require('./uninstall-app-async');
 
 const scanInstalledAsync = () =>
@@ -69,10 +67,7 @@ const scanInstalledAsync = () =>
             });
         }
         case 'linux': {
-          const p = [];
-
-          // > 7.0.0
-          p.push(fs.pathExists(allAppPath)
+          return fs.pathExists(allAppPath)
             .then((allAppPathExists) => {
               if (allAppPathExists) {
                 return fs.readdir(allAppPath)
@@ -102,43 +97,13 @@ const scanInstalledAsync = () =>
               }
 
               return [];
-            }));
-
-          // legacy, v < 7.0.0
-          const legacyAllAppPath = path.join(app.getPath('home'), '.local', 'share', 'applications');
-          p.push(fs.pathExists(legacyAllAppPath)
-            .then((exists) => {
-              if (exists) {
-                return fs.readdir(allAppPath)
-                  .then((files) => {
-                    files.forEach((fileName) => {
-                      if (!fileName.startsWith('webcatalog-')) return;
-
-                      try {
-                        const appInfo = JSON.parse(fs.readFileSync(path.join(allAppPath, fileName), 'utf8').split('\n')[1].substr(1));
-
-                        installedApps.push(appInfo);
-                      } catch (err) {
-                        sendMessageToWindow('log', err);
-                      }
-                    });
-
-                    return installedApps;
-                  });
-              }
-
-              return [];
-            }));
-
-          return Promise.all(p)
+            })
             .then(() => installedApps);
         }
         case 'win32':
         default: {
-          const p = [];
-
           // >= 7.0.0
-          p.push(fs.pathExists(allAppPath)
+          return fs.pathExists(allAppPath)
             .then((allAppPathExists) => {
               if (allAppPathExists) {
                 return fs.readdir(allAppPath)
@@ -168,37 +133,7 @@ const scanInstalledAsync = () =>
               }
 
               return null;
-            }));
-
-          // legacy, v < 7.0.0
-          const legacyAllAppPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-          p.push(fs.pathExists(legacyAllAppPath)
-            .then((exists) => {
-              if (exists) {
-                return fs.readdir(legacyAllAppPath)
-                  .then((files) => {
-                    if (files.length === 0) return;
-
-                    files.forEach((fileName) => {
-                      const fullPath = path.join(legacyAllAppPath, fileName);
-                      const shortcutDetails = shell.readShortcutLink(fullPath);
-                      const { description } = shortcutDetails;
-
-                      try {
-                        const appInfo = JSON.parse(description);
-                        installedApps.push(appInfo);
-                      } catch (jsonErr) {
-                        /* eslint-disable no-console */
-                        sendMessageToWindow('log', `Failed to parse file ${fileName}`);
-                        /* eslint-enable no-console */
-                      }
-                    });
-                  });
-              }
-              return [];
-            }));
-
-          return Promise.all(p)
+            })
             .then(() => installedApps);
         }
       }
