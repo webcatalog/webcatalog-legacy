@@ -46,8 +46,9 @@ const scanInstalledAsync = () =>
                   });
               }
 
-              return [];
-            });
+              return null;
+            })
+            .then(() => installedApps);
         }
         case 'linux': {
           return fs.pathExists(allAppPath)
@@ -79,13 +80,12 @@ const scanInstalledAsync = () =>
                   });
               }
 
-              return [];
+              return null;
             })
             .then(() => installedApps);
         }
         case 'win32':
         default: {
-          // >= 7.0.0
           return fs.pathExists(allAppPath)
             .then((allAppPathExists) => {
               if (allAppPathExists) {
