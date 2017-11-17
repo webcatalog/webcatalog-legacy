@@ -1,3 +1,8 @@
+## 7.6.1
+- Windows: Fixes a bug which prevents WebCatalog to scan for installed apps.
+
+---
+
 ## 7.6.0
 - Adds a shortcut to the “Installed Apps” page whenever updates are available.
 - Adds option to auto hide menu bar.
