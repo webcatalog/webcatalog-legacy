@@ -4,7 +4,6 @@ const fs = require('fs-extra');
 
 const getAllAppPath = require('./get-all-app-path');
 const removeOldVersionsAsync = require('./remove-old-versions-async');
-const uninstallAppAsync = require('./uninstall-app-async');
 
 const scanInstalledAsync = () =>
   Promise.resolve()
@@ -122,19 +121,6 @@ const scanInstalledAsync = () =>
         }
       }
     })
-    .then(installedApps => installedApps.filter((a) => {
-      // without shellVersion or moleculeVersion,
-      // it means the app is outdated and should be deleted.
-      if (!a.shellVersion && !a.moleculeVersion) {
-        uninstallAppAsync(a.id, a.name)
-        // eslint-disable-next-line no-console
-          .catch(console.log);
-
-        return false;
-      }
-
-      return true;
-    }))
     .then((installedApps) => {
       removeOldVersionsAsync(installedApps);
 
