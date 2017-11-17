@@ -25,22 +25,6 @@ const scanInstalledAsync = () =>
                     files.forEach((fileName) => {
                       if (fileName === '.DS_Store') return;
 
-                      const infoPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'info.json');
-
-                      promises.push(fs.pathExists(infoPath)
-                        .then((exists) => {
-                          if (exists) {
-                            return fs.readJson(infoPath)
-                              .then((info) => {
-                                const appInfo = Object.assign({}, info, {
-                                  moleculeVersion: '0.0.0',
-                                });
-                                installedApps.push(appInfo);
-                              });
-                          }
-                          return null;
-                        }));
-
                       const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
                       promises.push(fs.pathExists(packageJsonPath)
                         .then((exists) => {
