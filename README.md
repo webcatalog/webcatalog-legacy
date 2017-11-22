@@ -4,6 +4,7 @@
 
 [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/webcatalog?branch=master&svg=true)](https://ci.appveyor.com/project/webcatalog/webcatalog/branch/master)
+[![Join the chat at https://gitter.im/webcatalog/webcatalog](https://badges.gitter.im/webcatalog/webcatalog.svg)](https://gitter.im/webcatalog/webcatalog?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 #### Homepage: https://webcatalog.io
 
