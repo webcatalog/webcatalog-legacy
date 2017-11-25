@@ -6,26 +6,19 @@ import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
-import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 
-import getCategoryLabel from '../../helpers/get-category-label';
 import { updateAllApps } from '../../actions/root/local/actions';
 import { getAvailableUpdateCount } from '../../reducers/root/local/utils';
 import { changeRoute } from '../../actions/root/router/actions';
 import {
   getApps,
   resetAndGetApps,
-  setSortBy,
 } from '../../actions/pages/top-charts/actions';
 
 import {
-  STRING_NEW_APPS_IN_CATEGORY,
-  STRING_NEW_APPS,
-  STRING_TOP_APPS_IN_CATEGORY,
-  STRING_TOP_APPS,
   STRING_UPDATE_ALL,
   STRING_UPDATES_AVAILABLE,
   STRING_VIEW,
@@ -35,9 +28,6 @@ import { ROUTE_INSTALLED_APPS } from '../../constants/routes';
 
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
-import PromoBar from '../../shared/promo-bar';
-
-import FilterMenuButton from './filter-menu-button';
 
 const styles = theme => ({
   root: {
@@ -104,52 +94,18 @@ class TopCharts extends React.Component {
     const {
       apps,
       availableUpdateCount,
-      category,
       classes,
       hasFailed,
       isGetting,
       onChangeRoute,
       onGetApps,
-      onSetSortBy,
       onUpdateAllApps,
-      sortBy,
     } = this.props;
-
-    let tabIndex = 0;
-    if (sortBy === 'createdAt') tabIndex = 1;
-
-    const categoryLabel = getCategoryLabel(category);
 
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <div className={classes.buttonContainer} />
-
-          <Tabs
-            className={classes.tabs}
-            value={tabIndex}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            onChange={(event, index) => {
-              if (index === 0) return onSetSortBy('installCount', 'desc');
-
-              return onSetSortBy('createdAt', 'desc');
-            }}
-          >
-            <Tab
-              className={classes.tab}
-              label={category ? STRING_TOP_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_TOP_APPS}
-            />
-            <Tab
-              className={classes.tab}
-              label={category ? STRING_NEW_APPS_IN_CATEGORY.replace('{category}', categoryLabel) : STRING_NEW_APPS}
-            />
-          </Tabs>
-
-          <div className={classes.buttonContainer}>
-            <FilterMenuButton />
-          </div>
         </Paper>
         <div
           className={classes.scrollContainer}
@@ -162,7 +118,6 @@ class TopCharts extends React.Component {
           ) : (
             <Grid container className={classes.grid}>
               <Grid item xs={12}>
-                <PromoBar />
                 {availableUpdateCount > 0 && (
                   <div className={classes.headerContainer}>
                     <Typography type="body1">
@@ -208,16 +163,13 @@ TopCharts.defaultProps = {
 TopCharts.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   availableUpdateCount: PropTypes.number,
-  category: PropTypes.string,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onGetApps: PropTypes.func.isRequired,
   onResetAndGetApps: PropTypes.func.isRequired,
-  onSetSortBy: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
-  sortBy: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -251,7 +203,6 @@ const actionCreators = {
   changeRoute,
   getApps,
   resetAndGetApps,
-  setSortBy,
   updateAllApps,
 };
 

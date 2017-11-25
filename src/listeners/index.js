@@ -1,15 +1,6 @@
 /* global ipcRenderer */
 
 import {
-  setAuthToken,
-} from '../actions/root/auth/actions';
-
-import {
-  getUser,
-  removeUser,
-} from '../actions/root/user/actions';
-
-import {
   setLocalApp,
   removeLocalApp,
 } from '../actions/root/local/actions';
@@ -30,15 +21,6 @@ const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
     if (message) console.log(message);
-  });
-
-  ipcRenderer.on('set-auth-token', (e, token) => {
-    store.dispatch(setAuthToken(token));
-    if (token && token !== 'anonymous') {
-      store.dispatch(getUser());
-    } else {
-      store.dispatch(removeUser());
-    }
   });
 
   ipcRenderer.on('open-snackbar', (e, message) => {

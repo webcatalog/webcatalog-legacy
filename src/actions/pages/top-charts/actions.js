@@ -3,9 +3,6 @@ import {
   topChartsGetRequest,
   topChartsGetSuccess,
   topchartsReset,
-  topChartsSetCategory,
-  topChartsSetSortBy,
-  topChartsSetSortOrder,
 } from './action-creators';
 import { apiGet } from '../../api';
 
@@ -51,14 +48,3 @@ export const resetAndGetApps = () =>
     dispatch(topchartsReset());
     dispatch(getApps());
   };
-
-export const setCategory = category => (dispatch) => {
-  dispatch(topChartsSetCategory(category));
-  dispatch(getApps());
-};
-
-export const setSortBy = (sortBy, sortOrder) => (dispatch) => {
-  dispatch(topChartsSetSortOrder(sortOrder));
-  dispatch(topChartsSetSortBy(sortBy));
-  dispatch(getApps());
-};

@@ -5,9 +5,6 @@ import {
   TOP_CHARTS_GET_REQUEST,
   TOP_CHARTS_GET_SUCCESS,
   TOP_CHARTS_RESET,
-  TOP_CHARTS_SET_CATEGORY,
-  TOP_CHARTS_SET_SORT_BY,
-  TOP_CHARTS_SET_SORT_ORDER,
 } from '../../../constants/actions';
 
 const hasFailed = (state = false, action) => {
@@ -38,30 +35,6 @@ const queryParamsInitialState = {
 };
 const queryParams = (state = queryParamsInitialState, action) => {
   switch (action.type) {
-    case TOP_CHARTS_SET_CATEGORY: {
-      const { category } = action;
-      return {
-        ...state,
-        page: 0,
-        category,
-      };
-    }
-    case TOP_CHARTS_SET_SORT_BY: {
-      const { sortBy } = action;
-      return {
-        ...state,
-        page: 0,
-        sortBy,
-      };
-    }
-    case TOP_CHARTS_SET_SORT_ORDER: {
-      const { sortOrder } = action;
-      return {
-        ...state,
-        page: 0,
-        sortOrder,
-      };
-    }
     case TOP_CHARTS_GET_SUCCESS: {
       return {
         ...state,
@@ -88,16 +61,6 @@ const apiData = (state = apiDataInitialState, action) => {
       apps: state.apps.concat(action.res.apps),
       totalPage: action.res.totalPage,
     };
-    case TOP_CHARTS_SET_SORT_BY:
-    case TOP_CHARTS_SET_SORT_ORDER:
-    case TOP_CHARTS_SET_CATEGORY: {
-      return {
-        ...state,
-        ...apiDataInitialState,
-        apps: [],
-        totalPage: 0,
-      };
-    }
     case TOP_CHARTS_RESET: return apiDataInitialState;
     default: return state;
   }

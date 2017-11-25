@@ -1,4 +1,3 @@
-/* global ipcRenderer */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -18,11 +17,6 @@ import store from './reducers';
 // listeners to communicate with main process
 import loadListeners from './listeners';
 
-// senders
-import {
-  requestReadTokenFromDisk,
-} from './senders/auth';
-
 import App from './app';
 
 loadListeners(store);
@@ -35,15 +29,11 @@ const theme = createMuiTheme({
   },
 });
 
-ipcRenderer.once('set-auth-token', () => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <App />
-      </MuiThemeProvider>
-    </Provider>,
-    document.getElementById('app'),
-  );
-});
-
-requestReadTokenFromDisk();
+ReactDOM.render(
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
+  </Provider>,
+  document.getElementById('app'),
+);

@@ -1,15 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { MenuItem } from 'material-ui/Menu';
-import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import AddBoxIcon from 'material-ui-icons/AddBox';
 import AppBar from 'material-ui/AppBar';
-import ArrowBackIcon from 'material-ui-icons/ArrowBack';
-import Avatar from 'material-ui/Avatar';
 import blue from 'material-ui/colors/blue';
-import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
@@ -21,9 +15,6 @@ import InfoIcon from 'material-ui-icons/Info';
 import InsertChartIcon from 'material-ui-icons/InsertChart';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import MenuIcon from 'material-ui-icons/Menu';
-import Paper from 'material-ui/Paper';
-import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
-import SearchIcon from 'material-ui-icons/Search';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
@@ -32,38 +23,25 @@ import connectComponent from '../../helpers/connect-component';
 import FakeTitleBar from '../../shared/fake-title-bar';
 import RefreshButton from './refresh-button';
 
-import { formUpdate } from '../../actions/pages/search/actions';
 import { open as openDialogAbout } from '../../actions/dialogs/about/actions';
-import { open as openDialogAccount } from '../../actions/dialogs/account/actions';
-import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app/actions';
 import {
-  goBack,
   changeRoute,
 } from '../../actions/root/router/actions';
 
 import {
   ROUTE_INSTALLED_APPS,
-  ROUTE_SEARCH,
   ROUTE_TOP_CHARTS,
 } from '../../constants/routes';
 
 import {
   STRING_ABOUT,
-  STRING_ACCOUNT,
-  STRING_BACK,
-  STRING_CLEAR,
   STRING_HELP_AND_FEEDBACK,
   STRING_INSTALLED_APPS,
-  STRING_LOG_IN,
-  STRING_LOG_OUT,
   STRING_MENU,
-  STRING_SEARCH_APPS,
-  STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
-import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestScanInstalledApps } from '../../senders/local';
 
@@ -259,9 +237,6 @@ class EnhancedAppBar extends React.Component {
     };
 
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
-    this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
-    this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
-    this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
 
   componentDidMount() {
@@ -274,29 +249,11 @@ class EnhancedAppBar extends React.Component {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
   }
 
-  handleOpenDialogAccount() {
-    this.props.onOpenDialogAccount();
-  }
-
-  handleOpenDialogAbout() {
-    this.props.onOpenDialogAbout();
-  }
-
-  handleOpenDialogSubmitApp() {
-    this.props.onOpenDialogSubmitApp();
-  }
-
   render() {
     const {
       classes,
-      displayName,
-      email,
-      isLoggedIn,
       onChangeRoute,
-      onFormUpdate,
-      onGoBack,
-      profilePicture,
-      query,
+      onOpenDialogAbout,
       route,
     } = this.props;
 
@@ -309,167 +266,69 @@ class EnhancedAppBar extends React.Component {
         routeLabel = STRING_TOP_CHARTS;
     }
 
-    const shouldShowSearch = route !== ROUTE_INSTALLED_APPS;
-
-    const temp = isLoggedIn ? (
-      <div className={classes.headerContainer}>
-        <Avatar
-          alt={displayName}
-          src={profilePicture}
-          className={classes.avatar}
-        />
-        <div className={classes.nameDetails}>
-          <div className={classes.nameDetailsName}>
-            {displayName}
-          </div>
-          <div className={classes.nameDetailsEmail}>
-            {email}
-          </div>
-        </div>
-      </div>
-    ) : (
-      <AppBar
-        className={classes.signInAppBar}
-        position="static"
-        elevation={0}
-        onClick={requestLogOut}
+    const drawerElement = (
+      <Drawer
+        open={this.state.isDrawerOpen}
+        onRequestClose={this.handleToggleDrawer}
+        onClick={this.handleToggleDrawer}
       >
-        <Toolbar className={classes.toolbar}>
-          <Typography
-            color="inherit"
-            type="title"
-          >
-            {STRING_LOG_IN}
-          </Typography>
-        </Toolbar>
-      </AppBar>
+        <FakeTitleBar />
+        <div className={classes.listContainer}>
+          <List className={classes.list} disablePadding>
+            <MenuItem
+              selected={route === ROUTE_TOP_CHARTS}
+              button
+              onClick={() => onChangeRoute(ROUTE_TOP_CHARTS)}
+              className={classes.menuItem}
+            >
+              <ListItemIcon><InsertChartIcon /></ListItemIcon>
+              <ListItemText primary={STRING_TOP_CHARTS} />
+            </MenuItem>
+            <MenuItem
+              selected={route === ROUTE_INSTALLED_APPS}
+              button
+              onClick={() => onChangeRoute(ROUTE_INSTALLED_APPS)}
+            >
+              <ListItemIcon><FileDownloadIcon /></ListItemIcon>
+              <ListItemText primary={STRING_INSTALLED_APPS} />
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              button
+              onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
+            >
+              <ListItemIcon><HelpIcon /></ListItemIcon>
+              <ListItemText primary={STRING_HELP_AND_FEEDBACK} />
+            </MenuItem>
+            <MenuItem button onClick={onOpenDialogAbout}>
+              <ListItemIcon><InfoIcon /></ListItemIcon>
+              <ListItemText primary={STRING_ABOUT} />
+            </MenuItem>
+          </List>
+        </div>
+      </Drawer>
     );
 
-    const isSearching = route === ROUTE_SEARCH;
-
-    const drawerElement = !isSearching
-      ? (
-        <Drawer
-          open={this.state.isDrawerOpen}
-          onRequestClose={this.handleToggleDrawer}
-          onClick={this.handleToggleDrawer}
-        >
-          <FakeTitleBar color={isLoggedIn ? fullWhite : null} />
-          <div className={classes.listContainer}>
-            <List className={classes.list} disablePadding>
-              {temp}
-              <Divider />
-              <MenuItem
-                selected={route === ROUTE_TOP_CHARTS}
-                button
-                onClick={() => onChangeRoute(ROUTE_TOP_CHARTS)}
-                className={classes.menuItem}
-              >
-                <ListItemIcon><InsertChartIcon /></ListItemIcon>
-                <ListItemText primary={STRING_TOP_CHARTS} />
-              </MenuItem>
-              <MenuItem
-                selected={route === ROUTE_INSTALLED_APPS}
-                button
-                onClick={() => onChangeRoute(ROUTE_INSTALLED_APPS)}
-              >
-                <ListItemIcon><FileDownloadIcon /></ListItemIcon>
-                <ListItemText primary={STRING_INSTALLED_APPS} />
-              </MenuItem>
-              <Divider />
-              {isLoggedIn && (
-                <MenuItem button onClick={this.handleOpenDialogAccount}>
-                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                  <ListItemText primary={STRING_ACCOUNT} />
-                </MenuItem>
-              )}
-              <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
-                <ListItemIcon><AddBoxIcon /></ListItemIcon>
-                <ListItemText primary={STRING_SUBMIT_APP} />
-              </MenuItem>
-              {isLoggedIn && (
-                <MenuItem button onClick={requestLogOut}>
-                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                  <ListItemText primary={STRING_LOG_OUT} />
-                </MenuItem>
-              )}
-              <Divider />
-              <MenuItem
-                button
-                onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
-              >
-                <ListItemIcon><HelpIcon /></ListItemIcon>
-                <ListItemText primary={STRING_HELP_AND_FEEDBACK} />
-              </MenuItem>
-              <MenuItem button onClick={this.handleOpenDialogAbout}>
-                <ListItemIcon><InfoIcon /></ListItemIcon>
-                <ListItemText primary={STRING_ABOUT} />
-              </MenuItem>
-            </List>
-          </div>
-        </Drawer>
-      ) : null;
-
-    const titleElement = !isSearching
-      ? (
-        <div className={classes.toolbarSection}>
-          <IconButton
-            color="contrast"
-            aria-label={STRING_MENU}
-            onClick={() => this.handleToggleDrawer()}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            className={classes.title}
-            color="inherit"
-            type="title"
-          >
-            {routeLabel}
-          </Typography>
-        </div>
-      ) : (
-        <div className={classes.toolbarSection}>
-          <IconButton
-            aria-label={STRING_BACK}
-            color="contrast"
-            onClick={() => {
-              onFormUpdate({ query: '' });
-              onGoBack();
-            }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </div>
-      );
-
-    const refreshAction = !isSearching
-      ? (
-        <RefreshButton />
-      ) : null;
-
-    const searchAction = shouldShowSearch && !isSearching
-      ? (
+    const titleElement = (
+      <div className={classes.toolbarSection}>
         <IconButton
-          className={classes.searchButton}
-          color={isSearching ? 'default' : 'contrast'}
-          aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
-          onClick={() => onChangeRoute(ROUTE_SEARCH)}
+          color="contrast"
+          aria-label={STRING_MENU}
+          onClick={() => this.handleToggleDrawer()}
         >
-          <SearchIcon />
+          <MenuIcon />
         </IconButton>
-      ) : null;
+        <Typography
+          className={classes.title}
+          color="inherit"
+          type="title"
+        >
+          {routeLabel}
+        </Typography>
+      </div>
+    );
 
-    const clearSearchAction = query.length > 0
-      ? (
-        <IconButton
-          color={isSearching ? 'default' : 'contrast'}
-          aria-label={query.length > 0 ? STRING_CLEAR : STRING_BACK}
-          onClick={() => onFormUpdate({ query: '' })}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null;
+    const refreshAction = <RefreshButton />;
 
     return (
       <div className={classes.root}>
@@ -479,47 +338,8 @@ class EnhancedAppBar extends React.Component {
           <Toolbar className={classes.toolbar}>
             <div className={classes.toolbarSectionContainer}>
               {titleElement}
-              {shouldShowSearch && (
-                <div className={classes.toolbarSearchContainer}>
-                  <Paper
-                    className={classNames(
-                      classes.toolbarSectionSearch,
-                      { [classes.toolbarSectionSearchInactive]: !isSearching },
-                      { [classes.toolbarSectionSearchActive]: isSearching },
-                    )}
-                    elevation={isSearching ? 1 : 0}
-                  >
-                    <SearchIcon
-                      className={classNames(
-                        classes.searchIcon,
-                        { [classes.searchIconActive]: isSearching },
-                      )}
-                    />
-                    <Typography
-                      className={classes.searchBarText}
-                      color="inherit"
-                      type="title"
-                    >
-                      <input
-                        className={classNames(
-                          classes.input,
-                          { [classes.inputActive]: isSearching },
-                        )}
-                        onChange={e => onFormUpdate({ query: e.target.value })}
-                        onClick={() => onChangeRoute(ROUTE_SEARCH)}
-                        onInput={e => onFormUpdate({ query: e.target.value })}
-                        placeholder={STRING_SEARCH_APPS}
-                        ref={(inputBox) => { this.inputBox = inputBox; }}
-                        value={query}
-                      />
-                    </Typography>
-                    {clearSearchAction}
-                  </Paper>
-                </div>
-              )}
               <div className={classes.toolbarSectionRight}>
                 {refreshAction}
-                {searchAction}
               </div>
             </div>
           </Toolbar>
@@ -529,45 +349,20 @@ class EnhancedAppBar extends React.Component {
   }
 }
 
-EnhancedAppBar.defaultProps = {
-  displayName: null,
-  email: null,
-  profilePicture: null,
-  query: '',
-};
-
 EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  displayName: PropTypes.string,
-  email: PropTypes.string,
-  isLoggedIn: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
-  onFormUpdate: PropTypes.func.isRequired,
-  onGoBack: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogAccount: PropTypes.func.isRequired,
-  onOpenDialogSubmitApp: PropTypes.func.isRequired,
-  profilePicture: PropTypes.string,
-  query: PropTypes.string,
   route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  displayName: state.user.apiData.displayName,
-  email: state.user.apiData.email,
-  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
-  profilePicture: state.user.apiData.profilePicture,
-  query: state.pages.search.form.query,
   route: state.router.route,
 });
 
 const actionCreators = {
   changeRoute,
-  formUpdate,
-  goBack,
   openDialogAbout,
-  openDialogAccount,
-  openDialogSubmitApp,
 };
 
 export default connectComponent(
