@@ -7,37 +7,23 @@ import sitemapRoute from './sitemap';
 
 const router = express.Router();
 
-router.get(['/', '/download', '/downloads'], (req, res) => {
-  const ua = req.headers['user-agent'];
-  if (/(Intel|PPC) Mac OS X/.test(ua)) {
-    res.redirect('/download/mac');
-  } else if (/(Linux x86_64|Linux i686)/.test(ua)) {
-    res.redirect('/download/linux');
-  } else {
-    res.redirect('/download/windows');
-  }
+router.get('/', (req, res) => {
+  res.render('download', {
+    version: process.env.VERSION,
+    title: 'Download WebCatalog for Windows, Mac & Linux',
+  });
+});
+
+router.get(['/download', '/downloads'], (req, res) => {
+  res.redirect('/');
 });
 
 router.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
-  const { platform } = req.params;
-
-  res.redirect(`/download/${platform}`);
+  res.redirect('/');
 });
 
 router.get('/download/:platform(mac|windows|linux)', (req, res) => {
-  const { platform } = req.params;
-  const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
-
-  let dockName = 'dock';
-  if (platform === 'windows') dockName = 'taskbar';
-  if (platform === 'linux') dockName = 'launcher';
-
-  res.render('download', {
-    version: process.env.VERSION,
-    platform,
-    dockName,
-    title: `Download WebCatalog for ${platformName}`,
-  });
+  res.redirect('/');
 });
 
 let cachedContent;
