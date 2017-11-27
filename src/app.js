@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import connectComponent from './helpers/connect-component';
 
 import { checkForLinuxUpdates } from './actions/root/updater/actions';
-import { getUser } from './actions/root/user/actions';
 import { getVersion } from './actions/root/version/actions';
 
 import DialogAbout from './dialogs/about';
@@ -93,7 +92,6 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   checkForLinuxUpdates,
-  getUser,
   getVersion,
 };
 
