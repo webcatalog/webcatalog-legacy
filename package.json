@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "version": "7.6.1",
+  "version": "7.7.0",
   "description": "WebCatalog helps you run thousands of web apps like real apps.",
   "main": "public/electron.js",
   "scripts": {
