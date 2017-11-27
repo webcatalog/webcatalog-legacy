@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { MenuItem } from 'material-ui/Menu';
-import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import AddBoxIcon from 'material-ui-icons/AddBox';
 import AppBar from 'material-ui/AppBar';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
-import Avatar from 'material-ui/Avatar';
 import blue from 'material-ui/colors/blue';
 import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
@@ -22,7 +19,6 @@ import InsertChartIcon from 'material-ui-icons/InsertChart';
 import List, { ListItemIcon, ListItemText } from 'material-ui/List';
 import MenuIcon from 'material-ui-icons/Menu';
 import Paper from 'material-ui/Paper';
-import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 import SearchIcon from 'material-ui-icons/Search';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -34,8 +30,6 @@ import RefreshButton from './refresh-button';
 
 import { formUpdate } from '../../actions/pages/search/actions';
 import { open as openDialogAbout } from '../../actions/dialogs/about/actions';
-import { open as openDialogAccount } from '../../actions/dialogs/account/actions';
-import { open as openDialogSubmitApp } from '../../actions/dialogs/submit-app/actions';
 import {
   goBack,
   changeRoute,
@@ -49,21 +43,16 @@ import {
 
 import {
   STRING_ABOUT,
-  STRING_ACCOUNT,
   STRING_BACK,
   STRING_CLEAR,
   STRING_HELP_AND_FEEDBACK,
   STRING_INSTALLED_APPS,
-  STRING_LOG_IN,
-  STRING_LOG_OUT,
   STRING_MENU,
   STRING_SEARCH_APPS,
-  STRING_SUBMIT_APP,
   STRING_TOP_CHARTS,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
-import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestScanInstalledApps } from '../../senders/local';
 
@@ -259,9 +248,7 @@ class EnhancedAppBar extends React.Component {
     };
 
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
-    this.handleOpenDialogAccount = this.handleOpenDialogAccount.bind(this);
     this.handleOpenDialogAbout = this.handleOpenDialogAbout.bind(this);
-    this.handleOpenDialogSubmitApp = this.handleOpenDialogSubmitApp.bind(this);
   }
 
   componentDidMount() {
@@ -274,28 +261,16 @@ class EnhancedAppBar extends React.Component {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
   }
 
-  handleOpenDialogAccount() {
-    this.props.onOpenDialogAccount();
-  }
-
   handleOpenDialogAbout() {
     this.props.onOpenDialogAbout();
-  }
-
-  handleOpenDialogSubmitApp() {
-    this.props.onOpenDialogSubmitApp();
   }
 
   render() {
     const {
       classes,
-      displayName,
-      email,
-      isLoggedIn,
       onChangeRoute,
       onFormUpdate,
       onGoBack,
-      profilePicture,
       query,
       route,
     } = this.props;
@@ -311,35 +286,18 @@ class EnhancedAppBar extends React.Component {
 
     const shouldShowSearch = route !== ROUTE_INSTALLED_APPS;
 
-    const temp = isLoggedIn ? (
-      <div className={classes.headerContainer}>
-        <Avatar
-          alt={displayName}
-          src={profilePicture}
-          className={classes.avatar}
-        />
-        <div className={classes.nameDetails}>
-          <div className={classes.nameDetailsName}>
-            {displayName}
-          </div>
-          <div className={classes.nameDetailsEmail}>
-            {email}
-          </div>
-        </div>
-      </div>
-    ) : (
+    const temp = (
       <AppBar
         className={classes.signInAppBar}
         position="static"
         elevation={0}
-        onClick={requestLogOut}
       >
         <Toolbar className={classes.toolbar}>
           <Typography
             color="inherit"
             type="title"
           >
-            {STRING_LOG_IN}
+            WebCatalog
           </Typography>
         </Toolbar>
       </AppBar>
@@ -354,7 +312,7 @@ class EnhancedAppBar extends React.Component {
           onRequestClose={this.handleToggleDrawer}
           onClick={this.handleToggleDrawer}
         >
-          <FakeTitleBar color={isLoggedIn ? fullWhite : null} />
+          <FakeTitleBar color={null} />
           <div className={classes.listContainer}>
             <List className={classes.list} disablePadding>
               {temp}
@@ -376,23 +334,6 @@ class EnhancedAppBar extends React.Component {
                 <ListItemIcon><FileDownloadIcon /></ListItemIcon>
                 <ListItemText primary={STRING_INSTALLED_APPS} />
               </MenuItem>
-              <Divider />
-              {isLoggedIn && (
-                <MenuItem button onClick={this.handleOpenDialogAccount}>
-                  <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-                  <ListItemText primary={STRING_ACCOUNT} />
-                </MenuItem>
-              )}
-              <MenuItem button onClick={this.handleOpenDialogSubmitApp}>
-                <ListItemIcon><AddBoxIcon /></ListItemIcon>
-                <ListItemText primary={STRING_SUBMIT_APP} />
-              </MenuItem>
-              {isLoggedIn && (
-                <MenuItem button onClick={requestLogOut}>
-                  <ListItemIcon><PowerSettingsNewIcon /></ListItemIcon>
-                  <ListItemText primary={STRING_LOG_OUT} />
-                </MenuItem>
-              )}
               <Divider />
               <MenuItem
                 button
@@ -538,25 +479,15 @@ EnhancedAppBar.defaultProps = {
 
 EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  displayName: PropTypes.string,
-  email: PropTypes.string,
-  isLoggedIn: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onFormUpdate: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogAccount: PropTypes.func.isRequired,
-  onOpenDialogSubmitApp: PropTypes.func.isRequired,
-  profilePicture: PropTypes.string,
   query: PropTypes.string,
   route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  displayName: state.user.apiData.displayName,
-  email: state.user.apiData.email,
-  isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
-  profilePicture: state.user.apiData.profilePicture,
   query: state.pages.search.form.query,
   route: state.router.route,
 });
@@ -566,8 +497,6 @@ const actionCreators = {
   formUpdate,
   goBack,
   openDialogAbout,
-  openDialogAccount,
-  openDialogSubmitApp,
 };
 
 export default connectComponent(

@@ -35,7 +35,6 @@ import { ROUTE_INSTALLED_APPS } from '../../constants/routes';
 
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
-import PromoBar from '../../shared/promo-bar';
 
 import FilterMenuButton from './filter-menu-button';
 
@@ -162,7 +161,6 @@ class TopCharts extends React.Component {
           ) : (
             <Grid container className={classes.grid}>
               <Grid item xs={12}>
-                <PromoBar />
                 {availableUpdateCount > 0 && (
                   <div className={classes.headerContainer}>
                     <Typography type="body1">

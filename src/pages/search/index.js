@@ -13,7 +13,6 @@ import { search } from '../../actions/pages/search/actions';
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 import NoConnection from '../../shared/no-connection';
-import PromoBar from '../../shared/promo-bar';
 
 import {
   STRING_NO_RESULTS_HINT,
@@ -63,9 +62,6 @@ const Search = (props) => {
         />
       ) : (
         <Grid container className={classes.grid}>
-          <Grid item xs={12}>
-            <PromoBar />
-          </Grid>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={24}>
               {apps.map(app => <AppCard key={app.id} app={app} />)}

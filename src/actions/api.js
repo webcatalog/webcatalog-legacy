@@ -1,11 +1,7 @@
-import { requestLogOut } from '../senders/auth';
-
 const apiRequest = (endpoint, method, body) =>
-  (dispatch, getState) =>
+  () =>
     Promise.resolve()
       .then(() => {
-        const { token } = getState().auth;
-
         const hostUrl = window.env.API_URL || 'https://webcatalog.io/api';
 
         const url = `${hostUrl}${endpoint}`;
@@ -14,8 +10,6 @@ const apiRequest = (endpoint, method, body) =>
           Accept: 'application/json',
           'Content-Type': 'application/json',
         };
-
-        if (token && token !== 'anonnymous') headers.Authorization = `JWT ${token}`;
 
         const opts = {
           method,
@@ -33,9 +27,6 @@ const apiRequest = (endpoint, method, body) =>
         }
 
         // error
-        if (response.status === 401) {
-          requestLogOut();
-        }
         return response.json()
           .then((parsedResponse) => {
             const error = new Error(response.statusText);
