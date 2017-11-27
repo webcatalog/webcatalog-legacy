@@ -8,7 +8,6 @@ import {
 import { openSnackbar } from '../snackbar/actions';
 import { open as openUpdateMainAppFirstDialog } from '../../dialogs/update-main-app-first/actions';
 
-import { apiGet } from '../../api';
 import { getVersion } from '../../root/version/actions';
 
 import installAppAsync from '../../../helpers/install-app-async';
@@ -32,7 +31,8 @@ export const removeLocalApp = id =>
 
 export const installApp = (id, name) =>
   dispatch =>
-    dispatch(apiGet(`/apps/${id}?action=install`))
+    dispatch(null)
+    // dispatch(apiGet(`/apps/${id}?action=install`))
       .then(({ app }) => installAppAsync(app))
       .catch((err) => {
         dispatch(openSnackbar(STRING_FAILED_TO_INSTALL.replace('{name}', name)));
@@ -60,8 +60,10 @@ export const updateApp = id =>
           return dispatch(openUpdateMainAppFirstDialog());
         }
 
-        return dispatch(apiGet(`/apps/${id}?action=install`))
-          .then(({ app }) => installAppAsync(app));
+        return null;
+
+        // return dispatch(apiGet(`/apps/${id}?action=install`))
+        // .then(({ app }) => installAppAsync(app));
       })
       .catch((err) => {
         dispatch(setLocalApp(id, 'INSTALLED', managedApp.app));

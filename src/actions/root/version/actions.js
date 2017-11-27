@@ -1,16 +1,16 @@
 import {
   versionGetRequest,
-  versionGetSuccess,
-  versionGetFailed,
+  // versionGetSuccess,
+  // versionGetFailed,
 } from './action-creators';
-import {
-  apiGet,
-} from '../../api';
 
 export const getVersion = () =>
   (dispatch) => {
     dispatch(versionGetRequest());
-    return dispatch(apiGet('/version/latest'))
+    /*
+    return fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${window.version}/package.json`)
+      .then(res => res.json())
       .then(res => dispatch(versionGetSuccess(res)))
       .catch(() => dispatch(versionGetFailed()));
+    */
   };

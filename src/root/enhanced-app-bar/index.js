@@ -21,7 +21,6 @@ import Typography from 'material-ui/Typography';
 import connectComponent from '../../helpers/connect-component';
 
 import FakeTitleBar from '../../shared/fake-title-bar';
-import RefreshButton from './refresh-button';
 
 import { open as openDialogAbout } from '../../actions/dialogs/about/actions';
 import {
@@ -328,8 +327,6 @@ class EnhancedAppBar extends React.Component {
       </div>
     );
 
-    const refreshAction = <RefreshButton />;
-
     return (
       <div className={classes.root}>
         <FakeTitleBar />
@@ -338,9 +335,6 @@ class EnhancedAppBar extends React.Component {
           <Toolbar className={classes.toolbar}>
             <div className={classes.toolbarSectionContainer}>
               {titleElement}
-              <div className={classes.toolbarSectionRight}>
-                {refreshAction}
-              </div>
             </div>
           </Toolbar>
         </AppBar>
