@@ -79,7 +79,7 @@ syncModels()
       }
       res.locals.user = req.user;
 
-      res.locals.description = 'WebCatalog - Run Thousands of Web Apps Like Real Apps.';
+      res.locals.description = 'WebCatalog - Run Web Apps Like Real Apps.';
 
       next();
     });

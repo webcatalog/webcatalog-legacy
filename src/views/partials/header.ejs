@@ -6,56 +6,19 @@
     <a class="navbar-item logo" href="/">
       <img src="/public/images/logo-white.png" alt="WebCatalog" />
     </a>
-
-    <span class="navbar-burger burger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
+    <a class="navbar-item is-hidden-desktop" href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer">
+      <span class="icon">
+        <i class="fa fa-lg fa-github"></i>
+      </span>
+    </a>
   </div>
   <div class="navbar-menu">
     <div class="navbar-end">
-      <% if (!locals.path.startsWith('/download')) { %>
-      <div class="navbar-item">
-        <div class="field is-grouped">
-          <p class="control">
-            <a class="button" href="/download">
-              Get WebCatalog
-            </a>
-          </p>
-        </div>
-      </div>
-      <% } %>
-      <a class="navbar-item" href="/apps">
-        Catalog
-      </a>
-      <a class="navbar-item" href="https://medium.com/webcatalog" target="_blank" rel="noopener noreferrer">
-        Blog
-      </a>
-      <a class="navbar-item" href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer">
+      <a class="navbar-item is-hidden-touch" href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer">
         <span class="icon">
           <i class="fa fa-lg fa-github"></i>
         </span>
       </a>
-      <% if (user) { %>
-       <div class="navbar-item has-dropdown is-hoverable">
-         <a class="navbar-link">
-           <figure class="image is-32x32 profile-picture">
-             <img src="<%= user.profilePicture %>">
-           </figure>
-         </a>
-         <div class="navbar-dropdown">
-           <% if (user && user.isAdmin) { %>
-             <a class="navbar-item" href="/admin">
-               Admin
-             </a>
-           <% } %>
-           <a class="navbar-item" href="/auth/logout">
-             Sign out
-           </a>
-         </div>
-       </div>
-       <% } %>
     </div>
   </div>
   </div>

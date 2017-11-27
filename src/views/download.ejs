@@ -4,21 +4,25 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h1 class="title is-3">
-        Run Thousands of Web Apps Like Real Apps
+        Run Web Apps Like Real Apps
       </h1>
       <p class="subtitle is-5" style="margin-top: -1em">
         Get rid of clunky browser tabs. Protect yourself from cross-website trackers.
       </p>
 
-      <% if (platform === "mac") { %>
       <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
         <span class="icon is-medium">
           <i class="fa fa-apple"></i>
         </span>
         <span>&nbsp;Download for macOS</span>
       </a>
-      <% } else if (platform === "linux") { %>
-      <div class="dropdown">
+      <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+        <span class="icon is-medium">
+          <i class="fa fa-windows"></i>
+        </span>
+        <span>&nbsp;Download for Windows</span>
+      </a>
+      <div class="dropdown is-hoverable">
         <div class="dropdown-trigger">
           <button class="button is-large is-black download-button" aria-haspopup="true" aria-controls="dropdown-menu">
             <span class="icon is-medium">
@@ -44,88 +48,16 @@
           </div>
         </div>
       </div>
-      <% } else { %>
-      <a class="button is-large is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
-        <span class="icon is-medium">
-          <i class="fa fa-windows"></i>
-        </span>
-        <span>&nbsp;Download for Windows</span>
-      </a>
-      <% } %>
 
-      <p>
-          <% if (platform === "mac") { %>
-            macOS 10.9+.
-          <% } else if (platform === "linux") { %>
-          <% } else { %>
-            Windows 7+ (64 bit).
-          <% } %>
-         Version <%= version %> - <a href="/release-notes">What's new</a>.
+      <p style="margin-top: 12px">
+         Version <%= version %>
+         | <a href="https://github.com/webcatalog/webcatalog/blob/master/RELEASE_NOTES.md" target="_blank" rel="noopener noreferrer">What's new</a>
+         | <a href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer">Source Code</a>
       </p>
 
-      <p class="subtitle other-platforms">
-        <% if (platform === "mac") { %>
-          Looking for the <a href="/download/windows">Windows</a> or <a href="/download/linux">Linux</a> desktop apps?
-        <% } else if (platform === "linux") { %>
-          Looking for the <a href="/download/windows">Windows</a> or <a href="/download/mac">Mac</a> desktop apps?
-        <% } else { %>
-          Looking for the <a href="/download/mac">Mac</a> or <a href="/download/linux">Linux</a> desktop apps?
-        <% } %>
-      </p>
+      <p><b>Requirements:</b> macOS 10.9+ | Windows 7+ (64 bit).</p>
 
       <img src="/public/images/screenshot.png" alt="WebCatalog for macOS" class="screenshot" />
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-4">
-          Top Apps
-        </h4>
-      </div>
-      <div class="level-right">
-        <a class="button is-white" href="/apps?sort=installCount">
-          <span class="icon">
-            <i class="fa fa-caret-right"></i>
-          </span>
-          <span>Show all</span>
-        </a>
-      </div>
-    </div>
-    <div class="columns is-multiline">
-      <% var appCardClassName = "is-one-third-tablet is-one-quarter-desktop" %>
-      <% topApps.forEach(function (app) { %>
-      <% include ./partials/app-card %>
-      <% }) %>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-4">
-          New Apps
-        </h4>
-      </div>
-      <div class="level-right">
-        <a class="button is-white" href="/apps?sort=createdAt">
-          <span class="icon">
-            <i class="fa fa-caret-right"></i>
-          </span>
-          <span>Show all</span>
-        </a>
-      </div>
-    </div>
-    <div class="columns is-multiline">
-      <% var appCardClassName = "is-one-third-tablet is-one-quarter-desktop" %>
-      <% newApps.forEach(function (app) { %>
-      <% include ./partials/app-card %>
-      <% }) %>
     </div>
   </div>
 </section>
