@@ -1,7 +1,3 @@
-import {
-  requestLogOut,
-} from '../senders/auth';
-
 const apiRequest = (endpoint, method, body) =>
   (dispatch, getState) =>
     Promise.resolve()
@@ -35,9 +31,6 @@ const apiRequest = (endpoint, method, body) =>
         }
 
         // error
-        if (response.status === 401) {
-          requestLogOut();
-        }
         return response.json()
           .then((parsedResponse) => {
             const error = new Error(response.statusText);

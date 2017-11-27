@@ -9,7 +9,6 @@ export const STRING_SWIPE_TO_NAVIGATE_DESC = `<span>Navigate between pages with 
 <strong>Swipe with two or three fingers</strong>.`;
 
 export const STRING_ABOUT = 'About';
-export const STRING_ACCOUNT = 'Account';
 export const STRING_ACTIVE_MATCH_OVER_MATCHES = '<strong>{activeMatch}</strong> / <strong>{matches}</strong> matches';
 export const STRING_ADVANCED = 'Advanced';
 export const STRING_APPERANCE = 'Apperance';
@@ -65,7 +64,6 @@ export const STRING_RIGHT = 'Right';
 export const STRING_SAVE = 'Save';
 export const STRING_SHOW_NAVIGATION_BAR = 'Show navigation bar';
 export const STRING_SHOW_TITLE_BAR = 'Show title bar';
-export const STRING_SIGN_IN_INSTRUCTION = 'To sign in to your account, open WebCatalog app.';
 export const STRING_SPELL_CHECKER = 'Uses spell checker';
 export const STRING_SWIPE_TO_NAVIGATE = 'Swipe to navigate';
 export const STRING_SYSTEM = 'System';

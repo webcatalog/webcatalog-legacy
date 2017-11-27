@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { MenuItem } from 'material-ui/Menu';
-import AccountCircleIcon from 'material-ui-icons/AccountCircle';
 import AppBar from 'material-ui/AppBar';
 import blue from 'material-ui/colors/blue';
 import BuildIcon from 'material-ui-icons/Build';
@@ -42,12 +41,10 @@ import { open as openDialogProxyRules } from '../../state/dialogs/proxy-rules/ac
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { open as openDialogReset } from '../../state/dialogs/reset/actions';
 import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
-import { requestLogOut } from '../../senders/auth';
 import { requestOpenInBrowser } from '../../senders/generic';
 import { requestSetPreference } from '../../senders/preferences';
 
 import {
-  STRING_ACCOUNT,
   STRING_ADVANCED,
   STRING_APPERANCE,
   STRING_AUTO_HIDE_MENU_BAR_DESC,
@@ -68,8 +65,6 @@ import {
   STRING_LANGUAGES,
   STRING_LEARN_MORE,
   STRING_LEFT,
-  STRING_LOG_OUT,
-  STRING_LOGGED_IN_AS,
   STRING_NAVIGATION_BAR_POSITION,
   STRING_NAVIGATION,
   STRING_NONE,
@@ -83,7 +78,6 @@ import {
   STRING_RIGHT,
   STRING_SHOW_NAVIGATION_BAR,
   STRING_SHOW_TITLE_BAR,
-  STRING_SIGN_IN_INSTRUCTION,
   STRING_SPELL_CHECKER,
   STRING_SWIPE_TO_NAVIGATE_DESC,
   STRING_SWIPE_TO_NAVIGATE,
@@ -144,13 +138,6 @@ const styles = theme => ({
   flex: {
     flex: 1,
   },
-  accountSection: {
-    padding: 16,
-    textAlign: 'center',
-  },
-  accountSectionButton: {
-    marginTop: 12,
-  },
   link: {
     color: blue[500],
     '&:hover': {
@@ -198,11 +185,9 @@ class PreferencesDialog extends React.Component {
       autoHideMenuBar,
       classes,
       darkTheme,
-      email,
       homePage,
       injectCSS,
       injectJS,
-      isLoggedIn,
       navigationBarPosition,
       onClose,
       onOpenDialogClearBrowsingData,
@@ -291,17 +276,6 @@ class PreferencesDialog extends React.Component {
                   onClick={() => scrollIntoView('trackpadTitle')}
                 />
               </ListItem>}
-              <ListItem
-                button
-              >
-                <ListItemIcon>
-                  <AccountCircleIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={STRING_ACCOUNT}
-                  onClick={() => scrollIntoView('accountTitle')}
-                />
-              </ListItem>
             </List>
             <List subheader={<ListSubheader>{STRING_ADVANCED}</ListSubheader>} dense>
               <ListItem
@@ -592,44 +566,6 @@ class PreferencesDialog extends React.Component {
 
             <div
               className={classes.paperTitleContainer}
-              ref={(el) => { this.accountTitle = el; }}
-            >
-              <Typography type="body2" className={classes.paperTitle}>
-                {STRING_ACCOUNT}
-              </Typography>
-            </div>
-            <Paper className={classes.paper}>
-              {isLoggedIn ? (
-                <div className={classes.accountSection}>
-                  <Typography type="body1">
-                    <span
-                      dangerouslySetInnerHTML={{ __html: STRING_LOGGED_IN_AS.replace('{email}', email) }}
-                    />
-                  </Typography>
-                  <Button
-                    raised
-                    className={classes.accountSectionButton}
-                    onClick={requestLogOut}
-                  >
-                    {STRING_LOG_OUT}
-                  </Button>
-                </div>
-              ) : (
-                <div className={classes.accountSection}>
-                  <Typography type="body1">
-                    {STRING_SIGN_IN_INSTRUCTION}
-                  </Typography>
-                  {
-                  // <Button raised className={classes.accountSectionButton}>
-                  // {STRING_OPEN_WEBCATALOG}
-                  // </Button>
-                  }
-                </div>
-              )}
-            </Paper>
-
-            <div
-              className={classes.paperTitleContainer}
               ref={(el) => { this.privacyAndSecurityTitle = el; }}
             >
               <Typography type="body2" className={classes.paperTitle}>
@@ -826,7 +762,6 @@ class PreferencesDialog extends React.Component {
 PreferencesDialog.defaultProps = {
   autoHideMenuBar: false,
   darkTheme: false,
-  email: null,
   homePage: null,
   injectCSS: '',
   injectJS: '',
@@ -846,11 +781,9 @@ PreferencesDialog.propTypes = {
   autoHideMenuBar: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   darkTheme: PropTypes.bool,
-  email: PropTypes.string,
   homePage: PropTypes.string,
   injectCSS: PropTypes.string,
   injectJS: PropTypes.string,
-  isLoggedIn: PropTypes.bool.isRequired,
   navigationBarPosition: PropTypes.oneOf(['top', 'left', 'right']),
   onClose: PropTypes.func.isRequired,
   onOpenDialogClearBrowsingData: PropTypes.func.isRequired,
@@ -893,11 +826,9 @@ const mapStateToProps = (state) => {
   return {
     autoHideMenuBar,
     darkTheme,
-    email: state.user.apiData.email,
     homePage,
     injectCSS,
     injectJS,
-    isLoggedIn: Boolean(state.auth.token && state.auth.token !== 'anonymous'),
     navigationBarPosition,
     open: state.dialogs.preferences.open,
     proxyRules,

@@ -1,4 +1,3 @@
-/* global ipcRenderer */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -18,11 +17,6 @@ import store from './state';
 
 // listeners to communicate with main process
 import loadListeners from './listeners';
-
-// senders
-import {
-  requestReadTokenFromDisk,
-} from './senders/auth';
 
 import App from './app';
 
@@ -50,8 +44,4 @@ const runApp = () => {
   );
 };
 
-ipcRenderer.once('set-auth-token', () => {
-  runApp();
-});
-
-requestReadTokenFromDisk();
+runApp();

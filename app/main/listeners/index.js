@@ -8,13 +8,11 @@ const {
   shell,
 } = require('electron');
 
-const loadAuthListeners = require('./auth');
 const loadPreferencesListeners = require('./preferences');
 
 const sendMessageToWindow = require('../libs/send-message-to-window');
 
 const loadListeners = () => {
-  loadAuthListeners();
   loadPreferencesListeners();
 
   ipcMain.on('request-open-in-browser', (e, browserUrl) => {
