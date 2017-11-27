@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import topCharts from './top-charts/reducers';
+import popularApps from './popular-apps/reducers';
 
 export default combineReducers({
-  topCharts,
+  popularApps,
 });

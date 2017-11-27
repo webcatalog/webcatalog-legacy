@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import {
-  ROUTE_TOP_CHARTS,
+  ROUTE_POPULAR_APPS,
 } from '../../../constants/routes';
 
 import {
@@ -15,7 +15,7 @@ const previousRoute = (state = null, action) => {
   }
 };
 
-const route = (state = ROUTE_TOP_CHARTS, action) => {
+const route = (state = ROUTE_POPULAR_APPS, action) => {
   switch (action.type) {
     case ROUTE_CHANGE: return action.route;
     default: return state;

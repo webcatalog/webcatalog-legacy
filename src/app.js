@@ -15,7 +15,7 @@ import EnhancedSnackBar from './root/enhanced-snackbar';
 import UpdaterMessage from './root/updater-message';
 
 import InstalledApps from './pages/installed-apps';
-import TopCharts from './pages/top-charts';
+import PopularApps from './pages/popular-apps';
 
 import {
   ROUTE_INSTALLED_APPS,
@@ -57,7 +57,7 @@ class App extends React.Component {
         pageContent = <InstalledApps key="InstalledApps" />;
         break;
       default:
-        pageContent = <TopCharts key="topCharts" />;
+        pageContent = <PopularApps key="popularApps" />;
     }
 
     return (

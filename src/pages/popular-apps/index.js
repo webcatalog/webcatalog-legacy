@@ -65,7 +65,7 @@ const styles = theme => ({
   },
 });
 
-class TopCharts extends React.Component {
+class PopularApps extends React.Component {
   render() {
     const {
       apps,
@@ -120,11 +120,11 @@ class TopCharts extends React.Component {
   }
 }
 
-TopCharts.defaultProps = {
+PopularApps.defaultProps = {
   availableUpdateCount: 0,
 };
 
-TopCharts.propTypes = {
+PopularApps.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   availableUpdateCount: PropTypes.number,
   classes: PropTypes.object.isRequired,
@@ -135,7 +135,7 @@ TopCharts.propTypes = {
 const mapStateToProps = (state) => {
   const {
     apiData,
-  } = state.pages.topCharts;
+  } = state.pages.popularApps;
 
   const {
     apps,
@@ -153,7 +153,7 @@ const actionCreators = {
 };
 
 export default connectComponent(
-  TopCharts,
+  PopularApps,
   mapStateToProps,
   actionCreators,
   styles,
