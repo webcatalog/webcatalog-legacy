@@ -1,9 +1,7 @@
 import express from 'express';
-import passport from 'passport';
 import errors from 'throw.js';
 
 import App from '../../models/app';
-import Action from '../../models/action';
 import categories from '../../constants/categories';
 
 const appApiRouter = express.Router();
@@ -75,39 +73,18 @@ appApiRouter.get('/', (req, res, next) => {
 });
 
 appApiRouter.get('/:id', (req, res, next) => {
-  passport.authenticate('jwt', { session: false }, (err, user) => {
-    if (err) {
-      next(err);
-    } else {
-      App.find({
-        attributes: { exclude: unretrievableAttributes },
-        where: { id: req.params.id, isActive: true },
-      })
-        .then((app) => {
-          if (!app) throw new errors.NotFound();
+  const { id } = req.params;
 
-          if (user && (req.query.action === 'install' || req.query.action === 'update')) {
-            return Action.findOne({ where: { appId: app.id, userId: user.id } })
-              .then((action) => {
-                if (!action) {
-                  return app.increment('installCount');
-                }
-                return null;
-              })
-              .then(() => Action.create({ actionName: req.query.action }))
-              .then(action =>
-                Promise.all([
-                  action.setApp(app),
-                  action.setUser(user),
-                ]))
-              .then(() => res.json({ app }));
-          }
+  return App.find({
+    attributes: { exclude: unretrievableAttributes },
+    where: { id, isActive: true },
+  })
+    .then((app) => {
+      if (!app) throw new errors.NotFound();
 
-          return res.json({ app });
-        })
-        .catch(next);
-    }
-  })(req, res, next);
+      return res.json({ app });
+    })
+    .catch(next);
 });
 
 export default appApiRouter;

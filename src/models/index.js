@@ -1,4 +1,3 @@
-import Action from './action';
 import App from './app';
 import Draft from './draft';
 import Session from './session';
@@ -16,14 +15,6 @@ const syncModels = () =>
         Draft.sync(),
       ]);
     })
-    .then(() => {
-      Action.App = Action.belongsTo(App);
-      Action.User = Action.belongsTo(User);
-
-      return Promise.all([
-        Action.sync(),
-        Session.sync(),
-      ]);
-    });
+    .then(() => Session.sync());
 
 export default syncModels;
