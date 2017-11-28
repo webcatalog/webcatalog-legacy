@@ -34,7 +34,11 @@
   },
   "dependencies": {
     "electron-packager": "9.1.0",
+    "file-type": "7.3.0",
     "fs-extra": "4.0.2",
+    "icon-gen": "1.2.0",
+    "read-chunk": "2.1.0",
+    "sharp": "0.18.4",
     "tmp": "0.0.33"
   }
 }

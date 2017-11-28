@@ -9,14 +9,6 @@ chai.use(chaiAsPromised);
 
 const createAppAsync = require('../../src');
 
-const getIconFileExt = () => {
-  switch (process.platform) {
-    case 'darwin': return 'icns';
-    case 'win32': return 'ico';
-    default: return 'png';
-  }
-};
-
 /*
 const getElectronPath = () => {
   if (process.platform === 'win32') {
@@ -80,7 +72,7 @@ const harness = (name, fn, args) => {
         'molecule',
         'Molecule',
         'https://bitmovin.com/mpeg-dash-hls-drm-test-player/',
-        path.resolve(__dirname, '..', `828296a5-0969-4a56-8e68-e188b03584b0.${getIconFileExt()}`),
+        path.resolve(__dirname, '..', 'icon.png'),
         path.resolve(__dirname, '..', 'dist'),
       )
         .then((destPath) => {
