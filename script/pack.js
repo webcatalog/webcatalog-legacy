@@ -17,8 +17,8 @@ fs.readdirSync(appPath)
       { slug, objectID: slug },
       yaml.load(yamlFile),
       {
-        icon: `${slug}-icon.png`,
-        icon128: `${slug}-icon-128.png`,
+        icon: `https://s3.amazonaws.com/webcatalog-apps/${slug}/${slug}-icon.png`,
+        icon128: `https://s3.amazonaws.com/webcatalog-apps/${slug}/${slug}-icon-128.png`,
       },
     );
 
