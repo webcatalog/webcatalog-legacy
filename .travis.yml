@@ -3,6 +3,7 @@ node_js: 8
 before_script:
 - yarn lint
 - yarn test
+script:
 - yarn build:pack
 deploy:
   provider: s3
