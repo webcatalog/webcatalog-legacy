@@ -3,18 +3,18 @@
 import {
   setLocalApp,
   removeLocalApp,
-} from '../actions/root/local/actions';
+} from '../state/root/local/actions';
 
 import {
   setUpdaterStatus,
-} from '../actions/root/updater/actions';
+} from '../state/root/updater/actions';
 
 import {
   openSnackbar,
-} from '../actions/root/snackbar/actions';
+} from '../state/root/snackbar/actions';
 import {
   open as openDialogAbout,
-} from '../actions/dialogs/about/actions';
+} from '../state/dialogs/about/actions';
 
 
 const loadListeners = (store) => {
