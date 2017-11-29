@@ -11,7 +11,7 @@ const tmpIndexName = `tmp_apps_${Date.now().toString()}`;
 const tmpIndex = client.initIndex(tmpIndexName);
 tmpIndex.addObjects(apps)
   .then(() => client.moveIndex(tmpIndexName, indexName))
-  .then((err) => {
+  .catch((err) => {
     console.log(err);
     process.exit(1);
   });
