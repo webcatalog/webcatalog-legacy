@@ -40,12 +40,13 @@ const createWindow = () => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 480,
+    minWidth: 640,
     minHeight: 640,
     title: 'WebCatalog',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     autoHideMenuBar: true,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: isTesting, // only needed for testing
       webviewTag: true,
       preload: path.join(__dirname, 'preload.js'),

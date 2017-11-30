@@ -12,12 +12,12 @@ import 'typeface-roboto/index.css';
 
 import './index.css';
 
-import store from './reducers';
+import store from './state';
 
 // listeners to communicate with main process
 import loadListeners from './listeners';
 
-import App from './app';
+import App from './components/app';
 
 loadListeners(store);
 
