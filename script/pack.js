@@ -14,7 +14,7 @@ fs.readdirSync(appPath)
   .forEach((slug) => {
     const yamlFile = path.join(appPath, `${slug}/${slug}.yml`);
     const app = Object.assign(
-      { slug, objectID: slug },
+      { id: slug, objectID: slug },
       yaml.load(yamlFile),
       {
         icon: `https://s3.amazonaws.com/webcatalog-apps/${slug}/${slug}-icon.png`,
