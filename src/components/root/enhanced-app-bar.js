@@ -16,6 +16,7 @@ import connectComponent from '../../helpers/connect-component';
 import FakeTitleBar from '../shared/fake-title-bar';
 
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
+import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
 import {
   changeRoute,
 } from '../../state/root/router/actions';
@@ -26,7 +27,7 @@ import {
 } from '../../constants/routes';
 
 import {
-  STRING_CREATE_A_CUSTOM_APP,
+  STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
   STRING_INSTALLED_APPS,
 } from '../../constants/strings';
@@ -68,6 +69,7 @@ class EnhancedAppBar extends React.Component {
       classes,
       onChangeRoute,
       onOpenDialogAbout,
+      onOpenDialogCreateCustomApp,
       route,
     } = this.props;
 
@@ -91,9 +93,9 @@ class EnhancedAppBar extends React.Component {
                 label={STRING_INSTALLED_APPS}
               />
             </Tabs>
-            <Button color="contrast">
+            <Button color="contrast" onClick={onOpenDialogCreateCustomApp}>
               <AddIcon className={classes.leftIcon} />
-              {STRING_CREATE_A_CUSTOM_APP}
+              {STRING_CREATE_CUSTOM_APP}
             </Button>
             <IconButton
               aria-owns="info"
@@ -123,6 +125,7 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
 
@@ -133,6 +136,7 @@ const mapStateToProps = state => ({
 const actionCreators = {
   changeRoute,
   openDialogAbout,
+  openDialogCreateCustomApp,
 };
 
 export default connectComponent(

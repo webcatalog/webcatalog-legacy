@@ -7,6 +7,7 @@ import { getVersion } from '../state/root/version/actions';
 
 import DialogAbout from './dialogs/about';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
+import DialogCreateCustomApp from './dialogs/create-custom-app';
 import DialogUpdateMainAppFirst from './dialogs/update-main-app-first';
 
 import EnhancedAppBar from './root/enhanced-app-bar';
@@ -60,6 +61,7 @@ class App extends React.Component {
         <EnhancedSnackBar />
         <DialogAbout />
         <DialogConfirmUninstallApp />
+        <DialogCreateCustomApp />
         <DialogUpdateMainAppFirst />
       </div>
     );

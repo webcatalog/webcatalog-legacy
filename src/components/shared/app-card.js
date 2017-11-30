@@ -1,5 +1,6 @@
-import React from 'react';
+import isUrl from 'is-url';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -212,7 +213,7 @@ const AppCard = (props) => {
         color="primary"
         dense
         disabled={isInstalling || isUninstalling}
-        onClick={() => onInstallApp(app.id, app.name)}
+        onClick={() => onInstallApp(app)}
       >
         <GetAppIcon color="inherit" />
         <span className={classes.buttonText}>{label}</span>
@@ -224,11 +225,22 @@ const AppCard = (props) => {
     ? <LinearProgress className={classes.linearProgress} />
     : null;
 
+  let icon = electronIcon;
+  if (app.icon128) icon = app.icon128;
+  else if (app.icon) {
+    if (isUrl(app.icon)) icon = app.icon;
+    else icon = `file://${app.icon}`;
+  }
+
   return (
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <img src={electronIcon} alt={app.name} className={classes.paperIcon} />
+          <img
+            alt={app.name}
+            className={classes.paperIcon}
+            src={icon}
+          />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>

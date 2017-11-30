@@ -2,26 +2,37 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
+import SearchIcon from 'material-ui-icons/Search';
 
 import connectComponent from '../../../helpers/connect-component';
 
+import { requestOpenInBrowser } from '../../../senders/generic';
+
 import { getAvailableUpdateCount } from '../../../state/root/local/utils';
 import { changeRoute } from '../../../state/root/router/actions';
+import { getHits } from '../../../state/pages/directory/actions';
 
 import {
   STRING_UPDATES_AVAILABLE,
   STRING_VIEW,
+  STRING_NO_RESULTS_HINT,
+  STRING_NO_RESULTS,
 } from '../../../constants/strings';
 
 import { ROUTE_INSTALLED_APPS } from '../../../constants/routes';
 
 import AppCard from '../../shared/app-card';
+import NoConnection from '../../shared/no-connection';
+import EmptyState from '../../shared/empty-state';
 
 import SearchBox from './search-box';
+
+import searchByAlgoliaSvg from '../../../assets/search-by-algolia.svg';
 
 const styles = theme => ({
   root: {
@@ -60,19 +71,69 @@ const styles = theme => ({
     justifyContent: 'center',
     paddingBottom: theme.spacing.unit * 2,
   },
-  updateAllButton: {
-    marginLeft: theme.spacing.unit,
+  searchByAlgoliaContainer: {
+    marginTop: theme.spacing.unit * 3,
+    outline: 'none',
+  },
+  searchByAlgolia: {
+    height: 20,
+    cursor: 'pointer',
   },
 });
 
 class Directory extends React.Component {
+  componentDidMount() {
+    const { onGetHits } = this.props;
+
+    onGetHits();
+  }
+
   render() {
     const {
       apps,
       availableUpdateCount,
       classes,
+      hasFailed,
+      isGetting,
       onChangeRoute,
+      onGetHits,
     } = this.props;
+
+    const renderContent = () => {
+      if (hasFailed) {
+        return (
+          <NoConnection
+            onTryAgainButtonClick={onGetHits}
+          />
+        );
+      }
+
+      if (apps.length < 1) {
+        return (
+          <EmptyState icon={SearchIcon} title={STRING_NO_RESULTS}>
+            {STRING_NO_RESULTS_HINT}
+          </EmptyState>
+        );
+      }
+
+      return (
+        <React.Fragment>
+          <Grid container justify="center" spacing={24}>
+            {apps.map(app => <AppCard key={app.id} app={app} />)}
+          </Grid>
+
+          <Grid container justify="center">
+            <div onClick={() => requestOpenInBrowser('https://algolia.com')} role="link" tabIndex="0" className={classes.searchByAlgoliaContainer}>
+              <img
+                src={searchByAlgoliaSvg}
+                alt="Search by Algolia"
+                className={classes.searchByAlgolia}
+              />
+            </div>
+          </Grid>
+        </React.Fragment>
+      );
+    };
 
     return (
       <div className={classes.root}>
@@ -102,11 +163,10 @@ class Directory extends React.Component {
               <SearchBox />
             </Grid>
             <Grid item xs={12}>
-              <Grid container justify="center" spacing={24}>
-                {apps.map(app => <AppCard key={app.id} app={app} />)}
-              </Grid>
+              {renderContent()}
             </Grid>
           </Grid>
+          {isGetting && (<LinearProgress />)}
         </div>
       </div>
     );
@@ -121,16 +181,22 @@ Directory.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   availableUpdateCount: PropTypes.number,
   classes: PropTypes.object.isRequired,
+  hasFailed: PropTypes.bool.isRequired,
+  isGetting: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
+  onGetHits: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   apps: state.pages.directory.hits,
   availableUpdateCount: getAvailableUpdateCount(state),
+  hasFailed: state.pages.directory.hasFailed,
+  isGetting: state.pages.directory.isGetting,
 });
 
 const actionCreators = {
   changeRoute,
+  getHits,
 };
 
 export default connectComponent(

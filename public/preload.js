@@ -18,3 +18,8 @@ const { arch, platform, versions } = process;
 window.arch = arch;
 window.platform = platform;
 window.versions = versions;
+
+window.appPath = remote.app.getAppPath();
+
+const { dialog } = remote;
+window.dialog = dialog;

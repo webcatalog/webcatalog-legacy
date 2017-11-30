@@ -66,3 +66,15 @@ export const getAvailableUpdateCount = (state) => {
 
   return count;
 };
+
+export const nameExists = (state, name) => {
+  const managedApps = state.local.apps;
+
+  return Boolean(Object.keys(managedApps).find((id) => {
+    if (managedApps[id].app.name === name) {
+      return true;
+    }
+
+    return false;
+  }));
+};

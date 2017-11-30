@@ -25,6 +25,8 @@ const scanInstalledAsync = () =>
                       if (fileName === '.DS_Store') return;
 
                       const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
+                      const iconPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'icon.png');
+
                       promises.push(fs.pathExists(packageJsonPath)
                         .then((exists) => {
                           if (exists) {
@@ -32,6 +34,7 @@ const scanInstalledAsync = () =>
                               .then((packageInfo) => {
                                 const appInfo = Object.assign({}, packageInfo.webApp, {
                                   moleculeVersion: packageInfo.version,
+                                  icon: fs.pathExistsSync(iconPath) ? iconPath : null,
                                 });
 
                                 installedApps.push(appInfo);
@@ -60,6 +63,8 @@ const scanInstalledAsync = () =>
 
                     files.forEach((fileName) => {
                       const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                      const iconPath = path.join(allAppPath, fileName, 'resources', 'icon.png');
+
                       promises.push(fs.pathExists(packageJsonPath)
                         .then((exists) => {
                           if (exists) {
@@ -67,6 +72,7 @@ const scanInstalledAsync = () =>
                               .then((packageInfo) => {
                                 const appInfo = Object.assign({}, packageInfo.webApp, {
                                   moleculeVersion: packageInfo.version,
+                                  icon: fs.pathExistsSync(iconPath) ? iconPath : null,
                                 });
 
                                 installedApps.push(appInfo);
@@ -95,6 +101,8 @@ const scanInstalledAsync = () =>
 
                     files.forEach((fileName) => {
                       const packageJsonPath = path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                      const iconPath = path.join(allAppPath, fileName, 'resources', 'icon.png');
+
                       promises.push(fs.pathExists(packageJsonPath)
                         .then((exists) => {
                           if (exists) {
@@ -102,6 +110,7 @@ const scanInstalledAsync = () =>
                               .then((packageInfo) => {
                                 const appInfo = Object.assign({}, packageInfo.webApp, {
                                   moleculeVersion: packageInfo.version,
+                                  icon: fs.pathExistsSync(iconPath) ? iconPath : null,
                                 });
 
                                 installedApps.push(appInfo);

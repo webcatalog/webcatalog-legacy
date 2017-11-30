@@ -4,11 +4,17 @@ import PropTypes from 'prop-types';
 import CloseIcon from 'material-ui-icons/Close';
 import common from 'material-ui/colors/common';
 import IconButton from 'material-ui/IconButton';
+import KeyboardReturnIcon from 'material-ui-icons/KeyboardReturn';
 import Paper from 'material-ui/Paper';
 import SearchIcon from 'material-ui-icons/Search';
 import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../../helpers/connect-component';
+
+import {
+  resetThenGetHits,
+  updateQuery,
+} from '../../../state/pages/directory/actions';
 
 import {
   STRING_CLEAR,
@@ -99,19 +105,29 @@ class EnhancedAppBar extends React.Component {
   render() {
     const {
       classes,
-      onFormUpdate,
+      onResetThenGetHits,
+      onUpdateQuery,
       query,
     } = this.props;
 
     const clearSearchAction = query.length > 0 &&
       (
-        <IconButton
-          color="default"
-          aria-label={STRING_CLEAR}
-          onClick={() => onFormUpdate({ query: '' })}
-        >
-          <CloseIcon />
-        </IconButton>
+        <React.Fragment>
+          <IconButton
+            color="default"
+            aria-label={STRING_CLEAR}
+            onClick={() => onUpdateQuery('')}
+          >
+            <CloseIcon />
+          </IconButton>
+          <IconButton
+            color="default"
+            aria-label={STRING_CLEAR}
+            onClick={onResetThenGetHits}
+          >
+            <KeyboardReturnIcon />
+          </IconButton>
+        </React.Fragment>
       );
 
     return (
@@ -130,8 +146,13 @@ class EnhancedAppBar extends React.Component {
           >
             <input
               className={classes.input}
-              onChange={e => onFormUpdate({ query: e.target.value })}
-              onInput={e => onFormUpdate({ query: e.target.value })}
+              onChange={e => onUpdateQuery(e.target.value)}
+              onInput={e => onUpdateQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && query.length > 0) {
+                  onResetThenGetHits();
+                }
+              }}
               placeholder={STRING_SEARCH_APPS}
               ref={(inputBox) => { this.inputBox = inputBox; }}
               value={query}
@@ -150,7 +171,8 @@ EnhancedAppBar.defaultProps = {
 
 EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  onFormUpdate: PropTypes.func.isRequired,
+  onResetThenGetHits: PropTypes.func.isRequired,
+  onUpdateQuery: PropTypes.func.isRequired,
   query: PropTypes.string,
 };
 
@@ -159,7 +181,8 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  formUpdate: () => {},
+  resetThenGetHits,
+  updateQuery,
 };
 
 export default connectComponent(

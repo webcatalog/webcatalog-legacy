@@ -15,10 +15,12 @@ import installAppAsync from '../../../helpers/install-app-async';
 import {
   STRING_FAILED_TO_INSTALL,
   STRING_FAILED_TO_UPDATE,
+  STRING_NAME_EXISTS,
 } from '../../../constants/strings';
 
 import {
   isUpdatable,
+  nameExists,
 } from './utils';
 
 
@@ -29,16 +31,22 @@ export const removeLocalApp = id =>
   dispatch => dispatch(localAppRemove(id));
 
 
-export const installApp = (id, name) =>
-  dispatch =>
-    dispatch(null)
-    // dispatch(apiGet(`/apps/${id}?action=install`))
-      .then(({ app }) => installAppAsync(app))
+export const installApp = app =>
+  (dispatch, getState) => {
+    const state = getState();
+
+    if (nameExists(state, app.name)) {
+      dispatch(openSnackbar(STRING_NAME_EXISTS.replace('{name}', app.name)));
+      return null;
+    }
+
+    return installAppAsync(app)
       .catch((err) => {
-        dispatch(openSnackbar(STRING_FAILED_TO_INSTALL.replace('{name}', name)));
+        dispatch(openSnackbar(STRING_FAILED_TO_INSTALL.replace('{name}', app.name)));
         // eslint-disable-next-line
         console.log(err);
       });
+  };
 
 export const updateApp = id =>
   (dispatch, getState) => {
@@ -60,10 +68,7 @@ export const updateApp = id =>
           return dispatch(openUpdateMainAppFirstDialog());
         }
 
-        return null;
-
-        // return dispatch(apiGet(`/apps/${id}?action=install`))
-        // .then(({ app }) => installAppAsync(app));
+        return installAppAsync(managedApp.app);
       })
       .catch((err) => {
         dispatch(setLocalApp(id, 'INSTALLED', managedApp.app));

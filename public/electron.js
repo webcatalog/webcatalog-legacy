@@ -46,6 +46,7 @@ const createWindow = () => {
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     autoHideMenuBar: true,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: isTesting, // only needed for testing
       webviewTag: true,
       preload: path.join(__dirname, 'preload.js'),

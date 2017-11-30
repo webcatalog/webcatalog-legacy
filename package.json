@@ -34,6 +34,7 @@
     "yargs-parser": "8.0.0"
   },
   "devDependencies": {
+    "algoliasearch": "3.24.7",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "chai": "4.1.2",
@@ -55,8 +56,8 @@
     "material-ui-icons": "1.0.0-beta.17",
     "mocha": "4.0.1",
     "prop-types": "15.6.0",
-    "react": "16.1.1",
-    "react-dom": "16.1.1",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
     "react-redux": "5.0.6",
     "react-scripts": "1.0.17",
     "redux": "3.7.2",
