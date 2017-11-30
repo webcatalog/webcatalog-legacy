@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import connectComponent from '../helpers/connect-component';
 
 import { getVersion } from '../state/root/version/actions';
+import { checkForLinuxUpdates } from '../state/root/updater/actions';
 
 import DialogAbout from './dialogs/about';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
@@ -33,7 +34,12 @@ class App extends React.Component {
   componentDidMount() {
     const {
       onGetVersion,
+      onCheckForLinuxUpdates,
     } = this.props;
+
+    if (window.platform === 'linux') {
+      onCheckForLinuxUpdates();
+    }
 
     onGetVersion();
   }
@@ -70,6 +76,7 @@ class App extends React.Component {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
+  onCheckForLinuxUpdates: PropTypes.func.isRequired,
   onGetVersion: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
@@ -79,6 +86,7 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
+  checkForLinuxUpdates,
   getVersion,
 };
 
