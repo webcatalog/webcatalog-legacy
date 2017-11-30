@@ -10,6 +10,7 @@ const tmpIndexName = `tmp_apps_${Date.now().toString()}`;
 
 const tmpIndex = client.initIndex(tmpIndexName);
 tmpIndex.addObjects(apps)
+  .then(() => tmpIndex.setSettings({ customRanking: ['asc(name)'] }))
   .then(() => client.moveIndex(tmpIndexName, indexName))
   .catch((err) => {
     console.log(err);
