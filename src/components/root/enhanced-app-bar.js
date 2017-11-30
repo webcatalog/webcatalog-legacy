@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import AddIcon from 'material-ui-icons/Add';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
+import common from 'material-ui/colors/common';
 import HelpIcon from 'material-ui-icons/Help';
 import IconButton from 'material-ui/IconButton';
 import InfoIcon from 'material-ui-icons/Info';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
-import common from 'material-ui/colors/common';
+import Tooltip from 'material-ui/Tooltip';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -27,8 +28,10 @@ import {
 } from '../../constants/routes';
 
 import {
+  STRING_ABOUT,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
+  STRING_HELP,
   STRING_INSTALLED_APPS,
 } from '../../constants/strings';
 
@@ -97,22 +100,26 @@ class EnhancedAppBar extends React.Component {
               <AddIcon className={classes.leftIcon} />
               {STRING_CREATE_CUSTOM_APP}
             </Button>
-            <IconButton
-              aria-owns="info"
-              aria-haspopup="true"
-              onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
-              color="contrast"
-            >
-              <HelpIcon />
-            </IconButton>
-            <IconButton
-              aria-owns="info"
-              aria-haspopup="true"
-              onClick={onOpenDialogAbout}
-              color="contrast"
-            >
-              <InfoIcon />
-            </IconButton>
+            <Tooltip title={STRING_HELP} placement="bottom">
+              <IconButton
+                aria-owns="info"
+                aria-haspopup="true"
+                onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
+                color="contrast"
+              >
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={STRING_ABOUT} placement="bottom">
+              <IconButton
+                aria-owns="info"
+                aria-haspopup="true"
+                onClick={onOpenDialogAbout}
+                color="contrast"
+              >
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
 
         </AppBar>

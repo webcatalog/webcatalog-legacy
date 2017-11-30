@@ -54,3 +54,4 @@ export const STRING_NAME_EXISTS = 'An app named "{name}" already exists.';
 export const STRING_NO_RESULTS = 'No Results';
 export const STRING_NO_RESULTS_HINT = 'Try a different name, a domain or a category';
 export const STRING_CHANGE_ICON = 'Change icon';
+export const STRING_HELP = 'Help';
