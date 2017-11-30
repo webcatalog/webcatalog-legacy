@@ -29,7 +29,6 @@
     "follow-redirects": "1.2.6",
     "fs-extra": "4.0.2",
     "is-url": "1.2.2",
-    "request-promise": "4.2.2",
     "tmp": "0.0.33",
     "yargs-parser": "8.0.0"
   },
