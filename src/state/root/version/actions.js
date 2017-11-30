@@ -4,11 +4,14 @@ import {
   versionGetFailed,
 } from './action-creators';
 
+import {
+  apiGet,
+} from '../../api';
+
 export const getVersion = () =>
   (dispatch) => {
     dispatch(versionGetRequest());
-    return fetch('https://webcatalog.io/api/version/latest')
-      .then(res => res.json())
+    return dispatch(apiGet('/version/latest'))
       .then(res => dispatch(versionGetSuccess(res)))
       .catch(() => dispatch(versionGetFailed()));
   };
