@@ -1,3 +1,9 @@
+## 8.0.0
+- Simplifies functionality.
+- Adds ability to create custom app.
+
+---
+
 ## 7.7.0 | 7.7.1 | 7.7.2
 - Prepares for [WebCatalog 8](https://github.com/webcatalog/webcatalog/pull/212).
 - Removes authentication.
