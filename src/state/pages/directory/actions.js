@@ -31,9 +31,15 @@ export const getHits = () =>
     dispatch(directoryUpdateCurrentQuery(query));
     dispatch(directoryGetRequest());
 
-    index.search(query)
+    index.search({
+      query,
+      page: page + 1,
+      hitsPerPage: 24,
+    })
       .then(res => dispatch(directoryGetSuccess({
         hits: res.hits,
+        page: res.page,
+        totalPage: res.nbPages,
       })))
       .catch(() => dispatch(directoryGetFailed()));
   };

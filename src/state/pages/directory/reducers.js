@@ -20,7 +20,7 @@ const hasFailed = (state = false, action) => {
 
 const hits = (state = [], action) => {
   switch (action.type) {
-    case DIRECTORY_GET_SUCCESS: return action.hits;
+    case DIRECTORY_GET_SUCCESS: return state.concat(action.hits);
     case DIRECTORY_RESET: return [];
     default: return state;
   }
@@ -31,6 +31,14 @@ const isGetting = (state = false, action) => {
     case DIRECTORY_GET_FAILED: return false;
     case DIRECTORY_GET_REQUEST: return true;
     case DIRECTORY_GET_SUCCESS: return false;
+    default: return state;
+  }
+};
+
+const page = (state = -1, action) => {
+  switch (action.type) {
+    case DIRECTORY_GET_SUCCESS: return action.page;
+    case DIRECTORY_RESET: return -1;
     default: return state;
   }
 };
@@ -49,10 +57,21 @@ const query = (state = '', action) => {
   }
 };
 
+const totalPage = (state = 1, action) => {
+  switch (action.type) {
+    case DIRECTORY_GET_SUCCESS: return action.totalPage;
+    case DIRECTORY_RESET: return 1;
+    default: return state;
+  }
+};
+
+
 export default combineReducers({
   currentQuery,
   hasFailed,
   hits,
   isGetting,
+  page,
   query,
+  totalPage,
 });

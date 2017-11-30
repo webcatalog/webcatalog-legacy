@@ -86,6 +86,14 @@ class Directory extends React.Component {
     const { onGetHits } = this.props;
 
     onGetHits();
+
+    const el = this.scrollContainer;
+    el.onscroll = () => {
+      // Plus 300 to run ahead.
+      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
+        onGetHits();
+      }
+    };
   }
 
   render() {
@@ -108,7 +116,7 @@ class Directory extends React.Component {
         );
       }
 
-      if (apps.length < 1) {
+      if (!isGetting && apps.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title={STRING_NO_RESULTS}>
             {STRING_NO_RESULTS_HINT}
@@ -122,15 +130,17 @@ class Directory extends React.Component {
             {apps.map(app => <AppCard key={app.id} app={app} />)}
           </Grid>
 
-          <Grid container justify="center">
-            <div onClick={() => requestOpenInBrowser('https://algolia.com')} role="link" tabIndex="0" className={classes.searchByAlgoliaContainer}>
-              <img
-                src={searchByAlgoliaSvg}
-                alt="Search by Algolia"
-                className={classes.searchByAlgolia}
-              />
-            </div>
-          </Grid>
+          {!isGetting && (
+            <Grid container justify="center">
+              <div onClick={() => requestOpenInBrowser('https://algolia.com')} role="link" tabIndex="0" className={classes.searchByAlgoliaContainer}>
+                <img
+                  src={searchByAlgoliaSvg}
+                  alt="Search by Algolia"
+                  className={classes.searchByAlgolia}
+                />
+              </div>
+            </Grid>
+          )}
         </React.Fragment>
       );
     };

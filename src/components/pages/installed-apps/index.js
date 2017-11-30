@@ -54,37 +54,36 @@ const Installed = (props) => {
 
   return (
     <div className={classes.scrollContainer}>
-      <div className={classes.headerContainer}>
-        <Typography type="body1">
-          {STRING_UPDATES_AVAILABLE} ({availableUpdateCount})
-        </Typography>
-        <Button
-          className={classes.updateAllButton}
-          color="primary"
-          onClick={onUpdateAllApps}
-          disabled={availableUpdateCount < 1}
-        >
-          {STRING_UPDATE_ALL}
-        </Button>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <div className={classes.headerContainer}>
+            <Typography type="body1">
+              {STRING_UPDATES_AVAILABLE} ({availableUpdateCount})
+            </Typography>
+            <Button
+              className={classes.updateAllButton}
+              color="primary"
+              onClick={onUpdateAllApps}
+              disabled={availableUpdateCount < 1}
+            >
+              {STRING_UPDATE_ALL}
+            </Button>
+          </div>
 
-
-      {(apps.length > 0) ? (
-        <Grid container>
-          <Grid item xs={12}>
+          {(apps.length > 0) ? (
             <Grid container justify="center" spacing={24}>
               {apps.map(app => <AppCard key={app.id} app={app} />)}
             </Grid>
-          </Grid>
+          ) : (
+            <EmptyState
+              icon={FileDownloadIcon}
+              title={STRING_NO_INSTALLED_APPS}
+            >
+              {STRING_NO_INSTALLED_APPS_DESC}
+            </EmptyState>
+          )}
         </Grid>
-      ) : (
-        <EmptyState
-          icon={FileDownloadIcon}
-          title={STRING_NO_INSTALLED_APPS}
-        >
-          {STRING_NO_INSTALLED_APPS_DESC}
-        </EmptyState>
-      )}
+      </Grid>
     </div>
   );
 };

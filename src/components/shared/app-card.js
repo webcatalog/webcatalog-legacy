@@ -226,11 +226,9 @@ const AppCard = (props) => {
     : null;
 
   let icon = electronIcon;
-  if (app.icon128) icon = app.icon128;
-  else if (app.icon) {
-    if (isUrl(app.icon)) icon = app.icon;
-    else icon = `file://${app.icon}`;
-  }
+  if (app.icon && !isUrl(app.icon)) icon = `file://${app.icon}`;
+  else if (app.icon128) icon = app.icon128;
+  else if (app.icon) icon = app.icon;
 
   return (
     <Grid key={app.id} item>
