@@ -1,3 +1,9 @@
+## 7.7.0 | 7.7.1 | 7.7.2
+- Prepares for [WebCatalog 8](https://github.com/webcatalog/webcatalog/pull/212).
+- Removes authentication.
+
+---
+
 ## 7.6.1
 - Windows: Fixes a bug which prevents WebCatalog to scan for installed apps.
 
