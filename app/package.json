@@ -12,13 +12,13 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "concurrently": "3.5.0",
+    "concurrently": "3.5.1",
     "cross-env": "5.1.1",
     "electron-rebuild": "1.6.0",
     "material-ui": "1.0.0-beta.21",
     "material-ui-icons": "1.0.0-beta.17",
-    "react": "16.1.1",
-    "react-dom": "16.1.1",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
     "react-redux": "5.0.6",
     "react-scripts": "1.0.17",
     "redux": "3.7.2",
