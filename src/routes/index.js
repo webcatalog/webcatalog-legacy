@@ -2,7 +2,6 @@ import express from 'express';
 import fetch from 'node-fetch';
 import marked from 'marked';
 import apiRoutes from './api';
-import authRoutes from './auth';
 import sitemapRoute from './sitemap';
 
 const router = express.Router();
@@ -66,7 +65,6 @@ router.get('/s3/:name.:ext', (req, res) => {
 });
 
 router.use('/api', apiRoutes);
-router.use('/auth', authRoutes);
 router.use('/sitemap.xml', sitemapRoute);
 
 export default router;
