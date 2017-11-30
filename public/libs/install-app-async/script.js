@@ -2,6 +2,7 @@ const { https } = require('follow-redirects');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const createAppAsync = require('@webcatalog/molecule');
 const fs = require('fs-extra');
+const isUrl = require('is-url');
 const path = require('path');
 const tmp = require('tmp');
 
@@ -9,17 +10,13 @@ const {
   id,
   name,
   url,
-  pngIconUrl,
-  icoIconUrl,
-  icnsIconUrl,
+  icon,
   allAppPath,
   homePath,
   moleculeVersion,
 } = argv;
 
 const iconDirPath = path.join(homePath, '.webcatalog', 'icons');
-
-const getFileNameFromUrl = u => u.substring(u.lastIndexOf('/') + 1);
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
@@ -32,68 +29,41 @@ const createTmpDirAsync = () =>
     });
   });
 
-const downloadFilePngAsync = fileUrl =>
-  fs.ensureDir(iconDirPath)
-    .then(() =>
-      new Promise((resolve, reject) => {
-        const iconFileName = `${id}.png`;
-        const iconPath = path.join(iconDirPath, iconFileName);
-        const iconFile = fs.createWriteStream(iconPath);
-
-        const req = https.get(fileUrl, (response) => {
-          response.pipe(iconFile);
-
-          iconFile.on('error', (err) => {
-            reject(err);
-          });
-
-          iconFile.on('finish', () => {
-            resolve(iconPath);
-          });
-        });
-
-        req.on('error', (err) => {
-          reject(err);
-        });
-      }));
-
-const downloadFileTempAsync = fileUrl =>
+const downloadFileTempAsync = filePath =>
   createTmpDirAsync()
-    .then(tmpObj =>
-      new Promise((resolve, reject) => {
-        const iconFileName = getFileNameFromUrl(fileUrl);
-        const iconPath = path.join(tmpObj.dirPath, iconFileName);
-        const iconFile = fs.createWriteStream(iconPath);
+    .then((tmpObj) => {
+      const iconFileName = `${id}.png`;
+      const iconPath = path.join(tmpObj.dirPath, iconFileName);
 
-        const req = https.get(fileUrl, (response) => {
-          response.pipe(iconFile);
+      if (isUrl(filePath)) {
+        return new Promise((resolve, reject) => {
+          const iconFile = fs.createWriteStream(iconPath);
 
-          iconFile.on('error', (err) => {
+          const req = https.get(filePath, (response) => {
+            response.pipe(iconFile);
+
+            iconFile.on('error', (err) => {
+              tmpObj.cleanupCallback();
+              reject(err);
+            });
+
+            iconFile.on('finish', () => {
+              resolve({ iconPath, cleanupCallback: tmpObj.cleanupCallback });
+            });
+          });
+
+          req.on('error', (err) => {
             tmpObj.cleanupCallback();
             reject(err);
           });
-
-          iconFile.on('finish', () => {
-            resolve({ iconPath, cleanupCallback: tmpObj.cleanupCallback });
-          });
         });
+      }
 
-        req.on('error', (err) => {
-          tmpObj.cleanupCallback();
-          reject(err);
-        });
-      }));
+      return fs.copy(filePath, iconPath)
+        .then(() => ({ iconPath, cleanupCallback: tmpObj.cleanupCallback }));
+    });
 
-const getIconUrl = () => {
-  switch (process.platform) {
-    case 'darwin': return icnsIconUrl;
-    case 'win32': return icoIconUrl;
-    default: return pngIconUrl;
-  }
-};
-
-downloadFilePngAsync(pngIconUrl)
-  .then(() => downloadFileTempAsync(getIconUrl()))
+downloadFileTempAsync(icon)
   .then(tmpIconObj =>
     createAppAsync(
       id,
@@ -158,6 +128,7 @@ downloadFilePngAsync(pngIconUrl)
 
             return Promise.all(p);
           })
+          .then(() => fs.copy(tmpIconObj.iconPath, path.join(iconDirPath, `${id}.png`)))
           .then(() => {
             if (process.platform === 'linux') {
               const execPath = path.join(destPath, name);

@@ -34,6 +34,11 @@ export const getMoleculeVersion = (state, id) => {
   return '0.0.0';
 };
 
+export const isDeprecated = (state, id) => {
+  const managedApp = state.local.apps[id];
+  return !(managedApp && managedApp.app && managedApp.app.icon);
+};
+
 export const isUpdatable = (state, id) => {
   const currentMoleculeVersion = getMoleculeVersion(state, id);
 
@@ -44,8 +49,8 @@ export const isUpdatable = (state, id) => {
   const latestMoleculeVersion = state.version.apiData ?
     state.version.apiData.moleculeVersion : '0.0.0';
 
-  return semver.gt(latestMoleculeVersion, currentMoleculeVersion) ||
-    semver.gt(localMoleculeVersion, currentMoleculeVersion);
+  return (semver.gt(latestMoleculeVersion, currentMoleculeVersion) ||
+    semver.gt(localMoleculeVersion, currentMoleculeVersion)) && !isDeprecated(state, id);
 };
 
 export const getAvailableUpdateCount = (state) => {

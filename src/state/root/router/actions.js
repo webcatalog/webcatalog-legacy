@@ -1,5 +1,5 @@
 import {
-  ROUTE_POPULAR_APPS,
+  ROUTE_DIRECTORY,
 } from '../../../constants/routes';
 import {
   routeChange,
@@ -20,5 +20,5 @@ export const goBack = () =>
     const { router } = getState();
     const { route, previousRoute } = router;
 
-    dispatch(routeChange(previousRoute || ROUTE_POPULAR_APPS, route));
+    dispatch(routeChange(previousRoute || ROUTE_DIRECTORY, route));
   };

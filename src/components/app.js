@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import connectComponent from '../helpers/connect-component';
 
-import { checkForLinuxUpdates } from '../state/root/updater/actions';
 import { getVersion } from '../state/root/version/actions';
 
 import DialogAbout from './dialogs/about';
@@ -15,7 +14,7 @@ import EnhancedSnackBar from './root/enhanced-snackbar';
 import UpdaterMessage from './root/updater-message';
 
 import InstalledApps from './pages/installed-apps';
-import PopularApps from './pages/popular-apps';
+import Directory from './pages/directory';
 
 import { ROUTE_INSTALLED_APPS } from '../constants/routes';
 
@@ -32,13 +31,8 @@ const styles = {
 class App extends React.Component {
   componentDidMount() {
     const {
-      onCheckForLinuxUpdates,
       onGetVersion,
     } = this.props;
-
-    if (window.platform === 'linux') {
-      onCheckForLinuxUpdates();
-    }
 
     onGetVersion();
   }
@@ -55,7 +49,7 @@ class App extends React.Component {
         pageContent = <InstalledApps key="InstalledApps" />;
         break;
       default:
-        pageContent = <PopularApps key="popularApps" />;
+        pageContent = <Directory key="directory" />;
     }
 
     return (
@@ -74,7 +68,6 @@ class App extends React.Component {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  onCheckForLinuxUpdates: PropTypes.func.isRequired,
   onGetVersion: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
@@ -84,7 +77,6 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  checkForLinuxUpdates,
   getVersion,
 };
 

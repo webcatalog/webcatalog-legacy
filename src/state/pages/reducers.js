@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import popularApps from './popular-apps/reducers';
+import directory from './directory/reducers';
 
 export default combineReducers({
-  popularApps,
+  directory,
 });

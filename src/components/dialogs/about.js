@@ -12,7 +12,6 @@ import Dialog, {
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
-import { checkForLinuxUpdates } from '../../state/root/updater/actions';
 import iconSvg from '../../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
@@ -31,7 +30,6 @@ import {
   STRING_RELEASE_NOTES,
   STRING_UPDATE_AND_RELAUNCH,
   STRING_TERMS,
-  STRING_UPDATE_AVAILABLE_LINUX,
   STRING_UPDATE_AVAILABLE,
   STRING_UPDATE_DOWNLOADED,
   STRING_UPDATE_ERROR,
@@ -88,7 +86,6 @@ const About = (props) => {
   const {
     classes,
     onClose,
-    onCheckForLinuxUpdates,
     open,
     updaterData,
     updaterStatus,
@@ -100,11 +97,7 @@ const About = (props) => {
       updaterStatusMessage = STRING_CHECKING_FOR_UPDATES;
       break;
     case UPDATE_AVAILABLE:
-      if (window.platform === 'linux') {
-        updaterStatusMessage = STRING_UPDATE_AVAILABLE_LINUX;
-      } else {
-        updaterStatusMessage = STRING_UPDATE_AVAILABLE;
-      }
+      updaterStatusMessage = STRING_UPDATE_AVAILABLE;
       break;
     case UPDATE_ERROR:
       updaterStatusMessage = STRING_UPDATE_ERROR;
@@ -178,13 +171,7 @@ const About = (props) => {
           <Button
             color="primary"
             disabled={isUpdaterRunning}
-            onClick={() => {
-              if (window.platform === 'linux') {
-                onCheckForLinuxUpdates();
-              } else {
-                requestCheckForUpdates();
-              }
-            }}
+            onClick={requestCheckForUpdates}
             raised
           >
             {STRING_CHECK_FOR_UPDATES}
@@ -247,7 +234,6 @@ About.defaultProps = {
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCheckForLinuxUpdates: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
@@ -261,7 +247,6 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
-  checkForLinuxUpdates,
 };
 
 export default connectComponent(

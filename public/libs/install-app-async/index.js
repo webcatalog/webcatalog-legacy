@@ -14,7 +14,7 @@ const installAppAsync = appObj =>
 
       return new Promise((resolve, reject) => {
         const {
-          id, name, url, icnsIconUrl, icoIconUrl, pngIconUrl,
+          id, name, url, icon,
         } = appObj;
 
         const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
@@ -26,12 +26,8 @@ const installAppAsync = appObj =>
           name,
           '--url',
           url,
-          '--icnsIconUrl',
-          icnsIconUrl,
-          '--icoIconUrl',
-          icoIconUrl,
-          '--pngIconUrl',
-          pngIconUrl,
+          '--icon',
+          icon,
           '--allAppPath',
           getAllAppPath(),
           '--desktopPath',

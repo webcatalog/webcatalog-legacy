@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AddIcon from 'material-ui-icons/Add';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import HelpIcon from 'material-ui-icons/Help';
 import IconButton from 'material-ui/IconButton';
 import InfoIcon from 'material-ui-icons/Info';
-import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import common from 'material-ui/colors/common';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -22,19 +22,20 @@ import {
 
 import {
   ROUTE_INSTALLED_APPS,
-  ROUTE_POPULAR_APPS,
+  ROUTE_DIRECTORY,
 } from '../../constants/routes';
 
 import {
+  STRING_CREATE_A_CUSTOM_APP,
+  STRING_DIRECTORY,
   STRING_INSTALLED_APPS,
-  STRING_POPULAR_APPS,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
 import { requestScanInstalledApps } from '../../senders/local';
 import { requestOpenInBrowser } from '../../senders/generic';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     zIndex: 1,
   },
@@ -42,12 +43,7 @@ const styles = () => ({
     padding: '0 12px',
   },
   title: {
-    padding: '0 16px',
     flex: 1,
-    userSelect: 'none',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
   },
   appBar: {
     zIndex: 1,
@@ -55,27 +51,16 @@ const styles = () => ({
   tabRoot: {
     flexGrow: 1,
   },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
 });
 
 class EnhancedAppBar extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      isDrawerOpen: false,
-    };
-
-    this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
-  }
-
   componentDidMount() {
     // start checking for installed apps only when the app is loaded.
     requestScanInstalledApps();
     requestCheckForUpdates();
-  }
-
-  handleToggleDrawer() {
-    this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
   }
 
   render() {
@@ -89,16 +74,27 @@ class EnhancedAppBar extends React.Component {
     return (
       <div className={classes.root}>
         <FakeTitleBar />
-        <AppBar position="static" key="appBar" className={classes.appBar} elevation={0}>
+        <AppBar position="static" className={classes.appBar} elevation={3}>
           <Toolbar className={classes.toolbar}>
-            <Typography
+            <Tabs
               className={classes.title}
-              color="inherit"
-              type="title"
+              value={route}
+              onChange={(e, val) => onChangeRoute(val)}
+              indicatorColor={common.fullWhite}
             >
-              WebCatalog
-            </Typography>
-            <Button color="contrast">Create An App</Button>
+              <Tab
+                value={ROUTE_DIRECTORY}
+                label={STRING_DIRECTORY}
+              />
+              <Tab
+                value={ROUTE_INSTALLED_APPS}
+                label={STRING_INSTALLED_APPS}
+              />
+            </Tabs>
+            <Button color="contrast">
+              <AddIcon className={classes.leftIcon} />
+              {STRING_CREATE_A_CUSTOM_APP}
+            </Button>
             <IconButton
               aria-owns="info"
               aria-haspopup="true"
@@ -116,25 +112,8 @@ class EnhancedAppBar extends React.Component {
               <InfoIcon />
             </IconButton>
           </Toolbar>
+
         </AppBar>
-        <Paper className={classes.tabRoot}>
-          <Tabs
-            value={route}
-            onChange={(e, val) => onChangeRoute(val)}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab
-              value={ROUTE_POPULAR_APPS}
-              label={STRING_POPULAR_APPS}
-            />
-            <Tab
-              value={ROUTE_INSTALLED_APPS}
-              label={STRING_INSTALLED_APPS}
-            />
-          </Tabs>
-        </Paper>
       </div>
     );
   }

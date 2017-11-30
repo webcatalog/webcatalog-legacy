@@ -9,12 +9,10 @@ import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import { updateAllApps } from '../../../state/root/local/actions';
 import { getAvailableUpdateCount } from '../../../state/root/local/utils';
 import { changeRoute } from '../../../state/root/router/actions';
 
 import {
-  STRING_UPDATE_ALL,
   STRING_UPDATES_AVAILABLE,
   STRING_VIEW,
 } from '../../../constants/strings';
@@ -22,6 +20,8 @@ import {
 import { ROUTE_INSTALLED_APPS } from '../../../constants/routes';
 
 import AppCard from '../../shared/app-card';
+
+import SearchBox from './search-box';
 
 const styles = theme => ({
   root: {
@@ -65,14 +65,13 @@ const styles = theme => ({
   },
 });
 
-class PopularApps extends React.Component {
+class Directory extends React.Component {
   render() {
     const {
       apps,
       availableUpdateCount,
       classes,
       onChangeRoute,
-      onUpdateAllApps,
     } = this.props;
 
     return (
@@ -98,15 +97,9 @@ class PopularApps extends React.Component {
                   >
                     {STRING_VIEW}
                   </Button>
-                  <Button
-                    className={classes.updateAllButton}
-                    color="primary"
-                    onClick={onUpdateAllApps}
-                  >
-                    {STRING_UPDATE_ALL}
-                  </Button>
                 </div>
               )}
+              <SearchBox />
             </Grid>
             <Grid item xs={12}>
               <Grid container justify="center" spacing={24}>
@@ -120,40 +113,28 @@ class PopularApps extends React.Component {
   }
 }
 
-PopularApps.defaultProps = {
+Directory.defaultProps = {
   availableUpdateCount: 0,
 };
 
-PopularApps.propTypes = {
+Directory.propTypes = {
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   availableUpdateCount: PropTypes.number,
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
-  onUpdateAllApps: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const {
-    apiData,
-  } = state.pages.popularApps;
-
-  const {
-    apps,
-  } = apiData;
-
-  return {
-    apps,
-    availableUpdateCount: getAvailableUpdateCount(state),
-  };
-};
+const mapStateToProps = state => ({
+  apps: state.pages.directory.hits,
+  availableUpdateCount: getAvailableUpdateCount(state),
+});
 
 const actionCreators = {
   changeRoute,
-  updateAllApps,
 };
 
 export default connectComponent(
-  PopularApps,
+  Directory,
   mapStateToProps,
   actionCreators,
   styles,

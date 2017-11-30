@@ -30,6 +30,7 @@ import {
 import {
   STRING_INSTALL,
   STRING_INSTALLING,
+  STRING_NOT_SUPPORTED,
   STRING_OPEN,
   STRING_UNINSTALL,
   STRING_UNINSTALLING,
@@ -38,6 +39,8 @@ import {
 } from '../../constants/strings';
 
 import { requestOpenApp } from '../../senders/local';
+
+import electronIcon from '../../assets/electron-icon.png';
 
 const styles = (theme) => {
   const cardContentDefaults = {
@@ -87,8 +90,8 @@ const styles = (theme) => {
       textOverflow: 'ellipsis',
     },
     paperIcon: {
-      width: 72,
-      height: 72,
+      width: 64,
+      height: 64,
     },
     cardContent: {
       ...cardContentDefaults,
@@ -134,10 +137,11 @@ const AppCard = (props) => {
   const {
     app,
     classes,
-    isUpdatable,
+    isDeprecated,
     isInstalled,
     isInstalling,
     isUninstalling,
+    isUpdatable,
     onInstallApp,
     onOpenConfirmUninstallAppDialog,
     onUpdateApp,
@@ -148,6 +152,21 @@ const AppCard = (props) => {
   };
 
   const renderActionsElement = () => {
+    if (isDeprecated) {
+      return (
+        <div>
+          <Button
+            color="accent"
+            dense
+            onClick={() => onOpenConfirmUninstallAppDialog({ app })}
+          >
+            <DeleteIcon color="inherit" />
+            <span className={classes.buttonText}>{STRING_UNINSTALL}</span>
+          </Button>
+        </div>
+      );
+    }
+
     if (isInstalled) {
       return (
         <div>
@@ -209,13 +228,20 @@ const AppCard = (props) => {
     <Grid key={app.id} item>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <img src={`https://cdn.webcatalog.io/${app.id}@128px.webp`} alt="Messenger" className={classes.paperIcon} />
+          <img src={electronIcon} alt={app.name} className={classes.paperIcon} />
           <Typography type="subheading" className={classes.appName}>
             {app.name}
           </Typography>
-          <Typography type="body1" color="secondary" className={classes.appUrl}>
-            {extractHostname(app.url)}
-          </Typography>
+
+          {isDeprecated ? (
+            <Typography type="body1" color="secondary">
+              {STRING_NOT_SUPPORTED}
+            </Typography>
+          ) : (
+            <Typography type="body1" color="secondary">
+              {extractHostname(app.url)}
+            </Typography>
+          )}
         </CardContent>
         <CardActions className={classes.cardActions}>
           {renderActionsElement()}
@@ -227,16 +253,18 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
+  isDeprecated: false,
   isUpdatable: false,
 };
 
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  isUpdatable: PropTypes.bool,
+  isDeprecated: PropTypes.bool.isRequired,
   isInstalled: PropTypes.bool.isRequired,
   isInstalling: PropTypes.bool.isRequired,
   isUninstalling: PropTypes.bool.isRequired,
+  isUpdatable: PropTypes.bool,
   onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
@@ -245,11 +273,14 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { app } = ownProps;
 
+  const isInstalled = isInstalledUtil(state, app.id);
+
   return {
     isUpdatable: isUpdatableUtil(state, app.id),
-    isInstalled: isInstalledUtil(state, app.id),
+    isInstalled,
     isInstalling: isInstallingUtil(state, app.id),
     isUninstalling: isUninstallingUtil(state, app.id),
+    isDeprecated: isInstalled && !app.icon,
   };
 };
 

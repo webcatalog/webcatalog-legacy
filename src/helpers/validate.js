@@ -1,5 +1,4 @@
-import isEmail from './is-email';
-import isUrl from './is-url';
+import isUrl from 'is-url';
 
 const kits = {
   required: (val, ruleVal, fieldName) => {
@@ -7,12 +6,6 @@ const kits = {
       return `${fieldName} is required.`;
     }
 
-    return null;
-  },
-  email: (val) => {
-    if (!isEmail(val)) {
-      return 'Please enter a valid email.';
-    }
     return null;
   },
   minLength: (val, minLength, fieldName) => {
@@ -30,12 +23,6 @@ const kits = {
   url: (val, maxLength, fieldName) => {
     if (!isUrl(val)) {
       return `${fieldName} must be URL.`;
-    }
-    return null;
-  },
-  matched: (val, { otherFieldName, otherVal }, fieldName) => {
-    if (val !== otherVal) {
-      return `${fieldName} doesn't match ${otherFieldName}.`;
     }
     return null;
   },
