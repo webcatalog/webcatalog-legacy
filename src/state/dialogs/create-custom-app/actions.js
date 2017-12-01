@@ -63,7 +63,7 @@ export const create = () =>
     }
 
     const app = {
-      id: Date.now().toString(),
+      id: `custom-${Date.now().toString()}`,
       name: form.name,
       url: form.url,
       icon: form.icon || path.join(window.appPath, 'electron-icon.png'),

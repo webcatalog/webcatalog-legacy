@@ -53,8 +53,7 @@ const ConfirmUninstallApp = (props) => {
   return (
     <Dialog
       className={classes.root}
-      ignoreBackdropClick={isSaving}
-      onRequestClose={onClose}
+      onRequestClose={isSaving ? null : onClose}
       open={open}
     >
       <Fade in={isSaving}>

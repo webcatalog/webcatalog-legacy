@@ -75,7 +75,7 @@ const CreateCustomAppDialog = (props) => {
   return (
     <Dialog
       className={classes.root}
-      onRequestClose={onClose}
+      onRequestClose={isCreating ? null : onClose}
       open={open}
     >
       <Fade in={isCreating}>
@@ -114,6 +114,7 @@ const CreateCustomAppDialog = (props) => {
           <Grid item>
             <Button
               raised
+              disabled={isCreating}
               onClick={() => {
                 window.dialog.showOpenDialog({
                   filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
