@@ -24,6 +24,12 @@ html
 body
   background-color: #fff
 
+.title
+  font-weight: 400
+
+.subtitle
+  font-weight: 300
+
 .navbar
   .navbar-item
     &.logo
@@ -31,19 +37,6 @@ body
       padding-bottom: 0
       img
         max-height: 48px
-
-    .image.profile-picture
-      margin-right: 8px
-      img
-        max-height: inherit
-        border-radius: 16px
-
-
-.title
-  font-weight: 400
-
-.subtitle
-  font-weight: 300
 
 .main-content
   width: 100%
@@ -70,18 +63,6 @@ body
         &:not(:last-child)
           margin: 0 36px 0 0
 
-
-.card
-  transition: box-shadow 0.3s ease-in-out
-  &:hover
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px
-  .media-content
-    overflow: hidden
-    .title
-      white-space: nowrap
-      text-overflow: ellipsis
-      overflow: hidden
-
 .hero.error
   min-height: 100vh
   .logo
@@ -104,82 +85,6 @@ body
         text-decoration: underline
     .other-platforms
       margin-top: 36px
-
-
-.card.app
-  .image.app-icon
-    margin: 0 auto 6px
-
-.section.app
-  .content
-    .image.app-icon
-      margin: 0 auto
-    h1.title
-      margin-top: 0.5em
-    .button.open
-      margin-bottom: 6px
-
-.twitter-share-button-container
-  margin-top: 6px
-
-.auth
-  background-color: #fff
-  width: 100vw
-  height: 100vh
-  +tablet
-    min-height: 100vh
-    width: 100vw
-    padding: 12px 0
-    display: flex
-    align-items: center
-    justify-content: center
-  hr
-    margin-top: 0.5em
-  .auth-inner
-    +mobile
-      box-shadow: none
-    +tablet
-      width: 320px
-    .logo img
-      height: 56px
-  .button
-    width: 260px
-  .control
-    width: 260px
-    margin: 0 auto
-  .notification
-    width: 260px
-    margin: 0 auto 1em auto
-  [type="submit"].button
-    margin-bottom: 1em
-
-
-.category
-  text-transform: capitalize
-
-.screenshot
-  max-width: 640px
-  @media screen and (max-width: 640px)
-    max-width: 100%
-
-.verify-email
-  padding: 12px 0
-  a:hover
-    text-decoration: underline
-
-.team-member
-  h3
-    margin-top: 1em !important
-    margin-bottom: 0.2em
-    font-weight: 500
-  .image
-    margin: 0 auto
-    img
-      border-radius: 64px
-
-.features
-  .icon
-    height: 6em
 
 .screenshot
   width: 100%
