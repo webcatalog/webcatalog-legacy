@@ -102,31 +102,51 @@ Promise.resolve()
         afterPack: ({ appOutDir }) => {
           console.log('appOutDir:', appOutDir);
 
-          const sourcePath = path.join(
-            __dirname,
-            'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules',
-          );
-          const destPath = process.platform === 'darwin'
+          const resourcesAppPath = process.platform === 'darwin'
             ? path.join(
               appOutDir,
-              'WebCatalog.app', 'Contents',
-              'Resources', 'app', 'node_modules',
-              '@webcatalog', 'molecule', 'app', 'node_modules',
+              'WebCatalog.app',
+              'Contents',
+              'Resources',
+              'app',
             )
             : path.join(
               appOutDir,
-              'resources', 'app', 'node_modules',
-              '@webcatalog', 'molecule', 'app', 'node_modules',
+              'resources',
+              'app',
             );
 
+          const sourceNodeModulesPath = path.join(
+            __dirname,
+            'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules',
+          );
+
+          const destNodeModulesPath = path.join(
+            resourcesAppPath,
+            'node_modules',
+            '@webcatalog', 'molecule', 'app', 'node_modules',
+          );
+
+          const sourceElectronIconPath = path.join(
+            __dirname,
+            'electron-icon.png',
+          );
+
+          const destElectronIconPath = path.join(
+            resourcesAppPath,
+            'electron-icon.png',
+          );
+
+
           const widevineLibDir = path.join(
-            destPath,
+            destNodeModulesPath,
             'electron-widevinecdm', 'widevine',
           );
 
-          console.log(`Copying ${sourcePath} to ${destPath}...`);
+          console.log('Copying additional files...');
 
-          return fs.copy(sourcePath, destPath)
+          return fs.copy(sourceElectronIconPath, destElectronIconPath)
+            .then(() => fs.copy(sourceNodeModulesPath, destNodeModulesPath))
             .then(() => fs.readdir(widevineLibDir))
             .then((dirs) => {
               const acceptedName = `${process.platform}_${process.arch}`;

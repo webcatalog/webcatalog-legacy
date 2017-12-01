@@ -44,7 +44,7 @@ const createWindow = () => {
     minHeight: 640,
     title: 'WebCatalog',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: isTesting, // only needed for testing
