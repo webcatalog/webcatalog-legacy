@@ -21,7 +21,11 @@ import {
   STRING_URL,
 } from '../../../constants/strings';
 
+import { ROUTE_INSTALLED_APPS } from '../../../constants/routes';
+
 import { openSnackbar } from '../../root/snackbar/actions';
+
+import { changeRoute } from '../../root/router/actions';
 
 import {
   nameExists,
@@ -74,11 +78,13 @@ export const create = () =>
       return null;
     }
 
+    dispatch(changeRoute(ROUTE_INSTALLED_APPS));
+    dispatch(close());
+
     dispatch(createCustomAppCreateRequest());
     return installAppAsync(app)
       .then(() => {
         dispatch(createCustomAppCreateSuccess());
-        dispatch(close());
         dispatch(openSnackbar(STRING_INSTALL_SUCCESSFULLY.replace('{name}', form.name)));
       })
       .catch(() => {

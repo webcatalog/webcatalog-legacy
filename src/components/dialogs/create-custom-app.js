@@ -4,9 +4,7 @@ import isUrl from 'is-url';
 
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import Fade from 'material-ui/transitions/Fade';
 import Grid from 'material-ui/Grid';
-import { LinearProgress } from 'material-ui/Progress';
 import Dialog, {
   DialogContent,
   DialogActions,
@@ -21,10 +19,8 @@ import {
 } from '../../state/dialogs/create-custom-app/actions';
 import {
   STRING_CHANGE_ICON,
-  STRING_CLOSE,
   STRING_CREATE_CUSTOM_APP,
   STRING_CREATE,
-  STRING_CREATING,
   STRING_NAME,
   STRING_URL,
 } from '../../constants/strings';
@@ -34,9 +30,6 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import electronIcon from '../../assets/electron-icon.png';
 
 const styles = theme => ({
-  linearProgress: {
-    opacity: 0,
-  },
   grid: {
     marginTop: theme.spacing.unit,
   },
@@ -55,7 +48,6 @@ const CreateCustomAppDialog = (props) => {
   const {
     classes,
     icon,
-    isCreating,
     name,
     nameError,
     onClose,
@@ -75,19 +67,15 @@ const CreateCustomAppDialog = (props) => {
   return (
     <Dialog
       className={classes.root}
-      onRequestClose={isCreating ? null : onClose}
+      onRequestClose={onClose}
       open={open}
     >
-      <Fade in={isCreating}>
-        <LinearProgress className={classes.linearProgress} />
-      </Fade>
       <EnhancedDialogTitle onCloseButtonClick={onClose}>
         {STRING_CREATE_CUSTOM_APP}
       </EnhancedDialogTitle>
       <DialogContent>
         <TextField
           fullWidth
-          disabled={isCreating}
           id="name"
           label={nameError || STRING_NAME}
           margin="normal"
@@ -97,7 +85,6 @@ const CreateCustomAppDialog = (props) => {
         />
         <TextField
           fullWidth
-          disabled={isCreating}
           id="url"
           label={urlError || STRING_URL}
           margin="normal"
@@ -114,7 +101,6 @@ const CreateCustomAppDialog = (props) => {
           <Grid item>
             <Button
               raised
-              disabled={isCreating}
               onClick={() => {
                 window.dialog.showOpenDialog({
                   filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
@@ -132,15 +118,11 @@ const CreateCustomAppDialog = (props) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>
-          {STRING_CLOSE}
-        </Button>
         <Button
           color="primary"
-          disabled={isCreating}
           onClick={onCreate}
         >
-          {isCreating ? STRING_CREATING : STRING_CREATE}
+          {STRING_CREATE}
         </Button>
       </DialogActions>
     </Dialog>
@@ -158,7 +140,6 @@ CreateCustomAppDialog.defaultProps = {
 CreateCustomAppDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   icon: PropTypes.string,
-  isCreating: PropTypes.bool.isRequired,
   name: PropTypes.string,
   nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
@@ -172,7 +153,6 @@ CreateCustomAppDialog.propTypes = {
 const mapStateToProps = (state) => {
   const {
     open,
-    isCreating,
     form: {
       icon,
       name,
@@ -184,7 +164,6 @@ const mapStateToProps = (state) => {
 
   return {
     icon,
-    isCreating,
     name,
     nameError,
     open,
