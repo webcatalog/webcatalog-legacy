@@ -3,7 +3,7 @@ Inspired by https://github.com/reddit/reddit/blob/f943ac95dea022c65e1b131b1936b2
 -->
 
 # WebCatalog Server
-[![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog-server.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog-server)
+[![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.io.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog.io)
 
 This is the primary codebase that powers [webcatalog.io](https://webcatalog.io).
 
@@ -21,7 +21,7 @@ VERSION='latest public WebCatalog version'
 ### Quickstart
 To set up your own instance of `webcatalog-server` to develop with:
 ```bash
-git clone https://github.com/webcatalog/webcatalog-server.git
+git clone https://github.com/webcatalog/webcatalog.io.git
 cd webcatalog-server
 yarn
 yarn dev
@@ -34,6 +34,6 @@ yarn start
 ```
 
 ### APIs
-To learn more about Webcatalog's API, check out [the API wiki page](https://github.com/webcatalog/webcatalog-server/wiki).
+To learn more about Webcatalog's API, check out [the API wiki page](https://github.com/webcatalog/webcatalog.io/wiki).
 
 Happy hacking!
