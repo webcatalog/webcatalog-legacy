@@ -2,6 +2,12 @@
 - Simplifies functionality.
 - Adds ability to create custom app.
 
+#### Breaking Changes:
+- Apps installed with WebCatalog 7 and lower are no longer supported. You'll need to manually uninstall and then reinstall them.
+- Apps with low-resolution icons are removed from the directory. If you are using any of those apps, you'll need to manually create them.
+
+**[Read More on Our Official Blog](https://medium.com/webcatalog/webcatalog-8-less-for-more-1efa076f76d8)**
+
 ---
 
 ## 7.7.0 | 7.7.1 | 7.7.2
