@@ -40,7 +40,7 @@ app.use((req, res, next) => {
   res.locals.isProduction = (process.env.NODE_ENV === 'production');
   res.locals.path = req.path || '';
 
-  res.locals.description = 'WebCatalog - Run Web Apps Like Real Apps.';
+  res.locals.description = 'WebCatalog lets you create a real desktop app out of any website or web application, helping you to work more efficiently & protect your privacy.';
 
   next();
 });

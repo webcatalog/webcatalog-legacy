@@ -4,7 +4,7 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h1 class="title is-3">
-        Run Web Apps Like Real Apps
+        Run Web Apps like Real Apps
       </h1>
       <p class="subtitle is-5" style="margin-top: -1em">
         Get rid of clunky browser tabs. Protect yourself from cross-website trackers.
@@ -54,7 +54,7 @@
       <p style="margin-top: 12px">
          Version <%= version %>
          | <a href="https://github.com/webcatalog/webcatalog/blob/master/RELEASE_NOTES.md" target="_blank" rel="noopener noreferrer">What's New</a>
-         | <a href="https://github.com/webcatalog/webcatalog" target="_blank" rel="noopener noreferrer">Source Code</a>
+         | <a href="https://github.com/webcatalog" target="_blank" rel="noopener noreferrer">Source Code</a>
       </p>
 
       <img src="/public/images/screenshot.png" alt="WebCatalog for macOS" class="screenshot" />
@@ -62,4 +62,95 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <div class="content">
+      <p class="title is-4" style="font-weight: 300">
+        Web apps like Gmail, Facebook Messenger and Instagram are becoming more and more like desktop applications. Running each of these apps in a separate tab in your browser can be a real pain. It not only reduces your productivity but also invades your privacy with cross-website trackers.
+      </p>
+
+      <p class="title is-4" style="font-weight: 300">
+        WebCatalog lets you create a real desktop app (runs within an isolated container) out of any website or web application, helping you to work more efficiently & protect your privacy.
+      </p>
+
+      <div class="has-text-centered">
+        <img src="/public/images/screenshot-2.png" alt="Facebook Messenger, created with WebCatalog" class="screenshot" />
+        <p>Facebook Messenger app on Mac, created with WebCatalog.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="section">
+  <div class="container">
+    <div class="content has-text-centered">
+      <h3 class="title is-3">It's 100% open source.</h3>
+      <p class="subtitle is-5" style="margin-top: -1em">
+        All the source code is on <a href="https://github.com/webcatalog" target="_blank" rel="noopener noreferrer">GitHub</a>. If you run into a bug, please tell us about it by <a href="https://github.com/webcatalog/webcatalog/issues/new" target="_blank" rel="noopener noreferrer">creating an issue</a>.
+      </p>
+
+      <h3 class="title is-3" style="margin-top: 1em">It's customizable.</h3>
+      <p class="subtitle is-5" style="margin-top: -1em">
+        Customize the app to fit your needs: Dark mode, proxy, script injection & more!
+      </p>
+
+      <h3 class="title is-3" style="margin-top: 1em">It's powered by <a href="https://electronjs.org/" target="_blank" rel="noopener noreferrer">Electron</a>.</h3>
+      <p class="subtitle is-5" style="margin-top: -1em">
+        So it uses the latest web technologies provided by Chromium & Node.js.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="section">
+  <div class="container">
+    <div class="content has-text-centered">
+      <img src="/public/images/screenshot-3.png" alt="Facebook Messenger, created with WebCatalog" class="screenshot" />
+      <p class="title is-3">Give WebCatalog a try today!</p>
+
+       <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.dmg" target="_blank" rel="noopener noreferrer">
+         <span class="icon is-medium">
+           <i class="fa fa-apple"></i>
+         </span>
+         <span>&nbsp;Download for macOS</span>
+       </a>
+       <a class="button is-medium is-black download-button" href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-Setup-<%= version %>.exe" target="_blank" rel="noopener noreferrer">
+         <span class="icon is-medium">
+           <i class="fa fa-windows"></i>
+         </span>
+         <span>&nbsp;Download for Windows</span>
+       </a>
+       <div class="dropdown is-hoverable">
+         <div class="dropdown-trigger">
+           <button class="button is-medium is-black download-button" aria-haspopup="true" aria-controls="dropdown-menu">
+             <span class="icon is-medium">
+               <i class="fa fa-linux"></i>
+             </span>
+             <span>&nbsp;Download for Linux</span>
+             <span class="icon is-small">
+               <i class="fa fa-angle-down" aria-hidden="true"></i>
+             </span>
+           </button>
+         </div>
+         <div class="dropdown-menu" id="dropdown-menu" role="menu">
+           <div class="dropdown-content">
+             <a href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog_<%= version %>_amd64.deb" class="dropdown-item" target="_blank" rel="noopener noreferrer">
+               64 bit .deb (for Debian/Ubuntu)
+             </a>
+             <a href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.x86_64.rpm" class="dropdown-item" target="_blank" rel="noopener noreferrer">
+               64 bit .rpm (for Fedora/openSUSE)
+             </a>
+             <a href="https://github.com/webcatalog/webcatalog/releases/download/v<%= version %>/WebCatalog-<%= version %>.pacman" class="dropdown-item" target="_blank" rel="noopener noreferrer">
+               64 bit .pacman (for Arch Linux)
+             </a>
+           </div>
+         </div>
+       </div>
+    </div>
+  </div>
+</section>
 <% include ./partials/footer %>

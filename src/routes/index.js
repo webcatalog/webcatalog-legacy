@@ -9,7 +9,6 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.render('download', {
     version: process.env.VERSION,
-    title: 'Download WebCatalog for Windows, Mac & Linux',
   });
 });
 
