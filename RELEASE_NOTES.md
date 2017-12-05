@@ -1,3 +1,8 @@
+## 8.0.5
+- Fixes bug.
+
+---
+
 ## 8.0.4
 - Improves error handling.
 
