@@ -1,3 +1,8 @@
+## 8.0.4
+- Improves error handling.
+
+---
+
 ## 8.0.0 | 8.0.1 | 8.0.2 | 8.0.3
 - Simplifies functionality.
 - Adds ability to create custom app.
