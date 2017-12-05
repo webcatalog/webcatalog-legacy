@@ -1,11 +1,11 @@
 const fileType = require('file-type');
 const fs = require('fs-extra');
+const icongen = require('icon-gen');
+const Jimp = require('jimp');
 const packager = require('electron-packager');
 const path = require('path');
 const readChunk = require('read-chunk');
 const tmp = require('tmp');
-const sharp = require('sharp');
-const icongen = require('icon-gen');
 
 const createTmpDirAsync = () =>
   new Promise((resolve, reject) => {
@@ -26,23 +26,16 @@ const getIconFileExt = () => {
   }
 };
 
-const sharpAsync = (inputPath, outputPath, newSize) =>
+const resizeAsync = (inputPath, outputPath, newSize) =>
   new Promise((resolve, reject) => {
-    // Generate WebP & PNG
-    let p = sharp(inputPath);
-    if (newSize) {
-      p = p.resize(newSize, newSize);
-    }
-
-    p = p.toFile(outputPath, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(outputPath);
-      }
-    });
-
-    return p;
+    Jimp.read(inputPath).then((img) => {
+      img.resize(newSize, newSize)
+        .quality(100)
+        .write(outputPath, () => resolve()); // save
+    })
+      .catch((e) => {
+        reject(e);
+      });
   });
 
 const generateIconAsync = (inputPath) => {
@@ -65,7 +58,7 @@ const generateIconAsync = (inputPath) => {
 
       const sizes = [16, 24, 32, 48, 64, 128, 256, 512, 1024];
 
-      const p = sizes.map(size => sharpAsync(inputPath, path.join(dirPath, `${size}.png`), size));
+      const p = sizes.map(size => resizeAsync(inputPath, path.join(dirPath, `${size}.png`), size));
 
       return Promise.all(p)
         .then(() => icongen(dirPath, dirPath, { type: 'png', modes: [expectedFormat] }))
