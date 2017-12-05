@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import marked from 'marked';
 import apiRoutes from './api';
 import sitemapRoute from './sitemap';
+import directoryRoute from './directory';
 
 const router = express.Router();
 
@@ -63,6 +64,7 @@ router.get('/s3/:name.:ext', (req, res) => {
   res.redirect(`https://cdn.webcatalog.io/${req.params.name}.${req.params.ext}`);
 });
 
+router.use('/directory', directoryRoute);
 router.use('/api', apiRoutes);
 router.use('/sitemap.xml', sitemapRoute);
 

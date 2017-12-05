@@ -1,0 +1,18 @@
+<div class="column <%= appCardClassName %>">
+  <a href="/directory/app/<%= app.id %>">
+    <div class="card app">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content">
+            <figure class="image is-64x64 app-icon">
+              <picture>
+                <img src="https://icons.webcatalog.io/<%= app.id %>/<%= app.id %>-icon-128.png" alt="<%= app.name %>">
+              </picture>
+            </figure>
+            <p class="title is-5 has-text-centered"><%= app.name %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
