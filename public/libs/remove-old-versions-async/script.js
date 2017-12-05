@@ -14,11 +14,17 @@ fs.remove(versionPath)
     process.exit(0);
   })
   .catch((e) => {
-    process.send(e.message);
+    process.send(JSON.stringify({
+      message: e.message,
+      stack: e.stack,
+    }));
     process.exit(1);
   });
 
 process.on('uncaughtException', (e) => {
-  process.send(e.message);
+  process.send(JSON.stringify({
+    message: e.message,
+    stack: e.stack,
+  }));
   process.exit(1);
 });

@@ -43,17 +43,19 @@ const installAppAsync = appObj =>
           },
         });
 
-        child.on('message', (message) => {
-          reject(new Error(message));
+        child.on('message', (errStr) => {
+          const errObj = JSON.parse(errStr);
+
+          const e = new Error(errObj.message);
+          e.stack = errObj.stack;
+
+          reject(e);
         });
 
         child.on('exit', (code) => {
           if (code === 0) {
             resolve();
-            return;
           }
-
-          reject(new Error('Forked script error'));
         });
       })
         .then(() => {
@@ -73,9 +75,7 @@ const installAppAsync = appObj =>
             shell.writeShortcutLink(desktopShortcutPath, 'create', opts);
           }
 
-          const finalizedAppObj = Object.assign({}, appObj, {
-            moleculeVersion,
-          });
+          const finalizedAppObj = Object.assign({}, appObj, { moleculeVersion });
 
           return finalizedAppObj;
         });
