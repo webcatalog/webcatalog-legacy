@@ -34,6 +34,8 @@ const installAppAsync = appObj =>
           app.getPath('desktop'),
           '--homePath',
           app.getPath('home'),
+          '--tempPath',
+          app.getPath('temp'),
           '--moleculeVersion',
           moleculeVersion,
         ], {

@@ -4,72 +4,57 @@ const createAppAsync = require('@webcatalog/molecule');
 const fs = require('fs-extra');
 const isUrl = require('is-url');
 const path = require('path');
-const tmp = require('tmp');
 
 const {
-  id,
-  name,
-  url,
-  icon,
   allAppPath,
   homePath,
+  icon,
+  id,
   moleculeVersion,
+  name,
+  tempPath,
+  url,
 } = argv;
 
 const iconDirPath = path.join(homePath, '.webcatalog', 'icons');
 
-const createTmpDirAsync = () =>
-  new Promise((resolve, reject) => {
-    tmp.dir({ unsafeCleanup: true }, (err, dirPath, cleanupCallback) => {
-      if (err) {
-        return reject(err);
-      }
+const downloadFileTempAsync = (filePath) => {
+  const iconFileName = `webcatalog-${id}.png`;
+  const iconPath = path.join(tempPath, iconFileName);
 
-      return resolve({ dirPath, cleanupCallback });
-    });
-  });
+  if (isUrl(filePath)) {
+    return new Promise((resolve, reject) => {
+      const iconFile = fs.createWriteStream(iconPath);
 
-const downloadFileTempAsync = filePath =>
-  createTmpDirAsync()
-    .then((tmpObj) => {
-      const iconFileName = `${id}.png`;
-      const iconPath = path.join(tmpObj.dirPath, iconFileName);
+      const req = https.get(filePath, (response) => {
+        response.pipe(iconFile);
 
-      if (isUrl(filePath)) {
-        return new Promise((resolve, reject) => {
-          const iconFile = fs.createWriteStream(iconPath);
-
-          const req = https.get(filePath, (response) => {
-            response.pipe(iconFile);
-
-            iconFile.on('error', (err) => {
-              tmpObj.cleanupCallback();
-              reject(err);
-            });
-
-            iconFile.on('finish', () => {
-              resolve({ iconPath, cleanupCallback: tmpObj.cleanupCallback });
-            });
-          });
-
-          req.on('error', (err) => {
-            tmpObj.cleanupCallback();
-            reject(err);
-          });
+        iconFile.on('error', (err) => {
+          reject(err);
         });
-      }
 
-      return fs.copy(filePath, iconPath)
-        .then(() => ({ iconPath, cleanupCallback: tmpObj.cleanupCallback }));
+        iconFile.on('finish', () => {
+          resolve(iconPath);
+        });
+      });
+
+      req.on('error', (err) => {
+        reject(err);
+      });
     });
+  }
+
+  return fs.copy(filePath, iconPath)
+    .then(() => iconPath);
+};
 
 downloadFileTempAsync(icon)
-  .then(tmpIconObj =>
+  .then(iconPath =>
     createAppAsync(
       id,
       name,
       url,
-      tmpIconObj.iconPath,
+      iconPath,
       allAppPath,
     )
       .then((destPath) => {
@@ -128,7 +113,7 @@ downloadFileTempAsync(icon)
 
             return Promise.all(p);
           })
-          .then(() => fs.copy(tmpIconObj.iconPath, path.join(iconDirPath, `${id}.png`)))
+          .then(() => fs.copy(iconPath, path.join(iconDirPath, `${id}.png`)))
           .then(() => {
             if (process.platform === 'linux') {
               const execPath = path.join(destPath, name);
@@ -146,7 +131,6 @@ downloadFileTempAsync(icon)
           });
       })
       .then(() => {
-        tmpIconObj.cleanupCallback();
         process.exit(0);
       }))
   .catch((e) => {
