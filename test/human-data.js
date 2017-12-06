@@ -43,7 +43,7 @@ describe('human-submitted app data', () => {
           expect(app.name.length).to.be.above(0);
         });
 
-        it('is a web app with a valid HTTPS URL', () => {
+        it('is a web app with a valid URL', () => {
           expect(app.url && isUrl(app.url) && app.url.startsWith('https')).to.equal(true);
         });
 
