@@ -56,7 +56,7 @@ const createIconAsync = (inputPath, outputDirPath) => {
       // use to-ico instead of icongen for ico because of a bug
       // https://github.com/webcatalog/webcatalog/issues/230
       const outputPath = path.join(outputDirPath, 'app.ico');
-      const files = sizes.map(size => fs.readFileSync(path.join(outputPath, `${size}.png`)));
+      const files = sizes.map(size => fs.readFileSync(path.join(outputDirPath, `${size}.png`)));
       return toIco(files)
         .then(buf => fs.writeFile(outputPath, buf))
         .then(() => outputPath);
