@@ -11,7 +11,7 @@ const rebuild = require('electron-rebuild').default;
 // electron-builder
 // Keep electron-packager
 replace({
-  files: path.join(__dirname, 'node_modules', 'electron-builder', 'out', 'util', 'packageDependencies.js'),
+  files: path.join(__dirname, 'node_modules', 'electron-builder-lib', 'out', 'util', 'packageDependencies.js'),
   from: '"electron-builder-tslint-config", "electron-download", "electron-forge", "electron-packager", "electron-compilers", "jest", "jest-cli", "prebuild-install", "nan", "electron-webpack", "electron-webpack-ts", "electron-webpack-vue", "react-scripts"',
   to: '"electron-builder-tslint-config", "electron-forge", "electron-compilers", "jest", "jest-cli", "prebuild-install", "nan", "electron-webpack", "electron-webpack-ts", "electron-webpack-vue", "react-scripts"',
 })
