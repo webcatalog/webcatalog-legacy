@@ -1,33 +1,11 @@
-const fileType = require('file-type');
 const fs = require('fs-extra');
-const icongen = require('icon-gen');
-const Jimp = require('jimp');
 const packager = require('electron-packager');
 const path = require('path');
-const readChunk = require('read-chunk');
 const tmp = require('tmp');
 
-const getIconFileExt = () => {
-  switch (process.platform) {
-    case 'darwin': return 'icns';
-    case 'win32': return 'ico';
-    default: return 'png';
-  }
-};
+const createIconAsync = require('./create-icon-async');
 
-const resizeAsync = (inputPath, outputPath, newSize) =>
-  new Promise((resolve, reject) => {
-    Jimp.read(inputPath).then((img) => {
-      img.resize(newSize, newSize)
-        .quality(100)
-        .write(outputPath, () => resolve()); // save
-    })
-      .catch((e) => {
-        reject(e);
-      });
-  });
-
-const createAppAsync = (id, name, url, pngIcon, out) => {
+const createAppAsync = (id, name, url, inputIcon, out) => {
   const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
   let tmpDir;
 
@@ -36,28 +14,7 @@ const createAppAsync = (id, name, url, pngIcon, out) => {
       const tmpObj = tmp.dirSync();
       tmpDir = tmpObj.name;
     })
-    .then(() => {
-      const buffer = readChunk.sync(pngIcon, 0, 4100);
-
-      const type = fileType(buffer);
-      const inputFormat = type.ext;
-
-      const expectedFormat = getIconFileExt();
-
-      if (inputFormat !== 'png') {
-        return Promise.reject(new Error('Input format is not supported.'));
-      }
-
-      if (inputFormat === expectedFormat) return Promise.resolve(pngIcon);
-
-      const sizes = [16, 24, 32, 48, 64, 128, 256, 512, 1024];
-
-      const p = sizes.map(size => resizeAsync(pngIcon, path.join(tmpDir, `${size}.png`), size));
-
-      return Promise.all(p)
-        .then(() => icongen(tmpDir, tmpDir, { type: 'png', modes: [expectedFormat] }))
-        .then(results => results[0]);
-    })
+    .then(() => createIconAsync(inputIcon, tmpDir))
     .then(icon =>
       new Promise((resolve, reject) => {
         const options = {
@@ -137,11 +94,11 @@ const createAppAsync = (id, name, url, pngIcon, out) => {
           });
           return fs.writeJson(packageJsonPath, packageJson);
         })
-        .then(() => fs.copy(pngIcon, path.join(resourcesPath, 'icon.png')))
+        .then(() => fs.copy(inputIcon, path.join(resourcesPath, 'icon.png')))
         .then(() => {
           // icon png for BrowserWindow's nativeImage
           if (process.platform === 'linux') {
-            return fs.copy(pngIcon, path.join(appAsarUnpackedPath, 'icon.png'));
+            return fs.copy(inputIcon, path.join(appAsarUnpackedPath, 'icon.png'));
           }
           return null;
         })

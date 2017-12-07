@@ -4,7 +4,7 @@
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
-  "author": "WebCatalog Team <support@getwebcatalog.com>",
+  "author": "Quang Lam <quang@webcatalog.io>",
   "scripts": {
     "install-app-full": "cd app && yarn && yarn rebuild",
     "install": "cd app && yarn --production=true",
@@ -39,6 +39,7 @@
     "icon-gen": "1.2.0",
     "jimp": "0.2.28",
     "read-chunk": "2.1.0",
-    "tmp": "0.0.33"
+    "tmp": "0.0.33",
+    "to-ico": "1.1.5"
   }
 }
