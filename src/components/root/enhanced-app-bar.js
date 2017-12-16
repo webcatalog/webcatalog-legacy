@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import AddIcon from 'material-ui-icons/Add';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
@@ -8,6 +9,8 @@ import common from 'material-ui/colors/common';
 import HelpIcon from 'material-ui-icons/Help';
 import IconButton from 'material-ui/IconButton';
 import InfoIcon from 'material-ui-icons/Info';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import SettingsIcon from 'material-ui-icons/Settings';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
@@ -15,8 +18,10 @@ import Tooltip from 'material-ui/Tooltip';
 import connectComponent from '../../helpers/connect-component';
 
 import FakeTitleBar from '../shared/fake-title-bar';
+import EnhancedMenu from '../shared/enhanced-menu';
 
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
+import { open as openDialogPreferences } from '../../state/dialogs/preferences/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
 import {
   changeRoute,
@@ -33,6 +38,8 @@ import {
   STRING_DIRECTORY,
   STRING_HELP,
   STRING_INSTALLED_APPS,
+  STRING_MORE,
+  STRING_PREFERENCES,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
@@ -72,6 +79,7 @@ class EnhancedAppBar extends React.Component {
       classes,
       onChangeRoute,
       onOpenDialogAbout,
+      onOpenDialogPreferences,
       onOpenDialogCreateCustomApp,
       route,
     } = this.props;
@@ -100,26 +108,35 @@ class EnhancedAppBar extends React.Component {
               <AddIcon className={classes.leftIcon} />
               {STRING_CREATE_CUSTOM_APP}
             </Button>
-            <Tooltip title={STRING_HELP} placement="bottom">
-              <IconButton
-                aria-owns="info"
-                aria-haspopup="true"
-                onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}
-                color="contrast"
-              >
-                <HelpIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={STRING_ABOUT} placement="bottom">
-              <IconButton
-                aria-owns="info"
-                aria-haspopup="true"
-                onClick={onOpenDialogAbout}
-                color="contrast"
-              >
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
+            <EnhancedMenu
+              id="more"
+              buttonElement={(
+                <Tooltip title={STRING_MORE} placement="bottom">
+                  <IconButton color="contrast">
+                    <MoreVertIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            >
+              <ListItem button onClick={onOpenDialogPreferences}>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_PREFERENCES} />
+              </ListItem>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}>
+                <ListItemIcon>
+                  <HelpIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_HELP} />
+              </ListItem>
+              <ListItem button onClick={onOpenDialogAbout}>
+                <ListItemIcon>
+                  <InfoIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_ABOUT} />
+              </ListItem>
+            </EnhancedMenu>
           </Toolbar>
 
         </AppBar>
@@ -132,6 +149,7 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogPreferences: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
@@ -143,6 +161,7 @@ const mapStateToProps = state => ({
 const actionCreators = {
   changeRoute,
   openDialogAbout,
+  openDialogPreferences,
   openDialogCreateCustomApp,
 };
 

@@ -9,6 +9,7 @@ import { checkForLinuxUpdates } from '../state/root/updater/actions';
 import DialogAbout from './dialogs/about';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogCreateCustomApp from './dialogs/create-custom-app';
+import DialogPreferences from './dialogs/preferences';
 import DialogUpdateMainAppFirst from './dialogs/update-main-app-first';
 
 import EnhancedAppBar from './root/enhanced-app-bar';
@@ -68,6 +69,7 @@ class App extends React.Component {
         <DialogAbout />
         <DialogConfirmUninstallApp />
         <DialogCreateCustomApp />
+        <DialogPreferences />
         <DialogUpdateMainAppFirst />
       </div>
     );

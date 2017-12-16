@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
 import Dialog, {
@@ -50,39 +49,46 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styles = {
+const styles = theme => ({
   icon: {
-    height: 128,
-    width: 128,
+    height: 96,
+    width: 96,
   },
   dialogContent: {
     minWidth: 320,
     textAlign: 'center',
   },
   title: {
-    marginTop: 16,
+    marginTop: theme.spacing.unit,
   },
   version: {
-    marginBottom: 16,
+    marginBottom: theme.spacing.unit * 2,
   },
   versionSmallContainer: {
-    marginBottom: 24,
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
   },
   versionSmall: {
     fontSize: 13,
   },
   updaterStatus: {
-    marginTop: 32,
-    marginBottom: 12,
-  },
-  divider: {
-    marginTop: 16,
-    marginBottom: 16,
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
   },
   goToTheWebsiteButton: {
-    marginRight: 6,
+    marginRight: theme.spacing.unit,
   },
-};
+  madeBy: {
+    marginTop: theme.spacing.unit * 2,
+  },
+  link: {
+    fontWeight: 600,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+});
 
 const Transition = props => <Slide direction="left" {...props} />;
 
@@ -193,17 +199,12 @@ const About = (props) => {
           </Button>
         )}
 
-        <Divider className={classes.divider} />
-
         <div className={classes.versionSmallContainer}>
           <Typography type="body1" className={classes.versionSmall}>
             <strong>electron:</strong> {window.versions.electron}
           </Typography>
           <Typography type="body1" className={classes.versionSmall}>
             <strong>chrome:</strong> {window.versions.chrome}
-          </Typography>
-          <Typography type="body1" className={classes.versionSmall}>
-            <strong>v8:</strong> {window.versions.v8}
           </Typography>
           <Typography type="body1" className={classes.versionSmall}>
             <strong>node:</strong> {window.versions.node}
@@ -215,7 +216,6 @@ const About = (props) => {
         >
           {STRING_WEBSITE}
         </Button>
-        <br />
 
         <Button
           onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
@@ -229,7 +229,6 @@ const About = (props) => {
         >
           {STRING_TERMS}
         </Button>
-        <br />
 
         <Button
           onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
@@ -237,6 +236,19 @@ const About = (props) => {
           {STRING_PRIVACY_POLICY}
         </Button>
 
+        <Typography type="body1" className={classes.madeBy}>
+          <span>Made with </span>
+          <span role="img" aria-label="love">❤️</span>
+          <span> by </span>
+          <a
+            onClick={() => requestOpenInBrowser('https://quang.im')}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            Quang Lam
+          </a>
+        </Typography>
       </DialogContent>
     </Dialog>
   );

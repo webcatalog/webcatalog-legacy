@@ -1,28 +1,21 @@
 import isUrl from 'is-url';
 
+import {
+  STRING_IS_REQUIRED,
+  STRING_IS_URL,
+} from '../constants/strings';
+
 const kits = {
   required: (val, ruleVal, fieldName) => {
     if (!val || val === '') {
-      return `${fieldName} is required.`;
+      return STRING_IS_REQUIRED.replace('{fieldName}', fieldName);
     }
 
     return null;
   },
-  minLength: (val, minLength, fieldName) => {
-    if (!val || val.length < minLength) {
-      return `${fieldName} must be at least ${minLength} characters.`;
-    }
-    return null;
-  },
-  maxLength: (val, maxLength, fieldName) => {
-    if (!val || val.length > maxLength) {
-      return `${fieldName} must have least than ${maxLength} characters.`;
-    }
-    return null;
-  },
   url: (val, maxLength, fieldName) => {
     if (!isUrl(val)) {
-      return `${fieldName} must be URL.`;
+      return STRING_IS_URL.replace('{fieldName}', fieldName);
     }
     return null;
   },
