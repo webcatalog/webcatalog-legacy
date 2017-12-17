@@ -16,7 +16,7 @@ const getAllAppPath = () => {
       return path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
     }
     case 'linux': {
-      return path.join(app.getPath('home'), 'opt', 'webcatalog', 'apps');
+      return path.join(app.getPath('home'), '.webcatalog', 'apps');
     }
     case 'win32':
     default: {
