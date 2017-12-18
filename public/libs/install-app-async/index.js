@@ -4,6 +4,7 @@ const { fork } = require('child_process');
 const fs = require('fs-extra');
 
 const getAllAppPath = require('../get-all-app-path');
+const { getPreference } = require('../preferences');
 
 const allAppPath = getAllAppPath();
 
@@ -11,6 +12,7 @@ const installAppAsync = appObj =>
   fs.readJson(path.join(app.getAppPath(), 'package.json'))
     .then((moleculePackageJson) => {
       const moleculeVersion = moleculePackageJson.dependencies['@webcatalog/molecule'];
+      const shareResources = getPreference('shareResources');
 
       return new Promise((resolve, reject) => {
         const {
@@ -38,6 +40,8 @@ const installAppAsync = appObj =>
           app.getPath('temp'),
           '--moleculeVersion',
           moleculeVersion,
+          '--shareResources',
+          shareResources,
         ], {
           env: {
             ELECTRON_RUN_AS_NODE: 'true',

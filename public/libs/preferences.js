@@ -7,7 +7,6 @@ const v = '1.0.0';
 
 const defaultPreferences = {
   shareResources: false,
-  customInstallationPath: null,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
