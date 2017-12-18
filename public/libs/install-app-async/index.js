@@ -3,10 +3,10 @@ const path = require('path');
 const { fork } = require('child_process');
 const fs = require('fs-extra');
 
-const getAllAppPath = require('../get-all-app-path');
+const getInstallationPath = require('../get-installation-path');
 const { getPreference } = require('../preferences');
 
-const allAppPath = getAllAppPath();
+const allAppPath = getInstallationPath();
 
 const installAppAsync = appObj =>
   fs.readJson(path.join(app.getAppPath(), 'package.json'))
@@ -31,7 +31,7 @@ const installAppAsync = appObj =>
           '--icon',
           icon,
           '--allAppPath',
-          getAllAppPath(),
+          getInstallationPath(),
           '--desktopPath',
           app.getPath('desktop'),
           '--homePath',

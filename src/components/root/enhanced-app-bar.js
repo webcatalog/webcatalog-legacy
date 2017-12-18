@@ -118,12 +118,14 @@ class EnhancedAppBar extends React.Component {
                 </Tooltip>
               )}
             >
-              <ListItem button onClick={onOpenDialogPreferences}>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary={STRING_PREFERENCES} />
-              </ListItem>
+              {window.platform !== 'win32' && (
+                <ListItem button onClick={onOpenDialogPreferences}>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={STRING_PREFERENCES} />
+                </ListItem>
+              )}
               <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/help')}>
                 <ListItemIcon>
                   <HelpIcon />

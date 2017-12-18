@@ -60,7 +60,7 @@ class EnhancedMenu extends React.Component {
             },
           }}
         >
-          {React.Children.map(children, child => React.cloneElement(child, {
+          {React.Children.map(children, child => child && React.cloneElement(child, {
             onClick: () => {
               if (child.props.onClick) child.props.onClick();
               this.handleRequestClose();

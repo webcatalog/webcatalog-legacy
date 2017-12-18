@@ -2,13 +2,13 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs-extra');
 
-const getAllAppPath = require('./get-all-app-path');
+const getInstallationPath = require('./get-installation-path');
 const removeOldVersionsAsync = require('./remove-old-versions-async');
 
 const scanInstalledAsync = () =>
   Promise.resolve()
     .then(() => {
-      const allAppPath = getAllAppPath();
+      const allAppPath = getInstallationPath();
 
       const installedApps = [];
 

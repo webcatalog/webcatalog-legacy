@@ -2,7 +2,7 @@ const { app } = require('electron');
 const { fork } = require('child_process');
 const path = require('path');
 
-const getAllAppPath = require('../get-all-app-path');
+const getInstallationPath = require('../get-installation-path');
 
 const uninstallAppAsync = (appId, appName) =>
   new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ const uninstallAppAsync = (appId, appName) =>
 
     const child = fork(scriptPath, [
       '--allAppPath',
-      getAllAppPath(),
+      getInstallationPath(),
       '--appId',
       appId,
       '--appName',

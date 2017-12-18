@@ -59,6 +59,16 @@ const createMenu = () => {
     });
   }
 
+  if (process.platform === 'linux') {
+    template[0].submenu.push({ role: 'separator' });
+    template[0].submenu.push({
+      label: 'Preferences...',
+      accelerator: 'Ctrl+P',
+      click: () => sendMessageToWindow('open-preferences-dialog'),
+    });
+  }
+
+
   if (process.platform === 'darwin') {
     template.unshift({
       label: app.getName(),
@@ -66,6 +76,12 @@ const createMenu = () => {
         {
           label: 'About WebCatalog',
           click: () => sendMessageToWindow('open-about-dialog'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Cmd+,',
+          click: () => sendMessageToWindow('open-preferences-dialog'),
         },
         { type: 'separator' },
         { role: 'services', submenu: [] },
