@@ -4,9 +4,7 @@ from PIL import Image
 import numpy as np
 from scipy.misc import toimage
 import matplotlib.pylab as plt
-import glob
-import re
-import tqdm
+import glob, re, tqdm, os
 
 # REQUIREMENTS
 # requires Python 3
@@ -149,6 +147,14 @@ def resize(path, compare=False, savepath=None):
         if compare:
             compimg.show()
         if savepath:
+            # add directories if not present
+            folderpath = os.path.join(os.getcwd(),savepath)
+            if not os.path.exists(folderpath):
+                os.makedirs(folderpath)
+                os.makedirs(os.path.join(folderpath, 'compare/'))
+                os.makedirs(os.path.join(folderpath, 'icons/'))
+
+            # save
             name = re.search('((?!/).)*\.png$', path).group()
             compimg.save(savepath+'compare/'+name)
             new_img.save(savepath+'icons/'+name)
