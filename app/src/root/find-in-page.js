@@ -5,6 +5,7 @@ import CloseIcon from 'material-ui-icons/Close';
 import ExpandLessIcon from 'material-ui-icons/ExpandLess';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import SearchIcon from 'material-ui-icons/Search';
 import TextField from 'material-ui/TextField';
 import Tooltip from 'material-ui/Tooltip';
@@ -27,7 +28,8 @@ const styles = theme => ({
     background: theme.palette.background.default,
     display: 'flex',
     alignItems: 'center',
-    padding: 4,
+    padding: '0 4px',
+    zIndex: 1
   },
   infoContainer: {
     flex: 1,
@@ -49,7 +51,7 @@ class FindInPage extends React.Component {
     } = this.props;
 
     return (
-      <div className={classes.root}>
+      <Paper elevation={2} className={classes.root}>
         <div className={classes.infoContainer}>
           <Typography type="body1">
             <span
@@ -67,7 +69,7 @@ class FindInPage extends React.Component {
             ref={(input) => { this.input = input; }}
             placeholder={STRING_FIND}
             value={text}
-            margin="normal"
+            margin="dense"
             onChange={(e) => {
               const val = e.target.value;
               onUpdateFindInPageText(val);
@@ -155,7 +157,7 @@ class FindInPage extends React.Component {
             <CloseIcon />
           </IconButton>
         </Tooltip>
-      </div>
+      </Paper>
     );
   }
 }
