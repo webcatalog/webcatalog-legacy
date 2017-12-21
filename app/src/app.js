@@ -163,6 +163,22 @@ class App extends React.Component {
       this.props.onToggleFindInPageDialog();
     });
 
+    ipcRenderer.on('find-in-page-next', () => {
+      if (!this.props.findInPageIsOpen) {
+        this.props.onToggleFindInPageDialog();
+      }
+      const c = this.webView;
+      c.findInPage(this.props.findInPageText, { forward: true });
+    });
+
+    ipcRenderer.on('find-in-page-previous', () => {
+        if (!this.props.findInPageIsOpen) {
+          this.props.onToggleFindInPageDialog();
+        }
+        const c = this.webView;
+        c.findInPage(this.props.findInPageText, { forward: false });
+    });
+
     ipcRenderer.on('change-zoom', (event, factor) => onSetZoomFactor(factor));
 
     ipcRenderer.on('reload', onReload);
