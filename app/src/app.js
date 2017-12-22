@@ -167,9 +167,9 @@ class App extends React.Component {
     });
 
     ipcRenderer.on('find-in-page-previous', () => {
-        this.props.onOpenFindInPageDialog();
-        const c = this.webView;
-        c.findInPage(this.props.findInPageText, { forward: false });
+      this.props.onOpenFindInPageDialog();
+      const c = this.webView;
+      c.findInPage(this.props.findInPageText, { forward: false });
     });
 
     ipcRenderer.on('change-zoom', (event, factor) => onSetZoomFactor(factor));

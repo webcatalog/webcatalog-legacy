@@ -29,7 +29,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: '0 4px',
-    zIndex: 1
+    zIndex: 1,
   },
   infoContainer: {
     flex: 1,
@@ -44,6 +44,7 @@ class FindInPage extends React.Component {
       activeMatch,
       matches,
       text,
+      inputRef,
       onCloseFindInPageDialog,
       onRequestFind,
       onRequestStopFind,
@@ -66,7 +67,7 @@ class FindInPage extends React.Component {
         <div>
           <TextField
             autoFocus
-            inputRef={this.props.inputRef}
+            inputRef={inputRef}
             placeholder={STRING_FIND}
             value={text}
             margin="dense"
