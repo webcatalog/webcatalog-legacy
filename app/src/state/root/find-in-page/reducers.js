@@ -1,5 +1,6 @@
 import {
-  TOGGLE_FIND_IN_PAGE_DIALOG,
+  CLOSE_FIND_IN_PAGE_DIALOG,
+  OPEN_FIND_IN_PAGE_DIALOG,
   UPDATE_FIND_IN_PAGE_TEXT,
   UPDATE_FIND_IN_PAGE_MATCHES,
 } from '../../../constants/actions';
@@ -13,9 +14,14 @@ const initialState = {
 
 const findInPage = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_FIND_IN_PAGE_DIALOG: {
+    case CLOSE_FIND_IN_PAGE_DIALOG: {
       return Object.assign({}, state, {
-        isOpen: !state.isOpen,
+        isOpen: false,
+      });
+    }
+    case OPEN_FIND_IN_PAGE_DIALOG: {
+      return Object.assign({}, state, {
+        isOpen: true,
       });
     }
     case UPDATE_FIND_IN_PAGE_TEXT: {

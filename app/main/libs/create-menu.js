@@ -26,10 +26,24 @@ function createMenu() {
         { role: 'selectall' },
         { type: 'separator' },
         {
-          label: 'Find...',
+          label: 'Find',
           accelerator: 'CmdOrCtrl+F',
           click: () => {
-            sendMessageToWindow('toggle-find-in-page-dialog');
+            sendMessageToWindow('open-find-in-page-dialog');
+          },
+        },
+        {
+          label: 'Find Next',
+          accelerator: 'CmdOrCtrl+G',
+          click: () => {
+            sendMessageToWindow('find-in-page-next');
+          },
+        },
+        {
+          label: 'Find Previous',
+          accelerator: 'Shift+CmdOrCtrl+G',
+          click: () => {
+            sendMessageToWindow('find-in-page-previous');
           },
         },
       ],
