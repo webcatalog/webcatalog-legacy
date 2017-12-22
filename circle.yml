@@ -11,7 +11,6 @@ dependencies:
     - nvm install 8
     - nvm use 8
     - yarn
-    - yarn install-app-full
   cache_directories:
     - ~/.cache/yarn
 
