@@ -157,8 +157,8 @@ if __name__ == "__main__":
 
     # RUN FIX
     new_img = resize(PATH)
-    # SAVE WITH ADDED '-fixed' TO PATH
-    newpath = re.sub(".png$", "-fixed.png", PATH)
+    # Overwrite
+    newpath = PATH
     new_img.save(newpath)
     # PRINT DONE MSG
     print ("Done. Formatted icon saved at '{}' with output size {}x{}px and padding {}px.".format(newpath, SIZE_RESIZE, SIZE_RESIZE, PAD))
