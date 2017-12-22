@@ -89,11 +89,15 @@ class FindInPage extends React.Component {
               }
             }}
             onKeyDown={(e) => {
-              if ((e.keyCode || e.which) === 13) {
+              if ((e.keyCode || e.which) === 13) { // Enter
                 const val = e.target.value;
                 if (val.length > 0) {
                   onRequestFind(val, true);
                 }
+              }
+              if ((e.keyCode || e.which) === 27) { // Escape
+                onRequestStopFind();
+                onToggleFindInPageDialog();
               }
             }}
           />
