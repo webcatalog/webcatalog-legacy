@@ -1,9 +1,9 @@
 {
-  "name": "@webcatalog/molecule",
+  "name": "appifier",
   "version": "2.3.0",
-  "description": "Javascript library to make any web page a desktop application",
+  "description": "Node.js library/CLI which turns any web site into a native app.",
   "main": "lib/index.js",
-  "repository": "https://github.com/webcatalog/molecule.git",
+  "repository": "https://github.com/webcatalog/appifier.git",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "install": "cd app && yarn",
@@ -13,7 +13,7 @@
     "build:main": "babel src --out-dir lib",
     "build:app": "cd app && npm run build",
     "lint": "eslint ./src ./app/src",
-    "prepublishOnly": "npm run install-app-full && npm run build",
+    "prepublishOnly": "npm run build",
     "test": "cross-env NODE_ENV=test mocha ./tests",
     "electron-dev": "cd app && yarn electron-dev"
   },
