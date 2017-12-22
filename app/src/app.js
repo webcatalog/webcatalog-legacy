@@ -8,7 +8,7 @@ import connectComponent from './helpers/connect-component';
 import extractDomain from './helpers/extract-domain';
 
 import {
-  toggleFindInPageDialog,
+  openFindInPageDialog,
   updateFindInPageMatches,
 } from './state/root/find-in-page/actions';
 
@@ -154,27 +154,20 @@ class App extends React.Component {
 
     ipcRenderer.on('toggle-dev-tools', onToggleDevTools);
 
-    ipcRenderer.on('toggle-find-in-page-dialog', () => {
-      if (this.props.findInPageIsOpen) {
-        const c = this.webView;
-        c.stopFindInPage('clearSelection');
-        this.props.onUpdateFindInPageMatches(0, 0);
-      }
-      this.props.onToggleFindInPageDialog();
+    ipcRenderer.on('open-find-in-page-dialog', () => {
+      this.props.onOpenFindInPageDialog();
+      const find = this.findInPage;
+      find.select();
     });
 
     ipcRenderer.on('find-in-page-next', () => {
-      if (!this.props.findInPageIsOpen) {
-        this.props.onToggleFindInPageDialog();
-      }
+      this.props.onOpenFindInPageDialog();
       const c = this.webView;
       c.findInPage(this.props.findInPageText, { forward: true });
     });
 
     ipcRenderer.on('find-in-page-previous', () => {
-        if (!this.props.findInPageIsOpen) {
-          this.props.onToggleFindInPageDialog();
-        }
+        this.props.onOpenFindInPageDialog();
         const c = this.webView;
         c.findInPage(this.props.findInPageText, { forward: false });
     });
@@ -433,6 +426,7 @@ class App extends React.Component {
             {navigationBarPosition === 'top' && navElement}
             {findInPageIsOpen && (
               <FindInPage
+                inputRef={(find) => { this.findInPage = find; }}
                 onRequestFind={(text, forward) => {
                   const c = this.webView;
                   c.findInPage(text, { forward });
@@ -513,9 +507,9 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   lastPage: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
+  onOpenFindInPageDialog: PropTypes.func.isRequired,
   onGetLatestVersion: PropTypes.func.isRequired,
   onScreenResize: PropTypes.func.isRequired,
-  onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateCanGoBack: PropTypes.func.isRequired,
   onUpdateCanGoForward: PropTypes.func.isRequired,
   onUpdateFindInPageMatches: PropTypes.func.isRequired,
@@ -545,7 +539,7 @@ const mapStateToProps = state => ({
 const actionCreators = {
   getLatestVersion,
   screenResize,
-  toggleFindInPageDialog,
+  openFindInPageDialog,
   updateCanGoBack,
   updateCanGoForward,
   updateFindInPageMatches,

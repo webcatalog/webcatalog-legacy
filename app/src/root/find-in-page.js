@@ -13,7 +13,7 @@ import Typography from 'material-ui/Typography';
 
 import connectComponent from '../helpers/connect-component';
 
-import { toggleFindInPageDialog, updateFindInPageText } from '../state/root/find-in-page/actions';
+import { closeFindInPageDialog, updateFindInPageText } from '../state/root/find-in-page/actions';
 
 import {
   STRING_ACTIVE_MATCH_OVER_MATCHES,
@@ -44,9 +44,9 @@ class FindInPage extends React.Component {
       activeMatch,
       matches,
       text,
+      onCloseFindInPageDialog,
       onRequestFind,
       onRequestStopFind,
-      onToggleFindInPageDialog,
       onUpdateFindInPageText,
     } = this.props;
 
@@ -66,7 +66,7 @@ class FindInPage extends React.Component {
         <div>
           <TextField
             autoFocus
-            ref={(input) => { this.input = input; }}
+            inputRef={this.props.inputRef}
             placeholder={STRING_FIND}
             value={text}
             margin="dense"
@@ -97,7 +97,7 @@ class FindInPage extends React.Component {
               }
               if ((e.keyCode || e.which) === 27) { // Escape
                 onRequestStopFind();
-                onToggleFindInPageDialog();
+                onCloseFindInPageDialog();
               }
             }}
           />
@@ -155,7 +155,7 @@ class FindInPage extends React.Component {
             aria-label={STRING_CLOSE}
             onClick={() => {
               onRequestStopFind();
-              onToggleFindInPageDialog();
+              onCloseFindInPageDialog();
             }}
           >
             <CloseIcon />
@@ -171,9 +171,10 @@ FindInPage.propTypes = {
   text: PropTypes.string.isRequired,
   activeMatch: PropTypes.number.isRequired,
   matches: PropTypes.number.isRequired,
+  inputRef: PropTypes.func.isRequired,
+  onCloseFindInPageDialog: PropTypes.func.isRequired,
   onRequestFind: PropTypes.func.isRequired,
   onRequestStopFind: PropTypes.func.isRequired,
-  onToggleFindInPageDialog: PropTypes.func.isRequired,
   onUpdateFindInPageText: PropTypes.func.isRequired,
 };
 
@@ -184,7 +185,7 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  toggleFindInPageDialog,
+  closeFindInPageDialog,
   updateFindInPageText,
 };
 

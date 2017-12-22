@@ -29,7 +29,7 @@ function createMenu() {
           label: 'Find',
           accelerator: 'CmdOrCtrl+F',
           click: () => {
-            sendMessageToWindow('toggle-find-in-page-dialog');
+            sendMessageToWindow('open-find-in-page-dialog');
           },
         },
         {
