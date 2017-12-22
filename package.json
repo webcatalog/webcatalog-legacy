@@ -4,10 +4,8 @@
   "description": "Javascript library to make any web page a desktop application",
   "main": "lib/index.js",
   "repository": "https://github.com/webcatalog/molecule.git",
-  "author": "Quang Lam <quang@webcatalog.io>",
+  "author": "Quang Lam <me@quang.im>",
   "scripts": {
-    "install-app-full": "cd app && yarn && yarn rebuild",
-    "install": "cd app && yarn --production=true",
     "dev": "babel-node src",
     "start": "node lib",
     "build": "npm run build:main && npm run build:app",

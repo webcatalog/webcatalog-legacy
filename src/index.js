@@ -5,7 +5,13 @@ const tmp = require('tmp');
 
 const createIconAsync = require('./create-icon-async');
 
-const createAppAsync = (id, name, url, inputIcon, out) => {
+const createAppAsync = (
+  id = 'molecule',
+  name = 'Molecule',
+  url = 'https://webcatalog.io',
+  inputIcon,
+  out = '.',
+) => {
   const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
   let tmpDir;
 
@@ -22,7 +28,7 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
           icon,
           platform: process.platform,
           dir: appDir,
-          out: tmpDir,
+          out,
           overwrite: true,
           prune: false,
           asar: {
@@ -43,23 +49,11 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
     .then((appPaths) => {
       if (process.platform === 'darwin') {
         const binaryFileName = `${name}.app`;
-        const destPath = path.join(out, binaryFileName);
-
-        return fs.move(
-          path.join(appPaths[0], binaryFileName),
-          destPath,
-          { overwrite: true },
-        ).then(() => destPath);
+        return path.join(appPaths[0], binaryFileName);
       }
 
       if (process.platform === 'win32' || process.platform === 'linux') {
-        const destPath = path.join(out, id);
-
-        return fs.move(
-          appPaths[0],
-          destPath,
-          { overwrite: true },
-        ).then(() => destPath);
+        return appPaths[0];
       }
 
       return Promise.reject(new Error('Unknown platform'));
@@ -107,4 +101,6 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
     .catch(err => Promise.reject(err));
 };
 
-module.exports = createAppAsync;
+module.exports = {
+  createAppAsync,
+};

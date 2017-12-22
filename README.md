@@ -13,26 +13,25 @@ Node.js module which turns web app into Electron app.
 
 ### Usage
 ```
-yarn add @webcatalog/molecule
+yarn add molecule-js
 ```
 
 ```js
-createAppAsync(
+const molecule = require('molecule-js');
+
+molecule.createAppAsync(
   'google',
   'Google',
   'https://google.com',
   path.resolve(__dirname, 'test', 'icon.png'),
   path.resolve(__dirname, 'dist'),
 )
-.then(() => console.log('ok'))
-.then(err => console.log(err));
+  .then(() => console.log('ok'))
+  .then(err => console.log(err));
 ```
 
 ### Development
 ```bash
 yarn
-yarn install-app-full
 yarn electron-dev
 ```
-
-`yarn install-app-full` is required because running `yarn` only installs the production `dependencies`, not `devDependencies`. This trick is to minimize WebCatalog package size.

@@ -23,7 +23,6 @@ install:
   - yarn
 
 before_build:
-  - yarn install-app-full
   - yarn lint
 
 build_script:

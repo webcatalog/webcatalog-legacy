@@ -7,19 +7,7 @@ const path = require('path');
 chai.should();
 chai.use(chaiAsPromised);
 
-const createAppAsync = require('../../src');
-
-/*
-const getElectronPath = () => {
-  if (process.platform === 'win32') {
-    return path.resolve(__dirname, '..', 'dist', 'molecule', 'Molecule.exe');
-  } else if (process.platform === 'darwin') {
-    return path.resolve(__dirname, '..', 'dist', 'Molecule.app', 'Contents', 'MacOS', 'Molecule');
-  }
-
-  return path.resolve(__dirname, '..', 'dist', 'molecule', 'molecule');
-};
-*/
+const molecule = require('../../src');
 
 const getElectronPath = (destPath) => {
   if (process.platform === 'win32') {
@@ -36,39 +24,8 @@ const harness = (name, fn, args) => {
     this.timeout(300000);
     global.app = null;
 
-    /*
     before(() =>
-      fs.pathExists(getElectronPath())
-        .then((exists) => {
-          if (exists) return null;
-
-          return createAppAsync(
-            'molecule',
-            'Molecule',
-            'https://webcatalog.io',
-            path.resolve(__dirname, '..',
-            `828296a5-0969-4a56-8e68-e188b03584b0.${getIconFileExt()}`),
-            path.resolve(__dirname, '..', 'dist'),
-          );
-        })
-        .then(() => {
-          global.app = new Application({
-            path: getElectronPath(),
-            args,
-            startTimeout: 50000,
-            waitTimeout: 50000,
-            requireName: 'electronRequire',
-          });
-          return global.app.start();
-        })
-        .then(() => {
-          chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
-        }),
-    );
-    */
-
-    before(() =>
-      createAppAsync(
+      molecule.createAppAsync(
         'molecule',
         'Molecule',
         'https://bitmovin.com/mpeg-dash-hls-drm-test-player/',
