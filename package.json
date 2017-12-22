@@ -31,7 +31,7 @@
     "fs-extra": "5.0.0",
     "is-url": "1.2.2",
     "tmp": "0.0.33",
-    "yargs-parser": "8.0.0"
+    "yargs-parser": "8.1.0"
   },
   "devDependencies": {
     "algoliasearch": "3.24.8",
@@ -42,8 +42,8 @@
     "chalk": "2.3.0",
     "classnames": "2.2.5",
     "concurrently": "3.5.1",
-    "cross-env": "5.1.1",
-    "electron": "1.7.9",
+    "cross-env": "5.1.3",
+    "electron": "1.7.10",
     "electron-builder": "19.49.0",
     "electron-builder-squirrel-windows": "19.49.0",
     "electron-rebuild": "1.6.0",
@@ -62,7 +62,7 @@
     "react-scripts": "1.0.17",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
-    "replace-in-file": "3.0.0",
+    "replace-in-file": "3.1.0",
     "request": "2.83.0",
     "semver": "5.4.1",
     "spectron": "3.7.2",
