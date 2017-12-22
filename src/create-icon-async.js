@@ -1,10 +1,8 @@
 const fileType = require('file-type');
-const fs = require('fs-extra');
 const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const path = require('path');
 const readChunk = require('read-chunk');
-const toIco = require('to-ico');
 
 const getExpectedIconFileExt = () => {
   switch (process.platform) {
@@ -47,20 +45,8 @@ const createIconAsync = (inputPath, outputDirPath) => {
 
       return Promise.all(p);
     })
-    .then(() => {
-      if (expectedFormat === 'icns') {
-        return icongen(outputDirPath, outputDirPath, { type: 'png', modes: ['icns'] })
-          .then(results => results[0]);
-      }
-
-      // use to-ico instead of icongen for ico because of a bug
-      // https://github.com/webcatalog/webcatalog/issues/230
-      const outputPath = path.join(outputDirPath, 'app.ico');
-      const files = sizes.map(size => fs.readFileSync(path.join(outputDirPath, `${size}.png`)));
-      return toIco(files)
-        .then(buf => fs.writeFile(outputPath, buf))
-        .then(() => outputPath);
-    });
+    .then(() => icongen(outputDirPath, outputDirPath, { type: 'png', modes: [expectedFormat] }))
+    .then(results => results[0]);
 };
 
 module.exports = createIconAsync;
