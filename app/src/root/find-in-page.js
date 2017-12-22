@@ -68,6 +68,7 @@ class FindInPage extends React.Component {
           <TextField
             autoFocus
             inputRef={inputRef}
+            ref={inputRef}
             placeholder={STRING_FIND}
             value={text}
             margin="dense"
