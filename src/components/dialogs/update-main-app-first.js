@@ -34,7 +34,7 @@ const UpdateWebCatalogFirstDialog = (props) => {
   return (
     <Dialog
       className={classes.root}
-      onRequestClose={onClose}
+      onClose={onClose}
       open={open}
     >
       <EnhancedDialogTitle onCloseButtonClick={onClose}>

@@ -22,7 +22,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@webcatalog/molecule": "2.2.0",
+    "@webcatalog/molecule": "2.3.0",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
     "electron-updater": "2.17.6",
@@ -52,7 +52,7 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.3.0",
-    "material-ui": "1.0.0-beta.23",
+    "material-ui": "1.0.0-beta.24",
     "material-ui-icons": "1.0.0-beta.17",
     "mocha": "4.0.1",
     "prop-types": "15.6.0",
