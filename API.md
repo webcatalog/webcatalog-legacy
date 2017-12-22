@@ -24,6 +24,8 @@ Command line options are listed below.
 
 `--id <value>`: The ID of the application, which will affect the name of the folder contains the app. Defaults to `molecule`.
 
+`--icon <value>`: The icon of the application. Defaults to Electron icon.
+
 `--auto-hide-menu-bar`: Controls Electron `BrowserWindows`'s `autoHideMenuBar` [option](https://electronjs.org/docs/api/browser-window#new-browserwindowoptions). Defaults to `false`.
 
 `--dark-theme`: Controls `material-ui`'s dark theme [option](https://material-ui-next.com/customization/themes/#dark-light-theme). Defaults to `false`.
