@@ -37,136 +37,133 @@ const styles = theme => ({
   },
 });
 
-class FindInPage extends React.Component {
-  render() {
-    const {
-      classes,
-      activeMatch,
-      matches,
-      text,
-      inputRef,
-      onCloseFindInPageDialog,
-      onRequestFind,
-      onRequestStopFind,
-      onUpdateFindInPageText,
-    } = this.props;
+const FindInPage = (props) => {
+  const {
+    classes,
+    activeMatch,
+    matches,
+    text,
+    inputRef,
+    onCloseFindInPageDialog,
+    onRequestFind,
+    onRequestStopFind,
+    onUpdateFindInPageText,
+  } = props;
 
-    return (
-      <Paper elevation={2} className={classes.root}>
-        <div className={classes.infoContainer}>
-          <Typography type="body1">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: STRING_ACTIVE_MATCH_OVER_MATCHES
-                  .replace('{activeMatch}', activeMatch)
-                  .replace('{matches}', matches),
-              }}
-            />
-          </Typography>
-        </div>
-        <div>
-          <TextField
-            autoFocus
-            inputRef={inputRef}
-            ref={inputRef}
-            placeholder={STRING_FIND}
-            value={text}
-            margin="dense"
-            onChange={(e) => {
-              const val = e.target.value;
-              onUpdateFindInPageText(val);
-              if (val.length > 0) {
-                onRequestFind(val, true);
-              } else {
-                onRequestStopFind();
-              }
-            }}
-            onInput={(e) => {
-              const val = e.target.value;
-              onUpdateFindInPageText(val);
-              if (val.length > 0) {
-                onRequestFind(val, true);
-              } else {
-                onRequestStopFind();
-              }
-            }}
-            onKeyDown={(e) => {
-              if ((e.keyCode || e.which) === 13) { // Enter
-                const val = e.target.value;
-                if (val.length > 0) {
-                  onRequestFind(val, true);
-                }
-              }
-              if ((e.keyCode || e.which) === 27) { // Escape
-                onRequestStopFind();
-                onCloseFindInPageDialog();
-              }
+  return (
+    <Paper elevation={2} className={classes.root}>
+      <div className={classes.infoContainer}>
+        <Typography type="body1">
+          <span
+            dangerouslySetInnerHTML={{
+              __html: STRING_ACTIVE_MATCH_OVER_MATCHES
+                .replace('{activeMatch}', activeMatch)
+                .replace('{matches}', matches),
             }}
           />
-        </div>
-        <Tooltip
-          title={STRING_PREVIOUS}
-          placement="bottom"
-        >
-          <IconButton
-            aria-label={STRING_PREVIOUS}
-            onClick={() => {
-              if (text.length > 0) {
-                onRequestFind(text, false);
+        </Typography>
+      </div>
+      <div>
+        <TextField
+          autoFocus
+          inputRef={inputRef}
+          placeholder={STRING_FIND}
+          value={text}
+          margin="dense"
+          onChange={(e) => {
+            const val = e.target.value;
+            onUpdateFindInPageText(val);
+            if (val.length > 0) {
+              onRequestFind(val, true);
+            } else {
+              onRequestStopFind();
+            }
+          }}
+          onInput={(e) => {
+            const val = e.target.value;
+            onUpdateFindInPageText(val);
+            if (val.length > 0) {
+              onRequestFind(val, true);
+            } else {
+              onRequestStopFind();
+            }
+          }}
+          onKeyDown={(e) => {
+            if ((e.keyCode || e.which) === 13) { // Enter
+              const val = e.target.value;
+              if (val.length > 0) {
+                onRequestFind(val, true);
               }
-            }}
-          >
-            <ExpandLessIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={STRING_NEXT}
-          placement="bottom"
-        >
-          <IconButton
-            aria-label={STRING_NEXT}
-            onClick={() => {
-              if (text.length > 0) {
-                onRequestFind(text, true);
-              }
-            }}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={STRING_FIND}
-          placement="bottom"
-        >
-          <IconButton
-            aria-label={STRING_FIND}
-            onClick={() => {
-              if (text.length > 0) {
-                onRequestFind(text, true);
-              }
-            }}
-          >
-            <SearchIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={STRING_CLOSE}
-          placement="bottom"
-        >
-          <IconButton
-            aria-label={STRING_CLOSE}
-            onClick={() => {
+            }
+            if ((e.keyCode || e.which) === 27) { // Escape
               onRequestStopFind();
               onCloseFindInPageDialog();
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
-      </Paper>
-    );
-  }
-}
+            }
+          }}
+        />
+      </div>
+      <Tooltip
+        title={STRING_PREVIOUS}
+        placement="bottom"
+      >
+        <IconButton
+          aria-label={STRING_PREVIOUS}
+          onClick={() => {
+            if (text.length > 0) {
+              onRequestFind(text, false);
+            }
+          }}
+        >
+          <ExpandLessIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip
+        title={STRING_NEXT}
+        placement="bottom"
+      >
+        <IconButton
+          aria-label={STRING_NEXT}
+          onClick={() => {
+            if (text.length > 0) {
+              onRequestFind(text, true);
+            }
+          }}
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip
+        title={STRING_FIND}
+        placement="bottom"
+      >
+        <IconButton
+          aria-label={STRING_FIND}
+          onClick={() => {
+            if (text.length > 0) {
+              onRequestFind(text, true);
+            }
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip
+        title={STRING_CLOSE}
+        placement="bottom"
+      >
+        <IconButton
+          aria-label={STRING_CLOSE}
+          onClick={() => {
+            onRequestStopFind();
+            onCloseFindInPageDialog();
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Tooltip>
+    </Paper>
+  );
+};
 
 FindInPage.propTypes = {
   classes: PropTypes.object.isRequired,
