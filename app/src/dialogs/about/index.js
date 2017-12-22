@@ -86,7 +86,7 @@ const About = (props) => {
   return (
     <Dialog
       className={classes.root}
-      onRequestClose={onClose}
+      onClose={onClose}
       open={open}
       transition={Transition}
     >

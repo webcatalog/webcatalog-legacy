@@ -31,7 +31,7 @@ const DialogReset = (props) => {
   } = props;
 
   return (
-    <Dialog open={open} onRequestClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>
         {STRING_ARE_YOU_SURE}
       </DialogTitle>

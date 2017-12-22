@@ -214,7 +214,7 @@ class PreferencesDialog extends React.Component {
     return (
       <Dialog
         fullScreen
-        onRequestClose={onClose}
+        onClose={onClose}
         open={open}
         transition={Transition}
       >

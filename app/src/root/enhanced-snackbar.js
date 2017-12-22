@@ -24,7 +24,7 @@ const EnhancedSnackbar = (props) => {
       }}
       open={open}
       autoHideDuration={20e3}
-      onRequestClose={onCloseSnackbar}
+      onClose={onCloseSnackbar}
       SnackbarContentProps={{
         'aria-describedby': 'message-id',
       }}

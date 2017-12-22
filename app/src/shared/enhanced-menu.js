@@ -51,7 +51,7 @@ class EnhancedMenu extends React.Component {
           id={id}
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.handleRequestClose}
+          onClose={this.handleRequestClose}
         >
           {React.Children.map(children, child => React.cloneElement(child, {
             onClick: () => {

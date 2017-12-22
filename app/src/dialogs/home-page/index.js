@@ -43,7 +43,7 @@ const DialogHomePage = (props) => {
   } = props;
 
   return (
-    <Dialog open={open} onRequestClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>
         {STRING_HOME_PAGE}
       </DialogTitle>

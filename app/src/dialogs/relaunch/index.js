@@ -28,7 +28,7 @@ const DialogRelaunch = (props) => {
   } = props;
 
   return (
-    <Dialog open={open} onRequestClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>
         {STRING_RELAUNCH}
       </DialogTitle>

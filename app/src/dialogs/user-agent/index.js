@@ -43,7 +43,7 @@ const DialogUserAgent = (props) => {
   } = props;
 
   return (
-    <Dialog open={open} onRequestClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>
         {STRING_USER_AGENT}
       </DialogTitle>
