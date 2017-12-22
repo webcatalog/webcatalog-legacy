@@ -9,12 +9,11 @@ const {
 } = require('electron');
 
 const packageJson = require('../package.json');
-
-const { webApp } = packageJson;
+const appifierJson = require('../appifier.json');
 
 window.platform = process.platform;
 window.packageJson = packageJson;
-window.shellInfo = webApp;
+window.shellInfo = appifierJson;
 
 // disable zoom
 webFrame.setVisualZoomLevelLimits(1, 1);

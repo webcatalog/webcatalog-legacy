@@ -1,8 +1,8 @@
 {
-  "name": "Molecule",
+  "name": "appifier-template",
   "main": "main/electron.js",
   "version": "2.3.0",
-  "author": "WebCatalog Team <support@getwebcatalog.com>",
+  "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "rebuild": "electron-rebuild",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
@@ -39,9 +39,5 @@
   },
   "homepage": "./",
   "proxy": "https://webcatalog.io",
-  "webApp": {
-    "id": "621434c9-8f4d-4c06-83fa-9b3b99e3820b",
-    "url": "https://open.spotify.com",
-    "name": "Facebook Messenger"
-  }
+  "private": true
 }
