@@ -8,18 +8,12 @@
 #### Homepage: https://webcatalog.io
 
 ## Introduction
-WebCatalog is a desktop app which allows users to install and run any web app natively.
+WebCatalog is a desktop app which allows users to install and run any web app natively. It's the GUI for [molecule](https://github.com/webcatalog/molecule).
 
 ![WebCatalog for macOS](/build-resources/screenshot.png)
 
 ## Development
 Install [Node.js 8](https://nodejs.org), [Yarn](https://yarnpkg.com).
-
-If you use Windows, consider to use `LF` for Git.
-```
-git config --global core.autocrlf false
-git config --global core.eol lf
-```
 
 Then, continue:
 
