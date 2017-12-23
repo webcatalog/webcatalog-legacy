@@ -12,7 +12,10 @@
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "dist-dev": "yarn build && node dist.js",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
-    "test": "mocha ./tests"
+    "test": "mocha ./tests",
+    "appifier:install": "cd packages/appifier && yarn",
+    "appifier:build": "cd packages/appifier && yarn build",
+    "appifier:test": "cd packages/appifier && yarn test"
   },
   "repository": "https://github.com/webcatalog/webcatalog",
   "author": {

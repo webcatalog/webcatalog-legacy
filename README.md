@@ -12,6 +12,10 @@
 
 ---
 
+## Requirements
+- macOS 10.9+, Windows 7+ or Linux.
+- Node.js 8+.
+
 ## Usage
 Creating a native desktop app for [duckduckgo.com](https://duckduckgo.com):
 
@@ -19,11 +23,15 @@ Creating a native desktop app for [duckduckgo.com](https://duckduckgo.com):
 Download and install WebCatalog from its official website: https://webcatalog.io. Open WebCatalog, then search for DuckDuckGo. Finally, click "Install" and wait for a while. Done! Magic.
 
 ### Command Line
+Install: `npm install appifier -g` or `yarn global add appifier`
+
 ```bash
-nativefier --name "DuckDuckGo" --url "https://duckduckgo.com" --icon ./icon.png
+appifier --name "DuckDuckGo" --url "https://duckduckgo.com" --icon ./icon.png
 ```
 
 ### Programmatic API
+Install: `npm install appifier` or `yarn add appifier`
+
 ```js
 const appifier = require('appifier');
 
@@ -56,4 +64,4 @@ See [API](API.md).
 ---
 
 ## Development
-See [DEVELOPMENT.md](DEVELOPMENT.md)
+See [DEVELOPMENT](DEVELOPMENT.md).

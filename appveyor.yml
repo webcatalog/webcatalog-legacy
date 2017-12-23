@@ -27,6 +27,7 @@ install:
   - ps: Install-Product node $env:nodejs_version x64
   # install modules
   - yarn
+  - yarn appifier:install
 
 before_build:
   - yarn lint
@@ -34,5 +35,7 @@ before_build:
 build_script:
   - yarn dist
   - yarn test
+  - yarn appifier:build
+  - yarn appifier:test
 
 test: off
