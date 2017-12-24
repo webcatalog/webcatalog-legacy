@@ -32,6 +32,13 @@ const harness = (name, fn, args) => {
         path.resolve(__dirname, '..', 'icon.png'),
         path.resolve(__dirname, '..', 'dist'),
       )
+        .then((appPath) => {
+          if (process.platform === 'darwin') {
+            return path.join(appPath, 'Molecule.app');
+          }
+
+          return appPath;
+        })
         .then((destPath) => {
           global.app = new Application({
             path: getElectronPath(destPath),
