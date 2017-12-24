@@ -67,16 +67,20 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
       }
 
       const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
-      const appifierJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'appifier.json');
+      const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
 
-      return fs.readJson(appifierJsonPath)
-        .then((appifierJsonTemplate) => {
-          const appifierJson = Object.assign({}, appifierJsonTemplate, {
-            id,
-            name,
-            url,
+      return fs.readJson(packageJsonPath)
+        .then((packageJsonTemplate) => {
+          const packageJson = Object.assign({}, packageJsonTemplate, {
+            name: id,
+            productName: name,
+            webApp: {
+              id,
+              name,
+              url,
+            },
           });
-          return fs.writeJson(appifierJsonPath, appifierJson);
+          return fs.writeJson(packageJsonPath, packageJson);
         })
         .then(() => {
           if (inputIcon) {

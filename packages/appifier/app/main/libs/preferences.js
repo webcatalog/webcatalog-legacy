@@ -2,12 +2,26 @@ const settings = require('electron-settings');
 
 const sendMessageToWindow = require('./send-message-to-window');
 
-const appifierJson = require('../../appifier.json');
-
 // have version to easily reset preferences in the future
 const v = '1.0.0';
 
-const defaultPreferences = appifierJson.options;
+const defaultPreferences = {
+  autoHideMenuBar: false,
+  darkTheme: false,
+  homePage: null,
+  injectCSS: '',
+  injectJS: '',
+  lastPage: null,
+  navigationBarPosition: 'left',
+  proxyRules: null,
+  rememberLastPage: false,
+  showNavigationBar: true,
+  showTitleBar: false,
+  swipeToNavigate: true,
+  useHardwareAcceleration: true,
+  userAgent: null,
+  useSpellChecker: true,
+};
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
 

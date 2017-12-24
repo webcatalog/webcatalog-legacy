@@ -3,9 +3,9 @@ const { Menu, shell, app } = require('electron');
 const sendMessageToWindow = require('./send-message-to-window');
 const { getPreference, setPreference } = require('./preferences');
 
-const appifierJson = require('../../appifier.json');
+const packageJson = require('../../package.json');
 
-const webApp = appifierJson;
+const webApp = packageJson.webApp;
 
 function createMenu() {
   let currentZoom = 1;
