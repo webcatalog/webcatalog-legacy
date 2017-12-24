@@ -32,7 +32,7 @@ const createAppAsync = (
           overwrite: true,
           prune: false,
           asar: {
-            unpack: '(appifier.json|package.json)',
+            unpack: '+(appifier.json|package.json)',
             unpackDir: path.join('node_modules', 'electron-widevinecdm', 'widevine'),
           },
         };
@@ -72,16 +72,18 @@ const createAppAsync = (
           return Promise.reject(new Error('Unknown platform'));
       }
 
-      const appifierJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'appifier.json');
       const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
+      const appifierJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'appifier.json');
 
-      const packageJson = {
-        id,
-        name,
-        url,
-      };
-
-      return fs.writeJson(appifierJsonPath, packageJson)
+      return fs.readJson(appifierJsonPath)
+        .then((appifierJsonTemplate) => {
+          const appifierJson = Object.assign({}, appifierJsonTemplate, {
+            id,
+            name,
+            url,
+          });
+          return fs.writeJson(appifierJsonPath, appifierJson);
+        })
         .then(() => fs.copy(inputIcon, path.join(resourcesPath, 'icon.png')))
         .then(() => {
           // icon png for BrowserWindow's nativeImage

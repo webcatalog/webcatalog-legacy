@@ -10,7 +10,7 @@ const spellChecker = require('electron-spellchecker');
 
 const { getPreferences } = require('./libs/preferences');
 
-const webApp = require('../package.json').webApp;
+const webApp = require('../appifier.json');
 
 const { Menu, MenuItem } = remote;
 
