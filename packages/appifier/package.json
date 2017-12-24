@@ -1,12 +1,12 @@
 {
   "name": "appifier",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Node.js library/CLI which turns any web site into a native app.",
   "main": "src/index.js",
   "bin": {
     "appifier": "src/cli.js"
   },
-  "repository": "https://github.com/webcatalog/appifier.git",
+  "repository": "https://github.com/webcatalog/webcatalog.git",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "install": "cd app && yarn",

@@ -1,3 +1,12 @@
+## 9.1.0
+The project is restructured as a monorepo.
+
+- Upgrades to [appifier@3.0.2](https://www.npmjs.com/package/appifier) (formerly molecule).
+  - Adds [CLI support](https://github.com/webcatalog/webcatalog#command-line).
+  - Fixes: web view loses focus when switching windows [#101](https://github.com/webcatalog/webcatalog/issues/101).
+
+---
+
 ## 9.0.0
 - **Breaking Change for Linux**: Apps are now installed at `~/.webcatalog/apps` instead of `~/.config/WebCatalog/apps`. Apps installed at the old path will be removed automatically [webcatalog/webcatalog#235](https://github.com/webcatalog/webcatalog/issues/235).
 - Disables resource sharing by default. You can enable it in the new preference dialog.

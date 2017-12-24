@@ -25,7 +25,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "appifier": "3.0.1",
+    "appifier": "3.0.2",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
     "electron-updater": "2.17.6",
