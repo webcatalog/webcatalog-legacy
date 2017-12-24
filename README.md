@@ -4,7 +4,7 @@
 | ----- | ----- | ------- |
 | [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog) | [![Travis Build Status](https://travis-ci.org/webcatalog/webcatalog.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog) | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/webcatalog/webcatalog?branch=master&svg=true)](https://ci.appveyor.com/project/webcatalog/webcatalog/branch/master) |
 
-**appifier** is a Node.js library/CLI which turns any web site into native app. It works similarly to [nativefier](https://github.com/jiahaog/Nativefier) but is designed with a more consumer-friendly mindset.
+**appifier** [![npm version](https://badge.fury.io/js/appifier.svg)](https://badge.fury.io/js/appifier) is a Node.js library/CLI which turns any web site into native app. It works similarly to [nativefier](https://github.com/jiahaog/Nativefier) but is designed with a more consumer-friendly mindset.
 
 **WebCatalog** acts as GUI (graphical user interface) for **appifier** to make it more accessible to non-technical users. The app includes a [web app catalog](https://github.com/webcatalog/webcatalog-apps); automatically adds generated native apps to menu or desktop; and provides an interface to manage and update the apps. It also offers some additional optimizations like [resource sharing](https://github.com/webcatalog/webcatalog/issues/171).
 
