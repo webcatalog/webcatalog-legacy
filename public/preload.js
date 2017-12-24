@@ -12,7 +12,7 @@ webFrame.setLayoutZoomLevelLimits(0, 0);
 window.env = process.env;
 window.ipcRenderer = ipcRenderer;
 window.version = remote.app.getVersion();
-window.moleculeVersion = packageJson.dependencies['@webcatalog/molecule'];
+window.moleculeVersion = packageJson.dependencies.appifier;
 
 const { arch, platform, versions } = process;
 window.arch = arch;

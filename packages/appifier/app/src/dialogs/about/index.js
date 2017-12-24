@@ -101,7 +101,7 @@ const About = (props) => {
         />
         <Typography type="title" className={classes.title}>{window.shellInfo.name}</Typography>
         <Typography type="body1" className={classes.version}>
-          powered by WebCatalog + Molecule
+          powered by WebCatalog & appifier
         </Typography>
 
         <Typography type="body1" className={classes.updaterStatus}>
@@ -121,7 +121,7 @@ const About = (props) => {
 
         <div className={classes.versionSmallContainer}>
           <Typography type="body1" className={classes.versionSmall}>
-            <strong>molecule:</strong> {currentVersion}
+            <strong>appifier:</strong> {currentVersion}
           </Typography>
           <Typography type="body1" className={classes.versionSmall}>
             <strong>electron:</strong> {window.versions.electron}

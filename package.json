@@ -20,12 +20,12 @@
   "repository": "https://github.com/webcatalog/webcatalog",
   "author": {
     "name": "Quang Lam",
-    "email": "support@webcatalog.io",
-    "url": "https://webcatalog.io"
+    "email": "me@quang.im",
+    "url": "https://quang.im"
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@webcatalog/molecule": "2.3.0",
+    "appifier": "3.0.1",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
     "electron-updater": "2.17.6",

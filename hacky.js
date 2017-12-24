@@ -23,8 +23,8 @@ replace({
   });
 
 // electron-rebuild
-console.log('Rebuild native dependencies at node_modules/@webcatalog/molecule/app');
-const buildPath = path.join(__dirname, 'node_modules', '@webcatalog', 'molecule', 'app');
+console.log('Rebuild native dependencies at node_modules/appifier/app');
+const buildPath = path.join(__dirname, 'node_modules', 'appifier', 'app');
 const packageJsonPath = path.join(buildPath, 'package.json');
 
 fs.readJson(packageJsonPath)

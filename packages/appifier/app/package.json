@@ -1,7 +1,7 @@
 {
   "name": "appifier-template",
   "main": "main/electron.js",
-  "version": "2.3.0",
+  "version": "3.0.1",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "rebuild": "electron-rebuild",

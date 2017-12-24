@@ -11,7 +11,7 @@ const allAppPath = getInstallationPath();
 const installAppAsync = appObj =>
   fs.readJson(path.join(app.getAppPath(), 'package.json'))
     .then((moleculePackageJson) => {
-      const moleculeVersion = moleculePackageJson.dependencies['@webcatalog/molecule'];
+      const moleculeVersion = moleculePackageJson.dependencies.appifier;
       const shareResources = getPreference('shareResources');
 
       return new Promise((resolve, reject) => {

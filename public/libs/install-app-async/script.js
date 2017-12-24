@@ -1,6 +1,6 @@
 const { https } = require('follow-redirects');
 const argv = require('yargs-parser')(process.argv.slice(1));
-const createAppAsync = require('@webcatalog/molecule');
+const appifier = require('appifier');
 const fs = require('fs-extra');
 const isUrl = require('is-url');
 const path = require('path');
@@ -97,13 +97,27 @@ const moveCommonResourcesAsync = (destPath) => {
 
 downloadFileTempAsync(icon)
   .then(iconPath =>
-    createAppAsync(
+    appifier.createAppAsync(
       id,
       name,
       url,
       iconPath,
-      allAppPath,
+      tempPath,
     )
+      .then((appPath) => {
+        const originPath = (process.platform === 'darwin') ?
+          path.join(appPath, `${name}.app`) : appPath;
+
+        const originPathParsedObj = path.parse(originPath);
+
+        const destPath = path.join(
+          allAppPath,
+          `${originPathParsedObj.name}${originPathParsedObj.ext}`,
+        );
+
+        return fs.move(originPath, destPath)
+          .then(() => destPath);
+      })
       .then(destPath =>
         moveCommonResourcesAsync(destPath)
           .then(() => fs.copy(iconPath, path.join(iconDirPath, `${id}.png`)))

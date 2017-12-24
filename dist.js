@@ -65,6 +65,16 @@ Promise.resolve()
           category: 'Utility',
           packageCategory: 'utils',
         },
+        files: [
+          '**/*',
+          '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}',
+          '!**/node_modules/.bin',
+          '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}',
+          '!**/._*',
+          '!.editorconfig',
+          '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,.vs,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}',
+          '!packages/**/*',
+        ],
         mac: {
           category: 'public.app-category.utilities',
           extendInfo: {
@@ -118,13 +128,13 @@ Promise.resolve()
 
           const sourceNodeModulesPath = path.join(
             __dirname,
-            'node_modules', '@webcatalog', 'molecule', 'app', 'node_modules',
+            'node_modules', 'appifier', 'app', 'node_modules',
           );
 
           const destNodeModulesPath = path.join(
             resourcesAppPath,
             'node_modules',
-            '@webcatalog', 'molecule', 'app', 'node_modules',
+            'appifier', 'app', 'node_modules',
           );
 
           const sourceElectronIconPath = path.join(
