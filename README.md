@@ -26,7 +26,7 @@ Download and install WebCatalog from its official website: https://webcatalog.io
 Install: `npm install appifier -g` or `yarn global add appifier`
 
 ```bash
-appifier --name "DuckDuckGo" --url "https://duckduckgo.com" --icon ./icon.png
+appifier --id duckduckgo --name "DuckDuckGo" --url "https://duckduckgo.com" --icon ./icon.png
 ```
 
 ### Programmatic API
@@ -42,12 +42,13 @@ appifier.createAppAsync(
   path.resolve(__dirname, 'test', 'icon.png'),
   path.resolve(__dirname, 'dist'),
 )
-  .then(() => console.log('ok'))
-  .then(err => console.log(err));
+  .then((destPath) => {
+    console.log(`App has been created at ${destPath}`);
+  })
+  .then((err) => {
+    console.log(err);
+  });
 ```
-
-### Notes
-Read the [API documentation](API.md) for other command line flags and options which can be used to configure the packaged app. Still, it is not really necessary as you can modify the options later using the GUI inside the generated app.
 
 ---
 

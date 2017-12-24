@@ -5,13 +5,7 @@ const tmp = require('tmp');
 
 const createIconAsync = require('./create-icon-async');
 
-const createAppAsync = (
-  id = 'molecule',
-  name = 'Molecule',
-  url = 'https://webcatalog.io',
-  inputIcon,
-  out = '.',
-) => {
+const createAppAsync = (id, name, url, inputIcon, out) => {
   const appDir = path.resolve(__dirname, '..', 'app').replace('app.asar', 'app.asar.unpacked');
   let tmpDir;
 
@@ -20,7 +14,10 @@ const createAppAsync = (
       const tmpObj = tmp.dirSync();
       tmpDir = tmpObj.name;
     })
-    .then(() => createIconAsync(inputIcon, tmpDir))
+    .then(() => {
+      if (inputIcon) return createIconAsync(inputIcon, tmpDir);
+      return null;
+    })
     .then(icon =>
       new Promise((resolve, reject) => {
         const options = {
@@ -47,18 +44,15 @@ const createAppAsync = (
       }),
     )
     .then((appPaths) => {
+      let destPath;
+
       if (process.platform === 'darwin') {
         const binaryFileName = `${name}.app`;
-        return path.join(appPaths[0], binaryFileName);
+        destPath = path.join(appPaths[0], binaryFileName);
+      } else {
+        destPath = appPaths[0];
       }
 
-      if (process.platform === 'win32' || process.platform === 'linux') {
-        return appPaths[0];
-      }
-
-      return Promise.reject(new Error('Unknown platform'));
-    })
-    .then((destPath) => {
       let resourcesPath;
       switch (process.platform) {
         case 'darwin':
@@ -84,15 +78,21 @@ const createAppAsync = (
           });
           return fs.writeJson(appifierJsonPath, appifierJson);
         })
-        .then(() => fs.copy(inputIcon, path.join(resourcesPath, 'icon.png')))
         .then(() => {
-          // icon png for BrowserWindow's nativeImage
-          if (process.platform === 'linux') {
-            return fs.copy(inputIcon, path.join(appAsarUnpackedPath, 'icon.png'));
+          if (inputIcon) {
+            return fs.copy(inputIcon, path.join(resourcesPath, 'icon.png'))
+              .then(() => {
+                // icon png for BrowserWindow's nativeImage
+                if (process.platform === 'linux') {
+                  return fs.copy(inputIcon, path.join(appAsarUnpackedPath, 'icon.png'));
+                }
+                return null;
+              });
           }
+
           return null;
         })
-        .then(() => destPath);
+        .then(() => appPaths[0]);
     })
     .catch(err => Promise.reject(err));
 };

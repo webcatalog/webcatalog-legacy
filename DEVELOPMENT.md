@@ -3,30 +3,42 @@
 # Development
 ## Environment Setup
 
-First, clone the project:
-
 ```bash
-git clone https://github.com/webcatalog/appifier.git
+# First, clone the project:
+git clone https://github.com/webcatalog/webcatalog.git
 cd appifier
-```
 
-Then install the dependencies: `yarn`
+# WebCatalog
+# install the dependencies
+yarn
+# Run development mode
+yarn electron-dev
+# Build for production
+yarn dist
 
-If the dependencies are installed and you want to build the code: `yarn build` or `npm run build`.
-
-You can set up a symbolic link so that running `appifier` invokes your development version including your changes: `yarn link` or `npm link`.
-
-After doing so (and not forgetting to build with `yarn build`), you can run **appifier** with your test parameters:
-
-```bash
+# appifier
+# move the directory
+cd packages/appifier
+# build the code
+yarn build
+# set up a symbolic link so that running appifier invokes your development version including your changes
+yarn link
+# after doing so (and not forgetting to build with `yarn build`)
+# you can runappifier with your test parameters
 appifier <--your-awesome-new-flag>
+# To develop the template Electron app, run
+yarn electron-dev
+# It'll automatically watch the files for changes and reload accordingly.
+# Still, if you modify files in the main process (./app/main),
+# you'll need to manually re-run the script.
 ```
-
-To develop the template Electron app, run `yarn electron-dev`. It'll automatically watch the files for changes and reload accordingly. Still, if you modify files in the main process (`./app/main`), you'll need to manually re-run the script.
 
 ## Tests
 
 ```bash
-# To run all tests (unit, end-to-end),
-npm test
+# To run all tests for WebCatalog,
+yarn run test
+
+# To run all tests for appifier
+yarn run appifier:test
 ```
