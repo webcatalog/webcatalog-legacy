@@ -152,6 +152,8 @@ class App extends React.Component {
 
     window.addEventListener('resize', onScreenResize);
 
+    window.addEventListener('focus', () => this.webView.focus());
+
     ipcRenderer.on('toggle-dev-tools', onToggleDevTools);
 
     ipcRenderer.on('open-find-in-page-dialog', () => {
