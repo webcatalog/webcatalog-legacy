@@ -5,7 +5,7 @@
 
 ```bash
 # First, clone the project:
-git clone https://github.com/webcatalog/webcatalog.git
+git clone https://github.com/quanglam2807/webcatalog.git
 cd appifier
 
 # WebCatalog

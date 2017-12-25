@@ -17,7 +17,7 @@
     "appifier:build": "cd packages/appifier && yarn build",
     "appifier:test": "cd packages/appifier && yarn test"
   },
-  "repository": "https://github.com/webcatalog/webcatalog",
+  "repository": "https://github.com/quanglam2807/webcatalog",
   "author": {
     "name": "Quang Lam",
     "email": "me@quang.im",

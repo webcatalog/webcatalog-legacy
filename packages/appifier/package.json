@@ -6,7 +6,7 @@
   "bin": {
     "appifier": "src/cli.js"
   },
-  "repository": "https://github.com/webcatalog/webcatalog.git",
+  "repository": "https://github.com/quanglam2807/webcatalog.git",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "install": "cd app && yarn",
