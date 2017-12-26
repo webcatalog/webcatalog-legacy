@@ -65,16 +65,6 @@ Promise.resolve()
           category: 'Utility',
           packageCategory: 'utils',
         },
-        files: [
-          '**/*',
-          '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}',
-          '!**/node_modules/.bin',
-          '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}',
-          '!**/._*',
-          '!.editorconfig',
-          '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,.vs,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}',
-          '!packages/**/*',
-        ],
         mac: {
           category: 'public.app-category.utilities',
           extendInfo: {
@@ -153,6 +143,11 @@ Promise.resolve()
             'electron-widevinecdm', 'widevine',
           );
 
+          const packagesPath = path.join(
+            resourcesAppPath,
+            'packages',
+          );
+
           console.log('Copying additional files...');
 
           return fs.copy(sourceElectronIconPath, destElectronIconPath)
@@ -171,6 +166,10 @@ Promise.resolve()
               });
 
               return Promise.all(p);
+            })
+            .then(() => {
+              console.log('Removing packages source code');
+              return fs.remove(packagesPath);
             });
         },
       },
