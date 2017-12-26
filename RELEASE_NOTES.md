@@ -1,3 +1,8 @@
+## 9.1.1
+- Fixes bugs.
+
+---
+
 ## 9.1.0
 The project is restructured as a monorepo.
 
