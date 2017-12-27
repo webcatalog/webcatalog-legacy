@@ -15,7 +15,8 @@
     "test": "mocha ./tests",
     "appifier:install": "cd packages/appifier && yarn",
     "appifier:build": "cd packages/appifier && yarn build",
-    "appifier:test": "cd packages/appifier && yarn test"
+    "appifier:test": "cd packages/appifier && yarn test",
+    "appifier:publish": "cd packages/appifier && npm publish"
   },
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": {
@@ -25,7 +26,7 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "appifier": "3.0.2",
+    "appifier": "3.0.3",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
     "electron-updater": "2.17.6",
@@ -55,7 +56,7 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.3.0",
-    "material-ui": "1.0.0-beta.24",
+    "material-ui": "1.0.0-beta.25",
     "material-ui-icons": "1.0.0-beta.17",
     "mocha": "4.0.1",
     "prop-types": "15.6.0",

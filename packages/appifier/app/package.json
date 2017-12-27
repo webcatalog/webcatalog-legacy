@@ -1,7 +1,7 @@
 {
   "name": "appifier-template",
   "main": "main/electron.js",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
     "rebuild": "electron-rebuild",
@@ -15,7 +15,7 @@
     "concurrently": "3.5.1",
     "cross-env": "5.1.3",
     "electron-rebuild": "1.6.0",
-    "material-ui": "1.0.0-beta.24",
+    "material-ui": "1.0.0-beta.25",
     "material-ui-icons": "1.0.0-beta.17",
     "react": "16.2.0",
     "react-dom": "16.2.0",
