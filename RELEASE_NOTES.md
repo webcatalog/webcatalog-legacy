@@ -1,3 +1,8 @@
+## 9.1.2
+- Fixes bugs.
+
+---
+
 ## 9.1.1
 - Fixes bugs.
 
