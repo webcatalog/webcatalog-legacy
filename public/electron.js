@@ -22,7 +22,7 @@ const isSecondInstance = app.makeSingleInstance(() => {
 });
 
 if (isSecondInstance) {
-  app.quit();
+  app.exit();
 }
 
 // load ipcMain listeners

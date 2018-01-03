@@ -30,7 +30,7 @@ const isSecondInstance = app.makeSingleInstance(() => {
 });
 
 if (isSecondInstance) {
-  app.quit();
+  app.exit();
 }
 
 // load widevinecdm
