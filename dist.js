@@ -148,6 +148,11 @@ Promise.resolve()
             'packages',
           );
 
+          const websitePath = path.join(
+            resourcesAppPath,
+            'website',
+          );
+
           console.log('Copying additional files...');
 
           return fs.copy(sourceElectronIconPath, destElectronIconPath)
@@ -170,6 +175,10 @@ Promise.resolve()
             .then(() => {
               console.log('Removing packages source code');
               return fs.remove(packagesPath);
+            })
+            .then(() => {
+              console.log('Removing website source code');
+              return fs.remove(websitePath);
             });
         },
       },
