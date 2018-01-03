@@ -26,6 +26,7 @@
     "ejs": "2.5.7",
     "express": "4.16.2",
     "moment": "2.19.1",
+    "node-fetch": "^1.7.3",
     "node-sass-middleware": "0.11.0",
     "throw.js": "3.0.1"
   },
