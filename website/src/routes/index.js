@@ -1,9 +1,6 @@
 import express from 'express';
-import fetch from 'node-fetch';
-import marked from 'marked';
 import apiRoutes from './api';
 import sitemapRoute from './sitemap';
-import directoryRoute from './directory';
 
 const router = express.Router();
 
@@ -23,21 +20,6 @@ router.get('/downloads/:platform(mac|windows|linux)', (req, res) => {
 
 router.get('/download/:platform(mac|windows|linux)', (req, res) => {
   res.redirect('/');
-});
-
-let cachedContent;
-router.get('/release-notes', (req, res, next) => {
-  if (cachedContent) {
-    return res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(cachedContent) });
-  }
-
-  return fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/RELEASE_NOTES.md`)
-    .then(response => response.text())
-    .then((mdContent) => {
-      cachedContent = mdContent;
-      return res.render('release-notes', { title: 'Release Notes', releaseNotes: marked(mdContent) });
-    })
-    .catch(next);
 });
 
 router.get('/support', (req, res) => {
@@ -64,7 +46,6 @@ router.get('/s3/:name.:ext', (req, res) => {
   res.redirect(`https://cdn.webcatalog.io/${req.params.name}.${req.params.ext}`);
 });
 
-router.use('/directory', directoryRoute);
 router.use('/api', apiRoutes);
 router.use('/sitemap.xml', sitemapRoute);
 
