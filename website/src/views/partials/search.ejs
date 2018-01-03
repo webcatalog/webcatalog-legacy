@@ -1,0 +1,18 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <form action="/directory/search">
+        <div class="field is-grouped">
+          <p class="control is-expanded">
+            <input class="input search-box" type="text" placeholder="Search Apps..." name="q" value="<%= (locals.searchQuery) ? searchQuery : '' %>">
+          </p>
+          <p class="control">
+            <button class="button" type="submit">
+              Search
+            </button>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
