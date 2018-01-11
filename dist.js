@@ -58,6 +58,10 @@ Promise.resolve()
         // asar: true,
         asar: false,
         // asarUnpack,
+        files: [
+          '!packages/**/*',
+          '!website/**/*',
+        ],
         directories: {
           buildResources: 'build-resources',
         },
@@ -143,16 +147,6 @@ Promise.resolve()
             'electron-widevinecdm', 'widevine',
           );
 
-          const packagesPath = path.join(
-            resourcesAppPath,
-            'packages',
-          );
-
-          const websitePath = path.join(
-            resourcesAppPath,
-            'website',
-          );
-
           console.log('Copying additional files...');
 
           return fs.copy(sourceElectronIconPath, destElectronIconPath)
@@ -171,14 +165,6 @@ Promise.resolve()
               });
 
               return Promise.all(p);
-            })
-            .then(() => {
-              console.log('Removing packages source code');
-              return fs.remove(packagesPath);
-            })
-            .then(() => {
-              console.log('Removing website source code');
-              return fs.remove(websitePath);
             });
         },
       },
