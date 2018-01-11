@@ -61,6 +61,7 @@ Promise.resolve()
         files: [
           '!packages/**/*',
           '!website/**/*',
+          '!tests/**/*',
         ],
         directories: {
           buildResources: 'build-resources',
