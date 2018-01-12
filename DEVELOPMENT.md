@@ -19,6 +19,8 @@ yarn dist
 # appifier
 # move the directory
 cd packages/appifier
+# install the dependencies
+yarn install:full
 # build the code
 yarn build
 # set up a symbolic link so that running appifier invokes your development version including your changes

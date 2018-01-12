@@ -1,6 +1,6 @@
 {
   "name": "appifier",
-  "version": "3.0.3",
+  "version": "3.0.6",
   "description": "Node.js library/CLI which turns any web site into a native app.",
   "main": "src/index.js",
   "bin": {
@@ -9,7 +9,8 @@
   "repository": "https://github.com/quanglam2807/webcatalog.git",
   "author": "Quang Lam <me@quang.im>",
   "scripts": {
-    "install": "cd app && yarn",
+    "install": "cd app && yarn install --production",
+    "install:full": "yarn && cd app && yarn",
     "build": "npm run build:app",
     "build:app": "cd app && npm run build",
     "prepublishOnly": "npm run build",
