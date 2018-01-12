@@ -1,3 +1,10 @@
+## 9.2.0
+LTS release. No new features or feature requests.
+
+- Fixes bugs [#244](https://github.com/quanglam2807/webcatalog/issues/244) [#206](https://github.com/quanglam2807/webcatalog/issues/206).
+
+---
+
 ## 9.1.2
 - Fixes bugs.
 
