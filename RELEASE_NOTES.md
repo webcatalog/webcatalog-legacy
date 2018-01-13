@@ -1,3 +1,8 @@
+## 9.2.1
+- Fixes bugs.
+
+---
+
 ## 9.2.0
 LTS release. No new features or feature requests.
 
