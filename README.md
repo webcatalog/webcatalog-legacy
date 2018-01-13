@@ -1,8 +1,8 @@
 <!-- https://raw.githubusercontent.com/electron/electron-apps/master/readme.md --->
 
-# webcatalog-apps [![Build Status](https://travis-ci.org/webcatalog/webcatalog-apps.svg?branch=master)](https://travis-ci.org/webcatalog/webcatalog-apps)
+# webcatalog-apps [![Build Status](https://travis-ci.org/quanglam2807/webcatalog-apps.svg?branch=master)](https://travis-ci.org/quanglam2807/webcatalog-apps)
 
-A collection of apps for [WebCatalog](https://github.com/webcatalog/webcatalog).
+A collection of apps for [WebCatalog](https://github.com/quanglam2807/webcatalog).
 
 ## Adding your app
 

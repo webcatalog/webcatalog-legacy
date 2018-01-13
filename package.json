@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A collection of apps for WebCatalog",
   "main": "script/build.js",
-  "repository": "https://github.com/webcatalog/webcatalog-apps.git",
+  "repository": "https://github.com/quanglam2807/webcatalog-apps.git",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "license": "MIT",
   "private": true,
