@@ -9,13 +9,13 @@ versionApiRouter.get('/latest', (req, res, next) => {
     return res.json(cachedResponse);
   }
 
-  return fetch(`https://raw.githubusercontent.com/webcatalog/webcatalog/v${process.env.VERSION}/package.json`)
+  return fetch(`https://raw.githubusercontent.com/quanglam2807/webcatalog/v${process.env.VERSION}/package.json`)
     .then(response => response.json())
     .then((packageJson) => {
       const { version, dependencies } = packageJson;
 
       cachedResponse = {
-        moleculeVersion: dependencies['@webcatalog/molecule'],
+        moleculeVersion: dependencies.appifier,
         version,
       };
 
