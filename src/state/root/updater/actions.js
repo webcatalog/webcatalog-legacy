@@ -13,12 +13,8 @@ export const setUpdaterStatus = (status, data) => ({
   data,
 });
 
-export const checkForLinuxUpdates = () =>
+export const checkForUpdates = () =>
   (dispatch) => {
-    if (window.platform !== 'linux') {
-      return null;
-    }
-
     dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
 
     return window.fetch('https://api.github.com/repos/webcatalog/webcatalog/releases/latest')

@@ -11,15 +11,13 @@ import Dialog, {
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
-import { checkForLinuxUpdates } from '../../state/root/updater/actions';
+import { checkForUpdates } from '../../state/root/updater/actions';
 import iconSvg from '../../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
   UPDATE_AVAILABLE,
-  UPDATE_DOWNLOADED,
   UPDATE_ERROR,
   UPDATE_NOT_AVAILABLE,
-  UPDATE_PROGRESS,
 } from '../../constants/updater-statuses';
 import {
   STRING_ABOUT,
@@ -28,24 +26,16 @@ import {
   STRING_GO_TO_THE_WEBSITE,
   STRING_PRIVACY_POLICY,
   STRING_RELEASE_NOTES,
-  STRING_UPDATE_AND_RELAUNCH,
   STRING_TERMS,
-  STRING_UPDATE_AVAILABLE_LINUX,
   STRING_UPDATE_AVAILABLE,
-  STRING_UPDATE_DOWNLOADED,
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
-  STRING_UPDATE_PROGRESS,
   STRING_WEBSITE,
 } from '../../constants/strings';
 
 import {
   requestOpenInBrowser,
 } from '../../senders/generic';
-import {
-  requestCheckForUpdates,
-  requestQuitAndInstall,
-} from '../../senders/updater';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
@@ -96,7 +86,7 @@ const About = (props) => {
   const {
     classes,
     onClose,
-    onCheckForLinuxUpdates,
+    onCheckForUpdates,
     open,
     updaterData,
     updaterStatus,
@@ -108,20 +98,10 @@ const About = (props) => {
       updaterStatusMessage = STRING_CHECKING_FOR_UPDATES;
       break;
     case UPDATE_AVAILABLE:
-      if (window.platform === 'linux') {
-        updaterStatusMessage = STRING_UPDATE_AVAILABLE_LINUX;
-      } else {
-        updaterStatusMessage = STRING_UPDATE_AVAILABLE;
-      }
+      updaterStatusMessage = STRING_UPDATE_AVAILABLE;
       break;
     case UPDATE_ERROR:
       updaterStatusMessage = STRING_UPDATE_ERROR;
-      break;
-    case UPDATE_PROGRESS:
-      updaterStatusMessage = STRING_UPDATE_PROGRESS;
-      break;
-    case UPDATE_DOWNLOADED:
-      updaterStatusMessage = STRING_UPDATE_DOWNLOADED;
       break;
     case UPDATE_NOT_AVAILABLE:
     default:
@@ -130,9 +110,7 @@ const About = (props) => {
 
   const isUpdaterRunning = (
     updaterStatus === CHECKING_FOR_UPDATES
-    || updaterStatus === UPDATE_PROGRESS
-    || updaterStatus === UPDATE_DOWNLOADED
-    || (window.platform !== 'linux' && updaterStatus === UPDATE_AVAILABLE)
+    || updaterStatus === UPDATE_AVAILABLE
   );
 
   return (
@@ -157,14 +135,9 @@ const About = (props) => {
               {` (${updaterData.version})`}
             </span>
           )}
-          {updaterStatus === UPDATE_PROGRESS && updaterData.percent && (
-            <span>
-              {` (${updaterData.percent.toFixed(2)}%)`}
-            </span>
-          )}
         </Typography>
 
-        {window.platform === 'linux' && updaterStatus === UPDATE_AVAILABLE && (
+        {updaterStatus === UPDATE_AVAILABLE && (
           <Button
             onClick={() => requestOpenInBrowser('https://webcatalog.io')}
             className={classes.goToTheWebsiteButton}
@@ -174,30 +147,14 @@ const About = (props) => {
           </Button>
         )}
 
-        {updaterStatus === UPDATE_DOWNLOADED ? (
-          <Button
-            color="primary"
-            onClick={requestQuitAndInstall}
-            raised
-          >
-            {STRING_UPDATE_AND_RELAUNCH}
-          </Button>
-        ) : (
-          <Button
-            color="primary"
-            disabled={isUpdaterRunning}
-            onClick={() => {
-              if (window.platform === 'linux') {
-                onCheckForLinuxUpdates();
-              } else {
-                requestCheckForUpdates();
-              }
-            }}
-            raised
-          >
-            {STRING_CHECK_FOR_UPDATES}
-          </Button>
-        )}
+        <Button
+          color="primary"
+          disabled={isUpdaterRunning}
+          onClick={onCheckForUpdates}
+          raised
+        >
+          {STRING_CHECK_FOR_UPDATES}
+        </Button>
 
         <div className={classes.versionSmallContainer}>
           <Typography type="body1" className={classes.versionSmall}>
@@ -261,7 +218,7 @@ About.defaultProps = {
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCheckForLinuxUpdates: PropTypes.func.isRequired,
+  onCheckForUpdates: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
@@ -275,7 +232,7 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
-  checkForLinuxUpdates,
+  checkForUpdates,
 };
 
 export default connectComponent(

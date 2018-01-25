@@ -42,7 +42,6 @@ import {
   STRING_PREFERENCES,
 } from '../../constants/strings';
 
-import { requestCheckForUpdates } from '../../senders/updater';
 import { requestScanInstalledApps } from '../../senders/local';
 import { requestOpenInBrowser } from '../../senders/generic';
 
@@ -71,7 +70,6 @@ class EnhancedAppBar extends React.Component {
   componentDidMount() {
     // start checking for installed apps only when the app is loaded.
     requestScanInstalledApps();
-    requestCheckForUpdates();
   }
 
   render() {

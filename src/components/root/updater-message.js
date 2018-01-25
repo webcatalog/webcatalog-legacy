@@ -9,19 +9,15 @@ import connectComponent from '../../helpers/connect-component';
 
 import {
   UPDATE_AVAILABLE,
-  UPDATE_DOWNLOADED,
 } from '../../constants/updater-statuses';
 
 import {
-  STRING_UPDATE_AND_RELAUNCH,
-  STRING_UPDATE_DOWNLOADED,
   STRING_WHATS_NEW,
   STRING_GO_TO_THE_WEBSITE,
-  STRING_UPDATE_AVAILABLE_LINUX,
+  STRING_UPDATE_AVAILABLE,
 } from '../../constants/strings';
 
 import { requestOpenInBrowser } from '../../senders/generic';
-import { requestQuitAndInstall } from '../../senders/updater';
 
 const styles = {
   updaterPaper: {
@@ -39,14 +35,14 @@ const styles = {
 const UpdaterMessage = (props) => {
   const { classes, updaterStatus } = props;
 
-  if (window.platform === 'linux' && updaterStatus === UPDATE_AVAILABLE) {
+  if (updaterStatus === UPDATE_AVAILABLE) {
     return (
       <div className={classes.updaterPaper}>
-        <span>{STRING_UPDATE_AVAILABLE_LINUX} </span>
+        <span>{STRING_UPDATE_AVAILABLE} </span>
         <Button
           raised
           className={classes.updaterPaperLink}
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
+          onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/blob/master/RELEASE_NOTES.md')}
         >
           {STRING_WHATS_NEW}
         </Button>
@@ -57,29 +53,6 @@ const UpdaterMessage = (props) => {
         >
           {STRING_GO_TO_THE_WEBSITE}
         </Button>
-      </div>
-    );
-  }
-
-  if (updaterStatus === UPDATE_DOWNLOADED) {
-    return (
-      <div className={classes.updaterPaper}>
-        <span>{STRING_UPDATE_DOWNLOADED} </span>
-        <Button
-          raised
-          className={classes.updaterPaperLink}
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
-        >
-          {STRING_WHATS_NEW}
-        </Button>
-        <Button
-          raised
-          className={classes.updaterPaperLink}
-          onClick={() => requestQuitAndInstall()}
-        >
-          {STRING_UPDATE_AND_RELAUNCH}
-        </Button>
-        <span>.</span>
       </div>
     );
   }

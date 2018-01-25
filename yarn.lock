@@ -1383,7 +1383,7 @@ buffers@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
 
-builder-util-runtime@4.0.0, builder-util-runtime@~4.0.0:
+builder-util-runtime@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.0.0.tgz#783a4148164e8f9e2ffd4ffa4c2e0a0886e19496"
   dependencies:
@@ -2581,7 +2581,7 @@ electron-download@^4.0.0, electron-download@^4.1.0:
     semver "^5.3.0"
     sumchecker "^2.0.1"
 
-electron-is-dev@0.3.0, electron-is-dev@^0.3.0:
+electron-is-dev@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
 
@@ -2660,20 +2660,6 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.28:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.30.tgz#9666f532a64586651fc56a72513692e820d06a80"
   dependencies:
     electron-releases "^2.1.0"
-
-electron-updater@2.18.2:
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.18.2.tgz#776b50389b849535425e9e2893d7943ee61e8e3f"
-  dependencies:
-    bluebird-lst "^1.0.5"
-    builder-util-runtime "~4.0.0"
-    electron-is-dev "^0.3.0"
-    fs-extra-p "^4.5.0"
-    js-yaml "^3.10.0"
-    lazy-val "^1.0.3"
-    lodash.isequal "^4.5.0"
-    semver "^5.4.1"
-    source-map-support "^0.5.0"
 
 electron-window-state@4.1.1:
   version "4.1.1"
@@ -5172,10 +5158,6 @@ lodash.defaults@^4.2.0:
 lodash.get@^4.0.0:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
-
-lodash.isequal@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
