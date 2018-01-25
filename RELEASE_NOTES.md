@@ -1,5 +1,6 @@
 ## 9.3.0
-- Removes auto updater as Windows certificate will be expired soon [#254](https://github.com/quanglam2807/webcatalog/issues/254)
+- Windows & Linux are no longer officially supported. I no longer have the resources (time & money) to ensure WebCatalog works well across all three platforms.
+- Removes auto updater as Windows certificate will expire soon [#254](https://github.com/quanglam2807/webcatalog/issues/254).
 
 ---
 
