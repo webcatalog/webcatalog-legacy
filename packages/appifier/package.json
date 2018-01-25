@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "commander": "2.12.2",
-    "electron-packager": "10.1.0",
+    "electron-packager": "10.1.1",
     "file-type": "7.4.0",
     "fs-extra": "5.0.0",
     "icon-gen": "1.2.0",

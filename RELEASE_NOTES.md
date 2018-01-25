@@ -1,6 +1,7 @@
 ## 9.3.0
 - Windows & Linux are no longer officially supported. I no longer have the resources (time & money) to ensure WebCatalog works well across all three platforms.
 - Removes auto updater as Windows certificate will expire soon [#254](https://github.com/quanglam2807/webcatalog/issues/254).
+- Fixes critical security bug on Windows ([Electron, CVE-2018-1000006](https://electronjs.org/blog/protocol-handler-fix)).
 
 ---
 
