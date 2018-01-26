@@ -61,6 +61,5 @@ typings/
 .DS_Store
 
 # Custom
-src
 dist
 app/src
