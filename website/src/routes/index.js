@@ -5,6 +5,11 @@ import sitemapRoute from './sitemap';
 const router = express.Router();
 
 router.get('/', (req, res) => {
+  res.render('index');
+});
+
+
+router.get('/9', (req, res) => {
   res.render('download', {
     version: process.env.VERSION,
   });
