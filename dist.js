@@ -72,16 +72,6 @@ Promise.resolve()
         },
         mac: {
           category: 'public.app-category.utilities',
-          extendInfo: {
-            CFBundleURLTypes: [
-              {
-                CFBundleURLName: 'com.webcatalog.app.launch',
-                CFBundleURLSchemes: [
-                  'webcatalog',
-                ],
-              },
-            ],
-          },
         },
         dmg: {
           icon: 'build-resources/installerIcon.icns',

@@ -34,7 +34,6 @@ import {
 import { requestSetPreference } from './senders/preferences';
 
 import EnhancedSnackbar from './root/enhanced-snackbar';
-import FakeTitleBar from './shared/fake-title-bar';
 import FindInPage from './root/find-in-page';
 import Loading from './root/loading';
 import NavigationBar from './root/navigation-bar';

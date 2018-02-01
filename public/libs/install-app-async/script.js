@@ -6,7 +6,7 @@ const isUrl = require('is-url');
 const path = require('path');
 
 const {
-  allAppPath,
+  destDirPath,
   homePath,
   icon,
   id,
@@ -111,7 +111,7 @@ downloadFileTempAsync(icon)
         const originPathParsedObj = path.parse(originPath);
 
         const destPath = path.join(
-          allAppPath,
+          destDirPath,
           `${originPathParsedObj.name}${originPathParsedObj.ext}`,
         );
 
@@ -120,22 +120,7 @@ downloadFileTempAsync(icon)
       })
       .then(destPath =>
         moveCommonResourcesAsync(destPath)
-          .then(() => fs.copy(iconPath, path.join(iconDirPath, `${id}.png`)))
-          .then(() => {
-            if (process.platform === 'linux') {
-              const execPath = path.join(destPath, name);
-              const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-              const desktopFileContent = `[Desktop Entry]
-            Name=${name}
-            Exec="${execPath}"
-            Icon=${path.join(iconDirPath, `${id}.png`)}
-            Type=Application`;
-
-              return fs.outputFile(desktopFilePath, desktopFileContent);
-            }
-
-            return null;
-          }),
+          .then(() => fs.copy(iconPath, path.join(iconDirPath, `${id}.png`))),
       )
       .then(() => {
         process.exit(0);

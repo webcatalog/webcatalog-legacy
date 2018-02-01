@@ -1,30 +1,21 @@
 import { combineReducers } from 'redux';
 
 import {
-  DIALOG_CREATE_CUSTOM_APP_CLOSE,
   DIALOG_CREATE_CUSTOM_APP_CREATE_FAILED,
   DIALOG_CREATE_CUSTOM_APP_CREATE_REQUEST,
   DIALOG_CREATE_CUSTOM_APP_CREATE_SUCCESS,
   DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE,
-  DIALOG_CREATE_CUSTOM_APP_OPEN,
 } from '../../../constants/actions';
-
-const open = (state = false, action) => {
-  switch (action.type) {
-    case DIALOG_CREATE_CUSTOM_APP_CLOSE: return false;
-    case DIALOG_CREATE_CUSTOM_APP_OPEN: return true;
-    default: return state;
-  }
-};
 
 const formInitialState = {
   name: '',
   url: '',
+  location: window.platform === 'darwin' ? '/Applications' : window.desktopPath,
   icon: null,
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {
-    case DIALOG_CREATE_CUSTOM_APP_CLOSE: return formInitialState;
+    case DIALOG_CREATE_CUSTOM_APP_CREATE_SUCCESS: return formInitialState;
     case DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE: {
       const { changes } = action;
       return { ...state, ...changes };
@@ -45,5 +36,4 @@ const isCreating = (state = false, action) => {
 export default combineReducers({
   form,
   isCreating,
-  open,
 });

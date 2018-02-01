@@ -12,7 +12,6 @@ import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
 import { checkForUpdates } from '../../state/root/updater/actions';
-import iconSvg from '../../assets/icon.svg';
 import {
   CHECKING_FOR_UPDATES,
   UPDATE_AVAILABLE,
@@ -24,9 +23,6 @@ import {
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_GO_TO_THE_WEBSITE,
-  STRING_PRIVACY_POLICY,
-  STRING_RELEASE_NOTES,
-  STRING_TERMS,
   STRING_UPDATE_AVAILABLE,
   STRING_UPDATE_ERROR,
   STRING_UPDATE_NOT_AVAILABLE,
@@ -45,7 +41,6 @@ const styles = theme => ({
     width: 96,
   },
   dialogContent: {
-    minWidth: 320,
     textAlign: 'center',
   },
   title: {
@@ -124,8 +119,7 @@ const About = (props) => {
         {STRING_ABOUT}
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <img src={iconSvg} alt="WebCatalog" className={classes.icon} />
-        <Typography type="title" className={classes.title}>WebCatalog</Typography>
+        <Typography type="title" className={classes.title}>Appifier</Typography>
         <Typography type="body1" className={classes.version}>Version {window.version}</Typography>
 
         <Typography type="body1" className={classes.updaterStatus}>
@@ -172,25 +166,6 @@ const About = (props) => {
           onClick={() => requestOpenInBrowser('https://webcatalog.io')}
         >
           {STRING_WEBSITE}
-        </Button>
-
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
-        >
-          {STRING_RELEASE_NOTES}
-        </Button>
-        <br />
-
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/terms')}
-        >
-          {STRING_TERMS}
-        </Button>
-
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
-        >
-          {STRING_PRIVACY_POLICY}
         </Button>
 
         <Typography type="body1" className={classes.madeBy}>

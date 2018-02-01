@@ -1,12 +1,9 @@
-const { app, shell } = require('electron');
+const { app } = require('electron');
 const path = require('path');
 const { fork } = require('child_process');
 const fs = require('fs-extra');
 
-const getInstallationPath = require('../get-installation-path');
 const { getPreference } = require('../preferences');
-
-const allAppPath = getInstallationPath();
 
 const installAppAsync = appObj =>
   fs.readJson(path.join(app.getAppPath(), 'package.json'))
@@ -16,7 +13,7 @@ const installAppAsync = appObj =>
 
       return new Promise((resolve, reject) => {
         const {
-          id, name, url, icon,
+          id, name, url, icon, location,
         } = appObj;
 
         const scriptPath = path.join(__dirname, 'script.js').replace('app.asar', 'app.asar.unpacked');
@@ -30,8 +27,8 @@ const installAppAsync = appObj =>
           url,
           '--icon',
           icon,
-          '--allAppPath',
-          getInstallationPath(),
+          '--destDirPath',
+          location,
           '--desktopPath',
           app.getPath('desktop'),
           '--homePath',
@@ -65,22 +62,6 @@ const installAppAsync = appObj =>
         });
       })
         .then(() => {
-          if (process.platform === 'win32') {
-            const {
-              id, name,
-            } = appObj;
-
-            const startMenuShortcutPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps', `${name}.lnk`);
-            const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
-            const opts = {
-              target: path.join(allAppPath, id, `${name}.exe`),
-              cwd: path.join(allAppPath, id),
-            };
-
-            shell.writeShortcutLink(startMenuShortcutPath, 'create', opts);
-            shell.writeShortcutLink(desktopShortcutPath, 'create', opts);
-          }
-
           const finalizedAppObj = Object.assign({}, appObj, { moleculeVersion });
 
           return finalizedAppObj;
