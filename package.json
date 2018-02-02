@@ -1,6 +1,6 @@
 {
   "name": "Appifier",
-  "version": "9.3.1",
+  "version": "9.4.0",
   "description": "Appifier helps you turn web apps into real apps.",
   "main": "public/electron.js",
   "scripts": {
