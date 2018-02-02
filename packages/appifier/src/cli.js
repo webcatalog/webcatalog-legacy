@@ -9,14 +9,14 @@ program
   .version(packageJson.version)
   .option('--id <value>', 'The ID of the application, which will affect the name of the folder contains the app. Defaults to molecule.')
   .option('--name <value>', 'The name of the application, which will affect strings in titles and the icon. Defaults to Molecule.')
-  .option('--url <value>', 'The url to point the application at. Defaults to https://webcatalog.io.')
+  .option('--url <value>', 'The url to point the application at. Defaults to https://quang.im/appifier.')
   .option('--icon <value>', 'The icon path of the application. Defaults to Electron icon.')
   .option('--dest <value>', 'Specifies the destination directory to build the app to, defaults to the current working directory. Defaults to . (current dir).')
   .parse(process.argv);
 
 const id = program.id || 'molecule';
 const name = program.opts.name || 'Molecule';
-const url = program.url || 'https://webcatalog.io';
+const url = program.url || 'https://quang.im/appifier';
 const icon = program.icon;
 const dest = program.dest || '.';
 

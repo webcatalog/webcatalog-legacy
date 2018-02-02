@@ -17,7 +17,7 @@ export const checkForUpdates = () =>
   (dispatch) => {
     dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
 
-    return window.fetch('https://api.github.com/repos/webcatalog/webcatalog/releases/latest')
+    return window.fetch('https://api.github.com/repos/quanglam2807/appifier/releases/latest')
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response;

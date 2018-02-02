@@ -6,7 +6,7 @@ import {
 } from '../senders/local';
 
 const installAppAsync = (appObj) => {
-  if (!appObj || !appObj.name || !appObj.url || !appObj.icon) {
+  if (!appObj || !appObj.name || !appObj.url || !appObj.icon || !appObj.location) {
     return Promise.reject(new Error('Missing information.'));
   }
 

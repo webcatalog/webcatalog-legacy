@@ -2,7 +2,6 @@ const { app, BrowserWindow } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const isDev = require('electron-is-dev');
 const path = require('path');
-const windowStateKeeper = require('electron-window-state');
 
 const isTesting = argv.testing === 'true'; // Spectron mode
 
@@ -29,21 +28,18 @@ if (isSecondInstance) {
 loadListeners();
 
 const createWindow = () => {
-  // Keep window size and restore on startup
-  const mainWindowState = windowStateKeeper({
-    defaultWidth: 1024,
-    defaultHeight: 768,
-  });
+  const defaultHeight = 550;
+  const defaultWidth = 400;
 
   const options = {
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    minWidth: 640,
-    minHeight: 640,
-    title: 'WebCatalog',
-    titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
+    width: defaultWidth,
+    height: defaultHeight,
+    minWidth: defaultWidth,
+    minHeight: defaultHeight,
+    maxWidth: defaultWidth,
+    maxHeight: defaultHeight,
+    title: 'Appifier',
+    titleBarStyle: 'default',
     autoHideMenuBar: false,
     webPreferences: {
       webSecurity: false,
@@ -55,9 +51,6 @@ const createWindow = () => {
 
   // create window
   mainWindow = new BrowserWindow(options);
-
-  // link window with window size management lib
-  mainWindowState.manage(mainWindow);
 
   // load menu
   createMenu();

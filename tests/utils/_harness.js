@@ -10,16 +10,16 @@ chai.use(chaiAsPromised);
 
 const getElectronPath = () => {
   if (process.platform === 'win32') {
-    return path.resolve(__dirname, '../../dist/win-unpacked/WebCatalog.exe');
+    return path.resolve(__dirname, '../../dist/win-unpacked/Appifier.exe');
   } else if (process.platform === 'darwin') {
-    return path.resolve(__dirname, '../../dist/mac/WebCatalog.app/Contents/MacOS/WebCatalog');
+    return path.resolve(__dirname, '../../dist/mac/Appifier.app/Contents/MacOS/Appifier');
   }
 
-  return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog');
+  return path.resolve(__dirname, '../../dist/linux-unpacked/appifier');
 };
 
 const harness = (name, fn, args) => {
-  describe('When WebCatalog launches', function describeWrap() {
+  describe('When Appifier launches', function describeWrap() {
     this.timeout(100000);
     global.app = null;
 

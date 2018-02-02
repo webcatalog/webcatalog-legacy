@@ -38,7 +38,6 @@
     "fs-extra": "5.0.0"
   },
   "homepage": "./",
-  "proxy": "https://webcatalog.io",
   "webApp": {
     "id": "621434c9-8f4d-4c06-83fa-9b3b99e3820b",
     "url": "https://open.spotify.com",

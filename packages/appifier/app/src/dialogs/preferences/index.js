@@ -583,7 +583,7 @@ class PreferencesDialog extends React.Component {
                           className={classes.link}
                           role="link"
                           tabIndex="0"
-                          onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
+                          onClick={() => requestOpenInBrowser('https://quang.im/appifier/privacy')}
                         >
                           {STRING_LEARN_MORE}
                         </a>

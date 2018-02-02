@@ -20,6 +20,7 @@ window.platform = platform;
 window.versions = versions;
 
 window.appPath = remote.app.getAppPath();
+window.desktopPath = remote.app.getPath('desktop');
 
 const { dialog } = remote;
 window.dialog = dialog;

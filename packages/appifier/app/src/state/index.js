@@ -11,7 +11,6 @@ import nav from './root/nav/reducers';
 import preferences from './root/preferences/reducers';
 import screen from './root/screen/reducers';
 import snackbar from './root/snackbar/reducers';
-import version from './root/version/reducers';
 
 const rootReducer = combineReducers({
   dialogs,
@@ -21,7 +20,6 @@ const rootReducer = combineReducers({
   root,
   screen,
   snackbar,
-  version,
 });
 
 const configureStore = initialState =>

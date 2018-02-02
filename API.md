@@ -20,7 +20,7 @@ Command line options are listed below.
 
 `--name <value>`: The name of the application, which will affect strings in titles and the icon. Defaults to `Molecule`.
 
-`--url <value>`: The url to point the application at. Defaults to `https://webcatalog.io`.
+`--url <value>`: The url to point the application at. Defaults to `https://quang.im/appifier`.
 
 `--icon <value>`: The application icon path. Defaults to Electron icon.
 

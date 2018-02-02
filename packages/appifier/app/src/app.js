@@ -22,8 +22,6 @@ import {
 
 import { screenResize } from './state/root/screen/actions';
 
-import { getLatestVersion } from './state/root/version/actions';
-
 import {
   getWebViewPreloadPath,
   requestOpenInBrowser,
@@ -33,14 +31,14 @@ import {
 
 import { requestSetPreference } from './senders/preferences';
 
-import EnhancedSnackbar from './root/enhanced-snackbar';
 import FakeTitleBar from './shared/fake-title-bar';
+
+import EnhancedSnackbar from './root/enhanced-snackbar';
 import FindInPage from './root/find-in-page';
 import Loading from './root/loading';
 import NavigationBar from './root/navigation-bar';
 import NoConnection from './root/no-connection';
 import TargetUrlBar from './root/target-url-bar';
-import UpdaterMessage from './root/updater-message';
 import WebView from './root/web-view';
 
 import DialogAbout from './dialogs/about';
@@ -135,7 +133,6 @@ class App extends React.Component {
   componentDidMount() {
     const {
       onScreenResize,
-      onGetLatestVersion,
     } = this.props;
 
     const {
@@ -147,8 +144,6 @@ class App extends React.Component {
       onSetZoomFactor,
       onToggleDevTools,
     } = this;
-
-    onGetLatestVersion();
 
     window.addEventListener('resize', onScreenResize);
 
@@ -220,7 +215,7 @@ class App extends React.Component {
   // https://github.com/electron/electron/issues/3471#issuecomment-323139653
   onDidGetRedirectRequest(e) {
     // only do this with Twitter
-    // https://webcatalog.io/apps/details/twitter/1135bccc-0203-4e36-82dc-e3d36bc465a0
+    // https://quang.im/appifier/apps/details/twitter/1135bccc-0203-4e36-82dc-e3d36bc465a0
     if (window.shellInfo.id !== '1135bccc-0203-4e36-82dc-e3d36bc465a0') {
       return;
     }
@@ -281,7 +276,7 @@ class App extends React.Component {
 
     // navigate
     if (nextDomain && (nextDomain === curDomain || nextDomain === 'accounts.google.com')) {
-      // https://github.com/quanglam2807/webcatalog/issues/35
+      // https://github.com/quanglam2807/appifier/issues/35
       c.loadURL(nextUrl);
       return;
     }
@@ -423,7 +418,6 @@ class App extends React.Component {
             />
           )}
           <div className={classes.rightContent}>
-            <UpdaterMessage />
             {isLoading && <Loading />}
             {navigationBarPosition === 'top' && navElement}
             {findInPageIsOpen && (
@@ -510,7 +504,6 @@ App.propTypes = {
   lastPage: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
   onOpenFindInPageDialog: PropTypes.func.isRequired,
-  onGetLatestVersion: PropTypes.func.isRequired,
   onScreenResize: PropTypes.func.isRequired,
   onUpdateCanGoBack: PropTypes.func.isRequired,
   onUpdateCanGoForward: PropTypes.func.isRequired,
@@ -539,7 +532,6 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  getLatestVersion,
   screenResize,
   openFindInPageDialog,
   updateCanGoBack,

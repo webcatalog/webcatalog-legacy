@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import semver from 'semver';
 
 import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
 import Dialog, {
@@ -13,17 +11,10 @@ import Dialog, {
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
-import { getLatestVersion } from '../../state/root/version/actions';
 
 import {
   STRING_ABOUT,
-  STRING_CHECK_FOR_UPDATES,
-  STRING_CHECKING_FOR_UPDATES,
-  STRING_PRIVACY_POLICY,
-  STRING_RELEASE_NOTES,
-  STRING_TERMS,
-  STRING_UPDATE_AVAILABLE,
-  STRING_UPDATE_NOT_AVAILABLE,
+  STRING_WEBSITE,
 } from '../../constants/strings';
 
 import {
@@ -32,7 +23,7 @@ import {
 
 import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 
-const styles = {
+const styles = theme => ({
   icon: {
     height: 128,
     width: 128,
@@ -61,27 +52,26 @@ const styles = {
     marginTop: 16,
     marginBottom: 16,
   },
-};
+  madeBy: {
+    marginTop: theme.spacing.unit * 2,
+  },
+  link: {
+    fontWeight: 600,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+});
 
 const Transition = props => <Slide direction="left" {...props} />;
 
 const About = (props) => {
   const {
     classes,
-    isGettingVersion,
-    latestMoleculeVersion,
     onClose,
-    onGetLatestVersion,
     open,
   } = props;
-
-  // check for update
-  const currentVersion = window.packageJson.version;
-  const isLatestVersion = semver.gte(currentVersion, latestMoleculeVersion);
-
-  let versionStatusMessage = STRING_UPDATE_NOT_AVAILABLE;
-  if (isGettingVersion) versionStatusMessage = STRING_CHECKING_FOR_UPDATES;
-  else if (!isLatestVersion) versionStatusMessage = STRING_UPDATE_AVAILABLE;
 
   return (
     <Dialog
@@ -94,34 +84,14 @@ const About = (props) => {
         {STRING_ABOUT}
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <img
-          alt={window.shellInfo.name}
-          className={classes.icon}
-          src={`https://s3.getwebcatalog.com/${window.shellInfo.id}.png`}
-        />
         <Typography type="title" className={classes.title}>{window.shellInfo.name}</Typography>
         <Typography type="body1" className={classes.version}>
-          powered by WebCatalog & appifier
+          powered by Appifier
         </Typography>
-
-        <Typography type="body1" className={classes.updaterStatus}>
-          {versionStatusMessage}
-        </Typography>
-
-        <Button
-          color="primary"
-          disabled={isGettingVersion}
-          onClick={() => onGetLatestVersion()}
-          raised
-        >
-          {STRING_CHECK_FOR_UPDATES}
-        </Button>
-
-        <Divider className={classes.divider} />
 
         <div className={classes.versionSmallContainer}>
           <Typography type="body1" className={classes.versionSmall}>
-            <strong>appifier:</strong> {currentVersion}
+            <strong>appifier:</strong> {window.version}
           </Typography>
           <Typography type="body1" className={classes.versionSmall}>
             <strong>electron:</strong> {window.versions.electron}
@@ -138,52 +108,41 @@ const About = (props) => {
         </div>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/release-notes')}
+          onClick={() => requestOpenInBrowser('https://quang.im/appifier')}
         >
-          {STRING_RELEASE_NOTES}
-        </Button>
-        <br />
-
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/terms')}
-        >
-          {STRING_TERMS}
-        </Button>
-        <br />
-
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy')}
-        >
-          {STRING_PRIVACY_POLICY}
+          {STRING_WEBSITE}
         </Button>
 
+        <Typography type="body1" className={classes.madeBy}>
+          <span>Made with </span>
+          <span role="img" aria-label="love">❤️</span>
+          <span> by </span>
+          <a
+            onClick={() => requestOpenInBrowser('https://quang.im')}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            Quang Lam
+          </a>
+        </Typography>
       </DialogContent>
     </Dialog>
   );
 };
 
-About.defaultProps = {
-  latestMoleculeVersion: '1.0.0',
-};
-
 About.propTypes = {
   classes: PropTypes.object.isRequired,
-  isGettingVersion: PropTypes.bool.isRequired,
-  latestMoleculeVersion: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  onGetLatestVersion: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isGettingVersion: state.version.isGetting,
-  latestMoleculeVersion: state.version.apiData.moleculeVersion,
   open: state.dialogs.about.open,
 });
 
 const actionCreators = {
   close,
-  getLatestVersion,
 };
 
 export default connectComponent(

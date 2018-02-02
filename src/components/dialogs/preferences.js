@@ -28,8 +28,6 @@ import {
   STRING_CLOSE,
 } from '../../constants/strings';
 
-import FakeTitleBar from '../shared/fake-title-bar';
-
 const styles = {
   appBar: {
     position: 'relative',
@@ -58,7 +56,6 @@ const DialogPreferences = (props) => {
       fullScreen
       transition={Transition}
     >
-      <FakeTitleBar />
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography type="title" color="inherit" className={classes.flex}>

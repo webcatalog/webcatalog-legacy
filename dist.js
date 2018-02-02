@@ -60,7 +60,7 @@ Promise.resolve()
         // asarUnpack,
         files: [
           '!packages/**/*',
-          '!website/**/*',
+          '!docs/**/*',
           '!tests/**/*',
         ],
         directories: {
@@ -72,20 +72,10 @@ Promise.resolve()
         },
         mac: {
           category: 'public.app-category.utilities',
-          extendInfo: {
-            CFBundleURLTypes: [
-              {
-                CFBundleURLName: 'com.webcatalog.app.launch',
-                CFBundleURLSchemes: [
-                  'webcatalog',
-                ],
-              },
-            ],
-          },
         },
         dmg: {
           icon: 'build-resources/installerIcon.icns',
-          background: 'build-resources/background.tiff',
+          background: 'build-resources/background.png',
           iconSize: 100,
           contents: [
             {
@@ -110,7 +100,7 @@ Promise.resolve()
           const resourcesAppPath = process.platform === 'darwin'
             ? path.join(
               appOutDir,
-              'WebCatalog.app',
+              'Appifier.app',
               'Contents',
               'Resources',
               'app',

@@ -5,10 +5,10 @@
 
 ```bash
 # First, clone the project:
-git clone https://github.com/quanglam2807/webcatalog.git
+git clone https://github.com/quanglam2807/appifier.git
 cd appifier
 
-# WebCatalog
+# Appifier GUI
 # install the dependencies
 yarn
 # Run development mode
@@ -38,7 +38,7 @@ yarn electron-dev
 ## Tests
 
 ```bash
-# To run all tests for WebCatalog,
+# To run all tests for Appifier GUI
 yarn run test
 
 # To run all tests for appifier
