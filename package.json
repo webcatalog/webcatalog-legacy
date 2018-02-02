@@ -1,7 +1,7 @@
 {
-  "name": "WebCatalog",
+  "name": "Appifier",
   "version": "9.3.1",
-  "description": "WebCatalog helps you run thousands of web apps like real apps.",
+  "description": "Appifier helps you turn web apps into real apps.",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps && node hacky.js",
@@ -19,15 +19,15 @@
     "appifier:test": "cd packages/appifier && yarn test",
     "appifier:publish": "cd packages/appifier && npm publish"
   },
-  "repository": "https://github.com/quanglam2807/webcatalog",
+  "repository": "https://github.com/quanglam2807/appifier",
   "author": {
     "name": "Quang Lam",
-    "email": "me@quang.im",
+    "email": "quang.lam2807@gmail.com",
     "url": "https://quang.im"
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "appifier": "3.0.11",
+    "appifier": "9.4.0",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
     "follow-redirects": "1.3.0",
@@ -37,7 +37,6 @@
     "yargs-parser": "8.1.0"
   },
   "devDependencies": {
-    "algoliasearch": "3.24.9",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "chai": "4.1.2",
@@ -72,6 +71,5 @@
     "typeface-roboto": "0.0.50",
     "wait-on": "2.1.0"
   },
-  "homepage": "./",
-  "proxy": "https://webcatalog.io"
+  "homepage": "./"
 }

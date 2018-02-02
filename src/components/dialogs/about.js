@@ -133,7 +133,7 @@ const About = (props) => {
 
         {updaterStatus === UPDATE_AVAILABLE && (
           <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.io')}
+            onClick={() => requestOpenInBrowser('https://quang.im/appifier')}
             className={classes.goToTheWebsiteButton}
             raised
           >
@@ -163,7 +163,7 @@ const About = (props) => {
         </div>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io')}
+          onClick={() => requestOpenInBrowser('https://quang.im/appifier')}
         >
           {STRING_WEBSITE}
         </Button>

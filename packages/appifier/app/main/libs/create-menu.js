@@ -171,11 +171,7 @@ function createMenu() {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://webcatalog.io'),
-        },
-        {
-          label: 'WebCatalog Help',
-          click: () => shell.openExternal('https://webcatalog.io/help'),
+          click: () => shell.openExternal('https://quang.im/appifier'),
         },
       ],
     },

@@ -46,7 +46,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://webcatalog.io'),
+          click: () => shell.openExternal('https://quang.im/appifier'),
         },
       ],
     },
@@ -54,7 +54,7 @@ const createMenu = () => {
 
   if (process.platform !== 'darwin') {
     template[template.length - 1].submenu.push({
-      label: 'About WebCatalog',
+      label: 'About Appifier',
       click: () => sendMessageToWindow('open-about-dialog'),
     });
   }
@@ -74,7 +74,7 @@ const createMenu = () => {
       label: app.getName(),
       submenu: [
         {
-          label: 'About WebCatalog',
+          label: 'About Appifier',
           click: () => sendMessageToWindow('open-about-dialog'),
         },
         { type: 'separator' },

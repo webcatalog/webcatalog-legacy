@@ -26,7 +26,7 @@
 ---
 
 ## 7.7.0 | 7.7.1 | 7.7.2
-- Prepares for [WebCatalog 8](https://github.com/quanglam2807/webcatalog/pull/212).
+- Prepares for [WebCatalog 8](https://github.com/quanglam2807/appifier/pull/212).
 - Removes authentication.
 
 ---
@@ -378,13 +378,13 @@ WebCatalog 7+ will download and install new update in background!
 
 ## 3.4.1
 - Removes Windows 32-bit & Linux 32-bit support.
-- Fixes [a critical bug on Windows](https://github.com/quanglam2807/webcatalog/issues/74).
+- Fixes [a critical bug on Windows](https://github.com/quanglam2807/appifier/issues/74).
 
 ---
 
 ## 3.4.0 (beta)
 - Adds Windows 32-bit & Linux 32-bit support.
-- Fixes bugs, including [Feedly's login bug](https://github.com/quanglam2807/webcatalog/issues/70).
+- Fixes bugs, including [Feedly's login bug](https://github.com/quanglam2807/appifier/issues/70).
 - Removes Flash, Chromecast and WidevineCdm support. *Apps with Flash and WidevineCdm will be removed from the catalog*.
 
 ---
@@ -408,7 +408,7 @@ WebCatalog 7+ will download and install new update in background!
 ---
 
 ## 3.2.6
-- Fixes bug with auto updater which [causes apps installed from WebCatalog to crash on startup](https://github.com/quanglam2807/webcatalog/issues/47).
+- Fixes bug with auto updater which [causes apps installed from WebCatalog to crash on startup](https://github.com/quanglam2807/appifier/issues/47).
 
 ---
 

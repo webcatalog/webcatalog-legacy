@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
-import blue from 'material-ui/colors/blue';
+import teal from 'material-ui/colors/teal';
 import red from 'material-ui/colors/red';
 import pink from 'material-ui/colors/pink';
 
@@ -23,7 +23,7 @@ loadListeners(store);
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue, // Purple and green play nicely together.
+    primary: teal, // Purple and green play nicely together.
     secondary: pink,
     error: red,
   },

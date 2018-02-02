@@ -38,7 +38,7 @@ const createWindow = () => {
     minHeight: defaultHeight,
     maxWidth: defaultWidth,
     maxHeight: defaultHeight,
-    title: 'WebCatalog',
+    title: 'Appifier',
     titleBarStyle: 'default',
     autoHideMenuBar: false,
     webPreferences: {

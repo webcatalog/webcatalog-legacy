@@ -1,14 +1,14 @@
-# webcatalog & appifier
+# Appifier
 
 | Linux | macOS | Windows |
 | ----- | ----- | ------- |
-| [![Travis Build Status](https://travis-ci.org/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.org/quanglam2807/webcatalog) | [![Travis Build Status](https://travis-ci.org/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.org/quanglam2807/webcatalog) | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/quanglam2807/webcatalog?branch=master&svg=true)](https://ci.appveyor.com/project/quanglam2807/webcatalog/branch/master) |
+| [![Travis Build Status](https://travis-ci.org/quanglam2807/appifier.svg?branch=master)](https://travis-ci.org/quanglam2807/appifier) | [![Travis Build Status](https://travis-ci.org/quanglam2807/appifier.svg?branch=master)](https://travis-ci.org/quanglam2807/appifier) | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/quanglam2807/appifier?branch=master&svg=true)](https://ci.appveyor.com/project/quanglam2807/appifier/branch/master) |
 
 **appifier** [![npm version](https://badge.fury.io/js/appifier.svg)](https://badge.fury.io/js/appifier) is a Node.js library/CLI which turns any web site into native app. It works similarly to [nativefier](https://github.com/jiahaog/Nativefier) but is designed with a more consumer-friendly mindset.
 
-**WebCatalog** acts as GUI (graphical user interface) for **appifier** to make it more accessible to non-technical users. The app includes a [web app catalog](https://github.com/quanglam2807/webcatalog-apps); automatically adds generated native apps to menu or desktop; and provides an interface to manage and update the apps. It also offers some additional optimizations like [resource sharing](https://github.com/quanglam2807/webcatalog/issues/171).
+**Appifier** also has a GUI (graphical user interface) built with Electron to make it more accessible to non-technical users. The app provides a simple interface to create apps. It also offers some additional optimizations like [resource sharing](https://github.com/quanglam2807/appifier/issues/171).
 
-![WebCatalog for macOS](/build-resources/demo.gif)
+![Appifier for macOS](/build-resources/demo.gif)
 
 ---
 
@@ -19,8 +19,8 @@
 ## Usage
 Creating a native desktop app for [duckduckgo.com](https://duckduckgo.com):
 
-### WebCatalog (GUI)
-Download and install WebCatalog from its official website: https://webcatalog.io. Open WebCatalog, then search for DuckDuckGo. Finally, click "Install" and wait for a while. Done! Magic.
+### Appifier (GUI)
+Download and install Appifier from its official website: https://quang.im/appifier. Fill in the name and the URL. Finally, click "Create" and wait for a while. Done! Magic.
 
 ### Command Line
 Install: `npm install appifier -g` or `yarn global add appifier`
@@ -55,7 +55,7 @@ appifier.createAppAsync(
 ## How It Works
 A template Electron app is included in the `./packages/appifier/app` folder. When the `appifier` command or programmatic API is executed, this folder is copied to a temporary directory with the appropriate parameters in a configuration file, and is packaged into an app with [electron-packager](https://github.com/electron-userland/electron-packager).
 
-WebCatalog is an Electron app which basically uses `appifier` under the hood to generate the apps. Additionally, WebCatalog reads the metadata stored in the generated apps to allow users to easily manage & update them.
+Appifier.app is an Electron app which basically uses `appifier` under the hood to generate the apps.
 
 ---
 
