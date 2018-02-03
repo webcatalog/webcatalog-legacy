@@ -73,27 +73,6 @@ Promise.resolve()
         mac: {
           category: 'public.app-category.utilities',
         },
-        dmg: {
-          icon: 'build-resources/installerIcon.icns',
-          background: 'build-resources/background.png',
-          iconSize: 100,
-          contents: [
-            {
-              x: 164,
-              y: 182,
-            },
-            {
-              x: 383,
-              y: 182,
-              type: 'link',
-              path: '/Applications',
-            },
-          ],
-          window: {
-            x: 550,
-            y: 315,
-          },
-        },
         afterPack: ({ appOutDir }) => {
           console.log('appOutDir:', appOutDir);
 

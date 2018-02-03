@@ -8,7 +8,7 @@
 
 **Appifier** also has a GUI (graphical user interface) built with Electron to make it more accessible to non-technical users. The app provides a simple interface to create apps. It also offers some additional optimizations like [resource sharing](https://github.com/quanglam2807/appifier/issues/171).
 
-![Appifier for macOS](/build-resources/demo.gif)
+![Appifier for macOS](/build-resources/screenshot.png)
 
 ---
 
