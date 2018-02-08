@@ -15,6 +15,8 @@ const uninstallAppAsync = () => {
 
   const altAppPath = path.join(homePath, '.webcatalog', `${appName}.app`);
   p.push(fs.remove(altAppPath));
+
+  return Promise.all(p);
 };
 
 uninstallAppAsync()

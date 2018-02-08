@@ -50,7 +50,7 @@ const downloadFileTempAsync = (filePath) => {
 };
 
 const moveCommonResourcesAsync = (destPath) => {
-  if (shareResources !== 'true') return null;
+  if (shareResources !== 'true') return Promise.resolve();
 
   let symlinks;
   switch (process.platform) {
