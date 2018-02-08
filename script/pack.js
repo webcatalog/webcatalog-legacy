@@ -40,8 +40,8 @@ fs.readdirSync(appPath)
       { id: slug, objectID: slug },
       yaml.load(yamlFile),
       {
-        icon: `https://icons.webcatalog.io/${slug}/${slug}-icon.png`,
-        icon128: `https://icons.webcatalog.io/${slug}/${slug}-icon-128.png`,
+        icon: `https://raw.githubusercontent.com/quanglam2807/webcatalog-apps/icons/${slug}/${slug}-icon.png`,
+        icon128: `https://raw.githubusercontent.com/quanglam2807/webcatalog-apps/icons/${slug}/${slug}-icon-128.png`,
       },
     );
 
