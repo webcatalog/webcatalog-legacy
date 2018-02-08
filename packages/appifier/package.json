@@ -1,6 +1,6 @@
 {
   "name": "appifier",
-  "version": "9.4.0",
+  "version": "9.5.0",
   "description": "Node.js library/CLI which turns any web site into a native app.",
   "main": "src/index.js",
   "bin": {
