@@ -139,7 +139,7 @@ Promise.resolve()
 
                   return Promise.all(p);
                 });
-            })
+            });
         },
       },
     };
