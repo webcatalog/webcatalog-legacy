@@ -121,21 +121,25 @@ Promise.resolve()
 
           return fs.copy(sourceElectronIconPath, destElectronIconPath)
             .then(() => fs.copy(sourceNodeModulesPath, destNodeModulesPath))
-            .then(() => fs.readdir(widevineLibDir))
-            .then((dirs) => {
-              const acceptedName = `${process.platform}_${process.arch}`;
+            .then(() => {
+              if (!fs.existsSync(widevineLibDir)) return null;
 
-              const p = dirs.map((dir) => {
-                if (dir !== acceptedName) {
-                  console.log(`Removing node_modules/electron-widevinecdm/widevine/${dir}`);
-                  return fs.remove(path.join(widevineLibDir, dir));
-                }
+              return fs.readdir(widevineLibDir)
+                .then((dirs) => {
+                  const acceptedName = `${process.platform}_${process.arch}`;
 
-                return null;
-              });
+                  const p = dirs.map((dir) => {
+                    if (dir !== acceptedName) {
+                      console.log(`Removing node_modules/electron-widevinecdm/widevine/${dir}`);
+                      return fs.remove(path.join(widevineLibDir, dir));
+                    }
 
-              return Promise.all(p);
-            });
+                    return null;
+                  });
+
+                  return Promise.all(p);
+                });
+            })
         },
       },
     };
