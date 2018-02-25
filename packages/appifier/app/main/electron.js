@@ -9,7 +9,6 @@ const path = require('path');
 
 const isDev = require('electron-is-dev');
 const windowStateKeeper = require('electron-window-state');
-const widevine = require('electron-widevinecdm');
 
 const loadListeners = require('./listeners');
 const createMenu = require('./libs/create-menu');
@@ -34,7 +33,10 @@ if (isSecondInstance) {
 }
 
 // load widevinecdm
-widevine.load(app);
+if (process.platform !== 'win32') {
+  const widevine = require('electron-widevinecdm'); // eslint-disable-line global-require
+  widevine.load(app);
+}
 
 loadListeners();
 
