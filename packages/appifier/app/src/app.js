@@ -215,8 +215,8 @@ class App extends React.Component {
   // https://github.com/electron/electron/issues/3471#issuecomment-323139653
   onDidGetRedirectRequest(e) {
     // only do this with Twitter
-    // https://quang.im/appifier/apps/details/twitter/1135bccc-0203-4e36-82dc-e3d36bc465a0
-    if (window.shellInfo.id !== '1135bccc-0203-4e36-82dc-e3d36bc465a0') {
+    // https://github.com/quanglam2807/webcatalog-apps/tree/master/apps/twitter
+    if (window.shellInfo.id !== 'twitter') {
       return;
     }
 
