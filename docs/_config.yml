@@ -17,8 +17,8 @@ title: WebCatalog - Run Web Apps like Real Apps with One-Click Installs
 email: quang.lam2807@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   WebCatalog helps you turn your favorite web app into real app with just one click.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://webcatalog.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/webcatalog" # the subpath of your site, e.g. /blog
+url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
 version: 10.0.0
 
 # Build settings

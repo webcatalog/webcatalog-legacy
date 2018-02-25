@@ -71,5 +71,5 @@
     "wait-on": "2.1.0"
   },
   "homepage": "./",
-  "proxy": "https://webcatalog.io"
+  "proxy": "https://quang.im/webcatalog"
 }

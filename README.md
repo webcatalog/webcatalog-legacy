@@ -18,7 +18,7 @@
 ## Usage
 To create a native desktop app for [duckduckgo.com](https://duckduckgo.com):
 
-Download and install WebCatalog from its official website: https://webcatalog.io. Open WebCatalog, then search for DuckDuckGo. Finally, click "Install" and wait for a while. Done! Magic.
+Download and install WebCatalog from its official website: https://quang.im/webcatalog. Open WebCatalog, then search for DuckDuckGo. Finally, click "Install" and wait for a while. Done! Magic.
 
 ## How It Works
 WebCatalog is an Electron app which basically uses `appifier` under the hood to generate the apps. Additionally, WebCatalog reads the metadata stored in the generated apps to allow users to easily manage & update them.
