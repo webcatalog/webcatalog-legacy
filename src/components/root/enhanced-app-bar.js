@@ -69,7 +69,7 @@ const EnhancedAppBar = (props) => {
                 <ListItemText primary={STRING_PREFERENCES} />
               </ListItem>
             )}
-            <ListItem button onClick={() => requestOpenInBrowser('https://quang.im/appifier/help')}>
+            <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/appifier/issues')}>
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
