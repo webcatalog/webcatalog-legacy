@@ -186,9 +186,9 @@ append-transform@^0.4.0:
   dependencies:
     default-require-extensions "^1.0.0"
 
-appifier@9.6.0:
-  version "9.6.0"
-  resolved "https://registry.yarnpkg.com/appifier/-/appifier-9.6.0.tgz#e37b5f6007e6ff7dddb6db92ad214ff4757ead08"
+appifier@9.6.1:
+  version "9.6.1"
+  resolved "https://registry.yarnpkg.com/appifier/-/appifier-9.6.1.tgz#0bbf26b9ca4af5fd6f95395f3c7e8539de1ce575"
   dependencies:
     commander "2.14.1"
     electron-packager "11.0.1"
