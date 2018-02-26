@@ -1,24 +1,14 @@
 /* global ipcRenderer */
 
-import {
-  openSnackbar,
-} from '../state/root/snackbar/actions';
+import { openSnackbar } from '../state/root/snackbar/actions';
 
-import {
-  setPreference,
-} from '../state/root/preferences/actions';
+import { setPreference } from '../state/root/preferences/actions';
 
-import {
-  open as openDialogAbout,
-} from '../state/dialogs/about/actions';
+import { open as openDialogAbout } from '../state/dialogs/about/actions';
 
-import {
-  open as openDialogPreferences,
-} from '../state/dialogs/preferences/actions';
+import { open as openDialogPreferences } from '../state/dialogs/preferences/actions';
 
-import {
-  open as openDialogClearBrowsingData,
-} from '../state/dialogs/clear-browsing-data/actions';
+import { open as openDialogClearBrowsingData } from '../state/dialogs/clear-browsing-data/actions';
 
 const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {

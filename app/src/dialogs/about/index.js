@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
 import Typography from 'material-ui/Typography';
-import Dialog, {
-  DialogContent,
-} from 'material-ui/Dialog';
+import Dialog, { DialogContent } from 'material-ui/Dialog';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -17,9 +15,7 @@ import {
   STRING_WEBSITE,
 } from '../../constants/strings';
 
-import {
-  requestOpenInBrowser,
-} from '../../senders/generic';
+import { requestOpenInBrowser } from '../../senders/generic';
 
 import EnhancedDialogTitle from '../../shared/enhanced-dialog-title';
 
@@ -117,14 +113,15 @@ const About = (props) => {
           <span>Made with </span>
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
-          <a
+          <span
             onClick={() => requestOpenInBrowser('https://quang.im')}
+            onKeyDown={() => requestOpenInBrowser('https://quang.im')}
             role="link"
             tabIndex="0"
             className={classes.link}
           >
             Quang Lam
-          </a>
+          </span>
         </Typography>
       </DialogContent>
     </Dialog>

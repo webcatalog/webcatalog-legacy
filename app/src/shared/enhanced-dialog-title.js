@@ -6,9 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import { DialogTitle } from 'material-ui/Dialog';
 import { withStyles } from 'material-ui/styles';
 
-import {
-  STRING_CLOSE,
-} from '../constants/strings';
+import { STRING_CLOSE } from '../constants/strings';
 
 const styles = theme => ({
   text: {

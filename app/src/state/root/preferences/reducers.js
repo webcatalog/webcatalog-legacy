@@ -1,8 +1,6 @@
 import { PREFERENCES_SET } from '../../../constants/actions';
 
-import {
-  getPreferences,
-} from '../../../senders/preferences';
+import { getPreferences } from '../../../senders/preferences';
 
 const initialState = getPreferences();
 

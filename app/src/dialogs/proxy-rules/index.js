@@ -60,14 +60,15 @@ const DialogProxyRules = (props) => {
           <span>
             Ex: socks5://114.215.193.156:1080;sock4://45.33.18.235:16330.
           </span>
-          <a
+          <span
             className={classes.link}
             role="link"
             tabIndex="0"
             onClick={() => requestOpenInBrowser('https://github.com/electron/electron/blob/master/docs/api/session.md#sessetproxyconfig-callback')}
+            onKeyDown={() => requestOpenInBrowser('https://github.com/electron/electron/blob/master/docs/api/session.md#sessetproxyconfig-callback')}
           >
             {STRING_LEARN_MORE}
-          </a>.
+          </span>.
         </Typography>
         <TextField
           fullWidth

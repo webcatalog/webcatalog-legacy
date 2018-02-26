@@ -1,8 +1,6 @@
 import { SCREEN_RESIZE } from '../../../constants/actions';
 
-import {
-  isFullScreen,
-} from '../../../senders/generic';
+import { isFullScreen } from '../../../senders/generic';
 
 const initialState = {
   screenWidth: typeof window === 'object' ? window.innerWidth : null,

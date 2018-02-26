@@ -12,7 +12,7 @@ const { getPreferences } = require('./libs/preferences');
 
 const packageJson = require('../package.json');
 
-const webApp = packageJson.webApp;
+const { webApp } = packageJson;
 
 const { Menu, MenuItem } = remote;
 
@@ -31,7 +31,8 @@ if (useSpellChecker) {
   window.spellCheckHandler.switchLanguage('en-US');
   window.spellCheckHandler.autoUnloadDictionariesOnBlur();
 
-  window.contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler, null, true,
+  window.contextMenuBuilder = new ContextMenuBuilder(
+    window.spellCheckHandler, null, true,
     (menu) => {
       menu.append(new MenuItem({ type: 'separator' }));
       menu.append(new MenuItem({
@@ -52,7 +53,8 @@ if (useSpellChecker) {
           remote.getCurrentWindow().send('reload');
         },
       }));
-    });
+    },
+  );
 
   window.contextMenuListener = new ContextMenuListener((info) => {
     window.contextMenuBuilder.showPopupMenu(info);

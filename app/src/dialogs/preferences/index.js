@@ -265,17 +265,19 @@ class PreferencesDialog extends React.Component {
                   onClick={() => scrollIntoView('languagesTitle')}
                 />
               </ListItem>
-              {window.platform === 'darwin' && <ListItem
-                button
-              >
-                <ListItemIcon>
-                  <MouseIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={STRING_TRACKPAD}
-                  onClick={() => scrollIntoView('trackpadTitle')}
-                />
-              </ListItem>}
+              {window.platform === 'darwin' && (
+                <ListItem
+                  button
+                >
+                  <ListItemIcon>
+                    <MouseIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={STRING_TRACKPAD}
+                    onClick={() => scrollIntoView('trackpadTitle')}
+                  />
+                </ListItem>
+              )}
             </List>
             <List subheader={<ListSubheader>{STRING_ADVANCED}</ListSubheader>} dense>
               <ListItem
@@ -422,31 +424,33 @@ class PreferencesDialog extends React.Component {
                   </ListItemSecondaryAction>
                 </ListItem>
                 {showNavigationBar && <Divider />}
-                {showNavigationBar && <ListItem button>
-                  <ListItemText
-                    primary={STRING_NAVIGATION_BAR_POSITION}
-                    secondary={getNavigationBarPositionString(navigationBarPosition)}
-                  />
-                  <ListItemSecondaryAction>
-                    <EnhancedMenu
-                      id="navigationBarPosition"
-                      buttonElement={(
-                        <IconButton aria-label={STRING_CHANGE}>
-                          <KeyboardArrowRightIcon />
-                        </IconButton>
-                      )}
-                    >
-                      {['left', 'right', 'top'].map(option => (
-                        <MenuItem
-                          key={option}
-                          onClick={() => requestSetPreference('navigationBarPosition', option)}
-                        >
-                          {getNavigationBarPositionString(option)}
-                        </MenuItem>
-                      ))}
-                    </EnhancedMenu>
-                  </ListItemSecondaryAction>
-                </ListItem>}
+                {showNavigationBar && (
+                  <ListItem button>
+                    <ListItemText
+                      primary={STRING_NAVIGATION_BAR_POSITION}
+                      secondary={getNavigationBarPositionString(navigationBarPosition)}
+                    />
+                    <ListItemSecondaryAction>
+                      <EnhancedMenu
+                        id="navigationBarPosition"
+                        buttonElement={(
+                          <IconButton aria-label={STRING_CHANGE}>
+                            <KeyboardArrowRightIcon />
+                          </IconButton>
+                        )}
+                      >
+                        {['left', 'right', 'top'].map(option => (
+                          <MenuItem
+                            key={option}
+                            onClick={() => requestSetPreference('navigationBarPosition', option)}
+                          >
+                            {getNavigationBarPositionString(option)}
+                          </MenuItem>
+                        ))}
+                      </EnhancedMenu>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
                 {window.platform === 'darwin' && <Divider />}
                 {window.platform === 'darwin' && (
                   <ListItem
@@ -526,43 +530,47 @@ class PreferencesDialog extends React.Component {
               </List>
             </Paper>
 
-            {window.platform === 'darwin' && <div
-              className={classes.paperTitleContainer}
-              ref={(el) => { this.trackpadTitle = el; }}
-            >
-              <Typography type="body2" className={classes.paperTitle}>
-                {STRING_TRACKPAD}
-              </Typography>
-            </div>}
-            {window.platform === 'darwin' && <Paper className={classes.paper}>
-              <List dense>
-                <ListItem
-                  button
-                  onClick={() => {
-                    requestSetPreference('swipeToNavigate', !swipeToNavigate);
-                    onOpenDialogRelaunch();
-                  }}
-                >
-                  <ListItemText
-                    primary={STRING_SWIPE_TO_NAVIGATE}
-                    secondary={(
-                      <span
-                        dangerouslySetInnerHTML={{ __html: STRING_SWIPE_TO_NAVIGATE_DESC }}
-                      />
-                    )}
-                  />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      checked={swipeToNavigate}
-                      onChange={(e, checked) => {
-                        requestSetPreference('swipeToNavigate', checked);
-                        onOpenDialogRelaunch();
-                      }}
+            {window.platform === 'darwin' && (
+              <div
+                className={classes.paperTitleContainer}
+                ref={(el) => { this.trackpadTitle = el; }}
+              >
+                <Typography type="body2" className={classes.paperTitle}>
+                  {STRING_TRACKPAD}
+                </Typography>
+              </div>
+            )}
+            {window.platform === 'darwin' && (
+              <Paper className={classes.paper}>
+                <List dense>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      requestSetPreference('swipeToNavigate', !swipeToNavigate);
+                      onOpenDialogRelaunch();
+                    }}
+                  >
+                    <ListItemText
+                      primary={STRING_SWIPE_TO_NAVIGATE}
+                      secondary={(
+                        <span
+                          dangerouslySetInnerHTML={{ __html: STRING_SWIPE_TO_NAVIGATE_DESC }}
+                        />
+                      )}
                     />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </List>
-            </Paper>}
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={swipeToNavigate}
+                        onChange={(e, checked) => {
+                          requestSetPreference('swipeToNavigate', checked);
+                          onOpenDialogRelaunch();
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </List>
+              </Paper>
+            )}
 
             <div
               className={classes.paperTitleContainer}
@@ -579,14 +587,15 @@ class PreferencesDialog extends React.Component {
                     primary={(
                       <span>
                         <span>{STRING_PRIVACY_NOTE} </span>
-                        <a
+                        <span
                           className={classes.link}
                           role="link"
                           tabIndex="0"
                           onClick={() => requestOpenInBrowser('https://quang.im/appifier/privacy')}
+                          onKeyDown={() => requestOpenInBrowser('https://quang.im/appifier/privacy')}
                         >
                           {STRING_LEARN_MORE}
-                        </a>
+                        </span>
                       </span>
                     )}
                   />

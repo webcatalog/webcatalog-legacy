@@ -169,8 +169,8 @@ class ElectronWebView extends React.Component {
 }
 
 ElectronWebView.defaultProps = {
-  parentClassName: '',
-  className: '',
+  parentClassName: '', // eslint-disable-line
+  className: '', // eslint-disable-line
 };
 
 ElectronWebView.propTypes = Object.assign({

@@ -40,8 +40,7 @@ const createIconAsync = (inputPath, outputDirPath) => {
             .resize(size, size)
             .quality(100)
             .write(path.join(outputDirPath, `${size}.png`), resolve);
-        }),
-      );
+        }));
 
       return Promise.all(p);
     })

@@ -223,15 +223,13 @@ class App extends React.Component {
     const c = this.webView;
 
     setTimeout(() => {
-      c.executeJavaScript(
-        [
-          'window.onbeforeunload = function(event){',
-          'console.log(event);',
-          'return \'Are you sure you want to leave?\';',
-          '};',
-          `window.location = '${e.newURL}';`,
-        ].join(''),
-      );
+      c.executeJavaScript([
+        'window.onbeforeunload = function(event){',
+        'console.log(event);',
+        'return \'Are you sure you want to leave?\';',
+        '};',
+        `window.location = '${e.newURL}';`,
+      ].join(''));
     }, 10);
     e.preventDefault();
   }

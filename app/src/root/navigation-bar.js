@@ -195,7 +195,6 @@ NavigationBar.defaultProps = {
   canGoBack: false,
   canGoForward: false,
   showTitleBar: false,
-  vert: false,
 };
 
 NavigationBar.propTypes = {

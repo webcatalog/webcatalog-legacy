@@ -41,8 +41,7 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
 
           return resolve(appPaths);
         });
-      }),
-    )
+      }))
     .then((appPaths) => {
       let destPath;
 
@@ -50,7 +49,7 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
         const binaryFileName = `${name}.app`;
         destPath = path.join(appPaths[0], binaryFileName);
       } else {
-        destPath = appPaths[0];
+        destPath = appPaths[0]; // eslint-disable-line
       }
 
       let resourcesPath;

@@ -17,7 +17,7 @@ program
 const id = program.id || 'molecule';
 const name = program.opts.name || 'Molecule';
 const url = program.url || 'https://quang.im/appifier';
-const icon = program.icon;
+const icon = program.icon || null;
 const dest = program.dest || '.';
 
 appifier.createAppAsync(id, name, url, icon, dest)

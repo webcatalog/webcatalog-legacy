@@ -3,9 +3,7 @@ import {
   CLOSE_SNACKBAR,
 } from '../../../constants/actions';
 
-import {
-  STRING_CLOSE,
-} from '../../../constants/strings';
+import { STRING_CLOSE } from '../../../constants/strings';
 
 const initialState = {
   open: false,

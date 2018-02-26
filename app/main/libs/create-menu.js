@@ -5,7 +5,7 @@ const { getPreference, setPreference } = require('./preferences');
 
 const packageJson = require('../../package.json');
 
-const webApp = packageJson.webApp;
+const { webApp } = packageJson;
 
 function createMenu() {
   let currentZoom = 1;
