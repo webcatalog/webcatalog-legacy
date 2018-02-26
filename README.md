@@ -1,4 +1,4 @@
-# Appifier
+# appifier
 
 | Linux | macOS | Windows |
 | ----- | ----- | ------- |
@@ -6,21 +6,12 @@
 
 **appifier** [![npm version](https://badge.fury.io/js/appifier.svg)](https://badge.fury.io/js/appifier) is a Node.js library/CLI which turns any web site into native app. It works similarly to [nativefier](https://github.com/jiahaog/Nativefier) but is designed with a more consumer-friendly mindset.
 
-**Appifier** also has a GUI (graphical user interface) built with Electron to make it more accessible to non-technical users. The app provides a simple interface to create apps. It also offers some additional optimizations like [resource sharing](https://github.com/quanglam2807/appifier/issues/171).
-
-![Appifier for macOS](/build-resources/screenshot.png)
-
----
-
 ## Requirements
 - macOS 10.9+, Windows 7+ or Linux.
 - Node.js 8+.
 
 ## Usage
-Creating a native desktop app for [duckduckgo.com](https://duckduckgo.com):
-
-### Appifier (GUI)
-Download and install Appifier from its official website: https://quang.im/appifier. Fill in the name and the URL. Finally, click "Create" and wait for a while. Done! Magic.
+To create a native desktop app for [duckduckgo.com](https://duckduckgo.com):
 
 ### Command Line
 Install: `npm install appifier -g` or `yarn global add appifier`
@@ -53,9 +44,7 @@ appifier.createAppAsync(
 ---
 
 ## How It Works
-A template Electron app is included in the `./packages/appifier/app` folder. When the `appifier` command or programmatic API is executed, this folder is copied to a temporary directory with the appropriate parameters in a configuration file, and is packaged into an app with [electron-packager](https://github.com/electron-userland/electron-packager).
-
-Appifier.app is an Electron app which basically uses `appifier` under the hood to generate the apps.
+A template Electron app is included in the `./app` folder. When the `appifier` command or programmatic API is executed, this folder is copied to a temporary directory with the appropriate parameters in a configuration file, and is packaged into an app with [electron-packager](https://github.com/electron-userland/electron-packager).
 
 ---
 

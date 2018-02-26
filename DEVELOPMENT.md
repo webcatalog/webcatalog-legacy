@@ -8,17 +8,6 @@
 git clone https://github.com/quanglam2807/appifier.git
 cd appifier
 
-# Appifier GUI
-# install the dependencies
-yarn
-# Run development mode
-yarn electron-dev
-# Build for production
-yarn dist
-
-# appifier
-# move the directory
-cd packages/appifier
 # install the dependencies
 yarn install:full
 # build the code
@@ -26,7 +15,7 @@ yarn build
 # set up a symbolic link so that running appifier invokes your development version including your changes
 yarn link
 # after doing so (and not forgetting to build with `yarn build`)
-# you can runappifier with your test parameters
+# you can run appifier with your test parameters
 appifier <--your-awesome-new-flag>
 # To develop the template Electron app, run
 yarn electron-dev
@@ -40,7 +29,4 @@ yarn electron-dev
 ```bash
 # To run all tests for Appifier GUI
 yarn run test
-
-# To run all tests for appifier
-yarn run appifier:test
 ```
