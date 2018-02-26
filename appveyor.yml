@@ -27,6 +27,7 @@ before_build:
   - yarn lint
 
 build_script:
+  - yarn build
   - yarn test
 
 test: off
