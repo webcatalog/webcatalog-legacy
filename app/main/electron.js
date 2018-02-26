@@ -34,7 +34,7 @@ if (isSecondInstance) {
 
 // load widevinecdm
 if (process.platform !== 'win32') {
-  const widevine = require('electron-widevinecdm'); // eslint-disable-line global-require
+  const widevine = require('electron-widevinecdm'); // eslint-disable-line
   widevine.load(app);
 }
 
