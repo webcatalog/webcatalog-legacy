@@ -29,6 +29,7 @@ install:
   - yarn
 
 before_build:
+  - yarn install:full
   - yarn lint
 
 build_script:
