@@ -19,7 +19,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Appifier helps you turn web apps into real apps
 baseurl: "/appifier" # the subpath of your site, e.g. /blog
 url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
-version: 9.6.1
+version: 9.6.2
 
 # Build settings
 markdown: kramdown
