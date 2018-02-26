@@ -1,5 +1,5 @@
 /* global describe before after */
-const Application = require('spectron').Application;
+const { Application } = require('spectron');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
@@ -51,8 +51,7 @@ const harness = (name, fn, args) => {
         })
         .then(() => {
           chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
-        }),
-    );
+        }));
 
     describe(name, fn);
 
