@@ -4,7 +4,7 @@
 | ----- | ----- | ------- |
 | [![Travis Build Status](https://travis-ci.org/quanglam2807/appifier.svg?branch=master)](https://travis-ci.org/quanglam2807/appifier) | [![Travis Build Status](https://travis-ci.org/quanglam2807/appifier.svg?branch=master)](https://travis-ci.org/quanglam2807/appifier) | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/quanglam2807/appifier?branch=master&svg=true)](https://ci.appveyor.com/project/quanglam2807/webcatalog/branch/master) |
 
-**appifier** is a Node.js library/CLI which turns any web site into native app. It works similarly to [nativefier](https://github.com/jiahaog/Nativefier) but is designed with a more consumer-friendly mindset.
+**appifier** is a Node.js library/CLI which turns any web site into native app.
 
 ## Requirements
 - macOS 10.9+, Windows 7+ or Linux.
