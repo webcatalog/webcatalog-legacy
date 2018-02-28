@@ -15,6 +15,7 @@ Promise.resolve()
           targets = Platform.MAC.createTarget();
           break;
         }
+        default:
         case 'linux': {
           targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
           break;
@@ -26,6 +27,7 @@ Promise.resolve()
           targets = Platform.MAC.createTarget(['dir']);
           break;
         }
+        default:
         case 'linux': {
           targets = Platform.LINUX.createTarget(['dir'], Arch.x64);
           break;

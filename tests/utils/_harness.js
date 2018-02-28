@@ -14,7 +14,7 @@ const getElectronPath = () => {
   }
 
   return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog-lite');
-}
+};
 
 const harness = (name, fn, args) => {
   describe('When WebCatalog launches', function describeWrap() {
