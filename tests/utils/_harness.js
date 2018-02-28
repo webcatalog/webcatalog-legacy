@@ -8,8 +8,13 @@ const path = require('path');
 chai.should();
 chai.use(chaiAsPromised);
 
-const getElectronPath = () =>
-  path.resolve(__dirname, '../../dist/mac/WebCatalog Lite.app/Contents/MacOS/WebCatalog Lite');
+const getElectronPath = () => {
+  if (process.platform === 'darwin') {
+    return path.resolve(__dirname, '../../dist/mac/WebCatalog Lite.app/Contents/MacOS/WebCatalog Lite');
+  }
+
+  return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog-lite');
+}
 
 const harness = (name, fn, args) => {
   describe('When WebCatalog launches', function describeWrap() {
