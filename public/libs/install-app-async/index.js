@@ -101,6 +101,26 @@ const installAppAsync = (appObj) => {
 
   const tmpDir = tmp.dirSync().name;
 
+  if (process.platform === 'linux') {
+    return downloadFileTempAsync(icon, tmpDir)
+      .then(pngIcon =>
+        new Promise((resolve, reject) => {
+          execFile(scriptPath, [
+            name,
+            url,
+            id,
+            pngIcon,
+          ], (err) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+
+            resolve();
+          });
+        }));
+  }
+
   return Promise.resolve()
     .then(() => {
       let pngIcon;
