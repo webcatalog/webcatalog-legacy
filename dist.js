@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const builder = require('electron-builder');
 
-const { Platform } = builder;
+const { Arch, Platform } = builder;
 
 console.log(`Machine: ${process.platform}`);
 
@@ -10,10 +10,29 @@ Promise.resolve()
     let targets;
 
     if (process.env.NODE_ENV === 'production') {
-      targets = Platform.MAC.createTarget();
+      switch (process.platform) {
+        case 'darwin': {
+          targets = Platform.MAC.createTarget();
+          break;
+        }
+        case 'linux': {
+          targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
+          break;
+        }
+      }
     } else {
-      targets = Platform.MAC.createTarget(['dir']);
+      switch (process.platform) {
+        case 'darwin': {
+          targets = Platform.MAC.createTarget(['dir']);
+          break;
+        }
+        case 'linux': {
+          targets = Platform.LINUX.createTarget(['dir'], Arch.x64);
+          break;
+        }
+      }
     }
+
 
     const opts = {
       targets,
@@ -29,6 +48,10 @@ Promise.resolve()
         },
         mac: {
           category: 'public.app-category.utilities',
+        },
+        linux: {
+          category: 'Utility',
+          packageCategory: 'utils',
         },
       },
     };
