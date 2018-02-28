@@ -7,6 +7,6 @@ const getInstallationPath = () => {
   }
 
   return path.join(app.getPath('home'), 'Applications', 'WebCatalog Lite Apps');
-}
+};
 
 module.exports = getInstallationPath;
