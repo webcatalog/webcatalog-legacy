@@ -1,21 +1,21 @@
 {
-  "name": "WebCatalog",
-  "version": "10.0.0",
-  "description": "WebCatalog helps you turn any website into Mac app with just one click.",
+  "name": "webcatalog-lite",
+  "version": "1.0.0",
+  "description": "WebCatalog Lite helps you turn any website into desktop app with just one click.",
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && node hacky.js",
+    "postinstall": "electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "eslint ./dist.js ./hacky.js ./public ./src --ext js",
-    "lint-all": "eslint ./dist.js ./hacky.js ./public ./src  --ext js",
+    "lint": "eslint ./public ./src --ext js",
+    "lint-all": "eslint ./public ./src  --ext js",
     "start": "react-scripts start",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "dist-dev": "yarn build && node dist.js",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
     "test": "mocha ./tests"
   },
-  "repository": "https://github.com/webcatalog/webcatalog",
+  "repository": "https://github.com/quanglam2807/webcatalog-lite",
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam2807@gmail.com",
@@ -27,11 +27,14 @@
     "electron-settings": "3.1.4",
     "electron-updater": "2.18.2",
     "electron-window-state": "4.1.1",
+    "file-type": "7.6.0",
     "follow-redirects": "1.3.0",
     "fs-extra": "5.0.0",
+    "icon-gen": "1.2.0",
     "is-url": "1.2.2",
+    "jimp": "0.2.28",
+    "read-chunk": "2.1.0",
     "tmp": "0.0.33",
-    "webcatalog-engine": "10.0.0",
     "yargs-parser": "8.1.0"
   },
   "devDependencies": {
@@ -46,7 +49,6 @@
     "cross-env": "5.1.3",
     "electron": "1.8.2",
     "electron-builder": "19.56.0",
-    "electron-rebuild": "1.6.0",
     "eslint": "4.15.0",
     "eslint-config-airbnb": "15.1.0",
     "eslint-plugin-import": "2.7.0",
@@ -64,11 +66,11 @@
     "redux-thunk": "2.2.0",
     "replace-in-file": "3.1.1",
     "request": "2.83.0",
-    "semver": "5.4.1",
     "spectron": "3.8.0",
     "typeface-roboto": "0.0.54",
     "wait-on": "2.1.0"
   },
   "homepage": "./",
-  "proxy": "https://quang.im/webcatalog"
+  "proxy": "https://quang.im/webcatalog",
+  "private": true
 }

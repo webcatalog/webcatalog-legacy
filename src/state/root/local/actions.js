@@ -9,12 +9,10 @@ import installAppAsync from '../../../helpers/install-app-async';
 
 import {
   STRING_FAILED_TO_INSTALL,
-  STRING_FAILED_TO_UPDATE,
   STRING_NAME_EXISTS,
 } from '../../../constants/strings';
 
 import {
-  isUpdatable,
   nameExists,
 } from './utils';
 
@@ -41,35 +39,4 @@ export const installApp = app =>
         // eslint-disable-next-line
         console.log(err);
       });
-  };
-
-export const updateApp = id =>
-  (dispatch, getState) => {
-    const managedApp = getState().local.apps[id];
-
-    if (managedApp.status !== 'INSTALLED') return null;
-
-    return Promise.resolve()
-      .then(() => {
-        dispatch(setLocalApp(id, 'INSTALLING', managedApp.app));
-      })
-      .then(() => installAppAsync(managedApp.app))
-      .catch((err) => {
-        dispatch(setLocalApp(id, 'INSTALLED', managedApp.app));
-        dispatch(openSnackbar(STRING_FAILED_TO_UPDATE.replace('{name}', managedApp.app.name)));
-        // eslint-disable-next-line
-        console.log(err);
-      });
-  };
-
-export const updateAllApps = () =>
-  (dispatch, getState) => {
-    const state = getState();
-    const managedApps = state.local.apps;
-
-    Object.keys(managedApps).forEach((id) => {
-      if (isUpdatable(state, id)) {
-        dispatch(updateApp(id));
-      }
-    });
   };

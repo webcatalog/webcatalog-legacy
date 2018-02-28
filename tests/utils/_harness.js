@@ -9,7 +9,7 @@ chai.should();
 chai.use(chaiAsPromised);
 
 const getElectronPath = () =>
-  path.resolve(__dirname, '../../dist/mac/WebCatalog.app/Contents/MacOS/WebCatalog');
+  path.resolve(__dirname, '../../dist/mac/WebCatalog Lite.app/Contents/MacOS/WebCatalog Lite');
 
 const harness = (name, fn, args) => {
   describe('When WebCatalog launches', function describeWrap() {

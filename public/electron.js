@@ -31,8 +31,8 @@ loadListeners();
 const createWindow = () => {
   // Keep window size and restore on startup
   const mainWindowState = windowStateKeeper({
-    defaultWidth: 1024,
-    defaultHeight: 768,
+    defaultWidth: 640,
+    defaultHeight: 640,
   });
 
   const options = {
@@ -42,7 +42,7 @@ const createWindow = () => {
     height: mainWindowState.height,
     minWidth: 640,
     minHeight: 640,
-    title: 'WebCatalog',
+    title: 'WebCatalog Lite',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     autoHideMenuBar: false,
     webPreferences: {

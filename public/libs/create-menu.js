@@ -61,12 +61,6 @@ const createMenu = () => {
           click: () => sendMessageToWindow('open-about-dialog'),
         },
         { type: 'separator' },
-        {
-          label: 'Preferences...',
-          accelerator: 'Cmd+,',
-          click: () => sendMessageToWindow('open-preferences-dialog'),
-        },
-        { type: 'separator' },
         { role: 'services', submenu: [] },
         { type: 'separator' },
         { role: 'hide' },

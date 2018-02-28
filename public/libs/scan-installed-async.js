@@ -2,13 +2,12 @@ const path = require('path');
 const fs = require('fs-extra');
 
 const getInstallationPath = require('./get-installation-path');
-const removeOldVersionsAsync = require('./remove-old-versions-async');
+
+const allAppPath = getInstallationPath();
 
 const scanInstalledAsync = () =>
   Promise.resolve()
     .then(() => {
-      const allAppPath = getInstallationPath();
-
       const installedApps = [];
 
       return fs.pathExists(allAppPath)
@@ -21,18 +20,21 @@ const scanInstalledAsync = () =>
                 files.forEach((fileName) => {
                   if (fileName === '.DS_Store') return;
 
-                  const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
-                  const iconPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'icon.png');
+                  const bashPath = path.join(allAppPath, fileName, 'Contents', 'MacOS', 'Executable');
+                  const iconPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.png');
 
-                  promises.push(fs.pathExists(packageJsonPath)
+                  promises.push(fs.pathExists(bashPath)
                     .then((exists) => {
                       if (exists) {
-                        return fs.readJson(packageJsonPath)
-                          .then((packageInfo) => {
-                            const appInfo = Object.assign({}, packageInfo.webApp, {
-                              moleculeVersion: packageInfo.version,
+                        return fs.readFile(bashPath, 'utf8')
+                          .then((bashScript) => {
+                            const lines = bashScript.split('\n');
+                            const appInfo = {
+                              name: lines[2].substr(1),
+                              url: lines[3].substr(1),
+                              id: lines[4].substr(1),
                               icon: fs.pathExistsSync(iconPath) ? iconPath : null,
-                            });
+                            };
 
                             installedApps.push(appInfo);
                           });
@@ -49,11 +51,6 @@ const scanInstalledAsync = () =>
           return null;
         })
         .then(() => installedApps);
-    })
-    .then((installedApps) => {
-      removeOldVersionsAsync(installedApps);
-
-      return installedApps;
     });
 
 module.exports = scanInstalledAsync;

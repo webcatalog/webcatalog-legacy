@@ -173,17 +173,7 @@ const About = (props) => {
           </Button>
         )}
 
-        <div className={classes.versionSmallContainer}>
-          <Typography type="body1" className={classes.versionSmall}>
-            <strong>electron:</strong> {window.versions.electron}
-          </Typography>
-          <Typography type="body1" className={classes.versionSmall}>
-            <strong>chrome:</strong> {window.versions.chrome}
-          </Typography>
-          <Typography type="body1" className={classes.versionSmall}>
-            <strong>node:</strong> {window.versions.node}
-          </Typography>
-        </div>
+        <div className={classes.versionSmallContainer} />
 
         <Button
           onClick={() => requestOpenInBrowser('https://quang.im/webcatalog')}

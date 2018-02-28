@@ -18,11 +18,9 @@ import extractHostname from '../../helpers/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';
 import {
   installApp,
-  updateApp,
 } from '../../state/root/local/actions';
 
 import {
-  isUpdatable as isUpdatableUtil,
   isInstalled as isInstalledUtil,
   isInstalling as isInstallingUtil,
   isUninstalling as isUninstallingUtil,
@@ -31,12 +29,9 @@ import {
 import {
   STRING_INSTALL,
   STRING_INSTALLING,
-  STRING_NOT_SUPPORTED,
   STRING_OPEN,
   STRING_UNINSTALL,
   STRING_UNINSTALLING,
-  STRING_UPDATE,
-  // STRING_UPDATING,
 } from '../../constants/strings';
 
 import { requestOpenApp } from '../../senders/local';
@@ -138,14 +133,11 @@ const AppCard = (props) => {
   const {
     app,
     classes,
-    isDeprecated,
     isInstalled,
     isInstalling,
     isUninstalling,
-    isUpdatable,
     onInstallApp,
     onOpenConfirmUninstallAppDialog,
-    onUpdateApp,
   } = props;
 
   const handleOpenApp = () => {
@@ -153,43 +145,17 @@ const AppCard = (props) => {
   };
 
   const renderActionsElement = () => {
-    if (isDeprecated) {
-      return (
-        <div>
-          <Button
-            color="accent"
-            dense
-            onClick={() => onOpenConfirmUninstallAppDialog({ app })}
-          >
-            <DeleteIcon color="inherit" />
-            <span className={classes.buttonText}>{STRING_UNINSTALL}</span>
-          </Button>
-        </div>
-      );
-    }
-
     if (isInstalled) {
       return (
         <div>
-          {!isUpdatable ? (
-            <Button
-              className={classes.button}
-              dense
-              onClick={handleOpenApp}
-            >
-              <ExitToAppIcon color="inherit" />
-              <span className={classes.buttonText}>{STRING_OPEN}</span>
-            </Button>
-          ) : (
-            <Button
-              className={classes.button}
-              dense
-              onClick={() => onUpdateApp(app.id, app.name)}
-            >
-              <GetAppIcon color="inherit" />
-              <span className={classes.buttonText}>{STRING_UPDATE}</span>
-            </Button>
-          )}
+          <Button
+            className={classes.button}
+            dense
+            onClick={handleOpenApp}
+          >
+            <ExitToAppIcon color="inherit" />
+            <span className={classes.buttonText}>{STRING_OPEN}</span>
+          </Button>
           <Button
             color="accent"
             dense
@@ -203,7 +169,6 @@ const AppCard = (props) => {
     }
 
     let label;
-    // if (isInstalling && isUpdatable) label = STRING_UPDATING;
     if (isInstalling) label = STRING_INSTALLING;
     else if (isUninstalling) label = STRING_UNINSTALLING;
     else label = STRING_INSTALL;
@@ -243,15 +208,9 @@ const AppCard = (props) => {
             {app.name}
           </Typography>
 
-          {isDeprecated ? (
-            <Typography type="body1" color="secondary">
-              {STRING_NOT_SUPPORTED}
-            </Typography>
-          ) : (
-            <Typography type="body1" color="secondary">
-              {extractHostname(app.url)}
-            </Typography>
-          )}
+          <Typography type="body1" color="secondary">
+            {extractHostname(app.url)}
+          </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
           {renderActionsElement()}
@@ -262,22 +221,14 @@ const AppCard = (props) => {
   );
 };
 
-AppCard.defaultProps = {
-  isDeprecated: false,
-  isUpdatable: false,
-};
-
 AppCard.propTypes = {
   app: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  isDeprecated: PropTypes.bool.isRequired,
   isInstalled: PropTypes.bool.isRequired,
   isInstalling: PropTypes.bool.isRequired,
   isUninstalling: PropTypes.bool.isRequired,
-  isUpdatable: PropTypes.bool,
   onInstallApp: PropTypes.func.isRequired,
   onOpenConfirmUninstallAppDialog: PropTypes.func.isRequired,
-  onUpdateApp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -286,7 +237,6 @@ const mapStateToProps = (state, ownProps) => {
   const isInstalled = isInstalledUtil(state, app.id);
 
   return {
-    isUpdatable: isUpdatableUtil(state, app.id),
     isInstalled,
     isInstalling: isInstallingUtil(state, app.id),
     isUninstalling: isUninstallingUtil(state, app.id),
@@ -297,7 +247,6 @@ const mapStateToProps = (state, ownProps) => {
 const actionCreators = {
   installApp,
   openConfirmUninstallAppDialog,
-  updateApp,
 };
 
 export default connectComponent(
