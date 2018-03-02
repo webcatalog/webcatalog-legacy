@@ -1,0 +1,20 @@
+{
+  "name": "appifier",
+  "version": "11.0.0",
+  "description": "Turn any website into Electron app.",
+  "repository": "https://github.com/quanglam2807/appifier",
+  "author": "Quang Lam <quang.lam2807@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["appifier"],
+  "scripts": {
+    "lib:build": "cd appifier && yarn build",
+    "lib:test": "cd appifier && yarn test",
+    "lib:electron-dev": "cd appifier && yarn electron-dev",
+    "lib:lint": "cd appifier && yarn lint",
+
+    "build": "yarn lib:build",
+    "test": "yarn lib:test",
+    "lint": "yarn lib:lint"
+  }
+}
