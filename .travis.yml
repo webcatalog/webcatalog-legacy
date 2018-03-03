@@ -11,9 +11,15 @@ matrix:
     - CC=clang CXX=clang++ npm_config_clang=1
     compiler: clang
 cache: yarn
+addons:
+  apt:
+    packages:
+    - rpm
+    - bsdtar
 before_script:
 - yarn lint
 script:
-- yarn build
+- yarn lib:build
+- yarn gui:dist
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3; fi
 - yarn test

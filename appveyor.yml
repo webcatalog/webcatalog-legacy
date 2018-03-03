@@ -26,7 +26,8 @@ before_build:
   - yarn lint
 
 build_script:
-  - yarn build
+  - yarn lib:build
+  - yarn gui:dist
   - yarn test
 
 test: off
