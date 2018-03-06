@@ -1,6 +1,6 @@
 {
   "name": "appifier",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Turn any website into Electron app.",
   "repository": "https://github.com/quanglam2807/appifier",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
