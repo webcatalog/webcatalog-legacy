@@ -45,6 +45,7 @@ const createWindow = () => {
     title: 'WebCatalog Lite',
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     autoHideMenuBar: false,
+    icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
       webSecurity: false,
       nodeIntegration: isTesting, // only needed for testing
