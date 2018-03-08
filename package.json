@@ -71,6 +71,6 @@
     "wait-on": "2.1.0"
   },
   "homepage": "./",
-  "proxy": "https://quang.im/webcatalog",
+  "proxy": "https://getwebcatalog.com",
   "private": true
 }
