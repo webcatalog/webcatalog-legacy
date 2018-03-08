@@ -44,6 +44,7 @@ Promise.resolve()
         asar: true,
         files: [
           '!tests/**/*',
+          '!docs/**/*',
         ],
         directories: {
           buildResources: 'build-resources',

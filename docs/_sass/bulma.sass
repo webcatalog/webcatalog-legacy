@@ -1,0 +1,38 @@
+$text: #000
+
+@import "./bulma/bulma"
+
+body
+  display: flex
+  flex-direction: column
+
+.container
+  max-width: 960px
+  padding: 1.5em 1em
+
+img.round
+  border-radius: 50%
+  max-width: 96px
+
+.download-btn
+  img
+    height: 50px
+
+.screenshot
+  width: 100%
+  max-width: 760px
+  &.is-small
+    max-width: 560px
+
+.footer
+  background-color: transparent
+  padding: 0
+  @media screen and (min-width: 960px)
+    ul
+      display: inline-table
+      li
+        float: left
+
+.app-icon
+  height: 96px
+  width: 96px
