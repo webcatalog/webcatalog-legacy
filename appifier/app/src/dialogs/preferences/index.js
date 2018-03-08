@@ -40,7 +40,6 @@ import { open as openDialogProxyRules } from '../../state/dialogs/proxy-rules/ac
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { open as openDialogReset } from '../../state/dialogs/reset/actions';
 import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
-import { requestOpenInBrowser } from '../../senders/generic';
 import { requestSetPreference } from '../../senders/preferences';
 
 import {
@@ -61,14 +60,12 @@ import {
   STRING_HOME_PAGE,
   STRING_INJECT_CSS,
   STRING_INJECT_JS,
-  STRING_LEARN_MORE,
   STRING_LEFT,
   STRING_NAVIGATION_BAR_POSITION,
   STRING_NAVIGATION,
   STRING_NONE,
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
-  STRING_PRIVACY_NOTE,
   STRING_PROXIES,
   STRING_REMEMER_LAST_PAGE,
   STRING_RESET_DESC,
@@ -533,25 +530,7 @@ class PreferencesDialog extends React.Component {
               </Typography>
             </div>
             <Paper className={classes.paper}>
-              <List dense>
-                <ListItem button>
-                  <ListItemText
-                    primary={(
-                      <span>
-                        <span>{STRING_PRIVACY_NOTE} </span>
-                        <span
-                          className={classes.link}
-                          role="link"
-                          tabIndex="0"
-                          onClick={() => requestOpenInBrowser('https://quang.im/appifier/privacy')}
-                          onKeyDown={() => requestOpenInBrowser('https://quang.im/appifier/privacy')}
-                        >
-                          {STRING_LEARN_MORE}
-                        </span>
-                      </span>
-                    )}
-                  />
-                </ListItem>
+              <List>
                 <ListItem button onClick={onOpenDialogClearBrowsingData}>
                   <ListItemText
                     primary={STRING_CLEAR_BROWSING_DATA}

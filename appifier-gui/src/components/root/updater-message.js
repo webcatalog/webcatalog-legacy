@@ -41,7 +41,7 @@ const UpdaterMessage = (props) => {
         <Button
           raised
           className={classes.updaterPaperLink}
-          onClick={() => requestOpenInBrowser('https://quang.im/appifier')}
+          onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/appifier')}
         >
           {STRING_GO_TO_THE_WEBSITE}
         </Button>

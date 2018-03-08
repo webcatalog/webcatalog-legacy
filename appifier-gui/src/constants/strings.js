@@ -36,7 +36,6 @@ export const STRING_OPEN = 'Open';
 export const STRING_OPEN_ABOUT_DIALOG = 'Open About dialog';
 export const STRING_OR = 'or';
 export const STRING_PREFERENCES = 'Preferences';
-export const STRING_PRIVACY_POLICY = 'Privacy Policy';
 export const STRING_RELEASE_NOTES = 'Release Notes';
 export const STRING_SEARCH_APPS = 'Search apps...';
 export const STRING_TERMS = 'Terms of Service';

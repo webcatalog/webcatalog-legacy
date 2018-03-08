@@ -46,7 +46,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://quang.im/appifier'),
+          click: () => shell.openExternal('https://github.com/quanglam2807/appifier'),
         },
       ],
     },

@@ -104,7 +104,7 @@ const About = (props) => {
         </div>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://quang.im/appifier')}
+          onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/appifier')}
         >
           {STRING_WEBSITE}
         </Button>

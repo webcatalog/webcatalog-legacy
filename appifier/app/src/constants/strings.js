@@ -46,7 +46,6 @@ export const STRING_NONE = 'None';
 export const STRING_PREFERENCES = 'Preferences';
 export const STRING_PREVIOUS = 'Previous';
 export const STRING_PRIVACY_AND_SECURITY = 'Privacy & Security';
-export const STRING_PRIVACY_NOTE = 'Appifier does not install any tracking tools or services in this app.';
 export const STRING_RELAUNCH = 'Relaunch';
 export const STRING_RELAUNCH_DESC = 'You need to relaunch the app for this preference to fully take affect.';
 export const STRING_RELOAD = 'Reload';
