@@ -110,6 +110,7 @@ const installAppAsync = (appObj) => {
             url,
             id,
             pngIcon,
+            'chromium',
           ], (err) => {
             if (err) {
               reject(err);
@@ -140,6 +141,7 @@ const installAppAsync = (appObj) => {
           icnsIcon,
           pngIcon,
           getInstallationPath(),
+          'chromium',
         ], (err) => {
           if (err) {
             reject(err);
