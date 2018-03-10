@@ -1,6 +1,6 @@
 {
   "name": "Appifier",
-  "version": "11.0.1",
+  "version": "11.1.0",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps && node hacky.js",
@@ -17,7 +17,7 @@
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "appifier": "11.0.0",
+    "appifier": "11.1.0",
     "electron-is-dev": "0.3.0",
     "electron-window-state": "4.1.1",
     "follow-redirects": "1.4.1",
@@ -36,7 +36,7 @@
     "concurrently": "3.5.1",
     "cross-env": "5.1.4",
     "electron": "1.8.3",
-    "electron-builder": "20.2.0",
+    "electron-builder": "20.4.1",
     "eslint": "4.9.0",
     "eslint-config-airbnb": "16.1.0",
     "eslint-plugin-import": "2.7.0",

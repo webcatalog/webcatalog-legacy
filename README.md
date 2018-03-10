@@ -2,13 +2,9 @@
 
 **Appifier** is an app + Node.js library + CLI which turns any website into Electron app.
 
-**CAUTION:** The project will receive security updates but it is no longer under active development.
+**CAUTION:** The project is no longer under development. Use **[WebCatalog Lite](https://github.com/quanglam2807/webcatalog)** or [Nativefier](https://github.com/jiahaog/nativefier) instead. If you'd like to take over the repository, feel free to [contact me](https://quang.im).
 
 ![Demo](demo.gif)
-
-> If you follow this repo long enough, you'd wonder what the f\*ck wrong with this project and its developer: The guy just kept rewriting the app over and over again. Is he insane? How much time does he spend on this? It's just a web wrapper generator, not a rocket and he spent more than a year working on it, what!? Well, "Intellectuals solve problems, geniuses prevent them," said Albert Einstein. Sadly, the guy was neither an intellectual nor a genius. He was just a naive freshman at a liberal arts college, busying to read classical texts instead of learning about practical software engineering. He messed up. He was ambitious, passionate but then he was stupid enough not to read something like *Lean Startup*. As a result, what's supposed to happen happened :). It's a long story. Nevertheless, this paragraph pretty much sums it up.
-
-> If you don't really need Appifier, use **[WebCatalog Lite](https://github.com/quanglam2807/webcatalog-lite)** or [Nativefier](https://github.com/jiahaog/nativefier) instead.
 
 > Old Git history prior to March 2018 is squashed. You can still find it [here](https://github.com/quanglam2807/appifier/tree/feb-26-full-history).
 
