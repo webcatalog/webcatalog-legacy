@@ -10,6 +10,7 @@ APPICNS=${4};
 APPPNG=${5};
 DEST=${6:-.};
 APPMODE=${7:="google-chrome"}; # google-chrome | chromium
+SHAREDATA=${8:="false"}
 CONTENT_DIR="${DEST}/${APPNAME}.app/Contents";
 MACOS_DIR="${DEST}/${APPNAME}.app/Contents/MacOS";
 RESOURCE_DIR="${DEST}/${APPNAME}.app/Contents/Resources";
@@ -25,6 +26,11 @@ if [ "${APPMODE}" == "chromium" ]; then
 	EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
 fi
 
+DATADIRSWITCH=""
+if [ "${SHAREDATA}" == "false" ]; then
+	DATADIRSWITCH=" -user-data-dir=\"${HOME}/.webcatalog-lite/${APPID}\""
+fi
+
 cat <<EOF > "${MACOS_DIR}/Executable"
 #!/usr/bin/env bash
 
@@ -32,7 +38,7 @@ cat <<EOF > "${MACOS_DIR}/Executable"
 #${2}
 #${3}
 
-${EXECPATH} --class ${APPID} -user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
+${EXECPATH} --class ${APPID}${DATADIRSWITCH} --app="$APPURL"
 EOF
 chmod +x "${MACOS_DIR}/Executable"
 

@@ -3,7 +3,7 @@
 import { INSTALLED } from '../constants/app-statuses';
 import { requestInstallApp } from '../senders/local';
 
-const installAppAsync = (appObj, browser) => {
+const installAppAsync = (appObj, browser, shareData) => {
   if (!appObj || !appObj.name || !appObj.url || !appObj.icon) {
     return Promise.reject(new Error('Missing information.'));
   }
@@ -26,7 +26,7 @@ const installAppAsync = (appObj, browser) => {
 
       ipcRenderer.on('set-local-app', listener);
 
-      requestInstallApp(appObj, browser);
+      requestInstallApp(appObj, browser, shareData);
     } catch (err) {
       reject(err);
     }
