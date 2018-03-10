@@ -97,8 +97,6 @@ const installAppAsync = (appObj, browser) => {
     id, name, url, icon,
   } = appObj;
 
-  console.log(browser);
-
   const scriptPath = path.join(__dirname, `appify-${os.platform()}.sh`);
 
   const tmpDir = tmp.dirSync().name;
