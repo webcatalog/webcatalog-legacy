@@ -94,7 +94,7 @@ const downloadFileTempAsync = (filePath, tmpDir) => {
 
 const installAppAsync = (appObj, browser) => {
   const {
-    id, name, url, icon,
+    id, name, url, icon, category,
   } = appObj;
 
   const scriptPath = path.join(__dirname, `appify-${os.platform()}.sh`);
@@ -110,6 +110,7 @@ const installAppAsync = (appObj, browser) => {
             url,
             id,
             pngIcon,
+            category,
             browser,
           ], (err) => {
             if (err) {

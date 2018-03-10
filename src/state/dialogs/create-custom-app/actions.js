@@ -69,6 +69,7 @@ export const create = () =>
       name: form.name,
       url: form.url,
       icon: form.icon || path.join(window.appPath, 'electron-icon.png'),
+      category: form.category,
     };
 
     if (nameExists(state, app.name)) {

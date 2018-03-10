@@ -53,3 +53,5 @@ export const STRING_SELECT_BROWSER = 'Select your preferred web browser';
 export const STRING_SELECT_BROWSER_DESC = 'You can change your preferred browser at any time but the preference will only apply to newly installed apps.';
 export const STRING_MORE = 'More';
 export const STRING_CHANGE_BROWSER = 'Change browser';
+export const STRING_CATEGORY = 'Category';
+export const STRING_OTHER = 'Other';

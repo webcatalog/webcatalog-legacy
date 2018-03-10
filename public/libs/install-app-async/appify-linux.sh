@@ -7,7 +7,8 @@ APPNAME=${1};
 APPURL=${2};
 APPID=${3};
 APPPNG=${4};
-APPMODE=${5:="google-chrome"}; # google-chrome | chromium
+APPCATEGORY=${5:="Other"}
+APPMODE=${6:="google-chrome"}; # google-chrome | chromium
 
 EXECPATH="google-chrome"
 if [ "${APPMODE}" == "chromium" ]; then
@@ -40,6 +41,7 @@ GenericName=$APPNAME
 Icon=$icon
 Exec=$command
 Terminal=false
+Categories=$APPCATEGORY;
 END
 
 cp -v "${APPPNG}" "${icon}"

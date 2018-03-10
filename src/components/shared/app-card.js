@@ -24,6 +24,7 @@ import {
   isUninstalling as isUninstallingUtil,
 } from '../../state/root/local/utils';
 
+import linuxCategoryMappings from '../../constants/linux-category-mappings';
 import {
   STRING_INSTALL,
   STRING_INSTALLING,
@@ -35,6 +36,7 @@ import {
 import { requestOpenApp } from '../../senders/local';
 
 import electronIcon from '../../assets/electron-icon.png';
+
 
 const styles = (theme) => {
   const cardContentDefaults = {
@@ -176,7 +178,14 @@ const AppCard = (props) => {
         color="primary"
         size="small"
         disabled={isInstalling || isUninstalling}
-        onClick={() => onInstallApp(app)}
+        onClick={() => {
+          // for Linux
+          const modifiedApp = Object.assign({}, app, {
+            category: linuxCategoryMappings[app.category],
+          });
+
+          onInstallApp(modifiedApp);
+        }}
       >
         <GetAppIcon color="inherit" />
         <span className={classes.buttonText}>{label}</span>

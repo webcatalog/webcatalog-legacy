@@ -9,6 +9,10 @@ import Dialog, {
   DialogContent,
   DialogActions,
 } from 'material-ui/Dialog';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import { InputLabel } from 'material-ui/Input';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -23,11 +27,15 @@ import {
   STRING_CREATE,
   STRING_NAME,
   STRING_URL,
+  STRING_CATEGORY,
+  STRING_OTHER,
 } from '../../constants/strings';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import electronIcon from '../../assets/electron-icon.png';
+
+import linuxCategories from '../../constants/linux-categories';
 
 const styles = theme => ({
   grid: {
@@ -41,6 +49,10 @@ const styles = theme => ({
   icon: {
     height: 128,
     width: 128,
+  },
+  formControl: {
+    marginTop: theme.spacing.unit * 2,
+    width: '100%',
   },
 });
 
@@ -56,6 +68,7 @@ const CreateCustomAppDialog = (props) => {
     open,
     url,
     urlError,
+    category,
   } = props;
 
   let iconPath = electronIcon;
@@ -66,7 +79,7 @@ const CreateCustomAppDialog = (props) => {
 
   return (
     <Dialog
-      className={classes.root}
+      maxWidth="xs"
       onClose={onClose}
       open={open}
     >
@@ -92,6 +105,26 @@ const CreateCustomAppDialog = (props) => {
           value={url}
           error={Boolean(urlError)}
         />
+        {window.platform === 'linux' && (
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="category">{STRING_CATEGORY}</InputLabel>
+            <Select
+              value={category}
+              onChange={e => onUpdateForm({ category: e.target.value })}
+              inputProps={{
+                name: 'category',
+                id: 'category',
+              }}
+            >
+              <MenuItem value="Other">
+                <em>{STRING_OTHER}</em>
+              </MenuItem>
+              {linuxCategories.map(c => (
+                <MenuItem key={c} value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
         <Grid container className={classes.grid}>
           <Grid item>
             <div className={classes.iconContainer}>
@@ -135,6 +168,7 @@ CreateCustomAppDialog.defaultProps = {
   nameError: null,
   url: '',
   urlError: null,
+  category: '',
 };
 
 CreateCustomAppDialog.propTypes = {
@@ -148,6 +182,7 @@ CreateCustomAppDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
   urlError: PropTypes.string,
+  category: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -159,6 +194,7 @@ const mapStateToProps = (state) => {
       nameError,
       url,
       urlError,
+      category,
     },
   } = state.dialogs.createCustomApp;
 
@@ -169,6 +205,7 @@ const mapStateToProps = (state) => {
     open,
     url,
     urlError,
+    category,
   };
 };
 
