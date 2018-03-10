@@ -56,7 +56,7 @@ class EnhancedMenu extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 10.6,
-              width: 200,
+              width: 240,
             },
           }}
         >

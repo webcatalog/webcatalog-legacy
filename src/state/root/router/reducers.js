@@ -4,10 +4,8 @@ import { ROUTE_DIRECTORY } from '../../../constants/routes';
 
 import {
   ROUTE_CHANGE,
-  CHROME_INSTALLLED_CHANGE,
+  BROWSER_INSTALLLED_CHANGE,
 } from '../../../constants/actions';
-
-import { isChromeInstalled } from '../../../senders/generic';
 
 const previousRoute = (state = null, action) => {
   switch (action.type) {
@@ -23,9 +21,9 @@ const route = (state = ROUTE_DIRECTORY, action) => {
   }
 };
 
-const chromeInstalled = (state = isChromeInstalled(), action) => {
+const browserInstalled = (state = false, action) => {
   switch (action.type) {
-    case CHROME_INSTALLLED_CHANGE: return action.chromeInstalled;
+    case BROWSER_INSTALLLED_CHANGE: return action.browserInstalled;
     default: return state;
   }
 };
@@ -33,5 +31,5 @@ const chromeInstalled = (state = isChromeInstalled(), action) => {
 export default combineReducers({
   previousRoute,
   route,
-  chromeInstalled,
+  browserInstalled,
 });

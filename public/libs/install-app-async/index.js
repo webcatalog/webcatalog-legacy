@@ -92,7 +92,7 @@ const downloadFileTempAsync = (filePath, tmpDir) => {
     .then(() => iconPath);
 };
 
-const installAppAsync = (appObj) => {
+const installAppAsync = (appObj, browser) => {
   const {
     id, name, url, icon,
   } = appObj;
@@ -110,6 +110,7 @@ const installAppAsync = (appObj) => {
             url,
             id,
             pngIcon,
+            browser,
           ], (err) => {
             if (err) {
               reject(err);
@@ -140,6 +141,7 @@ const installAppAsync = (appObj) => {
           icnsIcon,
           pngIcon,
           getInstallationPath(),
+          browser,
         ], (err) => {
           if (err) {
             reject(err);

@@ -9,6 +9,7 @@ APPID=${3};
 APPICNS=${4};
 APPPNG=${5};
 DEST=${6:-.};
+APPMODE=${7:="google-chrome"}; # google-chrome | chromium
 CONTENT_DIR="${DEST}/${APPNAME}.app/Contents";
 MACOS_DIR="${DEST}/${APPNAME}.app/Contents/MacOS";
 RESOURCE_DIR="${DEST}/${APPNAME}.app/Contents/Resources";
@@ -19,6 +20,11 @@ fi;
 
 mkdir -p "${MACOS_DIR}";
 
+EXECPATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+if [ "${APPMODE}" == "chromium" ]; then
+	EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
+fi
+
 cat <<EOF > "${MACOS_DIR}/Executable"
 #!/usr/bin/env bash
 
@@ -26,7 +32,7 @@ cat <<EOF > "${MACOS_DIR}/Executable"
 #${2}
 #${3}
 
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --class $APPID -user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
+${EXECPATH} --class ${APPID} -user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
 EOF
 chmod +x "${MACOS_DIR}/Executable"
 

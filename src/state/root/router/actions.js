@@ -1,13 +1,10 @@
 import { ROUTE_DIRECTORY } from '../../../constants/routes';
 import {
   routeChange,
-  chromeInstalledChange,
+  browserInstalledChange,
 } from './action-creators';
 
-import { isChromeInstalled } from '../../../senders/generic';
-import { openSnackbar } from '../../../state/root/snackbar/actions';
-
-import { STRING_TO_CONTINUE_INSTALL_CHROME } from '../../../constants/strings';
+import { isBrowserInstalled } from '../../../senders/generic';
 
 export const changeRoute = newRoute =>
   (dispatch, getState) => {
@@ -27,13 +24,11 @@ export const goBack = () =>
     dispatch(routeChange(previousRoute || ROUTE_DIRECTORY, route));
   };
 
-export const updateChromeInstalled = () =>
-  (dispatch) => {
-    const chromeInstalled = isChromeInstalled();
+export const updateBrowserInstalled = () =>
+  (dispatch, getState) => {
+    const { browser } = getState().preferences;
 
-    dispatch(chromeInstalledChange(chromeInstalled));
+    const browserInstalled = isBrowserInstalled(browser);
 
-    if (!chromeInstalled) {
-      dispatch(openSnackbar(STRING_TO_CONTINUE_INSTALL_CHROME));
-    }
+    dispatch(browserInstalledChange(browserInstalled));
   };

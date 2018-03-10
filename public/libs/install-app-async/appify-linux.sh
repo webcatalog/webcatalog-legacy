@@ -7,6 +7,12 @@ APPNAME=${1};
 APPURL=${2};
 APPID=${3};
 APPPNG=${4};
+APPMODE=${5:="google-chrome"}; # google-chrome | chromium
+
+EXECPATH="google-chrome"
+if [ "${APPMODE}" == "chromium" ]; then
+	EXECPATH="chromium-browser"
+fi
 
 mkdir -p "${HOME}/bin";
 

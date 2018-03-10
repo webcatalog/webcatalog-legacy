@@ -1,6 +1,6 @@
 import {
   ROUTE_CHANGE,
-  CHROME_INSTALLLED_CHANGE,
+  BROWSER_INSTALLLED_CHANGE,
 } from '../../../constants/actions';
 
 export const routeChange = (route, previousRoute) => ({
@@ -9,7 +9,7 @@ export const routeChange = (route, previousRoute) => ({
   previousRoute,
 });
 
-export const chromeInstalledChange = chromeInstalled => ({
-  type: CHROME_INSTALLLED_CHANGE,
-  chromeInstalled,
+export const browserInstalledChange = browserInstalled => ({
+  type: BROWSER_INSTALLLED_CHANGE,
+  browserInstalled,
 });
