@@ -21,6 +21,7 @@ const formInitialState = {
   name: '',
   url: '',
   icon: null,
+  category: 'Other',
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {

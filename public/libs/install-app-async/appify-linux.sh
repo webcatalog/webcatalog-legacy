@@ -7,16 +7,18 @@ APPNAME=${1};
 APPURL=${2};
 APPID=${3};
 APPPNG=${4};
-APPMODE=${5:="google-chrome"}; # google-chrome | chromium
+APPCATEGORY=${5:="Other"};
+APPMODE=${6:="google-chrome"}; # google-chrome | chromium
 
-EXECPATH="google-chrome"
+EXECPATH="google-chrome";
 if [ "${APPMODE}" == "chromium" ]; then
-	EXECPATH="chromium-browser"
+	EXECPATH="chromium-browser";
 fi
 
 mkdir -p "${HOME}/bin";
 
 command="${HOME}/bin/${APPID}";
+
 cat - > "${command}" <<END
 #!/bin/sh -ue
 
@@ -27,9 +29,11 @@ google-chrome --class "$APPNAME" -user-data-dir="$HOME/.config/webcatalog-$APPID
 END
 chmod u+x "$command";
 
-desktopFile="$HOME/.local/share/applications/webcatalog-${APPID}.desktop";
+mkdir -p "${HOME}/.local/share/icons";
+icon="${HOME}/.local/share/icons/webcatalog-${APPID}.png";
+cp -v "${APPPNG}" "${icon}";
 
-icon="${HOME}/.local/share/icons/webcatalog-${APPID}.png"
+desktopFile="$HOME/.local/share/applications/webcatalog-${APPID}.desktop";
 
 cat - > "$desktopFile" <<END
 [Desktop Entry]
@@ -40,6 +44,5 @@ GenericName=$APPNAME
 Icon=$icon
 Exec=$command
 Terminal=false
+Categories=$APPCATEGORY;
 END
-
-cp -v "${APPPNG}" "${icon}"

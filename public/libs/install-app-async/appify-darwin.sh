@@ -20,9 +20,9 @@ fi;
 
 mkdir -p "${MACOS_DIR}";
 
-EXECPATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+EXECPATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome";
 if [ "${APPMODE}" == "chromium" ]; then
-	EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
+	EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium";
 fi
 
 cat <<EOF > "${MACOS_DIR}/Executable"
@@ -34,7 +34,8 @@ cat <<EOF > "${MACOS_DIR}/Executable"
 
 ${EXECPATH} --class ${APPID} -user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
 EOF
-chmod +x "${MACOS_DIR}/Executable"
+
+chmod +x "${MACOS_DIR}/Executable";
 
 mkdir -p "${RESOURCE_DIR}";
 cp -v "${APPICNS}" "${RESOURCE_DIR}/app.icns";
