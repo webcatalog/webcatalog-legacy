@@ -8,10 +8,16 @@ APPURL=${2};
 APPID=${3};
 APPPNG=${4};
 APPMODE=${5:="google-chrome"}; # google-chrome | chromium
+SHAREDATA=${6:="false"}
 
 EXECPATH="google-chrome"
 if [ "${APPMODE}" == "chromium" ]; then
 	EXECPATH="chromium-browser"
+fi
+
+DATADIRSWITCH=""
+if [ "${SHAREDATA}" == "false" ]; then
+	DATADIRSWITCH="  -user-data-dir=\"$HOME/.config/webcatalog-$APPID\""
 fi
 
 mkdir -p "${HOME}/bin";
@@ -23,7 +29,7 @@ cat - > "${command}" <<END
 #${1}
 #${2}
 #${3}
-google-chrome --class "$APPNAME" -user-data-dir="$HOME/.config/webcatalog-$APPID" --app="$APPURL";
+google-chrome --class "$APPNAME"${DATADIRSWITCH} --app="$APPURL";
 END
 chmod u+x "$command";
 

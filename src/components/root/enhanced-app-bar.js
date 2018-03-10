@@ -32,7 +32,7 @@ import {
 
 import {
   STRING_ABOUT,
-  STRING_CHANGE_BROWSER,
+  STRING_PREFERENCES,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
   STRING_HELP,
@@ -118,7 +118,7 @@ class EnhancedAppBar extends React.Component {
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary={STRING_CHANGE_BROWSER} />
+                <ListItemText primary={STRING_PREFERENCES} />
               </ListItem>
               <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues')}>
                 <ListItemIcon>

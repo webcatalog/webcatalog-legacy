@@ -2,6 +2,7 @@ import { PREFERENCE_UPDATE } from '../../../constants/actions';
 
 export const defaultState = {
   browser: null,
+  shareData: false,
 };
 
 const getInitialValue = (name) => {

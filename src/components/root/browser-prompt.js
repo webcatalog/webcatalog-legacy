@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import { FormControlLabel } from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
 
 import connectComponent from '../../helpers/connect-component';
 
 import {
   STRING_SELECT_BROWSER,
   STRING_SELECT_BROWSER_DESC,
+  STRING_SHARE_DATA_BETWEEN_APPS,
 } from '../../constants/strings';
 
 import { updatePreference } from '../../state/root/preferences/actions';
@@ -51,6 +54,7 @@ const BrowserPrompt = (props) => {
   const {
     classes,
     onUpdatePreference,
+    shareData,
   } = props;
 
   return (
@@ -80,6 +84,17 @@ const BrowserPrompt = (props) => {
 
         <div className={classes.clear} />
 
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={shareData}
+              onChange={e => onUpdatePreference('shareData', e.target.checked)}
+              color="primary"
+            />
+          }
+          label={STRING_SHARE_DATA_BETWEEN_APPS}
+        />
+
         <p>{STRING_SELECT_BROWSER_DESC}</p>
       </div>
     </div>
@@ -89,7 +104,12 @@ const BrowserPrompt = (props) => {
 BrowserPrompt.propTypes = {
   classes: PropTypes.object.isRequired,
   onUpdatePreference: PropTypes.func.isRequired,
+  shareData: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = state => ({
+  shareData: state.preferences.shareData,
+});
 
 const actionCreators = {
   updatePreference,
@@ -97,7 +117,7 @@ const actionCreators = {
 
 export default connectComponent(
   BrowserPrompt,
-  null,
+  mapStateToProps,
   actionCreators,
   styles,
 );
