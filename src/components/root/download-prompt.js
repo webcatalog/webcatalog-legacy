@@ -7,12 +7,14 @@ import connectComponent from '../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../senders/generic';
 
-import { updateChromeInstalled } from '../../state/root/router/actions';
+import { updateBrowserInstalled } from '../../state/root/router/actions';
+import { updatePreference } from '../../state/root/preferences/actions';
 
 import {
-  STRING_TO_CONTINUE_INSTALL_CHROME,
-  STRING_DOWNLOAD_CHROME,
+  STRING_TO_CONTINUE_INSTALL_BROWSER,
+  STRING_DOWNLOAD_BROWSER,
   STRING_CONTINUE,
+  STRING_CHANGE_BROWSER,
 } from '../../constants/strings';
 
 const styles = theme => ({
@@ -21,7 +23,7 @@ const styles = theme => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    WebkitAppRegion: 'drag',
+    WebkitDownloadPromptRegion: 'drag',
     WebkitUserSelect: 'none',
   },
   box: {
@@ -30,48 +32,82 @@ const styles = theme => ({
   continueButton: {
     marginLeft: theme.spacing.unit,
   },
+  changeBrowser: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
-const App = (props) => {
+const DownloadPrompt = (props) => {
   const {
+    browser,
     classes,
-    onUpdateChromeInstalled,
+    onUpdateBrowserInstalled,
+    onUpdatePreference,
   } = props;
+
+  let browserName = 'Google Chrome';
+  if (browser === 'chromium') browserName = 'Chromium';
+
+  let downloadUrl = 'https://www.google.com/chrome/';
+  if (browser === 'chromium') downloadUrl = 'https://www.chromium.org/getting-involved/download-chromium';
 
   return (
     <div className={classes.root}>
       <div className={classes.box}>
-        <p>{STRING_TO_CONTINUE_INSTALL_CHROME}</p>
+        <p>{STRING_TO_CONTINUE_INSTALL_BROWSER.replace('{1}', browserName)}</p>
 
         <p>
-          <Button variant="raised" color="primary" onClick={() => requestOpenInBrowser('https://www.google.com/chrome/')}>
-            {STRING_DOWNLOAD_CHROME}
+          <Button
+            variant="raised"
+            color="primary"
+            onClick={() => requestOpenInBrowser(downloadUrl)}
+          >
+            {STRING_DOWNLOAD_BROWSER.replace('{1}', browserName)}
           </Button>
           <Button
             variant="raised"
             className={classes.continueButton}
-            onClick={onUpdateChromeInstalled}
+            onClick={onUpdateBrowserInstalled}
           >
             {STRING_CONTINUE}
           </Button>
         </p>
+
+        <Button
+          className={classes.changeBrowser}
+          onClick={() => onUpdatePreference('browser', null)}
+        >
+          {STRING_CHANGE_BROWSER}
+        </Button>
       </div>
     </div>
   );
 };
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onUpdateChromeInstalled: PropTypes.func.isRequired,
+DownloadPrompt.defaultProps = {
+  browser: 'google-chrome',
 };
 
+DownloadPrompt.propTypes = {
+  browser: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  onUpdateBrowserInstalled: PropTypes.func.isRequired,
+  onUpdatePreference: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  browser: state.preferences.browser,
+});
+
+
 const actionCreators = {
-  updateChromeInstalled,
+  updateBrowserInstalled,
+  updatePreference,
 };
 
 export default connectComponent(
-  App,
-  null,
+  DownloadPrompt,
+  mapStateToProps,
   actionCreators,
   styles,
 );

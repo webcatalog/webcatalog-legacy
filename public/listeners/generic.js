@@ -8,14 +8,33 @@ const loadGenericListeners = () => {
     shell.openExternal(browserUrl);
   });
 
-  ipcMain.on('is-chrome-installed', (e) => {
-    if (process.platform === 'darwin') {
-      const chromePath = path.join('/Applications', 'Google Chrome.app');
-      e.returnValue = fs.existsSync(chromePath);
-    }
+  ipcMain.on('is-chrome-installed', (e, browser) => {
+    switch (browser) {
+      case 'chromium': {
+        if (process.platform === 'darwin') {
+          const chromiumPath = path.join('/Applications', 'Chromium.app');
+          e.returnValue = fs.existsSync(chromiumPath);
+        }
 
-    if (process.platform === 'linux') {
-      e.returnValue = commandExistsSync('google-chrome');
+        if (process.platform === 'linux') {
+          e.returnValue = commandExistsSync('chromium-browser');
+        }
+        break;
+      }
+      case 'google-chrome': {
+        if (process.platform === 'darwin') {
+          const chromePath = path.join('/Applications', 'Google Chrome.app');
+          e.returnValue = fs.existsSync(chromePath);
+        }
+
+        if (process.platform === 'linux') {
+          e.returnValue = commandExistsSync('google-chrome');
+        }
+        break;
+      }
+      default: {
+        e.returnValue = false;
+      }
     }
   });
 };

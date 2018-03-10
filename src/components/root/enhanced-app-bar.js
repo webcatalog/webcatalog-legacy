@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import AddIcon from 'material-ui-icons/Add';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
@@ -9,12 +10,20 @@ import InfoIcon from 'material-ui-icons/Info';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
+import HelpIcon from 'material-ui-icons/Help';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import SettingsIcon from 'material-ui-icons/Settings';
 
 import connectComponent from '../../helpers/connect-component';
+
+import { requestOpenInBrowser } from '../../senders/generic';
 
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
 import { changeRoute } from '../../state/root/router/actions';
+import { updatePreference } from '../../state/root/preferences/actions';
+
+import EnhancedMenu from '../shared/enhanced-menu';
 
 import {
   ROUTE_INSTALLED_APPS,
@@ -23,9 +32,12 @@ import {
 
 import {
   STRING_ABOUT,
+  STRING_CHANGE_BROWSER,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
+  STRING_HELP,
   STRING_INSTALLED_APPS,
+  STRING_MORE,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
@@ -62,6 +74,7 @@ class EnhancedAppBar extends React.Component {
   render() {
     const {
       classes,
+      onUpdatePreference,
       onChangeRoute,
       onOpenDialogAbout,
       onOpenDialogCreateCustomApp,
@@ -91,11 +104,35 @@ class EnhancedAppBar extends React.Component {
               <AddIcon className={classes.leftIcon} />
               {STRING_CREATE_CUSTOM_APP}
             </Button>
-            <Tooltip title={STRING_ABOUT} placement="bottom">
-              <IconButton color="inherit" onClick={onOpenDialogAbout}>
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
+            <EnhancedMenu
+              id="more"
+              buttonElement={(
+                <Tooltip title={STRING_MORE} placement="bottom">
+                  <IconButton color="inherit">
+                    <MoreVertIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            >
+              <ListItem button onClick={() => onUpdatePreference('browser', null)}>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_CHANGE_BROWSER} />
+              </ListItem>
+              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues')}>
+                <ListItemIcon>
+                  <HelpIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_HELP} />
+              </ListItem>
+              <ListItem button onClick={onOpenDialogAbout}>
+                <ListItemIcon>
+                  <InfoIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_ABOUT} />
+              </ListItem>
+            </EnhancedMenu>
           </Toolbar>
 
         </AppBar>
@@ -106,6 +143,7 @@ class EnhancedAppBar extends React.Component {
 
 EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  onUpdatePreference: PropTypes.func.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
@@ -117,6 +155,7 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
+  updatePreference,
   changeRoute,
   openDialogAbout,
   openDialogCreateCustomApp,

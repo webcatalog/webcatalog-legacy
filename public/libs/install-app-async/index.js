@@ -92,10 +92,12 @@ const downloadFileTempAsync = (filePath, tmpDir) => {
     .then(() => iconPath);
 };
 
-const installAppAsync = (appObj) => {
+const installAppAsync = (appObj, browser) => {
   const {
     id, name, url, icon,
   } = appObj;
+
+  console.log(browser);
 
   const scriptPath = path.join(__dirname, `appify-${os.platform()}.sh`);
 
@@ -110,7 +112,7 @@ const installAppAsync = (appObj) => {
             url,
             id,
             pngIcon,
-            'chromium',
+            browser,
           ], (err) => {
             if (err) {
               reject(err);
@@ -141,7 +143,7 @@ const installAppAsync = (appObj) => {
           icnsIcon,
           pngIcon,
           getInstallationPath(),
-          'chromium',
+          browser,
         ], (err) => {
           if (err) {
             reject(err);

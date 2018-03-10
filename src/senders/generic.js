@@ -2,4 +2,4 @@
 
 export const requestOpenInBrowser = url => ipcRenderer.send('request-open-in-browser', url);
 
-export const isChromeInstalled = () => ipcRenderer.sendSync('is-chrome-installed');
+export const isBrowserInstalled = browser => ipcRenderer.sendSync('is-chrome-installed', browser);
