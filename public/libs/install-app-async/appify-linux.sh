@@ -25,7 +25,7 @@ cat - > "${command}" <<END
 #${1}
 #${2}
 #${3}
-google-chrome --class "$APPNAME" -user-data-dir="$HOME/.config/webcatalog-$APPID" --app="$APPURL";
+${EXECPATH} --class "$APPNAME" -user-data-dir="$HOME/.config/webcatalog-$APPID" --app="$APPURL";
 END
 chmod u+x "$command";
 
