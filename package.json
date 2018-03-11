@@ -12,7 +12,11 @@
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "dist-dev": "yarn build && node dist.js",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
-    "test": "mocha ./tests"
+    "test": "mocha ./tests",
+    "directory:install": "cd directory && yarn install",
+    "directory:test": "cd directory && yarn test",
+    "directory:pack": "cd directory && yarn pack",
+    "directory:publish": "cd directory && yarn publish"
   },
   "repository": "https://github.com/quanglam2807/webcatalog-lite",
   "author": {
