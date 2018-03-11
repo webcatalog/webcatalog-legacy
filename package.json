@@ -7,12 +7,16 @@
     "postinstall": "electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "eslint ./public ./src ./dist.js ./tests --ext js",
+    "lint": "eslint ./public ./src ./dist.js ./tests --ext ./directory/test ./directory/script ./directory/lib js",
     "start": "react-scripts start",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
     "dist-dev": "yarn build && node dist.js",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
-    "test": "mocha ./tests"
+    "test": "mocha ./tests",
+    "directory:install": "cd directory && yarn install && pip3 install --user -r requirements.txt",
+    "directory:test": "cd directory && yarn test",
+    "directory:pack": "cd directory && yarn build:pack",
+    "directory:publish": "cd directory && yarn build:publish"
   },
   "repository": "https://github.com/quanglam2807/webcatalog-lite",
   "author": {
