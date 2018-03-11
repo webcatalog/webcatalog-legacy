@@ -17,8 +17,6 @@ jobs:
     steps:
       - checkout
 
-      - run: cd directory
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -26,7 +24,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
+      - run:
+          command: yarn install
+          working_directory: directory
 
       - save_cache:
           paths:
@@ -34,10 +34,18 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test
+      - run:
+          command: yarn test
+          working_directory: directory
 
-      - run: yarn build:pack
+      - run:
+          command: yarn build:pack
+          working_directory: directory
 
-      - run: ./script/upload-to-github.sh
+      - run:
+          command: ./script/upload-to-github.sh
+          working_directory: directory
 
-      - run: yarn build:publish
+      - run:
+          command: yarn build:publish
+          working_directory: directory
