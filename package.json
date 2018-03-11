@@ -13,7 +13,7 @@
     "dist-dev": "yarn build && node dist.js",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
     "test": "mocha ./tests",
-    "directory:install": "cd directory && yarn install",
+    "directory:install": "cd directory && yarn install && pip3 install --user -r requirements.txt",
     "directory:test": "cd directory && yarn test",
     "directory:pack": "cd directory && yarn build:pack",
     "directory:publish": "cd directory && yarn build:publish"
