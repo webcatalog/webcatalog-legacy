@@ -11,7 +11,7 @@
     "test": "mocha --reporter min test/human-data.js",
     "lint": "eslint ./lib ./test --ext js",
     "pack": "node script/pack.js",
-    "publish": "node script/publish.js && ./script/upload-to-github.sh"
+    "build:publish": "node script/publish.js && ./script/upload-to-github.sh"
   },
   "devDependencies": {
     "chai": "4.1.2",

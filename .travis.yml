@@ -17,7 +17,4 @@ script:
 - yarn dist
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3; fi
 - yarn test
-- yarn directory:install
-- yarn directory:test
-- yarn directory:pack
-- yarn directory:publish
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn directory:install && yarn directory:test && yarn directory:pack && yarn directory:publish; fi
