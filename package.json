@@ -15,7 +15,7 @@
     "test": "mocha ./tests",
     "directory:install": "cd directory && yarn install",
     "directory:test": "cd directory && yarn test",
-    "directory:pack": "cd directory && yarn pack",
+    "directory:pack": "cd directory && yarn build:pack",
     "directory:publish": "cd directory && yarn build:publish"
   },
   "repository": "https://github.com/quanglam2807/webcatalog-lite",
