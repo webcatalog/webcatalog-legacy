@@ -5,6 +5,8 @@ import {
 
 import { openSnackbar } from '../snackbar/actions';
 
+import { open as openDialogActivate } from '../../dialogs/activate/actions';
+
 import installAppAsync from '../../../helpers/install-app-async';
 
 import {
@@ -12,7 +14,10 @@ import {
   STRING_NAME_EXISTS,
 } from '../../../constants/strings';
 
-import { nameExists } from './utils';
+import {
+  nameExists,
+  numberOfApps,
+} from './utils';
 
 
 export const setLocalApp = (id, status, app) =>
@@ -27,6 +32,12 @@ export const installApp = app =>
     const state = getState();
 
     const { browser } = state.preferences;
+    const { activated } = state.general;
+
+    if (numberOfApps(state) > 2 && !activated) {
+      dispatch(openDialogActivate());
+      return null;
+    }
 
     if (nameExists(state, app.name)) {
       dispatch(openSnackbar(STRING_NAME_EXISTS.replace('{name}', app.name)));

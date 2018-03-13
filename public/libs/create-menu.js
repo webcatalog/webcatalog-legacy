@@ -57,7 +57,7 @@ const createMenu = () => {
       label: app.getName(),
       submenu: [
         {
-          label: 'About WebCatalog',
+          label: 'About WebCatalog Lite',
           click: () => sendMessageToWindow('open-about-dialog'),
         },
         { type: 'separator' },

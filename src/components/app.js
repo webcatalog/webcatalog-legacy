@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import connectComponent from '../helpers/connect-component';
 
 import DialogAbout from './dialogs/about';
+import DialogActivate from './dialogs/activate';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogCreateCustomApp from './dialogs/create-custom-app';
 
@@ -19,7 +20,7 @@ import Directory from './pages/directory';
 
 import { ROUTE_INSTALLED_APPS } from '../constants/routes';
 
-import { updateBrowserInstalled } from '../state/root/router/actions';
+import { updateBrowserInstalled } from '../state/root/general/actions';
 
 const styles = {
   root: {
@@ -70,6 +71,7 @@ class App extends React.Component {
           <React.Fragment>
             <EnhancedAppBar />
             <UpdaterMessage />
+            <DialogActivate />
             {pageContent}
           </React.Fragment>
         );
@@ -109,7 +111,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  browserInstalled: state.router.browserInstalled,
+  browserInstalled: state.general.browserInstalled,
   browser: state.preferences.browser,
   route: state.router.route,
 });

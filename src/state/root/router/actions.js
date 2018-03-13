@@ -1,10 +1,5 @@
 import { ROUTE_DIRECTORY } from '../../../constants/routes';
-import {
-  routeChange,
-  browserInstalledChange,
-} from './action-creators';
-
-import { isBrowserInstalled } from '../../../senders/generic';
+import { routeChange } from './action-creators';
 
 export const changeRoute = newRoute =>
   (dispatch, getState) => {
@@ -22,13 +17,4 @@ export const goBack = () =>
     const { route, previousRoute } = router;
 
     dispatch(routeChange(previousRoute || ROUTE_DIRECTORY, route));
-  };
-
-export const updateBrowserInstalled = () =>
-  (dispatch, getState) => {
-    const { browser } = getState().preferences;
-
-    const browserInstalled = isBrowserInstalled(browser);
-
-    dispatch(browserInstalledChange(browserInstalled));
   };

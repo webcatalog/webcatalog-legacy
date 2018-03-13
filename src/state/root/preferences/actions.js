@@ -1,6 +1,6 @@
 import { preferenceUpdate } from './action-creators';
 
-import { updateBrowserInstalled } from '../router/actions';
+import { updateBrowserInstalled } from '../general/actions';
 
 export const updatePreference = (name, value) =>
   (dispatch) => {
