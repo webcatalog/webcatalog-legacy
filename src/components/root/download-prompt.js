@@ -7,7 +7,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../senders/generic';
 
-import { updateBrowserInstalled } from '../../state/root/router/actions';
+import { updateBrowserInstalled } from '../../state/root/general/actions';
 import { updatePreference } from '../../state/root/preferences/actions';
 
 import {
