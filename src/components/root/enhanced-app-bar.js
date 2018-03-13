@@ -20,6 +20,7 @@ import { requestOpenInBrowser } from '../../senders/generic';
 
 import { changeRoute } from '../../state/root/router/actions';
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
+import { open as openDialogActivate } from '../../state/dialogs/activate/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
 import { updatePreference } from '../../state/root/preferences/actions';
 
@@ -32,6 +33,7 @@ import {
 
 import {
   STRING_ABOUT,
+  STRING_ACTIVATE,
   STRING_CHANGE_BROWSER,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
@@ -73,10 +75,12 @@ class EnhancedAppBar extends React.Component {
 
   render() {
     const {
+      activated,
       classes,
       onUpdatePreference,
       onChangeRoute,
       onOpenDialogAbout,
+      onOpenDialogActivate,
       onOpenDialogCreateCustomApp,
       route,
     } = this.props;
@@ -114,8 +118,16 @@ class EnhancedAppBar extends React.Component {
                 </Tooltip>
               )}
             >
+              {!activated && (
+                <ListItem button onClick={onOpenDialogActivate}>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={STRING_ACTIVATE} />
+                </ListItem>
+              )}
               {window.platform !== 'win32' && (
-                <ListItem button onClick={() => onUpdatePreference('browser', null)}>
+              <ListItem button onClick={() => onUpdatePreference('browser', null)}>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
@@ -144,15 +156,18 @@ class EnhancedAppBar extends React.Component {
 }
 
 EnhancedAppBar.propTypes = {
+  activated: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogActivate: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onUpdatePreference: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
+  activated: state.general.activated,
   route: state.router.route,
 });
 
@@ -160,6 +175,7 @@ const actionCreators = {
   updatePreference,
   changeRoute,
   openDialogAbout,
+  openDialogActivate,
   openDialogCreateCustomApp,
 };
 

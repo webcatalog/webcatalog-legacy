@@ -1,4 +1,7 @@
-import { browserInstalledChange } from './action-creators';
+import {
+  activatedChange,
+  browserInstalledChange,
+} from './action-creators';
 
 import { isBrowserInstalled } from '../../../senders/generic';
 
@@ -9,4 +12,9 @@ export const updateBrowserInstalled = () =>
     const browserInstalled = isBrowserInstalled(browser);
 
     dispatch(browserInstalledChange(browserInstalled));
+  };
+
+export const updateActivated = activated =>
+  (dispatch) => {
+    dispatch(activatedChange(activated));
   };

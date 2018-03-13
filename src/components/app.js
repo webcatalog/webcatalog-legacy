@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import connectComponent from '../helpers/connect-component';
 
 import DialogAbout from './dialogs/about';
+import DialogActivate from './dialogs/activate';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogCreateCustomApp from './dialogs/create-custom-app';
 
@@ -70,6 +71,7 @@ class App extends React.Component {
           <React.Fragment>
             <EnhancedAppBar />
             <UpdaterMessage />
+            <DialogActivate />
             {pageContent}
           </React.Fragment>
         );

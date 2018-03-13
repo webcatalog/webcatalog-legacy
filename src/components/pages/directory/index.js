@@ -3,20 +3,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { LinearProgress } from 'material-ui/Progress';
+import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import SearchIcon from 'material-ui-icons/Search';
+import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../../senders/generic';
 
-import { changeRoute } from '../../../state/root/router/actions';
 import { getHits } from '../../../state/pages/directory/actions';
+import { open as openDialogActivate } from '../../../state/dialogs/activate/actions';
 
 import {
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
+  STRING_ACTIVATE_DESC_1,
+  STRING_PURCHASE,
+  STRING_ACTIVATE,
 } from '../../../constants/strings';
 
 import AppCard from '../../shared/app-card';
@@ -72,6 +77,18 @@ const styles = theme => ({
     height: 20,
     cursor: 'pointer',
   },
+  donateMessageContainer: {
+    textAlign: 'center',
+    width: '100%',
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4,
+  },
+  donateMessageText: {
+    marginBottom: theme.spacing.unit,
+  },
+  donateMessageButton: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class Directory extends React.Component {
@@ -96,6 +113,7 @@ class Directory extends React.Component {
       hasFailed,
       isGetting,
       onGetHits,
+      onOpenDialogActivate,
     } = this.props;
 
     const renderContent = () => {
@@ -155,6 +173,26 @@ class Directory extends React.Component {
             <Grid item xs={12}>
               <SearchBox />
             </Grid>
+            <div className={classes.donateMessageContainer}>
+              <Typography type="body2" className={classes.donateMessageText}>
+                {STRING_ACTIVATE_DESC_1}
+              </Typography>
+              <Button
+                color="primary"
+                variant="raised"
+                onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite')}
+              >
+                {STRING_PURCHASE}
+              </Button>
+              <Button
+                color="secondary"
+                variant="raised"
+                onClick={onOpenDialogActivate}
+                className={classes.donateMessageButton}
+              >
+                {STRING_ACTIVATE}
+              </Button>
+            </div>
             <Grid item xs={12}>
               {renderContent()}
             </Grid>
@@ -173,6 +211,7 @@ Directory.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
+  onOpenDialogActivate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -182,8 +221,8 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  changeRoute,
   getHits,
+  openDialogActivate,
 };
 
 export default connectComponent(
