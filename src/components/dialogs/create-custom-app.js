@@ -33,7 +33,7 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-import electronIcon from '../../assets/electron-icon.png';
+import electronIcon from '../../assets/default-icon.png';
 
 import linuxCategories from '../../constants/linux-categories';
 

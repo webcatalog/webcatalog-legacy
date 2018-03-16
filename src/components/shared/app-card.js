@@ -35,7 +35,7 @@ import {
 
 import { requestOpenApp } from '../../senders/local';
 
-import electronIcon from '../../assets/electron-icon.png';
+import electronIcon from '../../assets/default-icon.png';
 
 
 const styles = (theme) => {

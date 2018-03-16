@@ -1,5 +1,3 @@
-import path from 'path';
-
 import {
   createCustomAppClose,
   createCustomAppCreateFailed,
@@ -68,7 +66,7 @@ export const create = () =>
       id: `custom-${Date.now().toString()}`,
       name: form.name,
       url: form.url,
-      icon: form.icon || path.join(window.appPath, 'electron-icon.png'),
+      icon: form.icon,
       category: form.category,
     };
 
