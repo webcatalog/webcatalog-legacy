@@ -13,6 +13,7 @@ import Tooltip from 'material-ui/Tooltip';
 import HelpIcon from 'material-ui-icons/Help';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 import SettingsIcon from 'material-ui-icons/Settings';
+import LockIcon from 'material-ui-icons/Lock';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -121,7 +122,7 @@ class EnhancedAppBar extends React.Component {
               {!activated && (
                 <ListItem button onClick={onOpenDialogActivate}>
                   <ListItemIcon>
-                    <SettingsIcon />
+                    <LockIcon />
                   </ListItemIcon>
                   <ListItemText primary={STRING_ACTIVATE} />
                 </ListItem>
