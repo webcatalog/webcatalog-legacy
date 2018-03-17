@@ -13,6 +13,7 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
+import SettingsIcon from 'material-ui-icons/Settings';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -21,6 +22,7 @@ import EnhancedMenu from '../shared/enhanced-menu';
 
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
+import { open as openDialogPreferences } from '../../state/dialogs/preferences/actions';
 import { changeRoute } from '../../state/root/router/actions';
 
 import {
@@ -35,6 +37,7 @@ import {
   STRING_HELP,
   STRING_INSTALLED_APPS,
   STRING_MORE,
+  STRING_PREFERENCES,
 } from '../../constants/strings';
 
 import { requestScanInstalledApps } from '../../senders/local';
@@ -73,6 +76,7 @@ class EnhancedAppBar extends React.Component {
       onChangeRoute,
       onOpenDialogAbout,
       onOpenDialogCreateCustomApp,
+      onOpenDialogPreferences,
       route,
     } = this.props;
 
@@ -110,6 +114,12 @@ class EnhancedAppBar extends React.Component {
                 </Tooltip>
               )}
             >
+              <ListItem button onClick={onOpenDialogPreferences}>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary={STRING_PREFERENCES} />
+              </ListItem>
               <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/juli/issues')}>
                 <ListItemIcon>
                   <HelpIcon />
@@ -136,6 +146,7 @@ EnhancedAppBar.propTypes = {
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  onOpenDialogPreferences: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
 
@@ -147,6 +158,7 @@ const actionCreators = {
   changeRoute,
   openDialogAbout,
   openDialogCreateCustomApp,
+  openDialogPreferences,
 };
 
 export default connectComponent(

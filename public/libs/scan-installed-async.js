@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 
 const getInstallationPath = require('./get-installation-path');
+const removeOldVersionsAsync = require('./remove-old-versions-async');
 
 const scanInstalledAsync = () =>
   Promise.resolve()
@@ -48,6 +49,11 @@ const scanInstalledAsync = () =>
           return null;
         })
         .then(() => installedApps);
+    })
+    .then((installedApps) => {
+      removeOldVersionsAsync(installedApps);
+
+      return installedApps;
     });
 
 module.exports = scanInstalledAsync;

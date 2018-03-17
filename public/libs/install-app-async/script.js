@@ -13,6 +13,9 @@ const {
   name,
   tempPath,
   url,
+  homePath,
+  moleculeVersion,
+  shareResources,
 } = argv;
 
 const downloadFileTempAsync = (filePath) => {
@@ -45,6 +48,30 @@ const downloadFileTempAsync = (filePath) => {
     .then(() => iconPath);
 };
 
+const moveCommonResourcesAsync = (destPath) => {
+  if (shareResources !== 'true') return Promise.resolve();
+
+  const symlinks = [
+    path.join('Contents', 'Frameworks', 'Electron Framework.framework'), // 118 MB
+  ];
+
+  const versionPath = path.join(homePath, '.juli', 'versions', moleculeVersion);
+
+  const p = symlinks.map((l) => {
+    const origin = path.join(destPath, l);
+    const dest = path.join(versionPath, l);
+
+    return fs.pathExists(dest)
+      .then((exists) => {
+        if (exists) return fs.remove(origin);
+        return fs.move(origin, dest, { overwrite: true });
+      })
+      .then(() => fs.ensureSymlink(dest, origin));
+  });
+
+  return Promise.all(p);
+};
+
 downloadFileTempAsync(icon)
   .then(iconPath =>
     createAppAsync(
@@ -67,6 +94,7 @@ downloadFileTempAsync(icon)
         return fs.move(originPath, destPath)
           .then(() => destPath);
       })
+      .then(destPath => moveCommonResourcesAsync(destPath))
       .then(() => {
         process.exit(0);
       }))

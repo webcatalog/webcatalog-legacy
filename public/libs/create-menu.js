@@ -67,6 +67,11 @@ const createMenu = () => {
           label: 'About Juli',
           click: () => sendMessageToWindow('open-about-dialog'),
         },
+        {
+          label: 'Preferences...',
+          accelerator: 'Cmd+,',
+          click: () => sendMessageToWindow('open-preferences-dialog'),
+        },
         { type: 'separator' },
         { role: 'services', submenu: [] },
         { type: 'separator' },

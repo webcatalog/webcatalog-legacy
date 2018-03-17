@@ -54,3 +54,5 @@ export const STRING_URL = 'URL';
 export const STRING_VIEW = 'View';
 export const STRING_WEBSITE = 'Website';
 export const STRING_WHATS_NEW = 'what\'s new';
+export const STRING_SHARE_RESOURCES = 'Share core components between apps';
+export const STRING_SHARE_RESOURCES_DESC = 'Share core components (frameworks, libraries, etc) to save up to 90% of disk space. Shared files are kept at ~/.juli. This setting is applied the next time you install or update an app.';

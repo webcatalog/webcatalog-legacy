@@ -8,6 +8,7 @@ import { checkForUpdates } from '../state/root/updater/actions';
 import DialogAbout from './dialogs/about';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogCreateCustomApp from './dialogs/create-custom-app';
+import DialogPreferences from './dialogs/preferences';
 
 import EnhancedAppBar from './root/enhanced-app-bar';
 import EnhancedSnackBar from './root/enhanced-snackbar';
@@ -61,6 +62,7 @@ class App extends React.Component {
         <DialogAbout />
         <DialogConfirmUninstallApp />
         <DialogCreateCustomApp />
+        <DialogPreferences />
       </div>
     );
   }

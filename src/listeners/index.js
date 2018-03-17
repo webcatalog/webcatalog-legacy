@@ -8,6 +8,9 @@ import {
 import { setUpdaterStatus } from '../state/root/updater/actions';
 import { openSnackbar } from '../state/root/snackbar/actions';
 import { open as openDialogAbout } from '../state/dialogs/about/actions';
+import { open as openDialogPreferences } from '../state/dialogs/preferences/actions';
+import { setPreference } from '../state/root/preferences/actions';
+
 
 const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
@@ -31,6 +34,14 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('open-about-dialog', () => {
     store.dispatch(openDialogAbout());
+  });
+
+  ipcRenderer.on('open-preferences-dialog', () => {
+    store.dispatch(openDialogPreferences());
+  });
+
+  ipcRenderer.on('set-preference', (e, name, value) => {
+    store.dispatch(setPreference(name, value));
   });
 };
 
