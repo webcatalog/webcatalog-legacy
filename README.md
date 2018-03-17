@@ -1,6 +1,6 @@
 # Juli [![Travis Build Status](https://travis-ci.org/quanglam2807/juli.svg?branch=master)](https://travis-ci.org/quanglam2807/juli)
 
-**Juli** is an app which integrates web apps nicely with macOS. Juli allows you to run web apps like real Mac apps with dock badge, menu bar integration & more. It is a maintained fork of [Appifier](https://github.com/quanglam2807/appifier), optimized for macOS.
+**Juli** is an app which allows you to run web apps like real Mac apps with notification, dock badge, menu bar integration & more. It is a maintained fork of [Appifier](https://github.com/quanglam2807/appifier), optimized for macOS.
 
 ## Development
 ### Requirements
