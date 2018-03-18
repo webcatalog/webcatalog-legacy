@@ -73,3 +73,8 @@ export const nameExists = (state, name) => {
     return false;
   }));
 };
+
+export const numberOfApps = (state) => {
+  const managedApps = state.local.apps;
+  return Object.keys(managedApps).length;
+};

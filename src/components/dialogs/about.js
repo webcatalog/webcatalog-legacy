@@ -18,6 +18,7 @@ import {
 } from '../../constants/updater-statuses';
 import {
   STRING_ABOUT,
+  STRING_ACTIVATED,
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_GO_TO_THE_WEBSITE,
@@ -75,6 +76,7 @@ const About = (props) => {
     classes,
     onClose,
     onCheckForUpdates,
+    activated,
     open,
     updaterData,
     updaterStatus,
@@ -145,7 +147,9 @@ const About = (props) => {
           {STRING_CHECK_FOR_UPDATES}
         </Button>
 
-        <div className={classes.versionSmallContainer} />
+        <div className={classes.versionSmallContainer}>
+          {activated && <p className={classes.versionSmall}>{STRING_ACTIVATED}</p>}
+        </div>
 
         <Button
           onClick={() => requestOpenInBrowser('https://meetjuli.com')}
@@ -180,12 +184,14 @@ About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onCheckForUpdates: PropTypes.func.isRequired,
+  activated: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
   updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
+  activated: state.general.activated,
   open: state.dialogs.about.open,
   updaterData: state.updater.data,
   updaterStatus: state.updater.status,

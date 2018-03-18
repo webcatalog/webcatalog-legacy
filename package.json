@@ -38,6 +38,7 @@
     "algoliasearch": "3.25.1",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
+    "blueimp-md5": "2.10.0",
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
     "classnames": "2.2.5",
