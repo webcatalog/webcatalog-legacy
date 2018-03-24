@@ -20,7 +20,6 @@ import {
 } from '../../constants/updater-statuses';
 import {
   STRING_ABOUT,
-  STRING_ACTIVATED,
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_UPDATE_AND_RELAUNCH,
@@ -85,7 +84,6 @@ const Transition = props => <Slide direction="left" {...props} />;
 
 const About = (props) => {
   const {
-    activated,
     classes,
     onClose,
     open,
@@ -176,13 +174,10 @@ const About = (props) => {
           </Button>
         )}
 
-        <div className={classes.versionSmallContainer}>
-          {activated && <p className={classes.versionSmall}>{STRING_ACTIVATED}</p>}
-        </div>
-
+        <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
+          onClick={() => requestOpenInBrowser('https://quang.im/webcatalog')}
         >
           {STRING_WEBSITE}
         </Button>
@@ -211,7 +206,6 @@ About.defaultProps = {
 };
 
 About.propTypes = {
-  activated: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
@@ -220,7 +214,6 @@ About.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  activated: state.general.activated,
   open: state.dialogs.about.open,
   updaterData: state.updater.data,
   updaterStatus: state.updater.status,
