@@ -177,7 +177,7 @@ const About = (props) => {
         <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
+          onClick={() => requestOpenInBrowser('https://quang.im/webcatalog')}
         >
           {STRING_WEBSITE}
         </Button>
