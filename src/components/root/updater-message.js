@@ -39,7 +39,7 @@ const UpdaterMessage = (props) => {
         <Button
           variant="raised"
           className={classes.updaterPaperLink}
-          onClick={() => requestOpenInBrowser('https://meetjuli.com')}
+          onClick={() => requestOpenInBrowser('https://quang.im/juli')}
         >
           {STRING_GO_TO_THE_WEBSITE}
         </Button>

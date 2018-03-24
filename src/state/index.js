@@ -4,7 +4,6 @@ import thunkMiddleware from 'redux-thunk';
 import dialogs from './dialogs/reducers';
 import pages from './pages/reducers';
 
-import general from './root/general/reducers';
 import local from './root/local/reducers';
 import preferences from './root/preferences/reducers';
 import router from './root/router/reducers';
@@ -13,7 +12,6 @@ import updater from './root/updater/reducers';
 
 const rootReducer = combineReducers({
   dialogs,
-  general,
   local,
   pages,
   preferences,

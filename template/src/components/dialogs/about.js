@@ -133,7 +133,7 @@ const About = (props) => {
 
         {updaterStatus === UPDATE_AVAILABLE && (
           <Button
-            onClick={() => requestOpenInBrowser('https://meetjuli.com')}
+            onClick={() => requestOpenInBrowser('https://quang.im/juli')}
             className={classes.goToTheWebsiteButton}
             variant="raised"
           >
@@ -153,7 +153,7 @@ const About = (props) => {
         <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://meetjuli.com')}
+          onClick={() => requestOpenInBrowser('https://quang.im/juli')}
         >
           {STRING_WEBSITE}
         </Button>

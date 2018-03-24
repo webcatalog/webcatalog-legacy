@@ -7,7 +7,7 @@ layout: default
   <div class="hero-body">
     <div class="container">
       <div class="content has-text-centered">
-        <img src="/images/icon.png" alt="Juli" class="app-icon" />
+        <img src="{{ "/images/icon.png" | relative_url }}" alt="Juli" class="app-icon" />
         <p style="margin-bottom: 48px">
            <a href="https://github.com/quanglam2807/juli/releases">Release Notes</a>
            &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/quanglam2807/juli">GitHub</a>
@@ -28,17 +28,11 @@ layout: default
             </span>
             <span>&nbsp;Download for macOS</span>
           </a>
-          <a class="button is-medium download-button" href="https://webcatalog.onfastspring.com/meetjuli" target="_blank">
-            <span class="icon is-medium">
-              <i class="fa fa-shopping-cart"></i>
-            </span>
-            <span>&nbsp;Purchase - $10</span>
-          </a>
         </div>
 
         <p>Version {{ site.juli_version }}. <b>Requirements:</b> macOS 10.9+.</p>
 
-        <img src="/images/screenshot.png" alt="Juli for macOS" class="screenshot" />
+        <img src="{{ "/images/screenshot.png" | relative_url }}" alt="Juli for macOS" class="screenshot" />
       </div>
     </div>
   </div>
@@ -198,8 +192,8 @@ layout: default
         </tr>
         <tr>
           <td>Price</td>
-          <td>Free / 10 USD</td>
-          <td>Free / 10 USD</td>
+          <td>Free</td>
+          <td>Free</td>
           <td>Free / 5 USD</td>
           <td>Free</td>
         </tr>
@@ -207,7 +201,7 @@ layout: default
 
 
       <div class="has-text-centered">
-        <img src="/images/screenshot-2.png" alt="Demo for Juli" class="screenshot" />
+        <img src="{{ "/images/screenshot-2.png" | relative_url }}" alt="Demo for Juli" class="screenshot" />
         <p>Facebook Messenger, created with Juli. Navigation bar & dark mode are turned on.</p>
       </div>
     </div>
