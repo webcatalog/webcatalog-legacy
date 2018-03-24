@@ -46,7 +46,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://quang.im/webcatalog'),
+          click: () => shell.openExternal('https://quanglam2807.github.io/webcatalog'),
         },
       ],
     },

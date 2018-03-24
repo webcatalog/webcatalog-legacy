@@ -18,10 +18,10 @@ email: quang.lam2807@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   WebCatalog Lite is an app for macOS and Linux which turns any website into desktop app.
 baseurl: "/webcatalog" # the subpath of your site, e.g. /blog
-url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://quanglam2807.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-webcatalog_version: 1.3.2
+webcatalog_version: 1.4.0
 
 # Build settings
 markdown: kramdown
