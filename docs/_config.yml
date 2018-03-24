@@ -18,10 +18,10 @@ email: quang.lam2807@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Juli is an app which allows you to run web apps like Mac apps with dock badge, menu bar integration & more.
 baseurl: "/juli" # the subpath of your site, e.g. /blog
-url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://quanglam2807.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-juli_version: 1.1.0
+juli_version: 1.2.0
 
 # Build settings
 markdown: kramdown

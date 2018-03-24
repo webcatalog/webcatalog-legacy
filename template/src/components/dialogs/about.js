@@ -133,7 +133,7 @@ const About = (props) => {
 
         {updaterStatus === UPDATE_AVAILABLE && (
           <Button
-            onClick={() => requestOpenInBrowser('https://quang.im/juli')}
+            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io/juli')}
             className={classes.goToTheWebsiteButton}
             variant="raised"
           >
@@ -153,7 +153,7 @@ const About = (props) => {
         <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://quang.im/juli')}
+          onClick={() => requestOpenInBrowser('https://quanglam2807.github.io/juli')}
         >
           {STRING_WEBSITE}
         </Button>
@@ -163,8 +163,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quang.im')}
-            onKeyDown={() => requestOpenInBrowser('https://quang.im')}
+            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io')}
+            onKeyDown={() => requestOpenInBrowser('https://quanglam2807.github.io')}
             role="link"
             tabIndex="0"
             className={classes.link}

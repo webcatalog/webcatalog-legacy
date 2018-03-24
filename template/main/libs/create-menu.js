@@ -171,7 +171,7 @@ function createMenu() {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://quang.im/juli'),
+          click: () => shell.openExternal('https://quanglam2807.github.io/juli'),
         },
       ],
     },
