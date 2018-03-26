@@ -1,6 +1,6 @@
 {
   "name": "webcatalog-lite",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "WebCatalog Lite helps you turn any website into desktop app with just one click.",
   "main": "public/electron.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam2807@gmail.com",
-    "url": "https://quanglam2807.github.io"
+    "url": "https://quang.im"
   },
   "license": "MPL-2.0",
   "dependencies": {

@@ -177,7 +177,7 @@ const About = (props) => {
         <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://quanglam2807.github.io/webcatalog')}
+          onClick={() => requestOpenInBrowser('https://quang.im/webcatalog')}
         >
           {STRING_WEBSITE}
         </Button>
@@ -187,8 +187,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io')}
-            onKeyDown={() => requestOpenInBrowser('https://quanglam2807.github.io')}
+            onClick={() => requestOpenInBrowser('https://quang.im')}
+            onKeyDown={() => requestOpenInBrowser('https://quang.im')}
             role="link"
             tabIndex="0"
             className={classes.link}
