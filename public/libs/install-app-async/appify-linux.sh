@@ -33,6 +33,7 @@ mkdir -p "${HOME}/.local/share/icons";
 icon="${HOME}/.local/share/icons/webcatalog-${APPID}.png";
 cp -v "${APPPNG}" "${icon}";
 
+mkdir -p "${HOME}/.local/share/applications";
 desktopFile="$HOME/.local/share/applications/webcatalog-${APPID}.desktop";
 
 cat - > "$desktopFile" <<END
