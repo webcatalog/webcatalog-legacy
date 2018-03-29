@@ -91,7 +91,8 @@ downloadFileTempAsync(icon)
           `${originPathParsedObj.name}${originPathParsedObj.ext}`,
         );
 
-        return fs.move(originPath, destPath)
+        return fs.remove(destPath)
+          .then(() => fs.move(originPath, destPath))
           .then(() => destPath);
       })
       .then(destPath => moveCommonResourcesAsync(destPath))
