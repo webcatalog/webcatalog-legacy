@@ -1,7 +1,7 @@
 {
   "name": "template",
   "main": "main/electron.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "scripts": {
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
