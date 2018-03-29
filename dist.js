@@ -15,6 +15,10 @@ Promise.resolve()
           targets = Platform.MAC.createTarget();
           break;
         }
+        case 'win32': {
+          targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+          break;
+        }
         default:
         case 'linux': {
           targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
@@ -25,6 +29,10 @@ Promise.resolve()
       switch (process.platform) {
         case 'darwin': {
           targets = Platform.MAC.createTarget(['dir']);
+          break;
+        }
+        case 'win32': {
+          targets = Platform.WINDOWS.createTarget(['dir'], Arch.x64);
           break;
         }
         default:
