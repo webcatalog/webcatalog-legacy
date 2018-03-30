@@ -122,7 +122,7 @@ class Directory extends React.Component {
           </Grid>
 
           {!isGetting && (
-            <Grid container justify="center">
+            <Grid container justify="center" spacing={16}>
               <div
                 onKeyDown={() => requestOpenInBrowser('https://algolia.com')}
                 onClick={() => requestOpenInBrowser('https://algolia.com')}
@@ -151,7 +151,7 @@ class Directory extends React.Component {
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
-          <Grid container className={classes.grid}>
+          <Grid container className={classes.grid} spacing={16}>
             <Grid item xs={12}>
               <SearchBox />
             </Grid>

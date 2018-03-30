@@ -41,7 +41,7 @@ const Installed = (props) => {
 
   return (
     <div className={classes.scrollContainer}>
-      <Grid container>
+      <Grid spacing={16} container>
         <Grid item xs={12}>
           {(apps.length > 0) ? (
             <Grid container justify="center" spacing={24}>

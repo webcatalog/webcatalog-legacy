@@ -125,7 +125,7 @@ const CreateCustomAppDialog = (props) => {
             </Select>
           </FormControl>
         )}
-        <Grid container className={classes.grid}>
+        <Grid container spacing={16} className={classes.grid}>
           <Grid item>
             <div className={classes.iconContainer}>
               <img src={iconPath} alt={name} className={classes.icon} />
