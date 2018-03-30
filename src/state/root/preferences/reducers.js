@@ -1,7 +1,7 @@
 import { PREFERENCE_UPDATE } from '../../../constants/actions';
 
 export const defaultState = {
-  browser: null,
+  browser: window.platform === 'win32' ? 'google-chrome' : null,
 };
 
 const getInitialValue = (name) => {

@@ -22,6 +22,12 @@ const uninstallAppAsync = (appId, appName) => {
 
     const dataPath = path.join(app.getPath('home'), '.config', `webcatalog-${appId}`);
     p.push(fs.remove(dataPath));
+  } else if (process.platform === 'win32') {
+    const desktopShortcutPath = path.join(app.getPath('desktop'), `${appName}.lnk`);
+    const startMenuShortcutPath = path.join(getInstallationPath(), `${appName}.lnk`);
+
+    p.push(fs.remove(desktopShortcutPath));
+    p.push(fs.remove(startMenuShortcutPath));
   } else {
     return Promise.reject(new Error('Platform undefined.'));
   }

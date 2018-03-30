@@ -114,12 +114,14 @@ class EnhancedAppBar extends React.Component {
                 </Tooltip>
               )}
             >
-              <ListItem button onClick={() => onUpdatePreference('browser', null)}>
+              {window.platform !== 'win32' && (
+                <ListItem button onClick={() => onUpdatePreference('browser', null)}>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary={STRING_CHANGE_BROWSER} />
               </ListItem>
+              )}
               <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues')}>
                 <ListItemIcon>
                   <HelpIcon />

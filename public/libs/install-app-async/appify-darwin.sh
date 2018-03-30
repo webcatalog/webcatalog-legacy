@@ -32,7 +32,7 @@ cat <<EOF > "${MACOS_DIR}/Executable"
 #${2}
 #${3}
 
-${EXECPATH} --class ${APPID} -user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
+${EXECPATH} --class ${APPID} --user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
 EOF
 
 chmod +x "${MACOS_DIR}/Executable";

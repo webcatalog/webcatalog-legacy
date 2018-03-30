@@ -13,6 +13,10 @@ const getElectronPath = () => {
     return path.resolve(__dirname, '../../dist/mac/WebCatalog Lite.app/Contents/MacOS/WebCatalog Lite');
   }
 
+  if (process.platform === 'win32') {
+    return path.resolve(__dirname, '../../dist/win-unpacked/WebCatalog Lite.exe');
+  }
+
   return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog-lite');
 };
 

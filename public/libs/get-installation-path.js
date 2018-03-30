@@ -6,6 +6,10 @@ const getInstallationPath = () => {
     return path.join(app.getPath('home'), 'bin');
   }
 
+  if (process.platform === 'win32') {
+    return path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Lite Apps');
+  }
+
   return path.join(app.getPath('home'), 'Applications', 'WebCatalog Lite Apps');
 };
 
