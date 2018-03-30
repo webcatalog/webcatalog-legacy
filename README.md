@@ -1,10 +1,10 @@
-# Juli [![Travis Build Status](https://travis-ci.org/quanglam2807/juli.svg?branch=master)](https://travis-ci.org/quanglam2807/juli)
+# Juli [![Travis Build Status](https://travis-ci.org/quanglam2807/juli.svg?branch=master)](https://travis-ci.org/quanglam2807/juli) [![Build status](https://ci.appveyor.com/api/projects/status/6ebvm0ldumh29ic5?svg=true)](https://ci.appveyor.com/project/quanglam2807/juli)
 
-**Juli** is an app which allows you to run web apps like real Mac apps with notification, dock badge, menu bar integration & more. It is a maintained fork of [Appifier](https://github.com/quanglam2807/appifier), optimized for macOS.
+**[Juli](https://quang.im/juli)** is an app which allows you to run web apps like real desktop apps with notification, dock badge, dark mode & more. It is a maintained fork of [Appifier](https://github.com/quanglam2807/appifier), optimized for macOS.
 
 ## Development
 ### Requirements
-- macOS 10.9+.
+- macOS 10.9+ or Windows 7.
 - Node.js 8+.
 - Yarn
 

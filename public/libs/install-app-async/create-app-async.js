@@ -51,7 +51,8 @@ const createAppAsync = (id, name, url, inputIcon, out) => {
         destPath = appPaths[0]; // eslint-disable-line
       }
 
-      const resourcesPath = path.join(destPath, 'Contents', 'Resources');
+      const resourcesPath = process.platform === 'darwin' ? path.join(destPath, 'Contents', 'Resources')
+        : path.join(destPath, 'resources');
 
       const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
 

@@ -244,17 +244,19 @@ class PreferencesDialog extends React.Component {
                   onClick={() => scrollIntoView('apperanceTitle')}
                 />
               </ListItem>
-              <ListItem
-                button
-              >
-                <ListItemIcon>
-                  <MouseIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={STRING_TRACKPAD}
-                  onClick={() => scrollIntoView('trackpadTitle')}
-                />
-              </ListItem>
+              {window.platform === 'darwin' && (
+                <ListItem
+                  button
+                >
+                  <ListItemIcon>
+                    <MouseIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={STRING_TRACKPAD}
+                    onClick={() => scrollIntoView('trackpadTitle')}
+                  />
+                </ListItem>
+              )}
             </List>
             <List subheader={<ListSubheader>{STRING_ADVANCED}</ListSubheader>} dense>
               <ListItem
@@ -431,65 +433,70 @@ class PreferencesDialog extends React.Component {
                     </ListItemSecondaryAction>
                   </ListItem>
                 )}
-                <Divider />
-                <ListItem
-                  button
-                  onClick={() => {
-                    requestSetPreference('showTitleBar', !showTitleBar);
-                  }}
-                >
-                  <ListItemText
-                    primary={STRING_SHOW_TITLE_BAR}
-                  />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      checked={showTitleBar}
-                      onChange={(e, checked) => {
-                        requestSetPreference('showTitleBar', checked);
-                      }}
+                {window.platform === 'darwin' && <Divider />}
+                {window.platform === 'darwin' && (
+                  <ListItem
+                    button
+                    onClick={() => {
+                      requestSetPreference('showTitleBar', !showTitleBar);
+                    }}
+                  >
+                    <ListItemText
+                      primary={STRING_SHOW_TITLE_BAR}
                     />
-                  </ListItemSecondaryAction>
-                </ListItem>
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={showTitleBar}
+                        onChange={(e, checked) => {
+                          requestSetPreference('showTitleBar', checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
               </List>
             </Paper>
-
-            <div
-              className={classes.paperTitleContainer}
-              ref={(el) => { this.trackpadTitle = el; }}
-            >
-              <Typography variant="body2" className={classes.paperTitle}>
-                {STRING_TRACKPAD}
-              </Typography>
-            </div>
-            <Paper className={classes.paper}>
-              <List dense>
-                <ListItem
-                  button
-                  onClick={() => {
-                    requestSetPreference('swipeToNavigate', !swipeToNavigate);
-                    onOpenDialogRelaunch();
-                  }}
+            {window.platform === 'darwin' && (
+              <React.Fragment>
+                <div
+                  className={classes.paperTitleContainer}
+                  ref={(el) => { this.trackpadTitle = el; }}
                 >
-                  <ListItemText
-                    primary={STRING_SWIPE_TO_NAVIGATE}
-                    secondary={(
-                      <span
-                        dangerouslySetInnerHTML={{ __html: STRING_SWIPE_TO_NAVIGATE_DESC }} // eslint-disable-line
-                      />
-                    )}
-                  />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      checked={swipeToNavigate}
-                      onChange={(e, checked) => {
-                        requestSetPreference('swipeToNavigate', checked);
+                  <Typography variant="body2" className={classes.paperTitle}>
+                    {STRING_TRACKPAD}
+                  </Typography>
+                </div>
+                <Paper className={classes.paper}>
+                  <List dense>
+                    <ListItem
+                      button
+                      onClick={() => {
+                        requestSetPreference('swipeToNavigate', !swipeToNavigate);
                         onOpenDialogRelaunch();
                       }}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </List>
-            </Paper>
+                    >
+                      <ListItemText
+                        primary={STRING_SWIPE_TO_NAVIGATE}
+                        secondary={(
+                          <span
+                            dangerouslySetInnerHTML={{ __html: STRING_SWIPE_TO_NAVIGATE_DESC }} // eslint-disable-line
+                          />
+                        )}
+                      />
+                      <ListItemSecondaryAction>
+                        <Switch
+                          checked={swipeToNavigate}
+                          onChange={(e, checked) => {
+                            requestSetPreference('swipeToNavigate', checked);
+                            onOpenDialogRelaunch();
+                          }}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </List>
+                </Paper>
+              </React.Fragment>
+            )}
 
             <div
               className={classes.paperTitleContainer}

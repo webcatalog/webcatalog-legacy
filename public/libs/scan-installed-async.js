@@ -21,8 +21,12 @@ const scanInstalledAsync = () =>
                 files.forEach((fileName) => {
                   if (fileName === '.DS_Store') return;
 
-                  const packageJsonPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
-                  const iconPath = path.join(allAppPath, fileName, 'Contents', 'Resources', 'icon.png');
+                  const packageJsonPath = process.platform === 'darwin' ?
+                    path.join(allAppPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json')
+                    : path.join(allAppPath, fileName, 'resources', 'app.asar.unpacked', 'package.json');
+                  const iconPath = process.platform === 'darwin' ?
+                    path.join(allAppPath, fileName, 'Contents', 'Resources', 'icon.png')
+                    : path.join(allAppPath, fileName, 'resources', 'icon.png');
 
                   promises.push(fs.pathExists(packageJsonPath)
                     .then((exists) => {

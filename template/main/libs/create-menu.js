@@ -184,6 +184,25 @@ function createMenu() {
     });
   }
 
+  if (process.platform === 'win32') {
+    template.splice(4, 0, {
+      label: 'Tools',
+      submenu: [
+        {
+          label: 'Preferences...',
+          accelerator: 'Ctrl+P',
+          click: () => sendMessageToWindow('open-preferences-dialog'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'Ctrl+Shift+Delete',
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
+        },
+      ],
+    });
+  }
+
   if (process.platform === 'darwin') {
     template.unshift({
       label: app.getName(),

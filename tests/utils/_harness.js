@@ -8,7 +8,13 @@ const path = require('path');
 chai.should();
 chai.use(chaiAsPromised);
 
-const getElectronPath = () => path.resolve(__dirname, '../../dist/mac/Juli.app/Contents/MacOS/Juli');
+const getElectronPath = () => {
+  if (process.platform === 'darwin') {
+    return path.resolve(__dirname, '../../dist/mac/Juli.app/Contents/MacOS/Juli');
+  }
+
+  return path.resolve(__dirname, '../../dist/win-unpacked/Juli.exe');
+}
 
 const harness = (name, fn, args) => {
   describe('When Juli GUI launches', function describeWrap() {

@@ -10,7 +10,7 @@ const createIconAsync = (inputPath, outputDirPath) => {
   const type = fileType(buffer);
   const inputFormat = type.ext;
 
-  const expectedFormat = 'icns';
+  const expectedFormat = process.platform === 'darwin' ? 'icns' : 'ico';
 
   if (inputFormat !== 'png') {
     return Promise.reject(new Error('Input format is not supported.'));

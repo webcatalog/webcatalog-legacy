@@ -3,14 +3,17 @@ const path = require('path');
 const fs = require('fs-extra');
 const builder = require('electron-builder');
 
-const { Platform } = builder;
+const { Platform, Arch } = builder;
 
 console.log(`Machine: ${process.platform}`);
+
+const targets = process.platform === 'darwin' ?
+  Platform.MAC.createTarget() : Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
 
 Promise.resolve()
   .then(() => {
     const opts = {
-      targets: Platform.MAC.createTarget(),
+      targets,
       config: {
         appId: 'com.juli.app',
         asar: false,
@@ -23,11 +26,15 @@ Promise.resolve()
         afterPack: ({ appOutDir }) => {
           console.log('appOutDir:', appOutDir);
 
-          const resourcesAppPath = path.join(
+          const resourcesAppPath = process.platform === 'darwin' ? path.join(
             appOutDir,
             'Juli.app',
             'Contents',
             'Resources',
+            'app',
+          ) : path.join(
+            appOutDir,
+            'resources',
             'app',
           );
 

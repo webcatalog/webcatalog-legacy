@@ -22,6 +22,8 @@ const FakeTitleBar = (props) => {
     background,
   } = props;
 
+  if (window.platform !== 'darwin') return null;
+
   return (
     <div
       className={classes.root}

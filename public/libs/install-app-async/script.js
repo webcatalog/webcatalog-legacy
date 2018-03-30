@@ -3,11 +3,13 @@ const argv = require('yargs-parser')(process.argv.slice(1));
 const fs = require('fs-extra');
 const isUrl = require('is-url');
 const path = require('path');
+const ws = require('windows-shortcuts');
 
 const createAppAsync = require('./create-app-async');
 
 const {
   allAppPath,
+  desktopPath,
   icon,
   id,
   name,
@@ -48,12 +50,26 @@ const downloadFileTempAsync = (filePath) => {
     .then(() => iconPath);
 };
 
+const createShortcutAsync = (shortcutPath, opts) => {
+  if (process.platform !== 'win32') {
+    return Promise.reject(new Error('Platform is not supported'));
+  }
+
+  return new Promise((resolve, reject) => {
+    ws.create(shortcutPath, opts, (err) => {
+      if (err) { return reject(err); }
+      return resolve();
+    });
+  });
+};
+
+
 const moveCommonResourcesAsync = (destPath) => {
   if (shareResources !== 'true') return Promise.resolve();
 
-  const symlinks = [
+  const symlinks = process.platform === 'darwin' ? [
     path.join('Contents', 'Frameworks', 'Electron Framework.framework'), // 118 MB
-  ];
+  ] : [];
 
   const versionPath = path.join(homePath, '.juli', 'versions', moleculeVersion);
 
@@ -82,20 +98,36 @@ downloadFileTempAsync(icon)
       tempPath,
     )
       .then((appPath) => {
-        const originPath = path.join(appPath, `${name}.app`);
+        const originPath = (process.platform === 'darwin') ?
+          path.join(appPath, `${name}.app`) : appPath;
 
         const originPathParsedObj = path.parse(originPath);
 
         const destPath = path.join(
           allAppPath,
-          `${originPathParsedObj.name}${originPathParsedObj.ext}`,
+          process.platform === 'darwin' ? `${originPathParsedObj.name}${originPathParsedObj.ext}` : id,
         );
 
         return fs.remove(destPath)
           .then(() => fs.move(originPath, destPath))
           .then(() => destPath);
       })
-      .then(destPath => moveCommonResourcesAsync(destPath))
+      .then((destPath) => {
+        if (process.platform === 'darwin') {
+          return moveCommonResourcesAsync(destPath);
+        }
+
+        const opts = {
+          target: path.join(destPath, `${name}.exe`),
+        };
+
+        const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
+        const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Juli Apps');
+        const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
+        return createShortcutAsync(desktopShortcutPath, opts)
+          .then(() => fs.ensureDir(startMenuPath))
+          .then(() => createShortcutAsync(startMenuShortcutPath, opts));
+      })
       .then(() => {
         process.exit(0);
       }))

@@ -119,7 +119,7 @@ const About = (props) => {
       <DialogContent className={classes.dialogContent}>
         <Typography variant="title" className={classes.title}>{window.shellInfo.name}</Typography>
         <Typography variant="body1" className={classes.version}>
-          powered by Juli {window.version}
+          powered by Juli engine {window.version}
         </Typography>
 
         <Typography variant="body1" className={classes.updaterStatus}>
