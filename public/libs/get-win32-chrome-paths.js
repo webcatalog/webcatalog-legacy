@@ -1,3 +1,5 @@
+// https://github.com/GoogleChrome/chrome-launcher/blob/master/src/chrome-finder.ts
+
 const fs = require('fs-extra');
 const path = require('path');
 

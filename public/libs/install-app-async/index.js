@@ -9,8 +9,11 @@ const tmp = require('tmp');
 const fs = require('fs-extra');
 const isUrl = require('is-url');
 const https = require('https');
+const ws = require('windows-shortcuts');
+const { app } = require('electron');
 
 const getInstallationPath = require('../get-installation-path');
+const getWin32ChromePaths = require('../get-win32-chrome-paths');
 
 const getExpectedIconFileExt = () => {
   switch (process.platform) {
@@ -92,6 +95,19 @@ const downloadFileTempAsync = (filePath, tmpDir) => {
     .then(() => iconPath);
 };
 
+const createShortcutAsync = (shortcutPath, opts) => {
+  if (process.platform !== 'win32') {
+    return Promise.reject(new Error('Platform is not supported'));
+  }
+
+  return new Promise((resolve, reject) => {
+    ws.create(shortcutPath, opts, (err) => {
+      if (err) { return reject(err); }
+      return resolve();
+    });
+  });
+};
+
 const installAppAsync = (appObj, browser) => {
   const {
     id, name, url, category,
@@ -101,6 +117,38 @@ const installAppAsync = (appObj, browser) => {
   const scriptPath = path.join(__dirname, `appify-${os.platform()}.sh`);
 
   const tmpDir = tmp.dirSync().name;
+
+  if (process.platform === 'win32') {
+    const iconDir = path.join(app.getPath('home'), '.webcatalog', 'icons');
+
+    const pngIcon = path.join(iconDir, `${id}.png`);
+    const icoIcon = path.join(iconDir, `${id}.ico`);
+
+    return downloadFileTempAsync(icon, tmpDir)
+      .then(png =>
+        fs.copy(png, pngIcon)
+          .then(() => createIconAsync(png, tmpDir)))
+      .then(ico => fs.copy(ico, icoIcon))
+      .then(() => {
+        const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
+        const startMenuPath = getInstallationPath();
+        const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
+        const chromePath = getWin32ChromePaths()[0];
+
+        const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
+
+        const opts = {
+          target: chromePath,
+          args: `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`,
+          icon: icoIcon,
+          desc: JSON.stringify({ id, name, url }),
+        };
+
+        return createShortcutAsync(desktopShortcutPath, opts)
+          .then(() => fs.ensureDir(startMenuPath))
+          .then(() => createShortcutAsync(startMenuShortcutPath, opts));
+      });
+  }
 
   if (process.platform === 'linux') {
     return downloadFileTempAsync(icon, tmpDir)
@@ -130,7 +178,7 @@ const installAppAsync = (appObj, browser) => {
       return downloadFileTempAsync(icon, tmpDir)
         .then((png) => {
           pngIcon = png;
-          return createIconAsync(pngIcon, tmp.dirSync().name);
+          return createIconAsync(pngIcon, tmpDir);
         })
         .then(icnsIcon => ({ icnsIcon, pngIcon }));
     })
