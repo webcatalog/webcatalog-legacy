@@ -108,6 +108,7 @@ class Directory extends React.Component {
 
   render() {
     const {
+      activated,
       apps,
       classes,
       hasFailed,
@@ -173,26 +174,28 @@ class Directory extends React.Component {
             <Grid item xs={12}>
               <SearchBox />
             </Grid>
-            <div className={classes.donateMessageContainer}>
-              <Typography type="body2" className={classes.donateMessageText}>
-                {STRING_ACTIVATE_DESC_1}
-              </Typography>
-              <Button
-                color="primary"
-                variant="raised"
-                onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite')}
-              >
-                {STRING_PURCHASE}
-              </Button>
-              <Button
-                color="secondary"
-                variant="raised"
-                onClick={onOpenDialogActivate}
-                className={classes.donateMessageButton}
-              >
-                {STRING_ACTIVATE}
-              </Button>
-            </div>
+            {!activated && (
+              <div className={classes.donateMessageContainer}>
+                <Typography type="body2" className={classes.donateMessageText}>
+                  {STRING_ACTIVATE_DESC_1}
+                </Typography>
+                <Button
+                  color="primary"
+                  variant="raised"
+                  onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite')}
+                >
+                  {STRING_PURCHASE}
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="raised"
+                  onClick={onOpenDialogActivate}
+                  className={classes.donateMessageButton}
+                >
+                  {STRING_ACTIVATE}
+                </Button>
+              </div>
+            )}
             <Grid item xs={12}>
               {renderContent()}
             </Grid>
@@ -206,6 +209,7 @@ class Directory extends React.Component {
 
 
 Directory.propTypes = {
+  activated: PropTypes.bool.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
@@ -215,6 +219,7 @@ Directory.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  activated: state.general.activated,
   apps: state.pages.directory.hits,
   hasFailed: state.pages.directory.hasFailed,
   isGetting: state.pages.directory.isGetting,
