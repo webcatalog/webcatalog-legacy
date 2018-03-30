@@ -1,4 +1,4 @@
-# WebCatalog Lite [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Travis Build Status](https://travis-ci.org/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.org/quanglam2807/webcatalog)
+# WebCatalog Lite [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Travis Build Status](https://travis-ci.org/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.org/quanglam2807/webcatalog) [![Build status](https://ci.appveyor.com/api/projects/status/6l9ycaxsweytrpg3?svg=true)](https://ci.appveyor.com/project/quanglam2807/webcatalog)
 
 **[WebCatalog Lite](https://quang.im/webcatalog)** helps you turn any website into desktop app with just one click. It is the **incompatible** successor of [Appifier](https://github.com/quanglam2807/appifier).
 
