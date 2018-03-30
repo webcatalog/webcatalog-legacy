@@ -14,6 +14,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
 import SettingsIcon from 'material-ui-icons/Settings';
+import LockIcon from 'material-ui-icons/Lock';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -21,6 +22,7 @@ import FakeTitleBar from '../shared/fake-title-bar';
 import EnhancedMenu from '../shared/enhanced-menu';
 
 import { open as openDialogAbout } from '../../state/dialogs/about/actions';
+import { open as openDialogActivate } from '../../state/dialogs/activate/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialogs/create-custom-app/actions';
 import { open as openDialogPreferences } from '../../state/dialogs/preferences/actions';
 import { changeRoute } from '../../state/root/router/actions';
@@ -32,6 +34,7 @@ import {
 
 import {
   STRING_ABOUT,
+  STRING_ACTIVATE,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
   STRING_HELP,
@@ -72,9 +75,11 @@ class EnhancedAppBar extends React.Component {
 
   render() {
     const {
+      activated,
       classes,
       onChangeRoute,
       onOpenDialogAbout,
+      onOpenDialogActivate,
       onOpenDialogCreateCustomApp,
       onOpenDialogPreferences,
       route,
@@ -114,12 +119,22 @@ class EnhancedAppBar extends React.Component {
                 </Tooltip>
               )}
             >
-              <ListItem button onClick={onOpenDialogPreferences}>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary={STRING_PREFERENCES} />
-              </ListItem>
+              {!activated && (
+                <ListItem button onClick={onOpenDialogActivate}>
+                  <ListItemIcon>
+                    <LockIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={STRING_ACTIVATE} />
+                </ListItem>
+              )}
+              {window.platform === 'darwin' && (
+                <ListItem button onClick={onOpenDialogPreferences}>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={STRING_PREFERENCES} />
+                </ListItem>
+              )}
               <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/juli/issues')}>
                 <ListItemIcon>
                   <HelpIcon />
@@ -142,21 +157,25 @@ class EnhancedAppBar extends React.Component {
 }
 
 EnhancedAppBar.propTypes = {
+  activated: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogActivate: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogPreferences: PropTypes.func.isRequired,
   route: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
+  activated: state.general.activated,
   route: state.router.route,
 });
 
 const actionCreators = {
   changeRoute,
   openDialogAbout,
+  openDialogActivate,
   openDialogCreateCustomApp,
   openDialogPreferences,
 };

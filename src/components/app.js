@@ -6,6 +6,7 @@ import connectComponent from '../helpers/connect-component';
 import { checkForUpdates } from '../state/root/updater/actions';
 
 import DialogAbout from './dialogs/about';
+import DialogActivate from './dialogs/activate';
 import DialogConfirmUninstallApp from './dialogs/confirm-uninstall-app';
 import DialogCreateCustomApp from './dialogs/create-custom-app';
 import DialogPreferences from './dialogs/preferences';
@@ -60,6 +61,7 @@ class App extends React.Component {
         {pageContent}
         <EnhancedSnackBar />
         <DialogAbout />
+        <DialogActivate />
         <DialogConfirmUninstallApp />
         <DialogCreateCustomApp />
         <DialogPreferences />

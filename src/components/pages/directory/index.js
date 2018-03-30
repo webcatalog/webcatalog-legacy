@@ -16,12 +16,16 @@ import { requestOpenInBrowser } from '../../../senders/generic';
 import { getAvailableUpdateCount } from '../../../state/root/local/utils';
 import { changeRoute } from '../../../state/root/router/actions';
 import { getHits } from '../../../state/pages/directory/actions';
+import { open as openDialogActivate } from '../../../state/dialogs/activate/actions';
 
 import {
   STRING_UPDATES_AVAILABLE,
   STRING_VIEW,
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
+  STRING_ACTIVATE_DESC_1,
+  STRING_PURCHASE,
+  STRING_ACTIVATE,
 } from '../../../constants/strings';
 
 import { ROUTE_INSTALLED_APPS } from '../../../constants/routes';
@@ -79,6 +83,18 @@ const styles = theme => ({
     height: 20,
     cursor: 'pointer',
   },
+  donateMessageContainer: {
+    textAlign: 'center',
+    width: '100%',
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4,
+  },
+  donateMessageText: {
+    marginBottom: theme.spacing.unit,
+  },
+  donateMessageButton: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class Directory extends React.Component {
@@ -98,6 +114,7 @@ class Directory extends React.Component {
 
   render() {
     const {
+      activated,
       apps,
       availableUpdateCount,
       classes,
@@ -105,6 +122,7 @@ class Directory extends React.Component {
       isGetting,
       onChangeRoute,
       onGetHits,
+      onOpenDialogActivate,
     } = this.props;
 
     const renderContent = () => {
@@ -178,6 +196,28 @@ class Directory extends React.Component {
               )}
               <SearchBox />
             </Grid>
+            {!activated && (
+              <div className={classes.donateMessageContainer}>
+                <Typography type="body2" className={classes.donateMessageText}>
+                  {STRING_ACTIVATE_DESC_1}
+                </Typography>
+                <Button
+                  color="primary"
+                  variant="raised"
+                  onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/meetjuli')}
+                >
+                  {STRING_PURCHASE}
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="raised"
+                  onClick={onOpenDialogActivate}
+                  className={classes.donateMessageButton}
+                >
+                  {STRING_ACTIVATE}
+                </Button>
+              </div>
+            )}
             <Grid item xs={12}>
               {renderContent()}
             </Grid>
@@ -194,6 +234,7 @@ Directory.defaultProps = {
 };
 
 Directory.propTypes = {
+  activated: PropTypes.bool.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   availableUpdateCount: PropTypes.number,
   classes: PropTypes.object.isRequired,
@@ -201,9 +242,11 @@ Directory.propTypes = {
   isGetting: PropTypes.bool.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
   onGetHits: PropTypes.func.isRequired,
+  onOpenDialogActivate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  activated: state.general.activated,
   apps: state.pages.directory.hits,
   availableUpdateCount: getAvailableUpdateCount(state),
   hasFailed: state.pages.directory.hasFailed,
@@ -213,6 +256,7 @@ const mapStateToProps = state => ({
 const actionCreators = {
   changeRoute,
   getHits,
+  openDialogActivate,
 };
 
 export default connectComponent(
