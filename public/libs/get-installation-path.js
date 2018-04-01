@@ -3,7 +3,7 @@ const path = require('path');
 
 const getInstallationPath = () => {
   if (process.platform === 'darwin') {
-    path.join(app.getPath('home'), 'Applications', 'Juli Apps');
+    return path.join(app.getPath('home'), 'Applications', 'Juli Apps');
   }
 
   return path.join(app.getPath('home'), '.juli', 'apps');
