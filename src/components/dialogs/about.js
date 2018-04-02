@@ -9,16 +9,16 @@ import Dialog, { DialogContent } from 'material-ui/Dialog';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
-import { checkForUpdates } from '../../state/root/updater/actions';
+
 import {
   CHECKING_FOR_UPDATES,
   UPDATE_AVAILABLE,
   UPDATE_ERROR,
   UPDATE_NOT_AVAILABLE,
 } from '../../constants/updater-statuses';
+
 import {
   STRING_ABOUT,
-  STRING_ACTIVATED,
   STRING_CHECK_FOR_UPDATES,
   STRING_CHECKING_FOR_UPDATES,
   STRING_GO_TO_THE_WEBSITE,
@@ -33,29 +33,33 @@ import { requestOpenInBrowser } from '../../senders/generic';
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const styles = theme => ({
+  icon: {
+    height: 128,
+    width: 128,
+  },
   dialogContent: {
     minWidth: 320,
     textAlign: 'center',
   },
   title: {
-    marginTop: theme.spacing.unit,
+    marginTop: 16,
   },
   version: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: 16,
   },
   versionSmallContainer: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: 24,
   },
   versionSmall: {
     fontSize: 13,
   },
   updaterStatus: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: 32,
+    marginBottom: 12,
   },
-  goToTheWebsiteButton: {
-    marginRight: theme.spacing.unit,
+  divider: {
+    marginTop: 16,
+    marginBottom: 16,
   },
   madeBy: {
     marginTop: theme.spacing.unit * 2,
@@ -75,11 +79,10 @@ const About = (props) => {
   const {
     classes,
     onClose,
-    onCheckForUpdates,
-    activated,
     open,
     updaterData,
     updaterStatus,
+    onCheckForUpdates,
   } = props;
 
   let updaterStatusMessage;
@@ -114,10 +117,16 @@ const About = (props) => {
         {STRING_ABOUT}
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <Typography variant="title" className={classes.title}>Juli</Typography>
-        <Typography variant="body1" className={classes.version}>
-          Version {window.version}
-        </Typography>
+        {window.shellInfo.name ? (
+          <React.Fragment>
+            <Typography variant="title" className={classes.title}>{window.shellInfo.name}</Typography>
+            <Typography variant="body1" className={classes.version}>
+              powered by Juli engine {window.version}
+            </Typography>
+          </React.Fragment>
+        ) : (
+          <Typography variant="title" className={classes.title}>Juli {window.version}</Typography>
+        )}
 
         <Typography variant="body1" className={classes.updaterStatus}>
           <span>{updaterStatusMessage}</span>
@@ -130,7 +139,7 @@ const About = (props) => {
 
         {updaterStatus === UPDATE_AVAILABLE && (
           <Button
-            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io/juli')}
+            onClick={() => requestOpenInBrowser('https://getwebcatalog.com/juli')}
             className={classes.goToTheWebsiteButton}
             variant="raised"
           >
@@ -147,12 +156,10 @@ const About = (props) => {
           {STRING_CHECK_FOR_UPDATES}
         </Button>
 
-        <div className={classes.versionSmallContainer}>
-          {activated && <p className={classes.versionSmall}>{STRING_ACTIVATED}</p>}
-        </div>
+        <div className={classes.versionSmallContainer} />
 
         <Button
-          onClick={() => requestOpenInBrowser('https://quanglam2807.github.io/juli')}
+          onClick={() => requestOpenInBrowser('https://getwebcatalog.com/juli')}
         >
           {STRING_WEBSITE}
         </Button>
@@ -183,15 +190,13 @@ About.defaultProps = {
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCheckForUpdates: PropTypes.func.isRequired,
-  activated: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
   updaterData: PropTypes.object,
   updaterStatus: PropTypes.string.isRequired,
+  onCheckForUpdates: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  activated: state.general.activated,
   open: state.dialogs.about.open,
   updaterData: state.updater.data,
   updaterStatus: state.updater.status,
@@ -199,7 +204,6 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
-  checkForUpdates,
 };
 
 export default connectComponent(

@@ -1,15 +1,25 @@
 import { combineReducers } from 'redux';
 
 import about from './about/reducers';
-import activate from './activate/reducers';
-import confirmUninstallApp from './confirm-uninstall-app/reducers';
-import createCustomApp from './create-custom-app/reducers';
+import clearBrowsingData from './clear-browsing-data/reducers';
+import homePage from './home-page/reducers';
+import injectCSS from './inject-css/reducers';
+import injectJS from './inject-js/reducers';
 import preferences from './preferences/reducers';
+import proxyRules from './proxy-rules/reducers';
+import relaunch from './relaunch/reducers';
+import reset from './reset/reducers';
+import userAgent from './user-agent/reducers';
 
 export default combineReducers({
   about,
-  activate,
-  confirmUninstallApp,
-  createCustomApp,
+  clearBrowsingData,
+  homePage,
+  injectCSS,
+  injectJS,
   preferences,
+  proxyRules,
+  relaunch,
+  reset,
+  userAgent,
 });

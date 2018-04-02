@@ -28,8 +28,10 @@ export const checkForUpdates = () =>
         throw error;
       })
       .then(response => response.json())
-      .then(({ tag_name }) => {
-        const latestVersion = tag_name.substring(1);
+      .then(({ tag_name }) => window.fetch(`https://raw.githubusercontent.com/quanglam2807/juli/${tag_name}/template/package.json`))
+      .then(response => response.json())
+      .then((packageJson) => {
+        const latestVersion = packageJson.version;
 
         if (semver.gte(window.version, latestVersion)) {
           dispatch(setUpdaterStatus(UPDATE_NOT_AVAILABLE));

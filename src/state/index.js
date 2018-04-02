@@ -1,23 +1,25 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import dialogs from './dialogs/reducers';
-import pages from './pages/reducers';
-
-import general from './root/general/reducers';
-import local from './root/local/reducers';
+import dialogs from '../state/dialogs/reducers';
+import findInPage from './root/find-in-page/reducers';
+import nav from './root/nav/reducers';
 import preferences from './root/preferences/reducers';
-import router from './root/router/reducers';
+import screen from './root/screen/reducers';
 import snackbar from './root/snackbar/reducers';
 import updater from './root/updater/reducers';
 
 const rootReducer = combineReducers({
   dialogs,
-  general,
-  local,
-  pages,
+  findInPage,
+  nav,
   preferences,
-  router,
+  root,
+  screen,
   snackbar,
   updater,
 });

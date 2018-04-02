@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
 import Menu from 'material-ui/Menu';
+
+import connectComponent from '../../helpers/connect-component';
 
 const styles = {
   container: {
     display: 'inline-flex',
   },
 };
-
-const ITEM_HEIGHT = 48;
 
 class EnhancedMenu extends React.Component {
   constructor(props) {
@@ -53,14 +52,8 @@ class EnhancedMenu extends React.Component {
           anchorEl={this.state.anchorEl}
           open={this.state.open}
           onClose={this.handleRequestClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 10.6,
-              width: 200,
-            },
-          }}
         >
-          {React.Children.map(children, child => child && React.cloneElement(child, {
+          {React.Children.map(children, child => React.cloneElement(child, {
             onClick: () => {
               if (child.props.onClick) child.props.onClick();
               this.handleRequestClose();
@@ -82,4 +75,9 @@ EnhancedMenu.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles, { name: 'EnhancedMenu' })(EnhancedMenu);
+export default connectComponent(
+  EnhancedMenu,
+  null,
+  null,
+  styles,
+);

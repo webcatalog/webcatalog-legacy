@@ -1,12 +1,38 @@
-const {
-  app,
-  Menu,
-  shell,
-} = require('electron');
+const { Menu, shell, app } = require('electron');
+const argv = require('yargs-parser')(process.argv.slice(1));
 
 const sendMessageToWindow = require('./send-message-to-window');
+const { getPreference, setPreference } = require('./preferences');
 
-const createMenu = () => {
+function createMenu() {
+  if (!argv.id) {
+    const template = [
+      {
+        label: app.getName(),
+        submenu: [
+          {
+            label: 'About Juli',
+            click: () => sendMessageToWindow('open-about-dialog'),
+          },
+          { type: 'separator' },
+          { role: 'services', submenu: [] },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' },
+        ],
+      },
+    ];
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+    return;
+  }
+
+  let currentZoom = 1;
+  const ZOOM_INTERVAL = 0.1;
+
   const template = [
     {
       label: 'Edit',
@@ -20,18 +46,139 @@ const createMenu = () => {
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
         { role: 'selectall' },
+        { type: 'separator' },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => {
+            sendMessageToWindow('open-find-in-page-dialog');
+          },
+        },
+        {
+          label: 'Find Next',
+          accelerator: 'CmdOrCtrl+G',
+          click: () => {
+            sendMessageToWindow('find-in-page-next');
+          },
+        },
+        {
+          label: 'Find Previous',
+          accelerator: 'Shift+CmdOrCtrl+G',
+          click: () => {
+            sendMessageToWindow('find-in-page-previous');
+          },
+        },
       ],
     },
     {
       label: 'View',
       submenu: [
-        { role: 'reload' },
+        {
+          label: 'Reload',
+          click: () => {
+            sendMessageToWindow('reload');
+          },
+          accelerator: 'CmdOrCtrl+R',
+        },
+        { role: 'forcereload' },
+        { type: 'separator' },
+        {
+          label: 'Toggle Navigation Bar',
+          click: () => {
+            const showNavigationBar = getPreference('showNavigationBar');
+            setPreference('showNavigationBar', !showNavigationBar);
+          },
+          accelerator: 'Shift+CmdOrCtrl+N',
+        },
+        { type: 'separator' },
+        {
+          label: 'Actual Size',
+          accelerator: (() => {
+            if (process.platform === 'darwin') {
+              return 'Command+0';
+            }
+            return 'Ctrl+=0';
+          })(),
+          click: () => {
+            currentZoom = 1;
+            sendMessageToWindow('change-zoom', currentZoom);
+          },
+        },
+        {
+          label: 'Zoom In',
+          accelerator: (() => {
+            if (process.platform === 'darwin') {
+              return 'Command+=';
+            }
+            return 'Ctrl+=';
+          })(),
+          click: () => {
+            currentZoom += ZOOM_INTERVAL;
+            sendMessageToWindow('change-zoom', currentZoom);
+          },
+        },
+        {
+          label: 'Zoom Out',
+          accelerator: (() => {
+            if (process.platform === 'darwin') {
+              return 'Command+-';
+            }
+            return 'Ctrl+-';
+          })(),
+          click: () => {
+            currentZoom -= ZOOM_INTERVAL;
+            sendMessageToWindow('change-zoom', currentZoom);
+          },
+        },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+        { type: 'separator' },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: (() => {
+            if (process.platform === 'darwin') {
+              return 'Alt+Command+I';
+            }
+            return 'Ctrl+Shift+I';
+          })(),
+          click: () => sendMessageToWindow('toggle-dev-tools'),
+        },
+        { type: 'separator' },
         {
           label: 'Debug...',
           role: 'toggledevtools',
         },
+      ],
+    },
+    {
+      label: 'History',
+      submenu: [
+        {
+          label: 'Home',
+          accelerator: 'Alt+H',
+          click: () => sendMessageToWindow('go-home'),
+        },
+        {
+          label: 'Back',
+          accelerator: 'CmdOrCtrl+[',
+          click: () => sendMessageToWindow('go-back'),
+        },
+        {
+          label: 'Forward',
+          accelerator: 'CmdOrCtrl+]',
+          click: () => sendMessageToWindow('go-forward'),
+        },
+        {
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click: () => sendMessageToWindow('reload'),
+        },
         { type: 'separator' },
-        { role: 'togglefullscreen' },
+        {
+          label: 'Copy URL',
+          accelerator: 'CmdOrCtrl+L',
+          click: () => sendMessageToWindow('copy-url'),
+        },
       ],
     },
     {
@@ -46,7 +193,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://quanglam2807.github.io/juli'),
+          click: () => shell.openExternal('https://getwebcatalog.com/juli'),
         },
       ],
     },
@@ -54,8 +201,27 @@ const createMenu = () => {
 
   if (process.platform !== 'darwin') {
     template[template.length - 1].submenu.push({
-      label: 'About Juli',
+      label: `About ${argv.name}`,
       click: () => sendMessageToWindow('open-about-dialog'),
+    });
+  }
+
+  if (process.platform === 'win32') {
+    template.splice(4, 0, {
+      label: 'Tools',
+      submenu: [
+        {
+          label: 'Preferences...',
+          accelerator: 'Ctrl+P',
+          click: () => sendMessageToWindow('open-preferences-dialog'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'Ctrl+Shift+Delete',
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
+        },
+      ],
     });
   }
 
@@ -64,13 +230,20 @@ const createMenu = () => {
       label: app.getName(),
       submenu: [
         {
-          label: 'About Juli',
+          label: `About ${argv.name}`,
           click: () => sendMessageToWindow('open-about-dialog'),
         },
+        { type: 'separator' },
         {
           label: 'Preferences...',
           accelerator: 'Cmd+,',
           click: () => sendMessageToWindow('open-preferences-dialog'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'Cmd+Shift+Delete',
+          click: () => sendMessageToWindow('open-clear-browsing-data-dialog'),
         },
         { type: 'separator' },
         { role: 'services', submenu: [] },
@@ -83,8 +256,20 @@ const createMenu = () => {
       ],
     });
 
+    // Edit menu
+    template[1].submenu.push(
+      { type: 'separator' },
+      {
+        label: 'Speech',
+        submenu: [
+          { role: 'startspeaking' },
+          { role: 'stopspeaking' },
+        ],
+      },
+    );
+
     // Window menu
-    template[3].submenu = [
+    template[4].submenu = [
       { role: 'close' },
       { role: 'minimize' },
       { role: 'zoom' },
@@ -95,6 +280,6 @@ const createMenu = () => {
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-};
+}
 
 module.exports = createMenu;

@@ -5,6 +5,7 @@ const {
   setPreference,
 } = require('../libs/preferences');
 
+
 const loadPreferencesListeners = () => {
   ipcMain.on('get-preferences', (e) => {
     const preferences = getPreferences();

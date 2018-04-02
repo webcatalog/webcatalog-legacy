@@ -14,10 +14,10 @@ const getElectronPath = () => {
   }
 
   return path.resolve(__dirname, '../../dist/win-unpacked/Juli.exe');
-}
+};
 
 const harness = (name, fn, args) => {
-  describe('When Juli GUI launches', function describeWrap() {
+  describe('When Juli launches', function describeWrap() {
     this.timeout(100000);
     global.app = null;
 

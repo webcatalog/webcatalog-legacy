@@ -1,12 +1,26 @@
 const settings = require('electron-settings');
+const argv = require('yargs-parser')(process.argv.slice(1));
 
 const sendMessageToWindow = require('./send-message-to-window');
 
 // have version to easily reset preferences in the future
-const v = '1.0.0';
+const v = `1.0.0-${argv.id || 'app'}`;
 
 const defaultPreferences = {
-  shareResources: true,
+  autoHideMenuBar: false,
+  darkTheme: false,
+  homePage: null,
+  injectCSS: '',
+  injectJS: '',
+  lastPage: null,
+  navigationBarPosition: 'left',
+  proxyRules: null,
+  rememberLastPage: false,
+  showNavigationBar: true,
+  showTitleBar: false,
+  swipeToNavigate: true,
+  useHardwareAcceleration: true,
+  userAgent: null,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
