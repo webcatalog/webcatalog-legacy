@@ -1,7 +1,7 @@
 {
-  "name": "webcatalog-lite",
+  "name": "webcatalog",
   "version": "1.4.1",
-  "description": "WebCatalog Lite helps you turn any website into desktop app with just one click.",
+  "description": "WebCatalog helps you turn any website into desktop app with just one click.",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",

@@ -132,8 +132,8 @@ const About = (props) => {
         {STRING_ABOUT}
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <img src={iconSvg} alt="WebCatalog Lite" className={classes.icon} />
-        <Typography variant="title" className={classes.title}>WebCatalog Lite</Typography>
+        <img src={iconSvg} alt="WebCatalog" className={classes.icon} />
+        <Typography variant="title" className={classes.title}>WebCatalog</Typography>
         <Typography
           variant="body1"
           className={classes.version}

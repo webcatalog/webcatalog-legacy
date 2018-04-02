@@ -10,14 +10,14 @@ chai.use(chaiAsPromised);
 
 const getElectronPath = () => {
   if (process.platform === 'darwin') {
-    return path.resolve(__dirname, '../../dist/mac/WebCatalog Lite.app/Contents/MacOS/WebCatalog Lite');
+    return path.resolve(__dirname, '../../dist/mac/WebCatalog.app/Contents/MacOS/WebCatalog');
   }
 
   if (process.platform === 'win32') {
-    return path.resolve(__dirname, '../../dist/win-unpacked/WebCatalog Lite.exe');
+    return path.resolve(__dirname, '../../dist/win-unpacked/WebCatalog.exe');
   }
 
-  return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog-lite');
+  return path.resolve(__dirname, '../../dist/linux-unpacked/webcatalog');
 };
 
 const harness = (name, fn, args) => {

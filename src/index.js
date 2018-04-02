@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
-import indigo from 'material-ui/colors/indigo';
+import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/pink';
 
 import 'typeface-roboto/index.css';
@@ -23,9 +23,9 @@ loadListeners(store);
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: indigo[300],
-      main: indigo[500],
-      dark: indigo[700],
+      light: blue[300],
+      main: blue[600],
+      dark: blue[800],
     },
     secondary: {
       light: red[300],
