@@ -47,9 +47,11 @@ const DownloadPrompt = (props) => {
 
   let browserName = 'Google Chrome';
   if (browser === 'chromium') browserName = 'Chromium';
+  if (browser === 'juli') browserName = 'Juli';
 
   let downloadUrl = 'https://www.google.com/chrome/';
   if (browser === 'chromium') downloadUrl = 'https://www.chromium.org/getting-involved/download-chromium';
+  if (browser === 'juli') downloadUrl = 'https://juli.getwebcatalog.com';
 
   return (
     <div className={classes.root}>

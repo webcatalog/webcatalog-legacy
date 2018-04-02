@@ -12,6 +12,16 @@ const loadGenericListeners = () => {
 
   ipcMain.on('is-chrome-installed', (e, browser) => {
     switch (browser) {
+      case 'juli': {
+        if (process.platform === 'darwin') {
+          const juliPath = path.join('/Applications', 'Juli.app');
+          e.returnValue = fs.existsSync(juliPath);
+          return;
+        }
+
+        e.returnValue = false;
+        return;
+      }
       case 'chromium': {
         if (process.platform === 'darwin') {
           const chromiumPath = path.join('/Applications', 'Chromium.app');
