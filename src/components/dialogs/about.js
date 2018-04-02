@@ -182,7 +182,7 @@ const About = (props) => {
 
 
         <Button
-          onClick={() => requestOpenInBrowser('https://quang.im/webcatalog')}
+          onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
         >
           {STRING_WEBSITE}
         </Button>

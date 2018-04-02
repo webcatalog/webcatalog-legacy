@@ -77,7 +77,7 @@ const Activate = (props) => {
         </Button>
         <Button
           color="primary"
-          onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite')}
+          onClick={() => requestOpenInBrowser('https://getwebcatalog.com/purchase')}
         >
           {STRING_PURCHASE}
         </Button>

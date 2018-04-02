@@ -182,7 +182,7 @@ class Directory extends React.Component {
                 <Button
                   color="primary"
                   variant="raised"
-                  onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite')}
+                  onClick={() => requestOpenInBrowser('https://getwebcatalog.com/purchase')}
                 >
                   {STRING_PURCHASE}
                 </Button>
