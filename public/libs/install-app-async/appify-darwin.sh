@@ -20,12 +20,23 @@ fi;
 
 mkdir -p "${MACOS_DIR}";
 
-EXECPATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome";
-if [ "${APPMODE}" == "chromium" ]; then
-	EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium";
-fi
+if [ "${APPMODE}" == "juli" ]; then
+  cat <<EOF > "${MACOS_DIR}/Executable"
+#!/usr/bin/env bash
 
-cat <<EOF > "${MACOS_DIR}/Executable"
+#${1}
+#${2}
+#${3}
+
+/Applications/Juli.app/Contents/MacOS/Juli --id="${APPID}" --name="${APPNAME}" --url="${APPURL}"
+EOF
+else
+  EXECPATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome";
+  if [ "${APPMODE}" == "chromium" ]; then
+    EXECPATH="/Applications/Chromium.app/Contents/MacOS/Chromium";
+  fi
+
+  cat <<EOF > "${MACOS_DIR}/Executable"
 #!/usr/bin/env bash
 
 #${1}
@@ -34,6 +45,7 @@ cat <<EOF > "${MACOS_DIR}/Executable"
 
 ${EXECPATH} --class ${APPID} --user-data-dir="${HOME}/.webcatalog-lite/${APPID}" --app="$APPURL"
 EOF
+fi
 
 chmod +x "${MACOS_DIR}/Executable";
 

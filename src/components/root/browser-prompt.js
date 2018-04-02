@@ -15,6 +15,7 @@ import { updatePreference } from '../../state/root/preferences/actions';
 
 import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
+import juliIcon from '../../assets/juli.png';
 
 const styles = theme => ({
   root: {
@@ -68,14 +69,27 @@ const BrowserPrompt = (props) => {
             </CardContent>
           </Card>
 
-          <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'chromium')}>
-            <CardContent>
-              <img src={chromiumIcon} className={classes.browserIcon} alt="Chromium" />
-              <Typography variant="subheading">
-                Chromium
-              </Typography>
-            </CardContent>
-          </Card>
+          {window.platform !== 'win32' && (
+            <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'chromium')}>
+              <CardContent>
+                <img src={chromiumIcon} className={classes.browserIcon} alt="Chromium" />
+                <Typography variant="subheading">
+                  Chromium
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          {window.platform === 'darwin' && (
+            <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
+              <CardContent>
+                <img src={juliIcon} className={classes.browserIcon} alt="Juli" />
+                <Typography variant="subheading">
+                  Juli
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         <div className={classes.clear} />
