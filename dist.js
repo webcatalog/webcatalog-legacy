@@ -48,7 +48,7 @@ Promise.resolve()
       targets,
       config: {
         appId: 'com.webcatalog.lite',
-        productName: 'WebCatalog Lite',
+        productName: 'WebCatalog',
         asar: true,
         files: [
           '!tests/**/*',

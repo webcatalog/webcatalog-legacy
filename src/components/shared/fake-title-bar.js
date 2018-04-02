@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import indigo from 'material-ui/colors/indigo';
+import blue from 'material-ui/colors/blue';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -9,7 +9,7 @@ const titleBarHeight = window.platform === 'darwin' ? 22 : 0;
 
 const styles = {
   root: {
-    backgroundColor: indigo[700],
+    backgroundColor: blue[800],
     height: titleBarHeight,
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
@@ -31,7 +31,7 @@ const FakeTitleBar = (props) => {
 };
 
 FakeTitleBar.defaultProps = {
-  color: indigo[700],
+  color: blue[800],
 };
 
 FakeTitleBar.propTypes = {
