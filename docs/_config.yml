@@ -19,7 +19,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-juli_version: 1.3.1
+juli_version: 2.0.0
 
 # Build settings
 markdown: kramdown
