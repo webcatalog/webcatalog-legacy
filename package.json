@@ -1,6 +1,6 @@
 {
   "name": "Juli",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
