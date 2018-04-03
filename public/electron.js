@@ -26,19 +26,6 @@ global.shellInfo = {
   url: argv.url,
 };
 
-// ensure only one instance is running.
-const isSecondInstance = app.makeSingleInstance(() => {
-  // Someone tried to run a second instance, we should focus our window.
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore();
-    mainWindow.focus();
-  }
-});
-
-if (isSecondInstance) {
-  app.exit();
-}
-
 loadListeners();
 
 // Disable Hardware acceleration
