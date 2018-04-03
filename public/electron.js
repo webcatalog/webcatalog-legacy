@@ -6,6 +6,7 @@ const {
 } = require('electron');
 const path = require('path');
 const argv = require('yargs-parser')(process.argv.slice(1));
+const settings = require('electron-settings');
 
 const isDev = require('electron-is-dev');
 
@@ -25,6 +26,27 @@ global.shellInfo = {
   name: argv.name,
   url: argv.url,
 };
+
+// ensure only one instance is running.
+app.makeSingleInstance((secondInstanceArgv) => {
+  const isDuplicated = secondInstanceArgv.length === process.argv.length &&
+    secondInstanceArgv.every((item, i) => item === process.argv[i]);
+
+  if (isDuplicated) {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  }
+});
+
+const isRunning = settings.get(`running.${argv.id || 'app'}`, false);
+if (isRunning) {
+  app.exit();
+} else {
+  settings.set(`running.${argv.id || 'app'}`, true);
+}
 
 loadListeners();
 
@@ -135,6 +157,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
+  settings.delete(`running.${argv.id || 'app'}`);
   // https://github.com/atom/electron/issues/444#issuecomment-76492576
   if (process.platform === 'darwin') {
     if (mainWindow) {
