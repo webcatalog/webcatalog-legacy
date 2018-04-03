@@ -7,14 +7,12 @@ const {
   remote,
 } = require('electron');
 
-const { getPreferences } = require('./libs/preferences');
-
 const { Menu, MenuItem } = remote;
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
 
-const preferences = getPreferences();
+const preferences = ipcRenderer.sendSync('get-preferences');
 const { injectCSS, injectJS } = preferences;
 
 // Inspect element
