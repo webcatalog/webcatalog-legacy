@@ -16,10 +16,10 @@
 title: Juli
 email: quang.lam2807@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://quang.im" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://juli.getwebcatalog.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-juli_version: 2.0.0
+juli_version: 2.0.1
 
 # Build settings
 markdown: kramdown
