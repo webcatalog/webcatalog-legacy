@@ -9,6 +9,7 @@ import Dialog, { DialogContent } from 'material-ui/Dialog';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialogs/about/actions';
+import { checkForUpdates } from '../../state/root/updater/actions';
 
 import {
   CHECKING_FOR_UPDATES,
@@ -169,8 +170,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io')}
-            onKeyDown={() => requestOpenInBrowser('https://quanglam2807.github.io')}
+            onClick={() => requestOpenInBrowser('https://quang.im')}
+            onKeyDown={() => requestOpenInBrowser('https://quang.im')}
             role="link"
             tabIndex="0"
             className={classes.link}
@@ -204,6 +205,7 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   close,
+  checkForUpdates,
 };
 
 export default connectComponent(

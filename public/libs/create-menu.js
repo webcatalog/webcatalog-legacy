@@ -24,6 +24,24 @@ function createMenu() {
           { role: 'quit' },
         ],
       },
+      {
+        label: 'View',
+        submenu: [
+          {
+            label: 'Reload',
+            click: () => {
+              sendMessageToWindow('reload');
+            },
+            accelerator: 'CmdOrCtrl+R',
+          },
+          { role: 'forcereload' },
+          { type: 'separator' },
+          {
+            label: 'Debug...',
+            role: 'toggledevtools',
+          },
+        ],
+      },
     ];
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
