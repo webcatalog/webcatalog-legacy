@@ -17,7 +17,11 @@ export const checkForUpdates = () =>
   (dispatch) => {
     dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
 
-    return window.fetch('https://api.github.com/repos/quanglam2807/juli/releases/latest')
+    return window.fetch('https://api.github.com/repos/quanglam2807/juli/releases/latest', {
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+      },
+    })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response;
@@ -28,10 +32,8 @@ export const checkForUpdates = () =>
         throw error;
       })
       .then(response => response.json())
-      .then(({ tag_name }) => window.fetch(`https://raw.githubusercontent.com/quanglam2807/juli/${tag_name}/template/package.json`))
-      .then(response => response.json())
-      .then((packageJson) => {
-        const latestVersion = packageJson.version;
+      .then(({ tag_name }) => {
+        const latestVersion = tag_name.substring(1);
 
         if (semver.gte(window.version, latestVersion)) {
           dispatch(setUpdaterStatus(UPDATE_NOT_AVAILABLE));
