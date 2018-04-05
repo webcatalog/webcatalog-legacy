@@ -56,6 +56,7 @@ export const create = () =>
     const state = getState();
 
     const { form } = state.dialogs.createCustomApp;
+    const { browser } = state.preferences;
 
     const validatedChanges = validate(form, getValidationRules(getState()));
     if (hasErrors(validatedChanges)) {
@@ -79,7 +80,7 @@ export const create = () =>
     dispatch(close());
 
     dispatch(createCustomAppCreateRequest());
-    return installAppAsync(app)
+    return installAppAsync(app, browser)
       .then(() => {
         dispatch(createCustomAppCreateSuccess());
         dispatch(openSnackbar(STRING_INSTALL_SUCCESSFULLY.replace('{name}', form.name)));
