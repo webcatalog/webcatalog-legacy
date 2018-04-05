@@ -37,7 +37,7 @@ const loadListeners = () => {
 
   ipcMain.on('request-relaunch', () => {
     app.relaunch();
-    app.exit(0);
+    app.quit();
   });
 
   ipcMain.on('request-clear-browsing-data', () => {

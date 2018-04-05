@@ -41,11 +41,12 @@ app.makeSingleInstance((secondInstanceArgv) => {
   }
 });
 
-const isRunning = settings.get(`running.${argv.id || 'app'}`, false);
+const runningSettingId = `running.v2.${argv.id || 'app'}`;
+const isRunning = settings.get(runningSettingId, false);
 if (isRunning) {
   app.exit();
 } else {
-  settings.set(`running.${argv.id || 'app'}`, true);
+  settings.set(runningSettingId, true);
 }
 
 loadListeners();
@@ -157,7 +158,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
-  settings.delete(`running.${argv.id || 'app'}`);
+  settings.delete(runningSettingId);
   // https://github.com/atom/electron/issues/444#issuecomment-76492576
   if (process.platform === 'darwin') {
     if (mainWindow) {
