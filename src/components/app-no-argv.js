@@ -7,6 +7,8 @@ import connectComponent from '../helpers/connect-component';
 
 import { requestOpenInBrowser, requestOpenWebCatalog } from '../senders/generic';
 
+import { checkForUpdates } from '../state/root/updater/actions';
+
 import DialogAbout from './dialogs/about';
 import UpdaterMessage from './root/updater-message';
 import FakeTitleBar from './shared/fake-title-bar';
@@ -29,7 +31,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    WebkitDownloadPromptRegion: 'drag',
+    WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
   box: {
@@ -43,47 +45,59 @@ const styles = theme => ({
   },
 });
 
-const DownloadPrompt = (props) => {
-  const { classes } = props;
+class AppNoArgv extends React.Component {
+  componentDidMount() {
+    const { onCheckForUpdates } = this.props;
+    onCheckForUpdates();
+  }
 
-  return (
-    <div className={classes.root}>
-      <FakeTitleBar background="-webkit-linear-gradient(top, #ebebeb, #d5d5d5)" />
-      <UpdaterMessage />
-      <div className={classes.bottom}>
-        <div className={classes.box}>
-          <p>{STRING_JUST_A_FRAMEWORK}</p>
+  render() {
+    const { classes } = this.props;
 
-          <p>
-            <Button
-              variant="raised"
-              color="primary"
-              onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
-            >
-              {STRING_DOWNLOAD_WEBCATALOG}
-            </Button>
-            <Button
-              variant="raised"
-              className={classes.continueButton}
-              onClick={requestOpenWebCatalog}
-            >
-              {STRING_OPEN_WEBCATALOG}
-            </Button>
-          </p>
+    return (
+      <div className={classes.root}>
+        <FakeTitleBar background="-webkit-linear-gradient(top, #ebebeb, #d5d5d5)" />
+        <UpdaterMessage />
+        <div className={classes.bottom}>
+          <div className={classes.box}>
+            <p>{STRING_JUST_A_FRAMEWORK}</p>
+
+            <p>
+              <Button
+                variant="raised"
+                color="primary"
+                onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
+              >
+                {STRING_DOWNLOAD_WEBCATALOG}
+              </Button>
+              <Button
+                variant="raised"
+                className={classes.continueButton}
+                onClick={requestOpenWebCatalog}
+              >
+                {STRING_OPEN_WEBCATALOG}
+              </Button>
+            </p>
+          </div>
         </div>
+        <DialogAbout />
       </div>
-      <DialogAbout />
-    </div>
-  );
+    );
+  }
+}
+
+AppNoArgv.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onCheckForUpdates: PropTypes.func.isRequired,
 };
 
-DownloadPrompt.propTypes = {
-  classes: PropTypes.object.isRequired,
+const actionCreators = {
+  checkForUpdates,
 };
 
 export default connectComponent(
-  DownloadPrompt,
+  AppNoArgv,
   null,
-  null,
+  actionCreators,
   styles,
 );
