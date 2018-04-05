@@ -8,7 +8,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./dist.js ./public ./src --ext js",
     "start": "react-scripts start",
-    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . --id=test --url=https://messenger.com --name=Messenger\"",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . --id=test --url=https://bitmovin.com/mpeg-dash-hls-drm-test-player/ --name=Messenger\"",
     "electron-dev:no-argv": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "dist": "yarn build && node dist.js",
     "test": "mocha ./tests"
@@ -20,6 +20,7 @@
     "deep-equal": "1.0.1",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
+    "electron-widevinecdm": "6.0.2",
     "electron-window-state": "4.1.1",
     "jsonfile": "4.0.0",
     "mkdirp": "0.5.1",

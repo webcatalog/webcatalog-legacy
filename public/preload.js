@@ -21,6 +21,7 @@ webFrame.setLayoutZoomLevelLimits(1, 1);
 window.env = process.env;
 window.ipcRenderer = ipcRenderer;
 window.version = remote.app.getVersion();
+window.isTesting = remote.getGlobal('isTesting');
 
 const { arch, platform, versions } = process;
 window.arch = arch;

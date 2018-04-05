@@ -7,8 +7,11 @@ const {
 const path = require('path');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const settings = require('electron-settings');
+const widevine = require('electron-widevinecdm');
 
 const isDev = require('electron-is-dev');
+
+const isTesting = argv.testing === 'true'; // Spectron mode
 
 const loadListeners = require('./listeners');
 const createMenu = require('./libs/create-menu');
@@ -26,6 +29,7 @@ global.shellInfo = {
   name: argv.name,
   url: argv.url,
 };
+global.isTesting = isTesting;
 
 // ensure only one instance is running.
 app.makeSingleInstance((secondInstanceArgv) => {
@@ -48,6 +52,8 @@ if (isRunning) {
 } else {
   settings.set(runningSettingId, true);
 }
+
+widevine.load(app);
 
 loadListeners();
 
@@ -92,7 +98,7 @@ const createWindow = () => {
     titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
     autoHideMenuBar,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: isTesting, // only needed for testing
       preload: path.join(__dirname, 'preload.js'),
       webviewTag: true,
     },

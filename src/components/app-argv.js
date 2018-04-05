@@ -427,7 +427,7 @@ class App extends React.Component {
               allowpopups
               autoresize
               className={classes.webview}
-              nodeintegration={false}
+              nodeintegration={window.isTesting}
               parentClassName={classes.webviewContainer}
               partition={`persist:${window.shellInfo.id}`}
               plugins
