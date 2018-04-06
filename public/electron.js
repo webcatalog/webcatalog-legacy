@@ -23,75 +23,6 @@ const { getPreferences } = require('./libs/preferences');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-// shared objects
-global.shellInfo = {
-  id: argv.id,
-  name: argv.name,
-  url: argv.url,
-};
-global.isTesting = isTesting;
-
-// ensure only one instance is running.
-const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
-  const isDuplicated = secondInstanceArgv.length === process.argv.length &&
-    secondInstanceArgv.every((item, i) => item === process.argv[i]);
-
-  if (isDuplicated) {
-    // Someone tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
-    }
-  }
-});
-
-// Electron API is quite limited
-// I don't want to write native code so I use quirky solution
-if (isSecondInstance) {
-  const isSecondInstanceWithSameArgsAsync = () =>
-    new Promise((resolve, reject) => {
-      ps.lookup({
-        command: '/Applications/Juli.app/Contents/MacOS/Juli',
-        arguments: [process.argv[1], process.argv[2], process.argv[3]],
-      }, (err, resultList) => {
-        if (err) {
-          reject(err);
-        }
-
-        if (resultList.length > 1) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
-
-  isSecondInstanceWithSameArgsAsync()
-    .then((isSecondInstanceWithSameArgs) => {
-      if (isSecondInstanceWithSameArgs) app.exit(0);
-    });
-}
-
-
-widevine.load(app);
-
-loadListeners();
-
-// Disable Hardware acceleration
-// Normally, electron-settings needs to init and run in onReady
-// But disableHardwareAcceleration needs to run before onReady
-// So this is a hot fix workaround
-try {
-  const preferences = getPreferences();
-  const { useHardwareAcceleration } = preferences;
-  if (!useHardwareAcceleration) {
-    app.disableHardwareAcceleration();
-  }
-} catch (err) {
-  // eslint-disable-next-line
-  console.log(err);
-}
-
 const createWindow = () => {
   const preferences = getPreferences();
   const {
@@ -169,38 +100,106 @@ const createWindow = () => {
   }
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+// shared objects
+global.shellInfo = {
+  id: argv.id,
+  name: argv.name,
+  url: argv.url,
+};
+global.isTesting = isTesting;
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+// ensure only one instance is running.
+const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
+  const isDuplicated = secondInstanceArgv.length === process.argv.length &&
+    secondInstanceArgv.every((item, i) => item === process.argv[i]);
 
-app.on('before-quit', () => {
-  // https://github.com/atom/electron/issues/444#issuecomment-76492576
-  if (process.platform === 'darwin') {
-    if (mainWindow) {
-      mainWindow.forceClose = true;
+  if (isDuplicated) {
+    // Someone tried to run a second instance, we should show the opened window.
+    if (mainWindow === null) {
+      createWindow();
+    } else {
+      mainWindow.show();
     }
   }
 });
 
-app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  } else {
-    mainWindow.show();
-  }
-});
+// Electron API is quite limited
+// I don't want to write native code so I use quirky solution
+const isSecondInstanceWithSameArgsAsync = () =>
+  new Promise((resolve, reject) => {
+    if (isSecondInstance) {
+      ps.lookup({
+        command: '/Applications/Juli.app/Contents/MacOS/Juli',
+        arguments: [process.argv[1], process.argv[2], process.argv[3]],
+      }, (err, resultList) => {
+        if (err) {
+          reject(err);
+        }
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+        if (resultList.length > 1) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    } else {
+      resolve(false);
+    }
+  });
+
+isSecondInstanceWithSameArgsAsync()
+  .then((isSecondInstanceWithSameArgs) => {
+    if (isSecondInstanceWithSameArgs) app.exit(0);
+
+    widevine.load(app);
+
+    loadListeners();
+
+    // Disable Hardware acceleration
+    // Normally, electron-settings needs to init and run in onReady
+    // But disableHardwareAcceleration needs to run before onReady
+    // So this is a hot fix workaround
+    try {
+      const preferences = getPreferences();
+      const { useHardwareAcceleration } = preferences;
+      if (!useHardwareAcceleration) {
+        app.disableHardwareAcceleration();
+      }
+    } catch (err) {
+      // eslint-disable-next-line
+      console.log(err);
+    }
+
+    // This method will be called when Electron has finished
+    // initialization and is ready to create browser windows.
+    // Some APIs can only be used after this event occurs.
+    app.on('ready', createWindow);
+
+    // Quit when all windows are closed.
+    app.on('window-all-closed', () => {
+      // On OS X it is common for applications and their menu bar
+      // to stay active until the user quits explicitly with Cmd + Q
+      if (process.platform !== 'darwin') {
+        app.quit();
+      }
+    });
+
+    app.on('before-quit', () => {
+      // https://github.com/atom/electron/issues/444#issuecomment-76492576
+      if (process.platform === 'darwin') {
+        if (mainWindow) {
+          mainWindow.forceClose = true;
+        }
+      }
+    });
+
+    app.on('activate', () => {
+      // On OS X it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (mainWindow === null) {
+        createWindow();
+      } else {
+        mainWindow.show();
+      }
+    });
+  });
