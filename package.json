@@ -24,6 +24,7 @@
     "electron-window-state": "4.1.1",
     "jsonfile": "4.0.0",
     "mkdirp": "0.5.1",
+    "ps-node": "0.1.6",
     "yargs-parser": "10.0.0"
   },
   "devDependencies": {

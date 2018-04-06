@@ -6,8 +6,8 @@ const {
 } = require('electron');
 const path = require('path');
 const argv = require('yargs-parser')(process.argv.slice(1));
-const settings = require('electron-settings');
 const widevine = require('electron-widevinecdm');
+const ps = require('ps-node');
 
 const isDev = require('electron-is-dev');
 
@@ -32,7 +32,7 @@ global.shellInfo = {
 global.isTesting = isTesting;
 
 // ensure only one instance is running.
-app.makeSingleInstance((secondInstanceArgv) => {
+const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
   const isDuplicated = secondInstanceArgv.length === process.argv.length &&
     secondInstanceArgv.every((item, i) => item === process.argv[i]);
 
@@ -45,13 +45,33 @@ app.makeSingleInstance((secondInstanceArgv) => {
   }
 });
 
-const runningSettingId = `running.v2.${argv.id || 'app'}`;
-const isRunning = settings.get(runningSettingId, false);
-if (isRunning) {
-  app.exit();
-} else {
-  settings.set(runningSettingId, true);
+// Electron API is quite limited
+// I don't want to write native code so I use quirky solution
+if (isSecondInstance) {
+  const isSecondInstanceWithSameArgsAsync = () =>
+    new Promise((resolve, reject) => {
+      ps.lookup({
+        command: '/Applications/Juli.app/Contents/MacOS/Juli',
+        arguments: [process.argv[1], process.argv[2], process.argv[3]],
+      }, (err, resultList) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (resultList.length > 1) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+
+  isSecondInstanceWithSameArgsAsync()
+    .then((isSecondInstanceWithSameArgs) => {
+      if (isSecondInstanceWithSameArgs) app.exit(0);
+    });
 }
+
 
 widevine.load(app);
 
@@ -164,7 +184,6 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
-  settings.delete(runningSettingId);
   // https://github.com/atom/electron/issues/444#issuecomment-76492576
   if (process.platform === 'darwin') {
     if (mainWindow) {
