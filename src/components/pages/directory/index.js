@@ -7,7 +7,6 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import SearchIcon from 'material-ui-icons/Search';
-import Typography from 'material-ui/Typography';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -19,7 +18,6 @@ import { open as openDialogActivate } from '../../../state/dialogs/activate/acti
 import {
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
-  STRING_ACTIVATE_DESC_1,
   STRING_PURCHASE,
   STRING_ACTIVATE,
 } from '../../../constants/strings';
@@ -82,9 +80,6 @@ const styles = theme => ({
     width: '100%',
     paddingTop: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 4,
-  },
-  donateMessageText: {
-    marginBottom: theme.spacing.unit,
   },
   donateMessageButton: {
     marginLeft: theme.spacing.unit,
@@ -176,9 +171,6 @@ class Directory extends React.Component {
             </Grid>
             {!activated && (
               <div className={classes.donateMessageContainer}>
-                <Typography type="body2" className={classes.donateMessageText}>
-                  {STRING_ACTIVATE_DESC_1}
-                </Typography>
                 <Button
                   color="primary"
                   variant="raised"
