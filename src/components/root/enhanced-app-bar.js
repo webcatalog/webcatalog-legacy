@@ -134,7 +134,7 @@ class EnhancedAppBar extends React.Component {
                 <ListItemText primary={STRING_CHANGE_BROWSER} />
               </ListItem>
               )}
-              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues')}>
                 <ListItemIcon>
                   <HelpIcon />
                 </ListItemIcon>
