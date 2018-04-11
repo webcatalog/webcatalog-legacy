@@ -147,59 +147,61 @@ const isSecondInstanceWithSameArgsAsync = () =>
     }
   });
 
-isSecondInstanceWithSameArgsAsync()
-  .then((isSecondInstanceWithSameArgs) => {
-    if (isSecondInstanceWithSameArgs) app.exit(0);
 
-    widevine.load(app);
+widevine.load(app);
 
-    loadListeners();
+loadListeners();
 
-    // Disable Hardware acceleration
-    // Normally, electron-settings needs to init and run in onReady
-    // But disableHardwareAcceleration needs to run before onReady
-    // So this is a hot fix workaround
-    try {
-      const preferences = getPreferences();
-      const { useHardwareAcceleration } = preferences;
-      if (!useHardwareAcceleration) {
-        app.disableHardwareAcceleration();
-      }
-    } catch (err) {
-      // eslint-disable-next-line
-      console.log(err);
+// Disable Hardware acceleration
+// Normally, electron-settings needs to init and run in onReady
+// But disableHardwareAcceleration needs to run before onReady
+// So this is a hot fix workaround
+try {
+  const preferences = getPreferences();
+  const { useHardwareAcceleration } = preferences;
+  if (!useHardwareAcceleration) {
+    app.disableHardwareAcceleration();
+  }
+} catch (err) {
+  // eslint-disable-next-line
+  console.log(err);
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', () => {
+  isSecondInstanceWithSameArgsAsync()
+    .then((isSecondInstanceWithSameArgs) => {
+      if (isSecondInstanceWithSameArgs) app.exit(0);
+      createWindow();
+    });
+});
+
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('before-quit', () => {
+  // https://github.com/atom/electron/issues/444#issuecomment-76492576
+  if (process.platform === 'darwin') {
+    if (mainWindow) {
+      mainWindow.forceClose = true;
     }
+  }
+});
 
-    // This method will be called when Electron has finished
-    // initialization and is ready to create browser windows.
-    // Some APIs can only be used after this event occurs.
-    app.on('ready', createWindow);
-
-    // Quit when all windows are closed.
-    app.on('window-all-closed', () => {
-      // On OS X it is common for applications and their menu bar
-      // to stay active until the user quits explicitly with Cmd + Q
-      if (process.platform !== 'darwin') {
-        app.quit();
-      }
-    });
-
-    app.on('before-quit', () => {
-      // https://github.com/atom/electron/issues/444#issuecomment-76492576
-      if (process.platform === 'darwin') {
-        if (mainWindow) {
-          mainWindow.forceClose = true;
-        }
-      }
-    });
-
-    app.on('activate', () => {
-      // On OS X it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) {
-        createWindow();
-      } else {
-        mainWindow.show();
-      }
-    });
-  });
+app.on('activate', () => {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  } else {
+    mainWindow.show();
+  }
+});
