@@ -37,7 +37,7 @@ import {
   STRING_CHANGE_BROWSER,
   STRING_CREATE_CUSTOM_APP,
   STRING_DIRECTORY,
-  STRING_HELP,
+  STRING_CONTACT,
   STRING_INSTALLED_APPS,
   STRING_MORE,
 } from '../../constants/strings';
@@ -134,11 +134,11 @@ class EnhancedAppBar extends React.Component {
                 <ListItemText primary={STRING_CHANGE_BROWSER} />
               </ListItem>
               )}
-              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues')}>
+              <ListItem button onClick={() => requestOpenInBrowser('mailto:quang.lam2807@gmail.com?subject=[WebCatalog]')}>
                 <ListItemIcon>
                   <HelpIcon />
                 </ListItemIcon>
-                <ListItemText primary={STRING_HELP} />
+                <ListItemText primary={STRING_CONTACT} />
               </ListItem>
               <ListItem button onClick={onOpenDialogAbout}>
                 <ListItemIcon>
