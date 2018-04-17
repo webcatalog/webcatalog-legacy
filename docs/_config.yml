@@ -25,6 +25,3 @@ juli_version: 2.1.2
 markdown: kramdown
 plugins:
   - jekyll-redirect-from
-
-# Google Analytics
-google_analytics: UA-85519087-6
