@@ -192,8 +192,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quang.im')}
-            onKeyDown={() => requestOpenInBrowser('https://quang.im')}
+            onClick={() => requestOpenInBrowser('https://twitter.com/quanglam2807')}
+            onKeyDown={() => requestOpenInBrowser('https://twitter.com/quanglam2807')}
             role="link"
             tabIndex="0"
             className={classes.link}
