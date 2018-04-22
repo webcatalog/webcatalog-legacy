@@ -1,4 +1,4 @@
-const { ipcMain, shell } = require('electron');
+const { app, ipcMain, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const commandExistsSync = require('command-exists').sync;
@@ -15,6 +15,12 @@ const loadGenericListeners = () => {
       case 'juli': {
         if (process.platform === 'darwin') {
           const juliPath = path.join('/Applications', 'Juli.app');
+          e.returnValue = fs.existsSync(juliPath);
+          return;
+        }
+
+        if (process.platform === 'win32') {
+          const juliPath = path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'Juli', 'Juli.exe');
           e.returnValue = fs.existsSync(juliPath);
           return;
         }
