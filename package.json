@@ -1,6 +1,6 @@
 {
   "name": "Juli",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
@@ -59,7 +59,7 @@
     "wait-on": "2.1.0"
   },
   "optionalDependencies": {
-    "electron-widevinecdm": "6.0.3"    
+    "electron-widevinecdm": "6.0.3"
   },
   "homepage": "./",
   "private": true
