@@ -10,7 +10,7 @@ harness('widevinecdm-test', () => {
       .waitUntilWindowLoaded()
       .getText('#drmUsageDrm')
       .then((text) => {
-        assert.equal(text, 'widevine');
+        assert.equal(text, process.platform === 'win32' ? 'Apple HLS AES 128' : 'widevine');
       }));
 }, [
   '--testing=true',

@@ -69,6 +69,10 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-open-webcatalog', () => {
+    if (process.platform === 'win32') {
+      shell.openItem(path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'webcatalog', 'WebCatalog.exe'));
+      return;
+    }
     shell.openItem('/Applications/WebCatalog.app');
   });
 };

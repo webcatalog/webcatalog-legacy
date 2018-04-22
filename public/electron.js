@@ -6,7 +6,6 @@ const {
 } = require('electron');
 const path = require('path');
 const argv = require('yargs-parser')(process.argv.slice(1));
-const widevine = require('electron-widevinecdm');
 const ps = require('ps-node');
 
 const isDev = require('electron-is-dev');
@@ -128,8 +127,12 @@ const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
 const isSecondInstanceWithSameArgsAsync = () =>
   new Promise((resolve, reject) => {
     if (isSecondInstance) {
+      const command = process.platform === 'win32' ?
+        app.getPath('exe')
+        : path.join('/Applications', 'Juli.app', 'Contents', 'MacOS', 'Juli');
+
       ps.lookup({
-        command: '/Applications/Juli.app/Contents/MacOS/Juli',
+        command,
         arguments: [process.argv[1], process.argv[2], process.argv[3]],
       }, (err, resultList) => {
         if (err) {
@@ -147,8 +150,10 @@ const isSecondInstanceWithSameArgsAsync = () =>
     }
   });
 
-
-widevine.load(app);
+if (process.platform !== 'win32') {
+  const widevine = require('electron-widevinecdm'); // eslint-disable-line
+  widevine.load(app);
+}
 
 loadListeners();
 

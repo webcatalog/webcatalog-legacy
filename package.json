@@ -20,7 +20,6 @@
     "deep-equal": "1.0.1",
     "electron-is-dev": "0.3.0",
     "electron-settings": "3.1.4",
-    "electron-widevinecdm": "6.0.3",
     "electron-window-state": "4.1.1",
     "jsonfile": "4.0.0",
     "mkdirp": "0.5.1",
@@ -58,6 +57,9 @@
     "spectron": "3.8.0",
     "typeface-roboto": "0.0.54",
     "wait-on": "2.1.0"
+  },
+  "optionalDependencies": {
+    "electron-widevinecdm": "6.0.3"    
   },
   "homepage": "./",
   "private": true
