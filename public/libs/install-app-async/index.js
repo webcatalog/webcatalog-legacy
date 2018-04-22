@@ -141,7 +141,7 @@ const installAppAsync = (appObj, browser) => {
           const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
 
         const args = browser === 'juli' ?
-          `--id="${name}" -url="${url}" --name="${name}"`
+          `--id="${id}" --url="${url}" --name="${name}"`
           : `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`
 
         const opts = {
