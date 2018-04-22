@@ -80,7 +80,7 @@ const BrowserPrompt = (props) => {
             </Card>
           )}
 
-          {window.platform === 'darwin' && (
+          {(window.platform === 'darwin' || window.platform === 'win32') && (
             <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
               <CardContent>
                 <img src={juliIcon} className={classes.browserIcon} alt="Juli" />

@@ -133,13 +133,20 @@ const installAppAsync = (appObj, browser) => {
         const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
         const startMenuPath = getInstallationPath();
         const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-        const chromePath = getWin32ChromePaths()[0];
+        
+        const browserPath = browser === 'juli' ? 
+          path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'Juli', 'Juli.exe')
+          : getWin32ChromePaths()[0];
+        
+          const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
 
-        const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
+        const args = browser === 'juli' ?
+          `--id="${name}" -url="${url}" --name="${name}"`
+          : `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`
 
         const opts = {
-          target: chromePath,
-          args: `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`,
+          target: browserPath,
+          args,
           icon: icoIcon,
           desc: JSON.stringify({ id, name, url }),
         };
