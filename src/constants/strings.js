@@ -78,3 +78,4 @@ export const STRING_CHECKING_FOR_UPDATES = 'Checking for updates...';
 export const STRING_JUST_A_FRAMEWORK = 'Juli is just an application framework. Use WebCatalog to install apps.';
 export const STRING_DOWNLOAD_WEBCATALOG = 'Download WebCatalog';
 export const STRING_OPEN_WEBCATALOG = 'Open WebCatalog';
+export const STRING_CLI_AVAILABLE = 'Or use command-line interface (CLI).';

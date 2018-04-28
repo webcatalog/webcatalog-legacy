@@ -17,6 +17,7 @@ import {
   STRING_JUST_A_FRAMEWORK,
   STRING_DOWNLOAD_WEBCATALOG,
   STRING_OPEN_WEBCATALOG,
+  STRING_CLI_AVAILABLE,
 } from '../constants/strings';
 
 const styles = theme => ({
@@ -42,6 +43,13 @@ const styles = theme => ({
   },
   removeJuliApps: {
     marginTop: theme.spacing.unit * 2,
+  },
+  link: {
+    color: theme.palette.primary.main,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 });
 
@@ -77,6 +85,18 @@ class AppNoArgv extends React.Component {
               >
                 {STRING_OPEN_WEBCATALOG}
               </Button>
+            </p>
+
+            <p>
+              <span
+                role="link"
+                onClick={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
+                onKeyDown={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
+                tabIndex="0"
+                className={classes.link}
+              >
+                {STRING_CLI_AVAILABLE}
+              </span>
             </p>
           </div>
         </div>
