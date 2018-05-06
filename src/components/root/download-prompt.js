@@ -15,6 +15,8 @@ import {
   STRING_DOWNLOAD_BROWSER,
   STRING_CONTINUE,
   STRING_CHANGE_BROWSER,
+  STRING_LINUX_NOTE,
+  STRING_LEARN_MORE,
 } from '../../constants/strings';
 
 const styles = theme => ({
@@ -35,6 +37,16 @@ const styles = theme => ({
   changeBrowser: {
     marginTop: theme.spacing.unit * 2,
   },
+  note: {
+    fontSize: '0.8em',
+  },
+  link: {
+    color: theme.palette.primary.dark,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 });
 
 const DownloadPrompt = (props) => {
@@ -52,6 +64,11 @@ const DownloadPrompt = (props) => {
   let downloadUrl = 'https://www.google.com/chrome/';
   if (browser === 'chromium') downloadUrl = 'https://www.chromium.org/getting-involved/download-chromium';
   if (browser === 'juli') downloadUrl = 'https://getwebcatalog.com/juli';
+
+  let browserCommandLine = 'google-chrome';
+  if (browser === 'chromium') browserCommandLine = 'chromium-browser';
+  if (browser === 'juli') browserCommandLine = 'juli';
+
 
   return (
     <div className={classes.root}>
@@ -74,6 +91,23 @@ const DownloadPrompt = (props) => {
             {STRING_CONTINUE}
           </Button>
         </p>
+
+        {window.platform === 'linux' && (
+          <p className={classes.note}>
+            <span>{STRING_LINUX_NOTE.replace('{1}', browserName).replace('{2}', browserCommandLine)}</span>
+            &nbsp;
+            <span
+              onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues/53')}
+              onKeyDown={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues/53')}
+              role="link"
+              tabIndex="0"
+              className={classes.link}
+            >
+              {STRING_LEARN_MORE}
+            </span>
+            .
+          </p>
+        )}
 
         <Button
           className={classes.changeBrowser}

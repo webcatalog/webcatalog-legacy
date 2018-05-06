@@ -63,3 +63,5 @@ export const STRING_ACTIVATE_DESC_3 = 'If you don\'t have one, click "Purchase" 
 export const STRING_PURCHASE = 'Purchase';
 export const STRING_ACTIVATED = 'The app is activated. Thank you for purchasing WebCatalog.';
 export const STRING_INVALID_LICENSE_KEY = 'The license key you entered is invalid.';
+export const STRING_LINUX_NOTE = 'If you\'ve installed {1} but it\'s not detected, ensure that {2} can be called from command-line.';
+export const STRING_LEARN_MORE = 'Learn more';
