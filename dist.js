@@ -5,8 +5,21 @@ const { Platform, Arch } = builder;
 
 console.log(`Machine: ${process.platform}`);
 
-const targets = process.platform === 'darwin' ?
-  Platform.MAC.createTarget() : Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+let targets;
+switch (process.platform) {
+  case 'darwin': {
+    targets = Platform.MAC.createTarget();
+    break;
+  }
+  case 'win32': {
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+    break;
+  }
+  case 'linux':
+  default: {
+    targets = Platform.LINUX.createTarget(['snap'], Arch.x64);
+  }
+}
 
 Promise.resolve()
   .then(() => {

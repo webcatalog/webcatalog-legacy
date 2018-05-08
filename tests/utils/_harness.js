@@ -10,10 +10,14 @@ chai.use(chaiAsPromised);
 
 const getElectronPath = () => {
   if (process.platform === 'darwin') {
-    return path.resolve(__dirname, '../../dist/mac/Juli.app/Contents/MacOS/Juli');
+    return path.resolve(__dirname, '..', '..', 'dist', 'mac', 'Juli.app', 'Contents', 'MacOS', 'Juli');
   }
 
-  return path.resolve(__dirname, '../../dist/win-unpacked/Juli.exe');
+  if (process.platform === 'linux') {
+    return path.resolve(__dirname, '..', '..', 'dist', 'linux-unpacked', 'juli');
+  }
+
+  return path.resolve(__dirname, '..', '..', 'dist', 'win-unpacked', 'Juli.exe');
 };
 
 const harness = (name, fn, args) => {

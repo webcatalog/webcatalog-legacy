@@ -8,6 +8,7 @@ const {
   shell,
 } = require('electron');
 const argv = require('yargs-parser')(process.argv.slice(1));
+const { exec } = require('child_process');
 
 const loadPreferencesListeners = require('./preferences');
 
@@ -72,6 +73,9 @@ const loadListeners = () => {
     if (process.platform === 'win32') {
       shell.openItem(path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'webcatalog', 'WebCatalog.exe'));
       return;
+    }
+    if (process.platform === 'linux') {
+      exec('gtk-launch appimagekit-webcatalog');
     }
     shell.openItem('/Applications/WebCatalog.app');
   });

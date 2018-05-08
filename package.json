@@ -1,5 +1,6 @@
 {
   "name": "Juli",
+  "description": "Application framework for single-site browsers, powered by Electron",
   "version": "2.2.1",
   "main": "public/electron.js",
   "scripts": {

@@ -87,17 +87,19 @@ class AppNoArgv extends React.Component {
               </Button>
             </p>
 
-            <p>
-              <span
-                role="link"
-                onClick={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
-                onKeyDown={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
-                tabIndex="0"
-                className={classes.link}
-              >
-                {STRING_CLI_AVAILABLE}
-              </span>
-            </p>
+            {window.platform === 'darwin' && (
+              <p>
+                <span
+                  role="link"
+                  onClick={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
+                  onKeyDown={() => requestOpenInBrowser('https://github.com/seaneking/juli-cli')}
+                  tabIndex="0"
+                  className={classes.link}
+                >
+                  {STRING_CLI_AVAILABLE}
+                </span>
+              </p>
+            )}
           </div>
         </div>
         <DialogAbout />

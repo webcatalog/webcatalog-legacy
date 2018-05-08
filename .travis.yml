@@ -1,10 +1,37 @@
 language: node_js
-os: osx
-osx_image: xcode9.2
-node_js: 8
+matrix:
+  fast_finish: true
+  include:
+  - os: osx
+    osx_image: xcode9.2
+    node_js: 8
+  - os: linux
+    node_js: 8
+    env:
+    - CC=clang CXX=clang++ npm_config_clang=1
+    compiler: clang
+sudo: required
 cache: yarn
+addons:
+  apt:
+    packages:
+    - libxkbfile-dev
+    - snapd
+before_install:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
 before_script:
 - yarn lint
 script:
 - yarn dist
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb
+  start; sleep 3; fi
 - yarn test
+after_success:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then openssl aes-256-cbc -K $encrypted_0865a52076c8_key -iv $encrypted_0865a52076c8_iv
+  -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d; fi
+deploy:
+  on:
+    tags: true
+  provider: script
+  script: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then snapcraft push dist/*.snap --release stable; fi
+  skip_cleanup: true
