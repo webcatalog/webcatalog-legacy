@@ -60,6 +60,15 @@ const BrowserPrompt = (props) => {
         <p>{STRING_SELECT_BROWSER}</p>
 
         <div className={classes.cardContainer}>
+          <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
+            <CardContent>
+              <img src={juliIcon} className={classes.browserIcon} alt="Juli" />
+              <Typography variant="subheading">
+                Juli
+              </Typography>
+            </CardContent>
+          </Card>
+
           <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'google-chrome')}>
             <CardContent>
               <img src={chromeIcon} className={classes.browserIcon} alt="Google Chrome" />
@@ -75,17 +84,6 @@ const BrowserPrompt = (props) => {
                 <img src={chromiumIcon} className={classes.browserIcon} alt="Chromium" />
                 <Typography variant="subheading">
                   Chromium
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-
-          {(window.platform === 'darwin' || window.platform === 'win32') && (
-            <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
-              <CardContent>
-                <img src={juliIcon} className={classes.browserIcon} alt="Juli" />
-                <Typography variant="subheading">
-                  Juli
                 </Typography>
               </CardContent>
             </Card>

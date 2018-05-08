@@ -25,6 +25,11 @@ const loadGenericListeners = () => {
           return;
         }
 
+        if (process.platform === 'linux') {
+          e.returnValue = commandExistsSync('juli');
+          return;
+        }
+
         e.returnValue = false;
         return;
       }

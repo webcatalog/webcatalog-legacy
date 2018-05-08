@@ -10,16 +10,26 @@ APPPNG=${4};
 APPCATEGORY=${5:="Other"};
 APPMODE=${6:="google-chrome"}; # google-chrome | chromium
 
-EXECPATH="google-chrome";
-if [ "${APPMODE}" == "chromium" ]; then
-	EXECPATH="chromium-browser";
-fi
-
 mkdir -p "${HOME}/bin";
 
 command="${HOME}/bin/${APPID}";
 
-cat - > "${command}" <<END
+if [ "${APPMODE}" == "juli" ]; then
+	cat - > "${command}" <<END
+#!/bin/sh -ue
+
+#${1}
+#${2}
+#${3}
+juli --id="${APPID}" --name="${APPNAME}" --url="${APPURL}";
+END
+else
+	EXECPATH="google-chrome";
+	if [ "${APPMODE}" == "chromium" ]; then
+		EXECPATH="chromium-browser";
+	fi
+
+	cat - > "${command}" <<END
 #!/bin/sh -ue
 
 #${1}
@@ -27,6 +37,9 @@ cat - > "${command}" <<END
 #${3}
 ${EXECPATH} --class "$APPNAME" --user-data-dir="$HOME/.config/webcatalog-$APPID" --app="$APPURL";
 END
+fi
+
+
 chmod u+x "$command";
 
 mkdir -p "${HOME}/.local/share/icons";
