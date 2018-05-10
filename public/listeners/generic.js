@@ -26,7 +26,8 @@ const loadGenericListeners = () => {
         }
 
         if (process.platform === 'linux') {
-          e.returnValue = commandExistsSync('juli');
+          const juliPath = path.join('/snap', 'juli', 'current', 'juli');
+          e.returnValue = fs.existsSync(juliPath);
           return;
         }
 
