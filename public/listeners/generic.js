@@ -25,6 +25,12 @@ const loadGenericListeners = () => {
           return;
         }
 
+        if (process.platform === 'linux') {
+          const juliPath = path.join('/snap', 'juli', 'current', 'juli');
+          e.returnValue = fs.existsSync(juliPath);
+          return;
+        }
+
         e.returnValue = false;
         return;
       }
