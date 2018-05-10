@@ -12,7 +12,7 @@ APPMODE=${6:="google-chrome"}; # google-chrome | chromium
 
 mkdir -p "${HOME}/bin";
 
-command="${HOME}/bin/${APPID}";
+command="${HOME}/bin/webcatalog-${APPID}";
 
 if [ "${APPMODE}" == "juli" ]; then
 	cat - > "${command}" <<END
