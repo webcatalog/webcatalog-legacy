@@ -21,7 +21,7 @@ if [ "${APPMODE}" == "juli" ]; then
 #${1}
 #${2}
 #${3}
-juli --id="${APPID}" --name="${APPNAME}" --url="${APPURL}";
+/snap/juli/current/juli --id="${APPID}" --name="${APPNAME}" --url="${APPURL}";
 END
 else
 	EXECPATH="google-chrome";
