@@ -64,6 +64,9 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
+  tab: {
+    minHeight: '64px'
+  }
 });
 
 class EnhancedAppBar extends React.Component {
@@ -98,10 +101,12 @@ class EnhancedAppBar extends React.Component {
               <Tab
                 value={ROUTE_DIRECTORY}
                 label={STRING_DIRECTORY}
+                className={classes.tab}
               />
               <Tab
                 value={ROUTE_INSTALLED_APPS}
                 label={STRING_INSTALLED_APPS}
+                className={classes.tab}
               />
             </Tabs>
             <Button color="inherit" onClick={onOpenDialogCreateCustomApp}>
