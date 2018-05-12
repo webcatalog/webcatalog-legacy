@@ -14,7 +14,7 @@ const uninstallAppAsync = (appId, appName) => {
     const dataPath = path.join(app.getPath('home'), '.webcatalog-lite', appId);
     p.push(fs.remove(dataPath));
   } else if (process.platform === 'linux') {
-    const binPath = path.join(getInstallationPath(), `${appId}`);
+    const binPath = path.join(getInstallationPath(), `webcatalog-${appId}`);
     p.push(fs.remove(binPath));
 
     const desktopPath = path.join(app.getPath('home'), '.local', 'share', 'applications', `webcatalog-${appId}.desktop`);
