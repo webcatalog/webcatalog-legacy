@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import grey from 'material-ui/colors/grey';
+import grey from '@material-ui/core/colors/grey';
 
 import connectComponent from '../helpers/connect-component';
 import extractDomain from '../helpers/extract-domain';

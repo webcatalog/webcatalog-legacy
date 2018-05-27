@@ -1,33 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { MenuItem } from 'material-ui/Menu';
-import AppBar from 'material-ui/AppBar';
-import blue from 'material-ui/colors/blue';
-import BuildIcon from 'material-ui-icons/Build';
-import Button from 'material-ui/Button';
-import CodeIcon from 'material-ui-icons/Code';
-import ColorLensIcon from 'material-ui-icons/ColorLens';
-import Dialog from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider';
-import HistoryIcon from 'material-ui-icons/History';
-import IconButton from 'material-ui/IconButton';
-import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
-import MouseIcon from 'material-ui-icons/Mouse';
-import NavigationIcon from 'material-ui-icons/Navigation';
-import Paper from 'material-ui/Paper';
-import SecurityIcon from 'material-ui-icons/Security';
-import Slide from 'material-ui/transitions/Slide';
-import Switch from 'material-ui/Switch';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import List, {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  ListItemSecondaryAction,
-} from 'material-ui/List';
+import { MenuItem } from '@material-ui/core/Menu';
+import AppBar from '@material-ui/core/AppBar';
+import blue from '@material-ui/core/colors/blue';
+import BuildIcon from '@material-ui/icons/Build';
+import Button from '@material-ui/core/Button';
+import CodeIcon from '@material-ui/icons/Code';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
+import Dialog from '@material-ui/core/Dialog';
+import Divider from '@material-ui/core/Divider';
+import HistoryIcon from '@material-ui/icons/History';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import MouseIcon from '@material-ui/icons/Mouse';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Paper from '@material-ui/core/Paper';
+import SecurityIcon from '@material-ui/icons/Security';
+import Switch from '@material-ui/core/Switch';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Slide from '@material-ui/core/Slide';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -82,6 +81,7 @@ import {
 
 import EnhancedMenu from '../shared/enhanced-menu';
 import FakeTitleBar from '../shared/fake-title-bar';
+
 
 const styles = theme => ({
   dialogContent: {
@@ -206,7 +206,7 @@ class PreferencesDialog extends React.Component {
         fullScreen
         onClose={onClose}
         open={open}
-        transition={Transition}
+        TransitionComponent={Transition}
       >
         <FakeTitleBar />
         <AppBar className={classes.appBar}>
@@ -682,7 +682,6 @@ PreferencesDialog.defaultProps = {
   injectCSS: '',
   injectJS: '',
   navigationBarPosition: 'left',
-  open: false,
   proxyRules: null,
   rememberLastPage: false,
   showNavigationBar: true,

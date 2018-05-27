@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import Slide from 'material-ui/transitions/Slide';
-import Typography from 'material-ui/Typography';
-import Dialog, { DialogContent } from 'material-ui/Dialog';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -74,8 +74,6 @@ const styles = theme => ({
   },
 });
 
-const Transition = props => <Slide direction="left" {...props} />;
-
 const About = (props) => {
   const {
     classes,
@@ -112,7 +110,6 @@ const About = (props) => {
       className={classes.root}
       onClose={onClose}
       open={open}
-      transition={Transition}
     >
       <EnhancedDialogTitle onCloseButtonClick={onClose}>
         {STRING_ABOUT}
