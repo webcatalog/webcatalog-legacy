@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import Dialog, { DialogContent, DialogActions } from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Slide from '@material-ui/core/Slide';
+import TextField from '@material-ui/core/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 

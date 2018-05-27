@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CloseIcon from 'material-ui-icons/Close';
-import IconButton from 'material-ui/IconButton';
-import { DialogTitle } from 'material-ui/Dialog';
-import { withStyles } from 'material-ui/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
 
 import { STRING_CLOSE } from '../../constants/strings';
 

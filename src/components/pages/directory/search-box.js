@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CloseIcon from 'material-ui-icons/Close';
-import common from 'material-ui/colors/common';
-import IconButton from 'material-ui/IconButton';
-import KeyboardReturnIcon from 'material-ui-icons/KeyboardReturn';
-import Paper from 'material-ui/Paper';
-import SearchIcon from 'material-ui-icons/Search';
-import Typography from 'material-ui/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import common from '@material-ui/core/colors/common';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+import Paper from '@material-ui/core/Paper';
+import SearchIcon from '@material-ui/icons/Search';
+import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../../helpers/connect-component';
 

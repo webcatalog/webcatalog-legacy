@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
-import Menu from 'material-ui/Menu';
+import { withStyles } from '@material-ui/core/styles';
+import Menu from '@material-ui/core/Menu';
 
 const styles = {
   container: {
