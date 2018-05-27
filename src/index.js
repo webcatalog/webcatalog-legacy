@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import createMuiTheme from 'material-ui/styles/createMuiTheme';
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/pink';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import blue from '@material-ui/core/colors/blue';
+import red from '@material-ui/core/colors/pink';
 
 import 'typeface-roboto/index.css';
 

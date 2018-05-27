@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isUrl from 'is-url';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
-import Grid from 'material-ui/Grid';
-import Dialog, {
-  DialogContent,
-  DialogActions,
-} from 'material-ui/Dialog';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
-import Select from 'material-ui/Select';
-import { InputLabel } from 'material-ui/Input';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import connectComponent from '../../helpers/connect-component';
 

@@ -2,8 +2,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import FileDownloadIcon from 'material-ui-icons/FileDownload';
-import Grid from 'material-ui/Grid';
+import FileDownloadIcon from '@material-ui/icons/FileDownload';
+import Grid from '@material-ui/core/Grid';
 
 import connectComponent from '../../../helpers/connect-component';
 

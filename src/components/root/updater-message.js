@@ -2,8 +2,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import blueGrey from 'material-ui/colors/blueGrey';
+import Button from '@material-ui/core/Button';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 
 import connectComponent from '../../helpers/connect-component';
 

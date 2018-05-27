@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import grey from 'material-ui/colors/grey';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
+import grey from '@material-ui/core/colors/grey';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   root: {

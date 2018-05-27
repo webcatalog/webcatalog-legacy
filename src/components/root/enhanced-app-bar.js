@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import AddIcon from 'material-ui-icons/Add';
-import AppBar from 'material-ui/AppBar';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import InfoIcon from 'material-ui-icons/Info';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import Toolbar from 'material-ui/Toolbar';
-import Tooltip from 'material-ui/Tooltip';
-import HelpIcon from 'material-ui-icons/Help';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
-import SettingsIcon from 'material-ui-icons/Settings';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AddIcon from '@material-ui/icons/Add';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Toolbar from '@material-ui/core/Toolbar';
+import HelpIcon from '@material-ui/icons/Help';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -39,7 +41,6 @@ import {
   STRING_DIRECTORY,
   STRING_CONTACT,
   STRING_INSTALLED_APPS,
-  STRING_MORE,
 } from '../../constants/strings';
 
 import { requestCheckForUpdates } from '../../senders/updater';
@@ -116,11 +117,9 @@ class EnhancedAppBar extends React.Component {
             <EnhancedMenu
               id="more"
               buttonElement={(
-                <Tooltip title={STRING_MORE} placement="bottom">
-                  <IconButton color="inherit">
-                    <MoreVertIcon />
-                  </IconButton>
-                </Tooltip>
+                <IconButton color="inherit">
+                  <MoreVertIcon />
+                </IconButton>
               )}
             >
               {!activated && (

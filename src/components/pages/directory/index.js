@@ -2,11 +2,11 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { LinearProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import SearchIcon from 'material-ui-icons/Search';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import SearchIcon from '@material-ui/icons/Search';
 
 import connectComponent from '../../../helpers/connect-component';
 

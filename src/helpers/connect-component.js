@@ -1,7 +1,7 @@
 // External Dependencies
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 const connectComponent = (component, mapStateToProps, actionCreators, styles) => {
   // Adds `on` to binded action names
