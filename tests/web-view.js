@@ -1,5 +1,5 @@
 /* global it */
-
+/*
 const harness = require('./utils/_harness');
 
 harness('webview-test', () => {
@@ -13,3 +13,4 @@ harness('webview-test', () => {
   '--id=test_widevinecdm',
   '--name=Test',
 ]);
+*/
