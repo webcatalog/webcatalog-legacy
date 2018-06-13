@@ -55,7 +55,7 @@
     "classnames": "2.2.5",
     "concurrently": "3.5.1",
     "cross-env": "5.1.6",
-    "electron": "2.0.2",
+    "electron": "1.8.7",
     "electron-builder": "20.15.1",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
