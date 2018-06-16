@@ -20,7 +20,17 @@ fi;
 
 mkdir -p "${MACOS_DIR}";
 
-if [ "${APPMODE}" == "juli" ]; then
+if [ "${APPMODE}" == "firefox" ]; then
+  cat <<EOF > "${MACOS_DIR}/Executable"
+#!/usr/bin/env bash
+
+#${1}
+#${2}
+#${3}
+
+/Applications/Firefox.app/Contents/MacOS/Firefox --class ${APPID} --P ${APPID} "${APPURL}"
+EOF
+elif [ "${APPMODE}" == "juli" ]; then
   cat <<EOF > "${MACOS_DIR}/Executable"
 #!/usr/bin/env bash
 

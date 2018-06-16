@@ -66,8 +66,8 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
   },
   tab: {
-    minHeight: '64px'
-  }
+    minHeight: '64px',
+  },
 });
 
 class EnhancedAppBar extends React.Component {

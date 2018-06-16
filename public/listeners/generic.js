@@ -4,6 +4,7 @@ const fs = require('fs');
 const commandExistsSync = require('command-exists').sync;
 
 const getWin32ChromePaths = require('../libs/get-win32-chrome-paths');
+const getWin32FirefoxPaths = require('../libs/get-win32-firefox-paths');
 
 const loadGenericListeners = () => {
   ipcMain.on('request-open-in-browser', (e, browserUrl) => {
@@ -12,6 +13,27 @@ const loadGenericListeners = () => {
 
   ipcMain.on('is-chrome-installed', (e, browser) => {
     switch (browser) {
+      case 'firefox': {
+        if (process.platform === 'darwin') {
+          const firefoxPath = path.join('/Applications', 'Firefox.app');
+          e.returnValue = fs.existsSync(firefoxPath);
+          return;
+        }
+
+        if (process.platform === 'win32') {
+          const firefoxPaths = getWin32FirefoxPaths();
+          e.returnValue = firefoxPaths.length > 0;
+          return;
+        }
+
+        if (process.platform === 'linux') {
+          e.returnValue = commandExistsSync('firefox');
+          return;
+        }
+
+        e.returnValue = false;
+        return;
+      }
       case 'juli': {
         if (process.platform === 'darwin') {
           const juliPath = path.join('/Applications', 'Juli.app');

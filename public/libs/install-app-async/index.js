@@ -14,6 +14,7 @@ const { app } = require('electron');
 
 const getInstallationPath = require('../get-installation-path');
 const getWin32ChromePaths = require('../get-win32-chrome-paths');
+const getWin32FirefoxPaths = require('../get-win32-firefox-paths');
 
 const getExpectedIconFileExt = () => {
   switch (process.platform) {
@@ -133,15 +134,24 @@ const installAppAsync = (appObj, browser) => {
         const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
         const startMenuPath = getInstallationPath();
         const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-        const browserPath = browser === 'juli' ?
-          path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'Juli', 'Juli.exe')
-          : getWin32ChromePaths()[0];
 
-        const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
+        let browserPath;
+        let args;
 
-        const args = browser === 'juli' ?
-          `--id="${id}" --name="${name}" --url="${url}"`
-          : `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`;
+        if (browser === 'firefox') {
+          browserPath = getWin32FirefoxPaths()[0]; // eslint-disable-line
+          args = `--class ${id} --P ${id} "${url}"`;
+        } else {
+          browserPath = browser === 'juli' ?
+            path.join(app.getPath('home'), 'AppData', 'Local', 'Programs', 'Juli', 'Juli.exe')
+            : getWin32ChromePaths()[0];
+
+          const userDataDir = path.join(app.getPath('home'), '.webcatalog', 'data', id);
+
+          args = browser === 'juli' ?
+            `--id="${id}" --name="${name}" --url="${url}"`
+            : `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`;
+        }
 
         const opts = {
           target: browserPath,
