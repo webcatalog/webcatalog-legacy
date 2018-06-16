@@ -64,7 +64,6 @@ const BrowserPrompt = (props) => {
         <p>{STRING_SELECT_BROWSER}</p>
 
         <div className={classes.cardContainer}>
-        
           <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
             <CardContent>
               <img src={juliIcon} className={classes.browserIcon} alt="Juli" />
