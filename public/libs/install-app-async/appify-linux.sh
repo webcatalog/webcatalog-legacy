@@ -14,7 +14,16 @@ mkdir -p "${HOME}/bin";
 
 command="${HOME}/bin/webcatalog-${APPID}";
 
-if [ "${APPMODE}" == "juli" ]; then
+if [ "${APPMODE}" == "firefox" ]; then
+	cat - > "${command}" <<END
+#!/bin/sh -ue
+
+#${1}
+#${2}
+#${3}
+firefox --class ${APPID} --P ${APPID} "${APPURL}";
+END
+elif [ "${APPMODE}" == "juli" ]; then
 	cat - > "${command}" <<END
 #!/bin/sh -ue
 
