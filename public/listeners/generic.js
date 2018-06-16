@@ -4,6 +4,7 @@ const fs = require('fs');
 const commandExistsSync = require('command-exists').sync;
 
 const getWin32ChromePaths = require('../libs/get-win32-chrome-paths');
+const getWin32FirefoxPaths = require('../libs/get-win32-firefox-paths');
 
 const loadGenericListeners = () => {
   ipcMain.on('request-open-in-browser', (e, browserUrl) => {
@@ -16,6 +17,12 @@ const loadGenericListeners = () => {
         if (process.platform === 'darwin') {
           const firefoxPath = path.join('/Applications', 'Firefox.app');
           e.returnValue = fs.existsSync(firefoxPath);
+          return;
+        }
+
+        if (process.platform === 'win32') {
+          const firefoxPaths = getWin32FirefoxPaths();
+          e.returnValue = firefoxPaths.length > 0;
           return;
         }
 
