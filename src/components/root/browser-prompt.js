@@ -17,6 +17,7 @@ import { updatePreference } from '../../state/root/preferences/actions';
 import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
 import juliIcon from '../../assets/juli.png';
+import firefoxIcon from '../../assets/firefox.png';
 
 const styles = theme => ({
   root: {
@@ -33,11 +34,13 @@ const styles = theme => ({
   cardContainer: {
     display: 'flex',
     justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   card: {
     cursor: 'pointer',
     float: 'left',
     marginLeft: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     minWidth: 192,
   },
   clear: {
@@ -61,6 +64,7 @@ const BrowserPrompt = (props) => {
         <p>{STRING_SELECT_BROWSER}</p>
 
         <div className={classes.cardContainer}>
+        
           <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'juli')}>
             <CardContent>
               <img src={juliIcon} className={classes.browserIcon} alt="Juli" />
@@ -89,6 +93,15 @@ const BrowserPrompt = (props) => {
               </CardContent>
             </Card>
           )}
+
+          <Card className={classes.card} onClick={() => onUpdatePreference('browser', 'firefox')}>
+            <CardContent>
+              <img src={firefoxIcon} className={classes.browserIcon} alt="Mozilla Firefox" />
+              <Typography variant="subheading">
+                Mozilla Firefox
+              </Typography>
+            </CardContent>
+          </Card>
         </div>
 
         <div className={classes.clear} />
