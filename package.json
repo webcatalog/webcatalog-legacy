@@ -1,6 +1,6 @@
 {
   "name": "webcatalog",
-  "version": "12.4.2",
+  "version": "12.5.0",
   "description": "WebCatalog helps you turn any website into desktop app with just one click.",
   "main": "public/electron.js",
   "scripts": {
