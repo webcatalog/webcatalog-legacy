@@ -161,14 +161,16 @@ class Directory extends React.Component {
         <Paper className={classes.paper}>
           <div className={classes.buttonContainer} />
         </Paper>
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
+            <SearchBox />
+          </Grid>
+        </Grid>
         <div
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
           <Grid container className={classes.grid} spacing={16}>
-            <Grid item xs={12}>
-              <SearchBox />
-            </Grid>
             {!activated && (
               <div className={classes.donateMessageContainer}>
                 <Button

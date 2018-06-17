@@ -28,35 +28,17 @@ const {
 } = common;
 
 const styles = theme => ({
-  toolbarSectionContainer: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  toolbarSection: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    flexBasis: '20%',
-  },
-  toolbarSectionRight: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    flexBasis: '20%',
-  },
   toolbarSearchContainer: {
     flex: 1,
+    backgroundColor: fullWhite,
+    zIndex: 10,
+    position: 'relative',
   },
   toolbarSectionSearch: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    borderRadius: 2,
-    height: 40,
-    maxWidth: 480,
+    height: 56,
     margin: '0 auto',
     backgroundColor: fullWhite,
   },
@@ -131,11 +113,8 @@ class EnhancedAppBar extends React.Component {
       );
 
     return (
-      <div className={classes.toolbarSearchContainer}>
-        <Paper
-          className={classes.toolbarSectionSearch}
-          elevation={1}
-        >
+      <Paper elevation={1} className={classes.toolbarSearchContainer}>
+        <div className={classes.toolbarSectionSearch}>
           <SearchIcon
             className={classes.searchIcon}
           />
@@ -159,8 +138,8 @@ class EnhancedAppBar extends React.Component {
             />
           </Typography>
           {clearSearchAction}
-        </Paper>
-      </div>
+        </div>
+      </Paper>
     );
   }
 }
