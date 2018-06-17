@@ -89,7 +89,7 @@ const scanInstalledAsync = () =>
                           name: lines[2].substr(1),
                           url: lines[3].substr(1),
                           id: lines[4].substr(1),
-                          icon: path.join(app.getPath('home'), '.local', 'share', 'icons', `webcatalog-${lines[4].substr(1)}`),
+                          icon: path.join(app.getPath('home'), '.local', 'share', 'icons', `webcatalog-${lines[4].substr(1)}.png`),
                         };
 
                         installedApps.push(appInfo);
