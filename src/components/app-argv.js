@@ -333,6 +333,7 @@ class App extends React.Component {
       isLoading,
       lastPage,
       navigationBarPosition,
+      notPersistCookies,
       onUpdateFindInPageMatches,
       onUpdateIsFailed,
       onUpdateIsLoading,
@@ -378,8 +379,6 @@ class App extends React.Component {
     if (rememberLastPage && lastPage) {
       startUrl = lastPage;
     }
-
-    console.log(titleBarColor);
 
     return (
       <div className={classes.rootParent}>
@@ -434,7 +433,7 @@ class App extends React.Component {
               className={classes.webview}
               nodeintegration={window.isTesting}
               parentClassName={classes.webviewContainer}
-              partition={`persist:${window.shellInfo.id}`}
+              partition={notPersistCookies ? window.shellInfo.id : `persist:${window.shellInfo.id}`}
               plugins
               preload={`file://${getWebViewPreloadPath()}`}
               ref={(c) => { this.webView = c; }}
@@ -481,6 +480,7 @@ App.defaultProps = {
   isLoading: false,
   lastPage: null,
   navigationBarPosition: 'left',
+  notPersistCookies: false,
   rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
@@ -498,6 +498,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   lastPage: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['left', 'right', 'top']),
+  notPersistCookies: PropTypes.bool,
   onCheckForUpdates: PropTypes.func.isRequired,
   onOpenFindInPageDialog: PropTypes.func.isRequired,
   onScreenResize: PropTypes.func.isRequired,
@@ -523,6 +524,7 @@ const mapStateToProps = state => ({
   isLoading: state.nav.isLoading,
   lastPage: state.preferences.lastPage,
   navigationBarPosition: state.preferences.navigationBarPosition,
+  notPersistCookies: state.preferences.notPersistCookies,
   rememberLastPage: state.preferences.rememberLastPage,
   showNavigationBar: state.preferences.showNavigationBar,
   showTitleBar: state.preferences.showTitleBar,

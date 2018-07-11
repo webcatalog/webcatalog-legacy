@@ -79,6 +79,7 @@ import {
   STRING_USE_HARDWARE_ACCELERATION,
   STRING_USER_AGENT,
   STRING_TITLE_BAR_COLOR,
+  STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER,
 } from '../../constants/strings';
 
 import EnhancedMenu from '../shared/enhanced-menu';
@@ -182,6 +183,7 @@ class PreferencesDialog extends React.Component {
       injectCSS,
       injectJS,
       navigationBarPosition,
+      notPersistCookies,
       onClose,
       onOpenDialogClearBrowsingData,
       onOpenDialogHomePage,
@@ -527,6 +529,27 @@ class PreferencesDialog extends React.Component {
             </div>
             <Paper className={classes.paper}>
               <List dense>
+                <ListItem
+                  button
+                  onClick={() => {
+                    requestSetPreference('notPersistCookies', !notPersistCookies);
+                    onOpenDialogRelaunch();
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={notPersistCookies}
+                      onChange={(e, checked) => {
+                        requestSetPreference('notPersistCookies', checked);
+                        onOpenDialogRelaunch();
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
                 <ListItem button onClick={onOpenDialogClearBrowsingData}>
                   <ListItemText
                     primary={STRING_CLEAR_BROWSING_DATA}
@@ -701,6 +724,7 @@ PreferencesDialog.defaultProps = {
   injectCSS: '',
   injectJS: '',
   navigationBarPosition: 'left',
+  notPersistCookies: false,
   proxyRules: null,
   rememberLastPage: false,
   showNavigationBar: true,
@@ -717,6 +741,7 @@ PreferencesDialog.propTypes = {
   injectCSS: PropTypes.string,
   injectJS: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['top', 'left', 'right']),
+  notPersistCookies: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onOpenDialogClearBrowsingData: PropTypes.func.isRequired,
   onOpenDialogHomePage: PropTypes.func.isRequired,
@@ -744,6 +769,7 @@ const mapStateToProps = (state) => {
     injectCSS,
     injectJS,
     navigationBarPosition,
+    notPersistCookies,
     proxyRules,
     rememberLastPage,
     showNavigationBar,
@@ -759,6 +785,7 @@ const mapStateToProps = (state) => {
     injectCSS,
     injectJS,
     navigationBarPosition,
+    notPersistCookies,
     open: state.dialogs.preferences.open,
     proxyRules,
     rememberLastPage,
