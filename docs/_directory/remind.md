@@ -1,8 +1,8 @@
 ---
-name: ​Remind
-url: 'https://​remind.com'
+name: Remind
+url: 'https://remind.com'
 category: Education
-title: '​Remind for macOS, Windows & Linux'
+title: 'Remind for macOS, Windows & Linux'
 key: remind
 
 ---
