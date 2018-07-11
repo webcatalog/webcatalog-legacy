@@ -8,6 +8,7 @@ const v = `1.0.0-${argv.id || 'app'}`;
 
 const defaultPreferences = {
   autoHideMenuBar: false,
+  blockPopup: false,
   darkTheme: false,
   homePage: null,
   injectCSS: '',

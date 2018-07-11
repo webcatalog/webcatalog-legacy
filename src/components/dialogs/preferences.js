@@ -45,41 +45,42 @@ import { requestSetPreference } from '../../senders/preferences';
 import {
   STRING_ADVANCED,
   STRING_APPERANCE,
+  STRING_BLOCK_POPUP,
   STRING_CHANGE,
-  STRING_CLEAR_BROWSING_DATA_DESC,
   STRING_CLEAR_BROWSING_DATA,
+  STRING_CLEAR_BROWSING_DATA_DESC,
   STRING_CLOSE,
   STRING_CONTINUE,
-  STRING_DARK_THEME_DESC,
   STRING_DARK_THEME,
+  STRING_DARK_THEME_DESC,
   STRING_DEFAULT,
   STRING_DEVELOPERS,
   STRING_GENERAL,
   STRING_HOME_PAGE,
   STRING_INJECT_CSS,
   STRING_INJECT_JS,
+  STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER,
   STRING_LEFT,
-  STRING_NAVIGATION_BAR_POSITION,
   STRING_NAVIGATION,
+  STRING_NAVIGATION_BAR_POSITION,
   STRING_NONE,
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
   STRING_PROXIES,
   STRING_REMEMER_LAST_PAGE,
-  STRING_RESET_DESC,
   STRING_RESET,
+  STRING_RESET_DESC,
   STRING_RIGHT,
   STRING_SHOW_NAVIGATION_BAR,
   STRING_SHOW_TITLE_BAR,
-  STRING_SWIPE_TO_NAVIGATE_DESC,
   STRING_SWIPE_TO_NAVIGATE,
+  STRING_SWIPE_TO_NAVIGATE_DESC,
   STRING_SYSTEM,
+  STRING_TITLE_BAR_COLOR,
   STRING_TOP,
   STRING_TRACKPAD,
-  STRING_USE_HARDWARE_ACCELERATION,
   STRING_USER_AGENT,
-  STRING_TITLE_BAR_COLOR,
-  STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER,
+  STRING_USE_HARDWARE_ACCELERATION,
 } from '../../constants/strings';
 
 import EnhancedMenu from '../shared/enhanced-menu';
@@ -177,6 +178,7 @@ class PreferencesDialog extends React.Component {
 
   render() {
     const {
+      blockPopup,
       classes,
       darkTheme,
       homePage,
@@ -532,6 +534,27 @@ class PreferencesDialog extends React.Component {
                 <ListItem
                   button
                   onClick={() => {
+                    requestSetPreference('blockPopup', !blockPopup);
+                    onOpenDialogRelaunch();
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_BLOCK_POPUP}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={blockPopup}
+                      onChange={(e, checked) => {
+                        requestSetPreference('blockPopup', checked);
+                        onOpenDialogRelaunch();
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
                     requestSetPreference('notPersistCookies', !notPersistCookies);
                     onOpenDialogRelaunch();
                   }}
@@ -719,6 +742,7 @@ class PreferencesDialog extends React.Component {
 }
 
 PreferencesDialog.defaultProps = {
+  blockPopup: false,
   darkTheme: false,
   homePage: null,
   injectCSS: '',
@@ -735,6 +759,7 @@ PreferencesDialog.defaultProps = {
 };
 
 PreferencesDialog.propTypes = {
+  blockPopup: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   darkTheme: PropTypes.bool,
   homePage: PropTypes.string,
@@ -764,6 +789,7 @@ PreferencesDialog.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
+    blockPopup,
     darkTheme,
     homePage,
     injectCSS,
@@ -780,6 +806,7 @@ const mapStateToProps = (state) => {
   } = state.preferences;
 
   return {
+    blockPopup,
     darkTheme,
     homePage,
     injectCSS,

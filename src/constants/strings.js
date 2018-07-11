@@ -81,3 +81,4 @@ export const STRING_OPEN_WEBCATALOG = 'Open WebCatalog';
 export const STRING_CLI_AVAILABLE = 'Or use command-line interface (CLI).';
 export const STRING_TITLE_BAR_COLOR = 'Title bar color';
 export const STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER = 'Keep local data only until you quit your browser';
+export const STRING_BLOCK_POPUP = 'Block pop-ups';

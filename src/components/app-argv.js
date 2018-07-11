@@ -242,6 +242,12 @@ class App extends React.Component {
   }
 
   onNewWindow(e) {
+    const { blockPopup } = this.props;
+    if (blockPopup) {
+      e.preventDefault();
+      return;
+    }
+
     const nextUrl = e.url;
 
     const c = this.webView;
@@ -473,6 +479,7 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
+  blockPopup: false,
   customUserAgent: null,
   homePage: null,
   isFailed: false,
@@ -488,6 +495,7 @@ App.defaultProps = {
 };
 
 App.propTypes = {
+  blockPopup: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   customUserAgent: PropTypes.string,
   findInPageIsOpen: PropTypes.bool.isRequired,
@@ -515,6 +523,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  blockPopup: state.preferences.blockPopup,
   customUserAgent: state.preferences.userAgent,
   findInPageIsOpen: state.findInPage.isOpen,
   findInPageText: state.findInPage.text,
