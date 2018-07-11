@@ -53,6 +53,7 @@ import DialogPreferences from './dialogs/preferences';
 import DialogProxyRules from './dialogs/proxy-rules';
 import DialogRelaunch from './dialogs/relaunch';
 import DialogReset from './dialogs/reset';
+import DialogTitleBarColor from './dialogs/title-bar-color';
 import DialogUserAgent from './dialogs/user-agent';
 
 const styles = theme => ({
@@ -339,6 +340,7 @@ class App extends React.Component {
       rememberLastPage,
       showNavigationBar,
       showTitleBar,
+      titleBarColor,
     } = this.props;
 
     const {
@@ -377,6 +379,8 @@ class App extends React.Component {
       startUrl = lastPage;
     }
 
+    console.log(titleBarColor);
+
     return (
       <div className={classes.rootParent}>
         <DialogAbout />
@@ -389,9 +393,10 @@ class App extends React.Component {
         <DialogRelaunch />
         <DialogReset />
         <DialogUserAgent />
+        <DialogTitleBarColor />
 
         {shouldShowTitleBar && (
-          <FakeTitleBar background="-webkit-linear-gradient(top, #ebebeb, #d5d5d5)" />
+          <FakeTitleBar background={titleBarColor || '-webkit-linear-gradient(top, #ebebeb, #d5d5d5)'} />
         )}
 
         <div className={classes.root}>
@@ -479,6 +484,7 @@ App.defaultProps = {
   rememberLastPage: false,
   showNavigationBar: true,
   showTitleBar: false,
+  titleBarColor: null,
 };
 
 App.propTypes = {
@@ -504,6 +510,7 @@ App.propTypes = {
   rememberLastPage: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
+  titleBarColor: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -519,6 +526,7 @@ const mapStateToProps = state => ({
   rememberLastPage: state.preferences.rememberLastPage,
   showNavigationBar: state.preferences.showNavigationBar,
   showTitleBar: state.preferences.showTitleBar,
+  titleBarColor: state.preferences.titleBarColor,
 });
 
 const actionCreators = {

@@ -19,6 +19,7 @@ const defaultPreferences = {
   showNavigationBar: true,
   showTitleBar: false,
   swipeToNavigate: true,
+  titleBarColor: null,
   useHardwareAcceleration: true,
   userAgent: null,
 };

@@ -9,6 +9,7 @@ import preferences from './preferences/reducers';
 import proxyRules from './proxy-rules/reducers';
 import relaunch from './relaunch/reducers';
 import reset from './reset/reducers';
+import titleBarColor from './title-bar-color/reducers';
 import userAgent from './user-agent/reducers';
 
 export default combineReducers({
@@ -21,5 +22,6 @@ export default combineReducers({
   proxyRules,
   relaunch,
   reset,
+  titleBarColor,
   userAgent,
 });

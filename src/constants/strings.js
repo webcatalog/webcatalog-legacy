@@ -79,3 +79,4 @@ export const STRING_JUST_A_FRAMEWORK = 'Juli is just an application framework. U
 export const STRING_DOWNLOAD_WEBCATALOG = 'Download WebCatalog';
 export const STRING_OPEN_WEBCATALOG = 'Open WebCatalog';
 export const STRING_CLI_AVAILABLE = 'Or use command-line interface (CLI).';
+export const STRING_TITLE_BAR_COLOR = 'Title bar color';

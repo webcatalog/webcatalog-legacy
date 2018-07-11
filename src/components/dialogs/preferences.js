@@ -38,6 +38,7 @@ import { open as openDialogInjectJS } from '../../state/dialogs/inject-js/action
 import { open as openDialogProxyRules } from '../../state/dialogs/proxy-rules/actions';
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { open as openDialogReset } from '../../state/dialogs/reset/actions';
+import { open as openDialogTitleBarColor } from '../../state/dialogs/title-bar-color/actions';
 import { open as openDialogUserAgent } from '../../state/dialogs/user-agent/actions';
 import { requestSetPreference } from '../../senders/preferences';
 
@@ -77,6 +78,7 @@ import {
   STRING_TRACKPAD,
   STRING_USE_HARDWARE_ACCELERATION,
   STRING_USER_AGENT,
+  STRING_TITLE_BAR_COLOR,
 } from '../../constants/strings';
 
 import EnhancedMenu from '../shared/enhanced-menu';
@@ -188,6 +190,7 @@ class PreferencesDialog extends React.Component {
       onOpenDialogProxyRules,
       onOpenDialogRelaunch,
       onOpenDialogReset,
+      onOpenDialogTitleBarColor,
       onOpenDialogUserAgent,
       open,
       proxyRules,
@@ -454,6 +457,22 @@ class PreferencesDialog extends React.Component {
                     </ListItemSecondaryAction>
                   </ListItem>
                 )}
+                {window.platform === 'darwin' && <Divider />}
+                {window.platform === 'darwin' && (
+                  <ListItem
+                    button
+                    onClick={onOpenDialogTitleBarColor}
+                  >
+                    <ListItemText
+                      primary={STRING_TITLE_BAR_COLOR}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton aria-label={STRING_CHANGE} onClick={onOpenDialogTitleBarColor}>
+                        <KeyboardArrowRightIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )}
               </List>
             </Paper>
             {window.platform === 'darwin' && (
@@ -706,6 +725,7 @@ PreferencesDialog.propTypes = {
   onOpenDialogProxyRules: PropTypes.func.isRequired,
   onOpenDialogRelaunch: PropTypes.func.isRequired,
   onOpenDialogReset: PropTypes.func.isRequired,
+  onOpenDialogTitleBarColor: PropTypes.func.isRequired,
   onOpenDialogUserAgent: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   proxyRules: PropTypes.string,
@@ -759,6 +779,7 @@ const actionCreators = {
   openDialogProxyRules,
   openDialogRelaunch,
   openDialogReset,
+  openDialogTitleBarColor,
   openDialogUserAgent,
 };
 
