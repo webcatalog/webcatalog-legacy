@@ -35,6 +35,7 @@ import { open as openDialogClearBrowsingData } from '../../state/dialogs/clear-b
 import { open as openDialogHomePage } from '../../state/dialogs/home-page/actions';
 import { open as openDialogInjectCSS } from '../../state/dialogs/inject-css/actions';
 import { open as openDialogInjectJS } from '../../state/dialogs/inject-js/actions';
+import { open as openDialogLockApp } from '../../state/dialogs/lock-app/actions';
 import { open as openDialogProxyRules } from '../../state/dialogs/proxy-rules/actions';
 import { open as openDialogRelaunch } from '../../state/dialogs/relaunch/actions';
 import { open as openDialogReset } from '../../state/dialogs/reset/actions';
@@ -81,6 +82,8 @@ import {
   STRING_TRACKPAD,
   STRING_USER_AGENT,
   STRING_USE_HARDWARE_ACCELERATION,
+  STRING_LOCK_APP,
+  STRING_PASSWORD,
 } from '../../constants/strings';
 
 import EnhancedMenu from '../shared/enhanced-menu';
@@ -191,6 +194,7 @@ class PreferencesDialog extends React.Component {
       onOpenDialogHomePage,
       onOpenDialogInjectCSS,
       onOpenDialogInjectJS,
+      onOpenDialogLockApp,
       onOpenDialogProxyRules,
       onOpenDialogRelaunch,
       onOpenDialogReset,
@@ -531,6 +535,21 @@ class PreferencesDialog extends React.Component {
             </div>
             <Paper className={classes.paper}>
               <List dense>
+                <ListItem button onClick={onOpenDialogLockApp}>
+                  <ListItemText
+                    primary={STRING_PASSWORD}
+                    secondary={STRING_LOCK_APP}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      aria-label={STRING_CONTINUE}
+                      onClick={onOpenDialogLockApp}
+                    >
+                      <KeyboardArrowRightIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
                 <ListItem
                   button
                   onClick={() => {
@@ -772,6 +791,7 @@ PreferencesDialog.propTypes = {
   onOpenDialogHomePage: PropTypes.func.isRequired,
   onOpenDialogInjectCSS: PropTypes.func.isRequired,
   onOpenDialogInjectJS: PropTypes.func.isRequired,
+  onOpenDialogLockApp: PropTypes.func.isRequired,
   onOpenDialogProxyRules: PropTypes.func.isRequired,
   onOpenDialogRelaunch: PropTypes.func.isRequired,
   onOpenDialogReset: PropTypes.func.isRequired,
@@ -830,6 +850,7 @@ const actionCreators = {
   openDialogHomePage,
   openDialogInjectCSS,
   openDialogInjectJS,
+  openDialogLockApp,
   openDialogProxyRules,
   openDialogRelaunch,
   openDialogReset,

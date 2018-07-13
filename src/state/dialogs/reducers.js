@@ -5,6 +5,7 @@ import clearBrowsingData from './clear-browsing-data/reducers';
 import homePage from './home-page/reducers';
 import injectCSS from './inject-css/reducers';
 import injectJS from './inject-js/reducers';
+import lockApp from './lock-app/reducers';
 import preferences from './preferences/reducers';
 import proxyRules from './proxy-rules/reducers';
 import relaunch from './relaunch/reducers';
@@ -18,6 +19,7 @@ export default combineReducers({
   homePage,
   injectCSS,
   injectJS,
+  lockApp,
   preferences,
   proxyRules,
   relaunch,

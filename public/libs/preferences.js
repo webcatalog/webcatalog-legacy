@@ -14,6 +14,7 @@ const defaultPreferences = {
   injectCSS: '',
   injectJS: '',
   lastPage: null,
+  lockApp: null,
   navigationBarPosition: 'left',
   notPersistCookies: false,
   proxyRules: null,

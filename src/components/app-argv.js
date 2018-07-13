@@ -49,6 +49,7 @@ import DialogClearBrowsingData from './dialogs/clear-browsing-data';
 import DialogHomePage from './dialogs/home-page';
 import DialogInjectCSS from './dialogs/inject-css';
 import DialogInjectJS from './dialogs/inject-js';
+import DialogLockApp from './dialogs/lock-app';
 import DialogPreferences from './dialogs/preferences';
 import DialogProxyRules from './dialogs/proxy-rules';
 import DialogRelaunch from './dialogs/relaunch';
@@ -393,12 +394,13 @@ class App extends React.Component {
         <DialogHomePage />
         <DialogInjectCSS />
         <DialogInjectJS />
+        <DialogLockApp />
         <DialogPreferences />
         <DialogProxyRules />
         <DialogRelaunch />
         <DialogReset />
-        <DialogUserAgent />
         <DialogTitleBarColor />
+        <DialogUserAgent />
 
         {shouldShowTitleBar && (
           <FakeTitleBar background={titleBarColor || '-webkit-linear-gradient(top, #ebebeb, #d5d5d5)'} />
