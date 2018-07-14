@@ -1,10 +1,10 @@
-# Juli [![License: MIT](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Travis Build Status](https://travis-ci.org/webcatalog/juli.svg?branch=master)](https://travis-ci.org/webcatalog/juli)
+# Juli [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Travis Build Status](https://travis-ci.org/webcatalog/juli.svg?branch=master)](https://travis-ci.org/webcatalog/juli)
 
 **[Juli](https://getwebcatalog.com/juli)** is an application framework for site-specific browsers, powered by Electron.
 
 ## Development
 ### Requirements
-- macOS 10.9+.
+- macOS 10.9+ | Windows 7+ | Linux.
 - Node.js 8+.
 - Yarn
 
