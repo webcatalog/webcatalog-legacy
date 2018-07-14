@@ -137,30 +137,48 @@ const NavigationBar = (props) => {
             <HomeIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip
-          title={STRING_BACK}
-          placement={tooltipPlacement}
-        >
+        {canGoBack ? (
+          <Tooltip
+            title={STRING_BACK}
+            placement={tooltipPlacement}
+          >
+            <IconButton
+              aria-label={STRING_BACK}
+              onClick={onBackButtonClick}
+            >
+              <KeyboardArrowLeftIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
           <IconButton
             aria-label={STRING_BACK}
-            disabled={!canGoBack}
+            disabled
             onClick={onBackButtonClick}
           >
             <KeyboardArrowLeftIcon />
           </IconButton>
-        </Tooltip>
-        <Tooltip
-          title={STRING_FORWARD}
-          placement={tooltipPlacement}
-        >
+        )}
+        {canGoForward ? (
+          <Tooltip
+            title={STRING_FORWARD}
+            placement={tooltipPlacement}
+          >
+            <IconButton
+              aria-label={STRING_FORWARD}
+              onClick={onForwardButtonClick}
+            >
+              <KeyboardArrowRightIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
           <IconButton
             aria-label={STRING_FORWARD}
-            disabled={!canGoForward}
+            disabled
             onClick={onForwardButtonClick}
           >
             <KeyboardArrowRightIcon />
           </IconButton>
-        </Tooltip>
+        )}
         <Tooltip
           title={STRING_RELOAD}
           placement={tooltipPlacement}
