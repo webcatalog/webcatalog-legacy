@@ -19,6 +19,7 @@ const defaultPreferences = {
   notPersistCookies: false,
   proxyRules: null,
   rememberLastPage: false,
+  requireLockPref: false,
   showNavigationBar: true,
   showTitleBar: false,
   swipeToNavigate: true,

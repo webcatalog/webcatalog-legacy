@@ -24,15 +24,6 @@ export const modeUpdate = mode =>
 export const open = () =>
   (dispatch, getState) => {
     dispatch(dialogLockAppOpen());
-    dispatch(dialogLockAppFormUpdate({
-      password: null,
-      passwordErr: null,
-      confirmPassword: null,
-      confirmPasswordErr: null,
-      currentPassword: null,
-      currentPasswordErr: null,
-    }));
-
     if (!getState().preferences.lockApp) {
       dispatch(dialogLockAppModeUpdate(1));
     }

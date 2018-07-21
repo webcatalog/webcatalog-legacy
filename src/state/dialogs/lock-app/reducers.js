@@ -28,11 +28,11 @@ const mode = (state = 0, action) => {
 
 
 const defaultForm = {
-  password: null,
+  password: '',
   passwordErr: null,
-  confirmPassword: null,
+  confirmPassword: '',
   confirmPasswordErr: null,
-  currentPassword: null,
+  currentPassword: '',
   currentPasswordErr: null,
 };
 const form = (state = {}, action) => {

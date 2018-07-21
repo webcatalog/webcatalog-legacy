@@ -73,6 +73,7 @@ import {
   STRING_PRIVACY_AND_SECURITY,
   STRING_PROXIES,
   STRING_REMEMER_LAST_PAGE,
+  STRING_REQUIRE_PASSWORD_TO_CHANGE_PREFERENCES,
   STRING_RESET,
   STRING_RESET_DESC,
   STRING_RIGHT,
@@ -190,6 +191,7 @@ class PreferencesDialog extends React.Component {
       homePage,
       injectCSS,
       injectJS,
+      lockApp,
       navigationBarPosition,
       notPersistCookies,
       onClose,
@@ -206,6 +208,7 @@ class PreferencesDialog extends React.Component {
       open,
       proxyRules,
       rememberLastPage,
+      requireLockPref,
       spellChecking,
       showNavigationBar,
       showTitleBar,
@@ -601,6 +604,28 @@ class PreferencesDialog extends React.Component {
                 <ListItem
                   button
                   onClick={() => {
+                    requestSetPreference('requireLockPref', !requireLockPref);
+                    onOpenDialogRelaunch();
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_REQUIRE_PASSWORD_TO_CHANGE_PREFERENCES}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      disabled={!lockApp}
+                      checked={lockApp && requireLockPref}
+                      onChange={(e, checked) => {
+                        requestSetPreference('requireLockPref', checked);
+                        onOpenDialogRelaunch();
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+                <ListItem
+                  button
+                  onClick={() => {
                     requestSetPreference('blockPopup', !blockPopup);
                     onOpenDialogRelaunch();
                   }}
@@ -814,10 +839,12 @@ PreferencesDialog.defaultProps = {
   homePage: null,
   injectCSS: '',
   injectJS: '',
+  lockApp: null,
   navigationBarPosition: 'left',
   notPersistCookies: false,
   proxyRules: null,
   rememberLastPage: false,
+  requireLockPref: false,
   spellChecking: true,
   showNavigationBar: true,
   showTitleBar: false,
@@ -833,6 +860,7 @@ PreferencesDialog.propTypes = {
   homePage: PropTypes.string,
   injectCSS: PropTypes.string,
   injectJS: PropTypes.string,
+  lockApp: PropTypes.string,
   navigationBarPosition: PropTypes.oneOf(['top', 'left', 'right']),
   notPersistCookies: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
@@ -849,6 +877,7 @@ PreferencesDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   proxyRules: PropTypes.string,
   rememberLastPage: PropTypes.bool,
+  requireLockPref: PropTypes.bool,
   spellChecking: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
@@ -864,10 +893,12 @@ const mapStateToProps = (state) => {
     homePage,
     injectCSS,
     injectJS,
+    lockApp,
     navigationBarPosition,
     notPersistCookies,
     proxyRules,
     rememberLastPage,
+    requireLockPref,
     showNavigationBar,
     showTitleBar,
     spellChecking,
@@ -882,11 +913,13 @@ const mapStateToProps = (state) => {
     homePage,
     injectCSS,
     injectJS,
+    lockApp,
     navigationBarPosition,
     notPersistCookies,
     open: state.dialogs.preferences.open,
     proxyRules,
     rememberLastPage,
+    requireLockPref,
     showNavigationBar,
     showTitleBar,
     spellChecking,

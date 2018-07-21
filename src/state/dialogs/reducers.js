@@ -7,6 +7,7 @@ import injectCSS from './inject-css/reducers';
 import injectJS from './inject-js/reducers';
 import lockApp from './lock-app/reducers';
 import preferences from './preferences/reducers';
+import preferencesLock from './preferences-lock/reducers';
 import proxyRules from './proxy-rules/reducers';
 import relaunch from './relaunch/reducers';
 import reset from './reset/reducers';
@@ -21,6 +22,7 @@ export default combineReducers({
   injectJS,
   lockApp,
   preferences,
+  preferencesLock,
   proxyRules,
   relaunch,
   reset,

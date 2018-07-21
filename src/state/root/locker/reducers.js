@@ -17,7 +17,7 @@ const unlocked = (state = Boolean(getPreference('lockApp') === null), action) =>
 };
 
 const defaultForm = {
-  password: null,
+  password: '',
   passwordErr: null,
 };
 const form = (state = defaultForm, action) => {

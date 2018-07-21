@@ -51,6 +51,7 @@ import DialogInjectCSS from './dialogs/inject-css';
 import DialogInjectJS from './dialogs/inject-js';
 import DialogLockApp from './dialogs/lock-app';
 import DialogPreferences from './dialogs/preferences';
+import DialogPreferencesLock from './dialogs/preferences-lock';
 import DialogProxyRules from './dialogs/proxy-rules';
 import DialogRelaunch from './dialogs/relaunch';
 import DialogReset from './dialogs/reset';
@@ -396,6 +397,7 @@ class App extends React.Component {
         <DialogInjectJS />
         <DialogLockApp />
         <DialogPreferences />
+        <DialogPreferencesLock />
         <DialogProxyRules />
         <DialogRelaunch />
         <DialogReset />
