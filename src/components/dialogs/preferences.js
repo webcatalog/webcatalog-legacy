@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AppBar from '@material-ui/core/AppBar';
 import blue from '@material-ui/core/colors/blue';
 import BuildIcon from '@material-ui/icons/Build';
+import LanguageIcon from '@material-ui/icons/Language';
 import Button from '@material-ui/core/Button';
 import CodeIcon from '@material-ui/icons/Code';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
@@ -61,10 +62,13 @@ import {
   STRING_INJECT_CSS,
   STRING_INJECT_JS,
   STRING_KEEP_LOCAL_DATA_ONLY_UNTIL_YOU_QUIT_YOUR_BROWSER,
+  STRING_LANGUAGE,
   STRING_LEFT,
+  STRING_LOCK_APP,
   STRING_NAVIGATION,
   STRING_NAVIGATION_BAR_POSITION,
   STRING_NONE,
+  STRING_PASSWORD,
   STRING_PREFERENCES,
   STRING_PRIVACY_AND_SECURITY,
   STRING_PROXIES,
@@ -82,8 +86,7 @@ import {
   STRING_TRACKPAD,
   STRING_USER_AGENT,
   STRING_USE_HARDWARE_ACCELERATION,
-  STRING_LOCK_APP,
-  STRING_PASSWORD,
+  STRING_ENABLE_SPELL_CHECKING,
 } from '../../constants/strings';
 
 import EnhancedMenu from '../shared/enhanced-menu';
@@ -203,6 +206,7 @@ class PreferencesDialog extends React.Component {
       open,
       proxyRules,
       rememberLastPage,
+      spellChecking,
       showNavigationBar,
       showTitleBar,
       swipeToNavigate,
@@ -270,6 +274,17 @@ class PreferencesDialog extends React.Component {
               )}
             </List>
             <List subheader={<ListSubheader>{STRING_ADVANCED}</ListSubheader>} dense>
+              <ListItem
+                button
+              >
+                <ListItemIcon>
+                  <LanguageIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={STRING_LANGUAGE}
+                  onClick={() => scrollIntoView('languageTitle')}
+                />
+              </ListItem>
               <ListItem
                 button
               >
@@ -527,6 +542,39 @@ class PreferencesDialog extends React.Component {
 
             <div
               className={classes.paperTitleContainer}
+              ref={(el) => { this.languageTitle = el; }}
+            >
+              <Typography variant="body2" className={classes.paperTitle}>
+                {STRING_LANGUAGE}
+              </Typography>
+            </div>
+            <Paper className={classes.paper}>
+              <List dense>
+                <ListItem
+                  button
+                  onClick={() => {
+                    requestSetPreference('spellChecking', !spellChecking);
+                    onOpenDialogRelaunch();
+                  }}
+                >
+                  <ListItemText
+                    primary={STRING_ENABLE_SPELL_CHECKING}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={spellChecking}
+                      onChange={(e, checked) => {
+                        requestSetPreference('spellChecking', checked);
+                        onOpenDialogRelaunch();
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </List>
+            </Paper>
+
+            <div
+              className={classes.paperTitleContainer}
               ref={(el) => { this.privacyAndSecurityTitle = el; }}
             >
               <Typography variant="body2" className={classes.paperTitle}>
@@ -770,6 +818,7 @@ PreferencesDialog.defaultProps = {
   notPersistCookies: false,
   proxyRules: null,
   rememberLastPage: false,
+  spellChecking: true,
   showNavigationBar: true,
   showTitleBar: false,
   swipeToNavigate: true,
@@ -800,6 +849,7 @@ PreferencesDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   proxyRules: PropTypes.string,
   rememberLastPage: PropTypes.bool,
+  spellChecking: PropTypes.bool,
   showNavigationBar: PropTypes.bool,
   showTitleBar: PropTypes.bool,
   swipeToNavigate: PropTypes.bool,
@@ -820,6 +870,7 @@ const mapStateToProps = (state) => {
     rememberLastPage,
     showNavigationBar,
     showTitleBar,
+    spellChecking,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,
@@ -838,6 +889,7 @@ const mapStateToProps = (state) => {
     rememberLastPage,
     showNavigationBar,
     showTitleBar,
+    spellChecking,
     swipeToNavigate,
     useHardwareAcceleration,
     userAgent,

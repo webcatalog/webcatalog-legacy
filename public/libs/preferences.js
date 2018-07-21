@@ -25,6 +25,7 @@ const defaultPreferences = {
   titleBarColor: null,
   useHardwareAcceleration: true,
   userAgent: null,
+  spellChecking: true,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));

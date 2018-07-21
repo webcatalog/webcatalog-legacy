@@ -92,3 +92,5 @@ export const STRING_ENTER_CURRENT_PASSWORD = 'Enter your password to continue.';
 export const STRING_INCORRECT_PASSWORD = 'The password you entered is incorrect.';
 export const STRING_TURN_PASSWORD_OFF = 'Turn password off';
 export const STRING_CHANGE_PASSWORD = 'Change password';
+export const STRING_ENABLE_SPELL_CHECKING = 'Enable spell checking';
+export const STRING_LANGUAGE = 'Language';
