@@ -15,6 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import HelpIcon from '@material-ui/icons/Help';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PublicIcon from '@material-ui/icons/Public';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -130,14 +131,12 @@ class EnhancedAppBar extends React.Component {
                   <ListItemText primary={STRING_ACTIVATE} />
                 </ListItem>
               )}
-              {window.platform !== 'win32' && (
               <ListItem button onClick={() => onUpdatePreference('browser', null)}>
                 <ListItemIcon>
-                  <SettingsIcon />
+                  <PublicIcon />
                 </ListItemIcon>
                 <ListItemText primary={STRING_CHANGE_BROWSER} />
               </ListItem>
-              )}
               <ListItem button onClick={() => requestOpenInBrowser('mailto:quang.lam2807@gmail.com?subject=[WebCatalog]')}>
                 <ListItemIcon>
                   <HelpIcon />
