@@ -18,11 +18,11 @@
     "directory:pack": "cd directory && yarn build:pack",
     "directory:publish": "cd directory && yarn build:publish"
   },
-  "repository": "https://github.com/webcatalog/webcatalog",
+  "repository": "https://github.com/quanglam2807/webcatalog",
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam2807@gmail.com",
-    "url": "https://twitter.com/quanglam2807"
+    "url": "https://quanglam.em"
   },
   "license": "MPL-2.0",
   "dependencies": {
@@ -62,7 +62,6 @@
     "eslint-plugin-import": "2.9.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.7.0",
-    "js-yaml": "3.11.0",
     "mocha": "5.2.0",
     "prop-types": "15.6.1",
     "react": "16.4.0",

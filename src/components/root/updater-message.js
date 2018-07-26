@@ -41,7 +41,7 @@ const UpdaterMessage = (props) => {
         <Button
           variant="raised"
           className={classes.updaterPaperLink}
-          onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/releases')}
+          onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/releases')}
         >
           {STRING_WHATS_NEW}
         </Button>

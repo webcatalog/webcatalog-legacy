@@ -4,84 +4,21 @@
   {% include head.html %}
 
   <body>
-    <nav class="navbar is-link">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item logo" href="/">
-            WebCatalog
-          </a>
-          <div class="navbar-burger burger" data-target="navbarMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <div id="navbarMenu" class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item" href="/">
-              About
-            </a>
-            <a class="navbar-item" href="/purchase">Purchase</a>
-            <a class="navbar-item" href="mailto:quang.lam2807@gmail.com?subject=[WebCatalog]">
-              Contact
-            </a>
-            <a  class="navbar-item" href="https://github.com/webcatalog/webcatalog">
-              <span class="icon is-medium">
-                <i class="fab fa-lg fa-github"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <div class="main-page-head">
+      <a href="https://quanglam.me">Quang Lam</a>
+    </div>
     <main>
       {{ content }}
     </main>
     <footer class="footer">
       <div class="container has-text-centered">
-        <ul>
-          <li><a href="/">About</a></li>
-          <li><a href="/purchase">Purchase</a></li>
-          <li><a href="mailto:quang.lam2807@gmail.com?subject=[WebCatalog]">Contact</a></li>
-          <li><a href="/directory">Directory</a></li>
-          <li><a href="/juli">Juli</a></li>
-          <li><a href="/privacy">Privacy</a></li>
-          <li><a href="https://github.com/webcatalog/webcatalog">GitHub</a></li>
-        </ul>
         <p>
           <span>Made with </span>
           <span style="color: #F44336">❤</span>
           <span> by </span>
-          <a href="https://twitter.com/quanglam2807">Quang Lam</a>.
+          <a href="https://quanglam.me">Quang Lam</a>.
         </p>
       </div>
     </footer>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-      // Get all "navbar-burger" elements
-      var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-      // Check if there are any navbar burgers
-      if ($navbarBurgers.length > 0) {
-
-        // Add a click event on each of them
-        $navbarBurgers.forEach(function ($el) {
-          $el.addEventListener('click', function () {
-
-            // Get the target from the "data-target" attribute
-            var target = $el.dataset.target;
-            var $target = document.getElementById(target);
-
-            // Toggle the class on both the "navbar-burger" and the "navbar-menu"
-            $el.classList.toggle('is-active');
-            $target.classList.toggle('is-active');
-
-          });
-        });
-      }
-    });
-    </script>
   </body>
 </html>
