@@ -17,7 +17,7 @@ export const checkForUpdates = () =>
   (dispatch) => {
     dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
 
-    return window.fetch('https://api.github.com/repos/webcatalog/juli/releases/latest', {
+    return window.fetch('https://api.github.com/repos/quanglam2807/juli/releases/latest', {
       headers: {
         Accept: 'application/vnd.github.v3+json',
       },

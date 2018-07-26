@@ -14,7 +14,7 @@
     "dist": "yarn build && node dist.js",
     "test": "mocha ./tests"
   },
-  "repository": "https://github.com/webcatalog/juli",
+  "repository": "https://github.com/quanglam2807/juli",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "license": "MIT",
   "dependencies": {

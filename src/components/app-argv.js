@@ -273,7 +273,7 @@ class App extends React.Component {
 
     // navigate
     if (nextDomain && (nextDomain === curDomain || nextDomain === 'accounts.google.com')) {
-      // https://github.com/webcatalog/juli/issues/35
+      // https://github.com/quanglam2807/juli/issues/35
       c.loadURL(nextUrl);
       return;
     }

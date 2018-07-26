@@ -167,8 +167,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://twitter.com/quanglam2807')}
-            onKeyDown={() => requestOpenInBrowser('https://twitter.com/quanglam2807')}
+            onClick={() => requestOpenInBrowser('https://quanglam.me')}
+            onKeyDown={() => requestOpenInBrowser('https://quanglam.me')}
             role="link"
             tabIndex="0"
             className={classes.link}
