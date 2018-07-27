@@ -150,11 +150,6 @@ const isSecondInstanceWithSameArgsAsync = () =>
     }
   });
 
-if (process.platform !== 'win32') {
-  const widevine = require('electron-widevinecdm'); // eslint-disable-line
-  widevine.load(app);
-}
-
 loadListeners();
 
 // Disable Hardware acceleration

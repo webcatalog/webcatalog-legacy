@@ -60,9 +60,6 @@
     "typeface-roboto": "0.0.54",
     "wait-on": "2.1.0"
   },
-  "optionalDependencies": {
-    "electron-widevinecdm": "7.0.0"
-  },
   "homepage": "./",
   "private": true
 }
