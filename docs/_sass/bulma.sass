@@ -28,25 +28,24 @@ html, body
 
 .head
   margin-bottom: 2rem
-  color: #1976D2
   h1
     font-family: "Futura"
     font-weight: normal
     font-style: italic
     font-size: 5.5em
     color: $blue
+    line-height: 1
 
   h2
     font-family: "Futura"
     font-weight: normal
     font-style: italic
     font-size: 1.4em
-    margin-top: -2em !important
+    line-height: 1
   @media screen and (max-width: 639px)
     h1
       font-size: 3.2em
     h2
-      margin-top: -2.3em !important
       font-size: 0.8em
   
 body
@@ -55,13 +54,6 @@ body
 
 main
   flex: 1
-
-.profile
-  transition: all 0.2s ease-in-out
-  border: 1px solid #f2f3f3
-  padding: 5px
-  max-width: 100px
-  border-radius: 50%
 
 .container
   max-width: 640px
@@ -78,10 +70,6 @@ main
 
 .section.extra-top
   padding-top: 5em
-
-.browser-icon
-  height: 5em
-  width: 5em
 
 .section
   a:not(.button)
