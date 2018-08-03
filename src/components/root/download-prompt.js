@@ -97,8 +97,8 @@ const DownloadPrompt = (props) => {
             <span>{STRING_LINUX_NOTE.replace('{1}', browserName).replace('{2}', browserCommandLine)}</span>
             &nbsp;
             <span
-              onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues/53')}
-              onKeyDown={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog/issues/53')}
+              onClick={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues/53')}
+              onKeyDown={() => requestOpenInBrowser('https://github.com/quanglam2807/webcatalog/issues/53')}
               role="link"
               tabIndex="0"
               className={classes.link}

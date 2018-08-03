@@ -1,4 +1,4 @@
-// https://github.com/webcatalog/webcatalog-apps/ uses different categorizing approach from Linux.
+// https://github.com/quanglam2807/webcatalog-apps/ uses different categorizing approach from Linux.
 // This will map the categories to the one specified on https://standards.freedesktop.org/menu-spec/latest/apa.html
 
 /* eslint-disable quote-props */
