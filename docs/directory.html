@@ -1,0 +1,15 @@
+---
+permalink: /directory/
+layout: default
+---
+<section class="section">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p><a href="/">Back to Home</a></p>
+      <h1 class="title">Directory</h1>
+      {% for item in site.directory %}
+      <p><a href="/directory/{{ item.key }}">{{ item.name }}</a></p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
