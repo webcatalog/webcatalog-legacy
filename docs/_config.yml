@@ -36,3 +36,5 @@ markdown: kramdown
 plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
+
+google_analytics: UA-124034530-4
