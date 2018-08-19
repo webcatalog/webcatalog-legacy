@@ -19,9 +19,11 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://juli.getwebcatalog.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-juli_version: 2.6.1
+juli_version: 2.6.2
 
 # Build settings
 markdown: kramdown
 plugins:
   - jekyll-redirect-from
+
+google_analytics: UA-124034530-5
