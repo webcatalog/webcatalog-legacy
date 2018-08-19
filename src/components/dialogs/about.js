@@ -193,8 +193,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤️</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quanglam.me')}
-            onKeyDown={() => requestOpenInBrowser('https://quanglam.me')}
+            onClick={() => requestOpenInBrowser('https://quanglam2807.github.io')}
+            onKeyDown={() => requestOpenInBrowser('https://quanglam2807.github.io')}
             role="link"
             tabIndex="0"
             className={classes.link}
