@@ -4128,15 +4128,15 @@ hyphenate-style-name@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
 
-icon-gen@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/icon-gen/-/icon-gen-1.2.2.tgz#6a04fd11da6b0550e9a16f7f0f2781873dd28f2f"
+icon-gen@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/icon-gen/-/icon-gen-1.2.1.tgz#1a385ad19aa416c933b7d4cba8647427bcd8bead"
   dependencies:
     del "^3.0.0"
     mkdirp "^0.5.1"
     pngjs-nozlib "^1.0.0"
     svg2png "4.1.1"
-    uuid "^3.3.2"
+    uuid "^3.2.1"
 
 iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
@@ -8372,7 +8372,7 @@ uuid@^3.0.0, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
-uuid@^3.3.2:
+uuid@^3.2.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 

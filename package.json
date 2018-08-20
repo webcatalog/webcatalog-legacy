@@ -34,7 +34,7 @@
     "file-type": "9.0.0",
     "follow-redirects": "1.5.5",
     "fs-extra": "7.0.0",
-    "icon-gen": "1.2.2",
+    "icon-gen": "1.2.1",
     "is-url": "1.2.4",
     "jimp": "0.2.28",
     "read-chunk": "2.1.0",
