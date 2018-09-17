@@ -50,6 +50,7 @@ Promise.resolve()
         appId: 'com.webcatalog.lite',
         productName: 'WebCatalog',
         asar: true,
+        asarUnpack: ['default-icon.png'],
         files: [
           '!tests/**/*',
           '!docs/**/*',

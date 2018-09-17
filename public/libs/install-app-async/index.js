@@ -113,7 +113,7 @@ const installAppAsync = (appObj, browser) => {
   const {
     id, name, url, category,
   } = appObj;
-  const icon = appObj.icon || path.resolve(__dirname, '..', '..', 'default-icon.png');
+  const icon = appObj.icon || path.resolve(app.getAppPath(), 'default-icon.png').replace('app.asar', 'app.asar.unpacked');
 
   const scriptPath = path.join(__dirname, `appify-${os.platform()}.sh`);
 
