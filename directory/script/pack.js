@@ -41,7 +41,7 @@ fs.readdirSync(appPath)
       yaml.load(yamlFile),
       {
         icon: `https://raw.githubusercontent.com/quanglam2807/webcatalog/icons/${slug}/${slug}-icon.png`,
-        icon128: `https://cdn.rawgit.com/quanglam2807/webcatalog/icons/${slug}/${slug}-icon-128.png`,
+        icon128: `https://raw.githubusercontent.com/quanglam2807/webcatalog/icons/${slug}/${slug}-icon-128.png`,
       },
     );
 
