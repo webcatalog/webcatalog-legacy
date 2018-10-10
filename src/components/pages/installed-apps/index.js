@@ -44,7 +44,7 @@ const Installed = (props) => {
       <Grid spacing={16} container>
         <Grid item xs={12}>
           {(apps.length > 0) ? (
-            <Grid container justify="center" spacing={24}>
+            <Grid container justify="center" spacing={16}>
               {apps.map(app => <AppCard key={app.id} app={app} />)}
             </Grid>
           ) : (

@@ -41,13 +41,6 @@ import electronIcon from '../../assets/default-icon.png';
 
 
 const styles = (theme) => {
-  const cardContentDefaults = {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'relative',
-  };
-
   return {
     button: {
       color: grey[600],
@@ -66,67 +59,45 @@ const styles = (theme) => {
       marginLeft: 6,
       transform: 'translateY(-1px)',
     },
-    cardHeader: {
-      alignItems: 'center',
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'column',
-      width: '100%',
-    },
     card: {
-      width: 240,
+      width: 250,
       boxSizing: 'border-box',
-    },
-    cardIsViewing: {
-      padding: 0,
-      width: '90vw',
+      background: theme.palette.common.white,
+      borderRadius: 4,
+      padding: theme.spacing.unit * 2,
+      border: '1px solid #BDBDBD',
     },
     appName: {
-      marginTop: 16,
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
+      lineHeight: 1,
     },
     paperIcon: {
-      width: 64,
-      height: 64,
-    },
-    cardContent: {
-      ...cardContentDefaults,
-    },
-    cardContentIsViewing: {
-      ...cardContentDefaults,
-      backgroundColor: 'white',
-      padding: 0,
+      width: 48,
+      height: 48,
     },
     domainText: {
       fontWeight: 400,
       lineHeight: 1,
       marginBottom: theme.spacing.unit,
     },
-    cardActions: {
-      justifyContent: 'center',
+    split: {
+      display: 'flex',
       overflow: 'hidden',
     },
-    linearProgress: {
-      marginTop: -5,
+    splitRight: {
+      display: 'flex',
+      alignItems: 'center',
+      paddingLeft: theme.spacing.unit * 2,
     },
-    linearProgressContainer: {
-      flex: 1,
-      padding: '0 16px',
+    actionContainer: {
+      marginTop: theme.spacing.unit * 2.5,
     },
-    rightButton: {
-      marginLeft: theme.spacing.unit,
-    },
-    iconButton: {
-      margin: 0,
-    },
-    moreIconMenu: {
-      position: 'absolute',
-      transform: 'translate(82px, -16px)',
-    },
-    hiddenMenuItem: {
-      display: 'none',
+    actionButton: {
+      marginRight: theme.spacing.unit,
+      minWidth: 'auto',
+      boxShadow: 'none',
     },
   };
 };
@@ -151,20 +122,21 @@ const AppCard = (props) => {
       return (
         <div>
           <Button
-            className={classes.button}
+            className={classes.actionButton}
             size="small"
+            variant="contained"
             onClick={handleOpenApp}
           >
-            <ExitToAppIcon color="inherit" />
-            <span className={classes.buttonText}>{STRING_OPEN}</span>
+            <span>{STRING_OPEN}</span>
           </Button>
           <Button
+            className={classes.actionButton}
             color="secondary"
             size="small"
+            variant="contained"
             onClick={() => onOpenConfirmUninstallAppDialog({ app })}
           >
-            <DeleteIcon color="inherit" />
-            <span className={classes.buttonText}>{STRING_UNINSTALL}</span>
+            <span>{STRING_UNINSTALL}</span>
           </Button>
         </div>
       );
@@ -177,8 +149,10 @@ const AppCard = (props) => {
 
     return (
       <Button
+        className={classes.actionButton}
         color="primary"
         size="small"
+        variant="contained"
         disabled={isInstalling || isUninstalling}
         onClick={() => {
           // for Linux
@@ -189,15 +163,10 @@ const AppCard = (props) => {
           onInstallApp(modifiedApp);
         }}
       >
-        <GetAppIcon color="inherit" />
-        <span className={classes.buttonText}>{label}</span>
+        <span>{label}</span>
       </Button>
     );
   };
-
-  const cardLinearProgresss = isInstalling || isUninstalling
-    ? <LinearProgress className={classes.linearProgress} />
-    : null;
 
   let icon = electronIcon;
   if (app.icon && !isUrl(app.icon)) icon = `file://${app.icon}`;
@@ -206,26 +175,31 @@ const AppCard = (props) => {
 
   return (
     <Grid key={app.id} item>
-      <Card className={classes.card}>
-        <CardContent className={classes.cardContent}>
-          <img
-            alt={app.name}
-            className={classes.paperIcon}
-            src={icon}
-          />
-          <Typography variant="subheading" className={classes.appName}>
-            {app.name}
-          </Typography>
+      <div className={classes.card}>
+        <div className={classes.split}>
+          <div className={classes.splitLeft}>
+            <img
+              alt={app.name}
+              className={classes.paperIcon}
+              src={icon}
+            />
+          </div>
+          <div className={classes.splitRight}>
+            <div>
+              <Typography variant="subheading" className={classes.appName}>
+                {app.name}
+              </Typography>
+              <Typography variant="body1" color="textSecondary">
+                {extractHostname(app.url)}
+              </Typography>
 
-          <Typography variant="body1" color="textSecondary">
-            {extractHostname(app.url)}
-          </Typography>
-        </CardContent>
-        <CardActions className={classes.cardActions}>
-          {renderActionsElement()}
-        </CardActions>
-        {cardLinearProgresss}
-      </Card>
+              <div className={classes.actionContainer}>
+                {renderActionsElement()}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Grid>
   );
 };

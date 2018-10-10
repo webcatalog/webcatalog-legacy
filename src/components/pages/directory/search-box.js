@@ -33,6 +33,7 @@ const styles = theme => ({
     backgroundColor: fullWhite,
     zIndex: 10,
     position: 'relative',
+    borderRadius: 0,
   },
   toolbarSectionSearch: {
     alignItems: 'center',
