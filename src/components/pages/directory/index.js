@@ -131,7 +131,7 @@ class Directory extends React.Component {
 
       return (
         <React.Fragment>
-          <Grid container justify="center" spacing={24}>
+          <Grid container justify="center" spacing={16}>
             {apps.map(app => <AppCard key={app.id} app={app} />)}
           </Grid>
 
