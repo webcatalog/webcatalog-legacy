@@ -2,28 +2,14 @@
 @import "./bulma/sass/utilities/functions"
 
 $blue: #1976D2
+$footer-background-color: #fff
+$weight-semibold: 500
 
-@import "./bulma/sass/utilities/_all.sass"
-@import "./bulma/sass/base/_all.sass"
-@import "./bulma/sass/layout/section.sass"
-@import "./bulma/sass/elements/button.sass"
-@import "./bulma/sass/elements/container.sass"
-@import "./bulma/sass/elements/content.sass"
-@import "./bulma/sass/elements/title.sass"
-@import "./bulma/sass/grid/columns.sass"
+@import "./bulma/bulma.sass"
 
 
 html, body
   height: 100%
-
-.main-page-head
-  padding: 0.5rem
-  text-align: center
-  font-size: 1.5rem
-  a
-    color: #000
-    &:hover
-      text-decoration: underline
 
 .head
   margin-bottom: 2rem
@@ -41,20 +27,12 @@ html, body
       font-size: 3.2em
     h2
       font-size: 0.8em
-  
-body
-  display: flex
-  flex-direction: column
-
-main
-  flex: 1
 
 .container
   max-width: 640px
 
 .footer
-  .container
-    padding: 1.5em 1em
+  padding: 1.5em 1em
 
 .screenshot
   width: 100%
