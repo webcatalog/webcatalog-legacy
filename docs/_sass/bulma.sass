@@ -1,57 +1,35 @@
 @import "./bulma/sass/utilities/initial-variables"
 @import "./bulma/sass/utilities/functions"
 
-$blue: #1976D2
+$blue: #0D47A1
 $footer-background-color: #fff
 $weight-semibold: 500
+$navbar-burger-color: #fff
 
 @import "./bulma/bulma.sass"
 
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
 
-html, body
-  height: 100%
-
-.head
-  margin-bottom: 2rem
-  h1
-    font-size: 4em
-    color: $blue
-    line-height: 1.2
-    font-weight: 400
-
-  h2
-    font-size: 1.4em
-    line-height: 1
-  @media screen and (max-width: 639px)
-    h1
-      font-size: 3.2em
-    h2
-      font-size: 0.8em
+main
+  flex: 1
 
 .container
-  max-width: 640px
+  max-width: 960px !important
 
 .footer
-  padding: 1.5em 1em
+  padding: 1.5em
+
+.is-text-link
+  text-decoration: underline
+  &:hover
+    font-weight: 600
+
+.inline-block
+  display: inline-block
 
 .screenshot
+  max-width: 400px
   width: 100%
-  max-width: 760px
-  &.is-small
-    max-width: 560px
-
-.section.extra-top
-  padding-top: 5em
-
-.browser-icon
-  height: 5em
-  width: 5em
-
-.section
-  a:not(.button)
-    font-weight: 600
-    &:hover
-      text-decoration: underline !important
-
-.app-icon
-  max-width: 128px
