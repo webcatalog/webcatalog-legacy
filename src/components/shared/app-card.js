@@ -1,4 +1,3 @@
-import isUrl from 'is-url';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../helpers/connect-component';
+import isUrl from '../../helpers/is-url';
 
 import extractHostname from '../../helpers/extract-hostname';
 import { open as openConfirmUninstallAppDialog } from '../../state/dialogs/confirm-uninstall-app/actions';

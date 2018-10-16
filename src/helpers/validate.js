@@ -1,9 +1,9 @@
-import isUrl from 'is-url';
-
 import {
   STRING_IS_REQUIRED,
   STRING_IS_URL,
 } from '../constants/strings';
+
+import isUrl from '../helpers/is-url';
 
 const kits = {
   required: (val, ruleVal, fieldName) => {

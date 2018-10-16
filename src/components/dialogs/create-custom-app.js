@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isUrl from 'is-url';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +13,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import connectComponent from '../../helpers/connect-component';
+import isUrl from '../../helpers/is-url';
 
 import {
   close,
