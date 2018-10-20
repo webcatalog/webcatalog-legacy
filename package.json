@@ -18,11 +18,10 @@
     "directory:pack": "cd directory && yarn build:pack",
     "directory:publish": "cd directory && yarn build:publish"
   },
-  "repository": "https://github.com/quanglam2807/webcatalog",
+  "repository": "https://github.com/webcatalog/webcatalog",
   "author": {
     "name": "Quang Lam",
-    "email": "quang.lam2807@gmail.com",
-    "url": "https://quanglam.em"
+    "email": "quang.lam2807@gmail.com"
   },
   "license": "MPL-2.0",
   "dependencies": {
