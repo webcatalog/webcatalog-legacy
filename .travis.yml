@@ -18,7 +18,9 @@ addons:
     - libxkbfile-dev
     - snapd
 before_install:
+- openssl aes-256-cbc -K $encrypted_c83a7fbb1c43_key -iv $encrypted_c83a7fbb1c43_iv -in snapcraft_login.enc -out snapcraft_login -d
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then snap run snapcraft login --with snapcraft_login; fi
 before_script:
 - yarn lint
 script:
@@ -30,5 +32,5 @@ deploy:
   on:
     tags: true
   provider: script
-  script: bash .snapcraft/deploy.sh
+  script: bash snapcraft_deploy.sh
   skip_cleanup: true

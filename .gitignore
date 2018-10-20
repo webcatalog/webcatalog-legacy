@@ -52,3 +52,5 @@ _src
 
 /build
 /template/build
+
+snapcraft_login
