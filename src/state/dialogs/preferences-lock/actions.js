@@ -8,16 +8,13 @@ import { STRING_INCORRECT_PASSWORD } from '../../../constants/strings';
 
 import { open as openDialogPreferences } from '../preferences/actions';
 
-export const close = () =>
-  dispatch => dispatch(dialogPreferencesLockClose());
+export const close = () => dispatch => dispatch(dialogPreferencesLockClose());
 
-export const open = () =>
-  (dispatch) => {
-    dispatch(dialogPreferencesLockOpen());
-  };
+export const open = () => (dispatch) => {
+  dispatch(dialogPreferencesLockOpen());
+};
 
-export const formUpdate = changes =>
-  dispatch => dispatch(dialogPreferencesLockFormUpdate(changes));
+export const formUpdate = changes => dispatch => dispatch(dialogPreferencesLockFormUpdate(changes));
 
 export const checkCurrentPassword = () => (dispatch, getState) => {
   const state = getState();

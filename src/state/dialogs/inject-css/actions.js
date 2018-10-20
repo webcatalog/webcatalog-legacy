@@ -8,19 +8,16 @@ import {
   dialogInjectCSSFormUpdate,
 } from './action-creators';
 
-export const close = () =>
-  dispatch => dispatch(dialogInjectCSSClose());
+export const close = () => dispatch => dispatch(dialogInjectCSSClose());
 
-export const open = () =>
-  (dispatch, getState) => {
-    dispatch(dialogInjectCSSOpen());
-    dispatch(dialogInjectCSSFormUpdate({
-      content: getState().preferences.injectCSS,
-    }));
-  };
+export const open = () => (dispatch, getState) => {
+  dispatch(dialogInjectCSSOpen());
+  dispatch(dialogInjectCSSFormUpdate({
+    content: getState().preferences.injectCSS,
+  }));
+};
 
-export const formUpdate = changes =>
-  dispatch => dispatch(dialogInjectCSSFormUpdate(changes));
+export const formUpdate = changes => dispatch => dispatch(dialogInjectCSSFormUpdate(changes));
 
 export const save = () => (dispatch, getState) => {
   const { content } = getState().dialogs.injectCSS.form;

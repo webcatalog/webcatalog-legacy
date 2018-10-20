@@ -349,8 +349,8 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={STRING_HOME_PAGE}
                     secondary={
-                      homePage && homePage.length > 0 ?
-                        homePage
+                      homePage && homePage.length > 0
+                        ? homePage
                         : window.shellInfo.url
                     }
                   />
@@ -717,8 +717,8 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={STRING_PROXIES}
                     secondary={
-                      proxyRules && proxyRules.length > 0 ?
-                        proxyRules
+                      proxyRules && proxyRules.length > 0
+                        ? proxyRules
                         : STRING_NONE
                     }
                   />
@@ -751,8 +751,8 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={STRING_USER_AGENT}
                     secondary={
-                      userAgent && userAgent.length > 0 ?
-                        getSecondaryText(userAgent)
+                      userAgent && userAgent.length > 0
+                        ? getSecondaryText(userAgent)
                         : STRING_DEFAULT
                     }
                   />
@@ -767,8 +767,8 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={STRING_INJECT_CSS}
                     secondary={
-                      injectCSS && injectCSS.length > 0 ?
-                        getSecondaryText(injectCSS)
+                      injectCSS && injectCSS.length > 0
+                        ? getSecondaryText(injectCSS)
                         : STRING_NONE
                     }
                   />
@@ -786,8 +786,8 @@ class PreferencesDialog extends React.Component {
                   <ListItemText
                     primary={STRING_INJECT_JS}
                     secondary={
-                      injectJS && injectJS.length > 0 ?
-                        getSecondaryText(injectJS)
+                      injectJS && injectJS.length > 0
+                        ? getSecondaryText(injectJS)
                         : STRING_NONE
                     }
                   />

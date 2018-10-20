@@ -108,6 +108,7 @@ const props = {
 
 class ElectronWebView extends React.Component {
   componentDidMount() {
+    /* eslint-disable react/destructuring-assignment */
     const container = this.c;
     let propString = '';
     Object.keys(props).forEach((propName) => {
@@ -173,14 +174,14 @@ ElectronWebView.defaultProps = {
   className: '', // eslint-disable-line
 };
 
+events.forEach((event) => {
+  // eslint-disable-next-line
+  props[camelCase(`on-${event}`)] = PropTypes.func;
+});
+
 ElectronWebView.propTypes = Object.assign({
   parentClassName: PropTypes.string,
   className: PropTypes.string,
 }, props);
-
-events.forEach((event) => {
-  // eslint-disable-next-line
-  ElectronWebView.propTypes[camelCase(`on-${event}`)] = PropTypes.func;
-});
 
 export default ElectronWebView;

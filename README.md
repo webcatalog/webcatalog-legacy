@@ -1,4 +1,4 @@
-# Juli [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Travis Build Status](https://travis-ci.org/quanglam2807/juli.svg?branch=master)](https://travis-ci.org/quanglam2807/juli) [![Build status](https://ci.appveyor.com/api/projects/status/dmn5ur9xj7kt8g0p/branch/master?svg=true)](https://ci.appveyor.com/project/quanglam2807/juli/branch/master)
+# Juli [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Travis Build Status](https://travis-ci.org/webcatalog/juli.svg?branch=master)](https://travis-ci.org/webcatalog/juli) [![Build status](https://ci.appveyor.com/api/projects/status/dmn5ur9xj7kt8g0p/branch/master?svg=true)](https://ci.appveyor.com/project/webcatalog/juli/branch/master)
 
 **[Juli](https://getwebcatalog.com/juli)** is an application framework for site-specific browsers, powered by Electron.
 
@@ -11,7 +11,7 @@
 ### Commands
 ```bash
 # First, clone the project:
-git clone https://github.com/quanglam2807/juli.git
+git clone https://github.com/webcatalog/juli.git
 cd juli
 
 # install the dependencies

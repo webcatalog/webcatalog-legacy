@@ -3,8 +3,6 @@ import {
   dialogAboutOpen,
 } from './action-creators';
 
-export const close = () =>
-  dispatch => dispatch(dialogAboutClose());
+export const close = () => dispatch => dispatch(dialogAboutClose());
 
-export const open = () =>
-  dispatch => dispatch(dialogAboutOpen());
+export const open = () => dispatch => dispatch(dialogAboutOpen());

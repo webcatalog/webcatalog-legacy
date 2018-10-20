@@ -25,11 +25,8 @@ module.exports = (options) => {
   }
 
   function hasBounds() {
-    return state &&
-      state.x !== undefined &&
-      state.y !== undefined &&
-      state.width !== undefined &&
-      state.height !== undefined;
+    return state && state.x !== undefined && state.y !== undefined && state.width !== undefined
+      && state.height !== undefined;
   }
 
   function validateState() {

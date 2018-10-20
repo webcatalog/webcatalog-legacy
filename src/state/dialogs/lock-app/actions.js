@@ -15,22 +15,18 @@ import {
   STRING_INCORRECT_PASSWORD,
 } from '../../../constants/strings';
 
-export const close = () =>
-  dispatch => dispatch(dialogLockAppClose());
+export const close = () => dispatch => dispatch(dialogLockAppClose());
 
-export const modeUpdate = mode =>
-  dispatch => dispatch(dialogLockAppModeUpdate(mode));
+export const modeUpdate = mode => dispatch => dispatch(dialogLockAppModeUpdate(mode));
 
-export const open = () =>
-  (dispatch, getState) => {
-    dispatch(dialogLockAppOpen());
-    if (!getState().preferences.lockApp) {
-      dispatch(dialogLockAppModeUpdate(1));
-    }
-  };
+export const open = () => (dispatch, getState) => {
+  dispatch(dialogLockAppOpen());
+  if (!getState().preferences.lockApp) {
+    dispatch(dialogLockAppModeUpdate(1));
+  }
+};
 
-export const formUpdate = changes =>
-  dispatch => dispatch(dialogLockAppFormUpdate(changes));
+export const formUpdate = changes => dispatch => dispatch(dialogLockAppFormUpdate(changes));
 
 export const save = () => (dispatch, getState) => {
   const { password, confirmPassword } = getState().dialogs.lockApp.form;

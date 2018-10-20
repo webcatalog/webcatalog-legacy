@@ -40,6 +40,8 @@ class EnhancedMenu extends React.Component {
       id,
     } = this.props;
 
+    const { anchorEl, open } = this.state;
+
     return (
       <div className={classes.container}>
         {React.cloneElement(buttonElement, {
@@ -49,8 +51,8 @@ class EnhancedMenu extends React.Component {
         })}
         <Menu
           id={id}
-          anchorEl={this.state.anchorEl}
-          open={this.state.open}
+          anchorEl={anchorEl}
+          open={open}
           onClose={this.handleRequestClose}
         >
           {React.Children.map(children, child => React.cloneElement(child, {

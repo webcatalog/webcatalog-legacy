@@ -13,36 +13,35 @@ export const setUpdaterStatus = (status, data) => ({
   data,
 });
 
-export const checkForUpdates = () =>
-  (dispatch) => {
-    dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
+export const checkForUpdates = () => (dispatch) => {
+  dispatch(setUpdaterStatus(CHECKING_FOR_UPDATES));
 
-    return window.fetch('https://api.github.com/repos/quanglam2807/juli/releases/latest', {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-      },
+  return window.fetch('https://api.github.com/repos/webcatalog/juli/releases/latest', {
+    headers: {
+      Accept: 'application/vnd.github.v3+json',
+    },
+  })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      }
+
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
     })
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return response;
-        }
+    .then(response => response.json())
+    .then(({ tag_name }) => {
+      const latestVersion = tag_name.substring(1);
 
-        const error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-      })
-      .then(response => response.json())
-      .then(({ tag_name }) => {
-        const latestVersion = tag_name.substring(1);
+      if (semver.gte(window.version, latestVersion)) {
+        dispatch(setUpdaterStatus(UPDATE_NOT_AVAILABLE));
+        return;
+      }
 
-        if (semver.gte(window.version, latestVersion)) {
-          dispatch(setUpdaterStatus(UPDATE_NOT_AVAILABLE));
-          return;
-        }
-
-        dispatch(setUpdaterStatus(UPDATE_AVAILABLE, { version: latestVersion }));
-      })
-      .catch(() => {
-        dispatch(setUpdaterStatus(UPDATE_ERROR));
-      });
-  };
+      dispatch(setUpdaterStatus(UPDATE_AVAILABLE, { version: latestVersion }));
+    })
+    .catch(() => {
+      dispatch(setUpdaterStatus(UPDATE_ERROR));
+    });
+};

@@ -109,8 +109,8 @@ global.isTesting = isTesting;
 
 // ensure only one instance is running.
 const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
-  const isDuplicated = secondInstanceArgv.length === process.argv.length &&
-    secondInstanceArgv.every((item, i) => item === process.argv[i]);
+  const isDuplicated = secondInstanceArgv.length === process.argv.length && secondInstanceArgv
+    .every((item, i) => item === process.argv[i]);
 
   if (isDuplicated) {
     // Someone tried to run a second instance, we should show the opened window.
@@ -124,31 +124,29 @@ const isSecondInstance = app.makeSingleInstance((secondInstanceArgv) => {
 
 // Electron API is quite limited
 // I don't want to write native code so I use quirky solution
-const isSecondInstanceWithSameArgsAsync = () =>
-  new Promise((resolve, reject) => {
-    if (isSecondInstance) {
-      const command = process.platform === 'win32' ?
-        app.getPath('exe')
-        : path.join('/Applications', 'Juli.app', 'Contents', 'MacOS', 'Juli');
+const isSecondInstanceWithSameArgsAsync = () => new Promise((resolve, reject) => {
+  if (isSecondInstance) {
+    const command = process.platform === 'win32' ? app.getPath('exe')
+      : path.join('/Applications', 'Juli.app', 'Contents', 'MacOS', 'Juli');
 
-      ps.lookup({
-        command,
-        arguments: [process.argv[1], process.argv[2], process.argv[3]],
-      }, (err, resultList) => {
-        if (err) {
-          reject(err);
-        }
+    ps.lookup({
+      command,
+      arguments: [process.argv[1], process.argv[2], process.argv[3]],
+    }, (err, resultList) => {
+      if (err) {
+        reject(err);
+      }
 
-        if (resultList.length > 1) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    } else {
-      resolve(false);
-    }
-  });
+      if (resultList.length > 1) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  } else {
+    resolve(false);
+  }
+});
 
 loadListeners();
 

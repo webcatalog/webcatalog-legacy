@@ -124,6 +124,7 @@ class App extends React.Component {
     const {
       onCheckForUpdates,
       onScreenResize,
+      onOpenFindInPageDialog,
     } = this.props;
 
     const {
@@ -145,21 +146,23 @@ class App extends React.Component {
     ipcRenderer.on('toggle-dev-tools', onToggleDevTools);
 
     ipcRenderer.on('open-find-in-page-dialog', () => {
-      this.props.onOpenFindInPageDialog();
+      onOpenFindInPageDialog();
       const find = this.findInPage;
       find.select();
     });
 
     ipcRenderer.on('find-in-page-next', () => {
-      this.props.onOpenFindInPageDialog();
+      onOpenFindInPageDialog();
       const c = this.webView;
-      c.findInPage(this.props.findInPageText, { forward: true });
+      const { findInPageText } = this.props;
+      c.findInPage(findInPageText, { forward: true });
     });
 
     ipcRenderer.on('find-in-page-previous', () => {
-      this.props.onOpenFindInPageDialog();
+      onOpenFindInPageDialog();
       const c = this.webView;
-      c.findInPage(this.props.findInPageText, { forward: false });
+      const { findInPageText } = this.props;
+      c.findInPage(findInPageText, { forward: false });
     });
 
     ipcRenderer.on('change-zoom', (event, factor) => onSetZoomFactor(factor));
@@ -273,7 +276,7 @@ class App extends React.Component {
 
     // navigate
     if (nextDomain && (nextDomain === curDomain || nextDomain === 'accounts.google.com')) {
-      // https://github.com/quanglam2807/juli/issues/35
+      // https://github.com/webcatalog/juli/issues/35
       c.loadURL(nextUrl);
       return;
     }
@@ -453,8 +456,9 @@ class App extends React.Component {
               onDidFailLoad={onDidFailLoad}
               onDidStartLoading={() => onUpdateIsLoading(true)}
               onDidStopLoading={onDidStopLoading}
-              onFoundInPage={({ result }) =>
-                onUpdateFindInPageMatches(result.activeMatchOrdinal, result.matches)}
+              onFoundInPage={({ result }) => onUpdateFindInPageMatches(
+                result.activeMatchOrdinal, result.matches,
+              )}
               onNewWindow={onNewWindow}
               onPageTitleUpdated={({ title }) => {
                 document.title = title;

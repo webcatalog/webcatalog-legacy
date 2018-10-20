@@ -35,7 +35,10 @@ const UpdaterMessage = (props) => {
   if (updaterStatus === UPDATE_AVAILABLE) {
     return (
       <div className={classes.updaterPaper}>
-        <span>{STRING_UPDATE_AVAILABLE} </span>
+        <span>
+          {STRING_UPDATE_AVAILABLE}
+          {' '}
+        </span>
         <Button
           variant="raised"
           className={classes.updaterPaperLink}

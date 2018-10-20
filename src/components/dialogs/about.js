@@ -119,11 +119,16 @@ const About = (props) => {
           <React.Fragment>
             <Typography variant="title" className={classes.title}>{window.shellInfo.name}</Typography>
             <Typography variant="body1" className={classes.version}>
-              powered by Juli engine {window.version}
+              powered by Juli engine
+              {' '}
+              {window.version}
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography variant="title" className={classes.title}>Juli {window.version}</Typography>
+          <Typography variant="title" className={classes.title}>
+Juli
+            {window.version}
+          </Typography>
         )}
 
         <Typography variant="body1" className={classes.updaterStatus}>

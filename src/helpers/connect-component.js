@@ -13,8 +13,8 @@ const connectComponent = (component, mapStateToProps, actionCreators, styles) =>
     });
   }
 
-  const styledComponent = styles ?
-    withStyles(styles)(component, { name: component.name })
+  const styledComponent = styles
+    ? withStyles(styles)(component, { name: component.name })
     : component;
 
   return connect(

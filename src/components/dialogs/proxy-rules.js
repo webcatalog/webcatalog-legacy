@@ -67,7 +67,8 @@ const DialogProxyRules = (props) => {
             onKeyDown={() => requestOpenInBrowser('https://github.com/electron/electron/blob/master/docs/api/session.md#sessetproxyconfig-callback')}
           >
             {STRING_LEARN_MORE}
-          </span>.
+          </span>
+.
         </Typography>
         <TextField
           fullWidth

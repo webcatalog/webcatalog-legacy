@@ -8,19 +8,16 @@ import {
   dialogTitleBarColorFormUpdate,
 } from './action-creators';
 
-export const close = () =>
-  dispatch => dispatch(dialogTitleBarColorClose());
+export const close = () => dispatch => dispatch(dialogTitleBarColorClose());
 
-export const open = () =>
-  (dispatch, getState) => {
-    dispatch(dialogTitleBarColorOpen());
-    dispatch(dialogTitleBarColorFormUpdate({
-      content: getState().preferences.titleBarColor,
-    }));
-  };
+export const open = () => (dispatch, getState) => {
+  dispatch(dialogTitleBarColorOpen());
+  dispatch(dialogTitleBarColorFormUpdate({
+    content: getState().preferences.titleBarColor,
+  }));
+};
 
-export const formUpdate = changes =>
-  dispatch => dispatch(dialogTitleBarColorFormUpdate(changes));
+export const formUpdate = changes => dispatch => dispatch(dialogTitleBarColorFormUpdate(changes));
 
 export const save = () => (dispatch, getState) => {
   const { content } = getState().dialogs.titleBarColor.form;

@@ -3,8 +3,6 @@ import {
   dialogRelaunchOpen,
 } from './action-creators';
 
-export const close = () =>
-  dispatch => dispatch(dialogRelaunchClose());
+export const close = () => dispatch => dispatch(dialogRelaunchClose());
 
-export const open = () =>
-  dispatch => dispatch(dialogRelaunchOpen());
+export const open = () => dispatch => dispatch(dialogRelaunchOpen());

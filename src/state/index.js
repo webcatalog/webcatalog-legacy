@@ -5,7 +5,7 @@ import {
 } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import dialogs from '../state/dialogs/reducers';
+import dialogs from './dialogs/reducers';
 import findInPage from './root/find-in-page/reducers';
 import locker from './root/locker/reducers';
 import nav from './root/nav/reducers';
@@ -20,18 +20,16 @@ const rootReducer = combineReducers({
   locker,
   nav,
   preferences,
-  root,
   screen,
   snackbar,
   updater,
 });
 
-const configureStore = initialState =>
-  createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(thunkMiddleware),
-  );
+const configureStore = initialState => createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(thunkMiddleware),
+);
 
 // init store
 const store = configureStore();

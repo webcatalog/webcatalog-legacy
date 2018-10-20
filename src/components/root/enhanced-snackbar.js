@@ -29,11 +29,11 @@ const EnhancedSnackbar = (props) => {
         'aria-describedby': 'message-id',
       }}
       message={message}
-      action={
+      action={(
         <Button color="accent" size="small" onClick={onCloseSnackbar}>
           {actionText}
         </Button>
-      }
+)}
     />
   );
 };

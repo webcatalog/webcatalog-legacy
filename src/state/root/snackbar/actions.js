@@ -3,8 +3,8 @@ import {
   snackbarOpen,
 } from './action-creators';
 
-export const closeSnackbar = () =>
-  dispatch => dispatch(snackbarClose());
+export const closeSnackbar = () => dispatch => dispatch(snackbarClose());
 
-export const openSnackbar = (message, actionText) =>
-  dispatch => dispatch(snackbarOpen(message, actionText));
+export const openSnackbar = (message, actionText) => dispatch => dispatch(snackbarOpen(
+  message, actionText,
+));
