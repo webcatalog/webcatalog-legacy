@@ -21,7 +21,7 @@ Promise.resolve()
         }
         default:
         case 'linux': {
-          targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
+          targets = Platform.LINUX.createTarget(['snap', 'AppImage'], Arch.x64);
           break;
         }
       }
