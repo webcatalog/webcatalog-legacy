@@ -51,3 +51,5 @@ dist
 _src
 
 /build
+
+snapcraft_login
