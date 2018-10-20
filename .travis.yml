@@ -17,7 +17,7 @@ addons:
     - python3-pip
 cache: yarn
 before_install:
-- openssl aes-256-cbc -K $encrypted_c83a7fbb1c43_key -iv $encrypted_c83a7fbb1c43_iv -in snapcraft_login.enc -out snapcraft_login -d
+- openssl aes-256-cbc -K $encrypted_9b138b9d5184_key -iv $encrypted_9b138b9d5184_iv -in snapcraft_login.enc -out snapcraft_login -d
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then snap run snapcraft login --with snapcraft_login; fi
 before_script:
