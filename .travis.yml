@@ -15,6 +15,7 @@ addons:
     packages:
     - python3
     - python3-pip
+    - snapd
 cache: yarn
 before_install:
 - openssl aes-256-cbc -K $encrypted_9b138b9d5184_key -iv $encrypted_9b138b9d5184_iv -in snapcraft_login.enc -out snapcraft_login -d
