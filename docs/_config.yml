@@ -19,17 +19,10 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://getwebcatalog.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-webcatalog_version: 12.6.2
+webcatalog_version: 12.7.0
 collections:
   directory:
     output: true
-
-defaults:
-  - scope:
-      path: ""
-      type: directory
-    values:
-      layout: directory-single
 
 # Build settings
 markdown: kramdown
