@@ -79,6 +79,12 @@ if (spellChecking) {
             remote.getCurrentWindow().send('reload');
           },
         }));
+        menu.append(new MenuItem({
+          label: 'Copy URL',
+          click: () => {
+            remote.getCurrentWindow().send('copy-url');
+          },
+        }));
         menu.popup(remote.getCurrentWindow());
       });
   });
