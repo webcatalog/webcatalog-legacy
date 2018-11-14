@@ -40,8 +40,8 @@ fs.readdirSync(appPath)
       { id: slug, objectID: slug },
       yaml.load(yamlFile),
       {
-        icon: `https://raw.githubusercontent.com/webcatalog/webcatalog/icons/${slug}/${slug}-icon.png`,
-        icon128: `https://raw.githubusercontent.com/webcatalog/webcatalog/icons/${slug}/${slug}-icon-128.png`,
+        icon: `https://rawcdn.githack.com/webcatalog/webcatalog-12/dc49c1128c74958ca338b406bc8d1df2364a9d74/${slug}/${slug}-icon.png`,
+        icon128: `https://rawcdn.githack.com/webcatalog/webcatalog-12/dc49c1128c74958ca338b406bc8d1df2364a9d74/${slug}/${slug}-icon-128.png`,
       },
     );
 
