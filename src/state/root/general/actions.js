@@ -1,5 +1,4 @@
 import {
-  activatedChange,
   browserInstalledChange,
 } from './action-creators';
 
@@ -12,9 +11,4 @@ export const updateBrowserInstalled = () =>
     const browserInstalled = isBrowserInstalled(browser);
 
     dispatch(browserInstalledChange(browserInstalled));
-  };
-
-export const updateActivated = activated =>
-  (dispatch) => {
-    dispatch(activatedChange(activated));
   };

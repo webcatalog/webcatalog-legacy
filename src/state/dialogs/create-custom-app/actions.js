@@ -25,26 +25,15 @@ import { openSnackbar } from '../../root/snackbar/actions';
 
 import { changeRoute } from '../../root/router/actions';
 
-import { open as openDialogActivate } from '../../dialogs/activate/actions';
-
 import {
   nameExists,
-  numberOfApps,
 } from '../../root/local/utils';
 
 export const close = () =>
   dispatch => dispatch(createCustomAppClose());
 
-export const open = () => (dispatch, getState) => {
-  const state = getState();
-
-  const { activated } = state.general;
-
-  if (numberOfApps(state) > 1 && !activated) {
-    dispatch(openDialogActivate());
-  } else {
-    dispatch(createCustomAppOpen());
-  }
+export const open = () => (dispatch) => {
+  dispatch(createCustomAppOpen());
 };
 
 const getValidationRules = () => ({

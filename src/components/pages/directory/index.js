@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,13 +12,10 @@ import connectComponent from '../../../helpers/connect-component';
 import { requestOpenInBrowser } from '../../../senders/generic';
 
 import { getHits } from '../../../state/pages/directory/actions';
-import { open as openDialogActivate } from '../../../state/dialogs/activate/actions';
 
 import {
   STRING_NO_RESULTS_HINT,
   STRING_NO_RESULTS,
-  STRING_PURCHASE,
-  STRING_ACTIVATE,
 } from '../../../constants/strings';
 
 import AppCard from '../../shared/app-card';
@@ -103,13 +99,11 @@ class Directory extends React.Component {
 
   render() {
     const {
-      activated,
       apps,
       classes,
       hasFailed,
       isGetting,
       onGetHits,
-      onOpenDialogActivate,
     } = this.props;
 
     const renderContent = () => {
@@ -171,25 +165,6 @@ class Directory extends React.Component {
           ref={(container) => { this.scrollContainer = container; }}
         >
           <Grid container className={classes.grid} spacing={16}>
-            {!activated && (
-              <div className={classes.donateMessageContainer}>
-                <Button
-                  color="primary"
-                  variant="raised"
-                  onClick={() => requestOpenInBrowser('https://getwebcatalog.com/purchase')}
-                >
-                  {STRING_PURCHASE}
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="raised"
-                  onClick={onOpenDialogActivate}
-                  className={classes.donateMessageButton}
-                >
-                  {STRING_ACTIVATE}
-                </Button>
-              </div>
-            )}
             <Grid item xs={12}>
               {renderContent()}
             </Grid>
@@ -203,17 +178,14 @@ class Directory extends React.Component {
 
 
 Directory.propTypes = {
-  activated: PropTypes.bool.isRequired,
   apps: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
-  onOpenDialogActivate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  activated: state.general.activated,
   apps: state.pages.directory.hits,
   hasFailed: state.pages.directory.hasFailed,
   isGetting: state.pages.directory.isGetting,
@@ -221,7 +193,6 @@ const mapStateToProps = state => ({
 
 const actionCreators = {
   getHits,
-  openDialogActivate,
 };
 
 export default connectComponent(
