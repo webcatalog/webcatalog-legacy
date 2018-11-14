@@ -12,11 +12,8 @@ import {
   STRING_NAME_EXISTS,
 } from '../../../constants/strings';
 
-import { open as openDialogActivate } from '../../dialogs/activate/actions';
-
 import {
   nameExists,
-  numberOfApps,
 } from './utils';
 
 export const setLocalApp = (id, status, app) =>
@@ -31,18 +28,11 @@ export const installApp = app =>
     const state = getState();
 
     const { browser } = state.preferences;
-    const { activated } = state.general;
 
     if (nameExists(state, app.name)) {
       dispatch(openSnackbar(STRING_NAME_EXISTS.replace('{name}', app.name)));
       return null;
     }
-
-    if (numberOfApps(state) > 1 && !activated) {
-      dispatch(openDialogActivate());
-      return null;
-    }
-
     return installAppAsync(app, browser)
       .catch((err) => {
         dispatch(openSnackbar(STRING_FAILED_TO_INSTALL.replace('{name}', app.name)));
