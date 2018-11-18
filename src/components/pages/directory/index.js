@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
+
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -55,6 +57,7 @@ const styles = theme => ({
     boxSizing: 'border-box',
   },
   grid: {
+    marginTop: theme.spacing.unit * 3,
     marginBottom: theme.spacing.unit,
   },
   headerContainer: {
@@ -79,6 +82,14 @@ const styles = theme => ({
   },
   donateMessageButton: {
     marginLeft: theme.spacing.unit,
+  },
+  link: {
+    fontWeight: 600,
+    color: theme.palette.primary.dark,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 });
 
@@ -164,6 +175,26 @@ class Directory extends React.Component {
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            className={classes.link}
+            onClick={() => requestOpenInBrowser('https://getwebcatalog.com/goodbye')}
+          >
+            WebCatalog for Windows &#38; Linux is being sunset.
+          </Typography>
+
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            className={classes.link}
+            onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
+          >
+            You&#39;re running the last version of WebCatalog 12.
+            <br />It won&#39;t be updated to the next major release automatically.
+          </Typography>
           <Grid container className={classes.grid} spacing={16}>
             <Grid item xs={12}>
               {renderContent()}
