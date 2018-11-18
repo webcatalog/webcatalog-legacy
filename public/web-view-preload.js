@@ -12,7 +12,7 @@ const {
   ContextMenuBuilder,
 } = require('electron-spellchecker');
 
-const { Menu, MenuItem } = remote;
+const { MenuItem } = remote;
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
@@ -49,83 +49,37 @@ window.onload = () => {
   }
 };
 
-if (spellChecking) {
-  window.spellCheckHandler = new SpellCheckHandler();
-  setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
+window.spellCheckHandler = new SpellCheckHandler();
+setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
 
-  window.spellCheckHandler.provideHintText('This is probably the language that you want to check in');
-  window.spellCheckHandler.autoUnloadDictionariesOnBlur();
+window.spellCheckHandler.provideHintText('This is probably the language that you want to check in');
+window.spellCheckHandler.autoUnloadDictionariesOnBlur();
 
-  window.contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler, null, true);
-  window.contextMenuListener = new ContextMenuListener((info) => {
-    window.contextMenuBuilder.buildMenuForElement(info)
-      .then((menu) => {
-        menu.append(new MenuItem({ type: 'separator' }));
-        menu.append(new MenuItem({
-          label: 'Back',
-          click: () => {
-            remote.getCurrentWindow().send('go-back');
-          },
-        }));
-        menu.append(new MenuItem({
-          label: 'Forward',
-          click: () => {
-            remote.getCurrentWindow().send('go-forward');
-          },
-        }));
-        menu.append(new MenuItem({
-          label: 'Reload',
-          click: () => {
-            remote.getCurrentWindow().send('reload');
-          },
-        }));
-        menu.append(new MenuItem({
-          label: 'Copy URL',
-          click: () => {
-            remote.getCurrentWindow().send('copy-url');
-          },
-        }));
-        menu.popup(remote.getCurrentWindow());
-      });
-  });
-} else {
-  // Inspect element
-  // Importing this adds a right-click menu with 'Inspect Element' option
-  let rightClickPosition = null;
+window.contextMenuBuilder = new ContextMenuBuilder(spellChecking ? window.spellCheckHandler : null,
+  null, true);
+window.contextMenuListener = new ContextMenuListener((info) => {
+  window.contextMenuBuilder.buildMenuForElement(info)
+    .then((menu) => {
+      menu.append(new MenuItem({ type: 'separator' }));
+      menu.append(new MenuItem({
+        label: 'Back',
+        click: () => {
+          remote.getCurrentWindow().send('go-back');
+        },
+      }));
+      menu.append(new MenuItem({
+        label: 'Forward',
+        click: () => {
+          remote.getCurrentWindow().send('go-forward');
+        },
+      }));
+      menu.append(new MenuItem({
+        label: 'Reload',
+        click: () => {
+          remote.getCurrentWindow().send('reload');
+        },
+      }));
 
-  const menu = new Menu();
-  menu.append(new MenuItem({
-    label: 'Back',
-    click: () => {
-      remote.getCurrentWindow().send('go-back');
-    },
-  }));
-  menu.append(new MenuItem({
-    label: 'Forward',
-    click: () => {
-      remote.getCurrentWindow().send('go-forward');
-    },
-  }));
-  menu.append(new MenuItem({
-    label: 'Reload',
-    click: () => {
-      remote.getCurrentWindow().send('reload');
-    },
-  }));
-  menu.append(new MenuItem({ type: 'separator' }));
-  menu.append(new MenuItem({
-    label: 'Inspect Element',
-    click: () => {
-      const { webContents } = remote;
-      webContents
-        .getFocusedWebContents()
-        .inspectElement(rightClickPosition.x, rightClickPosition.y);
-    },
-  }));
-
-  window.oncontextmenu = (e) => {
-    e.preventDefault();
-    rightClickPosition = { x: e.x, y: e.y };
-    menu.popup(remote.getCurrentWindow());
-  };
-}
+      menu.popup(remote.getCurrentWindow());
+    });
+});

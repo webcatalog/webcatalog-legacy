@@ -16,7 +16,7 @@ window.shellInfo = remote.getGlobal('shellInfo');
 
 // disable zoom
 webFrame.setVisualZoomLevelLimits(1, 1);
-webFrame.setLayoutZoomLevelLimits(1, 1);
+webFrame.setLayoutZoomLevelLimits(0, 0);
 
 window.env = process.env;
 window.ipcRenderer = ipcRenderer;
