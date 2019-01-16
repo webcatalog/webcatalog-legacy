@@ -46,7 +46,7 @@ export const register = () => (dispatch, getState) => {
 
   requestSetPreference('registered', true);
 
-  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog');
+  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog.');
 
   dispatch(close());
   return null;
