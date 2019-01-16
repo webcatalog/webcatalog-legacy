@@ -1,0 +1,3 @@
+name: Gmail
+url: 'https://gmail.com'
+mailtoHandler: 'https://mail.google.com/mail/?extsrc=mailto&url=%s'

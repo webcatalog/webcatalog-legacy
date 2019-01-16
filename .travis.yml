@@ -1,0 +1,26 @@
+language: node_js
+os: osx
+node_js: 10
+osx_image: xcode10.1
+cache: yarn
+before_script:
+- npm install -g npx
+- yarn template:install
+- yarn lint
+script:
+- yarn dist
+- if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then yarn
+  catalog:install && yarn catalog:pack && yarn catalog:publish; fi
+notifications:
+  email: false
+deploy:
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: s3.getwebcatalog.com
+  local-dir: catalog/dist
+  upload-dir: apps
+  acl: public_read
+  skip_cleanup: true
+  on:
+    repo: quanglam2807/webcatalog

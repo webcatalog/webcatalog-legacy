@@ -1,0 +1,16 @@
+const { ipcRenderer } = window.require('electron');
+
+export const requestOpenInBrowser = url => ipcRenderer.send('request-open-in-browser', url);
+export const requestShowMessageBox = (message, type) => ipcRenderer.send('request-show-message-box', message, type);
+
+// Preferences
+export const getPreference = name => ipcRenderer.sendSync('get-preference', name);
+export const getPreferences = () => ipcRenderer.sendSync('get-preferences');
+export const requestSetPreference = (name, value) => ipcRenderer.send('request-set-preference', name, value);
+export const requestResetPreferences = () => ipcRenderer.send('request-reset-preferences');
+
+// App Management
+export const requestGetInstalledApps = () => ipcRenderer.send('request-get-installed-apps');
+export const requestInstallApp = (id, name, url, icon, mailtoHandler) => ipcRenderer.send('request-install-app', id, name, url, icon, mailtoHandler);
+export const requestUninstallApp = (id, name) => ipcRenderer.send('request-uninstall-app', id, name);
+export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app', id, name);

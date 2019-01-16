@@ -1,0 +1,33 @@
+@import "./bulma/sass/utilities/initial-variables"
+@import "./bulma/sass/utilities/functions"
+
+$blue: #1E88E5
+$footer-background-color: #fff
+$weight-semibold: 500
+
+@import "./bulma/bulma.sass"
+
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+
+main
+  flex: 1
+
+.container
+  max-width: 800px !important
+
+.footer
+  padding: 1.5em
+
+.inline-block
+  display: inline-block
+
+.demo
+  max-width: 400px
+  width: 100%
+
+.is-text-link
+  &:hover
+    text-decoration: underline !important
