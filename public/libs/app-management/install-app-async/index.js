@@ -3,7 +3,7 @@ const { fork } = require('child_process');
 const { app } = require('electron');
 
 const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js').replace('app.asar', 'app.asar.unpacked');
+  const scriptPath = path.join(__dirname, 'forked-script.js');
 
   const params = [
     '--id',

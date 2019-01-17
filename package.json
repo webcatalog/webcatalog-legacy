@@ -1,5 +1,6 @@
 {
   "name": "WebCatalog",
+  "description": "Reinvent your Web Workflow",
   "version": "13.0.0",
   "templateVersion": "3.0.0",
   "main": "public/electron.js",

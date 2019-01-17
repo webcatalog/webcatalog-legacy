@@ -23,7 +23,7 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
-    global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png').replace('app.asar', 'app.asar.unpacked');
+    global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
     mainWindow.create();
     createMenu();

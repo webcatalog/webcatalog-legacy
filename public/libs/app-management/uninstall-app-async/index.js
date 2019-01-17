@@ -3,7 +3,7 @@ const { fork } = require('child_process');
 const { app } = require('electron');
 
 const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js').replace('app.asar', 'app.asar.unpacked');
+  const scriptPath = path.join(__dirname, 'forked-script.js');
 
   const child = fork(scriptPath, [
     '--id',
