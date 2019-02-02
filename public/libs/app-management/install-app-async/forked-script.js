@@ -91,6 +91,7 @@ decompress(templatePath, tmpPath)
       out: outputPath,
       overwrite: true,
       prune: true,
+      osxSign: false,
       asar: {
         unpack: '{app.json,icon.png,package.json}',
       },
