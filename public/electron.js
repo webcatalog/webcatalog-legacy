@@ -11,9 +11,10 @@ require('./libs/updater');
 const gotTheLock = app.requestSingleInstanceLock();
 
 app.on('second-instance', () => {
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore();
-    mainWindow.focus();
+  const win = mainWindow.get();
+  if (win != null) {
+    if (win.isMinimized()) win.restore();
+    win.focus();
   }
 });
 
