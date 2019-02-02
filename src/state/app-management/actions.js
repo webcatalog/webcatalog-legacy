@@ -57,5 +57,5 @@ export const updateApp = (id, name, url, icon, mailtoHandler) => (dispatch, getS
     return requestShowMessageBox('WebCatalog is outdated. Please update WebCatalog first to continue.', 'error');
   }
 
-  return installApp(id, name, url, icon, mailtoHandler);
+  return requestInstallApp(id, name, url, icon, mailtoHandler);
 };
