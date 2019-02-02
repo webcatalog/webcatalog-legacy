@@ -18,7 +18,7 @@ const {
   getActiveWorkspace,
   getNextWorkspace,
   getPreviousWorkspace,
-} = require('../libs/workspaces');
+} = require('./workspaces');
 
 const {
   createWorkspaceView,
@@ -26,6 +26,10 @@ const {
   removeWorkspaceView,
   clearBrowsingData,
 } = require('./workspaces-views');
+
+const {
+  getView,
+} = require('./views');
 
 const {
   checkForUpdates,
@@ -95,11 +99,10 @@ function createMenu() {
     {
       label: 'View',
       submenu: [
-        { type: 'separator' },
         { role: 'togglefullscreen' },
         { type: 'separator' },
         {
-          label: 'Reload This Page',
+          label: 'Reload This Workspace',
           accelerator: 'CmdOrCtrl+R',
           click: () => {
             const win = mainWindow.get();
@@ -108,6 +111,26 @@ function createMenu() {
               win.getBrowserView().webContents.reload();
             }
           },
+        },
+        { type: 'separator' },
+        {
+          label: 'Developer Tools',
+          submenu: [
+            {
+              label: 'Window',
+              click: () => {
+                const win = mainWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            { type: 'separator' },
+          ],
         },
       ],
     },
@@ -203,6 +226,14 @@ function createMenu() {
           createMenu();
         },
         accelerator: `CmdOrCtrl+${workspace.order + 1}`,
+      });
+
+      template[2].submenu[4].submenu.push({
+        label: workspace.name || `Workspace ${workspace.order + 1}`,
+        click: () => {
+          const v = getView(workspace.id);
+          v.webContents.toggleDevTools();
+        },
       });
     });
 
