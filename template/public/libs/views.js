@@ -1,9 +1,16 @@
-const { BrowserView, session, shell } = require('electron');
+const {
+  app,
+  BrowserView,
+  session,
+  shell,
+} = require('electron');
 const path = require('path');
 
 const appJson = require('../app.json');
 
 const views = {};
+
+const badgeCounts = {};
 
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -66,6 +73,22 @@ const addView = (browserWindow, workspace) => {
   let uaStr = view.webContents.getUserAgent();
   uaStr = uaStr.replace(`Electron/${process.versions.electron}`, `Juli/${process.version}`);
   view.webContents.setUserAgent(uaStr);
+
+  view.webContents.on('page-title-updated', (e, title) => {
+    const itemCountRegex = /[([{](\d*?)[}\])]/;
+    const match = itemCountRegex.exec(title);
+
+    const incStr = match ? match[1] : '';
+    const inc = parseInt(incStr, 10) || 0;
+    badgeCounts[workspace.id] = inc;
+
+    let count = 0;
+    Object.values(badgeCounts).forEach((c) => {
+      count += c;
+    });
+
+    app.setBadgeCount(count);
+  });
 
   view.webContents.loadURL(workspace.home || appJson.url);
 
