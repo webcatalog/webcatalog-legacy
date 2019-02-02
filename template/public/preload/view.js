@@ -1,6 +1,7 @@
 const {
   ipcRenderer,
   remote,
+  webFrame,
 } = require('electron');
 
 const {
@@ -59,3 +60,7 @@ window.onload = () => {
       });
   });
 };
+
+// Fix Can't show file list of Google Drive
+// https://github.com/electron/electron/issues/16587
+webFrame.executeJavaScript('window.chrome = {}');
