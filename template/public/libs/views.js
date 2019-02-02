@@ -67,6 +67,8 @@ const addView = (browserWindow, workspace) => {
   views[workspace.id] = view;
 };
 
+const getView = id => views[id];
+
 const setActiveView = (browserWindow, id) => {
   const view = views[id];
   browserWindow.setBrowserView(view);
@@ -92,6 +94,7 @@ const removeView = (id) => {
 
 module.exports = {
   addView,
+  getView,
   setActiveView,
   removeView,
 };
