@@ -62,6 +62,11 @@ const addView = (browserWindow, workspace) => {
     shell.openExternal(nextUrl);
   });
 
+  // Hide Electron from UA to improve compatibility
+  let uaStr = view.webContents.getUserAgent();
+  uaStr = uaStr.replace(`Electron/${process.versions.electron}`, `Juli/${process.version}`);
+  view.webContents.setUserAgent(uaStr);
+
   view.webContents.loadURL(workspace.home || appJson.url);
 
   views[workspace.id] = view;
