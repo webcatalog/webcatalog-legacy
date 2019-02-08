@@ -9,6 +9,7 @@ const defaultPreferences = {
   appearance: 'automatic',
   sidebar: true,
   spellChecker: true,
+  unreadCountBadge: true,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
