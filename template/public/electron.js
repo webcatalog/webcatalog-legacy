@@ -5,7 +5,7 @@ const path = require('path');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
-const openEmailLinkWithWindow = require('./windows/open-email-link-with');
+const openUrlWithWindow = require('./windows/open-url-with');
 
 const createMenu = require('./libs/create-menu');
 const { getWorkspaces } = require('./libs/workspaces');
@@ -30,6 +30,8 @@ if (!gotTheLock) {
   // eslint-disable-next-line
   app.quit();
 } else {
+  protocol.registerStandardSchemes(['http']);
+  protocol.registerStandardSchemes(['https']);
   protocol.registerStandardSchemes(['mailto']);
 
   loadListeners();
@@ -81,6 +83,6 @@ if (!gotTheLock) {
     e.preventDefault();
 
     app.whenReady()
-      .then(() => openEmailLinkWithWindow.show(url));
+      .then(() => openUrlWithWindow.show(url));
   });
 }

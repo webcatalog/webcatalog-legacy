@@ -16,14 +16,16 @@ const { remote } = window.require('electron');
 const getWorkspacesAsList = workspaces => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
-const OpenEmailLinkWith = ({ workspaces }) => (
+const OpenUrlWith = ({ workspaces }) => (
   <List dense>
     {getWorkspacesAsList(workspaces).map(workspace => (
       <ListItem
         button
         onClick={() => {
           const appJson = remote.getGlobal('appJson');
-          const u = appJson.mailtoHandler.replace('%s', remote.getGlobal('mailtoUrl'));
+          const incomingUrl = remote.getGlobal('incomingUrl');
+
+          const u = incomingUrl.startsWith('mailto:') ? appJson.mailtoHandler.replace('%s', incomingUrl) : incomingUrl;
 
           requestLoadURL(u, workspace.id);
           remote.getCurrentWindow().close();
@@ -39,7 +41,7 @@ const OpenEmailLinkWith = ({ workspaces }) => (
   </List>
 );
 
-OpenEmailLinkWith.propTypes = {
+OpenUrlWith.propTypes = {
   workspaces: PropTypes.object.isRequired,
 };
 
@@ -48,7 +50,7 @@ const mapStateToProps = state => ({
 });
 
 export default connectComponent(
-  OpenEmailLinkWith,
+  OpenUrlWith,
   mapStateToProps,
   null,
   null,
