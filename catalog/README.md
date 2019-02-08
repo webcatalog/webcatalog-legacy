@@ -1,6 +1,6 @@
 <!-- https://raw.githubusercontent.com/electron/electron-apps/master/readme.md --->
 
-App directory for WebCatalog.
+App Catalog for WebCatalog.
 
 ## Adding your app
 
@@ -23,7 +23,9 @@ The yml file requires just a few fields:
 
 ```yml
 name: Gmail
-url: 'https://gmail'
+url: 'https://gmail.com'
+category: Productivity
+mailtoHandler: 'https://mail.google.com/mail/?extsrc=mailto&url=%s'
 ```
 
 The human then opens a PR. Tests pass, the PR gets merged. Yay!
@@ -56,6 +58,17 @@ apps
 
 - `name` is required.
 - `url` is required, and must be a fully-qualified URL. 
+- `category` is required, and must be one of the following values: 
+  - Business
+  - Developer Tools
+  - Games
+  - Graphics & Design
+  - Music
+  - Photography
+  - Productivity
+  - Social Networking
+  - Utilities
+  - Video
 - `mailtoHandler` is not required, specifies the URL pattern to handle `mailto` links. See [Navigator.registerProtocolHandler() Web API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler). Example: `https://mail.google.com/mail/?extsrc=mailto&url=%s`.
 
 ### Icons
