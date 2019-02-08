@@ -100,6 +100,46 @@ function createMenu() {
       label: 'View',
       submenu: [
         { role: 'togglefullscreen' },
+        {
+          label: 'Actual Size',
+          accelerator: 'CmdOrCtrl+0',
+          click: () => {
+            const win = mainWindow.get();
+
+            if (win != null) {
+              const contents = win.getBrowserView().webContents;
+              contents.setZoomFactor(1);
+            }
+          },
+        },
+        {
+          label: 'Zoom In',
+          accelerator: 'CmdOrCtrl+=',
+          click: () => {
+            const win = mainWindow.get();
+
+            if (win != null) {
+              const contents = win.getBrowserView().webContents;
+              contents.getZoomFactor((zoomFactor) => {
+                contents.setZoomFactor(zoomFactor + 0.1);
+              });
+            }
+          },
+        },
+        {
+          label: 'Zoom Out',
+          accelerator: 'CmdOrCtrl+-',
+          click: () => {
+            const win = mainWindow.get();
+
+            if (win != null) {
+              const contents = win.getBrowserView().webContents;
+              contents.getZoomFactor((zoomFactor) => {
+                contents.setZoomFactor(zoomFactor - 0.1);
+              });
+            }
+          },
+        },
         { type: 'separator' },
         {
           label: 'Reload This Workspace',
@@ -228,7 +268,7 @@ function createMenu() {
         accelerator: `CmdOrCtrl+${workspace.order + 1}`,
       });
 
-      template[2].submenu[4].submenu.push({
+      template[2].submenu[7].submenu.push({
         label: workspace.name || `Workspace ${workspace.order + 1}`,
         click: () => {
           const v = getView(workspace.id);
