@@ -1,3 +1,4 @@
 name: Fastmail
 url: 'https://fastmail.com'
+category: Productivity
 mailtoHandler: 'http://www.fastmail.fm/action/compose/?mailto=%s'
