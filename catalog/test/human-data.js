@@ -12,6 +12,19 @@ const slugg = require('slugg');
 
 const { describe, it } = mocha;
 
+const categories = [
+  'Business',
+  'Developer Tools',
+  'Games',
+  'Graphics & Design',
+  'Music',
+  'Photography',
+  'Productivity',
+  'Social Networking',
+  'Utilities',
+  'Video',
+];
+
 const slugs = fs.readdirSync(path.join(__dirname, '../apps'))
   .filter(filename => fs.statSync(path.join(__dirname, `../apps/${filename}`)).isDirectory());
 
@@ -40,6 +53,11 @@ describe('human-submitted app data', () => {
 
         it('has a name', () => {
           expect(app.name.length).to.be.above(0);
+        });
+
+        it('has a valid category', () => {
+          expect(app.category.length).to.be.above(0);
+          expect(app.category).to.be.oneOf(categories);
         });
 
         it('is a web app with a valid URL', () => {
