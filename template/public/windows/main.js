@@ -30,6 +30,14 @@ const create = () => {
 
   win.loadURL(REACT_PATH);
 
+  // Hide window instead closing on macos
+  win.on('close', (e) => {
+    if (process.platform === 'darwin' && !win.forceClose) {
+      e.preventDefault();
+      win.hide();
+    }
+  });
+
   win.on('closed', () => {
     win = null;
   });

@@ -62,6 +62,16 @@ if (!gotTheLock) {
     checkForUpdates(true);
   });
 
+  app.on('before-quit', () => {
+    // https://github.com/atom/electron/issues/444#issuecomment-76492576
+    if (process.platform === 'darwin') {
+      const win = mainWindow.get();
+      if (win) {
+        win.forceClose = true;
+      }
+    }
+  });
+
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
       app.quit();
