@@ -10,7 +10,7 @@ let win;
 const get = () => win;
 
 const create = (url) => {
-  global.mailtoUrl = url;
+  global.incomingUrl = url;
 
   win = new BrowserWindow({
     width: 400,
@@ -21,7 +21,7 @@ const create = (url) => {
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, '..', 'preload', 'open-email-link-with.js'),
+      preload: path.join(__dirname, '..', 'preload', 'open-url-with.js'),
     },
     parent: mainWindow.get(),
   });

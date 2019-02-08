@@ -97,13 +97,22 @@ decompress(templatePath, tmpPath)
       },
     };
 
+    opts.protocols = [
+      {
+        name: 'HTTPS Protocol',
+        schemes: ['https'],
+      },
+      {
+        name: 'HTTP Protocol',
+        schemes: ['http'],
+      },
+    ];
+
     if (mailtoHandler && mailtoHandler.length > 0) {
-      opts.protocols = [
-        {
-          name: 'Mailto Protocol',
-          schemes: ['mailto'],
-        },
-      ];
+      opts.protocols.push({
+        name: 'Mailto Protocol',
+        schemes: ['mailto'],
+      });
     }
 
     return packager(opts);

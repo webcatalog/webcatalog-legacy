@@ -1,1 +1,1 @@
-window.mode = 'open-email-link-with';
+window.mode = 'open-url-with';

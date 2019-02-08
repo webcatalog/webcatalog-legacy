@@ -12,7 +12,7 @@ import AppWrapper from './components/app-wrapper';
 import Sidebar from './components/sidebar';
 import Preferences from './components/preferences';
 import EditWorkspace from './components/edit-workspace';
-import OpenEmailLinkWith from './components/open-email-link-with';
+import OpenUrlWith from './components/open-url-with';
 
 import { getWorkspace } from './senders';
 
@@ -32,8 +32,8 @@ const runApp = () => {
       App = EditWorkspace;
       break;
     }
-    case 'open-email-link-with': {
-      App = OpenEmailLinkWith;
+    case 'open-url-with': {
+      App = OpenUrlWith;
       break;
     }
     default: {
@@ -46,8 +46,8 @@ const runApp = () => {
   } else if (window.mode === 'edit-workspace') {
     const workspace = getWorkspace(window.require('electron').remote.getGlobal('editWorkspaceId'));
     document.title = workspace.name ? `Edit Workspace ${workspace.order + 1} "${workspace.name}"` : `Edit Workspace ${workspace.order + 1}`;
-  } else if (window.mode === 'open-email-link-with') {
-    document.title = 'Open Email Link With';
+  } else if (window.mode === 'open-url-with') {
+    document.title = 'Open Link With';
   } else {
     document.title = remote.getGlobal('appJson').name;
   }
