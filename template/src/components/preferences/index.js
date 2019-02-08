@@ -57,9 +57,10 @@ const Preferences = ({
   appearance,
   classes,
   isDefaultMailClient,
-  sidebar,
   onUpdateIsDefaultMailClient,
+  sidebar,
   spellChecker,
+  unreadCountBadge,
 }) => (
   <div className={classes.root}>
     <Typography variant="subtitle2" className={classes.sectionTitle}>
@@ -87,6 +88,20 @@ const Preferences = ({
             checked={sidebar}
             onChange={(e) => {
               requestSetPreference('sidebar', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Show unread count badge" />
+          <Switch
+            checked={unreadCountBadge}
+            onChange={(e) => {
+              requestSetPreference('unreadCountBadge', e.target.checked);
               requestShowRequireRestartDialog();
             }}
             classes={{
@@ -177,13 +192,15 @@ Preferences.propTypes = {
   sidebar: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   spellChecker: PropTypes.bool.isRequired,
+  unreadCountBadge: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   appearance: state.preferences.appearance,
+  isDefaultMailClient: state.general.isDefaultMailClient,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
-  isDefaultMailClient: state.general.isDefaultMailClient,
+  unreadCountBadge: state.preferences.unreadCountBadge,
 });
 
 const actionCreators = {

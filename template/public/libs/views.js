@@ -8,6 +8,8 @@ const path = require('path');
 
 const appJson = require('../app.json');
 
+const { getPreference } = require('../libs/preferences');
+
 const views = {};
 
 const badgeCounts = {};
@@ -74,21 +76,25 @@ const addView = (browserWindow, workspace) => {
   uaStr = uaStr.replace(`Electron/${process.versions.electron}`, `Juli/${process.version}`);
   view.webContents.setUserAgent(uaStr);
 
-  view.webContents.on('page-title-updated', (e, title) => {
-    const itemCountRegex = /[([{](\d*?)[}\])]/;
-    const match = itemCountRegex.exec(title);
+  // Unread count badge
+  const unreadCountBadge = getPreference('unreadCountBadge');
+  if (unreadCountBadge) {
+    view.webContents.on('page-title-updated', (e, title) => {
+      const itemCountRegex = /[([{](\d*?)[}\])]/;
+      const match = itemCountRegex.exec(title);
 
-    const incStr = match ? match[1] : '';
-    const inc = parseInt(incStr, 10) || 0;
-    badgeCounts[workspace.id] = inc;
+      const incStr = match ? match[1] : '';
+      const inc = parseInt(incStr, 10) || 0;
+      badgeCounts[workspace.id] = inc;
 
-    let count = 0;
-    Object.values(badgeCounts).forEach((c) => {
-      count += c;
+      let count = 0;
+      Object.values(badgeCounts).forEach((c) => {
+        count += c;
+      });
+
+      app.setBadgeCount(count);
     });
-
-    app.setBadgeCount(count);
-  });
+  }
 
   view.webContents.loadURL(workspace.home || appJson.url);
 
