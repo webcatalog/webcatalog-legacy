@@ -6,10 +6,10 @@
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "mocha --reporter min test/human-data.js",
-    "lint": "eslint ./lib ./test --ext js",
-    "build:pack": "node script/pack.js",
-    "build:publish": "node script/publish.js"
+    "test": "mocha --reporter min tests/human-data.js",
+    "lint": "eslint ./lib ./tests ./scripts --ext js",
+    "build:pack": "node scripts/pack.js",
+    "build:publish": "node scripts/publish.js"
   },
   "devDependencies": {
     "chai": "4.1.2",

@@ -2,38 +2,48 @@
 layout: default
 ---
 <div class="hero-body">
-  <div class="container has-text-centered">
-    <h1 class="title is-3">
-    Reinvent your Web Workflow
-    </h1>
-    <h2 class="subtitle">
-    Improve your productivity & protect your privacy with WebCatalog 13.
-    </h2>
-
-    <div class="buttons is-centered">
-      <a class="button is-medium is-black" href="https://github.com/webcatalog/webcatalog/releases/download/v{{ site.webcatalog_version }}/WebCatalog-{{ site.webcatalog_version }}.dmg">
-        <svg style="height: 24px; width: 24px;" aria-hidden="true" data-prefix="fab" data-icon="apple" class="svg-inline--fa fa-apple fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 376 512"><path fill="currentColor" d="M314.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C59.3 141.2 0 184.8 0 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
-        <span>&nbsp; Download for macOS</span>
-      </a> 
-      <a class="button is-medium is-info" href="https://webcatalog.onfastspring.com/webcatalog-lite">
-        <span>Buy Now - $10</span>
-      </a>     
-    </div>
-    
-    <p><small>Version {{ site.webcatalog_version }}  (<a href="https://github.com/quanglam2807/webcatalog/releases">Release Notes</a>). WebCatalog requires macOS 10.10 or later.</small></p>
-
-    <br />
-
-    <p><small><a href="/legacy">Legacy Downloads</a></small></p>
-  </div>
-</div>
-
-<section class="section">
   <div class="container">
+    <div class="has-text-centered">
+      <h1 class="title is-3">
+        Bring Thousands of Apps to Your Mac
+      </h1>
+      <h2 class="subtitle">
+      Improve your productivity & protect your privacy with WebCatalog 13.
+      </h2>
+
+      <div class="buttons is-centered">
+        <a class="button is-medium is-black" href="https://github.com/webcatalog/webcatalog/releases/download/v{{ site.webcatalog_version }}/WebCatalog-{{ site.webcatalog_version }}.dmg">
+          <svg style="height: 24px; width: 24px;" aria-hidden="true" data-prefix="fab" data-icon="apple" class="svg-inline--fa fa-apple fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 376 512"><path fill="currentColor" d="M314.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C59.3 141.2 0 184.8 0 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
+          <span>&nbsp; Download for macOS</span>
+        </a> 
+        <a class="button is-medium is-info" href="https://webcatalog.onfastspring.com/webcatalog-lite">
+          <span>Buy Now - $10</span>
+        </a>     
+      </div>
+      
+      <p><small>Version {{ site.webcatalog_version }}  (<a href="https://github.com/quanglam2807/webcatalog/releases">Release Notes</a>). WebCatalog requires macOS 10.10 or later.</small></p>
+
+      <br />
+
+      <p><small><a href="/legacy">Legacy Downloads</a></small></p>
+    </div>
     <div class="content">
-      <h4>What is WebCatalog?</h4>
-      <p>Mac apps are great. You can launch them quickly from your dock, resize the windows freely and are protected against web trackers. But sometimes, your favorite services don't have official Mac apps. Instead, you can only access these services via their websites.</p>
-      <p>WebCatalog is a free app which lets you turn any websites into native-like Mac apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, with WebCatalog, you can launch your favorite apps quickly in self-contained, distraction-free windows. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy. Additionally, WebCatalog lets you customize them with workspaces, dark mode, and more.
+      <hr />
+      <h4 class="is-pulled-left">Featured Apps</h4>
+      <a class="button is-white is-pulled-right" href="/catalog/">See more</a>
+      <div class="columns is-multiline" style="clear:both;">
+        {% for item in site.catalog limit:8 %}
+        <div class="column is-3 has-text-centered" style="padding-top: 30px;">
+          <a href="/catalog/{{ item.key }}">
+            <img src="https://s3.getwebcatalog.com/apps/{{ item.key }}/{{ item.key }}-icon-128.png" class="app-icon-small">
+            <p>{{ item.name }}</p>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      <hr />
+      <h4>How It Works</h4>
+      <p>WebCatalog is a free app which lets you turn any web apps (websites) into native-like Mac apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, with WebCatalog, you can launch your favorite apps quickly in self-contained, distraction-free windows. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy. Additionally, WebCatalog enhances your experience with workspaces, dark mode, and more.
       <hr /> 
       <h4>Notable Features</h4>
       <div class="columns is-multiline">
@@ -53,7 +63,7 @@ layout: default
           <a href="/images/demos/workspace.png">
             <img src="/images/demos/workspace.png" alt="Workspace" class="demo">
           </a>
-          <p><small><b>Workspace</b> - Use and switch between multiple accounts.</small></p>
+          <p><small><b>Workspaces</b> - Switch between multiple accounts/projects.</small></p>
         </div>
         <div class="column is-half has-text-centered">
           <a href="/images/demos/customization.png">
@@ -64,4 +74,4 @@ layout: default
       </div>
     </div>
   </div>
-</section>
+</div>
