@@ -24,6 +24,7 @@ const addView = (browserWindow, workspace) => {
   const view = new BrowserView({
     webPreferences: {
       nodeIntegration: false,
+      contextIsolation: true,
       partition: `persist:${workspace.id}`,
       preload: path.join(__dirname, '..', 'preload', 'view.js'),
     },

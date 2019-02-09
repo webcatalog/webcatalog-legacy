@@ -63,4 +63,19 @@ window.onload = () => {
 
 // Fix Can't show file list of Google Drive
 // https://github.com/electron/electron/issues/16587
-webFrame.executeJavaScript('window.chrome = {}');
+webFrame.executeJavaScript(`
+window.chrome = {
+  runtime: {
+    connect: () => {
+      return {
+        onMessage: {
+          addListener: () => {},
+          removeListener: () => {},
+        },
+        postMessage: () => {},
+        disconnect: () => {},
+      }
+    }
+  }
+}
+`);
