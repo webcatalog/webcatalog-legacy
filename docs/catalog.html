@@ -1,0 +1,25 @@
+---
+permalink: /catalog/
+layout: default
+---
+
+<section class="section">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/">WebCatalog</a></li>
+        <li class="is-active"><a href="/catalog">Catalog</a></li>
+      </ul>
+    </nav>
+    <div class="columns is-multiline">
+      {% for item in site.catalog %}
+      <div class="column is-3" style="padding-top: 30px;">
+        <a href="/catalog/{{ item.key }}">
+          <img src="https://s3.getwebcatalog.com/apps/{{ item.key }}/{{ item.key }}-icon-128.png" class="app-icon-small">
+          <p>{{ item.name }}</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

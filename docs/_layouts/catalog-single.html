@@ -1,0 +1,52 @@
+---
+layout: default
+---
+
+<section class="section">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/">WebCatalog</a></li>
+        <li><a href="/catalog">Catalog</a></li>
+        <li class="is-active"><a href="/catalog/{{ page.key }}">{{ page.name }}</a></li>
+      </ul>
+    </nav>
+    <div class="columns is-multiline is-vcentered">
+        <div class="column is-narrow">
+        <div class="content has-text-centered">
+          <a href="https://s3.getwebcatalog.com/apps/{{ page.key }}/{{ page.key }}-icon.png">
+            <img src="https://s3.getwebcatalog.com/apps/{{ page.key }}/{{ page.key }}-icon-128.png" class="app-icon">
+          </a>
+        </div>
+        </div>
+        <div class="column">
+        <div class="content">
+            <h1 class="title is-4">{{ page.name }} on the WebCatalog</h1>
+            <p class="subtitle is-6">for macOS</p>
+        </div>
+        </div>
+        <div class="column is-12">
+        <div class="content">
+          <hr />
+          <p><b>{{ page.name }} on the WebCatalog</b> offers the same experience (including the user interface and features) you love at <a href="{{ page.fullUrl}}">{{ page.hostname }}</a> while adding many useful features to help you work more productively and protect your privacy.</p>
+          <ul>
+            <li><b>AppView</b> - Run {{ page.name }} like a real Mac app with seperate window.</li>
+            <li><b>Privacy</b> - Isolate {{ page.name }} and protect you from <a href="https://blog.mozilla.org/firefox/cross-site-tracking-lets-unpack-that/">cross-website tracking</a>.</li>
+            <li><b>Workspaces</b> - Switch between multiple accounts/projects.</b></li>
+            <li><b>Customization</b> - Customize everything to suite your taste.</li>
+          </ul>
+
+
+          <h3>How to Install</h3>
+          <ol>
+            <li><a href="/">Download</a> and install WebCatalog.</li>
+            <li>Open WebCatalog.</li>
+            <li>In the <b>🏠 Home</b> page, use the search box to look for <b>{{ page.name }}</b>.</li>
+            <li>In the search results, look for <b>{{ page.name }}</b> and click <b>Install</b>.</li>
+            <li>Click <b>Open</b> to launch the app.</li>
+          </ol>
+        </div>
+        </div>
+    </div>
+  </div>
+</section>
