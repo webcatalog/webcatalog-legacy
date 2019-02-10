@@ -1,7 +1,7 @@
 ---
 name: Trello
-category: Producitivity
-title: Trello for macOS on the WebCatalog
+category: Productivity
+title: Trello for macOS on WebCatalog
 key: trello
 fullUrl: 'https://trello.com/login'
 hostname: trello.com
