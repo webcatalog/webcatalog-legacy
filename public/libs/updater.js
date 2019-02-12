@@ -1,4 +1,4 @@
-const { dialog } = require('electron');
+const { app, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const sendToAllWindows = require('./send-to-all-windows');
@@ -58,7 +58,18 @@ autoUpdater.on('update-downloaded', (info) => {
   };
 
   dialog.showMessageBox(mainWindow.get(), dialogOpts, (response) => {
-    if (response === 0) autoUpdater.quitAndInstall();
+    if (response === 0) {
+      // Fix autoUpdater.quitAndInstall() does not quit immediately
+      // https://github.com/electron/electron/issues/3583
+      // https://github.com/electron-userland/electron-builder/issues/1604
+      setImmediate(() => {
+        app.removeAllListeners('window-all-closed');
+        if (mainWindow.get() != null) {
+          mainWindow.get().close();
+        }
+        autoUpdater.quitAndInstall(false);
+      });
+    }
   });
 });
 
