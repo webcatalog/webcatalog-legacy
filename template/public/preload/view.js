@@ -20,16 +20,21 @@ window.onload = () => {
     ipcRenderer.send('request-go-home');
   };
 
-  window.spellCheckHandler = new SpellCheckHandler();
-  setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
+  const spellChecker = ipcRenderer.sendSync('get-preference', 'spellChecker');
 
-  window.spellCheckHandler.switchLanguage('en-US');
+  if (spellChecker) {
+    window.spellCheckHandler = new SpellCheckHandler();
+    setTimeout(() => window.spellCheckHandler.attachToInput(), 1000);
+    window.spellCheckHandler.switchLanguage('en-US');
+  }
 
   window.contextMenuBuilder = new ContextMenuBuilder(
-    window.spellCheckHandler,
+    spellChecker ? window.spellCheckHandler : null,
     null,
     true,
   );
+
+
   window.contextMenuListener = new ContextMenuListener((info) => {
     window.contextMenuBuilder.buildMenuForElement(info)
       .then((menu) => {
