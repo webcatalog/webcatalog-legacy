@@ -16,6 +16,8 @@ import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import { ROUTE_PREFERENCES, ROUTE_INSTALLED } from '../constants/routes';
 import { requestGetInstalledApps } from '../senders';
 
+import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -30,6 +32,9 @@ const styles = theme => ({
 class App extends React.Component {
   componentDidMount() {
     requestGetInstalledApps();
+
+    const { onFetchLatestTemplateVersionAsync } = this.props;
+    onFetchLatestTemplateVersionAsync();
   }
 
   render() {
@@ -62,6 +67,7 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
   isFullScreen: PropTypes.bool.isRequired,
   route: PropTypes.string.isRequired,
+  onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -69,9 +75,13 @@ const mapStateToProps = state => ({
   route: state.router.route,
 });
 
+const actionCreators = {
+  fetchLatestTemplateVersionAsync,
+};
+
 export default connectComponent(
   App,
   mapStateToProps,
-  null,
+  actionCreators,
   styles,
 );
