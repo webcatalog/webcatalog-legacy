@@ -41,6 +41,11 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     fontWeight: 500,
   },
+  appUrl: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
   paperIcon: {
     width: 64,
     height: 64,
@@ -131,7 +136,7 @@ const AppCard = (props) => {
         <Typography variant="subheading" className={classes.appName}>
           {name}
         </Typography>
-        <Typography variant="body1" color="textSecondary">
+        <Typography variant="body1" color="textSecondary" className={classes.appUrl}>
           {extractHostname(url)}
         </Typography>
 
