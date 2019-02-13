@@ -1,3 +1,8 @@
+---
+layout: post
+title: Privacy Policy
+---
+
 # Privacy Policy
 
 WebCatalog respects your privacy and **does not track or log anything from you**.
@@ -9,6 +14,7 @@ Still, the app does use third party services that may collect information used t
 * [GitHub](https://help.github.com/articles/github-privacy-statement/) to distribute binaries.
 * [Amazon Web Services](https://aws.amazon.com/privacy/) to distribute images.
 * [Algolia](https://www.algolia.com/policies/privacy) to provide catalog searching.
+* [Cloudflare](https://www.algolia.com/policies/privacy) to manage domains and provide content delivery network services.
 
 * * *
 

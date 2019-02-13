@@ -1,6 +1,6 @@
 # WebCatalog [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Travis Build Status](https://travis-ci.com/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.com/quanglam2807/webcatalog)
 
-**[WebCatalog](https://getwebcatalog.com)** - Reinvent your Web Workflow.
+**[WebCatalog](https://getwebcatalog.com)** - Bring Thousands of Apps to Your Mac.
 
 **master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
 
