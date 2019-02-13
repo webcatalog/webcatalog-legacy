@@ -8,7 +8,6 @@ const v = '2018.2';
 const defaultPreferences = {
   appearance: 'automatic',
   sidebar: true,
-  spellChecker: true,
   unreadCountBadge: true,
 };
 

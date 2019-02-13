@@ -15,9 +15,6 @@ const { MenuItem } = remote;
 window.global = {};
 window.ipcRenderer = ipcRenderer;
 
-const preferences = ipcRenderer.sendSync('get-preferences');
-const { spellChecking } = preferences;
-
 window.onload = () => {
   window.close = () => {
     ipcRenderer.send('request-go-home');
@@ -29,7 +26,7 @@ window.onload = () => {
   window.spellCheckHandler.switchLanguage('en-US');
 
   window.contextMenuBuilder = new ContextMenuBuilder(
-    spellChecking ? window.spellCheckHandler : null,
+    window.spellCheckHandler,
     null,
     true,
   );
