@@ -58,6 +58,7 @@ const Preferences = ({
   classes,
   isDefaultMailClient,
   onUpdateIsDefaultMailClient,
+  rememberLastPageVisited,
   sidebar,
   spellChecker,
   unreadCountBadge,
@@ -116,6 +117,20 @@ const Preferences = ({
             checked={spellChecker}
             onChange={(e) => {
               requestSetPreference('spellChecker', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Remember last page visited" />
+          <Switch
+            checked={rememberLastPageVisited}
+            onChange={(e) => {
+              requestSetPreference('rememberLastPageVisited', e.target.checked);
               requestShowRequireRestartDialog();
             }}
             classes={{
@@ -189,8 +204,9 @@ Preferences.propTypes = {
   appearance: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
-  sidebar: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
+  rememberLastPageVisited: PropTypes.bool.isRequired,
+  sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
 };
@@ -198,6 +214,7 @@ Preferences.propTypes = {
 const mapStateToProps = state => ({
   appearance: state.preferences.appearance,
   isDefaultMailClient: state.general.isDefaultMailClient,
+  rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
   unreadCountBadge: state.preferences.unreadCountBadge,
