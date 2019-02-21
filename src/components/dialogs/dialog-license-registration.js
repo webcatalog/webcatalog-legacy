@@ -54,8 +54,9 @@ const DialogLicenseRegistration = (props) => {
       </EnhancedDialogTitle>
       <DialogContent>
         <DialogContentText className={classes.dialogContentText}>
-          You are currently running a trial version of WebCatalog.
-           To remove the trial limitations, please purchase a license key from our store.
+          You are currently running a trial version of WebCatalog which only
+            lets you to install up to two apps.
+           To remove the trial limitations, please purchase a license key (10 USD) from our store.
         </DialogContentText>
         <TextField
           fullWidth
