@@ -8,11 +8,14 @@ const path = require('path');
 
 const appJson = require('../app.json');
 
-const { getPreference } = require('../libs/preferences');
+const { getPreference } = require('./preferences');
+const { setWorkspace } = require('./workspaces');
 
 const views = {};
 
 const badgeCounts = {};
+
+const rememberLastPageVisited = getPreference('rememberLastPageVisited');
 
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -46,8 +49,11 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
-  view.webContents.on('will-navigate', (e, url) => {
-    console.log(url);
+  view.webContents.on('did-stop-loading', () => {
+    const currentUrl = view.webContents.getURL();
+    setWorkspace(workspace.id, {
+      lastUrl: currentUrl,
+    });
   });
 
   view.webContents.on('new-window', (e, nextUrl) => {
@@ -97,7 +103,7 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
-  view.webContents.loadURL(workspace.home || appJson.url);
+  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
 
   views[workspace.id] = view;
 };

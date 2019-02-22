@@ -7,7 +7,9 @@ const v = '2018.2';
 
 const defaultPreferences = {
   appearance: 'automatic',
+  rememberLastPageVisited: false,
   sidebar: true,
+  spellChecker: true,
   unreadCountBadge: true,
 };
 
