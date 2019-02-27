@@ -2,6 +2,9 @@
 const { app, protocol } = require('electron');
 const path = require('path');
 
+// load as soon as possible
+require('./libs/sentry');
+
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');

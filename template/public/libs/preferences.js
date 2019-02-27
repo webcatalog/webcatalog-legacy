@@ -7,6 +7,7 @@ const v = '2018.2';
 
 const defaultPreferences = {
   appearance: 'automatic',
+  errorMonitoring: true,
   rememberLastPageVisited: false,
   sidebar: true,
   spellChecker: true,

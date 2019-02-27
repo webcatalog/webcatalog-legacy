@@ -28,6 +28,7 @@
     "email": "quang.lam2807@gmail.com"
   },
   "dependencies": {
+    "@sentry/electron": "0.16.0",
     "blueimp-md5": "2.10.0",
     "decompress": "4.2.0",
     "download": "7.1.0",

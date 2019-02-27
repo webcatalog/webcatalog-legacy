@@ -2,6 +2,8 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
+const Sentry = require('./../../sentry');
+
 const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
@@ -17,6 +19,13 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
     },
+  });
+
+  child.on('message', (message) => {
+    console.log(message);
+    if (message instanceof Error) {
+      Sentry.captureException(message);
+    }
   });
 
   child.on('exit', (code) => {

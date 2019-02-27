@@ -20,6 +20,7 @@ import StatedMenu from '../shared/stated-menu';
 import { updateIsDefaultMailClient } from '../../state/general/actions';
 
 import {
+  requestOpenInBrowser,
   requestSetPreference,
   requestResetPreferences,
   requestClearBrowsingData,
@@ -56,6 +57,7 @@ const getAppearanceString = (appearance) => {
 const Preferences = ({
   appearance,
   classes,
+  errorMonitoring,
   isDefaultMailClient,
   onUpdateIsDefaultMailClient,
   rememberLastPageVisited,
@@ -142,7 +144,7 @@ const Preferences = ({
     </Paper>
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      Privacy and Security
+      Privacy &amp; Security
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
@@ -150,13 +152,31 @@ const Preferences = ({
           <ListItemText primary="Clear browsing data" secondary="Clear cookies, cache, and more" />
           <ChevronRightIcon color="action" />
         </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Send error monitoring data" />
+          <Switch
+            checked={errorMonitoring}
+            onChange={(e) => {
+              requestSetPreference('errorMonitoring', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
+          <ListItemText primary="Privacy Policy" />
+        </ListItem>
       </List>
     </Paper>
 
     {appJson.mailtoHandler && appJson.mailtoHandler.length > 0 && (
       <React.Fragment>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
-          Default mail client
+          Default Mail Client
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
@@ -187,7 +207,7 @@ const Preferences = ({
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      Reset Settings
+      Reset
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
@@ -203,6 +223,7 @@ const Preferences = ({
 Preferences.propTypes = {
   appearance: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  errorMonitoring: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
@@ -213,6 +234,7 @@ Preferences.propTypes = {
 
 const mapStateToProps = state => ({
   appearance: state.preferences.appearance,
+  errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   sidebar: state.preferences.sidebar,

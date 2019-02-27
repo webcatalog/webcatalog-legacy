@@ -1,6 +1,9 @@
 const path = require('path');
 const { app } = require('electron');
 
+// load as soon as possible
+require('./libs/sentry');
+
 const createMenu = require('./libs/create-menu');
 const loadListeners = require('./listeners');
 

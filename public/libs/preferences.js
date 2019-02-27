@@ -8,6 +8,7 @@ const v = '2018';
 const defaultPreferences = {
   appearance: 'automatic',
   registered: false,
+  errorMonitoring: true,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));

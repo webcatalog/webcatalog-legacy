@@ -24,6 +24,7 @@ const create = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
+      preload: path.resolve(__dirname, '..', 'libs', 'sentry.js'),
     },
   });
 
