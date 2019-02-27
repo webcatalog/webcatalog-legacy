@@ -79,8 +79,10 @@ const addView = (browserWindow, workspace) => {
   });
 
   // Hide Electron from UA to improve compatibility
+  // https://github.com/quanglam2807/webcatalog/issues/182
   let uaStr = view.webContents.getUserAgent();
-  uaStr = uaStr.replace(`Electron/${process.versions.electron}`, `Juli/${process.version}`);
+  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, '');
+  uaStr = uaStr.replace(` Electron/${process.versions.electron}`, '');
   view.webContents.setUserAgent(uaStr);
 
   // Unread count badge
