@@ -15,6 +15,7 @@ Still, the app does use third party services that may collect information used t
 * [Amazon Web Services](https://aws.amazon.com/privacy/) to distribute images.
 * [Algolia](https://www.algolia.com/policies/privacy) to provide catalog searching.
 * [Cloudflare](https://www.algolia.com/policies/privacy) to manage domains and provide content delivery network services.
+* [Sentry](https://sentry.io/privacy/) to monitor and fix crashes.
 
 * * *
 

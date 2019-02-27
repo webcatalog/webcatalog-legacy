@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -17,8 +19,10 @@ import StatedMenu from '../../shared/stated-menu';
 import connectComponent from '../../../helpers/connect-component';
 
 import {
+  requestOpenInBrowser,
   requestResetPreferences,
   requestSetPreference,
+  requestShowRequireRestartDialog,
 } from '../../../senders';
 
 const styles = theme => ({
@@ -49,6 +53,9 @@ const styles = theme => ({
     maxWidth: 500,
     margin: '0 auto',
   },
+  switchBase: {
+    height: 'auto',
+  },
 });
 
 const getAppearanceString = (appearance) => {
@@ -57,7 +64,7 @@ const getAppearanceString = (appearance) => {
   return 'Automatic';
 };
 
-const Preferences = ({ appearance, classes }) => (
+const Preferences = ({ appearance, classes, errorMonitoring }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
       <Toolbar variant="dense">
@@ -90,7 +97,32 @@ const Preferences = ({ appearance, classes }) => (
         </Paper>
 
         <Typography variant="subtitle2" className={classes.sectionTitle}>
-          Reset Settings
+          Privacy &amp; Security
+        </Typography>
+        <Paper className={classes.paper}>
+          <List dense>
+            <ListItem>
+              <ListItemText primary="Send error monitoring data" />
+              <Switch
+                checked={errorMonitoring}
+                onChange={(e) => {
+                  requestSetPreference('errorMonitoring', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
+              <ListItemText primary="Privacy Policy" />
+            </ListItem>
+          </List>
+        </Paper>
+
+        <Typography variant="subtitle2" className={classes.sectionTitle}>
+          Reset
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
@@ -108,10 +140,12 @@ const Preferences = ({ appearance, classes }) => (
 Preferences.propTypes = {
   appearance: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  errorMonitoring: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   appearance: state.preferences.appearance,
+  errorMonitoring: state.preferences.errorMonitoring,
 });
 
 export default connectComponent(

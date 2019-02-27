@@ -16,6 +16,7 @@
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
+    "@sentry/electron": "0.16.0",
     "electron": "4.0.4",
     "electron-is-dev": "1.0.1",
     "electron-settings": "3.2.0",

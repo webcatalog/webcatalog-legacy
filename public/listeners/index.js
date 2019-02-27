@@ -1,4 +1,5 @@
 const {
+  app,
   dialog,
   ipcMain,
   shell,
@@ -67,11 +68,26 @@ const loadListeners = () => {
     });
   });
 
+  ipcMain.on('request-show-require-restart-dialog', () => {
+    dialog.showMessageBox(mainWindow.get(), {
+      type: 'question',
+      buttons: ['Restart Now', 'Later'],
+      message: 'You need to restart the app for this change to take affect.',
+      cancelId: 1,
+    }, (response) => {
+      if (response === 0) {
+        app.relaunch();
+        app.quit();
+      }
+    });
+  });
+
+  // App Management
   ipcMain.on('request-get-installed-apps', (e) => {
     getInstalledAppsAsync()
       .then((apps) => {
-        apps.forEach((app) => {
-          e.sender.send('set-app', app.id, app);
+        apps.forEach((appObj) => {
+          e.sender.send('set-app', appObj.id, appObj);
         });
       });
   });
