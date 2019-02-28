@@ -82,16 +82,19 @@ const addView = (browserWindow, workspace) => {
   });
 
   view.webContents.on('new-window', (e, nextUrl) => {
-    e.preventDefault();
-
-    // open external url in browser if domain doesn't match.
     const curDomain = extractDomain(appJson.url);
     const nextDomain = extractDomain(nextUrl);
 
-    // open new window
+    // open new window normally if domain is not defined (about:)
+    if (nextDomain === null) {
+      return;
+    }
+
+    e.preventDefault();
+
+    // load in same window
     if (
-      nextDomain === null
-      || nextDomain === curDomain
+      nextDomain === curDomain
       || nextDomain === 'accounts.google.com'
       || nextDomain === 'feedly.com'
       || nextUrl.indexOf('oauth') > -1 // Works with Google & Facebook.
@@ -100,6 +103,7 @@ const addView = (browserWindow, workspace) => {
       return;
     }
 
+    // open external url in browser if domain doesn't match.
     shell.openExternal(nextUrl);
   });
 
