@@ -1,5 +1,6 @@
 import { setPreference } from '../state/preferences/actions';
 import { setWorkspace } from '../state/workspaces/actions';
+import { updateDidFailLoad, updateIsLoading } from '../state/general/actions';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -15,6 +16,14 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-workspace', (e, id, value) => {
     store.dispatch(setWorkspace(id, value));
+  });
+
+  ipcRenderer.on('update-is-loading', (e, value) => {
+    store.dispatch(updateIsLoading(value));
+  });
+
+  ipcRenderer.on('update-did-fail-load', (e, value) => {
+    store.dispatch(updateDidFailLoad(value));
   });
 };
 
