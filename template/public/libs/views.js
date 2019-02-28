@@ -9,7 +9,12 @@ const path = require('path');
 const appJson = require('../app.json');
 
 const { getPreference } = require('./preferences');
-const { setWorkspace } = require('./workspaces');
+const {
+  getWorkspace,
+  setWorkspace,
+} = require('./workspaces');
+
+const sendToAllWindows = require('./send-to-all-windows');
 
 const views = {};
 
@@ -49,11 +54,31 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
+  view.webContents.on('did-start-loading', () => {
+    if (getWorkspace(workspace.id).active) {
+      sendToAllWindows('update-did-fail-load', false);
+      sendToAllWindows('update-is-loading', true);
+    }
+  });
+
   view.webContents.on('did-stop-loading', () => {
+    if (getWorkspace(workspace.id).active) {
+      sendToAllWindows('update-is-loading', false);
+    }
+
     const currentUrl = view.webContents.getURL();
     setWorkspace(workspace.id, {
       lastUrl: currentUrl,
     });
+  });
+
+  // https://electronjs.org/docs/api/web-contents#event-did-fail-load
+  view.webContents.on('did-fail-load', (e, errorCode, errorDesc, validateUrl, isMainFrame) => {
+    if (isMainFrame && errorCode < 0 && errorCode !== -3) {
+      if (getWorkspace(workspace.id).active) {
+        sendToAllWindows('update-did-fail-load', true);
+      }
+    }
   });
 
   view.webContents.on('new-window', (e, nextUrl) => {
@@ -127,6 +152,8 @@ const setActiveView = (browserWindow, id) => {
     width: true,
     height: true,
   });
+
+  sendToAllWindows('update-is-loading', view.webContents.isLoading());
 };
 
 const removeView = (id) => {

@@ -40,6 +40,7 @@ const styles = theme => ({
     padding: theme.spacing.unit,
     boxSizing: 'border-box',
     overflowY: 'auto',
+    overflowX: 'hidden',
   },
   sidebarTop: {
     flex: 1,
@@ -56,7 +57,13 @@ const styles = theme => ({
 const getWorkspacesAsList = workspaces => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
-const Sidebar = ({ classes, sidebar, workspaces }) => (
+const Sidebar = ({
+  classes,
+  didFailLoad,
+  isLoading,
+  sidebar,
+  workspaces,
+}) => (
   <div className={classes.root}>
     {sidebar && (
       <div className={classes.sidebarRoot}>
@@ -100,18 +107,23 @@ const Sidebar = ({ classes, sidebar, workspaces }) => (
       </div>
     )}
     <div className={classes.contentRoot}>
-      <CircularProgress />
+      {didFailLoad && 'Failed'}
+      {isLoading && <CircularProgress />}
     </div>
   </div>
 );
 
 Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
+  didFailLoad: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   workspaces: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
+  didFailLoad: state.general.didFailLoad,
+  isLoading: state.general.isLoading,
   sidebar: state.preferences.sidebar,
   workspaces: state.workspaces,
 });
