@@ -9,7 +9,7 @@ const defaultPreferences = {
   appearance: 'automatic',
   errorMonitoring: true,
   rememberLastPageVisited: false,
-  sidebar: true,
+  sidebar: false,
   spellChecker: true,
   unreadCountBadge: true,
 };
