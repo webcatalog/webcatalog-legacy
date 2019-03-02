@@ -13,12 +13,12 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: WebCatalog - Bring Thousands of Exclusive Apps to your Mac
+title: WebCatalog - Bring Thousands of Apps to your Mac
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://getwebcatalog.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-webcatalog_version: 13.2.1
+webcatalog_version: 13.3.0
 collections:
   catalog:
     output: true
