@@ -1,4 +1,5 @@
 import { setPreference } from '../state/preferences/actions';
+import { setSystemPreference } from '../state/system-preferences/actions';
 import { setWorkspace } from '../state/workspaces/actions';
 import { updateDidFailLoad, updateIsLoading } from '../state/general/actions';
 
@@ -12,6 +13,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-preference', (e, name, value) => {
     store.dispatch(setPreference(name, value));
+  });
+
+  ipcRenderer.on('set-system-preference', (e, name, value) => {
+    store.dispatch(setSystemPreference(name, value));
   });
 
   ipcRenderer.on('set-workspace', (e, id, value) => {

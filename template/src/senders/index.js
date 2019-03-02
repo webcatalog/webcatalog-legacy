@@ -15,6 +15,11 @@ export const requestSetPreference = (name, value) => ipcRenderer.send('request-s
 export const requestResetPreferences = () => ipcRenderer.send('request-reset-preferences');
 export const requestShowRequireRestartDialog = () => ipcRenderer.send('request-show-require-restart-dialog');
 
+// System Preferences
+export const getSystemPreference = name => ipcRenderer.sendSync('get-system-preference', name);
+export const getSystemPreferences = () => ipcRenderer.sendSync('get-system-preferences');
+export const requestSetSystemPreference = (name, value) => ipcRenderer.send('request-set-system-preference', name, value);
+
 // Workspace
 export const getWorkspace = id => ipcRenderer.sendSync('get-workspace', id);
 export const getWorkspaces = () => ipcRenderer.sendSync('get-workspaces');

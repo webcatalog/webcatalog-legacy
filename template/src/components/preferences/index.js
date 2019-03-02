@@ -22,6 +22,7 @@ import { updateIsDefaultMailClient } from '../../state/general/actions';
 import {
   requestOpenInBrowser,
   requestSetPreference,
+  requestSetSystemPreference,
   requestResetPreferences,
   requestClearBrowsingData,
   requestShowRequireRestartDialog,
@@ -54,11 +55,18 @@ const getThemeString = (theme) => {
   return 'Automatic';
 };
 
+const getOpenAtLoginString = (openAtLogin) => {
+  if (openAtLogin === 'yes-hidden') return 'Yes, but minimized';
+  if (openAtLogin === 'yes') return 'Yes';
+  return 'No';
+};
+
 const Preferences = ({
   classes,
   errorMonitoring,
   isDefaultMailClient,
   onUpdateIsDefaultMailClient,
+  openAtLogin,
   rememberLastPageVisited,
   sidebar,
   spellChecker,
@@ -225,7 +233,7 @@ const Preferences = ({
               </ListItem>
             ) : (
               <ListItem>
-                <ListItemText primary="Default mail client" secondary={`Make ${appJson.name} the default email client.`} />
+                <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
                 <Button
                   variant="outlined"
                   size="small"
@@ -246,6 +254,27 @@ const Preferences = ({
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
+      System
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <StatedMenu
+          id="openAtLogin"
+          buttonElement={(
+            <ListItem button>
+              <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+          )}
+        >
+          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+        </StatedMenu>
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
       Reset
     </Typography>
     <Paper className={classes.paper}>
@@ -264,6 +293,7 @@ Preferences.propTypes = {
   errorMonitoring: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
+  openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
@@ -275,6 +305,7 @@ Preferences.propTypes = {
 const mapStateToProps = state => ({
   errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,
+  openAtLogin: state.systemPreferences.openAtLogin,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,

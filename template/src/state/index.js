@@ -5,18 +5,20 @@ import {
 } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import editWorkspace from './edit-workspace/reducers';
 import general from './general/reducers';
 import preferences from './preferences/reducers';
+import systemPreferences from './system-preferences/reducers';
 import workspaces from './workspaces/reducers';
-import editWorkspace from './edit-workspace/reducers';
 
 import loadListeners from '../listeners';
 
 const rootReducer = combineReducers({
+  editWorkspace,
   general,
   preferences,
+  systemPreferences,
   workspaces,
-  editWorkspace,
 });
 
 const configureStore = initialState => createStore(

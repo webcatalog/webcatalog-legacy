@@ -1,3 +1,6 @@
+// System Preferences
+export const SET_SYSTEM_PREFERENCE = 'SET_SYSTEM_PREFERENCE';
+
 // Preferences
 export const SET_PREFERENCE = 'SET_PREFERENCE';
 
