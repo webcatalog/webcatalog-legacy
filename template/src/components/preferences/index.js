@@ -48,14 +48,13 @@ const styles = theme => ({
 
 const appJson = remote.getGlobal('appJson');
 
-const getAppearanceString = (appearance) => {
-  if (appearance === 'light') return 'Light';
-  if (appearance === 'dark') return 'Dark';
+const getThemeString = (theme) => {
+  if (theme === 'light') return 'Light';
+  if (theme === 'dark') return 'Dark';
   return 'Automatic';
 };
 
 const Preferences = ({
-  appearance,
   classes,
   errorMonitoring,
   isDefaultMailClient,
@@ -63,30 +62,35 @@ const Preferences = ({
   rememberLastPageVisited,
   sidebar,
   spellChecker,
+  swipeToNavigate,
+  theme,
   unreadCountBadge,
 }) => (
   <div className={classes.root}>
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      General
+      Appearance
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
         <StatedMenu
-          id="appearance"
+          id="theme"
           buttonElement={(
             <ListItem button>
-              <ListItemText primary="Appearance" secondary={getAppearanceString(appearance)} />
+              <ListItemText primary="Theme" secondary={getThemeString(theme)} />
               <ChevronRightIcon color="action" />
             </ListItem>
           )}
         >
-          <MenuItem onClick={() => requestSetPreference('appearance', 'automatic')}>Automatic</MenuItem>
-          <MenuItem onClick={() => requestSetPreference('appearance', 'light')}>Light</MenuItem>
-          <MenuItem onClick={() => requestSetPreference('appearance', 'dark')}>Dark</MenuItem>
+          <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
+          <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
+          <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
         </StatedMenu>
         <Divider />
         <ListItem>
-          <ListItemText primary="Show sidebar" />
+          <ListItemText
+            primary="Show sidebar"
+            secondary="Sidebar lets you switch easily between workspaces."
+          />
           <Switch
             checked={sidebar}
             onChange={(e) => {
@@ -98,7 +102,14 @@ const Preferences = ({
             }}
           />
         </ListItem>
-        <Divider />
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Experience
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
         <ListItem>
           <ListItemText primary="Show unread count badge" />
           <Switch
@@ -114,11 +125,25 @@ const Preferences = ({
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemText primary="Use spell checker" />
+          <ListItemText
+            primary="Swipe to navigate"
+            secondary={(
+              <React.Fragment>
+                <span>Navigate between pages with 3-finger gestures.</span>
+                <br />
+                <span>To enable it, you also need to change </span>
+                <b>macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page</b>
+                <span> to </span>
+                <b>Swipe with three fingers</b>
+                <span> or </span>
+                <b>Swipe with two or three fingers.</b>
+              </React.Fragment>
+            )}
+          />
           <Switch
-            checked={spellChecker}
+            checked={swipeToNavigate}
             onChange={(e) => {
-              requestSetPreference('spellChecker', e.target.checked);
+              requestSetPreference('swipeToNavigate', e.target.checked);
               requestShowRequireRestartDialog();
             }}
             classes={{
@@ -133,6 +158,20 @@ const Preferences = ({
             checked={rememberLastPageVisited}
             onChange={(e) => {
               requestSetPreference('rememberLastPageVisited', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Use spell checker" />
+          <Switch
+            checked={spellChecker}
+            onChange={(e) => {
+              requestSetPreference('spellChecker', e.target.checked);
               requestShowRequireRestartDialog();
             }}
             classes={{
@@ -176,7 +215,7 @@ const Preferences = ({
     {appJson.mailtoHandler && appJson.mailtoHandler.length > 0 && (
       <React.Fragment>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
-          Default Mail Client
+          Default Email Client
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
@@ -221,7 +260,6 @@ const Preferences = ({
 );
 
 Preferences.propTypes = {
-  appearance: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   errorMonitoring: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
@@ -229,16 +267,19 @@ Preferences.propTypes = {
   rememberLastPageVisited: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
+  swipeToNavigate: PropTypes.bool.isRequired,
+  theme: PropTypes.string.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  appearance: state.preferences.appearance,
   errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
+  swipeToNavigate: state.preferences.swipeToNavigate,
+  theme: state.preferences.theme,
   unreadCountBadge: state.preferences.unreadCountBadge,
 });
 

@@ -6,7 +6,7 @@ const sendToAllWindows = require('../libs/send-to-all-windows');
 const v = '2018';
 
 const defaultPreferences = {
-  appearance: 'automatic',
+  theme: 'automatic',
   registered: false,
   errorMonitoring: true,
 };

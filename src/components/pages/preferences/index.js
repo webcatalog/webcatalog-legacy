@@ -58,13 +58,13 @@ const styles = theme => ({
   },
 });
 
-const getAppearanceString = (appearance) => {
-  if (appearance === 'light') return 'Light';
-  if (appearance === 'dark') return 'Dark';
+const getThemeString = (theme) => {
+  if (theme === 'light') return 'Light';
+  if (theme === 'dark') return 'Dark';
   return 'Automatic';
 };
 
-const Preferences = ({ appearance, classes, errorMonitoring }) => (
+const Preferences = ({ theme, classes, errorMonitoring }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
       <Toolbar variant="dense">
@@ -81,17 +81,17 @@ const Preferences = ({ appearance, classes, errorMonitoring }) => (
         <Paper className={classes.paper}>
           <List dense>
             <StatedMenu
-              id="appearance"
+              id="theme"
               buttonElement={(
                 <ListItem button>
-                  <ListItemText primary="Appearance" secondary={getAppearanceString(appearance)} />
+                  <ListItemText primary="Theme" secondary={getThemeString(theme)} />
                   <ChevronRightIcon color="action" />
                 </ListItem>
               )}
             >
-              <MenuItem onClick={() => requestSetPreference('appearance', 'automatic')}>Automatic</MenuItem>
-              <MenuItem onClick={() => requestSetPreference('appearance', 'light')}>Light</MenuItem>
-              <MenuItem onClick={() => requestSetPreference('appearance', 'dark')}>Dark</MenuItem>
+              <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
+              <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
+              <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
             </StatedMenu>
           </List>
         </Paper>
@@ -138,13 +138,13 @@ const Preferences = ({ appearance, classes, errorMonitoring }) => (
 );
 
 Preferences.propTypes = {
-  appearance: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   errorMonitoring: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  appearance: state.preferences.appearance,
+  theme: state.preferences.theme,
   errorMonitoring: state.preferences.errorMonitoring,
 });
 

@@ -2,8 +2,11 @@ const { BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 const { REACT_PATH } = require('../constants');
+const { getPreference } = require('../libs/preferences');
 
 let win;
+
+const swipeToNavigate = getPreference('swipeToNavigate');
 
 const get = () => win;
 
@@ -29,6 +32,20 @@ const create = () => {
   mainWindowState.manage(win);
 
   win.loadURL(REACT_PATH);
+
+  // Enable swipe to navigate
+  if (swipeToNavigate) {
+    win.on('swipe', (e, direction) => {
+      const view = win.getBrowserView();
+      if (view) {
+        if (direction === 'left') {
+          view.webContents.goBack();
+        } else if (direction === 'right') {
+          view.webContents.goForward();
+        }
+      }
+    });
+  }
 
   // Hide window instead closing on macos
   win.on('close', (e) => {
