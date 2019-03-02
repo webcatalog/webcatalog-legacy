@@ -6,11 +6,12 @@ const sendToAllWindows = require('../libs/send-to-all-windows');
 const v = '2018.2';
 
 const defaultPreferences = {
-  appearance: 'automatic',
   errorMonitoring: true,
   rememberLastPageVisited: false,
   sidebar: false,
   spellChecker: true,
+  swipeToNavigate: true,
+  theme: 'automatic',
   unreadCountBadge: true,
 };
 
