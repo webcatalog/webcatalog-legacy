@@ -2,19 +2,17 @@
 const { app, protocol } = require('electron');
 const path = require('path');
 
-// load as soon as possible
-require('./libs/sentry');
-
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
 const openUrlWithWindow = require('./windows/open-url-with');
 
 const createMenu = require('./libs/create-menu');
-const { getWorkspaces } = require('./libs/workspaces');
 const { addView } = require('./libs/views');
-const { getPreference } = require('./libs/preferences');
 const { checkForUpdates } = require('./libs/updater');
+const { getPreference } = require('./libs/preferences');
+const { getWorkspaces } = require('./libs/workspaces');
+const sentrySession = require('./libs/sentry-session');
 
 const appJson = require('./app.json');
 
@@ -58,6 +56,9 @@ if (!gotTheLock) {
   };
 
   app.on('ready', () => {
+    // init as soon as possible
+    sentrySession.init();
+
     global.appJson = appJson;
 
     global.showSidebar = getPreference('sidebar');

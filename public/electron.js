@@ -1,15 +1,14 @@
 const path = require('path');
 const { app } = require('electron');
 
-// load as soon as possible
-require('./libs/sentry');
-
 const createMenu = require('./libs/create-menu');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
 
 require('./libs/updater');
+
+const sentrySession = require('./libs/sentry-session');
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -27,6 +26,9 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
+    // init as soon as possible
+    sentrySession.init();
+
     global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
     mainWindow.create();

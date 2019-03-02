@@ -6,8 +6,6 @@ const { getPreference } = require('../libs/preferences');
 
 let win;
 
-const swipeToNavigate = getPreference('swipeToNavigate');
-
 const get = () => win;
 
 const create = () => {
@@ -34,6 +32,7 @@ const create = () => {
   win.loadURL(REACT_PATH);
 
   // Enable swipe to navigate
+  const swipeToNavigate = getPreference('swipeToNavigate');
   if (swipeToNavigate) {
     win.on('swipe', (e, direction) => {
       const view = win.getBrowserView();
