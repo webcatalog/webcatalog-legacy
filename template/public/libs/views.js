@@ -132,6 +132,11 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
+  // Link preview
+  view.webContents.on('update-target-url', (e, url) => {
+    view.webContents.send('update-target-url', url);
+  });
+
   const rememberLastPageVisited = getPreference('rememberLastPageVisited');
   view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
 
