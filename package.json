@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Reinvent your Web Workflow",
-  "version": "13.3.0",
-  "templateVersion": "3.3.0",
+  "version": "13.4.0",
+  "templateVersion": "3.4.0",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
