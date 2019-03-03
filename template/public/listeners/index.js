@@ -49,6 +49,35 @@ const loadListeners = () => {
     shell.openItem('/Applications/WebCatalog 14.app');
   });
 
+  // Find In Page
+  ipcMain.on('request-find-in-page', (e, text, forward) => {
+    const contents = mainWindow.get().getBrowserView().webContents;
+    contents.findInPage(text, {
+      forward,
+    });
+  });
+
+  ipcMain.on('request-stop-find-in-page', (e, close) => {
+    const win = mainWindow.get();
+    const view = win.getBrowserView();
+    const contents = view.webContents;
+    contents.stopFindInPage('clearSelection');
+
+    win.send('update-find-in-page-matches', 0, 0);
+
+    // adjust bounds to hide the gap for find in page
+    if (close) {
+      const contentSize = win.getContentSize();
+
+      view.setBounds({
+        x: global.showSidebar ? 68 : 0,
+        y: 0,
+        height: contentSize[1],
+        width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
+      });
+    }
+  });
+
   // System Preferences
   ipcMain.on('get-system-preference', (e, name) => {
     const val = getSystemPreference(name);

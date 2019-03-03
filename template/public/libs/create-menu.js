@@ -35,6 +35,8 @@ const {
   checkForUpdates,
 } = require('./updater');
 
+const FIND_IN_PAGE_HEIGHT = 42;
+
 function createMenu() {
   app.setAboutPanelOptions({
     credits: 'Powered by WebCatalog.',
@@ -94,6 +96,43 @@ function createMenu() {
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
         { role: 'selectall' },
+        { type: 'separator' },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => {
+            const win = mainWindow.get();
+            if (win) {
+              win.send('open-find-in-page');
+
+              const contentSize = win.getContentSize();
+              const view = win.getBrowserView();
+
+              view.setBounds({
+                x: global.showSidebar ? 68 : 0,
+                y: FIND_IN_PAGE_HEIGHT,
+                height: contentSize[1] - FIND_IN_PAGE_HEIGHT,
+                width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
+              });
+            }
+          },
+        },
+        {
+          label: 'Find Next',
+          accelerator: 'CmdOrCtrl+G',
+          click: () => {
+            const win = mainWindow.get();
+            win.send('request-back-find-in-page', true);
+          },
+        },
+        {
+          label: 'Find Previous',
+          accelerator: 'Shift+CmdOrCtrl+G',
+          click: () => {
+            const win = mainWindow.get();
+            win.send('request-back-find-in-page', false);
+          },
+        },
       ],
     },
     {

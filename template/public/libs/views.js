@@ -132,6 +132,11 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
+  // Find In Page
+  view.webContents.on('found-in-page', (e, result) => {
+    sendToAllWindows('update-find-in-page-matches', result.activeMatchOrdinal, result.matches);
+  });
+
   const rememberLastPageVisited = getPreference('rememberLastPageVisited');
   view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
 
@@ -141,6 +146,11 @@ const addView = (browserWindow, workspace) => {
 const getView = id => views[id];
 
 const setActiveView = (browserWindow, id) => {
+  // stop find in page when switching workspaces
+  const currentView = browserWindow.getBrowserView();
+  currentView.webContents.stopFindInPage('clearSelection');
+  browserWindow.send('close-find-in-page');
+
   const view = views[id];
   browserWindow.setBrowserView(view);
 

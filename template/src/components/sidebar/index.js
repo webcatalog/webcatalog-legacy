@@ -9,6 +9,7 @@ import SettingsIcon from '@material-ui/icons/SettingsSharp';
 import connectComponent from '../../helpers/connect-component';
 
 import WorkspaceSelector from './workspace-selector';
+import FindInPage from './find-in-page';
 
 import {
   requestShowPreferencesWindow,
@@ -46,11 +47,15 @@ const styles = theme => ({
     flex: 1,
     paddingTop: theme.spacing.unit * 2,
   },
-  contentRoot: {
+  innerContentRoot: {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  contentRoot: {
+    flex: 1,
+    display: 'flex',
   },
 });
 
@@ -107,8 +112,11 @@ const Sidebar = ({
       </div>
     )}
     <div className={classes.contentRoot}>
-      {didFailLoad && 'Failed'}
-      {isLoading && <CircularProgress />}
+      <FindInPage />
+      <div className={classes.innerContentRoot}>
+        {didFailLoad && 'Failed'}
+        {isLoading && <CircularProgress />}
+      </div>
     </div>
   </div>
 );
