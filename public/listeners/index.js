@@ -121,6 +121,9 @@ const loadListeners = () => {
     });
   });
 
+  // Chain app installing promises
+  let p = Promise.resolve();
+
   ipcMain.on('request-install-app', (e, id, name, url, icon, mailtoHandler) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
@@ -130,7 +133,8 @@ const loadListeners = () => {
       icon,
       mailtoHandler,
     });
-    installAppAsync(id, name, url, icon, mailtoHandler)
+
+    p = p.then(() => installAppAsync(id, name, url, icon, mailtoHandler)
       .then(() => {
         e.sender.send('set-app', id, {
           version: packageJson.templateVersion,
@@ -145,7 +149,7 @@ const loadListeners = () => {
           message: `Failed to install ${name}.`,
         });
         e.sender.send('remove-app', id);
-      });
+      }));
   });
 };
 
