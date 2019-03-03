@@ -13,6 +13,12 @@ const {
 } = require('../libs/preferences');
 
 const {
+  getSystemPreference,
+  getSystemPreferences,
+  setSystemPreference,
+} = require('../libs/system-preferences');
+
+const {
   getWorkspaces,
   getWorkspace,
   setWorkspace,
@@ -41,6 +47,21 @@ const loadListeners = () => {
 
   ipcMain.on('request-open-webcatalog', () => {
     shell.openItem('/Applications/WebCatalog 14.app');
+  });
+
+  // System Preferences
+  ipcMain.on('get-system-preference', (e, name) => {
+    const val = getSystemPreference(name);
+    e.returnValue = val;
+  });
+
+  ipcMain.on('get-system-preferences', (e) => {
+    const preferences = getSystemPreferences();
+    e.returnValue = preferences;
+  });
+
+  ipcMain.on('request-set-system-preference', (e, name, value) => {
+    setSystemPreference(name, value);
   });
 
   // Preferences

@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 const { REACT_PATH } = require('../constants');
@@ -9,6 +9,8 @@ let win;
 const get = () => win;
 
 const create = () => {
+  const { wasOpenedAsHidden } = app.getLoginItemSettings();
+
   const mainWindowState = windowStateKeeper({
     defaultWidth: 800,
     defaultHeight: 768,
@@ -22,6 +24,7 @@ const create = () => {
     minHeight: 100,
     title: global.appJson.name,
     titleBarStyle: global.showSidebar ? 'hidden' : 'default',
+    show: !wasOpenedAsHidden,
     webPreferences: {
       nodeIntegration: true,
     },
