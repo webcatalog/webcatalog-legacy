@@ -6,6 +6,7 @@ import {
 import thunkMiddleware from 'redux-thunk';
 
 import editWorkspace from './edit-workspace/reducers';
+import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
 import preferences from './preferences/reducers';
 import systemPreferences from './system-preferences/reducers';
@@ -15,6 +16,7 @@ import loadListeners from '../listeners';
 
 const rootReducer = combineReducers({
   editWorkspace,
+  findInPage,
   general,
   preferences,
   systemPreferences,

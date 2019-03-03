@@ -2,6 +2,12 @@ import { setPreference } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
 import { setWorkspace } from '../state/workspaces/actions';
 import { updateDidFailLoad, updateIsLoading } from '../state/general/actions';
+import {
+  closeFindInPage,
+  openFindInPage,
+  updateFindInPageMatches,
+} from '../state/find-in-page/actions';
+import { requestFindInPage } from '../senders';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -29,6 +35,27 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('update-did-fail-load', (e, value) => {
     store.dispatch(updateDidFailLoad(value));
+  });
+
+  // Find In Page
+  ipcRenderer.on('open-find-in-page', () => {
+    store.dispatch(openFindInPage());
+    console.log('open-find-in-page');
+  });
+
+  ipcRenderer.on('close-find-in-page', () => {
+    store.dispatch(closeFindInPage());
+  });
+
+  ipcRenderer.on('update-find-in-page-matches', (e, activeMatch, matches) => {
+    store.dispatch(updateFindInPageMatches(activeMatch, matches));
+  });
+
+  // send back a request with text
+  ipcRenderer.on('request-back-find-in-page', (e, forward) => {
+    const { open, text } = store.getState().findInPage;
+    if (!open) return;
+    requestFindInPage(text, forward);
   });
 };
 

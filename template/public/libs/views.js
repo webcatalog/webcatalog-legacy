@@ -132,6 +132,11 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
+  // Find In Page
+  view.webContents.on('found-in-page', (e, result) => {
+    sendToAllWindows('update-find-in-page-matches', result.activeMatchOrdinal, result.matches);
+  });
+
   // Link preview
   view.webContents.on('update-target-url', (e, url) => {
     view.webContents.send('update-target-url', url);
@@ -146,6 +151,11 @@ const addView = (browserWindow, workspace) => {
 const getView = id => views[id];
 
 const setActiveView = (browserWindow, id) => {
+  // stop find in page when switching workspaces
+  const currentView = browserWindow.getBrowserView();
+  currentView.webContents.stopFindInPage('clearSelection');
+  browserWindow.send('close-find-in-page');
+
   const view = views[id];
   browserWindow.setBrowserView(view);
 
