@@ -20,8 +20,6 @@ const views = {};
 
 const badgeCounts = {};
 
-const rememberLastPageVisited = getPreference('rememberLastPageVisited');
-
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
   const domain = matches && matches[1];
@@ -134,6 +132,7 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
+  const rememberLastPageVisited = getPreference('rememberLastPageVisited');
   view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
 
   views[workspace.id] = view;
