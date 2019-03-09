@@ -40,13 +40,13 @@ const EmptyState = (props) => {
       {title && (
         <Typography
           className={classes.title}
-          variant="title"
+          variant="h6"
         >
           {title}
         </Typography>
       )}
       <Typography
-        variant="subheading"
+        variant="subtitle1"
         align="center"
       >
         {children}

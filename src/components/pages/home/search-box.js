@@ -110,7 +110,7 @@ class EnhancedAppBar extends React.Component {
           <Typography
             className={classes.searchBarText}
             color="inherit"
-            variant="title"
+            variant="h6"
           >
             <input
               className={classes.input}

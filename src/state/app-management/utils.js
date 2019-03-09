@@ -5,8 +5,9 @@ import semver from 'semver';
 export const isOutdatedApp = (id, state) => {
   const { apps } = state.appManagement;
 
-  const v = apps[id] ? apps[id].version : null;
+  if (apps[id] && apps[id].status === 'INSTALLING') return false;
 
+  const v = apps[id] ? apps[id].version : null;
   const latestV = state.general.latestTemplateVersion;
 
   if (!v) return true;

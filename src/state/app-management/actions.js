@@ -5,6 +5,7 @@ import { SET_APP, REMOVE_APP } from '../../constants/actions';
 import {
   isNameExisted,
   getAppCount,
+  getOutdatedAppsAsList,
 } from './utils';
 
 import packageJson from '../../../package.json';
@@ -58,4 +59,25 @@ export const updateApp = (id, name, url, icon, mailtoHandler) => (dispatch, getS
   }
 
   return requestInstallApp(id, name, url, icon, mailtoHandler);
+};
+
+export const updateAllApps = () => (dispatch, getState) => {
+  const state = getState();
+
+  const { latestTemplateVersion } = state.general;
+
+  if (semver.lt(packageJson.templateVersion, latestTemplateVersion)) {
+    return requestShowMessageBox('WebCatalog is outdated. Please update WebCatalog first to continue.', 'error');
+  }
+
+  const outdatedApps = getOutdatedAppsAsList(state);
+
+  outdatedApps.forEach((app) => {
+    const {
+      id, name, url, icon, mailtoHandler,
+    } = app;
+    return requestInstallApp(id, name, url, icon, mailtoHandler);
+  });
+
+  return null;
 };

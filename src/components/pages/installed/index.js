@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -16,6 +17,8 @@ import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
+import { updateAllApps } from '../../../state/app-management/actions';
+import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
 
 const styles = theme => ({
   root: {
@@ -41,6 +44,17 @@ const styles = theme => ({
   grid: {
     minHeight: '100%',
   },
+  divider: {
+    marginBottom: theme.spacing.unit,
+  },
+  updateAllFlexRoot: {
+    display: 'flex',
+  },
+  updateAllFlexLeft: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 const Installed = (props) => {
@@ -49,6 +63,8 @@ const Installed = (props) => {
     classes,
     fetchingLatestTemplateVersion,
     onFetchLatestTemplateVersionAsync,
+    onUpdateAllApps,
+    outdatedAppCount,
   } = props;
 
   return (
@@ -70,6 +86,17 @@ const Installed = (props) => {
       <div className={classes.scrollContainer}>
         <Grid spacing={16} container className={classes.grid}>
           <Grid item xs={12}>
+            <div className={classes.updateAllFlexRoot}>
+              <Typography variant="body1" color="inherit" className={classes.updateAllFlexLeft}>
+                <span>{outdatedAppCount}</span>
+                <span>&nbsp;Pending Updates</span>
+              </Typography>
+
+              <Button disabled={outdatedAppCount < 1} onClick={onUpdateAllApps}>
+                Update All
+              </Button>
+            </div>
+            <Divider className={classes.divider} />
             {(Object.keys(apps).length > 0) ? (
               <Grid container justify="center" spacing={16}>
                 {Object.values(apps).map(app => (
@@ -104,15 +131,19 @@ Installed.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
+  onUpdateAllApps: PropTypes.func.isRequired,
+  outdatedAppCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
   apps: state.appManagement.apps,
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
+  outdatedAppCount: getOutdatedAppsAsList(state).length,
 });
 
 const actionCreators = {
   fetchLatestTemplateVersionAsync,
+  updateAllApps,
 };
 
 export default connectComponent(
