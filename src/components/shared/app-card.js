@@ -133,7 +133,7 @@ const AppCard = (props) => {
           className={classes.paperIcon}
           src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
         />
-        <Typography variant="subheading" className={classes.appName}>
+        <Typography variant="subtitle1" className={classes.appName}>
           {name}
         </Typography>
         <Typography variant="body1" color="textSecondary" className={classes.appUrl}>

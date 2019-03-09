@@ -36,13 +36,13 @@ const NoConnection = (props) => {
       <br />
       <Typography
         color="disabled"
-        variant="title"
+        variant="h6"
       >
         Failed to Connect to Server
       </Typography>
       <Typography
         align="center"
-        variant="subheading"
+        variant="subtitle1"
       >
         Please check your Internet connection.
       </Typography>

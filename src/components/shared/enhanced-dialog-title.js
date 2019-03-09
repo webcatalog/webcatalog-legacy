@@ -35,7 +35,10 @@ const EnhancedDialogTitle = ({ children, classes, onClose }) => (
 
 EnhancedDialogTitle.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

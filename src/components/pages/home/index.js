@@ -106,9 +106,11 @@ class Home extends React.Component {
       if (!isGetting && hits.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title="No Matching Results">
-            Please create a custom app instead
-            <br />
-            or submit a new app to the catalog (Help &gt; Report an Issue...).
+            <React.Fragment>
+              Please create a custom app instead
+              <br />
+              or submit a new app to the catalog (Help &gt; Report an Issue...).
+            </React.Fragment>
           </EmptyState>
         );
       }
