@@ -37,6 +37,7 @@ const createMenu = require('../libs/create-menu');
 const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
+const codeInjectionWindow = require('../windows/code-injection');
 
 const appJson = require('../app.json');
 
@@ -107,6 +108,11 @@ const loadListeners = () => {
   ipcMain.on('request-set-preference', (e, name, value) => {
     setPreference(name, value);
   });
+
+  ipcMain.on('request-show-code-injection-window', (e, type) => {
+    codeInjectionWindow.show(type);
+  });
+
 
   ipcMain.on('request-reset-preferences', () => {
     dialog.showMessageBox(preferencesWindow.get(), {

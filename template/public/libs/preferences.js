@@ -13,6 +13,8 @@ const defaultPreferences = {
   swipeToNavigate: true,
   theme: 'automatic',
   unreadCountBadge: true,
+  jsCodeInjection: null,
+  cssCodeInjection: null,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));

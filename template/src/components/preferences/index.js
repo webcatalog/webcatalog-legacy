@@ -26,6 +26,7 @@ import {
   requestResetPreferences,
   requestClearBrowsingData,
   requestShowRequireRestartDialog,
+  requestShowCodeInjectionWindow,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -63,8 +64,10 @@ const getOpenAtLoginString = (openAtLogin) => {
 
 const Preferences = ({
   classes,
+  cssCodeInjection,
   errorMonitoring,
   isDefaultMailClient,
+  jsCodeInjection,
   onUpdateIsDefaultMailClient,
   openAtLogin,
   rememberLastPageVisited,
@@ -254,6 +257,22 @@ const Preferences = ({
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Developers
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
+          <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <ListItem button onClick={() => requestShowCodeInjectionWindow('css')}>
+          <ListItemText primary="CSS Code Injection" secondary={cssCodeInjection ? 'Set' : 'Not set'} />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
       System
     </Typography>
     <Paper className={classes.paper}>
@@ -288,10 +307,17 @@ const Preferences = ({
   </div>
 );
 
+Preferences.defaultProps = {
+  cssCodeInjection: null,
+  jsCodeInjection: null,
+};
+
 Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
+  cssCodeInjection: PropTypes.string,
   errorMonitoring: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
+  jsCodeInjection: PropTypes.string,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
@@ -303,8 +329,10 @@ Preferences.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  cssCodeInjection: state.preferences.cssCodeInjection,
   errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,
+  jsCodeInjection: state.preferences.jsCodeInjection,
   openAtLogin: state.systemPreferences.openAtLogin,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   sidebar: state.preferences.sidebar,

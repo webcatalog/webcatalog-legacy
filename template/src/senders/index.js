@@ -7,6 +7,7 @@ export const requestLoadURL = (url, id) => ipcRenderer.send('request-load-url', 
 
 export const requestShowPreferencesWindow = () => ipcRenderer.send('request-show-preferences-window');
 export const requestShowEditWorkspaceWindow = id => ipcRenderer.send('request-show-edit-workspace-window', id);
+export const requestShowCodeInjectionWindow = type => ipcRenderer.send('request-show-code-injection-window', type);
 
 // Preferences
 export const getPreference = name => ipcRenderer.sendSync('get-preference', name);
