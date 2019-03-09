@@ -20,6 +20,33 @@ window.onload = () => {
     ipcRenderer.send('request-go-home');
   };
 
+  const jsCodeInjection = ipcRenderer.sendSync('get-preference', 'jsCodeInjection');
+  const cssCodeInjection = ipcRenderer.sendSync('get-preference', 'cssCodeInjection');
+
+  if (jsCodeInjection && jsCodeInjection.trim().length > 0) {
+    try {
+      const node = document.createElement('script');
+      node.innerHTML = jsCodeInjection;
+      document.body.appendChild(node);
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    }
+  }
+
+  if (cssCodeInjection && cssCodeInjection.trim().length > 0) {
+    try {
+      const node = document.createElement('style');
+      node.innerHTML = cssCodeInjection;
+      document.body.appendChild(node);
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    }
+  }
+
   const spellChecker = ipcRenderer.sendSync('get-preference', 'spellChecker');
 
   if (spellChecker) {

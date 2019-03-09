@@ -5,6 +5,7 @@ import {
 } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import codeInjection from './code-injection/reducers';
 import editWorkspace from './edit-workspace/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
@@ -15,6 +16,7 @@ import workspaces from './workspaces/reducers';
 import loadListeners from '../listeners';
 
 const rootReducer = combineReducers({
+  codeInjection,
   editWorkspace,
   findInPage,
   general,
