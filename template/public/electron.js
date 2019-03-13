@@ -21,7 +21,7 @@ const gotTheLock = app.requestSingleInstanceLock();
 app.on('second-instance', () => {
   // Someone tried to run a second instance, we should focus our window.
   const win = mainWindow.get();
-  if (win.get() != null) {
+  if (win != null) {
     if (win.isMinimized()) win.restore();
     win.focus();
   }
@@ -39,7 +39,7 @@ if (!gotTheLock) {
 
   loadListeners();
 
-  const WIDEVINE_PATH = path.join(__dirname, 'plugins', 'WidevineCdm', '_platform_specific', 'mac_x64');
+  const WIDEVINE_PATH = path.join(__dirname, 'plugins', 'WidevineCdm', '_platform_specific', 'mac_x64', 'libwidevinecdm.dylib');
   const WIDEVINE_VERSION = '4.10.1303.2';
   app.commandLine.appendSwitch('widevine-cdm-path', WIDEVINE_PATH);
   app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINE_VERSION);

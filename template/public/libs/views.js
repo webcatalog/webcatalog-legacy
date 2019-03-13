@@ -29,6 +29,7 @@ const extractDomain = (fullUrl) => {
 const addView = (browserWindow, workspace) => {
   const view = new BrowserView({
     webPreferences: {
+      plugins: true,
       nodeIntegration: false,
       contextIsolation: true,
       partition: `persist:${workspace.id}`,
