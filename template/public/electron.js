@@ -31,14 +31,16 @@ if (!gotTheLock) {
   // eslint-disable-next-line
   app.quit();
 } else {
-  protocol.registerStandardSchemes(['http']);
-  protocol.registerStandardSchemes(['https']);
-  protocol.registerStandardSchemes(['mailto']);
+  protocol.registerSchemesAsPrivileged([
+    { scheme: 'http', privileges: { standard: true } },
+    { scheme: 'https', privileges: { standard: true } },
+    { scheme: 'mailto', privileges: { standard: true } },
+  ]);
 
   loadListeners();
 
   const WIDEVINE_PATH = path.join(__dirname, 'plugins', 'WidevineCdm', '_platform_specific', 'mac_x64');
-  const WIDEVINE_VERSION = '4.10.1192.0';
+  const WIDEVINE_VERSION = '4.10.1303.2';
   app.commandLine.appendSwitch('widevine-cdm-path', WIDEVINE_PATH);
   app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINE_VERSION);
 
