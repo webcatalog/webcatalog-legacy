@@ -7,12 +7,17 @@ const {
   homePath,
 } = argv;
 
-const dotAppPath = path.join(homePath, 'Applications', 'WebCatalog Apps', `${name}.app`);
-fsExtra.exists(dotAppPath)
+const checkExistsAndRemove = dirPath => fsExtra.exists(dirPath)
   .then((exists) => {
-    if (exists) return fsExtra.remove(dotAppPath);
+    if (exists) return fsExtra.remove(dirPath);
     return null;
-  })
+  });
+
+const dotAppPath = path.join(homePath, 'Applications', 'WebCatalog Apps', `${name}.app`);
+const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
+
+checkExistsAndRemove(dotAppPath)
+  .then(() => checkExistsAndRemove(appDataPath))
   .then(() => {
     process.exit(0);
   })
