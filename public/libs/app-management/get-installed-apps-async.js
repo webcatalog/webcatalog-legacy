@@ -34,23 +34,18 @@ const getInstalledAppsAsync = () => {
                 return;
               }
 
-              if (!fsExtra.pathExistsSync(appJsonPath)
-                && !fsExtra.pathExistsSync(legacyAppJsonPath)) {
-                return;
-              }
-
-              if (fsExtra.pathExistsSync(appJsonPath)) {
-                appJson = fsExtra.readJSONSync(appJsonPath);
-              } else if (fsExtra.pathExistsSync(legacyAppJsonPath)) {
+              if (fsExtra.pathExistsSync(legacyAppJsonPath)) {
                 appJson = fsExtra.readJSONSync(legacyAppJsonPath);
+              } else if (fsExtra.pathExistsSync(appJsonPath)) {
+                appJson = fsExtra.readJSONSync(appJsonPath);
               } else {
                 return;
               }
 
-              if (fsExtra.pathExistsSync(iconPath)) {
-                icon = iconPath;
-              } else if (fsExtra.pathExistsSync(legacyIconPath)) {
+              if (fsExtra.pathExistsSync(legacyIconPath)) {
                 icon = legacyIconPath;
+              } else if (fsExtra.pathExistsSync(iconPath)) {
+                icon = iconPath;
               }
 
               apps.push(Object.assign(appJson, {
