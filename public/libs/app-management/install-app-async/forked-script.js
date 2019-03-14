@@ -26,8 +26,8 @@ const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'icon.icns');
 const iconPngPath = path.join(buildResourcesPath, 'icon.png');
-const appJsonPath = path.join(appPath, 'public', 'app.json');
-const publicIconPngPath = path.join(appPath, 'public', 'icon.png');
+const appJsonPath = path.join(appPath, 'build', 'app.json');
+const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
 const packageJsonPath = path.join(appPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
 
@@ -77,6 +77,7 @@ decompress(templatePath, tmpPath)
   .then((packageJson) => {
     const newPackageJson = Object.assign(packageJson, {
       name,
+      main: 'build/electron.js',
       devDependencies: {},
     });
     return fsExtra.writeJSON(packageJsonPath, newPackageJson);
@@ -93,7 +94,7 @@ decompress(templatePath, tmpPath)
       prune: true,
       osxSign: false,
       asar: {
-        unpack: '{app.json,icon.png,package.json}',
+        unpack: '{app.json,icon.png,package.json,libwidevinecdm.dylib,libwidevinecdm.dylib.sig,manifest.json}',
       },
     };
 

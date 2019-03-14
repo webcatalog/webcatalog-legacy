@@ -17,18 +17,45 @@ const getInstalledAppsAsync = () => {
               if (fileName === '.DS_Store') return;
 
               const packageJsonPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'package.json');
-              const appJsonPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'public', 'app.json');
-              const iconPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'public', 'icon.png');
 
-              if (!fsExtra.pathExistsSync(appJsonPath)) return;
-              if (!fsExtra.pathExistsSync(packageJsonPath)) return;
+              const legacyAppJsonPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'public', 'app.json');
+              const legacyIconPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'public', 'icon.png');
 
-              const appJson = fsExtra.readJSONSync(appJsonPath);
-              const packageJson = fsExtra.readJSONSync(packageJsonPath);
+              const appJsonPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'build', 'app.json');
+              const iconPath = path.join(installationPath, fileName, 'Contents', 'Resources', 'app.asar.unpacked', 'build', 'icon.png');
+
+              let packageJson;
+              let appJson;
+              let icon;
+
+              if (fsExtra.pathExistsSync(packageJsonPath)) {
+                packageJson = fsExtra.readJSONSync(packageJsonPath);
+              } else {
+                return;
+              }
+
+              if (!fsExtra.pathExistsSync(appJsonPath)
+                && !fsExtra.pathExistsSync(legacyAppJsonPath)) {
+                return;
+              }
+
+              if (fsExtra.pathExistsSync(appJsonPath)) {
+                appJson = fsExtra.readJSONSync(appJsonPath);
+              } else if (fsExtra.pathExistsSync(legacyAppJsonPath)) {
+                appJson = fsExtra.readJSONSync(legacyAppJsonPath);
+              } else {
+                return;
+              }
+
+              if (fsExtra.pathExistsSync(iconPath)) {
+                icon = iconPath;
+              } else if (fsExtra.pathExistsSync(legacyIconPath)) {
+                icon = legacyIconPath;
+              }
 
               apps.push(Object.assign(appJson, {
                 version: packageJson.version,
-                icon: iconPath,
+                icon,
                 status: 'INSTALLED',
               }));
             });
