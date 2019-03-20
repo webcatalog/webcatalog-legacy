@@ -1,6 +1,6 @@
 
 import { UPDATE_CODE_INJECTION_FORM } from '../../constants/actions';
-import { requestSetPreference } from '../../senders';
+import { requestSetPreference, requestShowRequireRestartDialog } from '../../senders';
 
 const { remote } = window.require('electron');
 
@@ -16,4 +16,6 @@ export const save = () => (dispatch, getState) => {
   requestSetPreference(`${codeInjectionType}CodeInjection`, form.code);
 
   remote.getCurrentWindow().close();
+
+  requestShowRequireRestartDialog();
 };
