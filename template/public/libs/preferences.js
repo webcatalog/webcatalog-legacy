@@ -8,7 +8,7 @@ const v = '2018.2';
 const defaultPreferences = {
   errorMonitoring: true,
   rememberLastPageVisited: false,
-  sidebar: false,
+  sidebar: true,
   spellChecker: true,
   swipeToNavigate: true,
   theme: 'automatic',
