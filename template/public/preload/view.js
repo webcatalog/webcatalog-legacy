@@ -2,7 +2,6 @@ const {
   ipcRenderer,
   remote,
   webFrame,
-  shell,
 } = require('electron');
 
 const {
