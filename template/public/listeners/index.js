@@ -19,8 +19,9 @@ const {
 } = require('../libs/system-preferences');
 
 const {
-  getWorkspaces,
+  getActiveWorkspace,
   getWorkspace,
+  getWorkspaces,
   setWorkspace,
 } = require('../libs/workspaces');
 
@@ -170,6 +171,23 @@ const loadListeners = () => {
     setActiveWorkspaceView(id);
     createMenu();
   });
+
+  ipcMain.on('request-open-url-in-workspace', (e, url, id) => {
+    if (id) {
+      // if id is defined, switch to that workspace
+      setActiveWorkspaceView(id);
+      createMenu();
+    } else {
+      // if not, create a new workspace
+      createWorkspaceView();
+      createMenu();
+    }
+
+    // load url in the current workspace
+    const activeWorkspace = getActiveWorkspace();
+    loadURL(url, activeWorkspace.id);
+  });
+
 
   ipcMain.on('request-remove-workspace', (e, id) => {
     removeWorkspaceView(id);

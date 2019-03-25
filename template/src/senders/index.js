@@ -29,6 +29,7 @@ export const requestSetWorkspace = (id, opts) => ipcRenderer.send('request-set-w
 export const requestSetActiveWorkspace = id => ipcRenderer.send('request-set-active-workspace', id);
 export const requestRemoveWorkspace = id => ipcRenderer.send('request-remove-workspace', id);
 export const requestClearBrowsingData = () => ipcRenderer.send('request-clear-browsing-data');
+export const requestOpenUrlInWorkspace = (url, id) => ipcRenderer.send('request-open-url-in-workspace', url, id);
 
 // Find In Page
 export const requestFindInPage = (text, forward) => ipcRenderer.send('request-find-in-page', text, forward);
