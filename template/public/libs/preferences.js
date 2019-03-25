@@ -8,16 +8,17 @@ const appJson = require('../app.json');
 const v = '2018.2';
 
 const defaultPreferences = {
+  attachToMenubar: false,
+  cssCodeInjection: null,
   errorMonitoring: true,
+  jsCodeInjection: null,
   rememberLastPageVisited: false,
+  shareWorkspaceBrowsingData: false,
   sidebar: Boolean(appJson.mailtoHandler),
   spellChecker: true,
   swipeToNavigate: true,
   theme: 'automatic',
   unreadCountBadge: true,
-  jsCodeInjection: null,
-  cssCodeInjection: null,
-  attachToMenubar: false,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));

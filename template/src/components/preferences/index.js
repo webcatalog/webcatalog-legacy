@@ -71,6 +71,7 @@ const Preferences = ({
   onUpdateIsDefaultMailClient,
   openAtLogin,
   rememberLastPageVisited,
+  shareWorkspaceBrowsingData,
   sidebar,
   spellChecker,
   swipeToNavigate,
@@ -164,20 +165,6 @@ const Preferences = ({
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemText primary="Remember last page visited" />
-          <Switch
-            checked={rememberLastPageVisited}
-            onChange={(e) => {
-              requestSetPreference('rememberLastPageVisited', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
-        <ListItem>
           <ListItemText primary="Use spell checker" />
           <Switch
             checked={spellChecker}
@@ -198,6 +185,34 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
+        <ListItem>
+          <ListItemText primary="Remember last page visited" />
+          <Switch
+            checked={rememberLastPageVisited}
+            onChange={(e) => {
+              requestSetPreference('rememberLastPageVisited', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Share browsing data betwwen workspaces" />
+          <Switch
+            checked={shareWorkspaceBrowsingData}
+            onChange={(e) => {
+              requestSetPreference('shareWorkspaceBrowsingData', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
         <ListItem button onClick={requestClearBrowsingData}>
           <ListItemText primary="Clear browsing data" secondary="Clear cookies, cache, and more" />
           <ChevronRightIcon color="action" />
@@ -321,6 +336,7 @@ Preferences.propTypes = {
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
+  shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
@@ -335,6 +351,7 @@ const mapStateToProps = state => ({
   jsCodeInjection: state.preferences.jsCodeInjection,
   openAtLogin: state.systemPreferences.openAtLogin,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
+  shareWorkspaceBrowsingData: state.preferences.shareWorkspaceBrowsingData,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
   swipeToNavigate: state.preferences.swipeToNavigate,
