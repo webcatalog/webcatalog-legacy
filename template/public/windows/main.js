@@ -1,14 +1,37 @@
 const { app, BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const menubar = require('menubar');
+const path = require('path');
 
 const { REACT_PATH } = require('../constants');
 const { getPreference } = require('../libs/preferences');
+const createMenu = require('../libs/create-menu');
 
 let win;
+let mb = {};
 
-const get = () => win;
+const get = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
+  if (attachToMenubar) return mb.window;
+  return win;
+};
 
 const create = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
+  if (attachToMenubar) {
+    mb = menubar({
+      index: REACT_PATH,
+      icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
+      preloadWindow: true,
+    });
+
+    mb.on('after-show', () => {
+      createMenu();
+    });
+    return;
+  }
+
+
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
 
   const mainWindowState = windowStateKeeper({
@@ -63,8 +86,11 @@ const create = () => {
 };
 
 const show = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
   if (win == null) {
     create();
+  } else if (attachToMenubar) {
+    mb.showWindow();
   } else {
     win.show();
   }

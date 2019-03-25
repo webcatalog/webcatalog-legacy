@@ -23,6 +23,7 @@
     "electron-settings": "3.2.0",
     "electron-spellchecker": "1.1.2",
     "electron-window-state": "5.0.3",
+    "menubar": "5.2.3",
     "node-fetch": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",

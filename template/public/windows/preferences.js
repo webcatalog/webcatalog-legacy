@@ -10,6 +10,8 @@ let win;
 const get = () => win;
 
 const create = () => {
+  const attachToMenubar = true;
+
   win = new BrowserWindow({
     width: 500,
     height: 400,
@@ -21,7 +23,7 @@ const create = () => {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'preferences.js'),
     },
-    parent: mainWindow.get(),
+    parent: attachToMenubar ? null : mainWindow.get(),
   });
 
   win.loadURL(REACT_PATH);

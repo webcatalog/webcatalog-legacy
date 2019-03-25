@@ -17,6 +17,7 @@ const defaultPreferences = {
   unreadCountBadge: true,
   jsCodeInjection: null,
   cssCodeInjection: null,
+  attachToMenubar: false,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
