@@ -49,8 +49,11 @@ const removeWorkspaceView = (id) => {
 const clearBrowsingData = () => {
   const workspaces = getWorkspaces();
   Object.keys(workspaces).forEach((id) => {
-    session.fromPartition(`persist:${id}`).clearStorageData(id);
+    session.fromPartition(`persist:${id}`).clearStorageData();
   });
+
+  // shared session
+  session.fromPartition('persist:shared').clearStorageData();
 };
 
 const loadURL = (url, id) => {
