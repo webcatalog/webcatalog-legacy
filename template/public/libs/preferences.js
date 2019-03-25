@@ -2,6 +2,8 @@ const settings = require('electron-settings');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 
+const appJson = require('../app.json');
+
 // scope
 const v = '2018.2';
 
@@ -11,7 +13,7 @@ const defaultPreferences = {
   jsCodeInjection: null,
   rememberLastPageVisited: false,
   shareWorkspaceBrowsingData: false,
-  sidebar: true,
+  sidebar: Boolean(appJson.mailtoHandler),
   spellChecker: true,
   swipeToNavigate: true,
   theme: 'automatic',
