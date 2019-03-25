@@ -8,7 +8,7 @@ const path = require('path');
 
 const appJson = require('../app.json');
 
-const { getPreference } = require('./preferences');
+const { getPreferences } = require('./preferences');
 const {
   getWorkspace,
   setWorkspace,
@@ -27,11 +27,17 @@ const extractDomain = (fullUrl) => {
 };
 
 const addView = (browserWindow, workspace) => {
+  const {
+    unreadCountBadge,
+    rememberLastPageVisited,
+    shareWorkspaceBrowsingData,
+  } = getPreferences();
+
   const view = new BrowserView({
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      partition: `persist:${workspace.id}`,
+      partition: shareWorkspaceBrowsingData ? 'persist:shared' : `persist:${workspace.id}`,
       preload: path.join(__dirname, '..', 'preload', 'view.js'),
     },
   });
@@ -113,7 +119,6 @@ const addView = (browserWindow, workspace) => {
   view.webContents.setUserAgent(uaStr);
 
   // Unread count badge
-  const unreadCountBadge = getPreference('unreadCountBadge');
   if (unreadCountBadge) {
     view.webContents.on('page-title-updated', (e, title) => {
       const itemCountRegex = /[([{](\d*?)[}\])]/;
@@ -142,7 +147,6 @@ const addView = (browserWindow, workspace) => {
     view.webContents.send('update-target-url', url);
   });
 
-  const rememberLastPageVisited = getPreference('rememberLastPageVisited');
   view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
 
   views[workspace.id] = view;
