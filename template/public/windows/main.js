@@ -1,11 +1,19 @@
-const { app, BrowserWindow } = require('electron');
+const {
+  BrowserWindow,
+  Menu,
+  app,
+  ipcMain,
+} = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const menubar = require('menubar');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants');
 const { getPreference } = require('../libs/preferences');
-const createMenu = require('../libs/create-menu');
+
+const {
+  checkForUpdates,
+} = require('../libs/updater');
 
 let win;
 let mb = {};
@@ -25,9 +33,30 @@ const create = () => {
       preloadWindow: true,
     });
 
-    mb.on('after-show', () => {
-      createMenu();
+    const contextMenu = Menu.buildFromTemplate([
+      { role: 'about' },
+      {
+        label: 'Check for Updates...',
+        click: () => checkForUpdates(),
+      },
+      { type: 'separator' },
+      {
+        label: 'Preferences...',
+        click: () => ipcMain.emit('request-show-preferences-window'),
+      },
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        click: () => {
+          mb.app.quit();
+        },
+      },
+    ]);
+
+    mb.tray.on('right-click', () => {
+      mb.tray.popUpContextMenu(contextMenu);
     });
+
     return;
   }
 

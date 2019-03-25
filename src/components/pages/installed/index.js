@@ -87,7 +87,7 @@ const Installed = (props) => {
         <Grid spacing={16} container className={classes.grid}>
           <Grid item xs={12}>
             <div className={classes.updateAllFlexRoot}>
-              <Typography variant="body1" color="inherit" className={classes.updateAllFlexLeft}>
+              <Typography variant="body1" color="default" className={classes.updateAllFlexLeft}>
                 <span>{outdatedAppCount}</span>
                 <span>&nbsp;Pending Updates</span>
               </Typography>

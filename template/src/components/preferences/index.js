@@ -63,6 +63,7 @@ const getOpenAtLoginString = (openAtLogin) => {
 };
 
 const Preferences = ({
+  attachToMenubar,
   classes,
   cssCodeInjection,
   errorMonitoring,
@@ -122,6 +123,20 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
+        <ListItem>
+          <ListItemText primary="Attach to menubar" />
+          <Switch
+            checked={attachToMenubar}
+            onChange={(e) => {
+              requestSetPreference('attachToMenubar', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
         <ListItem>
           <ListItemText primary="Show unread count badge" />
           <Switch
@@ -328,6 +343,7 @@ Preferences.defaultProps = {
 };
 
 Preferences.propTypes = {
+  attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
   errorMonitoring: PropTypes.bool.isRequired,
@@ -345,6 +361,7 @@ Preferences.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  attachToMenubar: state.preferences.attachToMenubar,
   cssCodeInjection: state.preferences.cssCodeInjection,
   errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,

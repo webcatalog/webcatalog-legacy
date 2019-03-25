@@ -4,13 +4,14 @@ const path = require('path');
 const { REACT_PATH } = require('../constants');
 
 const mainWindow = require('./main');
+const { getPreference } = require('../libs/preferences');
 
 let win;
 
 const get = () => win;
 
 const create = () => {
-  const attachToMenubar = true;
+  const attachToMenubar = getPreference('attachToMenubar');
 
   win = new BrowserWindow({
     width: 500,
