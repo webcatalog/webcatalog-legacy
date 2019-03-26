@@ -4,6 +4,7 @@ title: Privacy Policy
 ---
 
 # Privacy Policy
+* * *
 
 WebCatalog respects your privacy and **does not track or log anything from you**.
 
