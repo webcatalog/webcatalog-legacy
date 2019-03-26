@@ -4,12 +4,15 @@ const path = require('path');
 const { REACT_PATH } = require('../constants');
 
 const mainWindow = require('./main');
+const { getPreference } = require('../libs/preferences');
 
 let win;
 
 const get = () => win;
 
 const create = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
+
   win = new BrowserWindow({
     width: 500,
     height: 400,
@@ -21,7 +24,7 @@ const create = () => {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'preferences.js'),
     },
-    parent: mainWindow.get(),
+    parent: attachToMenubar ? null : mainWindow.get(),
   });
 
   win.loadURL(REACT_PATH);

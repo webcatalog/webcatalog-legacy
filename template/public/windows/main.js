@@ -1,14 +1,66 @@
-const { app, BrowserWindow } = require('electron');
+const {
+  BrowserWindow,
+  Menu,
+  app,
+  ipcMain,
+} = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const menubar = require('menubar');
+const path = require('path');
 
 const { REACT_PATH } = require('../constants');
 const { getPreference } = require('../libs/preferences');
 
-let win;
+const {
+  checkForUpdates,
+} = require('../libs/updater');
 
-const get = () => win;
+let win;
+let mb = {};
+
+const get = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
+  if (attachToMenubar) return mb.window;
+  return win;
+};
 
 const create = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
+  if (attachToMenubar) {
+    mb = menubar({
+      index: REACT_PATH,
+      icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
+      preloadWindow: true,
+    });
+
+    const contextMenu = Menu.buildFromTemplate([
+      { role: 'about' },
+      {
+        label: 'Check for Updates...',
+        click: () => checkForUpdates(),
+      },
+      { type: 'separator' },
+      {
+        label: 'Preferences...',
+        click: () => ipcMain.emit('request-show-preferences-window'),
+      },
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        click: () => {
+          mb.app.quit();
+        },
+      },
+    ]);
+
+    mb.tray.on('right-click', () => {
+      mb.tray.popUpContextMenu(contextMenu);
+    });
+
+    return;
+  }
+
+
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
 
   const mainWindowState = windowStateKeeper({
@@ -63,8 +115,11 @@ const create = () => {
 };
 
 const show = () => {
+  const attachToMenubar = getPreference('attachToMenubar');
   if (win == null) {
     create();
+  } else if (attachToMenubar) {
+    mb.showWindow();
   } else {
     win.show();
   }

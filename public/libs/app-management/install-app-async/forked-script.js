@@ -31,6 +31,9 @@ const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
 const packageJsonPath = path.join(appPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
 
+const menubarIconPath = path.join(appPath, 'build', 'menubar-icon.png');
+const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
+
 const dotAppPath = path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
 const finalPath = path.join(homePath, 'Applications', 'WebCatalog Apps', `${name}.app`);
 
@@ -54,6 +57,22 @@ decompress(templatePath, tmpPath)
         .resize(size, size)
         .quality(100)
         .write(path.join(buildResourcesPath, `${size}.png`), resolve);
+    }));
+
+    // menubar icon
+    p.push(new Promise((resolve) => {
+      img
+        .clone()
+        .resize(20, 20)
+        .quality(100)
+        .write(menubarIconPath, resolve);
+    }));
+    p.push(new Promise((resolve) => {
+      img
+        .clone()
+        .resize(40, 40)
+        .quality(100)
+        .write(menubarIcon2xPath, resolve);
     }));
 
     return Promise.all(p);
