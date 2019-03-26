@@ -1,3 +1,4 @@
 name: 'Netflix'
 url: 'https://netflix.com'
 category: Video
+featured: true
