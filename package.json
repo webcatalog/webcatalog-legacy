@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "description": "Reinvent your Web Workflow",
+  "description": "Run Web Apps like Real Apps",
   "version": "13.6.0",
   "templateVersion": "3.6.0",
   "main": "public/electron.js",
