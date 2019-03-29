@@ -56,7 +56,8 @@ const DialogLicenseRegistration = (props) => {
         <DialogContentText className={classes.dialogContentText}>
           You are currently running a trial version of WebCatalog which only
             lets you to install up to two apps.
-           To remove the trial limitations, please purchase a license key (10 USD) from our store.
+           To remove the trial limitations, please purchase a
+           perpetual license key (10 USD) from our store.
         </DialogContentText>
         <TextField
           fullWidth
