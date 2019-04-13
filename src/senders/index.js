@@ -9,6 +9,7 @@ export const getPreferences = () => ipcRenderer.sendSync('get-preferences');
 export const requestSetPreference = (name, value) => ipcRenderer.send('request-set-preference', name, value);
 export const requestResetPreferences = () => ipcRenderer.send('request-reset-preferences');
 export const requestShowRequireRestartDialog = () => ipcRenderer.send('request-show-require-restart-dialog');
+export const requestOpenInstallLocation = () => ipcRenderer.send('request-open-install-location');
 
 // App Management
 export const requestGetInstalledApps = () => ipcRenderer.send('request-get-installed-apps');

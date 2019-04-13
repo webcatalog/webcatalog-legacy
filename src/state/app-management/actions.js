@@ -1,6 +1,6 @@
 import semver from 'semver';
 
-import { SET_APP, REMOVE_APP } from '../../constants/actions';
+import { SET_APP, REMOVE_APP, CLEAN_APP_MANAGEMENT } from '../../constants/actions';
 
 import {
   isNameExisted,
@@ -18,6 +18,10 @@ import {
 import {
   open as openDialogLicenseRegistration,
 } from '../dialog-license-registration/actions';
+
+export const clean = () => ({
+  type: CLEAN_APP_MANAGEMENT,
+});
 
 export const setApp = (id, app) => ({
   type: SET_APP,

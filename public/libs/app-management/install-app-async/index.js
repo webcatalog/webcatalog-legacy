@@ -4,6 +4,8 @@ const { app } = require('electron');
 
 const sentrySession = require('./../../sentry-session');
 
+const { getPreference } = require('./../../preferences');
+
 const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
@@ -18,6 +20,10 @@ const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((res
     icon,
     '--homePath',
     app.getPath('home'),
+    '--installLocation',
+    getPreference('installLocation'),
+    'username',
+    process.env.USER, // required by sudo-prompt
   ];
 
   if (mailtoHandler && mailtoHandler.length > 0) {

@@ -1,6 +1,14 @@
 const { app } = require('electron');
 const path = require('path');
 
-const getInstallationPath = () => path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
+const { getPreference } = require('./../preferences');
+
+const getInstallationPath = () => {
+  const installLocation = getPreference('installLocation');
+  if (installLocation === 'root') {
+    return path.join('/', 'Applications', 'WebCatalog Apps');
+  }
+  return path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
+};
 
 module.exports = getInstallationPath;

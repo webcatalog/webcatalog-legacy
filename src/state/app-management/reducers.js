@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { SET_APP, REMOVE_APP } from '../../constants/actions';
+import { SET_APP, REMOVE_APP, CLEAN_APP_MANAGEMENT } from '../../constants/actions';
 
 const apps = (state = {}, action) => {
   switch (action.type) {
+    case CLEAN_APP_MANAGEMENT: {
+      return {};
+    }
     case SET_APP: {
       const overwritingState = {};
       overwritingState[action.id] = Object.assign({}, state[action.id] || {}, action.app);

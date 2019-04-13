@@ -1,7 +1,8 @@
-import { setApp, removeApp } from '../state/app-management/actions';
+import { setApp, removeApp, clean as cleanAppManagement } from '../state/app-management/actions';
 import { changeRoute } from '../state/router/actions';
 import { setPreference } from '../state/preferences/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
+import { updateMovingAllApps } from '../state/general/actions';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
@@ -11,6 +12,10 @@ const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
     if (message) console.log(message);
+  });
+
+  ipcRenderer.on('clean-app-management', () => {
+    store.dispatch(cleanAppManagement());
   });
 
   ipcRenderer.on('set-app', (e, id, app) => {
@@ -27,6 +32,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('open-license-registration-dialog', () => {
     store.dispatch(openDialogLicenseRegistration());
+  });
+
+  ipcRenderer.on('update-moving-all-apps', (e, val) => {
+    store.dispatch(updateMovingAllApps(val));
   });
 };
 

@@ -5,6 +5,7 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
+  UPDATE_MOVING_ALL_APPS,
 } from '../../constants/actions';
 
 const { remote } = window.require('electron');
@@ -37,10 +38,17 @@ const fetchingLatestTemplateVersion = (state = false, action) => {
   }
 };
 
+const movingAllApps = (state = false, action) => {
+  switch (action.type) {
+    case UPDATE_MOVING_ALL_APPS: return action.movingAllApps;
+    default: return state;
+  }
+};
 
 export default combineReducers({
   isDarkMode,
   isFullScreen,
   latestTemplateVersion,
   fetchingLatestTemplateVersion,
+  movingAllApps,
 });
