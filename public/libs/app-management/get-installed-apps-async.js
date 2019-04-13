@@ -2,8 +2,11 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 
 const getInstallationPath = require('./get-installation-path');
+const sendToAllWindows = require('../send-to-all-windows');
 
 const getInstalledAppsAsync = () => {
+  sendToAllWindows('clean-app-management');
+
   const apps = [];
 
   const installationPath = getInstallationPath();
@@ -58,6 +61,11 @@ const getInstalledAppsAsync = () => {
       }
 
       return null;
+    })
+    .then(() => {
+      apps.forEach((appObj) => {
+        sendToAllWindows('set-app', appObj.id, appObj);
+      });
     })
     .then(() => apps);
 };

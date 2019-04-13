@@ -4,6 +4,9 @@ const { app } = require('electron');
 
 const sentrySession = require('./../../sentry-session');
 
+const getInstallationPath = require('../get-installation-path');
+const { getPreference } = require('./../../preferences');
+
 const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
@@ -14,6 +17,12 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
     name,
     '--homePath',
     app.getPath('home'),
+    '--installLocation',
+    getPreference('installLocation'),
+    '--installationPath',
+    getInstallationPath(),
+    'username',
+    process.env.USER, // required by sudo-prompt
   ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',

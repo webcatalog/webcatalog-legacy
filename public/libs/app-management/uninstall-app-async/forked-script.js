@@ -1,11 +1,32 @@
 const path = require('path');
 const fsExtra = require('fs-extra');
 const argv = require('yargs-parser')(process.argv.slice(1));
+const sudo = require('sudo-prompt');
 
 const {
   name,
+  installationPath,
+  installLocation,
   homePath,
+  username,
 } = argv;
+
+const sudoAsync = prompt => new Promise((resolve, reject) => {
+  const opts = {
+    name: 'WebCatalog',
+  };
+  console.log(prompt);
+  process.env.USER = username;
+  sudo.exec(prompt, opts, (error, stdout, stderr) => {
+    if (error) {
+      console.log(error);
+      return reject(error);
+    }
+    console.log(stdout);
+    console.log(stderr);
+    return resolve(stdout, stderr);
+  });
+});
 
 const checkExistsAndRemove = dirPath => fsExtra.exists(dirPath)
   .then((exists) => {
@@ -13,10 +34,22 @@ const checkExistsAndRemove = dirPath => fsExtra.exists(dirPath)
     return null;
   });
 
-const dotAppPath = path.join(homePath, 'Applications', 'WebCatalog Apps', `${name}.app`);
+const checkExistsAndRemoveWithSudo = dirPath => fsExtra.exists(dirPath)
+  .then((exists) => {
+    if (exists) return sudoAsync(`rm -rf "${dirPath}"`);
+    return null;
+  });
+
+const dotAppPath = path.join(installationPath, `${name}.app`);
 const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
 
-checkExistsAndRemove(dotAppPath)
+Promise.resolve()
+  .then(() => {
+    if (installLocation === 'root') {
+      return checkExistsAndRemoveWithSudo(dotAppPath);
+    }
+    return checkExistsAndRemove(dotAppPath);
+  })
   .then(() => checkExistsAndRemove(appDataPath))
   .then(() => {
     process.exit(0);

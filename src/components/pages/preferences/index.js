@@ -23,6 +23,7 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestShowRequireRestartDialog,
+  requestOpenInstallLocation,
 } from '../../../senders';
 
 const styles = theme => ({
@@ -64,7 +65,15 @@ const getThemeString = (theme) => {
   return 'Automatic';
 };
 
-const Preferences = ({ theme, classes, errorMonitoring }) => (
+const getInstallLocationString = (installLocation) => {
+  console.log(installLocation);
+  if (installLocation === 'root') return '/Applications/WebCatalog Apps';
+  return '~/Applications/WebCatalog Apps';
+};
+
+const Preferences = ({
+  theme, classes, errorMonitoring, installLocation,
+}) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
       <Toolbar variant="dense">
@@ -76,7 +85,7 @@ const Preferences = ({ theme, classes, errorMonitoring }) => (
     <div className={classes.scrollContainer}>
       <div className={classes.inner}>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
-          General
+          Appearance
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
@@ -122,6 +131,30 @@ const Preferences = ({ theme, classes, errorMonitoring }) => (
         </Paper>
 
         <Typography variant="subtitle2" className={classes.sectionTitle}>
+          Advanced
+        </Typography>
+        <Paper className={classes.paper}>
+          <List dense>
+            <StatedMenu
+              id="installLocation"
+              buttonElement={(
+                <ListItem button>
+                  <ListItemText primary="Installation Location" secondary={getInstallLocationString(installLocation)} />
+                  <ChevronRightIcon color="action" />
+                </ListItem>
+              )}
+            >
+              <MenuItem onClick={() => requestSetPreference('installLocation', 'home')}>~/Applications/WebCatalog Apps (default)</MenuItem>
+              <MenuItem onClick={() => requestSetPreference('installLocation', 'root')}>/Applications/WebCatalog Apps (requires sudo)</MenuItem>
+            </StatedMenu>
+            <Divider />
+            <ListItem button onClick={requestOpenInstallLocation}>
+              <ListItemText primary="Open Installation Path in Finder" />
+            </ListItem>
+          </List>
+        </Paper>
+
+        <Typography variant="subtitle2" className={classes.sectionTitle}>
           Reset
         </Typography>
         <Paper className={classes.paper}>
@@ -141,11 +174,13 @@ Preferences.propTypes = {
   theme: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   errorMonitoring: PropTypes.bool.isRequired,
+  installLocation: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   theme: state.preferences.theme,
   errorMonitoring: state.preferences.errorMonitoring,
+  installLocation: state.preferences.installLocation,
 });
 
 export default connectComponent(

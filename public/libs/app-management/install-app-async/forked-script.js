@@ -8,6 +8,7 @@ const isUrl = require('is-url');
 const download = require('download');
 const tmp = require('tmp');
 const decompress = require('decompress');
+const sudo = require('sudo-prompt');
 
 const {
   id,
@@ -16,6 +17,8 @@ const {
   icon,
   mailtoHandler,
   homePath,
+  installLocation,
+  username,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.tar.gz');
@@ -35,9 +38,32 @@ const menubarIconPath = path.join(appPath, 'build', 'menubar-icon.png');
 const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
 
 const dotAppPath = path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
-const finalPath = path.join(homePath, 'Applications', 'WebCatalog Apps', `${name}.app`);
+
+let allAppsPath = path.join(homePath, 'Applications', 'WebCatalog Apps');
+if (installLocation === 'root') {
+  allAppsPath = path.join('/', 'Applications', 'WebCatalog Apps');
+}
+
+const finalPath = path.join(allAppsPath, `${name}.app`);
 
 const sizes = [16, 32, 64, 128, 256, 512, 1024];
+
+const sudoAsync = prompt => new Promise((resolve, reject) => {
+  const opts = {
+    name: 'WebCatalog',
+  };
+  console.log(prompt);
+  process.env.USER = username;
+  sudo.exec(prompt, opts, (error, stdout, stderr) => {
+    if (error) {
+      console.log(error);
+      return reject(error);
+    }
+    console.log(stdout);
+    console.log(stderr);
+    return resolve(stdout, stderr);
+  });
+});
 
 decompress(templatePath, tmpPath)
   .then(() => {
@@ -137,7 +163,13 @@ decompress(templatePath, tmpPath)
 
     return packager(opts);
   })
-  .then(() => fsExtra.move(dotAppPath, finalPath, { overwrite: true }))
+  .then(() => {
+    if (installLocation === 'root') {
+      return sudoAsync(`mkdir -p "${allAppsPath}" && mv "${dotAppPath}" "${finalPath}"`);
+    }
+
+    return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
+  })
   .then(() => {
     process.exit(0);
   })

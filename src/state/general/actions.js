@@ -3,6 +3,7 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
+  UPDATE_MOVING_ALL_APPS,
 } from '../../constants/actions';
 
 export const updateIsFullScreen = isFullScreen => ({
@@ -23,6 +24,11 @@ export const updateLatestTemplateVersion = latestTemplateVersion => ({
 export const updateFetchingLatestTemplateVersion = fetchingLatestTemplateVersion => ({
   type: UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
   fetchingLatestTemplateVersion,
+});
+
+export const updateMovingAllApps = movingAllApps => ({
+  type: UPDATE_MOVING_ALL_APPS,
+  movingAllApps,
 });
 
 export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
