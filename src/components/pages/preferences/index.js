@@ -66,7 +66,6 @@ const getThemeString = (theme) => {
 };
 
 const getInstallLocationString = (installLocation) => {
-  console.log(installLocation);
   if (installLocation === 'root') return '/Applications/WebCatalog Apps';
   return '~/Applications/WebCatalog Apps';
 };
@@ -139,7 +138,7 @@ const Preferences = ({
               id="installLocation"
               buttonElement={(
                 <ListItem button>
-                  <ListItemText primary="Installation Location" secondary={getInstallLocationString(installLocation)} />
+                  <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
                   <ChevronRightIcon color="action" />
                 </ListItem>
               )}
@@ -149,7 +148,7 @@ const Preferences = ({
             </StatedMenu>
             <Divider />
             <ListItem button onClick={requestOpenInstallLocation}>
-              <ListItemText primary="Open Installation Path in Finder" />
+              <ListItemText primary="Open installation path in Finder" />
             </ListItem>
           </List>
         </Paper>

@@ -33,7 +33,7 @@ const moveAllAppsAsync = moveFrom => new Promise((resolve, reject) => {
     if (code === 1) {
       sendToAllWindows('update-moving-all-apps', false);
       ipcMain.emit('request-get-installed-apps');
-      ipcMain.emit('request-show-message-box', null, 'WebCatalog failed to move your apps to new location. You\'ll have to move them manually', 'error');
+      ipcMain.emit('request-show-message-box', null, 'WebCatalog failed to move your apps to new location. You\'ll have to move them manually.', 'error');
       reject(new Error('Forked script failed to run correctly.'));
       return;
     }

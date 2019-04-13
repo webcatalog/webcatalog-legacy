@@ -14,7 +14,7 @@ const loadListeners = (store) => {
     if (message) console.log(message);
   });
 
-  ipcRenderer.on('clean-app-management', (e) => {
+  ipcRenderer.on('clean-app-management', () => {
     store.dispatch(cleanAppManagement());
   });
 
