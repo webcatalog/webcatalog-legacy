@@ -224,7 +224,7 @@ function createMenu() {
 
             if (win != null) {
               const activeWorkspace = getActiveWorkspace();
-              const homeUrl = activeWorkspace.home || appJson.url;
+              const homeUrl = activeWorkspace.homeUrl || appJson.url;
               win.getBrowserView().webContents.loadURL(homeUrl);
             }
           },
