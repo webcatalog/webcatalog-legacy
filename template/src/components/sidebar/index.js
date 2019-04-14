@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 import SettingsIcon from '@material-ui/icons/SettingsSharp';
 
@@ -114,7 +115,21 @@ const Sidebar = ({
     <div className={classes.contentRoot}>
       <FindInPage />
       <div className={classes.innerContentRoot}>
-        {didFailLoad && 'Failed'}
+        {didFailLoad && (
+          <div>
+            <Typography align="center" variant="h6">
+              No internet
+            </Typography>
+
+            <Typography align="center" variant="body1">
+              Try: - Checking the network cables, modem, and router. - Reconnecting to Wi-Fi.
+            </Typography>
+
+            <Typography align="center" variant="body1">
+              Press ⌘ + R to reload.
+            </Typography>
+          </div>
+        )}
         {isLoading && <CircularProgress />}
       </div>
     </div>
