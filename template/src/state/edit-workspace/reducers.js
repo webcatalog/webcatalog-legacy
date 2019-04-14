@@ -4,10 +4,10 @@ import { UPDATE_EDIT_WORKSPACE_FORM } from '../../constants/actions';
 
 import { getWorkspace } from '../../senders';
 
-
 const workspaceId = window.require('electron').remote.getGlobal('editWorkspaceId');
 const defaultForm = {
   name: workspaceId ? getWorkspace(workspaceId).name : '',
+  homeUrl: workspaceId ? getWorkspace(workspaceId).homeUrl : '',
 };
 
 const form = (state = defaultForm, action) => {

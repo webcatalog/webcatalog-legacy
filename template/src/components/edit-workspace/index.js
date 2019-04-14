@@ -23,10 +23,13 @@ const styles = theme => ({
   button: {
     float: 'right',
   },
+  textField: {
+    marginBottom: theme.spacing.unit * 3,
+  },
 });
 
 const EditWorkspace = ({
-  classes, name, onUpdateForm, onSave,
+  classes, name, homeUrl, onUpdateForm, onSave,
 }) => (
   <div className={classes.root}>
     <div className={classes.flexGrow}>
@@ -37,11 +40,26 @@ const EditWorkspace = ({
         fullWidth
         margin="dense"
         variant="outlined"
+        className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
         value={name}
         onChange={e => onUpdateForm({ name: e.target.value })}
+      />
+      <TextField
+        id="outlined-full-width"
+        label="Home URL"
+        placeholder="Optional"
+        fullWidth
+        margin="dense"
+        variant="outlined"
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={homeUrl}
+        onChange={e => onUpdateForm({ homeUrl: e.target.value })}
       />
     </div>
     <div>
@@ -55,12 +73,14 @@ const EditWorkspace = ({
 EditWorkspace.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
+  homeUrl: PropTypes.string.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   name: state.editWorkspace.form.name,
+  homeUrl: state.editWorkspace.form.homeUrl,
 });
 
 const actionCreators = {

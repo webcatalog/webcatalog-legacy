@@ -20,7 +20,7 @@ const create = (id) => {
 
   win = new BrowserWindow({
     width: 400,
-    height: 200,
+    height: 300,
     resizable: false,
     maximizable: false,
     minimizable: false,

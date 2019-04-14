@@ -17,6 +17,7 @@ export const save = () => (dispatch, getState) => {
     remote.getGlobal('editWorkspaceId'),
     {
       name: form.name,
+      homeUrl: form.homeUrl,
     },
   );
 

@@ -147,7 +147,8 @@ const addView = (browserWindow, workspace) => {
     view.webContents.send('update-target-url', url);
   });
 
-  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl) || appJson.url);
+  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl)
+    || workspace.homeUrl || appJson.url);
 
   views[workspace.id] = view;
 };
