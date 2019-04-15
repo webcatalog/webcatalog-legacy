@@ -19,6 +19,11 @@ export const getOutdatedAppsAsList = (state) => {
   return Object.values(apps).filter(app => isOutdatedApp(app.id, state));
 };
 
+export const getInstallingAppsAsList = (state) => {
+  const { apps } = state.appManagement;
+  return Object.values(apps).filter(app => app.status !== 'INSTALLED');
+};
+
 export const isNameExisted = (name, state) => {
   const { apps } = state.appManagement;
   return Boolean(Object.keys(apps).find((id) => {
