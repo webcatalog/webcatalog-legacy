@@ -33,7 +33,7 @@ Promise.resolve()
   .then(() => {
     if (fsExtra.pathExistsSync(moveFrom === 'root' ? rootAllAppsPath : homeAllAppsPath)) {
       if (moveFrom === 'root') {
-        return sudoAsync(`mv "${rootAllAppsPath}" "${homeAllAppsPath}"`);
+        return sudoAsync(`mv "${rootAllAppsPath}" "${homeAllAppsPath}" && sudo /usr/sbin/chown -R ${username}:staff "${homeAllAppsPath}"`);
       }
       return sudoAsync(`mv "${homeAllAppsPath}" "${rootAllAppsPath}"`);
     }

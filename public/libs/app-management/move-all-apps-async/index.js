@@ -14,7 +14,7 @@ const moveAllAppsAsync = moveFrom => new Promise((resolve, reject) => {
     moveFrom,
     '--homePath',
     app.getPath('home'),
-    'username',
+    '--username',
     process.env.USER, // required by sudo-prompt
   ];
 
