@@ -18,11 +18,14 @@ import StatedMenu from '../../shared/stated-menu';
 
 import connectComponent from '../../../helpers/connect-component';
 
+import { getInstallingAppsAsList } from '../../../state/app-management/utils';
+
 import {
   requestOpenInBrowser,
   requestResetPreferences,
   requestSetPreference,
   requestShowRequireRestartDialog,
+  requestShowMessageBox,
   requestOpenInstallLocation,
 } from '../../../senders';
 
@@ -71,7 +74,7 @@ const getInstallLocationString = (installLocation) => {
 };
 
 const Preferences = ({
-  theme, classes, errorMonitoring, installLocation,
+  theme, classes, errorMonitoring, installLocation, installingAppCount,
 }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
@@ -134,18 +137,30 @@ const Preferences = ({
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
-            <StatedMenu
-              id="installLocation"
-              buttonElement={(
-                <ListItem button>
-                  <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
-                  <ChevronRightIcon color="action" />
-                </ListItem>
-              )}
-            >
-              <MenuItem onClick={() => requestSetPreference('installLocation', 'home')}>~/Applications/WebCatalog Apps (default)</MenuItem>
-              <MenuItem onClick={() => requestSetPreference('installLocation', 'root')}>/Applications/WebCatalog Apps (requires sudo)</MenuItem>
-            </StatedMenu>
+            {installingAppCount > 0 ? (
+              <ListItem
+                button
+                onClick={() => {
+                  requestShowMessageBox('This preference cannot be changed when installing or updating apps.');
+                }}
+              >
+                <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            ) : (
+              <StatedMenu
+                id="installLocation"
+                buttonElement={(
+                  <ListItem button>
+                    <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
+                    <ChevronRightIcon color="action" />
+                  </ListItem>
+                )}
+              >
+                <MenuItem onClick={() => requestSetPreference('installLocation', 'home')}>~/Applications/WebCatalog Apps (default)</MenuItem>
+                <MenuItem onClick={() => requestSetPreference('installLocation', 'root')}>/Applications/WebCatalog Apps (requires sudo)</MenuItem>
+              </StatedMenu>
+            )}
             <Divider />
             <ListItem button onClick={requestOpenInstallLocation}>
               <ListItemText primary="Open installation path in Finder" />
@@ -174,12 +189,14 @@ Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
   errorMonitoring: PropTypes.bool.isRequired,
   installLocation: PropTypes.string.isRequired,
+  installingAppCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
   theme: state.preferences.theme,
   errorMonitoring: state.preferences.errorMonitoring,
   installLocation: state.preferences.installLocation,
+  installingAppCount: getInstallingAppsAsList(state).length,
 });
 
 export default connectComponent(
