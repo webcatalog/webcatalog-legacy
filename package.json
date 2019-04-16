@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "13.7.0",
+  "version": "13.7.1",
   "templateVersion": "3.7.0",
   "main": "public/electron.js",
   "scripts": {
