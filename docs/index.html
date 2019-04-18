@@ -45,7 +45,7 @@ layout: default
         {% if item.featured == true %}
         <div class="column is-3 has-text-centered" style="padding-top: 30px;">
           <a href="/catalog/{{ item.key }}">
-            <img src="https://s3.getwebcatalog.com/apps/{{ item.key }}/{{ item.key }}-icon-128.png" class="app-icon-small">
+            <img src="https://s3.getwebcatalog.com/apps/{{ item.key }}/{{ item.key }}-icon-128.png" class="app-icon-small" alt="{{ item.name }}">
             <p>{{ item.name }}</p>
           </a>
         </div>
