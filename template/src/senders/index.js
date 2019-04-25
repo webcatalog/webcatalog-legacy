@@ -5,6 +5,11 @@ export const requestOpenInBrowser = url => ipcRenderer.send('request-open-in-bro
 
 export const requestLoadURL = (url, id) => ipcRenderer.send('request-load-url', url, id);
 
+export const requestGoHome = () => ipcRenderer.send('request-go-home');
+export const requestGoBack = () => ipcRenderer.send('request-go-back');
+export const requestGoForward = () => ipcRenderer.send('request-go-forward');
+export const requestReload = () => ipcRenderer.send('request-reload');
+
 export const requestShowPreferencesWindow = () => ipcRenderer.send('request-show-preferences-window');
 export const requestShowEditWorkspaceWindow = id => ipcRenderer.send('request-show-edit-workspace-window', id);
 export const requestShowCodeInjectionWindow = type => ipcRenderer.send('request-show-code-injection-window', type);

@@ -28,9 +28,9 @@ const extractDomain = (fullUrl) => {
 
 const addView = (browserWindow, workspace) => {
   const {
-    unreadCountBadge,
     rememberLastPageVisited,
     shareWorkspaceBrowsingData,
+    unreadCountBadge,
   } = getPreferences();
 
   const view = new BrowserView({
@@ -48,9 +48,9 @@ const addView = (browserWindow, workspace) => {
     const contentSize = browserWindow.getContentSize();
     view.setBounds({
       x: global.showSidebar ? 68 : 0,
-      y: 0,
+      y: global.showNavigationBar ? 36 : 0,
       width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
-      height: contentSize[1],
+      height: global.showNavigationBar ? contentSize[1] - 36 : contentSize[1],
     });
     view.setAutoResize({
       width: true,
@@ -82,6 +82,21 @@ const addView = (browserWindow, workspace) => {
       if (getWorkspace(workspace.id).active) {
         sendToAllWindows('update-did-fail-load', true);
       }
+    }
+  });
+
+  view.webContents.on('did-navigate', () => {
+    if (getWorkspace(workspace.id).active) {
+      sendToAllWindows('update-can-go-back', view.webContents.canGoBack());
+      sendToAllWindows('update-can-go-forward', view.webContents.canGoForward());
+    }
+  });
+
+
+  view.webContents.on('did-navigate-in-page', () => {
+    if (getWorkspace(workspace.id).active) {
+      sendToAllWindows('update-can-go-back', view.webContents.canGoBack());
+      sendToAllWindows('update-can-go-forward', view.webContents.canGoForward());
     }
   });
 
@@ -167,9 +182,9 @@ const setActiveView = (browserWindow, id) => {
   const contentSize = browserWindow.getContentSize();
   view.setBounds({
     x: global.showSidebar ? 68 : 0,
-    y: 0,
+    y: global.showNavigationBar ? 36 : 0,
     width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
-    height: contentSize[1],
+    height: global.showNavigationBar ? contentSize[1] - 36 : contentSize[1],
   });
   view.setAutoResize({
     width: true,

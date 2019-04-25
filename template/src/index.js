@@ -13,7 +13,7 @@ import CodeInjection from './components/code-injection';
 import EditWorkspace from './components/edit-workspace';
 import OpenUrlWith from './components/open-url-with';
 import Preferences from './components/preferences';
-import Sidebar from './components/sidebar';
+import Main from './components/main';
 
 import { getWorkspace } from './senders';
 
@@ -42,7 +42,7 @@ const runApp = () => {
       break;
     }
     default: {
-      App = Sidebar;
+      App = Main;
     }
   }
 

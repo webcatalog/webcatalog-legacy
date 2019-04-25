@@ -12,6 +12,7 @@ const defaultPreferences = {
   cssCodeInjection: null,
   errorMonitoring: true,
   jsCodeInjection: null,
+  navigationBar: false,
   rememberLastPageVisited: false,
   shareWorkspaceBrowsingData: false,
   sidebar: Boolean(appJson.mailtoHandler),
