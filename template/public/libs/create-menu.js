@@ -110,8 +110,9 @@ function createMenu() {
 
               view.setBounds({
                 x: global.showSidebar ? 68 : 0,
-                y: FIND_IN_PAGE_HEIGHT,
-                height: contentSize[1] - FIND_IN_PAGE_HEIGHT,
+                y: global.showNavigationBar ? FIND_IN_PAGE_HEIGHT + 36 : FIND_IN_PAGE_HEIGHT,
+                height: global.showNavigationBar ? contentSize[1] - FIND_IN_PAGE_HEIGHT - 36
+                  : contentSize[1] - FIND_IN_PAGE_HEIGHT,
                 width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
               });
             }
@@ -224,8 +225,10 @@ function createMenu() {
 
             if (win != null) {
               const activeWorkspace = getActiveWorkspace();
-              const homeUrl = activeWorkspace.homeUrl || appJson.url;
-              win.getBrowserView().webContents.loadURL(homeUrl);
+              const contents = win.getBrowserView().webContents;
+              contents.loadURL(activeWorkspace.homeUrl || appJson.url);
+              win.send('update-can-go-back', contents.canGoBack());
+              win.send('update-can-go-forward', contents.canGoForward());
             }
           },
         },
@@ -235,8 +238,13 @@ function createMenu() {
           click: () => {
             const win = mainWindow.get();
 
-            if (win != null && win.getBrowserView().webContents.canGoBack()) {
-              win.getBrowserView().webContents.goBack();
+            if (win != null) {
+              const contents = win.getBrowserView().webContents;
+              if (contents.canGoBack()) {
+                contents.goBack();
+                win.send('update-can-go-back', contents.canGoBack());
+                win.send('update-can-go-forward', contents.canGoForward());
+              }
             }
           },
         },
@@ -246,8 +254,13 @@ function createMenu() {
           click: () => {
             const win = mainWindow.get();
 
-            if (win != null && win.getBrowserView().webContents.canGoForward()) {
-              win.getBrowserView().webContents.goForward();
+            if (win != null) {
+              const contents = win.getBrowserView().webContents;
+              if (contents.canGoForward()) {
+                contents.goForward();
+                win.send('update-can-go-back', contents.canGoBack());
+                win.send('update-can-go-forward', contents.canGoForward());
+              }
             }
           },
         },

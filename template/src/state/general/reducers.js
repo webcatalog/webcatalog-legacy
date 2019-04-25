@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 
 import {
+  UPDATE_CAN_GO_BACK,
+  UPDATE_CAN_GO_FORWARD,
   UPDATE_DID_FAIL_LOAD,
   UPDATE_IS_DARK_MODE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
@@ -9,6 +11,20 @@ import {
 } from '../../constants/actions';
 
 const { remote } = window.require('electron');
+
+const canGoBack = (state = false, action) => {
+  switch (action.type) {
+    case UPDATE_CAN_GO_BACK: return action.canGoBack;
+    default: return state;
+  }
+};
+
+const canGoForward = (state = false, action) => {
+  switch (action.type) {
+    case UPDATE_CAN_GO_FORWARD: return action.canGoForward;
+    default: return state;
+  }
+};
 
 const isFullScreen = (state = remote.getCurrentWindow().isFullScreen(), action) => {
   switch (action.type) {
@@ -46,6 +62,8 @@ const didFailLoad = (state = false, action) => {
 };
 
 export default combineReducers({
+  canGoBack,
+  canGoForward,
   didFailLoad,
   isDarkMode,
   isDefaultMailClient,

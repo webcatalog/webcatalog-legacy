@@ -47,10 +47,6 @@ const loadListeners = () => {
     shell.openExternal(url);
   });
 
-  ipcMain.on('request-open-webcatalog', () => {
-    shell.openItem('/Applications/WebCatalog 14.app');
-  });
-
   // Find In Page
   ipcMain.on('request-find-in-page', (e, text, forward) => {
     const contents = mainWindow.get().getBrowserView().webContents;
@@ -73,9 +69,9 @@ const loadListeners = () => {
 
       view.setBounds({
         x: global.showSidebar ? 68 : 0,
-        y: 0,
-        height: contentSize[1],
+        y: global.showNavigationBar ? 36 : 0,
         width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
+        height: global.showNavigationBar ? contentSize[1] - 36 : contentSize[1],
       });
     }
   });
@@ -215,8 +211,50 @@ const loadListeners = () => {
     loadURL(url, id);
   });
 
-  ipcMain.on('request-go-home', (e, id) => {
-    loadURL(appJson.url, id);
+  ipcMain.on('request-go-home', () => {
+    const win = mainWindow.get();
+
+    if (win != null) {
+      const activeWorkspace = getActiveWorkspace();
+      const contents = win.getBrowserView().webContents;
+      contents.loadURL(activeWorkspace.homeUrl || appJson.url);
+      win.send('update-can-go-back', contents.canGoBack());
+      win.send('update-can-go-forward', contents.canGoForward());
+    }
+  });
+
+  ipcMain.on('request-go-back', () => {
+    const win = mainWindow.get();
+
+    if (win != null) {
+      const contents = win.getBrowserView().webContents;
+      if (contents.canGoBack()) {
+        contents.goBack();
+        win.send('update-can-go-back', contents.canGoBack());
+        win.send('update-can-go-forward', contents.canGoForward());
+      }
+    }
+  });
+
+  ipcMain.on('request-go-forward', () => {
+    const win = mainWindow.get();
+
+    if (win != null) {
+      const contents = win.getBrowserView().webContents;
+      if (contents.canGoForward()) {
+        contents.goForward();
+        win.send('update-can-go-back', contents.canGoBack());
+        win.send('update-can-go-forward', contents.canGoForward());
+      }
+    }
+  });
+
+  ipcMain.on('request-reload', () => {
+    const win = mainWindow.get();
+
+    if (win != null) {
+      win.getBrowserView().webContents.reload();
+    }
   });
 };
 

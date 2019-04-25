@@ -11,6 +11,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import WorkspaceSelector from './workspace-selector';
 import FindInPage from './find-in-page';
+import NavigationBar from './navigation-bar';
 
 import {
   requestShowPreferencesWindow,
@@ -57,16 +58,19 @@ const styles = theme => ({
   contentRoot: {
     flex: 1,
     display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
   },
 });
 
 const getWorkspacesAsList = workspaces => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
-const Sidebar = ({
+const Main = ({
   classes,
   didFailLoad,
   isLoading,
+  navigationBar,
   sidebar,
   workspaces,
 }) => (
@@ -105,14 +109,17 @@ const Sidebar = ({
             <WorkspaceSelector id="add" onClick={requestCreateWorkspace} />
           )}
         </div>
+        {!navigationBar && (
         <div className={classes.end}>
           <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow}>
             <SettingsIcon />
           </IconButton>
         </div>
+        )}
       </div>
     )}
     <div className={classes.contentRoot}>
+      {navigationBar && <NavigationBar />}
       <FindInPage />
       <div className={classes.innerContentRoot}>
         {didFailLoad && (
@@ -136,10 +143,11 @@ const Sidebar = ({
   </div>
 );
 
-Sidebar.propTypes = {
+Main.propTypes = {
   classes: PropTypes.object.isRequired,
   didFailLoad: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  navigationBar: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   workspaces: PropTypes.object.isRequired,
 };
@@ -147,12 +155,13 @@ Sidebar.propTypes = {
 const mapStateToProps = state => ({
   didFailLoad: state.general.didFailLoad,
   isLoading: state.general.isLoading,
+  navigationBar: state.preferences.navigationBar,
   sidebar: state.preferences.sidebar,
   workspaces: state.workspaces,
 });
 
 export default connectComponent(
-  Sidebar,
+  Main,
   mapStateToProps,
   null,
   styles,

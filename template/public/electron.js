@@ -62,6 +62,7 @@ if (!gotTheLock) {
     global.appJson = appJson;
 
     global.showSidebar = getPreference('sidebar');
+    global.showNavigationBar = getPreference('navigationBar');
 
     commonInit();
 

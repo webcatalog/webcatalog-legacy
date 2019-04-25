@@ -1,7 +1,12 @@
 import { setPreference } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
 import { setWorkspace } from '../state/workspaces/actions';
-import { updateDidFailLoad, updateIsLoading } from '../state/general/actions';
+import {
+  updateCanGoBack,
+  updateCanGoForward,
+  updateDidFailLoad,
+  updateIsLoading,
+} from '../state/general/actions';
 import {
   closeFindInPage,
   openFindInPage,
@@ -29,6 +34,15 @@ const loadListeners = (store) => {
     store.dispatch(setWorkspace(id, value));
   });
 
+  ipcRenderer.on('update-can-go-back', (e, value) => {
+    store.dispatch(updateCanGoBack(value));
+  });
+
+  ipcRenderer.on('update-can-go-forward', (e, value) => {
+    store.dispatch(updateCanGoForward(value));
+  });
+
+
   ipcRenderer.on('update-is-loading', (e, value) => {
     store.dispatch(updateIsLoading(value));
   });
@@ -40,7 +54,6 @@ const loadListeners = (store) => {
   // Find In Page
   ipcRenderer.on('open-find-in-page', () => {
     store.dispatch(openFindInPage());
-    console.log('open-find-in-page');
   });
 
   ipcRenderer.on('close-find-in-page', () => {

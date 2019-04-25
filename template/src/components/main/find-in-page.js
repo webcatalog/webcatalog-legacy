@@ -23,6 +23,7 @@ const styles = theme => ({
     zIndex: 1,
     height: 41, // need to have fixed height
     borderBottom: '1px solid rgba(0, 0, 0, 0.2)',
+    width: '100%',
   },
   infoContainer: {
     flex: 1,
