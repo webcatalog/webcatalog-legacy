@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "npx electron-builder install-app-deps",
