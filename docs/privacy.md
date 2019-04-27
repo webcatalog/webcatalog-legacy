@@ -15,7 +15,7 @@ Still, the app does use third party services that may collect information used t
 * [GitHub](https://help.github.com/articles/github-privacy-statement/) to distribute binaries.
 * [Amazon Web Services](https://aws.amazon.com/privacy/) to distribute images.
 * [Algolia](https://www.algolia.com/policies/privacy) to provide catalog searching.
-* [Cloudflare](https://www.algolia.com/policies/privacy) to manage domains and provide content delivery network services.
+* [Cloudflare](https://www.cloudflare.com/privacypolicy/) to manage domains and provide content delivery network services.
 * [Sentry](https://sentry.io/privacy/) to monitor and fix crashes.
 
 * * *

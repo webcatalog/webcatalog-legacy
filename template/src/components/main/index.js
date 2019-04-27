@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,14 +41,17 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
     boxSizing: 'border-box',
     overflowY: 'auto',
     overflowX: 'hidden',
   },
   sidebarTop: {
     flex: 1,
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing.unit * 3,
+  },
+  sidebarTopFullScreen: {
+    paddingTop: 0,
   },
   innerContentRoot: {
     flex: 1,
@@ -69,6 +73,7 @@ const getWorkspacesAsList = workspaces => Object.values(workspaces)
 const Main = ({
   classes,
   didFailLoad,
+  isFullScreen,
   isLoading,
   navigationBar,
   sidebar,
@@ -77,7 +82,9 @@ const Main = ({
   <div className={classes.root}>
     {sidebar && (
       <div className={classes.sidebarRoot}>
-        <div className={classes.sidebarTop}>
+        <div className={classNames(classes.sidebarTop,
+          isFullScreen && classes.sidebarTopFullScreen)}
+        >
           {getWorkspacesAsList(workspaces).map(workspace => (
             <WorkspaceSelector
               active={workspace.active}
@@ -146,6 +153,7 @@ const Main = ({
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   didFailLoad: PropTypes.bool.isRequired,
+  isFullScreen: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   navigationBar: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
@@ -154,6 +162,7 @@ Main.propTypes = {
 
 const mapStateToProps = state => ({
   didFailLoad: state.general.didFailLoad,
+  isFullScreen: state.general.isFullScreen,
   isLoading: state.general.isLoading,
   navigationBar: state.preferences.navigationBar,
   sidebar: state.preferences.sidebar,

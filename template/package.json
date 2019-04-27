@@ -33,7 +33,6 @@
   "devDependencies": {
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2",
-    "algoliasearch": "3.32.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "classnames": "2.2.6",
