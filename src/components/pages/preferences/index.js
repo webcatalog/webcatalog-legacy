@@ -8,7 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -24,7 +23,6 @@ import {
   requestOpenInBrowser,
   requestResetPreferences,
   requestSetPreference,
-  requestShowRequireRestartDialog,
   requestShowMessageBox,
   requestOpenInstallLocation,
 } from '../../../senders';
