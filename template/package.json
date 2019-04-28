@@ -17,7 +17,6 @@
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "@sentry/electron": "0.17.1",
     "electron": "4.1.5",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
@@ -33,7 +32,6 @@
   "devDependencies": {
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2",
-    "algoliasearch": "3.32.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "classnames": "2.2.6",
