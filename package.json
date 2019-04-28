@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "13.8.0",
-  "templateVersion": "3.8.0",
+  "version": "13.9.0",
+  "templateVersion": "3.9.0",
   "main": "public/electron.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
