@@ -8,7 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -24,7 +23,6 @@ import {
   requestOpenInBrowser,
   requestResetPreferences,
   requestSetPreference,
-  requestShowRequireRestartDialog,
   requestShowMessageBox,
   requestOpenInstallLocation,
 } from '../../../senders';
@@ -74,7 +72,7 @@ const getInstallLocationString = (installLocation) => {
 };
 
 const Preferences = ({
-  theme, classes, errorMonitoring, installLocation, installingAppCount,
+  theme, classes, installLocation, installingAppCount,
 }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
@@ -112,20 +110,6 @@ const Preferences = ({
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
-            <ListItem>
-              <ListItemText primary="Send error monitoring data" />
-              <Switch
-                checked={errorMonitoring}
-                onChange={(e) => {
-                  requestSetPreference('errorMonitoring', e.target.checked);
-                  requestShowRequireRestartDialog();
-                }}
-                classes={{
-                  switchBase: classes.switchBase,
-                }}
-              />
-            </ListItem>
-            <Divider />
             <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
               <ListItemText primary="Privacy Policy" />
             </ListItem>
@@ -187,14 +171,12 @@ const Preferences = ({
 Preferences.propTypes = {
   theme: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  errorMonitoring: PropTypes.bool.isRequired,
   installLocation: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
   theme: state.preferences.theme,
-  errorMonitoring: state.preferences.errorMonitoring,
   installLocation: state.preferences.installLocation,
   installingAppCount: getInstallingAppsAsList(state).length,
 });

@@ -2,8 +2,6 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
-const sentrySession = require('./../../sentry-session');
-
 const getInstallationPath = require('../get-installation-path');
 const { getPreference } = require('./../../preferences');
 
@@ -32,10 +30,6 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
 
   child.on('message', (message) => {
     console.log(message);
-    if (message instanceof Error) {
-      const s = sentrySession.get();
-      if (s) s.captureException(message);
-    }
   });
 
   child.on('exit', (code) => {

@@ -15,8 +15,7 @@ Still, the app does use third party services that may collect information used t
 * [GitHub](https://help.github.com/articles/github-privacy-statement/) to distribute binaries.
 * [Amazon Web Services](https://aws.amazon.com/privacy/) to distribute images.
 * [Algolia](https://www.algolia.com/policies/privacy) to provide catalog searching.
-* [Cloudflare](https://www.algolia.com/policies/privacy) to manage domains and provide content delivery network services.
-* [Sentry](https://sentry.io/privacy/) to monitor and fix crashes.
+* [Cloudflare](https://www.cloudflare.com/privacypolicy/) to manage domains and provide content delivery network services.
 
 * * *
 
@@ -24,4 +23,4 @@ The website uses [Google Analytics](https://support.google.com/analytics/answer/
 
 * * *
 
-This privacy policy is subject to change without notice and was last updated on February, 27, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/quanglam2807/webcatalog/issues).
+This privacy policy is subject to change without notice and was last updated on April 28, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/quanglam2807/webcatalog/issues).

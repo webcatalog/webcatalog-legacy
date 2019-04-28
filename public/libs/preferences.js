@@ -10,7 +10,6 @@ const v = '2018';
 const defaultPreferences = {
   theme: 'automatic',
   registered: false,
-  errorMonitoring: true,
   installLocation: 'home',
 };
 

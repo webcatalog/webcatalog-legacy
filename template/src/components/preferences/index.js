@@ -66,7 +66,6 @@ const Preferences = ({
   attachToMenubar,
   classes,
   cssCodeInjection,
-  errorMonitoring,
   isDefaultMailClient,
   jsCodeInjection,
   navigationBar,
@@ -251,20 +250,6 @@ const Preferences = ({
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
-        <ListItem>
-          <ListItemText primary="Send error monitoring data" />
-          <Switch
-            checked={errorMonitoring}
-            onChange={(e) => {
-              requestSetPreference('errorMonitoring', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
         <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
           <ListItemText primary="Privacy Policy" />
         </ListItem>
@@ -364,7 +349,6 @@ Preferences.propTypes = {
   attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
-  errorMonitoring: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
   navigationBar: PropTypes.bool.isRequired,
@@ -382,7 +366,6 @@ Preferences.propTypes = {
 const mapStateToProps = state => ({
   attachToMenubar: state.preferences.attachToMenubar,
   cssCodeInjection: state.preferences.cssCodeInjection,
-  errorMonitoring: state.preferences.errorMonitoring,
   isDefaultMailClient: state.general.isDefaultMailClient,
   jsCodeInjection: state.preferences.jsCodeInjection,
   navigationBar: state.preferences.navigationBar,
