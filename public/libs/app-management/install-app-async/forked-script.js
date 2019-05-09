@@ -165,7 +165,7 @@ decompress(templatePath, tmpPath)
   })
   .then(() => {
     if (installLocation === 'root') {
-      return sudoAsync(`mkdir -p "${allAppsPath}" && mv "${dotAppPath}" "${finalPath}"`);
+      return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
     }
 
     return fsExtra.move(dotAppPath, finalPath, { overwrite: true });

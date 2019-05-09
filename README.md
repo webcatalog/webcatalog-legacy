@@ -21,6 +21,7 @@ cd webcatalog
 
 # install the dependencies
 yarn
+yarn template:install
 
 # Run development mode of WebCatalog
 yarn electron-dev
