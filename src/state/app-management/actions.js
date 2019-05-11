@@ -62,7 +62,10 @@ export const updateApp = (id, name, url, icon, mailtoHandler) => (dispatch, getS
     return requestShowMessageBox('WebCatalog is outdated. Please update WebCatalog first to continue.', 'error');
   }
 
-  return requestInstallApp(id, name, url, icon, mailtoHandler);
+  // download icon when updating apps in the catalog
+  const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
+
+  return requestInstallApp(id, name, url, iconUrl, mailtoHandler);
 };
 
 export const updateAllApps = () => (dispatch, getState) => {
@@ -80,7 +83,11 @@ export const updateAllApps = () => (dispatch, getState) => {
     const {
       id, name, url, icon, mailtoHandler,
     } = app;
-    return requestInstallApp(id, name, url, icon, mailtoHandler);
+
+    // download icon when updating apps in the catalog
+    const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
+
+    return requestInstallApp(id, name, url, iconUrl, mailtoHandler);
   });
 
   return null;
