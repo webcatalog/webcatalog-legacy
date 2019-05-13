@@ -64,7 +64,6 @@ const loadURL = (url, id) => {
 
   const v = mainWindow.get().getBrowserView();
   if (v) v.webContents.loadURL(url);
-  console.log(url);
 };
 
 module.exports = {

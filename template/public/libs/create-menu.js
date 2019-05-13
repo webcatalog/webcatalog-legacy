@@ -308,20 +308,20 @@ function createMenu() {
 
   Object.values(getWorkspaces())
     .sort((a, b) => a.order - b.order)
-    .forEach((workspace) => {
+    .forEach((workspace, i) => {
       template[4].submenu.push({
-        label: workspace.name || `Workspace ${workspace.order + 1}`,
+        label: workspace.name || `Workspace ${i + 1}`,
         type: 'checkbox',
         checked: workspace.active,
         click: () => {
           setActiveWorkspaceView(workspace.id);
           createMenu();
         },
-        accelerator: `CmdOrCtrl+${workspace.order + 1}`,
+        accelerator: `CmdOrCtrl+${i + 1}`,
       });
 
       template[2].submenu[7].submenu.push({
-        label: workspace.name || `Workspace ${workspace.order + 1}`,
+        label: workspace.name || `Workspace ${i + 1}`,
         click: () => {
           const v = getView(workspace.id);
           v.webContents.toggleDevTools();
@@ -345,8 +345,8 @@ function createMenu() {
       label: 'Select Previous Workspace',
       click: () => {
         const currentActiveWorkspace = getActiveWorkspace();
-        const nextWorkspace = getPreviousWorkspace(currentActiveWorkspace.id);
-        setActiveWorkspaceView(nextWorkspace.id);
+        const previousWorkspace = getPreviousWorkspace(currentActiveWorkspace.id);
+        setActiveWorkspaceView(previousWorkspace.id);
         createMenu();
       },
       accelerator: 'CmdOrCtrl+Shift+[',
