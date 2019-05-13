@@ -66,7 +66,7 @@ const WorkspaceSelector = ({
     role="button"
     className={classNames(classes.root, active && classes.rootActive)}
     onClick={onClick}
-    onKeyDown={onClick}
+    onKeyDown={null}
     onContextMenu={onContextMenu}
     tabIndex="0"
   >

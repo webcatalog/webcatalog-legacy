@@ -28,29 +28,65 @@ const getWorkspaces = () => {
   return workspaces;
 };
 
+const getWorkspacesAsList = () => {
+  const workspaceLst = Object.values(getWorkspaces())
+    .sort((a, b) => a.order - b.order);
+
+  return workspaceLst;
+};
+
 const getWorkspace = id => workspaces[id];
 
 const getPreviousWorkspace = (id) => {
-  const c = countWorkspaces();
-  const workspace = workspaces[id];
-  const previousOrder = workspace.order - 1 > -1 ? workspace.order - 1 : c - 1;
-  return Object.values(workspaces).find(w => w.order === previousOrder);
+  const workspaceLst = getWorkspacesAsList();
+
+  let currentWorkspaceI = 0;
+  for (let i = 0; i < workspaceLst.length; i += 1) {
+    if (workspaceLst[i].id === id) {
+      currentWorkspaceI = i;
+      break;
+    }
+  }
+
+  if (currentWorkspaceI === 0) {
+    return workspaceLst[workspaceLst.length - 1];
+  }
+  return workspaceLst[currentWorkspaceI - 1];
 };
 
 const getNextWorkspace = (id) => {
-  const c = countWorkspaces();
-  const workspace = workspaces[id];
-  const previousOrder = workspace.order + 1 < c ? workspace.order + 1 : 0;
-  return Object.values(workspaces).find(w => w.order === previousOrder);
+  const workspaceLst = getWorkspacesAsList();
+
+  let currentWorkspaceI = 0;
+  for (let i = 0; i < workspaceLst.length; i += 1) {
+    if (workspaceLst[i].id === id) {
+      currentWorkspaceI = i;
+      break;
+    }
+  }
+
+  if (currentWorkspaceI === workspaceLst.length - 1) {
+    return workspaceLst[0];
+  }
+  return workspaceLst[currentWorkspaceI + 1];
 };
 
 const createWorkspace = (active) => {
   const newId = uuidv1();
 
+  // find largest order
+  const workspaceLst = getWorkspacesAsList();
+  let max = 0;
+  for (let i = 0; i < workspaceLst.length; i += 1) {
+    if (workspaceLst[i].order > max) {
+      max = workspaceLst[i].order;
+    }
+  }
+
   const newWorkspace = {
     id: newId,
     name: '',
-    order: Object.keys(workspaces).length,
+    order: max + 1,
     active: Boolean(active),
   };
 
@@ -87,16 +123,6 @@ const setWorkspace = (id, opts) => {
 };
 
 const removeWorkspace = (id) => {
-  const removedWorkspace = workspaces[id];
-
-  Object.values(workspaces).forEach((workspace) => {
-    if (workspace.order > removedWorkspace.order) {
-      setWorkspace(workspace.id, {
-        order: workspace.order - 1,
-      });
-    }
-  });
-
   delete workspaces[id];
   sendToAllWindows('set-workspace', id, null);
   settings.delete(`workspaces.${v}.${id}`);
@@ -110,6 +136,7 @@ module.exports = {
   getPreviousWorkspace,
   getWorkspace,
   getWorkspaces,
+  getWorkspacesAsList,
   removeWorkspace,
   setActiveWorkspace,
   setWorkspace,

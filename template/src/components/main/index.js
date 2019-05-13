@@ -85,13 +85,13 @@ const Main = ({
         <div className={classNames(classes.sidebarTop,
           isFullScreen && classes.sidebarTopFullScreen)}
         >
-          {getWorkspacesAsList(workspaces).map(workspace => (
+          {getWorkspacesAsList(workspaces).map((workspace, i) => (
             <WorkspaceSelector
               active={workspace.active}
               id={workspace.id}
               key={workspace.id}
               name={workspace.name}
-              order={workspace.order}
+              order={i}
               onClick={() => requestSetActiveWorkspace(workspace.id)}
               onContextMenu={(e) => {
                 e.preventDefault();
