@@ -5,7 +5,7 @@ const {
   ipcMain,
 } = require('electron');
 const windowStateKeeper = require('electron-window-state');
-const menubar = require('menubar');
+const { menubar } = require('menubar');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants');
