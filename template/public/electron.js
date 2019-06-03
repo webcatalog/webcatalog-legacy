@@ -30,9 +30,11 @@ if (!gotTheLock) {
   // eslint-disable-next-line
   app.quit();
 } else {
-  protocol.registerStandardSchemes(['http']);
-  protocol.registerStandardSchemes(['https']);
-  protocol.registerStandardSchemes(['mailto']);
+  protocol.registerSchemesAsPrivileged([
+    { scheme: 'http', privileges: { standard: true } },
+    { scheme: 'https', privileges: { standard: true } },
+    { scheme: 'mailto', privileges: { standard: true } },
+  ]);
 
   loadListeners();
 
