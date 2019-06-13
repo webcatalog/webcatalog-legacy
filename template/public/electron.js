@@ -1,9 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { app, protocol } = require('electron');
+const { app, protocol, ipcMain } = require('electron');
 const path = require('path');
 
 const loadListeners = require('./listeners');
 
+const authWindow = require('./windows/auth');
 const mainWindow = require('./windows/main');
 const openUrlWithWindow = require('./windows/open-url-with');
 
@@ -97,5 +98,25 @@ if (!gotTheLock) {
 
     app.whenReady()
       .then(() => openUrlWithWindow.show(url));
+  });
+
+  app.on('login', (e, webContents, request, authInfo, callback) => {
+    e.preventDefault();
+    const sessId = String(Date.now());
+    authWindow.show(sessId, request.url);
+
+    const listener = (ee, id, success, username, password) => {
+      if (id !== sessId) return;
+
+      if (success) {
+        callback(username, password);
+      } else {
+        callback();
+      }
+
+      ipcMain.removeListener('continue-auth', listener);
+    };
+
+    ipcMain.on('continue-auth', listener);
   });
 }

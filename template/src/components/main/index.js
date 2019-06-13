@@ -129,7 +129,7 @@ const Main = ({
       {navigationBar && <NavigationBar />}
       <FindInPage />
       <div className={classes.innerContentRoot}>
-        {didFailLoad && (
+        {didFailLoad && !isLoading && (
           <div>
             <Typography align="center" variant="h6">
               No internet

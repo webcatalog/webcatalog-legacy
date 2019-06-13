@@ -9,11 +9,12 @@ import 'typeface-roboto/index.css';
 import store from './state';
 
 import AppWrapper from './components/app-wrapper';
+import Auth from './components/auth';
 import CodeInjection from './components/code-injection';
 import EditWorkspace from './components/edit-workspace';
+import Main from './components/main';
 import OpenUrlWith from './components/open-url-with';
 import Preferences from './components/preferences';
-import Main from './components/main';
 
 import { getWorkspace } from './senders';
 
@@ -41,6 +42,10 @@ const runApp = () => {
       App = CodeInjection;
       break;
     }
+    case 'auth': {
+      App = Auth;
+      break;
+    }
     default: {
       App = Main;
     }
@@ -56,6 +61,8 @@ const runApp = () => {
   } else if (window.mode === 'code-injection') {
     const codeInjectionType = window.require('electron').remote.getGlobal('codeInjectionType');
     document.title = `Edit ${codeInjectionType.toUpperCase()} Code Injection`;
+  } else if (window.mode === 'code-injection') {
+    document.title = 'Sign in';
   } else {
     document.title = remote.getGlobal('appJson').name;
   }
