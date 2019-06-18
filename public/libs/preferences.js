@@ -10,7 +10,8 @@ const v = '2018';
 const defaultPreferences = {
   theme: 'automatic',
   registered: false,
-  installLocation: 'home',
+  installationPath: '~/Applications/WebCatalog Apps',
+  requireAdmin: false,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
@@ -18,12 +19,15 @@ const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(
 const getPreference = name => settings.get(`preferences.${v}.${name}`, defaultPreferences[name]);
 
 const setPreference = (name, value) => {
+  if (name === 'installationPath') {
+    const moveFrom = getPreference('installationPath');
+    const moveTo = value;
+    const requireAdmin = getPreference('requireAdmin');
+    moveAllAppsAsync(moveFrom, moveTo, requireAdmin);
+  }
+
   settings.set(`preferences.${v}.${name}`, value);
   sendToAllWindows('set-preference', name, value);
-
-  if (name === 'installLocation') {
-    moveAllAppsAsync(value === 'home' ? 'root' : 'home');
-  }
 };
 
 const resetPreferences = () => {

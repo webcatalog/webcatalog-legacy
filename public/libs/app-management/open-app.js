@@ -1,10 +1,10 @@
-const { shell } = require('electron');
+const { app, shell } = require('electron');
 const path = require('path');
 
-const getInstallationPath = require('./get-installation-path');
+const { getPreference } = require('../preferences');
 
 const openApp = (id, name) => {
-  const appPath = path.join(getInstallationPath(), `${name}.app`);
+  const appPath = path.join(getPreference('installationPath').replace('~', app.getPath('home')), `${name}.app`);
   shell.openItem(appPath);
 };
 

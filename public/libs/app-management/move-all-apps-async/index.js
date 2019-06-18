@@ -4,7 +4,7 @@ const { app, ipcMain } = require('electron');
 
 const sendToAllWindows = require('../../send-to-all-windows');
 
-const moveAllAppsAsync = moveFrom => new Promise((resolve, reject) => {
+const moveAllAppsAsync = (moveFrom, moveTo, requireAdmin) => new Promise((resolve, reject) => {
   sendToAllWindows('update-moving-all-apps', true);
 
   const scriptPath = path.join(__dirname, 'forked-script.js');
@@ -12,6 +12,10 @@ const moveAllAppsAsync = moveFrom => new Promise((resolve, reject) => {
   const params = [
     '--moveFrom',
     moveFrom,
+    '--moveTo',
+    moveTo,
+    '--requireAdmin',
+    requireAdmin.toString(),
     '--homePath',
     app.getPath('home'),
     '--username',

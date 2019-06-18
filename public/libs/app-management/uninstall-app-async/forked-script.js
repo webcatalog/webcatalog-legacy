@@ -6,7 +6,7 @@ const sudo = require('sudo-prompt');
 const {
   name,
   installationPath,
-  installLocation,
+  requireAdmin,
   homePath,
   username,
 } = argv;
@@ -40,12 +40,12 @@ const checkExistsAndRemoveWithSudo = dirPath => fsExtra.exists(dirPath)
     return null;
   });
 
-const dotAppPath = path.join(installationPath, `${name}.app`);
+const dotAppPath = path.join(installationPath.replace('~', homePath), `${name}.app`);
 const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
 
 Promise.resolve()
   .then(() => {
-    if (installLocation === 'root') {
+    if (requireAdmin === 'true') {
       return checkExistsAndRemoveWithSudo(dotAppPath);
     }
     return checkExistsAndRemove(dotAppPath);

@@ -18,8 +18,10 @@ const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((res
     icon,
     '--homePath',
     app.getPath('home'),
-    '--installLocation',
-    getPreference('installLocation'),
+    '--installationPath',
+    getPreference('installationPath'),
+    '--requireAdmin',
+    getPreference('requireAdmin').toString(),
     'username',
     process.env.USER, // required by sudo-prompt
   ];
