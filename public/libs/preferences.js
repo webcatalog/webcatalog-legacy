@@ -16,7 +16,28 @@ const defaultPreferences = {
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`, defaultPreferences));
 
-const getPreference = name => settings.get(`preferences.${v}.${name}`, defaultPreferences[name]);
+const getPreference = (name) => {
+  // ensure compatiblity with old version
+  if (name === 'installationPath' || name === 'requireAdmin') {
+    // old pref, home or root
+    if (settings.get('preferences.2018.installLocation', null) === 'root') {
+      settings.delete('preferences.2018.installLocation');
+
+      settings.set(`preferences.${v}.installationPath`, '/Applications/WebCatalog Apps');
+      sendToAllWindows('set-preference', 'installationPath', '/Applications/WebCatalog Apps');
+
+      settings.set(`preferences.${v}.requireAdmin`, true);
+      sendToAllWindows('set-preference', 'requireAdmin', true);
+
+      if (name === 'installationPath') {
+        return '/Applications/WebCatalog Apps';
+      }
+      return true;
+    }
+  }
+
+  return settings.get(`preferences.${v}.${name}`, defaultPreferences[name]);
+};
 
 const setPreference = (name, value) => {
   if (name === 'installationPath') {
