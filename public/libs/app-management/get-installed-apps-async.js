@@ -1,7 +1,8 @@
+const { app } = require('electron');
 const path = require('path');
 const fsExtra = require('fs-extra');
 
-const getInstallationPath = require('./get-installation-path');
+const { getPreference } = require('../preferences');
 const sendToAllWindows = require('../send-to-all-windows');
 
 const getInstalledAppsAsync = () => {
@@ -9,7 +10,7 @@ const getInstalledAppsAsync = () => {
 
   const apps = [];
 
-  const installationPath = getInstallationPath();
+  const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
 
   return Promise.resolve()
     .then(() => {

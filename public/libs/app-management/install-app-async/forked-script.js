@@ -17,7 +17,8 @@ const {
   icon,
   mailtoHandler,
   homePath,
-  installLocation,
+  installationPath,
+  requireAdmin,
   username,
 } = argv;
 
@@ -39,10 +40,7 @@ const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
 
 const dotAppPath = path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
 
-let allAppsPath = path.join(homePath, 'Applications', 'WebCatalog Apps');
-if (installLocation === 'root') {
-  allAppsPath = path.join('/', 'Applications', 'WebCatalog Apps');
-}
+const allAppsPath = installationPath.replace('~', homePath);
 
 const finalPath = path.join(allAppsPath, `${name}.app`);
 
@@ -164,7 +162,7 @@ decompress(templatePath, tmpPath)
     return packager(opts);
   })
   .then(() => {
-    if (installLocation === 'root') {
+    if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
     }
 

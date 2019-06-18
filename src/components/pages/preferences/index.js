@@ -19,6 +19,8 @@ import connectComponent from '../../../helpers/connect-component';
 
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
+import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
+
 import {
   requestOpenInBrowser,
   requestResetPreferences,
@@ -66,13 +68,13 @@ const getThemeString = (theme) => {
   return 'Automatic';
 };
 
-const getInstallLocationString = (installLocation) => {
-  if (installLocation === 'root') return '/Applications/WebCatalog Apps';
-  return '~/Applications/WebCatalog Apps';
-};
-
 const Preferences = ({
-  theme, classes, installLocation, installingAppCount,
+  theme,
+  classes,
+  installationPath,
+  requireAdmin,
+  installingAppCount,
+  onOpenDialogSetInstallationPath,
 }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
@@ -128,7 +130,7 @@ const Preferences = ({
                   requestShowMessageBox('This preference cannot be changed when installing or updating apps.');
                 }}
               >
-                <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
+                <ListItemText primary="Installation path" secondary={`${installationPath} ${requireAdmin ? '(require sudo)' : ''}`} />
                 <ChevronRightIcon color="action" />
               </ListItem>
             ) : (
@@ -136,13 +138,35 @@ const Preferences = ({
                 id="installLocation"
                 buttonElement={(
                   <ListItem button>
-                    <ListItemText primary="Installation path" secondary={getInstallLocationString(installLocation)} />
+                    <ListItemText primary="Installation path" secondary={`${installationPath} ${requireAdmin ? '(require sudo)' : ''}`} />
                     <ChevronRightIcon color="action" />
                   </ListItem>
                 )}
               >
-                <MenuItem onClick={() => requestSetPreference('installLocation', 'home')}>~/Applications/WebCatalog Apps (default)</MenuItem>
-                <MenuItem onClick={() => requestSetPreference('installLocation', 'root')}>/Applications/WebCatalog Apps (requires sudo)</MenuItem>
+                {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
+                  <MenuItem>
+                    {installationPath}
+                  </MenuItem>
+                )}
+                <MenuItem
+                  onClick={() => {
+                    requestSetPreference('requireAdmin', false);
+                    requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
+                  }}
+                >
+                  ~/Applications/WebCatalog Apps (default)
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    requestSetPreference('requireAdmin', true);
+                    requestSetPreference('installationPath', '/Applications/WebCatalog Apps');
+                  }}
+                >
+                  /Applications/WebCatalog Apps (requires sudo)
+                </MenuItem>
+                <MenuItem onClick={onOpenDialogSetInstallationPath}>
+                  Custom
+                </MenuItem>
               </StatedMenu>
             )}
             <Divider />
@@ -169,21 +193,28 @@ const Preferences = ({
 );
 
 Preferences.propTypes = {
-  theme: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  installLocation: PropTypes.string.isRequired,
+  installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
+  onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
+  requireAdmin: PropTypes.bool.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  theme: state.preferences.theme,
-  installLocation: state.preferences.installLocation,
+  installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
+  requireAdmin: state.preferences.requireAdmin,
+  theme: state.preferences.theme,
 });
+
+const actionCreators = {
+  openDialogSetInstallationPath,
+};
 
 export default connectComponent(
   Preferences,
   mapStateToProps,
-  null,
+  actionCreators,
   styles,
 );

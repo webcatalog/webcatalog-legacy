@@ -1,16 +1,14 @@
 const argv = require('yargs-parser')(process.argv.slice(1));
-const path = require('path');
 const sudo = require('sudo-prompt');
 const fsExtra = require('fs-extra');
 
 const {
   moveFrom,
+  moveTo,
+  requireAdmin,
   homePath,
   username,
 } = argv;
-
-const homeAllAppsPath = path.join(homePath, 'Applications', 'WebCatalog Apps');
-const rootAllAppsPath = path.join('/', 'Applications', 'WebCatalog Apps');
 
 const sudoAsync = prompt => new Promise((resolve, reject) => {
   const opts = {
@@ -31,11 +29,14 @@ const sudoAsync = prompt => new Promise((resolve, reject) => {
 
 Promise.resolve()
   .then(() => {
-    if (fsExtra.pathExistsSync(moveFrom === 'root' ? rootAllAppsPath : homeAllAppsPath)) {
-      if (moveFrom === 'root') {
-        return sudoAsync(`mv "${rootAllAppsPath}" "${homeAllAppsPath}" && sudo /usr/sbin/chown -R ${username}:staff "${homeAllAppsPath}"`);
+    const moveFromFull = moveFrom.replace('~', homePath);
+    const moveToFull = moveTo.replace('~', homePath);
+
+    if (fsExtra.pathExistsSync(moveFromFull)) {
+      if (requireAdmin !== 'true') {
+        return sudoAsync(`mv "${moveFromFull}"/*.app "${moveToFull}"/ && sudo /usr/sbin/chown -R ${username}:staff "${moveToFull}"`);
       }
-      return sudoAsync(`mv "${homeAllAppsPath}" "${rootAllAppsPath}"`);
+      return sudoAsync(`mv "${moveFromFull}"/*.app "${moveToFull}"/`);
     }
     return null;
   })

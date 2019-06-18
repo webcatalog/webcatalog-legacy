@@ -10,7 +10,6 @@ const installAppAsync = require('../libs/app-management/install-app-async');
 const uninstallAppAsync = require('../libs/app-management/uninstall-app-async');
 const getInstalledAppsAsync = require('../libs/app-management/get-installed-apps-async');
 const moveAllAppsAsync = require('../libs/app-management/move-all-apps-async');
-const getInstallationPath = require('../libs/app-management/get-installation-path');
 
 const {
   getPreference,
@@ -93,7 +92,7 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-open-install-location', () => {
-    const installationPath = getInstallationPath();
+    const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
     shell.openItem(installationPath);
   });
 
