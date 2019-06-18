@@ -39,3 +39,6 @@ export const requestOpenUrlInWorkspace = (url, id) => ipcRenderer.send('request-
 // Find In Page
 export const requestFindInPage = (text, forward) => ipcRenderer.send('request-find-in-page', text, forward);
 export const requestStopFindInPage = close => ipcRenderer.send('request-stop-find-in-page', close);
+
+// Auth
+export const requestValidateAuthIdentity = (windowId, username, password) => ipcRenderer.send('request-validate-auth-identity', windowId, username, password);

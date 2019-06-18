@@ -17,8 +17,8 @@ const {
 const sendToAllWindows = require('./send-to-all-windows');
 
 const views = {};
-
 const badgeCounts = {};
+const didFailLoad = {};
 
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -60,6 +60,7 @@ const addView = (browserWindow, workspace) => {
 
   view.webContents.on('did-start-loading', () => {
     if (getWorkspace(workspace.id).active) {
+      didFailLoad[workspace.id] = false;
       sendToAllWindows('update-did-fail-load', false);
       sendToAllWindows('update-is-loading', true);
     }
@@ -80,8 +81,18 @@ const addView = (browserWindow, workspace) => {
   view.webContents.on('did-fail-load', (e, errorCode, errorDesc, validateUrl, isMainFrame) => {
     if (isMainFrame && errorCode < 0 && errorCode !== -3) {
       if (getWorkspace(workspace.id).active) {
-        sendToAllWindows('update-did-fail-load', true);
+        if (getWorkspace(workspace.id).active) {
+          sendToAllWindows('update-loading', false);
+
+          didFailLoad[workspace.id] = true;
+          sendToAllWindows('update-did-fail-load', true);
+        }
       }
+    }
+
+    // edge case to handle failed auth
+    if (errorCode === -300 && view.webContents.getURL().length === 0) {
+      view.webContents.loadURL(workspace.homeUrl || appJson.url);
     }
   });
 
@@ -91,7 +102,6 @@ const addView = (browserWindow, workspace) => {
       sendToAllWindows('update-can-go-forward', view.webContents.canGoForward());
     }
   });
-
 
   view.webContents.on('did-navigate-in-page', () => {
     if (getWorkspace(workspace.id).active) {
@@ -192,6 +202,7 @@ const setActiveView = (browserWindow, id) => {
   });
 
   sendToAllWindows('update-is-loading', view.webContents.isLoading());
+  sendToAllWindows('update-did-fail-load', Boolean(didFailLoad[id]));
 };
 
 const removeView = (id) => {

@@ -43,9 +43,9 @@
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
     "jimp": "0.6.4",
-    "sudo-prompt": "8.2.5",
+    "sudo-prompt": "9.0.0",
     "tmp": "0.1.0",
-    "yargs-parser": "13.1.0"
+    "yargs-parser": "13.1.1"
   },
   "devDependencies": {
     "@material-ui/core": "3.9.3",
@@ -56,8 +56,8 @@
     "classnames": "2.2.6",
     "concurrently": "4.1.0",
     "cross-env": "5.2.0",
-    "electron": "5.0.2",
-    "electron-builder": "20.41.0",
+    "electron": "5.0.3",
+    "electron-builder": "20.43.0",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.17.3",

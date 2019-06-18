@@ -807,10 +807,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-9.0.1.tgz#c27b391d8457d1e893f1eddeaf5e5412d12ffbb5"
   integrity sha512-6It2EVfGskxZCQhuykrfnALg7oVeiI6KclWSmGDqB0AiInVrTGB9Jp9i4/Ad21u9Jde/voVQz6eFX/eSg/UsPA==
 
-"@felixrieseberg/spellchecker@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@felixrieseberg/spellchecker/-/spellchecker-4.0.9.tgz#af6a1b5cc15d9db029b631f7891d1fed9a2ef051"
-  integrity sha512-5gFhJapK0HqlHL1T71az7aVBxmO42iTR2QIVPXeuW/Zv9nttcD8ujygzOaOB/K/RDI48JCNQkg70LFzBxSL4ow==
+"@felixrieseberg/spellchecker@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@felixrieseberg/spellchecker/-/spellchecker-4.0.10.tgz#ec4b11bcaa98a45d0f1c768a2f3dfb2b8768ed3f"
+  integrity sha512-b+BlHcBXjx+W7yGNAtoVpAv8dvmAQ8Tp2YhNjqxIgocb6Wq1nKLl4jfu9DG60UWC0hTNvvQ74ny9ojiUFNqGSA==
   dependencies:
     nan "^2.13.2"
 
@@ -4107,12 +4107,12 @@ electron-settings@3.2.0:
     clone "^2.1.1"
     jsonfile "^4.0.0"
 
-electron-spellchecker@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/electron-spellchecker/-/electron-spellchecker-2.0.4.tgz#9b1d144e7afc58680bc3b2266c66efa731732e22"
-  integrity sha512-+wty0tXOhyaO+9nxfe1gVPYLj7Gif/LwvyF6shElrdFkHMoPPBWyPgCVa/OHssZd/oMC/HVU0eeWZvSfjbmV9w==
+electron-spellchecker@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/electron-spellchecker/-/electron-spellchecker-2.1.0.tgz#03d1ea338ae970bd27b677c6c356da336a3959ee"
+  integrity sha512-C7XuG7Hw1cIKxp3XNvXYyl6P7O4cQKR87eYdJrC4bIQvqEGC/p+29kQ44O5074bSdyrW6xFIv+HsLZzm7aGsmg==
   dependencies:
-    "@felixrieseberg/spellchecker" "^4.0.9"
+    "@felixrieseberg/spellchecker" "^4.0.10"
     "@nornagon/cld" "^2.4.9"
     bcp47 "^1.1.2"
     debug "^4.1.1"
@@ -4143,10 +4143,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.2.tgz#0f6b38ae7e344b94f433d9171e50568f56962fc7"
-  integrity sha512-bUHKQhyuOen/q8iHTkrnzqB9CAwBDI+vHbeu21kpq2bqAD+t25yfrmUEcYHaPL4fZOAhk6nnRqskF6/Xd+aZxg==
+electron@5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.3.tgz#919818962caffbd909af15bc8a3034be972fa76e"
+  integrity sha512-kgnxPQoTNzu0lKC8ToAktt93mTimgqHZGFCVmTaFjs1G2Bk9VqKHljbQemH+REKAaw1aEgIRn2JCrTe0Dy7fVQ==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -7172,10 +7172,10 @@ memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
     errno "^0.1.3"
     readable-stream "^2.0.1"
 
-menubar@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/menubar/-/menubar-6.0.2.tgz#feda362a813ad3d5ccf6d646ca8c8210720cbda2"
-  integrity sha512-+KZpycNTyVE9m5YcwF5juRhU0umUEbIxzjZFBL4QxS7fOIQHy1Ftk4wRCNhpIkJR/fonAjXGIKfjYS5Ap3oAnA==
+menubar@6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/menubar/-/menubar-6.0.5.tgz#a6612d60f976fd389a70f95400e0a57a2157306b"
+  integrity sha512-crqc3SMFDSXlIgB+V02nspF0eq5fPenJTdAguax7renZX/iHhO8/DfyhjwxZla6OxSGSaaXwoZJZtA16qqtmBw==
   dependencies:
     electron-positioner "^4.1.0"
 

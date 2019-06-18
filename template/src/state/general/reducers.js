@@ -47,7 +47,7 @@ const isDarkMode = (state = remote.systemPreferences.isDarkMode(), action) => {
   }
 };
 
-const isLoading = (state = false, action) => {
+const isLoading = (state = true, action) => {
   switch (action.type) {
     case UPDATE_IS_LOADING: return action.isLoading;
     default: return state;

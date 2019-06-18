@@ -25,3 +25,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: quanglam2807/webcatalog
+branches:
+  only: 
+    - master
