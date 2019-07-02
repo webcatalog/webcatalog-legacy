@@ -46,11 +46,16 @@ const addView = (browserWindow, workspace) => {
     browserWindow.setBrowserView(view);
 
     const contentSize = browserWindow.getContentSize();
+
+    const offsetTitlebar = global.showSidebar ? 0 : 22;
+    const x = global.showSidebar ? 68 : 0;
+    const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+
     view.setBounds({
-      x: global.showSidebar ? 68 : 0,
-      y: global.showNavigationBar ? 36 : 0,
-      width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
-      height: global.showNavigationBar ? contentSize[1] - 36 : contentSize[1],
+      x,
+      y,
+      width: contentSize[0] - x,
+      height: contentSize[1] - y,
     });
     view.setAutoResize({
       width: true,
@@ -190,11 +195,16 @@ const setActiveView = (browserWindow, id) => {
   browserWindow.setBrowserView(view);
 
   const contentSize = browserWindow.getContentSize();
+
+  const offsetTitlebar = global.showSidebar ? 0 : 22;
+  const x = global.showSidebar ? 68 : 0;
+  const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+
   view.setBounds({
-    x: global.showSidebar ? 68 : 0,
-    y: global.showNavigationBar ? 36 : 0,
-    width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
-    height: global.showNavigationBar ? contentSize[1] - 36 : contentSize[1],
+    x,
+    y,
+    width: contentSize[0] - x,
+    height: contentSize[1] - y,
   });
   view.setAutoResize({
     width: true,

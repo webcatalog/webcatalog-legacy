@@ -108,12 +108,15 @@ function createMenu() {
               const contentSize = win.getContentSize();
               const view = win.getBrowserView();
 
+              const offsetTitlebar = global.showSidebar ? 0 : 22;
+              const x = global.showSidebar ? 68 : 0;
+              const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;         
+
               view.setBounds({
-                x: global.showSidebar ? 68 : 0,
-                y: global.showNavigationBar ? FIND_IN_PAGE_HEIGHT + 36 : FIND_IN_PAGE_HEIGHT,
-                height: global.showNavigationBar ? contentSize[1] - FIND_IN_PAGE_HEIGHT - 36
-                  : contentSize[1] - FIND_IN_PAGE_HEIGHT,
-                width: global.showSidebar ? contentSize[0] - 68 : contentSize[0],
+                x,
+                y: y + FIND_IN_PAGE_HEIGHT,
+                height: contentSize[1] - y - FIND_IN_PAGE_HEIGHT,
+                width: contentSize[0] - x,
               });
             }
           },
