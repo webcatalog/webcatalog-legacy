@@ -69,7 +69,7 @@ const loadListeners = () => {
 
       const offsetTitlebar = global.showSidebar || global.attachToMenubar ? 0 : 22;
       const x = global.showSidebar ? 68 : 0;
-      const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;    
+      const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
       view.setBounds({
         x,
