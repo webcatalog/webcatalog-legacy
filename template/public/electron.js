@@ -45,16 +45,17 @@ if (!gotTheLock) {
   app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINE_VERSION);
 
   const commonInit = () => {
-    mainWindow.create();
+    mainWindow.createAsync()
+      .then(() => {
+        createMenu();
 
-    createMenu();
+        const workspaceObjects = getWorkspaces();
 
-    const workspaceObjects = getWorkspaces();
-
-    Object.keys(workspaceObjects).forEach((id) => {
-      const workspace = workspaceObjects[id];
-      addView(mainWindow.get(), workspace);
-    });
+        Object.keys(workspaceObjects).forEach((id) => {
+          const workspace = workspaceObjects[id];
+          addView(mainWindow.get(), workspace);
+        });
+      });
   };
 
   app.on('ready', () => {
