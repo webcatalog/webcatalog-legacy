@@ -24,13 +24,18 @@ const get = () => {
   return win;
 };
 
-const create = () => {
+const createAsync = () => {
   const attachToMenubar = getPreference('attachToMenubar');
   if (attachToMenubar) {
     mb = menubar({
       index: REACT_PATH,
       icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
       preloadWindow: true,
+      browserWindow: {
+        webPreferences: {
+          nodeIntegration: true,
+        },
+      },
     });
 
     const contextMenu = Menu.buildFromTemplate([
@@ -53,11 +58,19 @@ const create = () => {
       },
     ]);
 
-    mb.tray.on('right-click', () => {
-      mb.tray.popUpContextMenu(contextMenu);
-    });
+    return new Promise((resolve, reject) => {
+      try {
+        mb.on('ready', () => {
+          mb.tray.on('right-click', () => {
+            mb.tray.popUpContextMenu(contextMenu);
+          });
 
-    return;
+          resolve();
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
 
@@ -112,14 +125,23 @@ const create = () => {
   win.on('closed', () => {
     win = null;
   });
+
+  return Promise.resolve();
 };
 
 const show = () => {
   const attachToMenubar = getPreference('attachToMenubar');
-  if (win == null) {
-    create();
-  } else if (attachToMenubar) {
-    mb.showWindow();
+
+  if (attachToMenubar) {
+    if (mb == null) {
+      createAsync();
+    } else {
+      mb.on('ready', () => {
+        mb.showWindow();
+      });
+    }
+  } else if (win == null) {
+    createAsync();
   } else {
     win.show();
   }
@@ -132,7 +154,7 @@ const send = (...args) => {
 };
 
 module.exports = {
-  create,
+  createAsync,
   get,
   send,
   show,
