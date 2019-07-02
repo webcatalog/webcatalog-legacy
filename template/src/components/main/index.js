@@ -79,6 +79,7 @@ const getWorkspacesAsList = workspaces => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
 const Main = ({
+  attachToMenubar,
   classes,
   didFailLoad,
   isFullScreen,
@@ -88,7 +89,7 @@ const Main = ({
   workspaces,
 }) => (
   <div className={classes.outerRoot}>
-    {!sidebar && (<FakeTitleBar />)}
+    {!sidebar && !attachToMenubar && (<FakeTitleBar />)}
     <div className={classes.root}>
       {sidebar && (
         <div className={classes.sidebarRoot}>
@@ -162,6 +163,7 @@ const Main = ({
 );
 
 Main.propTypes = {
+  attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   didFailLoad: PropTypes.bool.isRequired,
   isFullScreen: PropTypes.bool.isRequired,
@@ -172,6 +174,7 @@ Main.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  attachToMenubar: state.preferences.attachToMenubar,
   didFailLoad: state.general.didFailLoad,
   isFullScreen: state.general.isFullScreen,
   isLoading: state.general.isLoading,
