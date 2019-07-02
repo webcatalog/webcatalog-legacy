@@ -61,6 +61,7 @@ if (!gotTheLock) {
   app.on('ready', () => {
     global.appJson = appJson;
 
+    global.attachToMenubar = getPreference('attachToMenubar');
     global.showSidebar = getPreference('sidebar');
     global.showNavigationBar = getPreference('navigationBar');
 

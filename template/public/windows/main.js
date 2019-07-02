@@ -88,7 +88,7 @@ const createAsync = () => {
     height: mainWindowState.height,
     minHeight: 100,
     title: global.appJson.name,
-    titleBarStyle: global.showSidebar ? 'hidden' : 'default',
+    titleBarStyle: 'hidden',
     show: !wasOpenedAsHidden,
     webPreferences: {
       nodeIntegration: true,
