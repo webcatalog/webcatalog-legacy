@@ -47,7 +47,7 @@ const addView = (browserWindow, workspace) => {
 
     const contentSize = browserWindow.getContentSize();
 
-    const offsetTitlebar = global.showSidebar || global.attachToMenubar ? 0 : 22;
+    const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
     const x = global.showSidebar ? 68 : 0;
     const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
@@ -196,7 +196,7 @@ const setActiveView = (browserWindow, id) => {
 
   const contentSize = browserWindow.getContentSize();
 
-  const offsetTitlebar = global.showSidebar || global.attachToMenubar ? 0 : 22;
+  const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
   const x = global.showSidebar ? 68 : 0;
   const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 

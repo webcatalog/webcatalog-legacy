@@ -67,7 +67,7 @@ function createMenu() {
               const contentSize = win.getContentSize();
               const view = win.getBrowserView();
 
-              const offsetTitlebar = global.showSidebar || global.attachToMenubar ? 0 : 22;
+              const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
               const x = global.showSidebar ? 68 : 0;
               const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
