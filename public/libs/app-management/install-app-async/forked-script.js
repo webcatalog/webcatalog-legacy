@@ -188,6 +188,7 @@ decompress(templatePath, tmpPath)
       `;
       return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
     }
+    return null;
   })
   .then(() => {
     process.exit(0);
