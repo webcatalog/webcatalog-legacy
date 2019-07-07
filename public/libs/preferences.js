@@ -8,9 +8,9 @@ const moveAllAppsAsync = require('../libs/app-management/move-all-apps-async');
 const v = '2018';
 
 const defaultPreferences = {
-  theme: 'automatic',
+  theme: process.platform === 'darwin' ? 'automatic' : 'light',
   registered: false,
-  installationPath: '~/Applications/WebCatalog Apps',
+  installationPath: process.platform === 'darwin' ? '~/Applications/WebCatalog Apps' : '~/.webcatalog',
   requireAdmin: false,
 };
 
@@ -18,7 +18,7 @@ const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(
 
 const getPreference = (name) => {
   // ensure compatiblity with old version
-  if (name === 'installationPath' || name === 'requireAdmin') {
+  if (process.platform === 'darwin' && (name === 'installationPath' || name === 'requireAdmin')) {
     // old pref, home or root
     if (settings.get('preferences.2018.installLocation', null) === 'root') {
       settings.delete('preferences.2018.installLocation');

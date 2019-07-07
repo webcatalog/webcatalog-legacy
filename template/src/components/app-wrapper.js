@@ -26,17 +26,25 @@ class AppWrapper extends React.Component {
   componentDidMount() {
     remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
-    this.appleInterfaceThemeChangedNotificationId = remote.systemPreferences
-      .subscribeNotification(
-        'AppleInterfaceThemeChangedNotification',
-        this.handleChangeTheme,
-      );
+
+    if (window.process.platform === 'darwin') {
+      this.appleInterfaceThemeChangedNotificationId = remote.systemPreferences
+        .subscribeNotification(
+          'AppleInterfaceThemeChangedNotification',
+          this.handleChangeTheme,
+        );
+    }
   }
 
   componentWillUnmount() {
     remote.getCurrentWindow().removeListener('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().removeListener('leave-full-screen', this.handleLeaveFullScreen);
-    remote.systemPreferences.unsubscribeNotification(this.appleInterfaceThemeChangedNotificationId);
+
+    if (window.process.platform === 'darwin') {
+      remote.systemPreferences.unsubscribeNotification(
+        this.appleInterfaceThemeChangedNotificationId,
+      );
+    }
   }
 
   handleEnterFullScreen() {
@@ -90,7 +98,11 @@ class AppWrapper extends React.Component {
 }
 
 AppWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   shouldUseDarkMode: PropTypes.bool.isRequired,
   onUpdateIsDarkMode: PropTypes.func.isRequired,
   onUpdateIsFullScreen: PropTypes.func.isRequired,

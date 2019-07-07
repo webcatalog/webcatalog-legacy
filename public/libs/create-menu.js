@@ -109,6 +109,39 @@ const createMenu = () => {
       { type: 'separator' },
       { role: 'front' },
     ];
+  } else {
+    // File menu for Windows & Linux
+    template.unshift({
+      label: 'File',
+      submenu: [
+        {
+          role: 'about',
+          click: () => app.showAboutPanel(),
+        },
+        { type: 'separator' },
+        {
+          label: registered ? 'Registered' : 'Registration...',
+          enabled: !registered,
+          click: registered ? null : () => sendToAllWindows('open-license-registration-dialog'),
+        },
+        { type: 'separator' },
+        {
+          label: 'Check for Updates...',
+          click: () => {
+            global.updateSilent = false;
+            autoUpdater.checkForUpdates();
+          },
+        },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Ctrl+,',
+          click: () => sendToAllWindows('go-to-preferences'),
+        },
+        { type: 'separator' },
+        { role: 'quit', label: 'Exit' },
+      ],
+    });
   }
 
   const menu = Menu.buildFromTemplate(template);

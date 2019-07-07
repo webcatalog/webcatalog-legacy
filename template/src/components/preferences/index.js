@@ -140,62 +140,68 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
-        <ListItem>
-          <ListItemText primary="Attach to menubar" />
-          <Switch
-            checked={attachToMenubar}
-            onChange={(e) => {
-              requestSetPreference('attachToMenubar', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText primary="Show unread count badge" />
-          <Switch
-            checked={unreadCountBadge}
-            onChange={(e) => {
-              requestSetPreference('unreadCountBadge', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText
-            primary="Swipe to navigate"
-            secondary={(
-              <React.Fragment>
-                <span>Navigate between pages with 3-finger gestures.</span>
-                <br />
-                <span>To enable it, you also need to change </span>
-                <b>macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page</b>
-                <span> to </span>
-                <b>Swipe with three fingers</b>
-                <span> or </span>
-                <b>Swipe with two or three fingers.</b>
-              </React.Fragment>
-            )}
-          />
-          <Switch
-            checked={swipeToNavigate}
-            onChange={(e) => {
-              requestSetPreference('swipeToNavigate', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
+        {window.process.platform === 'darwin' && (
+          <React.Fragment>
+            <ListItem>
+              <ListItemText primary="Attach to menubar" />
+              <Switch
+                checked={attachToMenubar}
+                onChange={(e) => {
+                  requestSetPreference('attachToMenubar', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText primary="Show unread count badge" />
+              <Switch
+                checked={unreadCountBadge}
+                onChange={(e) => {
+                  requestSetPreference('unreadCountBadge', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary="Swipe to navigate"
+                secondary={(
+                  <React.Fragment>
+                    <span>Navigate between pages with 3-finger gestures.</span>
+                    <br />
+                    <span>To enable it, you also need to change </span>
+                    <b>
+                      macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
+                    </b>
+                    <span> to </span>
+                    <b>Swipe with three fingers</b>
+                    <span> or </span>
+                    <b>Swipe with two or three fingers.</b>
+                  </React.Fragment>
+                )}
+              />
+              <Switch
+                checked={swipeToNavigate}
+                onChange={(e) => {
+                  requestSetPreference('swipeToNavigate', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+            <Divider />
+          </React.Fragment>
+        )}
         <ListItem>
           <ListItemText primary="Use spell checker" />
           <Switch
@@ -305,26 +311,30 @@ const Preferences = ({
       </List>
     </Paper>
 
-    <Typography variant="subtitle2" className={classes.sectionTitle}>
-      System
-    </Typography>
-    <Paper className={classes.paper}>
-      <List dense>
-        <StatedMenu
-          id="openAtLogin"
-          buttonElement={(
-            <ListItem button>
-              <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
-              <ChevronRightIcon color="action" />
-            </ListItem>
-          )}
-        >
-          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
-          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
-          <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
-        </StatedMenu>
-      </List>
-    </Paper>
+    {window.process.platform !== 'linux' && (
+      <React.Fragment>
+        <Typography variant="subtitle2" className={classes.sectionTitle}>
+          System
+        </Typography>
+        <Paper className={classes.paper}>
+          <List dense>
+            <StatedMenu
+              id="openAtLogin"
+              buttonElement={(
+                <ListItem button>
+                  <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
+                  <ChevronRightIcon color="action" />
+                </ListItem>
+              )}
+            >
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+            </StatedMenu>
+          </List>
+        </Paper>
+      </React.Fragment>
+    )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
       Reset

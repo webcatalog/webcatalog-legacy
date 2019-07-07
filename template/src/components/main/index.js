@@ -56,7 +56,7 @@ const styles = theme => ({
   },
   sidebarTop: {
     flex: 1,
-    paddingTop: theme.spacing.unit * 3,
+    paddingTop: window.process.platform === 'darwin' ? theme.spacing.unit * 3 : 0,
   },
   sidebarTopFullScreen: {
     paddingTop: 0,

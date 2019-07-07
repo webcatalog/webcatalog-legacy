@@ -25,6 +25,7 @@ const create = (type) => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'code-injection.js'),

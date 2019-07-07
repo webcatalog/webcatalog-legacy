@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import connectComponent from '../../helpers/connect-component';
 
-const titleBarHeight = window.process.platform === 'darwin' ? 22 : 0;
+const titleBarHeight = 22;
 
 const { remote } = window.require('electron');
 
@@ -31,6 +31,8 @@ const FakeTitleBar = (props) => {
     classes,
     theme,
   } = props;
+
+  if (window.process.platform !== 'darwin') return null;
 
   return (
     <div
