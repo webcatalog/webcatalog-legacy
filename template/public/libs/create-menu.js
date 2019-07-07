@@ -268,78 +268,6 @@ function createMenu() {
     },
   ];
 
-  Object.values(getWorkspaces())
-    .sort((a, b) => a.order - b.order)
-    .forEach((workspace, i) => {
-      template[4].submenu.push({
-        label: workspace.name || `Workspace ${i + 1}`,
-        type: 'checkbox',
-        checked: workspace.active,
-        click: () => {
-          setActiveWorkspaceView(workspace.id);
-          createMenu();
-        },
-        accelerator: `CmdOrCtrl+${i + 1}`,
-      });
-
-      template[2].submenu[7].submenu.push({
-        label: workspace.name || `Workspace ${i + 1}`,
-        click: () => {
-          const v = getView(workspace.id);
-          v.webContents.toggleDevTools();
-        },
-      });
-    });
-
-  template[4].submenu.push(
-    { type: 'separator' },
-    {
-      label: 'Select Next Workspace',
-      click: () => {
-        const currentActiveWorkspace = getActiveWorkspace();
-        const nextWorkspace = getNextWorkspace(currentActiveWorkspace.id);
-        setActiveWorkspaceView(nextWorkspace.id);
-        createMenu();
-      },
-      accelerator: 'CmdOrCtrl+Shift+]',
-    },
-    {
-      label: 'Select Previous Workspace',
-      click: () => {
-        const currentActiveWorkspace = getActiveWorkspace();
-        const previousWorkspace = getPreviousWorkspace(currentActiveWorkspace.id);
-        setActiveWorkspaceView(previousWorkspace.id);
-        createMenu();
-      },
-      accelerator: 'CmdOrCtrl+Shift+[',
-    },
-    { type: 'separator' },
-    {
-      label: 'Edit Current Workspace',
-      click: () => {
-        const activeWorkspace = getActiveWorkspace();
-        editWorkspaceWindow.show(activeWorkspace.id);
-      },
-    },
-    {
-      label: 'Remove Current Workspace',
-      click: () => {
-        const activeWorkspace = getActiveWorkspace();
-        removeWorkspaceView(activeWorkspace.id);
-        createMenu();
-      },
-    },
-    { type: 'separator' },
-    {
-      label: 'Add Workspace',
-      enabled: countWorkspaces() < 9,
-      click: () => {
-        createWorkspaceView();
-        createMenu();
-      },
-    },
-  );
-
   if (process.platform === 'darwin') {
     template.unshift({
       label: appJson.name,
@@ -422,6 +350,78 @@ function createMenu() {
       ],
     });
   }
+
+  Object.values(getWorkspaces())
+    .sort((a, b) => a.order - b.order)
+    .forEach((workspace, i) => {
+      template[4].submenu.push({
+        label: workspace.name || `Workspace ${i + 1}`,
+        type: 'checkbox',
+        checked: workspace.active,
+        click: () => {
+          setActiveWorkspaceView(workspace.id);
+          createMenu();
+        },
+        accelerator: `CmdOrCtrl+${i + 1}`,
+      });
+
+      template[2].submenu[7].submenu.push({
+        label: workspace.name || `Workspace ${i + 1}`,
+        click: () => {
+          const v = getView(workspace.id);
+          v.webContents.toggleDevTools();
+        },
+      });
+    });
+
+  template[4].submenu.push(
+    { type: 'separator' },
+    {
+      label: 'Select Next Workspace',
+      click: () => {
+        const currentActiveWorkspace = getActiveWorkspace();
+        const nextWorkspace = getNextWorkspace(currentActiveWorkspace.id);
+        setActiveWorkspaceView(nextWorkspace.id);
+        createMenu();
+      },
+      accelerator: 'CmdOrCtrl+Shift+]',
+    },
+    {
+      label: 'Select Previous Workspace',
+      click: () => {
+        const currentActiveWorkspace = getActiveWorkspace();
+        const previousWorkspace = getPreviousWorkspace(currentActiveWorkspace.id);
+        setActiveWorkspaceView(previousWorkspace.id);
+        createMenu();
+      },
+      accelerator: 'CmdOrCtrl+Shift+[',
+    },
+    { type: 'separator' },
+    {
+      label: 'Edit Current Workspace',
+      click: () => {
+        const activeWorkspace = getActiveWorkspace();
+        editWorkspaceWindow.show(activeWorkspace.id);
+      },
+    },
+    {
+      label: 'Remove Current Workspace',
+      click: () => {
+        const activeWorkspace = getActiveWorkspace();
+        removeWorkspaceView(activeWorkspace.id);
+        createMenu();
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Add Workspace',
+      enabled: countWorkspaces() < 9,
+      click: () => {
+        createWorkspaceView();
+        createMenu();
+      },
+    },
+  );
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

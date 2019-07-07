@@ -14,6 +14,9 @@ matrix:
         packages:
         - python3
         - python3-pip
+        - python-setuptools
+        - libxkbfile-dev
+        - libx11-dev
 cache: yarn
 before_script:
 - npm install -g npx
