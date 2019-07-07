@@ -17,7 +17,7 @@ const defaultPreferences = {
   sidebar: Boolean(appJson.mailtoHandler),
   spellChecker: true,
   swipeToNavigate: true,
-  theme: 'automatic',
+  theme: process.platform === 'darwin' ? 'automatic' : 'light',
   unreadCountBadge: true,
 };
 

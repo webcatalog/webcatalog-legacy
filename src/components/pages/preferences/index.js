@@ -68,6 +68,12 @@ const getThemeString = (theme) => {
   return 'Automatic';
 };
 
+const getFileManagerName = () => {
+  if (window.process.platform === 'darwin') return 'Finder';
+  if (window.process.platform === 'win32') return 'FIle Explorer';
+  return 'file manager';
+};
+
 const Preferences = ({
   theme,
   classes,
@@ -100,7 +106,9 @@ const Preferences = ({
                 </ListItem>
               )}
             >
-              <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
+              {window.process.platform === 'darwin' && (
+                <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
+              )}
               <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
               <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
             </StatedMenu>
@@ -143,27 +151,48 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
-                  <MenuItem>
-                    {installationPath}
-                  </MenuItem>
+                {window.process.platform === 'darwin' && (
+                  <React.Fragment>
+                    {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
+                      <MenuItem>
+                        {installationPath}
+                      </MenuItem>
+                    )}
+                    <MenuItem
+                      onClick={() => {
+                        requestSetPreference('requireAdmin', false);
+                        requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
+                      }}
+                    >
+                      ~/Applications/WebCatalog Apps (default)
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        requestSetPreference('requireAdmin', true);
+                        requestSetPreference('installationPath', '/Applications/WebCatalog Apps');
+                      }}
+                    >
+                      /Applications/WebCatalog Apps (requires sudo)
+                    </MenuItem>
+                  </React.Fragment>
                 )}
-                <MenuItem
-                  onClick={() => {
-                    requestSetPreference('requireAdmin', false);
-                    requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
-                  }}
-                >
-                  ~/Applications/WebCatalog Apps (default)
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    requestSetPreference('requireAdmin', true);
-                    requestSetPreference('installationPath', '/Applications/WebCatalog Apps');
-                  }}
-                >
-                  /Applications/WebCatalog Apps (requires sudo)
-                </MenuItem>
+                {window.process.platform === 'linux' && (
+                  <React.Fragment>
+                    {(installationPath !== '~/.webcatalog') && (
+                      <MenuItem>
+                        {installationPath}
+                      </MenuItem>
+                    )}
+                    <MenuItem
+                      onClick={() => {
+                        requestSetPreference('requireAdmin', false);
+                        requestSetPreference('installationPath', '~/.webcatalog');
+                      }}
+                    >
+                      ~/.webcatalog (default)
+                    </MenuItem>
+                  </React.Fragment>
+                )}
                 <MenuItem onClick={onOpenDialogSetInstallationPath}>
                   Custom
                 </MenuItem>
@@ -171,7 +200,7 @@ const Preferences = ({
             )}
             <Divider />
             <ListItem button onClick={requestOpenInstallLocation}>
-              <ListItemText primary="Open installation path in Finder" />
+              <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
             </ListItem>
           </List>
         </Paper>
