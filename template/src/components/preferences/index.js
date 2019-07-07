@@ -178,7 +178,9 @@ const Preferences = ({
                     <span>Navigate between pages with 3-finger gestures.</span>
                     <br />
                     <span>To enable it, you also need to change </span>
-                    <b>macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page</b>
+                    <b>
+                      macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
+                    </b>
                     <span> to </span>
                     <b>Swipe with three fingers</b>
                     <span> or </span>
@@ -308,7 +310,7 @@ const Preferences = ({
         </ListItem>
       </List>
     </Paper>
-    
+
     {window.process.platform !== 'linux' && (
       <React.Fragment>
         <Typography variant="subtitle2" className={classes.sectionTitle}>

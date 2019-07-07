@@ -41,7 +41,9 @@ class AppWrapper extends React.Component {
     remote.getCurrentWindow().removeListener('leave-full-screen', this.handleLeaveFullScreen);
 
     if (window.process.platform === 'darwin') {
-      remote.systemPreferences.unsubscribeNotification(this.appleInterfaceThemeChangedNotificationId);
+      remote.systemPreferences.unsubscribeNotification(
+        this.appleInterfaceThemeChangedNotificationId,
+      );
     }
   }
 
@@ -96,7 +98,11 @@ class AppWrapper extends React.Component {
 }
 
 AppWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   shouldUseDarkMode: PropTypes.bool.isRequired,
   onUpdateIsDarkMode: PropTypes.func.isRequired,
   onUpdateIsFullScreen: PropTypes.func.isRequired,
