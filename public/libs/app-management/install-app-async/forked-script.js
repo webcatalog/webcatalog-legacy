@@ -28,8 +28,8 @@ const tmpObj = tmp.dirSync();
 const tmpPath = tmpObj.name;
 const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
-const iconIcnsPath = path.join(buildResourcesPath, 'icon.icns');
-const iconPngPath = path.join(buildResourcesPath, 'icon.png');
+const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
+const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const appJsonPath = path.join(appPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
 const packageJsonPath = path.join(appPath, 'package.json');
@@ -42,7 +42,7 @@ const dotAppPath = process.platform === 'darwin' ? path.join(outputPath, `${name
 
 const allAppsPath = installationPath.replace('~', homePath);
 
-const finalPath = path.join(allAppsPath, `${name}.app`);
+const finalPath = process.platform === 'darwin' ? path.join(allAppsPath, `${name}.app`) : path.join(allAppsPath, `${name}`);
 
 const sizes = [16, 32, 64, 128, 256, 512, 1024];
 
@@ -67,7 +67,7 @@ decompress(templatePath, tmpPath)
   .then(() => {
     if (isUrl(icon)) {
       return download(icon, buildResourcesPath, {
-        filename: 'icon.png',
+        filename: 'e.png',
       });
     }
 
@@ -101,14 +101,18 @@ decompress(templatePath, tmpPath)
 
     return Promise.all(p);
   })
-  .then(() => icongen(buildResourcesPath, buildResourcesPath, {
-    report: true,
-    icns: {
-      name: 'icon',
-      sizes,
-    },
-  }))
-  .then(results => results[0])
+  .then(() => {
+    if (process.platform === 'darwin') {
+      return icongen(buildResourcesPath, buildResourcesPath, {
+        report: true,
+        icns: {
+          name: 'icon',
+          sizes,
+        },
+      });
+    }
+    return null;
+  })
   .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
   .then(() => {
     const appJson = JSON.stringify({
@@ -129,7 +133,7 @@ decompress(templatePath, tmpPath)
     const opts = {
       name,
       appBundleId: `com.webcatalog.juli.${id}`,
-      icon: iconIcnsPath,
+      icon: process.platform === 'darwin' ? iconIcnsPath : iconPngPath,
       platform: process.platform,
       dir: appPath,
       out: outputPath,
@@ -165,19 +169,39 @@ decompress(templatePath, tmpPath)
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
     }
-    console.log(dotAppPath);
     return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
+  })
+  .then(() => {
+    // create desktop file for linux
+    if (process.platform === 'linux') {
+      const execFilePath = path.join(finalPath, name);
+      const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
+      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      const desktopFileContent = `[Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=${name}
+      GenericName=${name}
+      Icon=${iconPath}
+      Exec=${execFilePath}
+      Terminal=false;
+      `;
+      return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
+    }
   })
   .then(() => {
     process.exit(0);
   })
   .catch((e) => {
     /* eslint-disable-next-line */
+    console.log(e);
     process.send(e);
     process.exit(1);
   });
 
 process.on('uncaughtException', (e) => {
+  /* eslint-disable-next-line */
+  console.log(e);
   process.exit(1);
   process.send(e);
 });

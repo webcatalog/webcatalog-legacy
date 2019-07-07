@@ -4,6 +4,7 @@ const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
 
 const {
+  id,
   name,
   installationPath,
   requireAdmin,
@@ -40,8 +41,9 @@ const checkExistsAndRemoveWithSudo = dirPath => fsExtra.exists(dirPath)
     return null;
   });
 
-const dotAppPath = path.join(installationPath.replace('~', homePath), `${name}.app`);
-const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
+const dotAppPath = process.platform === 'darwin'
+  ? path.join(installationPath.replace('~', homePath), `${name}.app`)
+  : path.join(installationPath.replace('~', homePath), `${name}`);
 
 Promise.resolve()
   .then(() => {
@@ -50,7 +52,19 @@ Promise.resolve()
     }
     return checkExistsAndRemove(dotAppPath);
   })
-  .then(() => checkExistsAndRemove(appDataPath))
+  .then(() => {
+    if (process.platform === 'darwin') {
+      const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
+      return checkExistsAndRemove(appDataPath);
+    }
+
+    if (process.platform === 'linux') {
+      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      return checkExistsAndRemove(desktopFilePath);
+    }
+
+    return null;
+  })
   .then(() => {
     process.exit(0);
   })
