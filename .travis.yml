@@ -1,7 +1,7 @@
 language: node_js
 os: osx
-node_js: 10
-osx_image: xcode10.1
+node_js: 12
+osx_image: xcode10.2
 cache: yarn
 before_script:
 - npm install -g npx
