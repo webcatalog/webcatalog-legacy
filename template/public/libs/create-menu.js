@@ -44,47 +44,6 @@ function createMenu() {
 
   const template = [
     {
-      label: appJson.name,
-      submenu: [
-        { role: 'about' },
-        {
-          label: 'Check for Updates...',
-          click: () => checkForUpdates(),
-        },
-        { type: 'separator' },
-        {
-          label: 'Preferences...',
-          accelerator: 'Cmd+,',
-          click: () => preferencesWindow.show(),
-        },
-        { type: 'separator' },
-        {
-          label: 'Clear Browsing Data...',
-          accelerator: 'CmdOrCtrl+Shift+Delete',
-          click: () => {
-            dialog.showMessageBox(preferencesWindow.get() || mainWindow.get(), {
-              type: 'question',
-              buttons: ['Clear Now', 'Cancel'],
-              message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
-              cancelId: 1,
-            }, (response) => {
-              if (response === 0) {
-                clearBrowsingData();
-              }
-            });
-          },
-        },
-        { type: 'separator' },
-        { role: 'services', submenu: [] },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' },
-      ],
-    },
-    {
       label: 'Edit',
       submenu: [
         { role: 'undo' },
@@ -380,6 +339,89 @@ function createMenu() {
       },
     },
   );
+
+  if (process.platform === 'darwin') {
+    template.unshift({
+      label: appJson.name,
+      submenu: [
+        { role: 'about' },
+        {
+          label: 'Check for Updates...',
+          click: () => checkForUpdates(),
+        },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Cmd+,',
+          click: () => preferencesWindow.show(),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'CmdOrCtrl+Shift+Delete',
+          click: () => {
+            dialog.showMessageBox(preferencesWindow.get() || mainWindow.get(), {
+              type: 'question',
+              buttons: ['Clear Now', 'Cancel'],
+              message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
+              cancelId: 1,
+            }, (response) => {
+              if (response === 0) {
+                clearBrowsingData();
+              }
+            });
+          },
+        },
+        { type: 'separator' },
+        { role: 'services', submenu: [] },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    });
+  } else {
+    template.unshift({
+      label: 'File',
+      submenu: [
+        {
+          role: 'about',
+          click: () => app.showAboutPanel(),
+        },
+        {
+          label: 'Check for Updates...',
+          click: () => checkForUpdates(),
+        },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Ctrl+,',
+          click: () => preferencesWindow.show(),
+        },
+        { type: 'separator' },
+        {
+          label: 'Clear Browsing Data...',
+          accelerator: 'CmdOrCtrl+Shift+Delete',
+          click: () => {
+            dialog.showMessageBox(preferencesWindow.get() || mainWindow.get(), {
+              type: 'question',
+              buttons: ['Clear Now', 'Cancel'],
+              message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
+              cancelId: 1,
+            }, (response) => {
+              if (response === 0) {
+                clearBrowsingData();
+              }
+            });
+          },
+        },
+        { type: 'separator' },
+        { role: 'quit', label: 'Exit' },
+      ],
+    });
+  }
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

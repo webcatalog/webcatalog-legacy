@@ -20,6 +20,7 @@ const create = () => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'preferences.js'),
