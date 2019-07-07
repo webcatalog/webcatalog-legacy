@@ -308,7 +308,7 @@ const Preferences = ({
         </ListItem>
       </List>
     </Paper>
-    
+
     {window.process.platform !== 'linux' && (
       <React.Fragment>
         <Typography variant="subtitle2" className={classes.sectionTitle}>

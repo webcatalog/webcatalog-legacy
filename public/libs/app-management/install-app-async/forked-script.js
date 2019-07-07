@@ -38,7 +38,7 @@ const outputPath = path.join(tmpPath, 'dist');
 const menubarIconPath = path.join(appPath, 'build', 'menubar-icon.png');
 const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
 
-const dotAppPath = path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
+const dotAppPath = process.platform === 'darwin' ? path.join(outputPath, `${name}-darwin-x64`, `${name}.app`) : path.join(outputPath, `${name}-linux-x64`);
 
 const allAppsPath = installationPath.replace('~', homePath);
 
@@ -130,7 +130,7 @@ decompress(templatePath, tmpPath)
       name,
       appBundleId: `com.webcatalog.juli.${id}`,
       icon: iconIcnsPath,
-      platform: 'darwin',
+      platform: process.platform,
       dir: appPath,
       out: outputPath,
       overwrite: true,
@@ -165,7 +165,7 @@ decompress(templatePath, tmpPath)
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
     }
-
+    console.log(dotAppPath);
     return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
   })
   .then(() => {
