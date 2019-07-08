@@ -40,6 +40,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: quanglam2807/webcatalog
+    condition: os = linux
 branches:
   only: 
     - master

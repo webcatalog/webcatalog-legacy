@@ -42,7 +42,7 @@ const dotAppPath = process.platform === 'darwin' ? path.join(outputPath, `${name
 
 const allAppsPath = installationPath.replace('~', homePath);
 
-const finalPath = process.platform === 'darwin' ? path.join(allAppsPath, `${name}.app`) : path.join(allAppsPath, `${name}`);
+const finalPath = process.platform === 'darwin' ? path.join(allAppsPath, `${name}.app`) : path.join(allAppsPath, name);
 
 const sizes = [16, 32, 64, 128, 256, 512, 1024];
 
@@ -106,7 +106,7 @@ decompress(templatePath, tmpPath)
       return icongen(buildResourcesPath, buildResourcesPath, {
         report: true,
         icns: {
-          name: 'icon',
+          name: 'e',
           sizes,
         },
       });
