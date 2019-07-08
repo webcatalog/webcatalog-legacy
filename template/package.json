@@ -1,9 +1,9 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "4.0.0",
-  "engines" : { 
-    "node" : ">=12.0.0 <13.0.0" 
+  "version": "4.1.0",
+  "engines": {
+    "node": ">=12.0.0 <13.0.0"
   },
   "main": "public/electron.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "electron-settings": "3.2.0",
     "electron-spellchecker": "git://github.com/aabuhijleh/electron-spellchecker.git#520a3a6ee64f621ca2d906886a9053276355d376",
     "electron-window-state": "5.0.3",
-    "menubar": "6.0.5",
+    "menubar": "6.0.6",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",
