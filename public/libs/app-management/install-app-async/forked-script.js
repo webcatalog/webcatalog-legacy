@@ -141,7 +141,7 @@ decompress(templatePath, tmpPath)
       prune: true,
       osxSign: false,
       asar: {
-        unpack: '{app.json,icon.png,package.json,libwidevinecdm.dylib,libwidevinecdm.dylib.sig,manifest.json}',
+        unpack: '{app.json,icon.png,package.json,manifest.json}',
       },
     };
 

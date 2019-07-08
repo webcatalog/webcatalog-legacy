@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { app, protocol, ipcMain } = require('electron');
-const path = require('path');
 
 const loadListeners = require('./listeners');
 
@@ -38,11 +37,6 @@ if (!gotTheLock) {
   ]);
 
   loadListeners();
-
-  const WIDEVINE_PATH = path.join(__dirname, 'plugins', 'WidevineCdm', '_platform_specific', 'mac_x64').replace('app.asar', 'app.asar.unpacked');
-  const WIDEVINE_VERSION = '4.10.1192.0';
-  app.commandLine.appendSwitch('widevine-cdm-path', WIDEVINE_PATH);
-  app.commandLine.appendSwitch('widevine-cdm-version', WIDEVINE_VERSION);
 
   const commonInit = () => {
     mainWindow.createAsync()
