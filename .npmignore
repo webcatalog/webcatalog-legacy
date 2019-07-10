@@ -60,5 +60,7 @@ typings/
 # macOS
 .DS_Store
 
-app/build
-tests/dist
+# Custom
+app/src
+app/node_modules
+tests

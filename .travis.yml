@@ -1,25 +1,10 @@
 language: node_js
-matrix:
-  fast_finish: true
-  include:
-  - os: osx
-    osx_image: xcode9.2
-    node_js: 8
-  - os: linux
-    node_js: 8
-    env:
-    - CC=clang CXX=clang++ npm_config_clang=1
-    compiler: clang
+os: linux
+node_js: 8
 cache: yarn
-addons:
-  apt:
-    packages:
-    - rpm
-    - bsdtar
 before_script:
 - yarn lint
 script:
-- yarn lib:build
-- yarn gui:dist
+- yarn build
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3; fi
 - yarn test
