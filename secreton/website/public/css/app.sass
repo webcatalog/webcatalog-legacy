@@ -1,0 +1,92 @@
+@charset "utf-8"
+
+$blue: #1976D2
+$green: #43A047
+$orange: #E64A19
+$purple: #7B1FA2
+$red: #D32F2F
+$turquoise: #00796B
+$yellow: #FBC02D
+
+$primary: $green
+
+$family-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif
+
+@import "../../node_modules/bulma/bulma"
+
+html
+  background-color: #388E3C
+
+body
+  background-color: #fff
+
+.title
+  font-weight: 400
+
+.subtitle
+  font-weight: 300
+
+.navbar
+  .navbar-item
+    &.logo
+      padding-top: 0
+      padding-bottom: 0
+      img
+        max-height: 48px
+
+.main-content
+  width: 100%
+  min-height: calc(100vh - 56px)
+
+.footer
+  background-color: transparent
+  padding-top: 1em
+  padding-bottom: 1em
+  ul.footer-items
+    list-style-type: none
+    margin-left: 0
+    font-size: 0.9em
+    &.right
+      +desktop
+        float: right
+    li
+      margin-top: 12px
+      line-height: 2em
+      +desktop
+        float: left
+        padding: 0
+        margin: 0
+        &:not(:last-child)
+          margin: 0 36px 0 0
+
+.hero.error
+  min-height: 100vh
+  .logo
+    height: 64px
+
+.intro
+  padding-top: 36px
+  padding-bottom: 36px
+  display: flex
+  align-items: center
+  justify-content: center
+  .hero-body
+    flex: 0
+    a:not(.button)
+      font-weight: 600
+      &:hover
+        text-decoration: underline
+
+.screenshot
+  margin-top: 12px
+  width: 100%
+  max-width: 800px
+
+.download-btn
+  img
+    height: 50px
+
+.icon-72
+  height: 72px
+  width: 72px
+  border-radius: 8px

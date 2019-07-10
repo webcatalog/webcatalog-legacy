@@ -1,0 +1,30 @@
+// updater
+export const SET_UPDATER_STATUS = 'SET_UPDATER_STATUS';
+
+// Snackbar
+export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+
+// About Dialog
+export const DIALOG_ABOUT_CLOSE = 'DIALOG_ABOUT_CLOSE';
+export const DIALOG_ABOUT_OPEN = 'DIALOG_ABOUT_OPEN';
+
+/* findInPage */
+export const TOGGLE_FIND_IN_PAGE_DIALOG = 'TOGGLE_FIND_IN_PAGE_DIALOG';
+export const UPDATE_FIND_IN_PAGE_TEXT = 'UPDATE_FIND_IN_PAGE_TEXT';
+export const UPDATE_FIND_IN_PAGE_MATCHES = 'UPDATE_FIND_IN_PAGE_MATCHES';
+
+/* nav */
+export const UPDATE_CAN_GO_BACK = 'UPDATE_CAN_GO_BACK';
+export const UPDATE_CAN_GO_FORWARD = 'UPDATE_CAN_GO_FORWARD';
+export const UPDATE_CURRENT_URL = 'UPDATE_CURRENT_URL';
+export const UPDATE_IS_FAILED = 'UPDATE_IS_FAILED';
+export const UPDATE_IS_LOADING = 'UPDATE_IS_LOADING';
+export const UPDATE_TARGET_URL = 'UPDATE_TARGET_URL';
+
+/* screen */
+export const SCREEN_RESIZE = 'SCREEN_RESIZE';
+
+/* search box */
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY';
+export const SET_FOCUSED = 'SET_FOCUSED';

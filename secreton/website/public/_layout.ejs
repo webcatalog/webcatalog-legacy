@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= locals.title ? title + ' - ' : '' %>Secreton - Privacy-Focused, Distraction-Free Browser</title>
+    <meta name="description" content="Automatic ad blocking and tracking protection on an easy-to-use private browser.">
+    <meta name="theme-color" content="#43A047">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+    <link rel="icon" sizes="192x192" href="/images/icon-chrome.png">
+    <meta name="msapplication-square310x310logo" content="/images/icon-largetile.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png">
+    <link href="https://use.fontawesome.com/releases/v5.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <nav class="navbar is-black">
+      <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item logo" href="/">
+          <img src="/images/logo-white.png" alt="Secreton" />
+        </a>
+        <a class="navbar-item is-hidden-desktop" href="https://github.com/secreton" target="_blank" rel="noopener noreferrer" alt="GitHub">
+          <span class="icon">
+            <i class="fab fa-lg fa-github"></i>
+          </span>
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item is-hidden-touch" href="https://github.com/secreton" target="_blank" rel="noopener noreferrer" alt="GitHub">
+            <span class="icon">
+              <i class="fab fa-lg fa-github"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+      </div>
+    </nav>
+    <div class="main-content">
+      <%- yield %>
+    </div>
+    <footer class="section footer">
+      <div class="container">
+        <div class="columns">
+          <div class="column has-text-centered has-text-left-tablet">
+            <ul class="footer-items">
+              <li><a href="/">Download</a></li>
+              <li><a href="/contact">Support</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li>
+                <a href="https://github.com/secreton" target="_blank" rel="noopener noreferrer" alt="GitHub">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="column has-text-centered has-text-right-tablet">
+            <ul class="footer-items right">
+              <li><a href="/privacy">Privacy</a></li>
+              <li>
+                <span>Made with </span>
+                <span class="icon" style="color: #F44336">
+                  <i class="fas fa-lg fa-heart"></i>
+                </span>
+                <span> by </span>
+                <a href="https://quang.im" target="_blank" rel="noopener noreferrer">Quang Lam</a>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-85519087-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

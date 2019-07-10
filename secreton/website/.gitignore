@@ -1,0 +1,6 @@
+node_modules
+www
+!www/ROUTER
+!www/CNAME
+.DS_Store
+.env
