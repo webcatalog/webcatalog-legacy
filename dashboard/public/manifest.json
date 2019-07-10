@@ -1,0 +1,15 @@
+{
+  "short_name": "WebCatalog Dashboard",
+  "name": "Manage your WebCatalog account",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#2196F3",
+  "background_color": "#ffffff"
+}
