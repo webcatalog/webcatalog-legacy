@@ -1,0 +1,68 @@
+//
+// Components
+// ==============================
+
+
+
+// Tab bar
+// ------------------------------
+
+.Tabs-Icon--topCharts::before {
+	content: @ionicon-var-ios-list;
+
+	.is-selected > & {
+		content: @ionicon-var-ios-list;
+	}
+}
+.Tabs-Icon--categories::before {
+	content: @ionicon-var-ios-albums;
+
+	.is-selected > & {
+		content: @ionicon-var-ios-albums;
+	}
+}
+.Tabs-Icon--search::before {
+	content: @ionicon-var-ios-search;
+
+	.is-selected > & {
+		content: @ionicon-var-ios-search;
+	}
+}
+.Tabs-Icon--more::before {
+	content: @ionicon-var-ios-more;
+
+	.is-selected > & {
+		content: @ionicon-var-ios-more;
+	}
+}
+
+/* App Icon List */
+.Item__webApp--avatar {
+	.Item__media__avatar {
+		height: 32px;
+		width: 32px;
+		border-radius: 22.37%;
+		> img {
+			border-radius: 22.37%;
+		}
+	}
+}
+
+/* Install Button */
+.Item__webApp--installButton {
+	border: 1px solid #007aff;
+	color: #007aff;
+	height: 28px;
+	padding: 0 12px;
+	line-height: 28px;
+	border-radius: 2px;
+	font-size: 14px;
+}
+
+/* Alert Container */
+.Alert-Container {
+	position: fixed;
+	bottom: 0;
+	z-index: 10000000;
+	width: 100vw;
+}

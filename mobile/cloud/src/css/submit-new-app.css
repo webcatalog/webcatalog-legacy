@@ -1,0 +1,13 @@
+body {
+  background-color: #1d62f0;
+}
+
+.logo {
+  text-align: center;
+  padding: 12px;
+}
+
+.logo > img {
+  width: 90px;
+  height: 90px;
+}

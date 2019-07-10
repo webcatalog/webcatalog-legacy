@@ -1,0 +1,42 @@
+//
+// App
+// ==============================
+
+
+
+
+@import "ionicons/ionicons.less";
+@import "../../node_modules/touchstonejs/less/touchstone.less";
+@import "../../node_modules/react-container/less/component.less";
+@import "views/app-details.less";
+
+@import "components.less";
+
+//
+// App
+// ==============================
+
+body {
+	background-color: #fff;
+}
+
+#app {
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+.app-wrapper {
+	height: 100%;
+	width: 100%;
+}
+
+// Avatars
+// ------------------------------
+
+.avatar(@size) {
+	.square(@size);
+	background: fade(@text-color, 10%);
+	border-radius: 22.37%;
+	border: 3px solid fade(@text-color, 20%);
+	padding: 3px;
+}

@@ -1,0 +1,47 @@
+{
+  "name": "webstore",
+  "version": "1.0.0",
+  "description": "WebStore",
+  "main": "src/js/app.js",
+  "author": "Modern Lab",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "alt": "^0.18.1",
+    "alt-utils": "^1.0.0",
+    "async": "^1.5.0",
+    "classnames": "^2.2.1",
+    "cordova-dialogs": "^1.0.2",
+    "immutable": "^3.7.6",
+    "parse": "^1.6.13",
+    "react": "^0.14.3",
+    "react-addons-css-transition-group": "^0.14.3",
+    "react-container": "^0.3.1",
+    "react-dom": "^0.14.3",
+    "react-sentry": "^1.0.2",
+    "react-tappable": "^0.7.2",
+    "react-timers": "^5.0.0",
+    "touchstonejs": "^0.7.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "happiness": "*",
+    "touchstonejs-tasks": "*"
+  },
+  "scripts": {
+    "build": "gulp clean && gulp build",
+    "build:production": "gulp clean && NODE_ENV=production gulp build && uglifyjs www/js/app.js --output www/js/app.js && uglifyjs www/js/react.js --output www/js/react.js",
+    "lint": "happiness",
+    "test": "npm run lint",
+    "start": "gulp clean && gulp dev",
+    "watch": "gulp clean && gulp watch"
+  },
+  "happiness": {
+    "ignore": [
+      "platforms",
+      "plugins",
+      "src/data",
+      "www"
+    ]
+  }
+}

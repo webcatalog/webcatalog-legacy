@@ -1,0 +1,80 @@
+//
+// Person
+// ==============================
+
+
+
+
+// Body
+// ------------------------------
+
+.AppDetails {
+	padding: 2em 0;
+	text-align: center;
+}
+.AppDetails__avatar {
+	.avatar(90px);
+	margin-bottom: 1em;
+	background: none;
+	border: none;
+}
+.AppDetails__heading {
+	font-size: @font-size-lg;
+	font-weight: 500;
+}
+.AppDetails__text {
+	color: @gray-dark;
+	font-size: @font-size-sm;
+	line-height: 1.3;
+	margin-top: 1em;
+}
+
+
+// profile
+
+.AppDetails__profiles {
+	font-size: @font-size-lg;
+	margin-top: 1em;
+}
+.AppDetails__profile {
+	display: block;
+	padding-bottom: .5em;
+	padding-top: .5em;
+}
+// 1. fix vertical alignment
+.AppDetails__profile__icon {
+	display: inline-block;
+	font-size: 1.25em;
+	line-height: 1; // 1
+	margin-right: .5em;
+	margin-top: -.15em; // 1
+	vertical-align: middle;
+}
+
+.AppDetails__public-indicator {
+	background-color: rgba(255, 255, 255, 0.125);
+	border-radius: 2em;
+	display: inline-block;
+	line-height: 2.4;
+	font-size: @font-size-xxs;
+	font-weight: 500;
+	margin-bottom: 1.8em;
+	margin-top: 1.8em;
+	padding-left: 1.25em;
+	padding-right: 1.25em;
+	text-transform: uppercase;
+}
+
+.AppDetails__installButton {
+	border: 1px solid #007aff;
+	color: #007aff;
+	height: 28px;
+	padding: 0 12px;
+	line-height: 28px;
+	border-radius: 2px;
+	font-size: 14px;
+  display: inline-block;
+  margin-top: 12px;
+	margin-bottom: 36px;
+	margin-left: 6px;
+}

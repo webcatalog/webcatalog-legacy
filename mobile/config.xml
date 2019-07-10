@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.webstore.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>WebStore</name>
+    <description>
+        A mobile web app store for iOS.
+    </description>
+    <author email="support@modernlab.com" href="https://webstore.com">
+        WebStore Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="10000" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <icon height="180" src="res/ios/icon-60@3x.png" width="180" />
+        <icon height="60" src="res/ios/icon-60.png" width="60" />
+        <icon height="120" src="res/ios/icon-60@2x.png" width="120" />
+        <icon height="76" src="res/ios/icon-76.png" width="76" />
+        <icon height="152" src="res/ios/icon-76@2x.png" width="152" />
+        <icon height="40" src="res/ios/icon-40.png" width="40" />
+        <icon height="80" src="res/ios/icon-40@2x.png" width="80" />
+        <icon height="57" src="res/ios/icon.png" width="57" />
+        <icon height="114" src="res/ios/icon@2x.png" width="114" />
+        <icon height="72" src="res/ios/icon-72.png" width="72" />
+        <icon height="144" src="res/ios/icon-72@2x.png" width="144" />
+        <icon height="29" src="res/ios/icon-small.png" width="29" />
+        <icon height="58" src="res/ios/icon-small@2x.png" width="58" />
+        <icon height="50" src="res/ios/icon-50.png" width="50" />
+        <icon height="100" src="res/ios/icon-50@2x.png" width="100" />
+        <splash height="480" src="res/ios/splash-iphone.png" width="320" />
+        <splash height="960" src="res/ios/splash-iphone@2x.png" width="640" />
+        <splash height="1024" src="res/ios/splash-ipadPortrait.png" width="768" />
+        <splash height="2048" src="res/ios/splash-ipadPortrait@2x.png" width="1536" />
+        <splash height="768" src="res/ios/splash-ipadLandscape.png" width="1024" />
+        <splash height="1536" src="res/ios/splash-ipadLandscape@2x.png" width="2048" />
+        <splash height="1136" src="res/ios/splash-568h.png" width="640" />
+        <splash height="1334" src="res/ios/splash-667h.png" width="750" />
+        <splash height="2208" src="res/ios/splash-736h.png" width="1242" />
+        <splash height="1242" src="res/ios/splash-736hLandscape.png" width="2208" />
+    </platform>
+    <engine name="ios" spec="~3.9.2" />
+    <plugin name="cordova-plugin-device" spec="1.0.0" />
+    <plugin name="cordova-plugin-splashscreen" spec="2.1.0" />
+    <plugin name="cordova-plugin-statusbar" spec="1.0.1" />
+    <plugin name="cordova-plugin-whitelist" spec="1.0.0" />
+    <plugin name="it.almaviva.openurlext" spec="https://github.com/PaoloMessina/OpenUrlExt" />
+</widget>

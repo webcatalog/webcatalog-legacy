@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "WebStore": {
+      "applicationId": "VNhL0WfW4huzafXZvY4FSRFtXeQAHzQ8vs0xOMjQ"
+    },
+    "_default": {
+      "link": "WebStore"
+    }
+  }
+}

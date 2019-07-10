@@ -1,0 +1,60 @@
+doctype html
+html(manifest='/web-app/' + id + '/appcache.manifest')
+  head
+    meta(charset='UTF-8')
+    title Install #{name} - WebStore 
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-title', content=shortName)
+    meta(name='apple-mobile-web-app-status-bar-style', content=statusBarStyle)
+    link(rel='icon', type='image/png', href='/images/favicon.png')
+    //- ICONS
+    //- iPad retina icon
+    link(href=icon152x152, sizes='152x152', rel='apple-touch-icon-precomposed')
+    //- iPad retina icon (iOS < 7)
+    link(href=icon144x144, sizes='144x144', rel='apple-touch-icon-precomposed')
+    //- iPad non-retina icon
+    link(href=icon76x76, sizes='76x76', rel='apple-touch-icon-precomposed')
+    //- iPad non-retina icon (iOS < 7)
+    link(href=icon72x72, sizes='72x72', rel='apple-touch-icon-precomposed')
+    //- iPhone 6 Plus icon
+    link(href=icon180x180, sizes='120x120', rel='apple-touch-icon-precomposed')
+    //- iPhone retina icon (iOS < 7)
+    link(href=icon114x114, sizes='114x114', rel='apple-touch-icon-precomposed')
+    //- iPhone non-retina icon (iOS < 7)
+    link(href=icon57x57, sizes='57x57', rel='apple-touch-icon-precomposed')
+    style.
+      html{font-family:sans-serif}body,h1,h2,h3,h4,h5,h6{margin:0}.content{position:absolute;top:0}.overlay{background:rgba(0,0,0,.1);height:100vh}.spinner{font-size:48px;position:relative;display:inline-block;width:1em;height:1em}.guide-box,.spinner .spinner-blade,.spinner.center{position:absolute;bottom:0}.spinner.center{left:0;right:0;top:0;margin:auto}.spinner .spinner-blade{left:.4629em;width:.074em;height:.2777em;border-radius:.0555em;background-color:transparent;-webkit-transform-origin:center -.2222em;-ms-transform-origin:center -.2222em;transform-origin:center -.2222em;-webkit-animation:spinner-fade 1s infinite linear;animation:spinner-fade 1s infinite linear}.spinner .spinner-blade:nth-child(1){-webkit-animation-delay:0s;animation-delay:0s;-webkit-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0)}.spinner .spinner-blade:nth-child(2){-webkit-animation-delay:83ms;animation-delay:83ms;-webkit-transform:rotate(30deg);-ms-transform:rotate(30deg);transform:rotate(30deg)}.spinner .spinner-blade:nth-child(3){-webkit-animation-delay:166ms;animation-delay:166ms;-webkit-transform:rotate(60deg);-ms-transform:rotate(60deg);transform:rotate(60deg)}.spinner .spinner-blade:nth-child(4){-webkit-animation-delay:249ms;animation-delay:249ms;-webkit-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg)}.spinner .spinner-blade:nth-child(5){-webkit-animation-delay:332ms;animation-delay:332ms;-webkit-transform:rotate(120deg);-ms-transform:rotate(120deg);transform:rotate(120deg)}.spinner .spinner-blade:nth-child(6){-webkit-animation-delay:415ms;animation-delay:415ms;-webkit-transform:rotate(150deg);-ms-transform:rotate(150deg);transform:rotate(150deg)}.spinner .spinner-blade:nth-child(7){-webkit-animation-delay:498ms;animation-delay:498ms;-webkit-transform:rotate(180deg);-ms-transform:rotate(180deg);transform:rotate(180deg)}.spinner .spinner-blade:nth-child(8){-webkit-animation-delay:581ms;animation-delay:581ms;-webkit-transform:rotate(210deg);-ms-transform:rotate(210deg);transform:rotate(210deg)}.spinner .spinner-blade:nth-child(9){-webkit-animation-delay:664ms;animation-delay:664ms;-webkit-transform:rotate(240deg);-ms-transform:rotate(240deg);transform:rotate(240deg)}.spinner .spinner-blade:nth-child(10){-webkit-animation-delay:747ms;animation-delay:747ms;-webkit-transform:rotate(270deg);-ms-transform:rotate(270deg);transform:rotate(270deg)}.spinner .spinner-blade:nth-child(11){-webkit-animation-delay:.83s;animation-delay:.83s;-webkit-transform:rotate(300deg);-ms-transform:rotate(300deg);transform:rotate(300deg)}.spinner .spinner-blade:nth-child(12){-webkit-animation-delay:913ms;animation-delay:913ms;-webkit-transform:rotate(330deg);-ms-transform:rotate(330deg);transform:rotate(330deg)}@-webkit-keyframes spinner-fade{0%{background-color:#69717d}100%{background-color:transparent}}@keyframes spinner-fade{0%{background-color:#69717d}100%{background-color:transparent}}.guide-box{top:0;left:0;right:0;margin:auto;height:100px;width:100%;padding:10px;box-sizing:border-box;text-align:center}.guide-box>span{line-height:1.6em}.guide-box>.action-icon{width:1.6em;height:1.6em;background-image:url(data:image/png;base64,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);margin-top:-.3em;background-size:auto 100%;background-repeat:no-repeat;display:inline-block}.guide-box>.icon{height:90px;width:90px;margin-bottom:16px;border-radius:22.37%}
+    script.
+      window.webAppUrl = '#{url}';
+  body
+    .overlay
+      #loading
+        .spinner.center
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+          .spinner-blade
+      #guide(style='display: none;')
+        .guide-box
+          img.icon(src=displayIcon)
+          br
+          span To install 
+          b= name
+          span , tap 
+          .action-icon
+          span and then choose 
+          b Add to Home Screen
+          span  > 
+          b Add
+  script.
+    window.navigator.standalone?window.location.replace(webAppUrl):(document.getElementById("loading").style.display="none",document.getElementById("guide").style.display="");

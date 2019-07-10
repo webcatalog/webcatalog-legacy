@@ -1,0 +1,162 @@
+doctype html
+html
+  head
+    title  Submit New App - WebStore
+    //- Latest compiled and minified CSS
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
+    link(rel='icon', type='image/png', href='/images/favicon.png')
+    //- Latest compiled and minified JavaScript
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    style img{max-height:180px}body{background-color:#1d62f0}.logo{text-align:center;padding:12px}.logo>img{width:90px;height:90px}
+    script.
+      var loadFile = function(event) {
+        var img = new Image();
+         img.onload = function () {
+           var reader = new FileReader();
+           reader.onload = function() {
+             var preview = document.getElementById(event.target.id + 'Preview');
+             preview.src = reader.result;       
+             
+             var base = document.getElementById(event.target.id + 'Base');
+             base.value = reader.result;
+           };
+           reader.readAsDataURL(event.target.files[0]);
+         };
+         var _URL = window.URL || window.webkitURL;
+         img.src = _URL.createObjectURL(event.target.files[0]);
+      };
+  body
+    .container
+      .row
+        .logo
+          a(href='/')
+            img(src='/images/icon-transparent@2x.png')
+        .panel.panel-default
+          .panel-body
+            .div
+              h2 Submit New App
+              p We only accept apps supported iOS standalone/fullscreen mode. Check these guides before you submit:
+              ul
+                li
+                  a(href='https://en.wikipedia.org/wiki/Single-page_application') Single-page application
+                li
+                  a(href='https://gist.github.com/irae/1042167') Prevent links in standalone web apps to open in Mobile Safari
+                li
+                  a(href='https://developer.mozilla.org/en/docs/Mozilla/Mobile/Viewport_meta_tag') Using the viewport meta tag to control layout on mobile browsers
+                li
+                  a(href='https://developer.apple.com/library/iad/documentation/iPhone/Conceptual/SafariJSDatabaseGuide/OfflineApplicationCache/OfflineApplicationCache.html') HTML5 Offline Application Cache
+            if locals.errorMessage
+              .alert.alert-danger(role='alert')= errorMessage
+            if locals.successMessage
+              .alert.alert-success(role='alert')= successMessage
+            form(action='/submit-new-app', method='post')
+              .form-group
+                label(for='nameInput') Name
+                input#nameInput.form-control(type='text', placeholder='Name', name='name', required, value=locals.name)
+              .form-group
+                label(for='shortNameInput') Short Name (optional, to display on home screen)
+                input#shortNameInput.form-control(type='text', placeholder='Short Name', name='shortName', value=locals.shortName)
+                p.help-block 
+                  span Should be less than 12 letters. But it's not really accurate at all. 
+                  a(href='https://stackoverflow.com/questions/6094954/what-is-the-maximum-length-the-ipad-application-name-can-be') What is the maximum length the iOS application name can be?
+                p.help-block You can leave it blank and the app name will be used.
+              .form-group
+                label(for='developerInput') Developer (optional)
+                input#developerInput.form-control(type='text', placeholder='Developer Name', name='developer', value=locals.developer)
+              .form-group
+                label(for='urlInput') URL
+                input#urlInput.form-control(type='url', placeholder='URL', name='url', required, value=locals.url)
+              .form-group
+                label(for='categoryInput') Category
+                select#categoryInput.form-control(name='category') 
+                  each category in categories
+                    option(value=category.id)= category.name
+              .form-group
+                label(for='iconInput') Icon (Recommended: *.PNG 512x512px)
+                div
+                  label(for='iconInput') 
+                    img#iconInputPreview(src='https://placehold.it/512x512', style='height: 180px; width: 180px')
+                  input#iconInput(type='file', style='display: none;', accept='image/*', onchange='loadFile(event)')
+                  input#iconInputBase(type='hidden', style='display: none;', name='icon512x512', value='')
+              .form-group
+                label(for='statusBarStyleInput') Status Bar Style
+                select#statusBarStyleInput.form-control(name='statusBarStyle') 
+                  option(value='default') Default
+                  option(value='black') Black
+                  option(value='black-translucent') Black translucent
+                p.help-block If set to default, the status bar appears normal. If set to black, the status bar has a black background. If set to black translucent, the status bar is black and translucent. If set to default or black, the web content is displayed below the status bar. If set to black-translucent, the web content is displayed on the entire screen, partially obscured by the status bar.
+              .form-group
+                label(for='descriptionInput') Description (optional)
+                textarea#descriptionInput.form-control(type='text', placeholder='Description', name='description', value=locals.description)
+              //-
+                .form-group
+                  label(for='iconInput') Splash Screen (optional)
+                  div.row
+                    .col-md-4.col-sm-6
+                      p.help-block for iPad Retina portrait (1536x2008)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/1536x2008')
+                      input#iconInput(type='file', style='display: none;')
+                      
+                    .col-md-4.col-sm-6
+                      p.help-block for iPad Retina landscape (1496x2048)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/1496x2048')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPad non-Retina portrait landscape (768x1004)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/768x1004')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPad non-Retina landscape (748x1024)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/748x1024')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone 6 Plus portrait (1242x2148)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/1242x2148')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone 6 Plus landscape (1182x2208)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/1182x2208')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone 6 (750x1294)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/750x1294')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone 5 (640x1096)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/640x1096')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone < 5 Retina (640x920)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/640x920')
+                      input#iconInput(type='file', style='display: none;')
+                    
+                    .col-md-4.col-sm-6
+                      p.help-block for iPhone < 5 non-Retina (320x460)
+                      label(for='iconInput') 
+                        img(src='https://placehold.it/320x460')
+                      input#iconInput(type='file', style='display: none;')
+              .form-group
+                label(for='contactEmailInput') Contact Email (optional, for staffs only)
+                input#contactEmailInput.form-control(type='email', placeholder='Contact Email', name='contactEmail', value=locals.contactEmail)
+                
+              button.btn.btn-primary(type='submit') Submit
+
+          
