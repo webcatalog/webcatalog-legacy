@@ -1,0 +1,2 @@
+export const ROUTE_TOP_CHARTS = 'ROUTE_TOP_CHARTS';
+export const ROUTE_SEARCH = 'ROUTE_SEARCH';
