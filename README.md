@@ -1,0 +1,1 @@
+Back in the old days, when I tried to turn WebCatalog into a scalable startup, I did a lot of experiments. Here are the archives of most of them.
