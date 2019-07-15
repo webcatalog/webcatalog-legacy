@@ -23,7 +23,7 @@
     "electron": "5.0.6",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
-    "electron-spellchecker": "git://github.com/aabuhijleh/electron-spellchecker.git#520a3a6ee64f621ca2d906886a9053276355d376",
+    "electron-spellchecker": "2.2.0",
     "electron-window-state": "5.0.3",
     "menubar": "6.0.6",
     "node-fetch": "2.6.0",
@@ -51,10 +51,10 @@
     "react-dom": "16.8.6",
     "react-redux": "6.0.1",
     "react-scripts": "3.0.1",
-    "redux": "4.0.1",
+    "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "typeface-roboto": "0.0.54",
-    "wait-on": "3.2.0"
+    "wait-on": "3.3.0"
   },
   "homepage": "./",
   "private": true,
