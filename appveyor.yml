@@ -31,3 +31,7 @@ build_script:
   - yarn dist
 
 test: off
+
+branches:
+  only:
+  - master
