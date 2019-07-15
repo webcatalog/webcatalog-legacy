@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_mac</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="80%" x2="50%" y2="10%" id="linearGradient-1">
+            <stop stop-color="#BFBFBF" offset="0%"></stop>
+            <stop stop-color="#FAFAFA" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="449" cy="449" r="449"></circle>
+        <filter x="-3.7%" y="-2.1%" width="107.5%" height="108.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="22" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="4.43460983%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#00796B" offset="0%"></stop>
+            <stop stop-color="#004D40" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon_mac" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Layer" transform="translate(63.000000, 63.000000)">
+            <g id="Base">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <g id="Gradients" transform="translate(36.000000, 36.000000)" fill="url(#linearGradient-4)" fill-rule="nonzero">
+                <path d="M413.111252,1.34997582e-05 C246.061215,-0.0425470194 95.4363367,100.553212 31.4795624,254.875104 C-32.4772118,409.196996 2.83082231,586.850316 120.93799,704.987578 C239.045157,823.124841 416.689479,858.478141 571.027667,794.560693 C725.365856,730.643245 825.999995,580.044009 826,412.993972 C826.000007,184.944792 641.16043,0.0581152016 413.111252,1.34997582e-05 Z" id="Shape"></path>
+            </g>
+            <path d="M714.948007,488.659372 C714.948007,487.503314 714.948007,485.772223 712.83356,483.687725 L714.025557,483.687725 L452.516892,224 L185.93475,483.687725 L186.114448,483.687725 C184,485.772223 184,487.497324 184,488.659372 C184,492.169475 184,500.950723 243.048798,508.85744 L251.614408,589.859356 L267.002556,588.230093 L262.138727,542.221388 C276.903921,572.776056 296.664723,599.784682 320.271065,621.180736 C358.001677,655.383276 404.082262,674 450.654021,674 C452.67263,674 454.703219,673.96406 456.721827,673.892181 C503.275617,672.268908 549.158534,651.813274 585.918776,616.280968 C608.680537,594.27394 627.279291,567.612731 641.062136,537.483348 L637.138727,588.445731 L652.568804,589.631739 L658.810319,508.456114 C714.948007,500.663206 714.948007,492.115566 714.948007,488.659372 Z M452.474962,232.032505 L699.104624,476.937066 C687.825573,473.379043 668.514016,469.539494 635.437585,466.029391 C585.745068,460.746266 519.700024,457.841147 449.468014,457.841147 C379.236004,457.841147 313.190959,460.752256 263.504433,466.029391 C232.111173,469.365785 213.117083,472.989697 201.622394,476.397971 L452.474962,232.032505 Z M456.170753,658.426164 C411.623592,659.989538 367.016532,642.67862 330.651625,609.715997 C302.540851,584.240795 280.234326,550.188004 265.888427,511.534941 C315.299417,516.656337 380.338152,519.483588 449.468014,519.483588 C519.496366,519.483588 585.355722,516.590448 634.99433,511.337273 C603.343503,596.999361 533.788356,655.724702 456.170753,658.426164 Z" id="Shape" fill="#F5F5F5" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

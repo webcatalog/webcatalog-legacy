@@ -1,0 +1,57 @@
+@import "./bulma/bulma"
+
+html, body
+  height: 100%
+
+body
+  display: flex
+  flex-direction: column
+
+main
+  flex: 1
+
+.profile
+  transition: all 0.2s ease-in-out
+  border: 1px solid #f2f3f3
+  padding: 5px
+  max-width: 100px
+  border-radius: 50%
+
+.container
+  max-width: 980px
+
+.footer
+  background-color: transparent
+  padding: 0
+  .container
+    padding: 1.5em 1em
+  @media screen and (min-width: 960px)
+    ul
+      display: inline-table
+      li
+        float: left
+
+.app-icon
+  height: 96px
+  width: 96px
+
+.screenshot
+  width: 100%
+  max-width: 760px
+  &.is-small
+    max-width: 560px
+
+.download-btn
+  img
+    height: 50px
+
+.navbar
+  z-index: 100
+
+.navbar-brand
+  @media screen and (max-width: 1023px)
+    padding-left: 0.5em
+
+article
+  img
+    width: 600px
