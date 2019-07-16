@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {% include head.html %}
+
+  <body>
+    <section class="hero">
+      <div class="hero-head">
+        <nav class="navbar is-spaced">
+          <div class="container">
+            <div class="navbar-brand">
+              <a class="navbar-item" href="/">
+                <img src="{{ '/images/logo.png' | relative_url }}" alt="CherryMail">
+              </a>
+              <div class="navbar-item dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2">
+                    <span>More Apps&nbsp;</span>
+                    <svg style="height: 16px; width: 16px;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" class="svg-inline--fa fa-chevron-down fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path></svg>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+                  <div class="dropdown-content">
+                    <div class="dropdown-item">
+                      <div class="columns app-promotion">
+                        <div class="column is-narrow">
+                          <a href="https://getwebcatalog.com">
+                            <img src="https://getwebcatalog.com/images/favicon.png" alt="WebCatalog">
+                          </a>
+                        </div>
+                        <div class="column">
+                          <a href="https://getwebcatalog.com">
+                            <p><b>WebCatalog</b><br />Run Web Apps like Real Apps.</p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item">
+                        <div class="columns app-promotion">
+                          <div class="column is-narrow">
+                            <a href="https://getcherrymail.com">
+                              <img src="/images/favicon.png" alt="WebCatalog">
+                            </a>
+                          </div>
+                          <div class="column">
+                            <a href="https://getcherrymail.com">
+                              <p><b>CherryMail</b><br />The Same Emails You Love. Enhanced.</p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <span class="navbar-burger burger" data-target="navbarMenu" aria-label="menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+              <div class="navbar-end">
+                <a class="navbar-item" href="/privacy">
+                  Privacy
+                </a>
+                <a class="navbar-item" href="/support">
+                  Support
+                </a>
+                <a class="navbar-item" href="https://github.com/quanglam2807/cherrymail">
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </section>        
+    <main>
+      {{ content }}
+    </main>
+    <footer class="footer">
+      <div class="container has-text-centered">
+        <p><small>
+          <span>Made with ❤ by </span>
+          <a href="https://github.com/quanglam2807">Quang Lam</a>.
+        </small></p>
+      </div>
+    </footer>
+
+    <script src="{{ '/assets/app.min.js' | relative_url }}"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+@import "./bulma/sass/utilities/initial-variables"
+@import "./bulma/sass/utilities/functions"
+
+$blue: #E53935
+$footer-background-color: #fff
+$weight-semibold: 500
+$family-sans-serif: 'Roboto', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
+
+@import "./bulma/bulma.sass"
+
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+
+main
+  flex: 1
+
+.container
+  max-width: 800px !important
+
+.footer
+  padding: 1.5em
+
+.inline-block
+  display: inline-block
+
+.demo
+  max-width: 400px
+  width: 100%
+
+.demo_main
+  max-width: 650px
+  width: 100%
+
+
+.is-text-link
+  &:hover
+    text-decoration: underline !important
+
+.app-icon
+  max-width: 96px
+
+.app-icon-small
+  max-width: 56px
+
+.app-promotion
+  min-width: 350px
+  .column
+    display: flex
+    flex-direction: row
+    align-items: center
+  img
+    max-height: 48px
+    max-width: 48px
+  a
+    color: #000
+    &:hover
+      color: $blue

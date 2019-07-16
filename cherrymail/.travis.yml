@@ -1,0 +1,11 @@
+language: node_js
+os: osx
+node_js: 10
+osx_image: xcode10.1
+cache: yarn
+before_script:
+- yarn lint
+script:
+- yarn dist
+notifications:
+  email: false
