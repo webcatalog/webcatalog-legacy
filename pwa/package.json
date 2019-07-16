@@ -1,0 +1,24 @@
+{
+  "name": "webcatalog-web",
+  "version": "1.0.0",
+  "description": "WebCatalog for the web",
+  "main": "index.js",
+  "repository": "https://github.com/quanglam2807/webcatalog-web",
+  "author": "Quang Lam <quang.lam2807@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.10.0",
+    "express": "^4.16.4",
+    "express-slash": "^2.0.1",
+    "next": "^7.0.1",
+    "pug": "^2.0.3",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  }
+}
