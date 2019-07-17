@@ -10,6 +10,7 @@ import Installed from './pages/installed';
 import Home from './pages/home';
 import Preferences from './pages/preferences';
 
+import DialogAbout from './dialogs/dialog-about';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogMovingAllApps from './dialogs/dialog-moving-all-apps';
@@ -58,6 +59,7 @@ class App extends React.Component {
         {!isFullScreen && <FakeTitleBar />}
         {pageContent}
         <EnhancedBottomNavigation />
+        <DialogAbout />
         <DialogCreateCustomApp />
         <DialogLicenseRegistration />
         <DialogMovingAllApps />

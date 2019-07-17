@@ -12,8 +12,6 @@ const emitted = {};
 const get = id => wins[id];
 
 const create = (id) => {
-  console.log(id);
-
   const attachToMenubar = getPreference('attachToMenubar');
 
   emitted[id] = false;

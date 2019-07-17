@@ -8,6 +8,7 @@ import 'typeface-roboto/index.css';
 
 import store from './state';
 
+import About from './components/about';
 import AppWrapper from './components/app-wrapper';
 import Auth from './components/auth';
 import CodeInjection from './components/code-injection';
@@ -46,12 +47,18 @@ const runApp = () => {
       App = Auth;
       break;
     }
+    case 'about': {
+      App = About;
+      break;
+    }
     default: {
       App = Main;
     }
   }
 
-  if (window.mode === 'preferences') {
+  if (window.mode === 'about') {
+    document.title = 'About';
+  } else if (window.mode === 'preferences') {
     document.title = 'Preferences';
   } else if (window.mode === 'edit-workspace') {
     const workspace = getWorkspace(window.require('electron').remote.getGlobal('editWorkspaceId'));

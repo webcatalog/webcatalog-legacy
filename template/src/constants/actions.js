@@ -30,3 +30,7 @@ export const UPDATE_CODE_INJECTION_FORM = 'UPDATE_CODE_INJECTION_FORM';
 
 // Auth
 export const UPDATE_AUTH_FORM = 'UPDATE_AUTH_FORM';
+
+// About
+export const ABOUT_CLOSE = 'ABOUT_CLOSE';
+export const ABOUT_OPEN = 'ABOUT_OPEN';

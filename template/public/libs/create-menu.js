@@ -8,6 +8,7 @@ const {
 
 const appJson = require('../app.json');
 
+const aboutWindow = require('../windows/about');
 const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
@@ -156,12 +157,12 @@ function createMenu() {
         },
         { type: 'separator' },
         {
-          label: 'Developer Tools',
+          label: ' Tools',
           submenu: [
             {
               label: 'Window',
               click: () => {
-                const win = mainWindow.get();
+                const win = aboutWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();
@@ -272,7 +273,10 @@ function createMenu() {
     template.unshift({
       label: appJson.name,
       submenu: [
-        { role: 'about' },
+        {
+          label: 'About',
+          click: () => aboutWindow.show(),
+        },
         {
           label: 'Check for Updates...',
           click: () => checkForUpdates(),
@@ -315,8 +319,8 @@ function createMenu() {
       label: 'File',
       submenu: [
         {
-          role: 'about',
-          click: () => app.showAboutPanel(),
+          label: 'About',
+          click: () => aboutWindow.show(),
         },
         {
           label: 'Check for Updates...',
