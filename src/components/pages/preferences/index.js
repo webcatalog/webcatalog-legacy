@@ -29,6 +29,8 @@ import {
   requestOpenInstallLocation,
 } from '../../../senders';
 
+const { remote } = window.require('electron');
+
 const styles = theme => ({
   root: {
     flex: 1,
@@ -151,6 +153,23 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
+                {window.process.platform === 'win32' && (
+                  <React.Fragment>
+                    {(installationPath !== remote.app.getPath('home') + '\\WebCatalog Apps') && (
+                      <MenuItem>
+                        {installationPath}
+                      </MenuItem>
+                    )}
+                    <MenuItem
+                      onClick={() => {
+                        requestSetPreference('requireAdmin', false);
+                        requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
+                      }}
+                    >
+                      {remote.app.getPath('home') + '\\WebCatalog Apps'}
+                    </MenuItem>
+                  </React.Fragment>
+                )}
                 {window.process.platform === 'darwin' && (
                   <React.Fragment>
                     {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (

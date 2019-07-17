@@ -12,19 +12,16 @@ const countWorkspaces = () => Object.keys(workspaces).length;
 const getWorkspaces = () => {
   if (workspaces) return workspaces;
 
-  if (!settings.get(`workspaces.${v}`, null)) {
-    const defaultWorkspaces = {};
-    const initialWorkspaceId = uuidv1();
-    defaultWorkspaces[initialWorkspaceId] = {
-      id: initialWorkspaceId,
-      name: '',
-      order: 0,
-      active: true,
-    };
-    settings.set(`workspaces.${v}`, defaultWorkspaces);
-  }
+  const defaultWorkspaces = {};
+  const initialWorkspaceId = uuidv1();
+  defaultWorkspaces[initialWorkspaceId] = {
+    id: initialWorkspaceId,
+    name: '',
+    order: 0,
+    active: true,
+  };
 
-  workspaces = settings.get(`workspaces.${v}`);
+  workspaces = settings.get(`workspaces.${v}`, defaultWorkspaces);
   return workspaces;
 };
 
