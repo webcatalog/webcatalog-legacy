@@ -20,7 +20,7 @@
     "template:lint:fix": "cd template && yarn lint:fix",
     "template:install": "cd template && yarn",
     "template:electron-dev": "cd template && yarn electron-dev",
-    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production && cd .. && 7z a template.zip template -x'!template/public'",
+    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production && cd .. && 7z a template.zip template -x!public",
     "dist": "yarn template:prepare-dist && yarn build && cross-env NODE_ENV=production node dist.js",
     "catalog:install": "cd catalog && yarn install && pip3 install --user -r requirements.txt",
     "catalog:test": "cd catalog && yarn test",
