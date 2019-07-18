@@ -155,7 +155,7 @@ const Preferences = ({
               >
                 {window.process.platform === 'win32' && (
                   <React.Fragment>
-                    {(installationPath !== remote.app.getPath('home') + '\\WebCatalog Apps') && (
+                    {(installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
                       <MenuItem>
                         {installationPath}
                       </MenuItem>
@@ -166,7 +166,7 @@ const Preferences = ({
                         requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
                       }}
                     >
-                      {remote.app.getPath('home') + '\\WebCatalog Apps'}
+                      {`${remote.app.getPath('home')}\\WebCatalog Apps`}
                     </MenuItem>
                   </React.Fragment>
                 )}

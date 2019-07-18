@@ -38,11 +38,26 @@ const outputPath = path.join(tmpPath, 'dist');
 const menubarIconPath = path.join(appPath, 'build', 'menubar-icon.png');
 const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
 
-const dotAppPath = process.platform === 'darwin' ? path.join(outputPath, `${name}-darwin-x64`, `${name}.app`) : path.join(outputPath, `${name}-linux-x64`);
+const getDotAppPath = () => {
+  if (process.platform === 'darwin') {
+    return path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
+  }
+  if (process.platform === 'linux') {
+    return path.join(outputPath, `${name}-linux-x64`);
+  }
+  if (process.platform === 'win32') {
+    return path.join(outputPath, `${name}-win32-x64`);
+  }
+  throw Error('Unsupported platform');
+};
+
+const dotAppPath = getDotAppPath();
 
 const allAppsPath = installationPath.replace('~', homePath);
 
-const finalPath = process.platform === 'darwin' ? path.join(allAppsPath, `${name}.app`) : path.join(allAppsPath, name);
+const finalPath = process.platform === 'darwin'
+  ? path.join(allAppsPath, `${name}.app`)
+  : path.join(allAppsPath, name);
 
 const sizes = [16, 32, 64, 128, 256, 512, 1024];
 

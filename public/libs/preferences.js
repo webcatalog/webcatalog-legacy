@@ -17,9 +17,9 @@ const getDefaultInstallationPath = () => {
     return '~/.webcatalog';
   }
   if (process.platform === 'win32') {
-    return path.join(app.getPath('home'), 'WebCatalog Apps')
+    return path.join(app.getPath('home'), 'WebCatalog Apps');
   }
-  throw 'Unsupported platform';
+  throw Error('Unsupported platform');
 };
 
 const defaultPreferences = {

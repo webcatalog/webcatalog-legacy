@@ -29,6 +29,10 @@ const sudoAsync = prompt => new Promise((resolve, reject) => {
 
 Promise.resolve()
   .then(() => {
+    if (process.platform === 'win32') {
+      return fsExtra.move(moveFrom, moveTo, { overwrite: true });
+    }
+
     const moveFromFull = moveFrom.replace('~', homePath);
     const moveToFull = moveTo.replace('~', homePath);
 
