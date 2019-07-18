@@ -34,9 +34,9 @@ Promise.resolve()
 
     if (fsExtra.pathExistsSync(moveFromFull)) {
       if (requireAdmin !== 'true') {
-        return sudoAsync(`mv "${moveFromFull}"/*.app "${moveToFull}"/ && sudo /usr/sbin/chown -R ${username}:staff "${moveToFull}"`);
+        return sudoAsync(`mv "${moveFromFull}"/* "${moveToFull}"/ && sudo /usr/sbin/chown -R ${username}:staff "${moveToFull}"`);
       }
-      return sudoAsync(`mv "${moveFromFull}"/*.app "${moveToFull}"/`);
+      return sudoAsync(`mv "${moveFromFull}"/* "${moveToFull}"/`);
     }
     return null;
   })
