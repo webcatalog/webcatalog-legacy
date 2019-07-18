@@ -22,7 +22,7 @@ const {
   username,
 } = argv;
 
-const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.tar.gz');
+const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
 
 const tmpObj = tmp.dirSync();
 const tmpPath = tmpObj.name;

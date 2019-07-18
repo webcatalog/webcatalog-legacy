@@ -48,7 +48,7 @@ const opts = {
     asar: false,
     files: [
       'default-icon.png',
-      'template.tar.gz',
+      'template.zip',
       '!tests/**/*',
       '!docs/**/*',
       '!catalog/**/*',

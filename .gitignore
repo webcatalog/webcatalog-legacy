@@ -3,5 +3,5 @@ node_modules
 dist
 build
 .env
-*.tar.gz
+*.zip
 .vscode
