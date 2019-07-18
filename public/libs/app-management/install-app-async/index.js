@@ -37,6 +37,7 @@ const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((res
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
+      APPDATA: app.getPath('appData'),
     },
   });
 
