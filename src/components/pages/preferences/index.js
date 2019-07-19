@@ -200,7 +200,7 @@ const Preferences = ({
                     <MenuItem
                       onClick={() => {
                         requestSetPreference('requireAdmin', false);
-                        requestSetPreference('installationPath', '~/Applications/WebCatalog Apps');
+                        requestSetPreference('installationPath', `${remote.app.getPath('home')}\\WebCatalog Apps`);
                       }}
                     >
                       {`${remote.app.getPath('home')}\\WebCatalog Apps`}
