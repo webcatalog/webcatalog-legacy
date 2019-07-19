@@ -260,7 +260,8 @@ decompress(templatePath, tmpPath)
       }
 
       if (createStartMenuShortcut) {
-        p.push(fsExtra.ensureDir(startMenuPath).then(() => createShortcutAsync(startMenuShortcutPath, opts));
+        p.push(fsExtra.ensureDir(startMenuPath)
+          .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
       }
 
       return Promise.all(p);
