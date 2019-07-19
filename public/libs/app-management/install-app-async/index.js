@@ -18,12 +18,18 @@ const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((res
     icon,
     '--homePath',
     app.getPath('home'),
+    '--desktopPath',
+    app.getPath('desktop'),
     '--installationPath',
     getPreference('installationPath'),
     '--requireAdmin',
     getPreference('requireAdmin').toString(),
-    'username',
-    process.env.USER, // required by sudo-prompt
+    '--username',
+    process.env.USER, // required by sudo-prompt,
+    '--createDesktopShortcut',
+    getPreference('createDesktopShortcut'),
+    '--createStartMenuShortcut',
+    getPreference('createStartMenuShortcut'),
   ];
 
   if (mailtoHandler && mailtoHandler.length > 0) {

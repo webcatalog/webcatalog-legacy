@@ -9,6 +9,7 @@ const download = require('download');
 const tmp = require('tmp');
 const decompress = require('decompress');
 const sudo = require('sudo-prompt');
+const ws = require('windows-shortcuts');
 
 const {
   id,
@@ -17,9 +18,12 @@ const {
   icon,
   mailtoHandler,
   homePath,
+  desktopPath,
   installationPath,
   requireAdmin,
   username,
+  createDesktopShortcut,
+  createStartMenuShortcut,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
@@ -33,6 +37,7 @@ const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 const appJsonPath = path.join(appPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
+const publicIconIcoPath = path.join(appPath, 'build', 'icon.ico');
 const packageJsonPath = path.join(appPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
 
@@ -76,6 +81,19 @@ const sudoAsync = prompt => new Promise((resolve, reject) => {
     return resolve(stdout, stderr);
   });
 });
+
+const createShortcutAsync = (shortcutPath, opts) => {
+  if (process.platform !== 'win32') {
+    return Promise.reject(new Error('Platform is not supported'));
+  }
+
+  return new Promise((resolve, reject) => {
+    ws.create(shortcutPath, opts, (err) => {
+      if (err) { return reject(err); }
+      return resolve();
+    });
+  });
+};
 
 decompress(templatePath, tmpPath)
   .then(() => {
@@ -138,7 +156,8 @@ decompress(templatePath, tmpPath)
               name: 'e',
               sizes,
             },
-          });
+          })
+            .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
         }
         return null;
       });
@@ -221,6 +240,30 @@ decompress(templatePath, tmpPath)
       Terminal=false;
       `;
       return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
+    }
+
+    if (process.platform === 'win32') {
+      const exePath = path.join(finalPath, `${name}.exe`);
+      const opts = {
+        target: exePath,
+        args: '',
+        icon: publicIconIcoPath,
+      };
+      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
+      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
+
+      const p = [];
+
+      if (createDesktopShortcut) {
+        p.push(createShortcutAsync(desktopShortcutPath, opts));
+      }
+
+      if (createStartMenuShortcut) {
+        p.push(fsExtra.ensureDir(startMenuPath).then(() => createShortcutAsync(startMenuShortcutPath, opts));
+      }
+
+      return Promise.all(p);
     }
     return null;
   })

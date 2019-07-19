@@ -27,6 +27,8 @@ const defaultPreferences = {
   registered: false,
   installationPath: getDefaultInstallationPath(),
   requireAdmin: false,
+  createDesktopShortcut: true,
+  createStartMenuShortcut: true,
 };
 
 const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`));

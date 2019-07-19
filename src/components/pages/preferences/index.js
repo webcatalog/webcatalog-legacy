@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -77,12 +78,14 @@ const getFileManagerName = () => {
 };
 
 const Preferences = ({
-  theme,
   classes,
+  createDesktopShortcut,
+  createStartMenuShortcut,
   installationPath,
-  requireAdmin,
   installingAppCount,
   onOpenDialogSetInstallationPath,
+  requireAdmin,
+  theme,
 }) => (
   <div className={classes.root}>
     <AppBar position="static" className={classes.appBar} elevation={2}>
@@ -133,6 +136,40 @@ const Preferences = ({
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
+            {window.process.platform === 'win32' && (
+              <React.Fragment>
+                <ListItem>
+                  <ListItemText
+                    primary="Automatically create desktop shortcuts for newly installed apps"
+                  />
+                  <Switch
+                    checked={createDesktopShortcut}
+                    onChange={(e) => {
+                      requestSetPreference('createDesktopShortcut', e.target.checked);
+                    }}
+                    classes={{
+                      switchBase: classes.switchBase,
+                    }}
+                  />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                  <ListItemText
+                    primary="Automatically create Start Menu shortcuts for newly installed apps"
+                  />
+                  <Switch
+                    checked={createStartMenuShortcut}
+                    onChange={(e) => {
+                      requestSetPreference('createStartMenuShortcut', e.target.checked);
+                    }}
+                    classes={{
+                      switchBase: classes.switchBase,
+                    }}
+                  />
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            )}
             {installingAppCount > 0 ? (
               <ListItem
                 button
@@ -242,6 +279,8 @@ const Preferences = ({
 
 Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
+  createDesktopShortcut: PropTypes.bool.isRequired,
+  createStartMenuShortcut: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
@@ -250,6 +289,8 @@ Preferences.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  createDesktopShortcut: state.preferences.createDesktopShortcut,
+  createStartMenuShortcut: state.preferences.createStartMenuShortcut,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
   requireAdmin: state.preferences.requireAdmin,
