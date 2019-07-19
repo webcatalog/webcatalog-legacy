@@ -4,8 +4,6 @@ const path = require('path');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 
-const moveAllAppsAsync = require('../libs/app-management/move-all-apps-async');
-
 // scope
 const v = '2018';
 
@@ -57,13 +55,6 @@ const getPreference = (name) => {
 };
 
 const setPreference = (name, value) => {
-  if (name === 'installationPath') {
-    const moveFrom = getPreference('installationPath');
-    const moveTo = value;
-    const requireAdmin = getPreference('requireAdmin');
-    moveAllAppsAsync(moveFrom, moveTo, requireAdmin);
-  }
-
   settings.set(`preferences.${v}.${name}`, value);
   sendToAllWindows('set-preference', name, value);
 };

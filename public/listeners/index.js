@@ -9,7 +9,6 @@ const openApp = require('../libs/app-management/open-app');
 const installAppAsync = require('../libs/app-management/install-app-async');
 const uninstallAppAsync = require('../libs/app-management/uninstall-app-async');
 const getInstalledAppsAsync = require('../libs/app-management/get-installed-apps-async');
-const moveAllAppsAsync = require('../libs/app-management/move-all-apps-async');
 
 const {
   getPreference,
@@ -63,16 +62,8 @@ const loadListeners = () => {
       cancelId: 1,
     }, (response) => {
       if (response === 0) {
-        // handle all apps location
-        const oldInstallLocation = getPreference('installLocation');
-
         resetPreferences();
         createMenu();
-
-        // default pref is home so if apps are stored in root, move them
-        if (oldInstallLocation !== 'home') {
-          moveAllAppsAsync('root');
-        }
       }
     });
   });

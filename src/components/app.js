@@ -13,7 +13,6 @@ import Preferences from './pages/preferences';
 import DialogAbout from './dialogs/dialog-about';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
-import DialogMovingAllApps from './dialogs/dialog-moving-all-apps';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 
 import { ROUTE_PREFERENCES, ROUTE_INSTALLED } from '../constants/routes';
@@ -62,7 +61,6 @@ class App extends React.Component {
         <DialogAbout />
         <DialogCreateCustomApp />
         <DialogLicenseRegistration />
-        <DialogMovingAllApps />
         <DialogSetInstallationPath />
       </div>
     );

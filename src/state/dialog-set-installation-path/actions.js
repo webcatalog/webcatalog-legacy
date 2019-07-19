@@ -9,6 +9,10 @@ import {
   requestSetPreference,
 } from '../../senders';
 
+import { getAppCount } from '../app-management/utils';
+
+const { remote } = window.require('electron');
+
 export const close = () => ({
   type: DIALOG_SET_INSTALLATION_PATH_CLOSE,
 });
@@ -37,8 +41,16 @@ export const save = () => (dispatch, getState) => {
 
   const { installationPath, requireAdmin } = form;
 
-  requestSetPreference('requireAdmin', requireAdmin);
-  requestSetPreference('installationPath', installationPath);
+  const appCount = getAppCount(state);
 
-  dispatch(close());
+  if (appCount > 0) {
+    remote.dialog.showMessageBox(remote.getCurrentWindow(), {
+      title: 'Uninstall all of WebCatalog apps first',
+      message: 'You need to uninstall all of your WebCatalog apps before updating this preference.',
+    });
+    dispatch(close());
+  } else {
+    requestSetPreference('requireAdmin', requireAdmin);
+    requestSetPreference('installationPath', installationPath);
+  }
 };
