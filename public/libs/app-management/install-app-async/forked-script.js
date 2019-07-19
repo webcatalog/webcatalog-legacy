@@ -93,7 +93,7 @@ decompress(templatePath, tmpPath)
       ? [16, 32, 64, 128, 256, 512, 1024]
       : [16, 24, 32, 48, 64, 128, 256];
 
-    const p = (process.platform === 'darwin' || process.platform === 'win32') 
+    const p = (process.platform === 'darwin' || process.platform === 'win32')
       ? sizes.map(size => new Promise((resolve) => {
         img
           .clone()
