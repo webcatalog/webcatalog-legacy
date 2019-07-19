@@ -1,5 +1,4 @@
 const {
-  app,
   Menu,
   clipboard,
   shell,
