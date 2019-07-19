@@ -11,6 +11,9 @@ const openApp = (id, name) => {
     shell.openItem(appPath);
   } else if (process.platform === 'linux') {
     exec(`gtk-launch webcatalog-${id}`);
+  } else if (process.platform === 'win32') {
+    appPath = path.join(getPreference('installationPath'), name, `${name}.exe`);
+    shell.openItem(appPath);
   }
 };
 
