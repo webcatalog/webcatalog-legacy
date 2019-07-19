@@ -39,10 +39,6 @@ const {
 const FIND_IN_PAGE_HEIGHT = 42;
 
 function createMenu() {
-  app.setAboutPanelOptions({
-    credits: 'Powered by WebCatalog.',
-  });
-
   const template = [
     {
       label: 'Edit',
@@ -162,7 +158,7 @@ function createMenu() {
             {
               label: 'Window',
               click: () => {
-                const win = aboutWindow.get();
+                const win = mainWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();

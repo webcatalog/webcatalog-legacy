@@ -30,6 +30,7 @@ const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
+const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 const appJsonPath = path.join(appPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
 const packageJsonPath = path.join(appPath, 'package.json');
@@ -58,8 +59,6 @@ const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
-
-const sizes = [16, 32, 64, 128, 256, 512, 1024];
 
 const sudoAsync = prompt => new Promise((resolve, reject) => {
   const opts = {
@@ -90,43 +89,62 @@ decompress(templatePath, tmpPath)
   })
   .then(() => Jimp.read(iconPngPath))
   .then((img) => {
-    const p = sizes.map(size => new Promise((resolve) => {
-      img
-        .clone()
-        .resize(size, size)
-        .quality(100)
-        .write(path.join(buildResourcesPath, `${size}.png`), resolve);
-    }));
+    const sizes = process.platform === 'darwin'
+      ? [16, 32, 64, 128, 256, 512, 1024]
+      : [16, 24, 32, 48, 64, 128, 256];
+
+    const p = [];
+
+    if (process.platform === 'darwin' || process.platform === 'win32') {
+      p.concat(sizes.map(size => new Promise((resolve) => {
+        img
+          .clone()
+          .resize(size, size)
+          .quality(100)
+          .write(path.join(buildResourcesPath, `${size}.png`), resolve);
+      })));
+    }
 
     // menubar icon
-    p.push(new Promise((resolve) => {
-      img
-        .clone()
-        .resize(20, 20)
-        .quality(100)
-        .write(menubarIconPath, resolve);
-    }));
-    p.push(new Promise((resolve) => {
-      img
-        .clone()
-        .resize(40, 40)
-        .quality(100)
-        .write(menubarIcon2xPath, resolve);
-    }));
-
-    return Promise.all(p);
-  })
-  .then(() => {
     if (process.platform === 'darwin') {
-      return icongen(buildResourcesPath, buildResourcesPath, {
-        report: true,
-        icns: {
-          name: 'e',
-          sizes,
-        },
-      });
+      p.push(new Promise((resolve) => {
+        img
+          .clone()
+          .resize(20, 20)
+          .quality(100)
+          .write(menubarIconPath, resolve);
+      }));
+      p.push(new Promise((resolve) => {
+        img
+          .clone()
+          .resize(40, 40)
+          .quality(100)
+          .write(menubarIcon2xPath, resolve);
+      }));
     }
-    return null;
+
+    return Promise.all(p)
+      .then(() => {
+        if (process.platform === 'darwin') {
+          return icongen(buildResourcesPath, buildResourcesPath, {
+            report: true,
+            icns: {
+              name: 'e',
+              sizes,
+            },
+          });
+        }
+        if (process.platform === 'win32') {
+          return icongen(buildResourcesPath, buildResourcesPath, {
+            report: true,
+            ico: {
+              name: 'e',
+              sizes,
+            },
+          });
+        }
+        return null;
+      });
   })
   .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
   .then(() => {
@@ -145,10 +163,14 @@ decompress(templatePath, tmpPath)
     return fsExtra.writeJSON(packageJsonPath, newPackageJson);
   })
   .then(() => {
+    let optsIconPath = iconPngPath;
+    if (process.platform === 'darwin') optsIconPath = iconIcnsPath;
+    if (process.platform === 'win32') optsIconPath = iconIcoPath;
+
     const opts = {
       name,
       appBundleId: `com.webcatalog.juli.${id}`,
-      icon: process.platform === 'darwin' ? iconIcnsPath : iconPngPath,
+      icon: optsIconPath,
       platform: process.platform,
       dir: appPath,
       out: outputPath,
