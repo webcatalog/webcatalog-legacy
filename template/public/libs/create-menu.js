@@ -1,5 +1,4 @@
 const {
-  app,
   Menu,
   clipboard,
   shell,
@@ -8,6 +7,7 @@ const {
 
 const appJson = require('../app.json');
 
+const aboutWindow = require('../windows/about');
 const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
@@ -38,10 +38,6 @@ const {
 const FIND_IN_PAGE_HEIGHT = 42;
 
 function createMenu() {
-  app.setAboutPanelOptions({
-    credits: 'Powered by WebCatalog.',
-  });
-
   const template = [
     {
       label: 'Edit',
@@ -156,7 +152,7 @@ function createMenu() {
         },
         { type: 'separator' },
         {
-          label: 'Developer Tools',
+          label: ' Tools',
           submenu: [
             {
               label: 'Window',
@@ -272,7 +268,10 @@ function createMenu() {
     template.unshift({
       label: appJson.name,
       submenu: [
-        { role: 'about' },
+        {
+          label: 'About',
+          click: () => aboutWindow.show(),
+        },
         {
           label: 'Check for Updates...',
           click: () => checkForUpdates(),
@@ -315,8 +314,8 @@ function createMenu() {
       label: 'File',
       submenu: [
         {
-          role: 'about',
-          click: () => app.showAboutPanel(),
+          label: 'About',
+          click: () => aboutWindow.show(),
         },
         {
           label: 'Check for Updates...',

@@ -10,10 +10,6 @@ const sendToAllWindows = require('./send-to-all-windows');
 const { getPreference } = require('./preferences');
 
 const createMenu = () => {
-  app.setAboutPanelOptions({
-    copyright: 'Copyright © Quang Lam. All rights reserved.',
-  });
-
   const registered = getPreference('registered');
 
   const template = [
@@ -69,7 +65,10 @@ const createMenu = () => {
     template.unshift({
       label: app.getName(),
       submenu: [
-        { role: 'about' },
+        {
+          label: 'About',
+          click: () => sendToAllWindows('open-dialog-about'),
+        },
         { type: 'separator' },
         {
           label: registered ? 'Registered' : 'Registration...',
@@ -116,7 +115,7 @@ const createMenu = () => {
       submenu: [
         {
           role: 'about',
-          click: () => app.showAboutPanel(),
+          click: () => sendToAllWindows('open-dialog-about'),
         },
         { type: 'separator' },
         {

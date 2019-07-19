@@ -20,7 +20,7 @@
     "template:lint:fix": "cd template && yarn lint:fix",
     "template:install": "cd template && yarn",
     "template:electron-dev": "cd template && yarn electron-dev",
-    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production && cd .. && tar --exclude=template/public -zcf template.tar.gz template",
+    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production && cd .. && 7z a template.zip template -x!template/public",
     "dist": "yarn template:prepare-dist && yarn build && cross-env NODE_ENV=production node dist.js",
     "catalog:install": "cd catalog && yarn install && pip3 install --user -r requirements.txt",
     "catalog:test": "cd catalog && yarn test",
@@ -33,13 +33,13 @@
     "email": "quang.lam2807@gmail.com"
   },
   "dependencies": {
-    "blueimp-md5": "2.10.0",
+    "blueimp-md5": "2.11.0",
     "decompress": "4.2.0",
     "download": "7.1.0",
     "electron-is-dev": "1.1.0",
     "electron-packager": "14.0.1",
     "electron-settings": "3.2.0",
-    "electron-updater": "4.1.1",
+    "electron-updater": "4.1.2",
     "electron-window-state": "5.0.3",
     "follow-redirects": "1.7.0",
     "fs-extra": "8.1.0",
@@ -48,6 +48,7 @@
     "jimp": "0.6.4",
     "sudo-prompt": "9.0.0",
     "tmp": "0.1.0",
+    "windows-shortcuts": "0.1.6",
     "yargs-parser": "13.1.1"
   },
   "devDependencies": {
@@ -59,8 +60,8 @@
     "classnames": "2.2.6",
     "concurrently": "4.1.1",
     "cross-env": "5.2.0",
-    "electron": "5.0.6",
-    "electron-builder": "21.0.10",
+    "electron": "5.0.7",
+    "electron-builder": "21.0.15",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-plugin-import": "2.18.0",
@@ -71,12 +72,12 @@
     "react-dom": "16.8.6",
     "react-redux": "6.0.1",
     "react-scripts": "3.0.1",
-    "redux": "4.0.1",
+    "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "request": "2.88.0",
     "semver": "6.2.0",
     "typeface-roboto": "0.0.54",
-    "wait-on": "3.2.0"
+    "wait-on": "3.3.0"
   },
   "homepage": "./",
   "private": true,
