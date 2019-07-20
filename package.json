@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "14.1.0",
-  "templateVersion": "4.1.0",
+  "version": "14.2.0",
+  "templateVersion": "4.2.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -37,7 +37,7 @@
     "decompress": "4.2.0",
     "download": "7.1.0",
     "electron-is-dev": "1.1.0",
-    "electron-packager": "14.0.1",
+    "electron-packager": "14.0.2",
     "electron-settings": "3.2.0",
     "electron-updater": "4.1.2",
     "electron-window-state": "5.0.3",
@@ -61,7 +61,7 @@
     "concurrently": "4.1.1",
     "cross-env": "5.2.0",
     "electron": "5.0.7",
-    "electron-builder": "21.0.15",
+    "electron-builder": "21.1.1",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-plugin-import": "2.18.0",
@@ -76,7 +76,7 @@
     "redux-thunk": "2.3.0",
     "request": "2.88.0",
     "semver": "6.2.0",
-    "typeface-roboto": "0.0.54",
+    "typeface-roboto": "0.0.75",
     "wait-on": "3.3.0"
   },
   "homepage": "./",
