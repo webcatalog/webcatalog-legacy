@@ -6,6 +6,13 @@ title: Legacy Downloads
 # Legacy Downloads
 * * *
 
+## WebCatalog v13
+
+- [WebCatalog 13.12.0 for macOS (.dmg)](https://github.com/quanglam2807/webcatalog/releases/download/v13.12.0/WebCatalog-13.12.0.dmg)
+- [WebCatalog 12.8.1 for macOS (.zip)](https://github.com/quanglam2807/webcatalog/releases/download/v13.12.0/WebCatalog-13.12.0-mac.zip)
+
+* * *
+
 ## WebCatalog v12
 
 - [WebCatalog 12.8.1 for macOS (.dmg)](https://github.com/quanglam2807/webcatalog/releases/download/v12.8.1/WebCatalog-12.8.1.dmg)
