@@ -75,13 +75,17 @@ const createMenu = () => {
           enabled: !registered,
           click: registered ? null : () => sendToAllWindows('open-license-registration-dialog'),
         },
-        { type: 'separator' },
+        {
+          type: 'separator',
+          visible: process.env.SNAP != null,
+        },
         {
           label: 'Check for Updates...',
           click: () => {
             global.updateSilent = false;
             autoUpdater.checkForUpdates();
           },
+          visible: process.env.SNAP != null,
         },
         { type: 'separator' },
         {
