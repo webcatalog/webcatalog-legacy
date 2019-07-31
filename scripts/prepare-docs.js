@@ -31,7 +31,7 @@ appDirs.forEach((appId) => {
   const yamlPath = path.resolve(__dirname, '..', 'catalog', 'apps', appId, `${appId}.yml`);
   const content = yaml.load(fs.readFileSync(yamlPath, 'utf8'));
 
-  content.title = `${content.name} for macOS on WebCatalog`;
+  content.title = `${content.name} for macOS, Windows & Linux on WebCatalog`;
   content.key = appId;
   content.fullUrl = content.url;
   content.hostname = extractHostname(content.fullUrl);

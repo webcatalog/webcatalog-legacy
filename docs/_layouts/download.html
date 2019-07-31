@@ -105,10 +105,18 @@ layout: default
         if (/Linux/.test(window.navigator.platform)) {
           document.getElementById('mac').style.display = 'none';
           document.getElementById('linux').style.display = '';
+          document.title = 'Download for Linux - WebCatalog';
+          history.replaceState({}, 'Download for Linux - WebCatalog', '/download/linux');
         }
         else if (['Win32', 'Win64', 'Windows', 'WinCE'].indexOf(window.navigator.platform) !== -1) {
           document.getElementById('mac').style.display = 'none';
           document.getElementById('windows').style.display = '';
+          document.title = 'Download for Windows - WebCatalog';
+          history.replaceState({}, 'Download for Windows - WebCatalog', '/download/windows');
+        }
+        else {
+          document.title = 'Download for macOS - WebCatalog';
+          history.replaceState({}, 'Download for macOS - WebCatalog', '/download/mac');
         }
       </script>
       {% endif %}
@@ -123,7 +131,7 @@ layout: default
     <div class="content">
       <hr />
       <h4>How It Works</h4>
-      <p>WebCatalog lets you turn any web apps into native-like Mac apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, with WebCatalog, you can launch your favorite apps quickly in self-contained, distraction-free windows. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy.</p>
+      <p>WebCatalog lets you turn any web apps into native-like desktop apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, with WebCatalog, you can launch your favorite apps quickly in self-contained, distraction-free windows. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy.</p>
       <hr />
       <h4 class="is-pulled-left">Featured Apps</h4>
       <a class="button is-white is-pulled-right" href="/catalog/">See more</a>
