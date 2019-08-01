@@ -35,6 +35,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   title: {
     flex: 1,

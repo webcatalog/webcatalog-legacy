@@ -25,6 +25,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   toolbar: {
     minHeight: '56px !important',

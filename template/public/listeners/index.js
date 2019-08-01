@@ -35,6 +35,8 @@ const {
 
 const createMenu = require('../libs/create-menu');
 
+const { checkForUpdates } = require('../libs/updater');
+
 const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
@@ -259,6 +261,10 @@ const loadListeners = () => {
     if (win != null) {
       win.getBrowserView().webContents.reload();
     }
+  });
+
+  ipcMain.on('check-for-updates', () => {
+    checkForUpdates();
   });
 };
 

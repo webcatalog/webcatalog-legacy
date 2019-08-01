@@ -11,10 +11,6 @@ const path = require('path');
 const { REACT_PATH } = require('../constants');
 const { getPreference } = require('../libs/preferences');
 
-const {
-  checkForUpdates,
-} = require('../libs/updater');
-
 let win;
 let mb = {};
 
@@ -42,7 +38,7 @@ const createAsync = () => {
       { role: 'about' },
       {
         label: 'Check for Updates...',
-        click: () => checkForUpdates(),
+        click: () => ipcMain.emit('check-for-updates'),
       },
       { type: 'separator' },
       {
