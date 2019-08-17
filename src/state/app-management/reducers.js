@@ -9,12 +9,12 @@ const apps = (state = {}, action) => {
     }
     case SET_APP: {
       const overwritingState = {};
-      overwritingState[action.id] = Object.assign({}, state[action.id] || {}, action.app);
+      overwritingState[action.id] = { ...state[action.id] || {}, ...action.app };
 
-      return Object.assign({}, state, overwritingState);
+      return { ...state, ...overwritingState };
     }
     case REMOVE_APP: {
-      const newState = Object.assign({}, state);
+      const newState = { ...state };
       delete newState[action.id];
       return newState;
     }

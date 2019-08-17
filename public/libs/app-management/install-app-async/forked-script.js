@@ -65,7 +65,7 @@ const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
 
-const sudoAsync = prompt => new Promise((resolve, reject) => {
+const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
     name: 'WebCatalog',
   };
@@ -112,7 +112,7 @@ decompress(templatePath, tmpPath)
       : [16, 24, 32, 48, 64, 128, 256];
 
     const p = (process.platform === 'darwin' || process.platform === 'win32')
-      ? sizes.map(size => new Promise((resolve) => {
+      ? sizes.map((size) => new Promise((resolve) => {
         img
           .clone()
           .resize(size, size)

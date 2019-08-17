@@ -13,7 +13,7 @@ const {
   username,
 } = argv;
 
-const sudoAsync = prompt => new Promise((resolve, reject) => {
+const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
     name: 'WebCatalog',
   };
@@ -30,13 +30,13 @@ const sudoAsync = prompt => new Promise((resolve, reject) => {
   });
 });
 
-const checkExistsAndRemove = dirPath => fsExtra.exists(dirPath)
+const checkExistsAndRemove = (dirPath) => fsExtra.exists(dirPath)
   .then((exists) => {
     if (exists) return fsExtra.remove(dirPath);
     return null;
   });
 
-const checkExistsAndRemoveWithSudo = dirPath => fsExtra.exists(dirPath)
+const checkExistsAndRemoveWithSudo = (dirPath) => fsExtra.exists(dirPath)
   .then((exists) => {
     if (exists) return sudoAsync(`rm -rf "${dirPath}"`);
     return null;

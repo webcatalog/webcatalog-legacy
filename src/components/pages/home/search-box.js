@@ -15,7 +15,7 @@ import {
   updateQuery,
 } from '../../../state/home/actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   toolbarSearchContainer: {
     flex: 1,
     zIndex: 10,
@@ -83,7 +83,7 @@ class EnhancedAppBar extends React.Component {
     } = this.props;
 
     const clearSearchAction = query.length > 0 && (
-      <React.Fragment>
+      <>
         <IconButton
           color="default"
           aria-label="Clear"
@@ -98,7 +98,7 @@ class EnhancedAppBar extends React.Component {
         >
           <KeyboardReturnIcon />
         </IconButton>
-      </React.Fragment>
+      </>
     );
 
     return (
@@ -114,8 +114,8 @@ class EnhancedAppBar extends React.Component {
           >
             <input
               className={classes.input}
-              onChange={e => onUpdateQuery(e.target.value)}
-              onInput={e => onUpdateQuery(e.target.value)}
+              onChange={(e) => onUpdateQuery(e.target.value)}
+              onInput={(e) => onUpdateQuery(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && query.length > 0) {
                   onResetThenGetHits();
@@ -144,7 +144,7 @@ EnhancedAppBar.propTypes = {
   query: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   query: state.home.query,
 });
 

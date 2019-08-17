@@ -64,7 +64,7 @@ EnhancedBottomNavigation.propTypes = {
   onChangeRoute: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activated: state.general.activated,
   route: state.router.route,
   outdatedAppCount: getOutdatedAppsAsList(state).length,

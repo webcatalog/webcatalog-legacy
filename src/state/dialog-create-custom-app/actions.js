@@ -56,7 +56,7 @@ const getValidationRules = () => ({
   },
 });
 
-export const updateForm = changes => ({
+export const updateForm = (changes) => ({
   type: DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE,
   changes: validate(changes, getValidationRules()),
 });

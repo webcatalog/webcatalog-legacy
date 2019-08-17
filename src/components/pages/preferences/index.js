@@ -32,7 +32,7 @@ import {
 
 const { remote } = window.require('electron');
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -152,7 +152,7 @@ const Preferences = ({
           <Paper className={classes.paper}>
             <List dense>
               {window.process.platform === 'win32' && (
-                <React.Fragment>
+                <>
                   <ListItem>
                     <ListItemText
                       primary="Automatically create desktop shortcuts for newly installed apps"
@@ -183,7 +183,7 @@ const Preferences = ({
                     />
                   </ListItem>
                   <Divider />
-                </React.Fragment>
+                </>
               )}
               {installingAppCount > 0 ? (
                 <ListItem
@@ -206,7 +206,7 @@ const Preferences = ({
                   )}
                 >
                   {window.process.platform === 'win32' && (
-                    <React.Fragment>
+                    <>
                       {(installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
                         <MenuItem>
                           {installationPath}
@@ -219,10 +219,10 @@ const Preferences = ({
                       >
                         {`${remote.app.getPath('home')}\\WebCatalog Apps`}
                       </MenuItem>
-                    </React.Fragment>
+                    </>
                   )}
                   {window.process.platform === 'darwin' && (
-                    <React.Fragment>
+                    <>
                       {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
                         <MenuItem>
                           {installationPath}
@@ -242,10 +242,10 @@ const Preferences = ({
                       >
                         /Applications/WebCatalog Apps (requires sudo)
                       </MenuItem>
-                    </React.Fragment>
+                    </>
                   )}
                   {window.process.platform === 'linux' && (
-                    <React.Fragment>
+                    <>
                       {(installationPath !== '~/.webcatalog') && (
                         <MenuItem>
                           {installationPath}
@@ -258,7 +258,7 @@ const Preferences = ({
                       >
                         ~/.webcatalog (default)
                       </MenuItem>
-                    </React.Fragment>
+                    </>
                   )}
                   <MenuItem onClick={onOpenDialogSetInstallationPath}>
                     Custom
@@ -301,7 +301,7 @@ Preferences.propTypes = {
   theme: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   appCount: getAppCount(state),
   createDesktopShortcut: state.preferences.createDesktopShortcut,
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,
