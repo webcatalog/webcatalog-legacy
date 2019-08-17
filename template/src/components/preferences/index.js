@@ -31,7 +31,7 @@ import {
 
 const { remote } = window.require('electron');
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     padding: theme.spacing.unit * 2,
     background: theme.palette.background.default,
@@ -158,7 +158,7 @@ const Preferences = ({
         </ListItem>
         <Divider />
         {window.process.platform === 'darwin' && (
-          <React.Fragment>
+          <>
             <ListItem>
               <ListItemText primary="Show unread count badge" />
               <Switch
@@ -177,7 +177,7 @@ const Preferences = ({
               <ListItemText
                 primary="Swipe to navigate"
                 secondary={(
-                  <React.Fragment>
+                  <>
                     <span>Navigate between pages with 3-finger gestures.</span>
                     <br />
                     <span>To enable it, you also need to change </span>
@@ -188,7 +188,7 @@ const Preferences = ({
                     <b>Swipe with three fingers</b>
                     <span> or </span>
                     <b>Swipe with two or three fingers.</b>
-                  </React.Fragment>
+                  </>
                 )}
               />
               <Switch
@@ -203,7 +203,7 @@ const Preferences = ({
               />
             </ListItem>
             <Divider />
-          </React.Fragment>
+          </>
         )}
         <ListItem>
           <ListItemText primary="Use spell checker" />
@@ -266,7 +266,7 @@ const Preferences = ({
     </Paper>
 
     {appJson.mailtoHandler && appJson.mailtoHandler.length > 0 && (
-      <React.Fragment>
+      <>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
           Default Email Client
         </Typography>
@@ -295,7 +295,7 @@ const Preferences = ({
             )}
           </List>
         </Paper>
-      </React.Fragment>
+      </>
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
@@ -315,7 +315,7 @@ const Preferences = ({
     </Paper>
 
     {window.process.platform !== 'linux' && (
-      <React.Fragment>
+      <>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
           System
         </Typography>
@@ -336,7 +336,7 @@ const Preferences = ({
             </StatedMenu>
           </List>
         </Paper>
-      </React.Fragment>
+      </>
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
@@ -376,7 +376,7 @@ Preferences.propTypes = {
   unreadCountBadge: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachToMenubar: state.preferences.attachToMenubar,
   cssCodeInjection: state.preferences.cssCodeInjection,
   isDefaultMailClient: state.general.isDefaultMailClient,

@@ -11,7 +11,7 @@ const defaultForm = {
 
 const form = (state = defaultForm, action) => {
   switch (action.type) {
-    case UPDATE_CODE_INJECTION_FORM: return Object.assign({}, state, action.changes);
+    case UPDATE_CODE_INJECTION_FORM: return { ...state, ...action.changes };
     default: return state;
   }
 };

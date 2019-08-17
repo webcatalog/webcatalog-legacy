@@ -10,7 +10,7 @@ import { updateForm, login } from '../../state/auth/actions';
 
 const { remote } = window.require('electron');
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
     height: '100vh',
@@ -42,7 +42,7 @@ const Auth = ({
         id="outlined-full-width"
         label="Username"
         margin="dense"
-        onChange={e => onUpdateForm({ username: e.target.value })}
+        onChange={(e) => onUpdateForm({ username: e.target.value })}
         placeholder=""
         value={username}
         variant="outlined"
@@ -55,7 +55,7 @@ const Auth = ({
         id="outlined-full-width"
         label="Password"
         margin="dense"
-        onChange={e => onUpdateForm({ password: e.target.value })}
+        onChange={(e) => onUpdateForm({ password: e.target.value })}
         placeholder=""
         type="password"
         value={password}
@@ -84,7 +84,7 @@ Auth.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   username: state.auth.form.username,
   password: state.auth.form.password,
 });

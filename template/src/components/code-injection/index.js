@@ -8,7 +8,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import { updateForm, save } from '../../state/code-injection/actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
     height: '100vh',
@@ -43,7 +43,7 @@ const CodeInjection = ({
           shrink: true,
         }}
         value={code}
-        onChange={e => onUpdateForm({ code: e.target.value })}
+        onChange={(e) => onUpdateForm({ code: e.target.value })}
       />
     </div>
     <div>
@@ -61,7 +61,7 @@ CodeInjection.propTypes = {
   onSave: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   code: state.codeInjection.form.code,
 });
 

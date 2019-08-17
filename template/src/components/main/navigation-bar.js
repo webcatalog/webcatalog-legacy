@@ -18,7 +18,7 @@ import {
   requestShowPreferencesWindow,
 } from '../../senders';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     height: 36,
@@ -70,7 +70,7 @@ NavigationBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   canGoBack: state.general.canGoBack,
   canGoForward: state.general.canGoForward,
 });

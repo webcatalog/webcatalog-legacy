@@ -5,7 +5,7 @@ import { requestValidateAuthIdentity } from '../../senders';
 
 const { remote } = window.require('electron');
 
-export const updateForm = changes => dispatch => dispatch({
+export const updateForm = (changes) => (dispatch) => dispatch({
   type: UPDATE_AUTH_FORM,
   changes,
 });

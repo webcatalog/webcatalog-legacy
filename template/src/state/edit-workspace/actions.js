@@ -5,7 +5,7 @@ import { requestSetWorkspace } from '../../senders';
 
 const { remote } = window.require('electron');
 
-export const updateForm = changes => dispatch => dispatch({
+export const updateForm = (changes) => (dispatch) => dispatch({
   type: UPDATE_EDIT_WORKSPACE_FORM,
   changes,
 });

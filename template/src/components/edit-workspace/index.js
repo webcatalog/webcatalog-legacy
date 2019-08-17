@@ -8,7 +8,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import { updateForm, save } from '../../state/edit-workspace/actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
     height: '100vh',
@@ -45,7 +45,7 @@ const EditWorkspace = ({
           shrink: true,
         }}
         value={name}
-        onChange={e => onUpdateForm({ name: e.target.value })}
+        onChange={(e) => onUpdateForm({ name: e.target.value })}
       />
       <TextField
         id="outlined-full-width"
@@ -59,7 +59,7 @@ const EditWorkspace = ({
           shrink: true,
         }}
         value={homeUrl}
-        onChange={e => onUpdateForm({ homeUrl: e.target.value })}
+        onChange={(e) => onUpdateForm({ homeUrl: e.target.value })}
       />
     </div>
     <div>
@@ -78,7 +78,7 @@ EditWorkspace.propTypes = {
   onSave: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   name: state.editWorkspace.form.name,
   homeUrl: state.editWorkspace.form.homeUrl,
 });

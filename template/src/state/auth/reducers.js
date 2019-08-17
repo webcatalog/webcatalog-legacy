@@ -9,7 +9,7 @@ const defaultForm = {
 
 const form = (state = defaultForm, action) => {
   switch (action.type) {
-    case UPDATE_AUTH_FORM: return Object.assign({}, state, action.changes);
+    case UPDATE_AUTH_FORM: return { ...state, ...action.changes };
     default: return state;
   }
 };

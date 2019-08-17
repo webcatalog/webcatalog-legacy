@@ -183,7 +183,7 @@ const addView = (browserWindow, workspace) => {
   views[workspace.id] = view;
 };
 
-const getView = id => views[id];
+const getView = (id) => views[id];
 
 const setActiveView = (browserWindow, id) => {
   // stop find in page when switching workspaces

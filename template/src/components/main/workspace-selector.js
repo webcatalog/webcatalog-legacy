@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import connectComponent from '../../helpers/connect-component';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     height: 68,
     width: 68,

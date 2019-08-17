@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   workspaces,
 });
 
-const configureStore = initialState => createStore(
+const configureStore = (initialState) => createStore(
   rootReducer,
   initialState,
   applyMiddleware(thunkMiddleware),

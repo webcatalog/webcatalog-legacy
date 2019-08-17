@@ -19,7 +19,7 @@ const connectComponent = (component, mapStateToProps, actionCreators, styles) =>
 
   return connect(
     mapStateToProps,
-    dispatch => bindActionCreators(onActionCreators, dispatch),
+    (dispatch) => bindActionCreators(onActionCreators, dispatch),
   )(styledComponent);
 };
 
