@@ -64,6 +64,15 @@ const opts = {
       category: 'Utility',
       packageCategory: 'utils',
     },
+    snap: {
+      publish: [
+        {
+          provider: 'snapStore',
+          channels: ['stable', 'edge'],
+        },
+        'github',
+      ],
+    },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
   },
 };
