@@ -13,7 +13,7 @@ export const openFindInPage = () => ({
   type: OPEN_FIND_IN_PAGE,
 });
 
-export const updateFindInPageText = text => ({
+export const updateFindInPageText = (text) => ({
   type: UPDATE_FIND_IN_PAGE_TEXT,
   text,
 });

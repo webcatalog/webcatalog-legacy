@@ -29,7 +29,7 @@ export const open = () => (dispatch, getState) => {
   });
 };
 
-export const updateForm = changes => ({
+export const updateForm = (changes) => ({
   type: DIALOG_SET_INSTALLATION_PATH_FORM_UPDATE,
   changes,
 });

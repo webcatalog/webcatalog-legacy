@@ -9,7 +9,7 @@ const mainWindow = require('./main');
 const wins = {};
 const emitted = {};
 
-const get = id => wins[id];
+const get = (id) => wins[id];
 
 const create = (id) => {
   const attachToMenubar = getPreference('attachToMenubar');

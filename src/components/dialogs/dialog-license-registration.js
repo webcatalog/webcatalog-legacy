@@ -20,7 +20,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import { requestOpenInBrowser } from '../../senders';
 
-const styles = theme => ({
+const styles = (theme) => ({
   dialogContentText: {
     marginTop: theme.spacing.unit * 2,
   },
@@ -64,7 +64,7 @@ const DialogLicenseRegistration = (props) => {
           id=""
           label={licenseKeyError || 'License Key'}
           margin="normal"
-          onChange={e => onUpdateForm({ licenseKey: e.target.value })}
+          onChange={(e) => onUpdateForm({ licenseKey: e.target.value })}
           value={licenseKey}
           placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
           error={Boolean(licenseKeyError)}

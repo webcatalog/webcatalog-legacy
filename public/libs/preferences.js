@@ -29,7 +29,7 @@ const defaultPreferences = {
   createStartMenuShortcut: true,
 };
 
-const getPreferences = () => Object.assign({}, defaultPreferences, settings.get(`preferences.${v}`));
+const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
 
 const getPreference = (name) => {
   // ensure compatiblity with old version

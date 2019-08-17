@@ -20,7 +20,7 @@ const { remote } = window.require('electron');
 
 const appVersion = remote.app.getVersion();
 
-const styles = theme => ({
+const styles = (theme) => ({
   icon: {
     height: 96,
     width: 96,
@@ -57,7 +57,9 @@ const styles = theme => ({
   },
 });
 
-const Transition = props => <Slide direction="left" {...props} />;
+/* eslint-disable react/jsx-props-no-spreading */
+const Transition = (props) => <Slide direction="left" {...props} />;
+/* eslint-enable react/jsx-props-no-spreading */
 
 const About = (props) => {
   const {
@@ -123,7 +125,7 @@ About.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   open: state.dialogAbout.open,
 });
 

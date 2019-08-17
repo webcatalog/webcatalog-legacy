@@ -14,7 +14,7 @@ const { remote } = window.require('electron');
 const appVersion = remote.app.getVersion();
 const appJson = remote.getGlobal('appJson');
 
-const styles = theme => ({
+const styles = (theme) => ({
   icon: {
     height: 96,
     width: 96,

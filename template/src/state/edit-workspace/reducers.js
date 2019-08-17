@@ -12,7 +12,7 @@ const defaultForm = {
 
 const form = (state = defaultForm, action) => {
   switch (action.type) {
-    case UPDATE_EDIT_WORKSPACE_FORM: return Object.assign({}, state, action.changes);
+    case UPDATE_EDIT_WORKSPACE_FORM: return { ...state, ...action.changes };
     default: return state;
   }
 };

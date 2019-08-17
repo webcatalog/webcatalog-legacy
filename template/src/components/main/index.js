@@ -25,7 +25,7 @@ import {
 
 const { remote } = window.require('electron');
 
-const styles = theme => ({
+const styles = (theme) => ({
   outerRoot: {
     display: 'flex',
     flexDirection: 'column',
@@ -75,7 +75,7 @@ const styles = theme => ({
   },
 });
 
-const getWorkspacesAsList = workspaces => Object.values(workspaces)
+const getWorkspacesAsList = (workspaces) => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
 const Main = ({
@@ -173,7 +173,7 @@ Main.propTypes = {
   workspaces: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachToMenubar: state.preferences.attachToMenubar,
   didFailLoad: state.general.didFailLoad,
   isFullScreen: state.general.isFullScreen,

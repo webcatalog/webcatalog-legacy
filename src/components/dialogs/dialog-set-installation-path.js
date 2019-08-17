@@ -23,7 +23,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const { remote } = window.require('electron');
 
-const styles = theme => ({
+const styles = (theme) => ({
   top: {
     marginTop: theme.spacing.unit,
   },
@@ -91,7 +91,7 @@ const DialogSetInstallationPath = (props) => {
             control={(
               <Checkbox
                 checked={requireAdmin}
-                onChange={e => onUpdateForm({ requireAdmin: e.target.checked })}
+                onChange={(e) => onUpdateForm({ requireAdmin: e.target.checked })}
               />
             )}
             label="Require sudo for installation"

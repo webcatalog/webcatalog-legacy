@@ -13,12 +13,12 @@ import { requestLoadURL } from '../../senders';
 
 const { remote } = window.require('electron');
 
-const getWorkspacesAsList = workspaces => Object.values(workspaces)
+const getWorkspacesAsList = (workspaces) => Object.values(workspaces)
   .sort((a, b) => a.order - b.order);
 
 const OpenUrlWith = ({ workspaces }) => (
   <List dense>
-    {getWorkspacesAsList(workspaces).map(workspace => (
+    {getWorkspacesAsList(workspaces).map((workspace) => (
       <ListItem
         button
         onClick={() => {
@@ -45,7 +45,7 @@ OpenUrlWith.propTypes = {
   workspaces: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   workspaces: state.workspaces,
 });
 

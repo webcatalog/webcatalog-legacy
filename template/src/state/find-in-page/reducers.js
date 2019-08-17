@@ -15,25 +15,20 @@ const initialState = {
 const findInPage = (state = initialState, action) => {
   switch (action.type) {
     case CLOSE_FIND_IN_PAGE: {
-      return Object.assign({}, state, {
-        open: false,
-      });
+      return { ...state, open: false };
     }
     case OPEN_FIND_IN_PAGE: {
-      return Object.assign({}, state, {
-        open: true,
-      });
+      return { ...state, open: true };
     }
     case UPDATE_FIND_IN_PAGE_TEXT: {
-      return Object.assign({}, state, {
-        text: action.text,
-      });
+      return { ...state, text: action.text };
     }
     case UPDATE_FIND_IN_PAGE_MATCHES: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         activeMatch: action.activeMatch,
         matches: action.matches,
-      });
+      };
     }
     default:
       return state;

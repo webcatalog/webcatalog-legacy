@@ -14,7 +14,7 @@ import {
   requestStopFindInPage,
 } from '../../senders';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     background: theme.palette.background.default,
     display: 'flex',
@@ -148,7 +148,7 @@ FindInPage.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   open: state.findInPage.open,
   activeMatch: state.findInPage.activeMatch,
   matches: state.findInPage.matches,

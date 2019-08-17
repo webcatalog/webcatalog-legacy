@@ -4,7 +4,7 @@ import { requestSetPreference, requestShowRequireRestartDialog } from '../../sen
 
 const { remote } = window.require('electron');
 
-export const updateForm = changes => dispatch => dispatch({
+export const updateForm = (changes) => (dispatch) => dispatch({
   type: UPDATE_CODE_INJECTION_FORM,
   changes,
 });

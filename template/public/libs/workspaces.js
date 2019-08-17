@@ -32,7 +32,7 @@ const getWorkspacesAsList = () => {
   return workspaceLst;
 };
 
-const getWorkspace = id => workspaces[id];
+const getWorkspace = (id) => workspaces[id];
 
 const getPreviousWorkspace = (id) => {
   const workspaceLst = getWorkspacesAsList();
@@ -94,18 +94,18 @@ const createWorkspace = (active) => {
   return newWorkspace;
 };
 
-const getActiveWorkspace = () => Object.values(workspaces).find(workspace => workspace.active);
+const getActiveWorkspace = () => Object.values(workspaces).find((workspace) => workspace.active);
 
 const setActiveWorkspace = (id) => {
   // deactive the current one
-  const currentActiveWorkspace = Object.assign({}, getActiveWorkspace());
+  const currentActiveWorkspace = { ...getActiveWorkspace() };
   currentActiveWorkspace.active = false;
   workspaces[currentActiveWorkspace.id] = currentActiveWorkspace;
   sendToAllWindows('set-workspace', currentActiveWorkspace.id, currentActiveWorkspace);
   settings.set(`workspaces.${v}.${currentActiveWorkspace.id}`, currentActiveWorkspace);
 
   // active new one
-  const newActiveWorkspace = Object.assign({}, workspaces[id]);
+  const newActiveWorkspace = { ...workspaces[id] };
   newActiveWorkspace.active = true;
   workspaces[id] = newActiveWorkspace;
   sendToAllWindows('set-workspace', id, newActiveWorkspace);
@@ -113,7 +113,7 @@ const setActiveWorkspace = (id) => {
 };
 
 const setWorkspace = (id, opts) => {
-  const workspace = Object.assign({}, workspaces[id], opts);
+  const workspace = { ...workspaces[id], ...opts };
   workspaces[id] = workspace;
   sendToAllWindows('set-workspace', id, workspace);
   settings.set(`workspaces.${v}.${id}`, workspace);

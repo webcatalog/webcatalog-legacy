@@ -25,7 +25,7 @@ import {
 import { isOutdatedApp } from '../../state/app-management/utils';
 import { installApp, updateApp } from '../../state/app-management/actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     width: 220,
     boxSizing: 'border-box',

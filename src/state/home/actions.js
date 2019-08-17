@@ -35,7 +35,7 @@ export const getHits = () => (dispatch, getState) => {
     page: page + 1,
     hitsPerPage: 24,
   })
-    .then(res => dispatch(homeGetSuccess({
+    .then((res) => dispatch(homeGetSuccess({
       hits: res.hits,
       page: res.page,
       totalPage: res.nbPages,
@@ -48,7 +48,7 @@ export const resetThenGetHits = () => (dispatch) => {
   dispatch(getHits());
 };
 
-export const updateQuery = query => (dispatch, getState) => {
+export const updateQuery = (query) => (dispatch, getState) => {
   const state = getState();
 
   const {

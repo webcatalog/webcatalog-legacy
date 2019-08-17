@@ -29,7 +29,7 @@ export const setApp = (id, app) => ({
   app,
 });
 
-export const removeApp = id => ({
+export const removeApp = (id) => ({
   type: REMOVE_APP,
   id,
 });

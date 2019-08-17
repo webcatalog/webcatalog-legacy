@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   router,
 });
 
-const configureStore = initialState => createStore(
+const configureStore = (initialState) => createStore(
   rootReducer,
   initialState,
   applyMiddleware(thunkMiddleware),

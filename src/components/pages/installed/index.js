@@ -20,7 +20,7 @@ import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions'
 import { updateAllApps } from '../../../state/app-management/actions';
 import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -100,7 +100,7 @@ const Installed = (props) => {
             <Divider className={classes.divider} />
             {(Object.keys(apps).length > 0) ? (
               <Grid container justify="center" spacing={16}>
-                {Object.values(apps).map(app => (
+                {Object.values(apps).map((app) => (
                   <AppCard
                     key={app.id}
                     id={app.id}
@@ -136,7 +136,7 @@ Installed.propTypes = {
   outdatedAppCount: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   apps: state.appManagement.apps,
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,

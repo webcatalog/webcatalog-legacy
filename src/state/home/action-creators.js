@@ -15,7 +15,7 @@ export const homeGetRequest = () => ({
   type: HOME_GET_REQUEST,
 });
 
-export const homeGetSuccess = params => ({
+export const homeGetSuccess = (params) => ({
   type: HOME_GET_SUCCESS,
   ...params,
 });
@@ -24,13 +24,13 @@ export const homeGetFailed = () => ({
   type: HOME_GET_FAILED,
 });
 
-export const homeUpdateCurrentQuery = currentQuery => ({
+export const homeUpdateCurrentQuery = (currentQuery) => ({
   type: HOME_UPDATE_CURRENT_QUERY,
   currentQuery,
 });
 
 
-export const homeUpdateQuery = query => ({
+export const homeUpdateQuery = (query) => ({
   type: HOME_UPDATE_QUERY,
   query,
 });

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     margin: 0,

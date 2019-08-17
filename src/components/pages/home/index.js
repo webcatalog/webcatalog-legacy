@@ -30,7 +30,7 @@ import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flex: 1,
     display: 'flex',
@@ -107,19 +107,19 @@ class Home extends React.Component {
       if (!isGetting && hits.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title="No Matching Results">
-            <React.Fragment>
+            <>
               Please create a custom app instead
               <br />
               or submit a new app to the catalog (Help &gt; Report an Issue...).
-            </React.Fragment>
+            </>
           </EmptyState>
         );
       }
 
       return (
-        <React.Fragment>
+        <>
           <Grid container justify="center" spacing={16}>
-            {hits.map(app => (
+            {hits.map((app) => (
               <AppCard
                 key={app.id}
                 id={app.id}
@@ -150,7 +150,7 @@ class Home extends React.Component {
               </div>
             </Grid>
           )}
-        </React.Fragment>
+        </>
       );
     };
 
@@ -200,7 +200,7 @@ Home.propTypes = {
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   apps: state.appManagement.apps,
   hasFailed: state.home.hasFailed,
   hits: state.home.hits,

@@ -29,7 +29,7 @@ const getValidationRules = () => ({
   },
 });
 
-export const updateForm = changes => ({
+export const updateForm = (changes) => ({
   type: DIALOG_LICENSE_REGISTRATION_FORM_UPDATE,
   changes: validate(changes, getValidationRules()),
 });

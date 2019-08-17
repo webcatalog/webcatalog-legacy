@@ -20,7 +20,7 @@ import { requestGetInstalledApps } from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -74,7 +74,7 @@ App.propTypes = {
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isFullScreen: state.general.isFullScreen,
   route: state.router.route,
 });

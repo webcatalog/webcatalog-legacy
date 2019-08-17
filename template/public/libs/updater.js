@@ -9,12 +9,12 @@ const appJson = require('../app.json');
 const checkForUpdates = (silent) => {
   console.log('Checking for updates...');
   fetch('https://api.github.com/repos/quanglam2807/webcatalog/releases/latest')
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((release) => {
       const v = release.tag_name;
       return fetch(`https://raw.githubusercontent.com/quanglam2807/webcatalog/${v}/package.json`);
     })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((fetchedJson) => {
       if (semver.gt(fetchedJson.templateVersion, packageJson.version)) {
         dialog.showMessageBox(mainWindow.get(), {

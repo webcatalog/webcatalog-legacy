@@ -34,7 +34,7 @@ class StatedMenu extends React.Component {
     const { anchorEl, open } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         {React.cloneElement(buttonElement, {
           'aria-owns': id,
           'aria-haspopup': true,
@@ -47,14 +47,14 @@ class StatedMenu extends React.Component {
           onClose={this.handleRequestClose}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-          {React.Children.map(children, child => child && React.cloneElement(child, {
+          {React.Children.map(children, (child) => child && React.cloneElement(child, {
             onClick: () => {
               if (child.props.onClick) child.props.onClick();
               this.handleRequestClose();
             },
           }))}
         </Menu>
-      </React.Fragment>
+      </>
     );
   }
 }

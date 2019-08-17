@@ -23,7 +23,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const { dialog } = window.require('electron').remote;
 
-const styles = theme => ({
+const styles = (theme) => ({
   grid: {
     marginTop: theme.spacing.unit,
   },
@@ -79,7 +79,7 @@ const DialogCreateCustomApp = (props) => {
           id="name"
           label={nameError || 'Name'}
           margin="normal"
-          onChange={e => onUpdateForm({ name: e.target.value })}
+          onChange={(e) => onUpdateForm({ name: e.target.value })}
           value={name}
           error={Boolean(nameError)}
         />
@@ -88,7 +88,7 @@ const DialogCreateCustomApp = (props) => {
           id="url"
           label={urlError || 'URL'}
           margin="normal"
-          onChange={e => onUpdateForm({ url: e.target.value })}
+          onChange={(e) => onUpdateForm({ url: e.target.value })}
           value={url}
           error={Boolean(urlError)}
         />
