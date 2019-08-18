@@ -269,9 +269,10 @@ function createMenu() {
       label: appJson.name,
       submenu: [
         {
-          label: 'About',
+          label: `About ${appJson.name}`,
           click: () => aboutWindow.show(),
         },
+        { type: 'separator' },
         {
           label: 'Check for Updates...',
           click: () => checkForUpdates(),

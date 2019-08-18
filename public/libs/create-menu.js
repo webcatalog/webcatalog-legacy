@@ -11,6 +11,7 @@ const { getPreference } = require('./preferences');
 
 const createMenu = () => {
   const registered = getPreference('registered');
+  const updaterEnabled = process.env.SNAP == null && !process.mas && !process.windowsStore;
 
   const template = [
     {
@@ -66,7 +67,7 @@ const createMenu = () => {
       label: app.getName(),
       submenu: [
         {
-          label: 'About',
+          label: 'About WebCatalog',
           click: () => sendToAllWindows('open-dialog-about'),
         },
         { type: 'separator' },
@@ -77,7 +78,7 @@ const createMenu = () => {
         },
         {
           type: 'separator',
-          visible: process.env.SNAP != null,
+          visible: updaterEnabled,
         },
         {
           label: 'Check for Updates...',
@@ -85,7 +86,7 @@ const createMenu = () => {
             global.updateSilent = false;
             autoUpdater.checkForUpdates();
           },
-          visible: process.env.SNAP != null,
+          visible: updaterEnabled,
         },
         { type: 'separator' },
         {
@@ -127,13 +128,17 @@ const createMenu = () => {
           enabled: !registered,
           click: registered ? null : () => sendToAllWindows('open-license-registration-dialog'),
         },
-        { type: 'separator' },
+        {
+          type: 'separator',
+          visible: updaterEnabled,
+        },
         {
           label: 'Check for Updates...',
           click: () => {
             global.updateSilent = false;
             autoUpdater.checkForUpdates();
           },
+          visible: updaterEnabled,
         },
         { type: 'separator' },
         {
