@@ -230,15 +230,17 @@ decompress(templatePath, tmpPath)
       const execFilePath = path.join(finalPath, name);
       const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
       const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
+      // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
       const desktopFileContent = `[Desktop Entry]
-      Version=1.0
-      Type=Application
-      Name=${name}
-      GenericName=${name}
-      Icon=${iconPath}
-      Exec=${execFilePath}
-      Terminal=false;
-      `;
+Version=1.0
+Type=Application
+Name=${name}
+GenericName=${name}
+Icon=${iconPath}
+Exec="${execFilePath}"
+Terminal=false;
+`;
       return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
     }
 

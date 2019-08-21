@@ -65,6 +65,7 @@ const opts = {
       packageCategory: 'utils',
     },
     snap: {
+      confinement: 'classic',
       publish: [
         {
           provider: 'snapStore',
