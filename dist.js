@@ -35,7 +35,7 @@ switch (process.platform) {
   }
   default:
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage', 'snap'], Arch.x64);
+    targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
     break;
   }
 }
@@ -63,16 +63,6 @@ const opts = {
     linux: {
       category: 'Utility',
       packageCategory: 'utils',
-    },
-    snap: {
-      confinement: 'classic',
-      publish: [
-        {
-          provider: 'snapStore',
-          channels: ['stable', 'edge'],
-        },
-        'github',
-      ],
     },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
   },
