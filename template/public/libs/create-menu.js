@@ -152,7 +152,7 @@ function createMenu() {
         },
         { type: 'separator' },
         {
-          label: ' Tools',
+          label: 'Developer Tools',
           submenu: [
             {
               label: 'Window',
