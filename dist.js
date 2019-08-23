@@ -65,9 +65,7 @@ const opts = {
       packageCategory: 'utils',
     },
     snap: {
-      confinement: 'strict',
-      stagePackages: ['libasound2', 'libgconf2-4', 'libnotify4', 'libnspr4', 'libnss3', 'libpcre3', 'libpulse0', 'libxss1', 'libxtst6', 'libappindicator3-1', 'libsecret-1-0'],
-      useTemplateApp: false,
+      confinement: 'classic',
       publish: [
         {
           provider: 'snapStore',

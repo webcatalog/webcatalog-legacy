@@ -21,7 +21,6 @@ matrix:
 cache: yarn
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install multipass --beta --classic; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "$SNAP_TOKEN" | snapcraft login --with -; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install p7zip; fi
