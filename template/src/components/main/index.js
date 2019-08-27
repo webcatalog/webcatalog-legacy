@@ -102,6 +102,7 @@ const Main = ({
                 id={workspace.id}
                 key={workspace.id}
                 name={workspace.name}
+                badgeCount={workspace.badgeCount}
                 order={i}
                 onClick={() => requestSetActiveWorkspace(workspace.id)}
                 onContextMenu={(e) => {
