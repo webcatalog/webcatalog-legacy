@@ -20,17 +20,18 @@
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "electron": "6.0.2",
+    "electron": "6.0.4",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
     "electron-spellchecker": "2.2.0",
     "electron-window-state": "5.0.3",
+    "follow-redirects": "1.8.0",
     "menubar": "6.0.7",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",
     "semver": "6.3.0",
-    "uuid": "3.3.2"
+    "uuid": "3.3.3"
   },
   "devDependencies": {
     "@material-ui/core": "3.9.3",

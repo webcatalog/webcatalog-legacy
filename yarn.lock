@@ -3214,10 +3214,10 @@ bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.5:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
-blueimp-md5@2.11.1:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/blueimp-md5/-/blueimp-md5-2.11.1.tgz#b1f6b6218d13cdedbf5743f32b3023b2afefcbd3"
-  integrity sha512-4UiOAmql2XO0Sws07OVzYdCKK0K2Va5g6AVgYXoGhEQiKrdSOefjUCm1frPk6E+xiIOHRqaFg+TUGo7cClKg5g==
+blueimp-md5@2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/blueimp-md5/-/blueimp-md5-2.12.0.tgz#be7367938a889dec3ffbb71138617c117e9c130a"
+  integrity sha512-zo+HIdIhzojv6F1siQPqPFROyVy7C50KzHv/k/Iz+BtvtVzSHXiMXOpq2wCfNkeBqdCv+V8XOV96tsEt2W/3rQ==
 
 bmp-js@^0.1.0:
   version "0.1.0"
@@ -5158,10 +5158,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.2.tgz#437f3ac2bcb42116d92a3f1084280e0b2cff1493"
-  integrity sha512-2SV10JlUsEGZ8CePeQIllFBwrOmm1EONne3Ev7Ro1F4tuS9sF184d3/3wZjEtwOs7hsM6elceYnNuZfx93++YA==
+electron@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.4.tgz#28372c458f615c6cd989d75e602b1fdad48b6180"
+  integrity sha512-zrPi36etADOAjxnVX6TxRNKSWaBscMLd9S7AB+qISzI0dnYIDKycHpc2mB+5QWBd/8cR4m/1NLNTqNhX5KKGFg==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -6046,7 +6046,14 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@1.7.0, follow-redirects@^1.0.0:
+follow-redirects@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.8.0.tgz#dcf34930bcfdb6c1eb22b8eb7c457ec95a3dcf40"
+  integrity sha512-eYyazyi+vwXZ6LfSQicvqFwaNEF5xTvnB/rpzRLuqwK45u7WbBEnQ/dDic66KD/A8IzTXFlj2ROAcaP0f2v4lg==
+  dependencies:
+    debug "^4.1.1"
+
+follow-redirects@^1.0.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
   integrity sha512-m/pZQy4Gj287eNy94nivy5wchN3Kp+Q5WgUPNy5lJSZ3sgkVKSYV/ZChMAQVIgx1SqfZ2zBZtPA2YlXIWxxJOQ==

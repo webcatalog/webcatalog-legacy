@@ -4378,10 +4378,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.2.tgz#437f3ac2bcb42116d92a3f1084280e0b2cff1493"
-  integrity sha512-2SV10JlUsEGZ8CePeQIllFBwrOmm1EONne3Ev7Ro1F4tuS9sF184d3/3wZjEtwOs7hsM6elceYnNuZfx93++YA==
+electron@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.4.tgz#28372c458f615c6cd989d75e602b1fdad48b6180"
+  integrity sha512-zrPi36etADOAjxnVX6TxRNKSWaBscMLd9S7AB+qISzI0dnYIDKycHpc2mB+5QWBd/8cR4m/1NLNTqNhX5KKGFg==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -5150,6 +5150,13 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
+
+follow-redirects@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.8.0.tgz#dcf34930bcfdb6c1eb22b8eb7c457ec95a3dcf40"
+  integrity sha512-eYyazyi+vwXZ6LfSQicvqFwaNEF5xTvnB/rpzRLuqwK45u7WbBEnQ/dDic66KD/A8IzTXFlj2ROAcaP0f2v4lg==
+  dependencies:
+    debug "^4.1.1"
 
 follow-redirects@^1.0.0:
   version "1.7.0"
@@ -11424,7 +11431,12 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@3.3.2, uuid@^3.0.1, uuid@^3.3.2:
+uuid@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
+  integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
+
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
