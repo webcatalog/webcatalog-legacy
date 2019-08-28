@@ -157,7 +157,7 @@ function createMenu() {
             {
               label: 'Window',
               click: () => {
-                const win = mainWindow.get();
+                const win = editWorkspaceWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();

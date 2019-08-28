@@ -1,7 +1,11 @@
 
 import { UPDATE_EDIT_WORKSPACE_FORM } from '../../constants/actions';
 
-import { requestSetWorkspace } from '../../senders';
+import {
+  requestSetWorkspace,
+  requestSetWorkspacePicture,
+  requestRemoveWorkspacePicture
+} from '../../senders';
 
 const { remote } = window.require('electron');
 
@@ -12,14 +16,21 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 
 export const save = () => (dispatch, getState) => {
   const { form } = getState().editWorkspace;
+  const id = remote.getGlobal('editWorkspaceId');
 
   requestSetWorkspace(
-    remote.getGlobal('editWorkspaceId'),
+    id,
     {
       name: form.name,
       homeUrl: form.homeUrl,
     },
   );
+
+  if (form.picturePath) {
+    requestSetWorkspacePicture(id, form.picturePath);
+  } else {
+    requestRemoveWorkspacePicture(id);
+  }
 
   remote.getCurrentWindow().close();
 };

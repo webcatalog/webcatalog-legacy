@@ -64,6 +64,8 @@ const loadListeners = () => {
       if (response === 0) {
         resetPreferences();
         createMenu();
+
+        ipcMain.emit('request-show-require-restart-dialog');
       }
     });
   });

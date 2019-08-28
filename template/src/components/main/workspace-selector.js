@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import red from '@material-ui/core/colors/red';
 
-
 import connectComponent from '../../helpers/connect-component';
+import getAvatarText from '../../helpers/get-avatar-text';
 
 const styles = (theme) => ({
   root: {
@@ -40,6 +40,11 @@ const styles = (theme) => ({
     fontWeight: 500,
     textTransform: 'uppercase',
   },
+  avatarPicture: {
+    height: 32,
+    width: 32,
+    borderRadius: 4,
+  },
   shortcutText: {
     marginTop: 2,
     marginBottom: 0,
@@ -65,21 +70,16 @@ const styles = (theme) => ({
   },
 });
 
-const getAvatarText = (id, name, order) => {
-  if (id === 'add') return '+';
-  if (name) return name[0];
-  return order + 1;
-};
-
 const WorkspaceSelector = ({
   active,
   badgeCount,
   classes,
   id,
   name,
-  order,
   onClick,
   onContextMenu,
+  order,
+  picturePath,
 }) => (
   <div
     role="button"
@@ -90,7 +90,9 @@ const WorkspaceSelector = ({
     tabIndex="0"
   >
     <div className={classes.avatar}>
-      {getAvatarText(id, name, order)}
+      {picturePath ? (
+        <img alt="Icon" className={classes.avatarPicture} src={`file://${picturePath}`} />
+      ) : getAvatarText(id, name, order)}
     </div>
     {badgeCount > 0 && (
       <div className={classes.badgeCount}>
@@ -105,8 +107,9 @@ WorkspaceSelector.defaultProps = {
   active: false,
   badgeCount: 0,
   name: null,
-  order: 0,
   onContextMenu: null,
+  order: 0,
+  picturePath: null,
 };
 
 WorkspaceSelector.propTypes = {
@@ -115,9 +118,10 @@ WorkspaceSelector.propTypes = {
   classes: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
-  order: PropTypes.number,
   onClick: PropTypes.func.isRequired,
   onContextMenu: PropTypes.func,
+  order: PropTypes.number,
+  picturePath: PropTypes.string,
 };
 
 export default connectComponent(

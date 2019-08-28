@@ -17,7 +17,7 @@ import Main from './components/main';
 import OpenUrlWith from './components/open-url-with';
 import Preferences from './components/preferences';
 
-import { getWorkspace } from './senders';
+import getWorkspacesAsList from './helpers/get-workspaces-as-list';
 
 const { remote, webFrame } = window.require('electron');
 
@@ -61,7 +61,17 @@ const runApp = () => {
   } else if (window.mode === 'preferences') {
     document.title = 'Preferences';
   } else if (window.mode === 'edit-workspace') {
-    const workspace = getWorkspace(window.require('electron').remote.getGlobal('editWorkspaceId'));
+    const { workspaces } = store.getState();
+    const workspaceList = getWorkspacesAsList(workspaces);
+    const editWorkspaceId = window.require('electron').remote.getGlobal('editWorkspaceId');
+    const workspace = workspaces[editWorkspaceId];
+    workspaceList.some((item, index) => {
+      if (item.id === editWorkspaceId) {
+        workspace.order = index;
+        return true;
+      }
+      return false;
+    });
     document.title = workspace.name ? `Edit Workspace ${workspace.order + 1} "${workspace.name}"` : `Edit Workspace ${workspace.order + 1}`;
   } else if (window.mode === 'open-url-with') {
     document.title = 'Open Link With';
