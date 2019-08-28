@@ -4,7 +4,7 @@ import { UPDATE_EDIT_WORKSPACE_FORM } from '../../constants/actions';
 import {
   requestSetWorkspace,
   requestSetWorkspacePicture,
-  requestRemoveWorkspacePicture
+  requestRemoveWorkspacePicture,
 } from '../../senders';
 
 const { remote } = window.require('electron');
