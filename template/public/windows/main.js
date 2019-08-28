@@ -89,6 +89,7 @@ const createAsync = () => {
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
 

@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/SettingsSharp';
 
 import connectComponent from '../../helpers/connect-component';
+import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
 
 import WorkspaceSelector from './workspace-selector';
 import FindInPage from './find-in-page';
@@ -75,9 +76,6 @@ const styles = (theme) => ({
   },
 });
 
-const getWorkspacesAsList = (workspaces) => Object.values(workspaces)
-  .sort((a, b) => a.order - b.order);
-
 const Main = ({
   attachToMenubar,
   classes,
@@ -103,6 +101,7 @@ const Main = ({
                 key={workspace.id}
                 name={workspace.name}
                 badgeCount={workspace.badgeCount}
+                picturePath={workspace.picturePath}
                 order={i}
                 onClick={() => requestSetActiveWorkspace(workspace.id)}
                 onContextMenu={(e) => {

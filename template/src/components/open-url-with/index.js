@@ -8,13 +8,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import connectComponent from '../../helpers/connect-component';
+import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
 
 import { requestLoadURL } from '../../senders';
 
 const { remote } = window.require('electron');
-
-const getWorkspacesAsList = (workspaces) => Object.values(workspaces)
-  .sort((a, b) => a.order - b.order);
 
 const OpenUrlWith = ({ workspaces }) => (
   <List dense>

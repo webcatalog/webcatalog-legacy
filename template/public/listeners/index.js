@@ -23,6 +23,8 @@ const {
   getWorkspace,
   getWorkspaces,
   setWorkspace,
+  setWorkspacePicture,
+  removeWorkspacePicture,
 } = require('../libs/workspaces');
 
 const {
@@ -198,6 +200,14 @@ const loadListeners = () => {
 
   ipcMain.on('request-set-workspace', (e, id, opts) => {
     setWorkspace(id, opts);
+  });
+
+  ipcMain.on('request-set-workspace-picture', (e, id, picturePath) => {
+    setWorkspacePicture(id, picturePath);
+  });
+
+  ipcMain.on('request-remove-workspace-picture', (e, id) => {
+    removeWorkspacePicture(id);
   });
 
   ipcMain.on('request-clear-browsing-data', () => {
