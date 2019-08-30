@@ -66,7 +66,7 @@ export const create = () => (dispatch, getState) => {
 
   const { form } = state.dialogCreateCustomApp;
 
-  const validatedChanges = validate(form, getValidationRules(getState()));
+  const validatedChanges = validate(form, getValidationRules());
   if (hasErrors(validatedChanges)) {
     return dispatch(updateForm(validatedChanges));
   }

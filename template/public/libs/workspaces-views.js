@@ -26,7 +26,7 @@ const createWorkspaceView = () => {
   const newWorkspace = createWorkspace();
   setActiveWorkspace(newWorkspace.id);
 
-  addView(mainWindow.get(), newWorkspace);
+  addView(mainWindow.get(), getWorkspace(newWorkspace.id));
   setActiveView(mainWindow.get(), newWorkspace.id);
 };
 

@@ -155,9 +155,35 @@ function createMenu() {
           label: 'Developer Tools',
           submenu: [
             {
-              label: 'Window',
+              label: 'Main Window',
               click: () => {
-                const win = editWorkspaceWindow.get();
+                const win = mainWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            {
+              label: 'Preferences Window',
+              click: () => {
+                const win = preferencesWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            {
+              label: 'Main Window',
+              click: () => {
+                const win = mainWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();
