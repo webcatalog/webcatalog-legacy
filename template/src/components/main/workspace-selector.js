@@ -23,10 +23,11 @@ const styles = (theme) => ({
     WebkitAppRegion: 'no-drag',
     opacity: 0.8,
     position: 'relative',
+    borderLeft: '4px solid',
+    borderColor: 'transparent',
   },
   rootActive: {
     borderColor: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
-    borderLeft: '4px solid',
     opacity: 1,
   },
   avatar: {

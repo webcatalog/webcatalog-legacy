@@ -39,7 +39,7 @@ export const register = () => (dispatch, getState) => {
 
   const { form } = state.dialogLicenseRegistration;
 
-  const validatedChanges = validate(form, getValidationRules(getState()));
+  const validatedChanges = validate(form, getValidationRules());
   if (hasErrors(validatedChanges)) {
     return dispatch(updateForm(validatedChanges));
   }

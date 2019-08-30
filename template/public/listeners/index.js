@@ -128,6 +128,7 @@ const loadListeners = () => {
     }, (response) => {
       if (response === 0) {
         resetPreferences();
+        ipcMain.emit('request-show-require-restart-dialog');
       }
     });
   });

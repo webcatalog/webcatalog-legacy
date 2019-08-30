@@ -38,6 +38,7 @@ const create = (id) => {
 
   win.on('closed', () => {
     win = null;
+    global.editWorkspaceId = null;
   });
 };
 
