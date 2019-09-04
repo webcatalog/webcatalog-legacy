@@ -1,6 +1,15 @@
 // Adapted from legacy bash scripts of WebCatalog
 
 const argv = require('yargs-parser')(process.argv.slice(1));
+const ws = require('windows-shortcuts');
+const icongen = require('icon-gen');
+const Jimp = require('jimp');
+const path = require('path');
+const tmp = require('tmp');
+const fsExtra = require('fs-extra');
+const isUrl = require('is-url');
+const download = require('download');
+const sudo = require('sudo-prompt');
 
 const {
   engine,
@@ -13,25 +22,11 @@ const {
   installationPath,
   createDesktopShortcut,
   requireAdmin,
+  username,
 } = argv;
 
-// const os = require('os');
-// const fileType = require('file-type');
-const icongen = require('icon-gen');
-const Jimp = require('jimp');
-const path = require('path');
-// const readChunk = require('read-chunk');
-// const { execFile } = require('child_process');
-const tmp = require('tmp');
-const fsExtra = require('fs-extra');
-const isUrl = require('is-url');
-// const https = require('https');
-// const ws = require('windows-shortcuts');
-const download = require('download');
-const sudo = require('sudo-prompt');
-
-// const getWin32ChromePaths = require('../../get-win32-chrome-paths');
-// const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
+const getWin32ChromePaths = require('../../get-win32-chrome-paths');
+const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
@@ -63,16 +58,32 @@ const getAppFolderName = () => {
   throw Error('Unsupported platform');
 };
 
+const createShortcutAsync = (shortcutPath, opts) => {
+  if (process.platform !== 'win32') {
+    return Promise.reject(new Error('Platform is not supported'));
+  }
+
+  return new Promise((resolve, reject) => {
+    ws.create(shortcutPath, opts, (err) => {
+      if (err) { return reject(err); }
+      return resolve();
+    });
+  });
+};
+
+
 const tmpObj = tmp.dirSync();
 const tmpPath = tmpObj.name;
 const appFolderPath = path.join(tmpPath, getAppFolderName());
+// Mock Electron for backward compatiblity
 const contentsPath = path.join(appFolderPath, 'Contents');
 const resourcesPath = process.platform === 'darwin'
   ? path.join(contentsPath, 'Resources')
   : path.join(appFolderPath, 'resources');
-const execFilePath = path.join(contentsPath, 'Executable');
 const infoPlistPath = path.join(contentsPath, 'Info.plist');
-// Mock Electron for backward compatiblity
+const execFilePath = process.platform === 'darwin'
+  ? path.join(contentsPath, 'Executable')
+  : path.join(appFolderPath, name);
 const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
 const packageJsonPath = path.join(appAsarUnpackedPath, 'package.json');
 const appJsonPath = path.join(appAsarUnpackedPath, 'build', 'app.json');
@@ -84,8 +95,6 @@ const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
-
-console.log(tmpPath);
 
 const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
 
@@ -189,28 +198,122 @@ Promise.resolve()
   </dict>
 </plist>`;
           return fsExtra.outputFile(infoPlistPath, infoPlistContent);
-        })
-        .then(() => {
-          const packageJson = JSON.stringify({
-            version: '1.0.0',
-          });
-          return fsExtra.writeFileSync(packageJsonPath, packageJson);
-        })
-        .then(() => {
-          const appJson = JSON.stringify({
-            id, name, url, engine,
-          });
-          return fsExtra.writeFileSync(appJsonPath, appJson);
-        })
-        .then(() => {
-          if (requireAdmin === 'true') {
-            return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${appFolderPath}" "${finalPath}"`);
-          }
-          return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
         });
     }
 
+    if (process.platform === 'linux') {
+      return Promise.resolve()
+        .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
+        .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
+        .then(() => {
+          let execFileContent = '';
+          switch (engine) {
+            case 'firefox': {
+              execFileContent = `#!/bin/sh -ue
+firefox --class ${id} --P ${id} "${url}";`;
+              break;
+            }
+            case 'chromium': {
+              execFileContent = `#!/bin/sh -ue
+chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            case 'chrome':
+            default: {
+              execFileContent = `#!/bin/sh -ue
+google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+            }
+          }
+          return fsExtra.outputFile(execFilePath, execFileContent);
+        })
+        .then(() => fsExtra.chmod(execFilePath, '755'));
+    }
+
+    if (process.platform === 'win32') {
+      return Promise.resolve()
+        .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
+        .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
+        .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
+    }
+
     return Promise.reject(new Error('Unsupported platform'));
+  })
+  .then(() => {
+    const packageJson = JSON.stringify({
+      version: '1.0.0',
+    });
+    return fsExtra.writeFileSync(packageJsonPath, packageJson);
+  })
+  .then(() => {
+    const appJson = JSON.stringify({
+      id, name, url, engine,
+    });
+    return fsExtra.writeFileSync(appJsonPath, appJson);
+  })
+  .then(() => {
+    if (requireAdmin === 'true') {
+      return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${appFolderPath}" "${finalPath}"`);
+    }
+    return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
+  })
+  .then(() => {
+    // create desktop file for linux
+    if (process.platform === 'linux') {
+      const finalExecFilePath = path.join(finalPath, name);
+      const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
+      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
+      // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
+      const desktopFileContent = `[Desktop Entry]
+Version=1.0
+Type=Application
+Name=${name}
+GenericName=${name}
+Icon=${iconPath}
+Exec="${finalExecFilePath}"
+Terminal=false;
+`;
+      return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
+    }
+
+    if (process.platform === 'win32') {
+      let browserPath;
+      let args;
+
+      if (engine === 'firefox') {
+        browserPath = getWin32FirefoxPaths()[0]; // eslint-disable-line
+        args = `--class ${id} --P ${id} "${url}"`;
+      } else {
+        /* eslint-disable prefer-destructuring */
+        browserPath = getWin32ChromePaths()[0];
+        /* eslint-enable prefer-destructuring */
+
+        const userDataDir = path.join(homePath, '.webcatalog', 'data', id);
+
+        args = `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`;
+      }
+
+      const opts = {
+        target: browserPath,
+        args,
+        icon: publicIconIcoPath,
+      };
+      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
+      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
+
+      const p = [];
+
+      if (createDesktopShortcut) {
+        p.push(createShortcutAsync(desktopShortcutPath, opts));
+      }
+
+      p.push(fsExtra.ensureDir(startMenuPath)
+        .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+
+      return Promise.all(p);
+    }
+    return null;
   })
   .then(() => {
     process.exit(0);

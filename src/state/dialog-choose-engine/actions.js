@@ -71,6 +71,7 @@ export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState)
 
   return dispatch({
     type: DIALOG_CHOOSE_ENGINE_OPEN,
+    engine: getPreference('preferredEngine'),
     icon,
     id,
     mailtoHandler,
