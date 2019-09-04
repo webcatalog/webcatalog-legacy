@@ -6,8 +6,6 @@ import {
   DIALOG_CHOOSE_ENGINE_OPEN,
 } from '../../constants/actions';
 
-import { getPreference } from '../../senders';
-
 const open = (state = false, action) => {
   switch (action.type) {
     case DIALOG_CHOOSE_ENGINE_CLOSE: return false;
@@ -28,7 +26,7 @@ const form = (state = formInitialState, action) => {
   switch (action.type) {
     case DIALOG_CHOOSE_ENGINE_OPEN: return {
       ...formInitialState,
-      engine: getPreference('preferredEngine'),
+      engine: action.engine,
       icon: action.icon,
       id: action.id,
       name: action.name,

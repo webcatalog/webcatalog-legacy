@@ -11,6 +11,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import electronIcon from '../../assets/electron.png';
 import chromeIcon from '../../assets/chrome.png';
@@ -26,6 +28,8 @@ import {
 } from '../../state/dialog-choose-engine/actions';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+
+import { requestSetPreference } from '../../senders';
 
 const styles = (theme) => ({
   grid: {
@@ -54,6 +58,7 @@ const DialogChooseEngine = (props) => {
     onCreate,
     onUpdateForm,
     open,
+    hideEnginePrompt,
   } = props;
 
   return (
@@ -65,7 +70,7 @@ const DialogChooseEngine = (props) => {
     >
       <EnhancedDialogTitle onClose={onClose}>
         Choose an Engine for
-        {name}
+        {` ${name}`}
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography component="span" className={classes.tip} color="textPrimary">
@@ -155,7 +160,7 @@ const DialogChooseEngine = (props) => {
               <Avatar alt="Electron" src={electronIcon} />
             </ListItemAvatar>
             <ListItemText
-              primary="Electron"
+              primary="Electron (recommend)"
               secondary={(
                 <>
                   <Typography component="span" className={classes.inline} color="textPrimary">
@@ -220,6 +225,16 @@ const DialogChooseEngine = (props) => {
         </List>
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={hideEnginePrompt}
+              onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
+              color="primary"
+            />
+          )}
+          label="Don't ask again"
+        />
         <Button
           onClick={onClose}
         >
@@ -238,12 +253,13 @@ const DialogChooseEngine = (props) => {
 
 DialogChooseEngine.propTypes = {
   classes: PropTypes.object.isRequired,
+  engine: PropTypes.string.isRequired,
+  hideEnginePrompt: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  engine: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -255,10 +271,15 @@ const mapStateToProps = (state) => {
     },
   } = state.dialogChooseEngine;
 
+  const {
+    hideEnginePrompt,
+  } = state.preferences;
+
   return {
     engine,
     name,
     open,
+    hideEnginePrompt,
   };
 };
 

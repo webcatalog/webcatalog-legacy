@@ -15,30 +15,11 @@ import {
   open as openDialogLicenseRegistration,
 } from '../dialog-license-registration/actions';
 
-import { requestShowMessageBox } from '../../senders';
+import { requestShowMessageBox, getPreference } from '../../senders';
 
 export const close = () => ({
   type: DIALOG_CHOOSE_ENGINE_CLOSE,
 });
-
-export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
-  const state = getState();
-
-  const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
-
-  if (shouldAskForLicense) {
-    return dispatch(openDialogLicenseRegistration());
-  }
-
-  return dispatch({
-    type: DIALOG_CHOOSE_ENGINE_OPEN,
-    icon,
-    id,
-    mailtoHandler,
-    name,
-    url,
-  });
-};
 
 export const updateForm = (changes) => ({
   type: DIALOG_CHOOSE_ENGINE_FORM_UPDATE,
@@ -63,4 +44,37 @@ export const create = () => (dispatch, getState) => {
 
   dispatch(close());
   return null;
+};
+
+export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+  const state = getState();
+
+  const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
+
+  if (shouldAskForLicense) {
+    return dispatch(openDialogLicenseRegistration());
+  }
+
+  const { hideEnginePrompt } = state.preferences;
+  if (hideEnginePrompt) {
+    dispatch(updateForm({
+      engine: getPreference('preferredEngine'),
+      icon,
+      id,
+      mailtoHandler,
+      name,
+      url,
+    }));
+
+    return dispatch(create());
+  }
+
+  return dispatch({
+    type: DIALOG_CHOOSE_ENGINE_OPEN,
+    icon,
+    id,
+    mailtoHandler,
+    name,
+    url,
+  });
 };

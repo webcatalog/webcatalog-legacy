@@ -18,7 +18,6 @@ const getInstalledAppsAsync = () => {
         return fsExtra.readdir(installationPath)
           .then((files) => {
             files.forEach((fileName) => {
-              console.log(fileName);
               if (fileName === '.DS_Store') return;
 
               const resourcesPath = process.platform === 'darwin'

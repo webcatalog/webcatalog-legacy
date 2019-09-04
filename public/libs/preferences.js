@@ -35,6 +35,7 @@ const defaultPreferences = {
   preferredEngine: getPreferredEngine(),
   registered: false,
   requireAdmin: false,
+  hideEnginePrompt: false,
   theme: process.platform === 'darwin' ? 'automatic' : 'light',
 };
 
