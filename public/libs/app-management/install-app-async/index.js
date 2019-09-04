@@ -3,11 +3,41 @@ const { fork } = require('child_process');
 const { app } = require('electron');
 
 const { getPreference } = require('./../../preferences');
+const isEngineInstalled = require('../../is-engine-installed');
 
-const installAppAsync = (id, name, url, icon, mailtoHandler) => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js');
+const installAppAsync = (
+  engine, id, name, url, icon, mailtoHandler,
+) => new Promise((resolve, reject) => {
+  if (!isEngineInstalled(engine)) {
+    let engineName;
+    switch (engine) {
+      case 'electron': {
+        engineName = 'Electron';
+        break;
+      }
+      case 'firefox': {
+        engineName = 'Mozilla Firefox';
+        break;
+      }
+      case 'chromium': {
+        engineName = 'Chromium';
+        break;
+      }
+      default:
+      case 'chrome': {
+        engineName = 'Google Chrome';
+        break;
+      }
+    }
+    reject(new Error(`${engineName} is not installed.`));
+    return;
+  }
+
+  const scriptPath = path.join(__dirname, engine === 'electron' ? 'forked-script-electron.js' : 'forked-script-lite.js');
 
   const params = [
+    '--engine',
+    engine,
     '--id',
     id,
     '--name',

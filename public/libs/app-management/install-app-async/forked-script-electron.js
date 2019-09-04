@@ -165,7 +165,7 @@ decompress(templatePath, tmpPath)
   .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
   .then(() => {
     const appJson = JSON.stringify({
-      id, name, url, mailtoHandler,
+      id, name, url, mailtoHandler, engine: 'electron',
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })

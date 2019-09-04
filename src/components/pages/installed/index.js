@@ -109,6 +109,7 @@ const Installed = (props) => {
                     icon={app.icon}
                     status={app.status}
                     mailtoHandler={app.mailtoHandler}
+                    engine={app.engine}
                   />
                 ))}
               </Grid>

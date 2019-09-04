@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import appManagement from './app-management/reducers';
 import dialogAbout from './dialog-about/reducers';
+import dialogChooseEngine from './dialog-choose-engine/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
@@ -14,6 +15,7 @@ import router from './router/reducers';
 const rootReducer = combineReducers({
   appManagement,
   dialogAbout,
+  dialogChooseEngine,
   dialogCreateCustomApp,
   dialogLicenseRegistration,
   dialogSetInstallationPath,

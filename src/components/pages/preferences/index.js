@@ -171,6 +171,7 @@ const Preferences = ({
                   <ListItem>
                     <ListItemText
                       primary="Automatically create Start Menu shortcuts for newly installed apps"
+                      secondary="This preference only works with Electron engine."
                     />
                     <Switch
                       checked={createStartMenuShortcut}

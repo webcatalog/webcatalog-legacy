@@ -8,11 +8,7 @@ import {
 import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
 
-import { ROUTE_INSTALLED } from '../../constants/routes';
-
-import { changeRoute } from '../router/actions';
-
-import { installApp } from '../app-management/actions';
+import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
   getAppCount,
@@ -80,9 +76,8 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(installApp(id, name, url, icon));
+  dispatch(openDialogChooseEngine(id, name, url, icon));
 
-  dispatch(changeRoute(ROUTE_INSTALLED));
   dispatch(close());
   return null;
 };

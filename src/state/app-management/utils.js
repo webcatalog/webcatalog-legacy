@@ -6,6 +6,8 @@ export const isOutdatedApp = (id, state) => {
 
   if (apps[id] && apps[id].status === 'INSTALLING') return false;
 
+  if (apps[id] && apps[id].engine !== 'electron') return false;
+
   const v = apps[id] ? apps[id].version : null;
   const latestV = state.general.latestTemplateVersion;
 
