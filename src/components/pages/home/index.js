@@ -129,6 +129,7 @@ class Home extends React.Component {
                 icon128={app.icon128}
                 mailtoHandler={app.mailtoHandler}
                 status={apps[app.id] ? apps[app.id].status : null}
+                engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
           </Grid>

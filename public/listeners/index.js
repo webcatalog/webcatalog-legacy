@@ -126,9 +126,10 @@ const loadListeners = () => {
   // Chain app installing promises
   let p = Promise.resolve();
 
-  ipcMain.on('request-install-app', (e, id, name, url, icon, mailtoHandler) => {
+  ipcMain.on('request-install-app', (e, engine, id, name, url, icon, mailtoHandler) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
+      engine,
       id,
       name,
       url,
@@ -136,7 +137,7 @@ const loadListeners = () => {
       mailtoHandler,
     });
 
-    p = p.then(() => installAppAsync(id, name, url, icon, mailtoHandler)
+    p = p.then(() => installAppAsync(engine, id, name, url, icon, mailtoHandler)
       .then(() => {
         e.sender.send('set-app', id, {
           version: packageJson.templateVersion,
@@ -148,7 +149,7 @@ const loadListeners = () => {
         console.log(error);
         dialog.showMessageBox(mainWindow.get(), {
           type: 'error',
-          message: `Failed to install ${name}.`,
+          message: `Failed to install ${name}. (${error.message})`,
         });
         e.sender.send('remove-app', id);
       }));

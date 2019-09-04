@@ -11,6 +11,7 @@ import Home from './pages/home';
 import Preferences from './pages/preferences';
 
 import DialogAbout from './dialogs/dialog-about';
+import DialogChooseEngine from './dialogs/dialog-choose-engine';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
@@ -59,6 +60,7 @@ class App extends React.Component {
         {pageContent}
         <EnhancedBottomNavigation />
         <DialogAbout />
+        <DialogChooseEngine />
         <DialogCreateCustomApp />
         <DialogLicenseRegistration />
         <DialogSetInstallationPath />

@@ -23,7 +23,8 @@ import {
 } from '../../senders';
 
 import { isOutdatedApp } from '../../state/app-management/utils';
-import { installApp, updateApp } from '../../state/app-management/actions';
+import { updateApp } from '../../state/app-management/actions';
+import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
 
 const styles = (theme) => ({
   card: {
@@ -32,6 +33,7 @@ const styles = (theme) => ({
     borderRadius: 4,
     padding: theme.spacing.unit * 1.5,
     textAlign: 'center',
+    position: 'relative',
   },
   appName: {
     overflow: 'hidden',
@@ -57,21 +59,28 @@ const styles = (theme) => ({
     minWidth: 'auto',
     boxShadow: 'none',
   },
+  engine: {
+    fontSize: '12px',
+    position: 'absolute',
+    top: theme.spacing.unit,
+    right: theme.spacing.unit,
+  },
 });
 
 const AppCard = (props) => {
   const {
     classes,
+    engine,
     icon,
     icon128,
     id,
     isOutdated,
     mailtoHandler,
     name,
+    onOpenDialogChooseEngine,
+    onUpdateApp,
     status,
     url,
-    onInstallApp,
-    onUpdateApp,
   } = props;
 
   const renderActionsElement = () => {
@@ -118,7 +127,7 @@ const AppCard = (props) => {
         color="primary"
         size="medium"
         disabled={status !== null}
-        onClick={() => onInstallApp(id, name, url, icon, mailtoHandler)}
+        onClick={() => onOpenDialogChooseEngine(id, name, url, icon, mailtoHandler)}
       >
         <span>{label}</span>
       </Button>
@@ -143,6 +152,9 @@ const AppCard = (props) => {
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
+        <div className={classes.engine}>
+          {engine}
+        </div>
       </Paper>
     </Grid>
   );
@@ -152,17 +164,19 @@ AppCard.defaultProps = {
   mailtoHandler: null,
   status: null,
   icon128: null,
+  engine: null,
 };
 
 AppCard.propTypes = {
   classes: PropTypes.object.isRequired,
+  engine: PropTypes.string,
   icon128: PropTypes.string,
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isOutdated: PropTypes.bool.isRequired,
   mailtoHandler: PropTypes.string,
   name: PropTypes.string.isRequired,
-  onInstallApp: PropTypes.func.isRequired,
+  onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
   status: PropTypes.string,
   url: PropTypes.string.isRequired,
@@ -173,7 +187,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const actionCreators = {
-  installApp,
+  openDialogChooseEngine,
   updateApp,
 };
 

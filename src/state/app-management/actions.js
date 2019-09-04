@@ -34,7 +34,7 @@ export const removeApp = (id) => ({
   id,
 });
 
-export const installApp = (id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+export const installApp = (engine, id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
   const state = getState();
 
   const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
@@ -49,7 +49,7 @@ export const installApp = (id, name, url, icon, mailtoHandler) => (dispatch, get
     return null;
   }
 
-  requestInstallApp(id, name, url, icon, mailtoHandler);
+  requestInstallApp(engine, id, name, url, icon, mailtoHandler);
   return null;
 };
 

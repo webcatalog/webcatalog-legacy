@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "blueimp-md5": "2.12.0",
+    "command-exists": "1.2.8",
     "decompress": "4.2.0",
     "download": "7.1.0",
     "electron-is-dev": "1.1.0",
@@ -45,7 +46,8 @@
     "fs-extra": "8.1.0",
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.6.4",
+    "jimp": "0.6.8",
+    "read-chunk": "3.2.0",
     "sudo-prompt": "9.0.0",
     "tmp": "0.1.0",
     "windows-shortcuts": "0.1.6",

@@ -127,7 +127,7 @@ const DialogCreateCustomApp = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          Create
+          Continue
         </Button>
       </DialogActions>
     </Dialog>

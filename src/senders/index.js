@@ -13,6 +13,6 @@ export const requestOpenInstallLocation = () => ipcRenderer.send('request-open-i
 
 // App Management
 export const requestGetInstalledApps = () => ipcRenderer.send('request-get-installed-apps');
-export const requestInstallApp = (id, name, url, icon, mailtoHandler) => ipcRenderer.send('request-install-app', id, name, url, icon, mailtoHandler);
+export const requestInstallApp = (engine, id, name, url, icon, mailtoHandler) => ipcRenderer.send('request-install-app', engine, id, name, url, icon, mailtoHandler);
 export const requestUninstallApp = (id, name) => ipcRenderer.send('request-uninstall-app', id, name);
 export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app', id, name);

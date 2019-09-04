@@ -59,6 +59,7 @@ const getInstalledAppsAsync = () => {
               apps.push(Object.assign(appJson, {
                 version: packageJson.version,
                 icon,
+                engine: appJson.engine || 'electron',
                 status: 'INSTALLED',
               }));
             });
