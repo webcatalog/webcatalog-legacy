@@ -78,6 +78,10 @@ Promise.resolve()
     return null;
   })
   .then(() => {
+    const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
+    return checkExistsAndRemove(chromiumDataPath);
+  })
+  .then(() => {
     process.exit(0);
   })
   .catch((e) => {
