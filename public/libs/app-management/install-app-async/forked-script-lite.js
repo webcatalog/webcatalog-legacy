@@ -288,9 +288,7 @@ Terminal=false;
         browserPath = getWin32ChromePaths()[0];
         /* eslint-enable prefer-destructuring */
 
-        const userDataDir = path.join(homePath, '.webcatalog', 'data', id);
-
-        args = `--class "${name}" --user-data-dir="${userDataDir}" --app="${url}"`;
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       }
 
       const opts = {
