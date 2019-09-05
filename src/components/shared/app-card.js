@@ -92,7 +92,7 @@ const AppCard = (props) => {
               className={classes.actionButton}
               color="primary"
               size="medium"
-              onClick={() => onUpdateApp(id, name, url, icon, mailtoHandler)}
+              onClick={() => onUpdateApp(engine, id, name, url, icon, mailtoHandler)}
             >
               Update
             </Button>
@@ -152,9 +152,11 @@ const AppCard = (props) => {
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
-        <div className={classes.engine}>
-          {engine}
-        </div>
+        {engine && (
+          <div className={classes.engine}>
+            {engine}
+          </div>
+        )}
       </Paper>
     </Grid>
   );
