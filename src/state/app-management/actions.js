@@ -53,7 +53,7 @@ export const installApp = (engine, id, name, url, icon, mailtoHandler) => (dispa
   return null;
 };
 
-export const updateApp = (id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+export const updateApp = (engine, id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
   const state = getState();
 
   const { latestTemplateVersion } = state.general;
@@ -65,7 +65,7 @@ export const updateApp = (id, name, url, icon, mailtoHandler) => (dispatch, getS
   // download icon when updating apps in the catalog
   const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-  return requestInstallApp(id, name, url, iconUrl, mailtoHandler);
+  return requestInstallApp(engine, id, name, url, iconUrl, mailtoHandler);
 };
 
 export const updateAllApps = () => (dispatch, getState) => {
@@ -81,13 +81,13 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   outdatedApps.forEach((app) => {
     const {
-      id, name, url, icon, mailtoHandler,
+      engine, id, name, url, icon, mailtoHandler,
     } = app;
 
     // download icon when updating apps in the catalog
     const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-    return requestInstallApp(id, name, url, iconUrl, mailtoHandler);
+    return requestInstallApp(engine, id, name, url, iconUrl, mailtoHandler);
   });
 
   return null;
