@@ -61,7 +61,10 @@ const getPreference = (name) => {
     }
   }
 
-  return settings.get(`preferences.${v}.${name}`) || defaultPreferences[name];
+  if (settings.has(`preferences.${v}.${name}`)) {
+    return settings.get(`preferences.${v}.${name}`);
+  }
+  return defaultPreferences[name];
 };
 
 const setPreference = (name, value) => {
