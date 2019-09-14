@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
