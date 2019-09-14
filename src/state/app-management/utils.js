@@ -40,3 +40,22 @@ export const getAppCount = (state) => {
   const { apps } = state.appManagement;
   return Object.values(apps).length;
 };
+
+export const filterApps = (apps, query) => {
+  if (query.length < 1) return apps;
+
+  const processedQuery = query.trim().toLowerCase();
+
+  const newApps = {};
+  const keys = Object.keys(apps);
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const app = apps[key];
+    if (app.name.toLowerCase().includes(processedQuery)
+    || app.url.toLowerCase().includes(processedQuery)) {
+      newApps[key] = app;
+    }
+  }
+
+  return newApps;
+};
