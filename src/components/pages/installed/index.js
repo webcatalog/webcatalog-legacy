@@ -16,9 +16,11 @@ import connectComponent from '../../../helpers/connect-component';
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 
+import SearchBox from './search-box';
+
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { updateAllApps } from '../../../state/app-management/actions';
-import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
+import { getOutdatedAppsAsList, filterApps } from '../../../state/app-management/utils';
 
 const styles = (theme) => ({
   root: {
@@ -84,6 +86,11 @@ const Installed = (props) => {
           </Button>
         </Toolbar>
       </AppBar>
+      <Grid container spacing={16}>
+        <Grid item xs={12}>
+          <SearchBox />
+        </Grid>
+      </Grid>
       <div className={classes.scrollContainer}>
         <Grid spacing={16} container className={classes.grid}>
           <Grid item xs={12}>
@@ -138,7 +145,7 @@ Installed.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  apps: state.appManagement.apps,
+  apps: filterApps(state.appManagement.apps, state.installed.query),
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
 });

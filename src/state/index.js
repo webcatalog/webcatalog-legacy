@@ -11,6 +11,7 @@ import general from './general/reducers';
 import home from './home/reducers';
 import preferences from './preferences/reducers';
 import router from './router/reducers';
+import installed from './installed/reducers';
 
 const rootReducer = combineReducers({
   appManagement,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   dialogSetInstallationPath,
   general,
   home,
+  installed,
   preferences,
   router,
 });
