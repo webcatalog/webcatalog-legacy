@@ -27,7 +27,7 @@
     "electron-window-state": "5.0.3",
     "follow-redirects": "1.9.0",
     "fs-extra": "8.1.0",
-    "jimp": "0.8.2",
+    "jimp": "0.6.8",
     "menubar": "6.0.7",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
