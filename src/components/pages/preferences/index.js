@@ -94,8 +94,6 @@ const getEngineName = (engine) => {
 const Preferences = ({
   appCount,
   classes,
-  createDesktopShortcut,
-  createStartMenuShortcut,
   hideEnginePrompt,
   installationPath,
   installingAppCount,
@@ -274,8 +272,6 @@ const Preferences = ({
 Preferences.propTypes = {
   appCount: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
-  createDesktopShortcut: PropTypes.bool.isRequired,
-  createStartMenuShortcut: PropTypes.bool.isRequired,
   hideEnginePrompt: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
@@ -287,8 +283,6 @@ Preferences.propTypes = {
 
 const mapStateToProps = (state) => ({
   appCount: getAppCount(state),
-  createDesktopShortcut: state.preferences.createDesktopShortcut,
-  createStartMenuShortcut: state.preferences.createStartMenuShortcut,
   hideEnginePrompt: state.preferences.hideEnginePrompt,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,

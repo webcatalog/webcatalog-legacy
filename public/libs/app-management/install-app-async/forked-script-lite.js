@@ -19,7 +19,6 @@ const {
   homePath,
   desktopPath,
   installationPath,
-  createDesktopShortcut,
   requireAdmin,
   username,
 } = argv;

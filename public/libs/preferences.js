@@ -1,6 +1,4 @@
-const { app } = require('electron');
 const settings = require('electron-settings');
-const path = require('path');
 
 const sendToAllWindows = require('./send-to-all-windows');
 const isEngineInstalled = require('./is-engine-installed');
@@ -23,8 +21,6 @@ const getPreferredEngine = () => {
 };
 
 const defaultPreferences = {
-  createDesktopShortcut: true,
-  createStartMenuShortcut: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: getPreferredEngine(),
   registered: false,

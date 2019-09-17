@@ -9,7 +9,6 @@ const {
   installationPath,
   requireAdmin,
   homePath,
-  desktopPath,
   username,
 } = argv;
 

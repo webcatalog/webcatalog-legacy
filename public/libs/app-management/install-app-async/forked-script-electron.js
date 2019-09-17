@@ -9,7 +9,6 @@ const download = require('download');
 const tmp = require('tmp');
 const decompress = require('decompress');
 const sudo = require('sudo-prompt');
-const ws = require('windows-shortcuts');
 
 const {
   id,
@@ -18,12 +17,9 @@ const {
   icon,
   mailtoHandler,
   homePath,
-  desktopPath,
   installationPath,
   requireAdmin,
   username,
-  createDesktopShortcut,
-  createStartMenuShortcut,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
@@ -34,10 +30,8 @@ const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
-const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 const appJsonPath = path.join(appPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
-const publicIconIcoPath = path.join(appPath, 'build', 'icon.ico');
 const packageJsonPath = path.join(appPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
 
