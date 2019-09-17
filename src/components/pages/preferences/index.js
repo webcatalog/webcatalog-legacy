@@ -72,11 +72,6 @@ const getThemeString = (theme) => {
   return 'Automatic';
 };
 
-const getFileManagerName = () => {
-  if (window.process.platform === 'darwin') return 'Finder';
-  if (window.process.platform === 'win32') return 'FIle Explorer';
-  return 'file manager';
-};
 
 const getEngineName = (engine) => {
   switch (engine) {
@@ -208,41 +203,6 @@ const Preferences = ({
           </Typography>
           <Paper className={classes.paper}>
             <List dense>
-              {window.process.platform === 'win32' && (
-                <>
-                  <ListItem>
-                    <ListItemText
-                      primary="Automatically create desktop shortcuts for newly installed apps"
-                    />
-                    <Switch
-                      checked={createDesktopShortcut}
-                      onChange={(e) => {
-                        requestSetPreference('createDesktopShortcut', e.target.checked);
-                      }}
-                      classes={{
-                        switchBase: classes.switchBase,
-                      }}
-                    />
-                  </ListItem>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText
-                      primary="Automatically create Start Menu shortcuts for newly installed apps"
-                      secondary="This preference only works with Electron engine."
-                    />
-                    <Switch
-                      checked={createStartMenuShortcut}
-                      onChange={(e) => {
-                        requestSetPreference('createStartMenuShortcut', e.target.checked);
-                      }}
-                      classes={{
-                        switchBase: classes.switchBase,
-                      }}
-                    />
-                  </ListItem>
-                  <Divider />
-                </>
-              )}
               {installingAppCount > 0 ? (
                 <ListItem
                   button
@@ -263,61 +223,25 @@ const Preferences = ({
                     </ListItem>
                   )}
                 >
-                  {window.process.platform === 'win32' && (
-                    <>
-                      {(installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
-                        <MenuItem>
-                          {installationPath}
-                        </MenuItem>
-                      )}
-                      <MenuItem
-                        onClick={() => {
-                          handleUpdateInstallationPath(`${remote.app.getPath('home')}\\WebCatalog Apps`, false);
-                        }}
-                      >
-                        {`${remote.app.getPath('home')}\\WebCatalog Apps`}
-                      </MenuItem>
-                    </>
+                  {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
+                    <MenuItem>
+                      {installationPath}
+                    </MenuItem>
                   )}
-                  {window.process.platform === 'darwin' && (
-                    <>
-                      {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
-                        <MenuItem>
-                          {installationPath}
-                        </MenuItem>
-                      )}
-                      <MenuItem
-                        onClick={() => {
-                          handleUpdateInstallationPath('~/Applications/WebCatalog Apps', false);
-                        }}
-                      >
-                        ~/Applications/WebCatalog Apps (default)
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          handleUpdateInstallationPath('/Applications/WebCatalog Apps', true);
-                        }}
-                      >
-                        /Applications/WebCatalog Apps (requires sudo)
-                      </MenuItem>
-                    </>
-                  )}
-                  {window.process.platform === 'linux' && (
-                    <>
-                      {(installationPath !== '~/.webcatalog') && (
-                        <MenuItem>
-                          {installationPath}
-                        </MenuItem>
-                      )}
-                      <MenuItem
-                        onClick={() => {
-                          handleUpdateInstallationPath('~/.webcatalog', false);
-                        }}
-                      >
-                        ~/.webcatalog (default)
-                      </MenuItem>
-                    </>
-                  )}
+                  <MenuItem
+                    onClick={() => {
+                      handleUpdateInstallationPath('~/Applications/WebCatalog Apps', false);
+                    }}
+                  >
+                    ~/Applications/WebCatalog Apps (default)
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleUpdateInstallationPath('/Applications/WebCatalog Apps', true);
+                    }}
+                  >
+                    /Applications/WebCatalog Apps (requires sudo)
+                  </MenuItem>
                   <MenuItem onClick={onOpenDialogSetInstallationPath}>
                     Custom
                   </MenuItem>
@@ -325,7 +249,7 @@ const Preferences = ({
               )}
               <Divider />
               <ListItem button onClick={requestOpenInstallLocation}>
-                <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
+                <ListItemText primary="Open installation path in Finder" />
               </ListItem>
             </List>
           </Paper>

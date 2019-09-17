@@ -12,12 +12,6 @@ const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
     return '~/Applications/WebCatalog Apps';
   }
-  if (process.platform === 'linux') {
-    return '~/.webcatalog';
-  }
-  if (process.platform === 'win32') {
-    return path.join(app.getPath('home'), 'WebCatalog Apps');
-  }
   throw Error('Unsupported platform');
 };
 

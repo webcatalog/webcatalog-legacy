@@ -1,7 +1,6 @@
 // Adapted from legacy bash scripts of WebCatalog
 
 const argv = require('yargs-parser')(process.argv.slice(1));
-const ws = require('windows-shortcuts');
 const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const path = require('path');
@@ -25,9 +24,6 @@ const {
   username,
 } = argv;
 
-const getWin32ChromePaths = require('../../get-win32-chrome-paths');
-const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
-
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
     name: 'WebCatalog',
@@ -49,26 +45,7 @@ const getAppFolderName = () => {
   if (process.platform === 'darwin') {
     return `${name}.app`;
   }
-  if (process.platform === 'linux') {
-    return `${name}-linux-x64`;
-  }
-  if (process.platform === 'win32') {
-    return `${name}-win32-x64`;
-  }
   throw Error('Unsupported platform');
-};
-
-const createShortcutAsync = (shortcutPath, opts) => {
-  if (process.platform !== 'win32') {
-    return Promise.reject(new Error('Platform is not supported'));
-  }
-
-  return new Promise((resolve, reject) => {
-    ws.create(shortcutPath, opts, (err) => {
-      if (err) { return reject(err); }
-      return resolve();
-    });
-  });
 };
 
 
@@ -119,7 +96,7 @@ Promise.resolve()
       ? [16, 32, 64, 128, 256, 512, 1024]
       : [16, 24, 32, 48, 64, 128, 256];
 
-    const p = (process.platform === 'darwin' || process.platform === 'win32')
+    const p = (process.platform === 'darwin')
       ? sizes.map((size) => new Promise((resolve) => {
         img
           .clone()
@@ -138,16 +115,6 @@ Promise.resolve()
               sizes,
             },
           });
-        }
-        if (process.platform === 'win32') {
-          return icongen(buildResourcesPath, buildResourcesPath, {
-            report: true,
-            ico: {
-              name: 'e',
-              sizes,
-            },
-          })
-            .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
         }
         return null;
       });
@@ -201,41 +168,6 @@ Promise.resolve()
         });
     }
 
-    if (process.platform === 'linux') {
-      return Promise.resolve()
-        .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
-        .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
-        .then(() => {
-          let execFileContent = '';
-          switch (engine) {
-            case 'firefox': {
-              execFileContent = `#!/bin/sh -ue
-firefox --class ${id} --P ${id} "${url}";`;
-              break;
-            }
-            case 'chromium': {
-              execFileContent = `#!/bin/sh -ue
-chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
-              break;
-            }
-            case 'chrome':
-            default: {
-              execFileContent = `#!/bin/sh -ue
-google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
-            }
-          }
-          return fsExtra.outputFile(execFilePath, execFileContent);
-        })
-        .then(() => fsExtra.chmod(execFilePath, '755'));
-    }
-
-    if (process.platform === 'win32') {
-      return Promise.resolve()
-        .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
-        .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
-        .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
-    }
-
     return Promise.reject(new Error('Unsupported platform'));
   })
   .then(() => {
@@ -255,63 +187,6 @@ google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${u
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${appFolderPath}" "${finalPath}"`);
     }
     return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
-  })
-  .then(() => {
-    // create desktop file for linux
-    if (process.platform === 'linux') {
-      const finalExecFilePath = path.join(finalPath, name);
-      const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
-      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-      // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
-      // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
-      const desktopFileContent = `[Desktop Entry]
-Version=1.0
-Type=Application
-Name=${name}
-GenericName=${name}
-Icon=${iconPath}
-Exec="${finalExecFilePath}"
-Terminal=false;
-`;
-      return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
-    }
-
-    if (process.platform === 'win32') {
-      let browserPath;
-      let args;
-
-      if (engine === 'firefox') {
-        browserPath = getWin32FirefoxPaths()[0]; // eslint-disable-line
-        args = `--class ${id} --P ${id} "${url}"`;
-      } else {
-        /* eslint-disable prefer-destructuring */
-        browserPath = getWin32ChromePaths()[0];
-        /* eslint-enable prefer-destructuring */
-
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      }
-
-      const opts = {
-        target: browserPath,
-        args,
-        icon: publicIconIcoPath,
-      };
-      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-
-      const p = [];
-
-      if (createDesktopShortcut) {
-        p.push(createShortcutAsync(desktopShortcutPath, opts));
-      }
-
-      p.push(fsExtra.ensureDir(startMenuPath)
-        .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
-
-      return Promise.all(p);
-    }
-    return null;
   })
   .then(() => {
     process.exit(0);

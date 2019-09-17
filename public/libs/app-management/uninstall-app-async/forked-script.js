@@ -59,22 +59,6 @@ Promise.resolve()
       return checkExistsAndRemove(appDataPath);
     }
 
-    if (process.platform === 'linux') {
-      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-      return checkExistsAndRemove(desktopFilePath);
-    }
-
-    if (process.platform === 'win32') {
-      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-
-      return Promise.all([
-        checkExistsAndRemove(startMenuShortcutPath),
-        checkExistsAndRemove(desktopShortcutPath),
-      ]);
-    }
-
     return null;
   })
   .then(() => {

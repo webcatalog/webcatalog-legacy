@@ -9,11 +9,6 @@ const openApp = (id, name) => {
   if (process.platform === 'darwin') {
     appPath = path.join(getPreference('installationPath').replace('~', app.getPath('home')), `${name}.app`);
     shell.openItem(appPath);
-  } else if (process.platform === 'linux') {
-    exec(`gtk-launch webcatalog-${id}`);
-  } else if (process.platform === 'win32') {
-    appPath = path.join(getPreference('installationPath'), name, `${name}.exe`);
-    shell.openItem(appPath);
   }
 };
 

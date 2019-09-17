@@ -2,7 +2,7 @@
 const fs = require('fs-extra');
 const builder = require('electron-builder');
 
-const { Arch, Platform } = builder;
+const { Platform } = builder;
 
 console.log(`Machine: ${process.platform}`);
 
@@ -23,25 +23,8 @@ fs.writeJSONSync(TEMPLATE_JSON_PATH, {
   version: templatePackageJson.version,
 });
 
-let targets;
-switch (process.platform) {
-  case 'darwin': {
-    targets = Platform.MAC.createTarget();
-    break;
-  }
-  case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
-    break;
-  }
-  default:
-  case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
-    break;
-  }
-}
-
 const opts = {
-  targets,
+  targets: Platform.MAC.createTarget(),
   config: {
     appId: 'com.webcatalog.jordan',
     productName: 'WebCatalog',
