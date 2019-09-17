@@ -1,6 +1,4 @@
-const { app } = require('electron');
 const settings = require('electron-settings');
-const path = require('path');
 
 const sendToAllWindows = require('./send-to-all-windows');
 const isEngineInstalled = require('./is-engine-installed');
@@ -11,12 +9,6 @@ const v = '2018';
 const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
     return '~/Applications/WebCatalog Apps';
-  }
-  if (process.platform === 'linux') {
-    return '~/.webcatalog';
-  }
-  if (process.platform === 'win32') {
-    return path.join(app.getPath('home'), 'WebCatalog Apps');
   }
   throw Error('Unsupported platform');
 };
@@ -29,8 +21,6 @@ const getPreferredEngine = () => {
 };
 
 const defaultPreferences = {
-  createDesktopShortcut: true,
-  createStartMenuShortcut: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: getPreferredEngine(),
   registered: false,
