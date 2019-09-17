@@ -43,10 +43,6 @@ const opts = {
     mac: {
       category: 'public.app-category.utilities',
     },
-    linux: {
-      category: 'Utility',
-      packageCategory: 'utils',
-    },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
   },
 };

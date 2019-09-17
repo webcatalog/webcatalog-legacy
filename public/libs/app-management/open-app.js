@@ -1,6 +1,5 @@
 const { app, shell } = require('electron');
 const path = require('path');
-const { exec } = require('child_process');
 
 const { getPreference } = require('../preferences');
 
