@@ -17,7 +17,6 @@ const {
   url,
   icon,
   homePath,
-  desktopPath,
   installationPath,
   requireAdmin,
   username,
@@ -65,12 +64,10 @@ const packageJsonPath = path.join(appAsarUnpackedPath, 'package.json');
 const appJsonPath = path.join(appAsarUnpackedPath, 'build', 'app.json');
 const publicIconIcnsPath = path.join(resourcesPath, 'icon.icns');
 const publicIconPngPath = path.join(appAsarUnpackedPath, 'build', 'icon.png');
-const publicIconIcoPath = path.join(appAsarUnpackedPath, 'build', 'icon.ico');
 
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
-const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 
 const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
 
