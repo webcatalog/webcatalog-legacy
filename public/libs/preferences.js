@@ -13,19 +13,12 @@ const getDefaultInstallationPath = () => {
   throw Error('Unsupported platform');
 };
 
-const getPreferredEngine = () => {
-  if (isEngineInstalled('chrome')) {
-    return 'chrome';
-  }
-  return 'electron';
-};
-
 const defaultPreferences = {
   installationPath: getDefaultInstallationPath(),
-  preferredEngine: getPreferredEngine(),
+  preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
-  hideEnginePrompt: false,
+  hideEnginePrompt: true,
   theme: process.platform === 'darwin' ? 'automatic' : 'light',
 };
 
