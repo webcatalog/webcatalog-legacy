@@ -1,7 +1,6 @@
 const settings = require('electron-settings');
 
 const sendToAllWindows = require('./send-to-all-windows');
-const isEngineInstalled = require('./is-engine-installed');
 
 // scope
 const v = '2018';
