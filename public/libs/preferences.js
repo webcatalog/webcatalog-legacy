@@ -1,7 +1,6 @@
 const settings = require('electron-settings');
 
 const sendToAllWindows = require('./send-to-all-windows');
-const isEngineInstalled = require('./is-engine-installed');
 
 // scope
 const v = '2018';
@@ -13,19 +12,12 @@ const getDefaultInstallationPath = () => {
   throw Error('Unsupported platform');
 };
 
-const getPreferredEngine = () => {
-  if (isEngineInstalled('chrome')) {
-    return 'chrome';
-  }
-  return 'electron';
-};
-
 const defaultPreferences = {
   installationPath: getDefaultInstallationPath(),
-  preferredEngine: getPreferredEngine(),
+  preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
-  hideEnginePrompt: false,
+  hideEnginePrompt: true,
   theme: process.platform === 'darwin' ? 'automatic' : 'light',
 };
 
