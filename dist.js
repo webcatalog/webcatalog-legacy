@@ -44,6 +44,7 @@ const opts = {
     mac: {
       category: 'public.app-category.utilities',
       hardenedRuntime: true,
+      gatekeeperAssess: false,
       entitlements: 'build-resources/entitlements.mac.plist',
       entitlementsInherit: 'build-resources/entitlements.mac.plist',
     },
