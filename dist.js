@@ -50,12 +50,14 @@ const opts = {
     },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
     afterSign: (context) => {
+      const shouldNotarize = context.electronPlatformName === 'darwin' && (
+        process.env.TRAVIS_PULL_REQUEST === 'false'
+        || process.env.CSC_FOR_PULL_REQUEST === 'true');
+      if (!shouldNotarize) return null;
+
       console.log('Notarizing app...');
       // https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
-      const { electronPlatformName, appOutDir } = context;
-      if (electronPlatformName !== 'darwin') {
-        return null;
-      }
+      const { appOutDir } = context;
 
       const appName = context.packager.appInfo.productFilename;
 
