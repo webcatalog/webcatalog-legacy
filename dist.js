@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs-extra');
 const builder = require('electron-builder');
+const { notarize } = require('electron-notarize');
 
 const { Platform } = builder;
 
@@ -42,8 +43,28 @@ const opts = {
     },
     mac: {
       category: 'public.app-category.utilities',
+      hardenedRuntime: true,
+      entitlements: 'build-resources/entitlements.mac.plist',
+      entitlementsInherit: 'build-resources/entitlements.mac.plist',
     },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
+    afterSign: (context) => {
+      console.log('Notarizing app...');
+      // https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
+      const { electronPlatformName, appOutDir } = context;
+      if (electronPlatformName !== 'darwin') {
+        return null;
+      }
+
+      const appName = context.packager.appInfo.productFilename;
+
+      return notarize({
+        appBundleId: 'com.webcatalog.jordan',
+        appPath: `${appOutDir}/${appName}.app`,
+        appleId: process.env.APPLE_ID,
+        appleIdPassword: process.env.APPLE_ID_PASSWORD,
+      });
+    },
   },
 };
 
