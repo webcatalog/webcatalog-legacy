@@ -81,6 +81,42 @@ const DialogChooseEngine = (props) => {
           <ListItem
             alignItems="flex-start"
             button
+            onClick={() => onUpdateForm({ engine: 'electron' })}
+            selected={engine === 'electron'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Electron" src={electronIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Electron (recommended)"
+              secondary={(
+                <>
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Heavy
+                  </Typography>
+                  {' — Takes up to 300 MB of disk space.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Feature-rich
+                  </Typography>
+                  {' — Supports workspaces, menubar, code injection, etc.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Less compatible
+                  </Typography>
+                  {' — Works with most sites.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Updates needed
+                  </Typography>
+                  {' — Needs to be manually updated regularly.'}
+                </>
+              )}
+            />
+          </ListItem>
+          <ListItem
+            alignItems="flex-start"
+            button
             onClick={() => onUpdateForm({ engine: 'chrome' })}
             selected={engine === 'chrome'}
           >
@@ -88,7 +124,7 @@ const DialogChooseEngine = (props) => {
               <Avatar alt="Google Chrome" src={chromeIcon} />
             </ListItemAvatar>
             <ListItemText
-              primary="Google Chrome (recommend)"
+              primary="Google Chrome"
               secondary={(
                 <>
                   <Typography component="span" className={classes.inline} color="textPrimary">
@@ -146,42 +182,6 @@ const DialogChooseEngine = (props) => {
                     No updates needed
                   </Typography>
                   {' — Automatically updates with the browser.'}
-                </>
-              )}
-            />
-          </ListItem>
-          <ListItem
-            alignItems="flex-start"
-            button
-            onClick={() => onUpdateForm({ engine: 'electron' })}
-            selected={engine === 'electron'}
-          >
-            <ListItemAvatar>
-              <Avatar alt="Electron" src={electronIcon} />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Electron (recommend)"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Heavy
-                  </Typography>
-                  {' — Takes up to 300 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Feature-rich
-                  </Typography>
-                  {' — Supports workspaces, menubar, code injection, etc.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less compatible
-                  </Typography>
-                  {' — Works with most sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Updates needed
-                  </Typography>
-                  {' — Needs to be manually updated regularly.'}
                 </>
               )}
             />

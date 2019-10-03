@@ -139,9 +139,9 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chrome')}>Google Chrome (recommend)</MenuItem>
+                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'electron')}>Electron (recommended)</MenuItem>
+                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chrome')}>Google Chrome</MenuItem>
                 <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chromium')}>Chromium</MenuItem>
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'electron')}>Electron (recommend)</MenuItem>
                 <MenuItem onClick={() => requestSetPreference('preferredEngine', 'firefox')}>Mozilla Firefox</MenuItem>
               </StatedMenu>
               <Divider />
