@@ -181,9 +181,9 @@ function createMenu() {
               },
             },
             {
-              label: 'Main Window',
+              label: 'Edit Workspace Window',
               click: () => {
-                const win = mainWindow.get();
+                const win = editWorkspaceWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();
