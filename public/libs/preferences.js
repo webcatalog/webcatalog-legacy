@@ -1,4 +1,6 @@
+const path = require('path');
 const settings = require('electron-settings');
+const { app } = require('electron');
 
 const sendToAllWindows = require('./send-to-all-windows');
 
@@ -7,7 +9,7 @@ const v = '2018';
 
 const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
-    return '~/Applications/WebCatalog Apps';
+    return path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
   }
   throw Error('Unsupported platform');
 };
