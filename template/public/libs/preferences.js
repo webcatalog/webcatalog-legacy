@@ -1,15 +1,27 @@
+const path = require('path');
 const settings = require('electron-settings');
+const { app } = require('electron');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 
 const appJson = require('../app.json');
 
+const getDefaultDownloadsPath = () => {
+  if (process.platform === 'darwin') {
+    return path.join(app.getPath('home'), 'Downloads');
+  }
+  throw Error('Unsupported platform');
+};
+
 // scope
 const v = '2018.2';
 
+
 const defaultPreferences = {
+  askForDownloadPath: true,
   attachToMenubar: false,
   cssCodeInjection: null,
+  downloadPath: getDefaultDownloadsPath(),
   jsCodeInjection: null,
   navigationBar: false,
   rememberLastPageVisited: false,
