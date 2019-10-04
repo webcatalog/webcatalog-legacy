@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-
 import SettingsIcon from '@material-ui/icons/SettingsSharp';
+
+import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 
 import connectComponent from '../../helpers/connect-component';
 import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
@@ -19,6 +20,7 @@ import FakeTitleBar from './fake-title-bar';
 import {
   requestShowPreferencesWindow,
   requestCreateWorkspace,
+  requestSetWorkspace,
   requestSetActiveWorkspace,
   requestRemoveWorkspace,
   requestShowEditWorkspaceWindow,
@@ -76,6 +78,43 @@ const styles = (theme) => ({
   },
 });
 
+const SortableItem = sortableElement(({ value }) => {
+  const {
+    active, id, name, badgeCount, picturePath, order,
+  } = value;
+  return (
+    <WorkspaceSelector
+      active={active}
+      id={id}
+      key={id}
+      name={name}
+      badgeCount={badgeCount}
+      picturePath={picturePath}
+      order={order}
+      onClick={() => requestSetActiveWorkspace(id)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+
+        const template = [
+          {
+            label: 'Edit Workspace',
+            click: () => requestShowEditWorkspaceWindow(id),
+          },
+          {
+            label: 'Remove Workspace',
+            click: () => requestRemoveWorkspace(id),
+          },
+        ];
+        const menu = remote.Menu.buildFromTemplate(template);
+
+        menu.popup(remote.getCurrentWindow());
+      }}
+    />
+  );
+});
+
+const SortableContainer = sortableContainer(({ children }) => <div>{children}</div>);
+
 const Main = ({
   attachToMenubar,
   classes,
@@ -85,82 +124,74 @@ const Main = ({
   navigationBar,
   sidebar,
   workspaces,
-}) => (
-  <div className={classes.outerRoot}>
-    {!sidebar && !attachToMenubar && (<FakeTitleBar />)}
-    <div className={classes.root}>
-      {sidebar && (
-        <div className={classes.sidebarRoot}>
-          <div className={classNames(classes.sidebarTop,
-            isFullScreen && classes.sidebarTopFullScreen)}
-          >
-            {getWorkspacesAsList(workspaces).map((workspace, i) => (
-              <WorkspaceSelector
-                active={workspace.active}
-                id={workspace.id}
-                key={workspace.id}
-                name={workspace.name}
-                badgeCount={workspace.badgeCount}
-                picturePath={workspace.picturePath}
-                order={i}
-                onClick={() => requestSetActiveWorkspace(workspace.id)}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-
-                  const template = [
-                    {
-                      label: 'Edit Workspace',
-                      click: () => requestShowEditWorkspaceWindow(workspace.id),
-                    },
-                    {
-                      label: 'Remove Workspace',
-                      click: () => requestRemoveWorkspace(workspace.id),
-                    },
-                  ];
-                  const menu = remote.Menu.buildFromTemplate(template);
-
-                  menu.popup(remote.getCurrentWindow());
+}) => {
+  const workspacesList = getWorkspacesAsList(workspaces);
+  return (
+    <div className={classes.outerRoot}>
+      {!sidebar && !attachToMenubar && (<FakeTitleBar />)}
+      <div className={classes.root}>
+        {sidebar && (
+          <div className={classes.sidebarRoot}>
+            <div className={classNames(classes.sidebarTop,
+              isFullScreen && classes.sidebarTopFullScreen)}
+            >
+              <SortableContainer
+                pressDelay={100}
+                onSortEnd={({ oldIndex, newIndex }) => {
+                  if (oldIndex === newIndex) return;
+                  const oldWorkspace = workspacesList[oldIndex];
+                  const newWorkspace = workspacesList[newIndex];
+                  requestSetWorkspace(oldWorkspace.id, {
+                    order: newWorkspace.order,
+                  });
+                  requestSetWorkspace(newWorkspace.id, {
+                    order: oldWorkspace.order,
+                  });
                 }}
-              />
-            ))}
-            {Object.keys(workspaces).length < 9 && (
-              <WorkspaceSelector id="add" onClick={requestCreateWorkspace} />
+              >
+                {workspacesList.map((workspace, i) => (
+                  <SortableItem key={`item-${workspace.id}`} index={i} value={workspace} />
+                ))}
+              </SortableContainer>
+              {Object.keys(workspaces).length < 9 && (
+                <WorkspaceSelector id="add" onClick={requestCreateWorkspace} />
+              )}
+            </div>
+            {!navigationBar && (
+            <div className={classes.end}>
+              <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow}>
+                <SettingsIcon />
+              </IconButton>
+            </div>
             )}
           </div>
-          {!navigationBar && (
-          <div className={classes.end}>
-            <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow}>
-              <SettingsIcon />
-            </IconButton>
+        )}
+        <div className={classes.contentRoot}>
+          {navigationBar && <NavigationBar />}
+          <FindInPage />
+          <div className={classes.innerContentRoot}>
+            {didFailLoad && !isLoading && (
+              <div>
+                <Typography align="center" variant="h6">
+                  No internet
+                </Typography>
+
+                <Typography align="center" variant="body1">
+                  Try: - Checking the network cables, modem, and router. - Reconnecting to Wi-Fi.
+                </Typography>
+
+                <Typography align="center" variant="body1">
+                  Press ⌘ + R to reload.
+                </Typography>
+              </div>
+            )}
+            {isLoading && <CircularProgress />}
           </div>
-          )}
-        </div>
-      )}
-      <div className={classes.contentRoot}>
-        {navigationBar && <NavigationBar />}
-        <FindInPage />
-        <div className={classes.innerContentRoot}>
-          {didFailLoad && !isLoading && (
-            <div>
-              <Typography align="center" variant="h6">
-                No internet
-              </Typography>
-
-              <Typography align="center" variant="body1">
-                Try: - Checking the network cables, modem, and router. - Reconnecting to Wi-Fi.
-              </Typography>
-
-              <Typography align="center" variant="body1">
-                Press ⌘ + R to reload.
-              </Typography>
-            </div>
-          )}
-          {isLoading && <CircularProgress />}
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 Main.propTypes = {
   attachToMenubar: PropTypes.bool.isRequired,
