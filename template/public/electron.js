@@ -61,7 +61,10 @@ if (!gotTheLock) {
 
     commonInit();
 
-    checkForUpdates(true);
+    const autoCheckForUpdates = getPreference('autoCheckForUpdates');
+    if (autoCheckForUpdates) {
+      checkForUpdates(true);
+    }
   });
 
   app.on('before-quit', () => {

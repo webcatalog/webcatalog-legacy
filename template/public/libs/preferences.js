@@ -9,6 +9,7 @@ const v = '2018.2';
 
 const defaultPreferences = {
   attachToMenubar: false,
+  autoCheckForUpdates: true,
   cssCodeInjection: null,
   jsCodeInjection: null,
   navigationBar: false,

@@ -63,6 +63,7 @@ const getOpenAtLoginString = (openAtLogin) => {
 };
 
 const Preferences = ({
+  autoCheckForUpdates,
   attachToMenubar,
   classes,
   cssCodeInjection,
@@ -217,6 +218,19 @@ const Preferences = ({
             }}
           />
         </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Automatically check for updates" />
+          <Switch
+            checked={autoCheckForUpdates}
+            onChange={(e) => {
+              requestSetPreference('autoCheckForUpdates', e.target.checked);
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
       </List>
     </Paper>
 
@@ -355,6 +369,7 @@ Preferences.defaultProps = {
 
 Preferences.propTypes = {
   attachToMenubar: PropTypes.bool.isRequired,
+  autoCheckForUpdates: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
   isDefaultMailClient: PropTypes.bool.isRequired,
@@ -373,6 +388,7 @@ Preferences.propTypes = {
 
 const mapStateToProps = (state) => ({
   attachToMenubar: state.preferences.attachToMenubar,
+  autoCheckForUpdates: state.preferences.autoCheckForUpdates,
   cssCodeInjection: state.preferences.cssCodeInjection,
   isDefaultMailClient: state.general.isDefaultMailClient,
   jsCodeInjection: state.preferences.jsCodeInjection,
