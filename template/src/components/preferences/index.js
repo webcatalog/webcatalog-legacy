@@ -65,6 +65,7 @@ const getOpenAtLoginString = (openAtLogin) => {
 const Preferences = ({
   askForDownloadPath,
   attachToMenubar,
+  autoCheckForUpdates,
   classes,
   cssCodeInjection,
   downloadPath,
@@ -213,6 +214,19 @@ const Preferences = ({
             onChange={(e) => {
               requestSetPreference('spellChecker', e.target.checked);
               requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Automatically check for updates" />
+          <Switch
+            checked={autoCheckForUpdates}
+            onChange={(e) => {
+              requestSetPreference('autoCheckForUpdates', e.target.checked);
             }}
             classes={{
               switchBase: classes.switchBase,
@@ -399,6 +413,7 @@ Preferences.defaultProps = {
 Preferences.propTypes = {
   askForDownloadPath: PropTypes.bool.isRequired,
   attachToMenubar: PropTypes.bool.isRequired,
+  autoCheckForUpdates: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
   downloadPath: PropTypes.string.isRequired,
@@ -419,6 +434,7 @@ Preferences.propTypes = {
 const mapStateToProps = (state) => ({
   askForDownloadPath: state.preferences.askForDownloadPath,
   attachToMenubar: state.preferences.attachToMenubar,
+  autoCheckForUpdates: state.preferences.autoCheckForUpdates,
   cssCodeInjection: state.preferences.cssCodeInjection,
   downloadPath: state.preferences.downloadPath,
   isDefaultMailClient: state.general.isDefaultMailClient,

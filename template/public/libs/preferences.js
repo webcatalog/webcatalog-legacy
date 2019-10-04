@@ -20,6 +20,7 @@ const v = '2018.2';
 const defaultPreferences = {
   askForDownloadPath: true,
   attachToMenubar: false,
+  autoCheckForUpdates: true,
   cssCodeInjection: null,
   downloadPath: getDefaultDownloadsPath(),
   jsCodeInjection: null,
