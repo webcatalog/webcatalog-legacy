@@ -11,7 +11,7 @@ before_script:
 - yarn template:install
 - yarn lint
 script:
-- yarn dist
+- travis_wait yarn dist
 - yarn catalog:install && yarn catalog:test
 - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then yarn catalog:pack && yarn catalog:publish; fi
 notifications:
