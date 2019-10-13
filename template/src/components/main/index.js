@@ -79,9 +79,10 @@ const styles = (theme) => ({
 });
 
 const SortableItem = sortableElement(({ value }) => {
+  const { workspace, index } = value;
   const {
-    active, id, name, badgeCount, picturePath, order,
-  } = value;
+    active, id, name, badgeCount, picturePath,
+  } = workspace;
   return (
     <WorkspaceSelector
       active={active}
@@ -90,7 +91,7 @@ const SortableItem = sortableElement(({ value }) => {
       name={name}
       badgeCount={badgeCount}
       picturePath={picturePath}
-      order={order}
+      order={index}
       onClick={() => requestSetActiveWorkspace(id)}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -150,7 +151,7 @@ const Main = ({
                 }}
               >
                 {workspacesList.map((workspace, i) => (
-                  <SortableItem key={`item-${workspace.id}`} index={i} value={workspace} />
+                  <SortableItem key={`item-${workspace.id}`} index={i} value={{ index: i, workspace }} />
                 ))}
               </SortableContainer>
               {Object.keys(workspaces).length < 9 && (
