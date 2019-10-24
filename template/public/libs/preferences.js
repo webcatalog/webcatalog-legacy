@@ -6,16 +6,10 @@ const sendToAllWindows = require('../libs/send-to-all-windows');
 
 const appJson = require('../app.json');
 
-const getDefaultDownloadsPath = () => {
-  if (process.platform === 'darwin') {
-    return path.join(app.getPath('home'), 'Downloads');
-  }
-  throw Error('Unsupported platform');
-};
+const getDefaultDownloadsPath = () => path.join(app.getPath('home'), 'Downloads');
 
 // scope
 const v = '2018.2';
-
 
 const defaultPreferences = {
   askForDownloadPath: true,
