@@ -86,7 +86,7 @@ const DialogSetInstallationPath = (props) => {
             ),
           }}
         />
-        {process.window.platform !== 'win32' && (
+        {window.process.platform !== 'win32' && (
           <FormControlLabel
             control={(
               <Checkbox
