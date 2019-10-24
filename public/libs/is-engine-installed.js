@@ -47,7 +47,7 @@ const isEngineInstalled = (browser) => {
       }
 
       if (process.platform === 'linux') {
-        return commandExistsSync('chrome');
+        return commandExistsSync('google-chrome');
       }
 
       if (process.platform === 'win32') {
