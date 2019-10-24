@@ -56,6 +56,10 @@ const installAppAsync = (
     getPreference('requireAdmin').toString(),
     '--username',
     process.env.USER, // required by sudo-prompt,
+    '--createDesktopShortcut',
+    getPreference('createDesktopShortcut'),
+    '--createStartMenuShortcut',
+    getPreference('createStartMenuShortcut'),
   ];
 
   if (mailtoHandler && mailtoHandler.length > 0) {

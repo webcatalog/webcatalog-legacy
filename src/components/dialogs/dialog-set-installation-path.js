@@ -86,15 +86,17 @@ const DialogSetInstallationPath = (props) => {
             ),
           }}
         />
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={requireAdmin}
-              onChange={(e) => onUpdateForm({ requireAdmin: e.target.checked })}
-            />
-          )}
-          label="Require sudo for installation"
-        />
+        {process.window.platform !== 'win32' && (
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={requireAdmin}
+                onChange={(e) => onUpdateForm({ requireAdmin: e.target.checked })}
+              />
+            )}
+            label="Require sudo for installation"
+          />
+        )}
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <Button

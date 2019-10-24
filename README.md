@@ -1,4 +1,8 @@
-# WebCatalog [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Travis Build Status](https://travis-ci.com/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.com/quanglam2807/webcatalog)
+# WebCatalog [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+
+|macOS|Linux|Windows|
+|---|---|---|
+|[![Travis Build Status](https://travis-ci.com/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.com/quanglam2807/webcatalog)|[![Travis Build Status](https://travis-ci.com/quanglam2807/webcatalog.svg?branch=master)](https://travis-ci.com/quanglam2807/webcatalog)|[![Build status](https://ci.appveyor.com/api/projects/status/qsd7hb1en83vilyx?svg=true)](https://ci.appveyor.com/project/quanglam2807/webcatalog)|
 
 **[WebCatalog](https://getwebcatalog.com)** - Run Web Apps like Real Apps.
 

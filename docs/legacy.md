@@ -2,10 +2,7 @@
 layout: post
 title: Legacy Downloads
 ---
-
 # Legacy Downloads
-
-
 ## WebCatalog v15
 
 - [WebCatalog 15.1.1 for macOS (.dmg)](https://github.com/quanglam2807/webcatalog/releases/download/v15.1.1/WebCatalog-15.1.1.dmg)
