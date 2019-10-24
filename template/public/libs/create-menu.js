@@ -319,11 +319,11 @@ function createMenu() {
               buttons: ['Clear Now', 'Cancel'],
               message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
               cancelId: 1,
-            }, (response) => {
+            }).then(({ response }) => {
               if (response === 0) {
                 clearBrowsingData();
               }
-            });
+            }).catch(console.log); // eslint-disable-line
           },
         },
         { type: 'separator' },
@@ -364,11 +364,11 @@ function createMenu() {
               buttons: ['Clear Now', 'Cancel'],
               message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
               cancelId: 1,
-            }, (response) => {
+            }).then(({ response }) => {
               if (response === 0) {
                 clearBrowsingData();
               }
-            });
+            }).catch(console.log); // eslint-disable-line
           },
         },
         { type: 'separator' },
