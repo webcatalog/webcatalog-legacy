@@ -11,10 +11,18 @@ const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
     return path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
   }
+  if (process.platform === 'linux') {
+    return '~/.webcatalog';
+  }
+  if (process.platform === 'win32') {
+    return path.join(app.getPath('home'), 'WebCatalog Apps');
+  }
   throw Error('Unsupported platform');
 };
 
 const defaultPreferences = {
+  createDesktopShortcut: true,
+  createStartMenuShortcut: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: 'electron',
   registered: false,

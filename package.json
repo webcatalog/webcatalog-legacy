@@ -20,7 +20,7 @@
     "template:lint:fix": "cd template && yarn lint:fix",
     "template:install": "cd template && yarn",
     "template:electron-dev": "cd template && yarn electron-dev",
-    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production && cd .. && 7z a template.zip template -x!template/public",
+    "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production --ignore-scripts --prefer-offline && cd .. && 7z a template.zip template -x!template/public",
     "dist": "yarn template:prepare-dist && yarn build && cross-env NODE_ENV=production node dist.js",
     "catalog:install": "cd catalog && yarn install && pip3 install --user -r requirements.txt",
     "catalog:test": "cd catalog && yarn test",
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "blueimp-md5": "2.12.0",
+    "command-exists": "1.2.8",
     "decompress": "4.2.0",
     "download": "7.1.0",
     "electron-is-dev": "1.1.0",
@@ -49,6 +50,7 @@
     "read-chunk": "3.2.0",
     "sudo-prompt": "9.0.0",
     "tmp": "0.1.0",
+    "windows-shortcuts": "0.1.6",
     "yargs-parser": "15.0.0"
   },
   "devDependencies": {

@@ -5,6 +5,9 @@ const { app } = require('electron');
 const { getPreference } = require('./../../preferences');
 const isEngineInstalled = require('../../is-engine-installed');
 
+const getWin32ChromePaths = require('../../get-win32-chrome-paths');
+const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
+
 const installAppAsync = (
   engine, id, name, url, icon, mailtoHandler,
 ) => new Promise((resolve, reject) => {
@@ -56,7 +59,21 @@ const installAppAsync = (
     getPreference('requireAdmin').toString(),
     '--username',
     process.env.USER, // required by sudo-prompt,
+    '--createDesktopShortcut',
+    getPreference('createDesktopShortcut'),
+    '--createStartMenuShortcut',
+    getPreference('createStartMenuShortcut'),
   ];
+
+  if (engine === 'firefox') {
+    params.push('--firefoxPath');
+    params.push(getWin32FirefoxPaths()[0]);
+  }
+
+  if (engine === 'chrome') {
+    params.push('--chromePath');
+    params.push(getWin32ChromePaths()[0]);
+  }
 
   if (mailtoHandler && mailtoHandler.length > 0) {
     params.push(

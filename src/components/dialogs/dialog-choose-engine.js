@@ -75,7 +75,8 @@ const DialogChooseEngine = (props) => {
       <DialogContent>
         <Typography component="span" className={classes.tip} color="textPrimary">
           WebCatalog lets you pick your preferrred browser engine to power the app.
-          You will have to uninstall and then reinstall thechange the engine of an app.
+          This cannot be changed later.
+          You will have to uninstall and then reinstall to change the engine of an app.
         </Typography>
         <List>
           <ListItem
@@ -150,42 +151,44 @@ const DialogChooseEngine = (props) => {
               )}
             />
           </ListItem>
-          <ListItem
-            alignItems="flex-start"
-            button
-            onClick={() => onUpdateForm({ engine: 'chromium' })}
-            selected={engine === 'chromium'}
-          >
-            <ListItemAvatar>
-              <Avatar alt="Chromium" src={chromiumIcon} />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Chromium"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Lightweight
-                  </Typography>
-                  {' — Takes up to 1 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less Feature-rich
-                  </Typography>
-                  {' — Offers less features but supports extensions.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Compatible
-                  </Typography>
-                  {' — Works with all sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    No updates needed
-                  </Typography>
-                  {' — Automatically updates with the browser.'}
-                </>
-              )}
-            />
-          </ListItem>
+          {window.process.platform !== 'win32' && (
+            <ListItem
+              alignItems="flex-start"
+              button
+              onClick={() => onUpdateForm({ engine: 'chromium' })}
+              selected={engine === 'chromium'}
+            >
+              <ListItemAvatar>
+                <Avatar alt="Chromium" src={chromiumIcon} />
+              </ListItemAvatar>
+              <ListItemText
+                primary="Chromium"
+                secondary={(
+                  <>
+                    <Typography component="span" className={classes.inline} color="textPrimary">
+                      Lightweight
+                    </Typography>
+                    {' — Takes up to 1 MB of disk space.'}
+                    <br />
+                    <Typography component="span" className={classes.inline} color="textPrimary">
+                      Less Feature-rich
+                    </Typography>
+                    {' — Offers less features but supports extensions.'}
+                    <br />
+                    <Typography component="span" className={classes.inline} color="textPrimary">
+                      Compatible
+                    </Typography>
+                    {' — Works with all sites.'}
+                    <br />
+                    <Typography component="span" className={classes.inline} color="textPrimary">
+                      No updates needed
+                    </Typography>
+                    {' — Automatically updates with the browser.'}
+                  </>
+                )}
+              />
+            </ListItem>
+          )}
           <ListItem
             alignItems="flex-start"
             button
