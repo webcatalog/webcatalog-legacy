@@ -296,11 +296,12 @@ Terminal=false;
         args,
         icon: finalIconIcoPath,
       };
+      const coreShortcutPath = path.join(finalPath, `${name}.lnk`);
       const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
       const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
       const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
 
-      const p = [];
+      const p = [createShortcutAsync(coreShortcutPath, opts)];
 
       if (createDesktopShortcut) {
         p.push(createShortcutAsync(desktopShortcutPath, opts));
