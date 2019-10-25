@@ -76,6 +76,10 @@ const styles = (theme) => ({
     flexDirection: 'column',
     width: '100%',
   },
+  grabbing: {
+    cursor: 'grabbing !important',
+    pointerEvents: 'auto !important',
+  },
 });
 
 const SortableItem = sortableElement(({ value }) => {
@@ -137,7 +141,8 @@ const Main = ({
               isFullScreen && classes.sidebarTopFullScreen)}
             >
               <SortableContainer
-                pressDelay={100}
+                pressDelay={250}
+                helperClass={classes.grabbing}
                 onSortEnd={({ oldIndex, newIndex }) => {
                   if (oldIndex === newIndex) return;
                   const oldWorkspace = workspacesList[oldIndex];
