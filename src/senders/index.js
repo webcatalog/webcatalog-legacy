@@ -16,3 +16,8 @@ export const requestGetInstalledApps = () => ipcRenderer.send('request-get-insta
 export const requestInstallApp = (engine, id, name, url, icon, mailtoHandler) => ipcRenderer.send('request-install-app', engine, id, name, url, icon, mailtoHandler);
 export const requestUninstallApp = (id, name) => ipcRenderer.send('request-uninstall-app', id, name);
 export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app', id, name);
+
+// Native Theme
+export const getShouldUseDarkColors = () => ipcRenderer.sendSync('get-should-use-dark-colors');
+export const getThemeSource = () => ipcRenderer.sendSync('get-theme-source');
+export const requestSetThemeSource = (val) => ipcRenderer.send('request-set-theme-source', val);

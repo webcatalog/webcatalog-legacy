@@ -71,9 +71,10 @@ const opts = {
     },
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
     afterSign: (context) => {
-      const shouldNotarize = context.electronPlatformName === 'darwin' && (
-        process.env.TRAVIS_PULL_REQUEST === 'false'
-        || process.env.CSC_FOR_PULL_REQUEST === 'true');
+      // Only notarize app when forced in pull requests or when releasing using tag
+      const shouldNotarize = context.electronPlatformName === 'darwin'
+        && ((process.env.TRAVIS_PULL_REQUEST === 'true' && process.env.CSC_FOR_PULL_REQUEST === 'true')
+        || process.env.TRAVIS_TAG);
       if (!shouldNotarize) return null;
 
       console.log('Notarizing app...');

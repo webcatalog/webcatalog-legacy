@@ -2,7 +2,8 @@ import {
   UPDATE_CAN_GO_BACK,
   UPDATE_CAN_GO_FORWARD,
   UPDATE_DID_FAIL_LOAD,
-  UPDATE_IS_DARK_MODE,
+  UPDATE_SHOULD_USE_DARK_COLORS,
+  UPDATE_THEME_SOURCE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
@@ -44,12 +45,15 @@ export const updateIsDefaultMailClient = (isDefaultMailClient) => (dispatch) => 
   });
 };
 
-export const updateIsDarkMode = (isDarkMode) => (dispatch) => {
-  dispatch({
-    type: UPDATE_IS_DARK_MODE,
-    isDarkMode,
-  });
-};
+export const updateShouldUseDarkColors = (shouldUseDarkColors) => ({
+  type: UPDATE_SHOULD_USE_DARK_COLORS,
+  shouldUseDarkColors,
+});
+
+export const updateThemeSource = (themeSource) => ({
+  type: UPDATE_THEME_SOURCE,
+  themeSource,
+});
 
 export const updateIsLoading = (isLoading) => (dispatch) => {
   dispatch({

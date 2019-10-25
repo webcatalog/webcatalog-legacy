@@ -6,13 +6,19 @@ import {
   updateCanGoForward,
   updateDidFailLoad,
   updateIsLoading,
+  updateShouldUseDarkColors,
+  updateThemeSource,
 } from '../state/general/actions';
 import {
   closeFindInPage,
   openFindInPage,
   updateFindInPageMatches,
 } from '../state/find-in-page/actions';
-import { requestFindInPage } from '../senders';
+import {
+  getShouldUseDarkColors,
+  getThemeSource,
+  requestFindInPage,
+} from '../senders';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -69,6 +75,11 @@ const loadListeners = (store) => {
     const { open, text } = store.getState().findInPage;
     if (!open) return;
     requestFindInPage(text, forward);
+  });
+
+  ipcRenderer.on('native-theme-updated', () => {
+    store.dispatch(updateThemeSource(getThemeSource()));
+    store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
   });
 };
 

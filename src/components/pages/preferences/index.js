@@ -24,10 +24,11 @@ import { open as openDialogSetInstallationPath } from '../../../state/dialog-set
 
 import {
   requestOpenInBrowser,
+  requestOpenInstallLocation,
   requestResetPreferences,
   requestSetPreference,
+  requestSetThemeSource,
   requestShowMessageBox,
-  requestOpenInstallLocation,
 } from '../../../senders';
 
 const { remote } = window.require('electron');
@@ -69,7 +70,7 @@ const styles = (theme) => ({
 const getThemeString = (theme) => {
   if (theme === 'light') return 'Light';
   if (theme === 'dark') return 'Dark';
-  return 'Automatic';
+  return 'System default';
 };
 
 const getFileManagerName = () => {
@@ -107,7 +108,7 @@ const Preferences = ({
   onOpenDialogSetInstallationPath,
   preferredEngine,
   requireAdmin,
-  theme,
+  themeSource,
 }) => {
   const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
     if (appCount > 0) {
@@ -175,19 +176,17 @@ const Preferences = ({
           <Paper className={classes.paper}>
             <List dense>
               <StatedMenu
-                id="theme"
+                id="themeSource"
                 buttonElement={(
                   <ListItem button>
-                    <ListItemText primary="Theme" secondary={getThemeString(theme)} />
+                    <ListItemText primary="Theme" secondary={getThemeString(themeSource)} />
                     <ChevronRightIcon color="action" />
                   </ListItem>
                 )}
               >
-                {window.process.platform === 'darwin' && (
-                  <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
-                )}
-                <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
-                <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
+                <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>
+                <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
+                <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
             </List>
           </Paper>
@@ -358,7 +357,7 @@ Preferences.propTypes = {
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   preferredEngine: PropTypes.string.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
-  theme: PropTypes.string.isRequired,
+  themeSource: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -370,7 +369,7 @@ const mapStateToProps = (state) => ({
   installingAppCount: getInstallingAppsAsList(state).length,
   preferredEngine: state.preferences.preferredEngine,
   requireAdmin: state.preferences.requireAdmin,
-  theme: state.preferences.theme,
+  themeSource: state.general.themeSource,
 });
 
 const actionCreators = {

@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { app, protocol, ipcMain } = require('electron');
+const {
+  app, protocol, ipcMain, nativeTheme,
+} = require('electron');
 
 const loadListeners = require('./listeners');
 
@@ -12,6 +14,7 @@ const { addView } = require('./libs/views');
 const { checkForUpdates } = require('./libs/updater');
 const { getPreference } = require('./libs/preferences');
 const { getWorkspaces } = require('./libs/workspaces');
+const sendToAllWindows = require('./libs/send-to-all-windows');
 
 const appJson = require('./app.json');
 
@@ -65,6 +68,10 @@ if (!gotTheLock) {
     if (autoCheckForUpdates) {
       checkForUpdates(true);
     }
+
+    nativeTheme.addListener('updated', () => {
+      sendToAllWindows('native-theme-updated');
+    });
   });
 
   app.on('before-quit', () => {
