@@ -120,27 +120,12 @@ layout: default
         </a>
       </p>
     </div>
+    <div class="content is-medium">
+      <hr />
+      <p>Web applications like Gmail, Messenger, etc are becoming more and more like desktop applications but running each of these web apps in a separate tab in your browser can be a real pain. WebCatalog lets you turn any web apps into Mac apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, you can launch your favorite apps quickly in self-contained, distraction-free windows with the ability to switch between accounts and workspaces easily. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy.</p>
+      <hr />
+    </div>
     <div class="content">
-      <hr />
-      <h4>How It Works</h4>
-      <p>WebCatalog lets you turn any web apps into native-like desktop apps (also called <a href="https://en.wikipedia.org/wiki/Site-specific_browser">site-specific browsers</a>). Now, with WebCatalog, you can launch your favorite apps quickly in self-contained, distraction-free windows. Each app's data is stored separately, protecting you from cross-website trackers and preserving your privacy.</p>
-      <hr />
-      <h4 class="is-pulled-left">Featured Apps</h4>
-      <a class="button is-white is-pulled-right" href="/catalog/">See more</a>
-      <div class="columns is-multiline" style="clear:both;">
-        {% for item in site.catalog %}
-        {% if item.featured == true %}
-        <div class="column is-3 has-text-centered" style="padding-top: 30px;">
-          <a href="/catalog/{{ item.key }}">
-            <img src="https://s3.getwebcatalog.com/apps/{{ item.key }}/{{ item.key }}-icon-128.png" class="app-icon-small" alt="{{ item.name }}">
-            <p>{{ item.name }}</p>
-          </a>
-        </div>
-        {% endif %}
-        {% endfor %}
-      </div>
-      <hr />
-      <h4>Notable Features</h4>
       <div class="columns is-multiline">
         <div class="column is-full has-text-centered">
           <a href="/images/demos/engines.png">
