@@ -103,6 +103,8 @@ const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
 
+const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
+
 Promise.resolve()
   .then(() => {
     if (isUrl(icon)) {
@@ -294,7 +296,7 @@ Terminal=false;
       const opts = {
         target: browserPath,
         args,
-        icon: publicIconIcoPath,
+        icon: finalIconIcoPath,
       };
       const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
       const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
