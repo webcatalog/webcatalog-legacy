@@ -74,8 +74,8 @@ const DialogChooseEngine = (props) => {
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography component="span" className={classes.tip} color="textPrimary">
-          WebCatalog lets you pick your preferrred browser engine to power the app.
-          You will have to uninstall and then reinstall thechange the engine of an app.
+          WebCatalog lets you pick your preferrred browser engine to power the app. This cannot be changed later.
+          You will have to uninstall and then reinstall to change the engine of an app.
         </Typography>
         <List>
           <ListItem
