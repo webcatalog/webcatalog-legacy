@@ -23,10 +23,9 @@ const {
   createDesktopShortcut,
   requireAdmin,
   username,
+  firefoxPath,
+  chromePath,
 } = argv;
-
-const getWin32ChromePaths = require('../../get-win32-chrome-paths');
-const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
@@ -283,14 +282,13 @@ Terminal=false;
       let args;
 
       if (engine === 'firefox') {
-        browserPath = getWin32FirefoxPaths()[0]; // eslint-disable-line
+        browserPath = firefoxPath;
         args = `--class ${id} --P ${id} "${url}"`;
-      } else {
-        /* eslint-disable prefer-destructuring */
-        browserPath = getWin32ChromePaths()[0];
-        /* eslint-enable prefer-destructuring */
-
+      } else if (engine === 'chrome') {
+        browserPath = chromePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else {
+        return Promise.reject(new Error('Engine is not supporterd.'));
       }
 
       const opts = {
