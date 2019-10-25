@@ -148,7 +148,7 @@ const Preferences = ({
               >
                 <MenuItem onClick={() => requestSetPreference('preferredEngine', 'electron')}>Electron (recommended)</MenuItem>
                 <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chrome')}>Google Chrome</MenuItem>
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chromium')}>Chromium</MenuItem>
+                {window.process.platform !== 'win32' && <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chromium')}>Chromium</MenuItem>}
                 <MenuItem onClick={() => requestSetPreference('preferredEngine', 'firefox')}>Mozilla Firefox</MenuItem>
               </StatedMenu>
               <Divider />
