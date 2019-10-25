@@ -4,11 +4,17 @@ import {
   UPDATE_CAN_GO_BACK,
   UPDATE_CAN_GO_FORWARD,
   UPDATE_DID_FAIL_LOAD,
-  UPDATE_IS_DARK_MODE,
+  UPDATE_SHOULD_USE_DARK_COLORS,
+  UPDATE_THEME_SOURCE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
 } from '../../constants/actions';
+
+import {
+  getThemeSource,
+  getShouldUseDarkColors,
+} from '../../senders';
 
 const { remote } = window.require('electron');
 
@@ -40,9 +46,16 @@ const isDefaultMailClient = (state = remote.app.isDefaultProtocolClient('mailto'
   }
 };
 
-const isDarkMode = (state = remote.systemPreferences.isDarkMode(), action) => {
+const shouldUseDarkColors = (state = getShouldUseDarkColors(), action) => {
   switch (action.type) {
-    case UPDATE_IS_DARK_MODE: return action.isDarkMode;
+    case UPDATE_SHOULD_USE_DARK_COLORS: return action.shouldUseDarkColors;
+    default: return state;
+  }
+};
+
+const themeSource = (state = getThemeSource(), action) => {
+  switch (action.type) {
+    case UPDATE_THEME_SOURCE: return action.themeSource;
     default: return state;
   }
 };
@@ -65,7 +78,8 @@ export default combineReducers({
   canGoBack,
   canGoForward,
   didFailLoad,
-  isDarkMode,
+  shouldUseDarkColors,
+  themeSource,
   isDefaultMailClient,
   isFullScreen,
   isLoading,

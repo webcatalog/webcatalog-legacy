@@ -18,7 +18,6 @@ import { requestOpenInBrowser } from '../../../senders';
 
 import { getHits } from '../../../state/home/actions';
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
-import { getShouldUseDarkMode } from '../../../state/general/utils';
 
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
@@ -89,7 +88,7 @@ class Home extends React.Component {
       classes,
       hasFailed,
       hits,
-      shouldUseDarkMode,
+      shouldUseDarkColors,
       isGetting,
       onGetHits,
       onOpenDialogCreateCustomApp,
@@ -144,7 +143,7 @@ class Home extends React.Component {
                 className={classes.searchByAlgoliaContainer}
               >
                 <img
-                  src={shouldUseDarkMode ? searchByAlgoliaDarkSvg : searchByAlgoliaLightSvg}
+                  src={shouldUseDarkColors ? searchByAlgoliaDarkSvg : searchByAlgoliaLightSvg}
                   alt="Search by Algolia"
                   className={classes.searchByAlgolia}
                 />
@@ -195,7 +194,7 @@ Home.propTypes = {
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
-  shouldUseDarkMode: PropTypes.bool.isRequired,
+  shouldUseDarkColors: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
@@ -205,7 +204,7 @@ const mapStateToProps = (state) => ({
   apps: state.appManagement.apps,
   hasFailed: state.home.hasFailed,
   hits: state.home.hits,
-  shouldUseDarkMode: getShouldUseDarkMode(state),
+  shouldUseDarkColors: state.general.shouldUseDarkColors,
   isGetting: state.home.isGetting,
 });
 

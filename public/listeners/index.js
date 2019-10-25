@@ -2,6 +2,7 @@ const {
   app,
   dialog,
   ipcMain,
+  nativeTheme,
   shell,
 } = require('electron');
 
@@ -154,6 +155,19 @@ const loadListeners = () => {
         });
         e.sender.send('remove-app', id);
       }));
+  });
+
+  // Native Theme
+  ipcMain.on('get-should-use-dark-colors', (e) => {
+    e.returnValue = nativeTheme.shouldUseDarkColors;
+  });
+
+  ipcMain.on('get-theme-source', (e) => {
+    e.returnValue = nativeTheme.themeSource;
+  });
+
+  ipcMain.on('request-set-theme-source', (e, val) => {
+    nativeTheme.themeSource = val;
   });
 };
 

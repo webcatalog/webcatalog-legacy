@@ -20,13 +20,14 @@ import StatedMenu from '../shared/stated-menu';
 import { updateIsDefaultMailClient } from '../../state/general/actions';
 
 import {
+  requestClearBrowsingData,
   requestOpenInBrowser,
+  requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestResetPreferences,
-  requestClearBrowsingData,
-  requestShowRequireRestartDialog,
+  requestSetThemeSource,
   requestShowCodeInjectionWindow,
+  requestShowRequireRestartDialog,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -53,7 +54,7 @@ const appJson = remote.getGlobal('appJson');
 const getThemeString = (theme) => {
   if (theme === 'light') return 'Light';
   if (theme === 'dark') return 'Dark';
-  return 'Automatic';
+  return 'System default';
 };
 
 const getOpenAtLoginString = (openAtLogin) => {
@@ -79,7 +80,7 @@ const Preferences = ({
   sidebar,
   spellChecker,
   swipeToNavigate,
-  theme,
+  themeSource,
   unreadCountBadge,
 }) => (
   <div className={classes.root}>
@@ -92,14 +93,14 @@ const Preferences = ({
           id="theme"
           buttonElement={(
             <ListItem button>
-              <ListItemText primary="Theme" secondary={getThemeString(theme)} />
+              <ListItemText primary="Theme" secondary={getThemeString(themeSource)} />
               <ChevronRightIcon color="action" />
             </ListItem>
           )}
         >
-          <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
-          <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
-          <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
+          <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>
+          <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
+          <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
         </StatedMenu>
         <Divider />
         <ListItem>
@@ -432,7 +433,7 @@ Preferences.propTypes = {
   sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
-  theme: PropTypes.string.isRequired,
+  themeSource: PropTypes.string.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
 };
 
@@ -451,7 +452,7 @@ const mapStateToProps = (state) => ({
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
   swipeToNavigate: state.preferences.swipeToNavigate,
-  theme: state.preferences.theme,
+  themeSource: state.general.themeSource,
   unreadCountBadge: state.preferences.unreadCountBadge,
 });
 

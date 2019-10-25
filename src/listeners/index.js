@@ -3,6 +3,14 @@ import { changeRoute } from '../state/router/actions';
 import { setPreference } from '../state/preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
+import {
+  updateShouldUseDarkColors,
+  updateThemeSource,
+} from '../state/general/actions';
+import {
+  getShouldUseDarkColors,
+  getThemeSource,
+} from '../senders';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
@@ -36,6 +44,11 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('open-dialog-about', () => {
     store.dispatch(openDialogAbout());
+  });
+
+  ipcRenderer.on('native-theme-updated', () => {
+    store.dispatch(updateThemeSource(getThemeSource()));
+    store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
   });
 };
 

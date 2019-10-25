@@ -1,7 +1,8 @@
 const path = require('path');
-const { app } = require('electron');
+const { app, nativeTheme } = require('electron');
 
 const createMenu = require('./libs/create-menu');
+const sendToAllWindows = require('./libs/send-to-all-windows');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
@@ -28,6 +29,10 @@ if (!gotTheLock) {
 
     mainWindow.create();
     createMenu();
+
+    nativeTheme.addListener('updated', () => {
+      sendToAllWindows('native-theme-updated');
+    });
   });
 
   app.on('window-all-closed', () => {

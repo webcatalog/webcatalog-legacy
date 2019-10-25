@@ -3,6 +3,7 @@ const {
   dialog,
   ipcMain,
   shell,
+  nativeTheme,
 } = require('electron');
 
 const {
@@ -278,6 +279,19 @@ const loadListeners = () => {
 
   ipcMain.on('check-for-updates', () => {
     checkForUpdates();
+  });
+
+  // Native Theme
+  ipcMain.on('get-should-use-dark-colors', (e) => {
+    e.returnValue = nativeTheme.shouldUseDarkColors;
+  });
+
+  ipcMain.on('get-theme-source', (e) => {
+    e.returnValue = nativeTheme.themeSource;
+  });
+
+  ipcMain.on('request-set-theme-source', (e, val) => {
+    nativeTheme.themeSource = val;
   });
 };
 
