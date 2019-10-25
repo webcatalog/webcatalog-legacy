@@ -83,7 +83,6 @@ AppWrapper.propTypes = {
     PropTypes.string,
   ]).isRequired,
   shouldUseDarkColors: PropTypes.bool.isRequired,
-  onUpdateIsDarkMode: PropTypes.func.isRequired,
   onUpdateIsFullScreen: PropTypes.func.isRequired,
 };
 
