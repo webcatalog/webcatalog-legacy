@@ -8,12 +8,14 @@ $family-sans-serif: system-ui,-apple-system,BlinkMacSystemFont,"Helvetica Neue",
 
 @import "./bulma/bulma.sass"
 
+html, body
+  min-height: 100%
+
 html
   font-size: 16px/1.5
   font-weight: 400
 
 body
-  min-height: 100vh
   display: flex
   flex-direction: column
 
@@ -51,3 +53,6 @@ main
 small.price-end
   font-size: 0.7em
   vertical-align: 0.3em
+
+.bento-button
+  cursor: pointer
