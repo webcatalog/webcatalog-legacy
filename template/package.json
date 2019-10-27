@@ -7,7 +7,7 @@
   },
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "npx electron-builder install-app-deps",
+    "postinstall": "npx patch-package && npx electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
