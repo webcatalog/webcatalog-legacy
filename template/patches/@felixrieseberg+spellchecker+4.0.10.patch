@@ -1,0 +1,494 @@
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Makefile b/node_modules/@felixrieseberg/spellchecker/build/Makefile
+index 0ae011e..f8e47e6 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Makefile
++++ b/node_modules/@felixrieseberg/spellchecker/build/Makefile
+@@ -313,8 +313,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
+ endif
+ 
+ quiet_cmd_regen_makefile = ACTION Regenerating $@
+-cmd_regen_makefile = cd $(srcdir); /home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/tmp/tmp-6692wp6An1qMS24S/node_modules/@felixrieseberg/spellchecker/build/config.gypi -I/home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/quanglam2807/.cache/node-gyp/12.13.0" "-Dnode_gyp_dir=/home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/home/quanglam2807/.cache/node-gyp/12.13.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/tmp/tmp-6692wp6An1qMS24S/node_modules/@felixrieseberg/spellchecker" "-Dnode_engine=v8" binding.gyp
+-Makefile: $(srcdir)/../../../../../home/quanglam2807/.cache/node-gyp/12.13.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../../home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi
++cmd_regen_makefile = cd $(srcdir); /home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/home/quanglam2807/Documents/GitHub/webcatalog/template/node_modules/@felixrieseberg/spellchecker/build/config.gypi -I/home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/home/quanglam2807/.electron-gyp/7.0.0/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/quanglam2807/.electron-gyp/7.0.0" "-Dnode_gyp_dir=/home/quanglam2807/.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/home/quanglam2807/.electron-gyp/7.0.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/quanglam2807/Documents/GitHub/webcatalog/template/node_modules/@felixrieseberg/spellchecker" "-Dnode_engine=v8" binding.gyp
++Makefile: $(srcdir)/../../../../../../../.electron-gyp/7.0.0/include/node/common.gypi $(srcdir)/../../../../../../../.config/nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp
+ 	$(call do_cmd,regen_makefile)
+ 
+ # "all" is a concatenation of the "all" targets from all the included
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d
+index cb9da2f..b8ec459 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o ../vendor/hunspell/src/base/md5.cc
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o ../vendor/hunspell/src/base/md5.cc
+ Release/obj.target/hunspell/vendor/hunspell/src/base/md5.o: \
+  ../vendor/hunspell/src/base/md5.cc ../vendor/hunspell/src/base/md5.h \
+  ../vendor/hunspell/src/base/base_export.h \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d
+index d94fb75..f8eb8ab 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o ../vendor/hunspell/src/base/strings/string16.cc
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o ../vendor/hunspell/src/base/strings/string16.cc
+ Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string16.o: \
+  ../vendor/hunspell/src/base/strings/string16.cc \
+  ../vendor/hunspell/src/base/strings/string16.h \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d
+index 898827e..762a4cd 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o ../vendor/hunspell/src/base/strings/string_piece.cc
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o ../vendor/hunspell/src/base/strings/string_piece.cc
+ Release/obj.target/hunspell/vendor/hunspell/src/base/strings/string_piece.o: \
+  ../vendor/hunspell/src/base/strings/string_piece.cc \
+  ../vendor/hunspell/src/base/strings/string_piece.h \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d
+index 49d076a..e9a2f7e 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o ../vendor/hunspell/src/google/bdict.cc
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o ../vendor/hunspell/src/google/bdict.cc
+ Release/obj.target/hunspell/vendor/hunspell/src/google/bdict.o: \
+  ../vendor/hunspell/src/google/bdict.cc \
+  ../vendor/hunspell/src/google/bdict.h ../vendor/hunspell/src/base/md5.h \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d
+index bd4b500..71baa20 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o ../vendor/hunspell/src/google/bdict_reader.cc
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o ../vendor/hunspell/src/google/bdict_reader.cc
+ Release/obj.target/hunspell/vendor/hunspell/src/google/bdict_reader.o: \
+  ../vendor/hunspell/src/google/bdict_reader.cc \
+  ../vendor/hunspell/src/google/bdict_reader.h \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d
+index 0373fc8..ff1f587 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o ../vendor/hunspell/src/hunspell/affentry.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o ../vendor/hunspell/src/hunspell/affentry.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affentry.o: \
+  ../vendor/hunspell/src/hunspell/affentry.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d
+index f581450..b9a14ee 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o ../vendor/hunspell/src/hunspell/affixmgr.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o ../vendor/hunspell/src/hunspell/affixmgr.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/affixmgr.o: \
+  ../vendor/hunspell/src/hunspell/affixmgr.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d
+index eea088e..ca1f0eb 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o ../vendor/hunspell/src/hunspell/csutil.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o ../vendor/hunspell/src/hunspell/csutil.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/csutil.o: \
+  ../vendor/hunspell/src/hunspell/csutil.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d
+index 6fbd2db..001a8f9 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o ../vendor/hunspell/src/hunspell/dictmgr.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o ../vendor/hunspell/src/hunspell/dictmgr.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/dictmgr.o: \
+  ../vendor/hunspell/src/hunspell/dictmgr.cxx \
+  ../vendor/hunspell/src/hunspell/dictmgr.hxx \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d
+index d81675a..d01db32 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o ../vendor/hunspell/src/hunspell/filemgr.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o ../vendor/hunspell/src/hunspell/filemgr.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/filemgr.o: \
+  ../vendor/hunspell/src/hunspell/filemgr.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d
+index 1cb8d77..51f6879 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o ../vendor/hunspell/src/hunspell/hashmgr.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o ../vendor/hunspell/src/hunspell/hashmgr.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hashmgr.o: \
+  ../vendor/hunspell/src/hunspell/hashmgr.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d
+index 7d2cf7f..9e587d1 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o ../vendor/hunspell/src/hunspell/hunspell.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o ../vendor/hunspell/src/hunspell/hunspell.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunspell.o: \
+  ../vendor/hunspell/src/hunspell/hunspell.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d
+index e3c1534..823ab12 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o ../vendor/hunspell/src/hunspell/hunzip.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o ../vendor/hunspell/src/hunspell/hunzip.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/hunzip.o: \
+  ../vendor/hunspell/src/hunspell/hunzip.cxx \
+  ../vendor/hunspell/src/hunspell/hunzip.hxx \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d
+index 850b1f4..7bb4030 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o ../vendor/hunspell/src/hunspell/phonet.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o ../vendor/hunspell/src/hunspell/phonet.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/phonet.o: \
+  ../vendor/hunspell/src/hunspell/phonet.cxx \
+  ../vendor/hunspell/src/hunspell/csutil.hxx \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d
+index 4a1bc53..bb29c9a 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o ../vendor/hunspell/src/hunspell/replist.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o ../vendor/hunspell/src/hunspell/replist.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/replist.o: \
+  ../vendor/hunspell/src/hunspell/replist.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d
+index 101e6a1..1e8b5e9 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o ../vendor/hunspell/src/hunspell/suggestmgr.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o ../vendor/hunspell/src/hunspell/suggestmgr.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/hunspell/suggestmgr.o: \
+  ../vendor/hunspell/src/hunspell/suggestmgr.cxx \
+  ../vendor/hunspell/src/hunspell/license.hunspell \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d
+index 5020f1d..5f8307f 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o ../vendor/hunspell/src/parsers/textparser.cxx
++cmd_Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o := g++ '-DNODE_GYP_MODULE_NAME=hunspell' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DHUNSPELL_STATIC' '-DHUNSPELL_CHROME_CLIENT' '-DWCHAR_T_IS_UTF32' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o.d.raw   -c -o Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o ../vendor/hunspell/src/parsers/textparser.cxx
+ Release/obj.target/hunspell/vendor/hunspell/src/parsers/textparser.o: \
+  ../vendor/hunspell/src/parsers/textparser.cxx \
+  ../vendor/hunspell/src/parsers/../hunspell/csutil.hxx \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/main.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/main.o.d
+index b3e034e..2a32c98 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/main.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/main.o.d
+@@ -1,23 +1,23 @@
+-cmd_Release/obj.target/spellchecker/src/main.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/main.o.d.raw   -c -o Release/obj.target/spellchecker/src/main.o ../src/main.cc
++cmd_Release/obj.target/spellchecker/src/main.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/main.o.d.raw   -c -o Release/obj.target/spellchecker/src/main.o ../src/main.cc
+ Release/obj.target/spellchecker/src/main.o: ../src/main.cc \
+  ../../../nan/nan.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_version.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/errno.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/version.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/unix.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/threadpool.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/linux.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-internal.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-version.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8config.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-platform.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_version.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_buffer.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node.h \
+- /home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_object_wrap.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node_version.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/errno.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/version.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/unix.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/threadpool.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/linux.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/v8.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-internal.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-version.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/v8config.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-platform.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node_version.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node_buffer.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node.h \
++ /home/quanglam2807/.electron-gyp/7.0.0/include/node/node_object_wrap.h \
+  ../../../nan/nan_callbacks.h ../../../nan/nan_callbacks_12_inl.h \
+  ../../../nan/nan_maybe_43_inl.h ../../../nan/nan_converters.h \
+  ../../../nan/nan_converters_43_inl.h ../../../nan/nan_new.h \
+@@ -28,23 +28,23 @@ Release/obj.target/spellchecker/src/main.o: ../src/main.cc \
+  ../src/spellchecker.h
+ ../src/main.cc:
+ ../../../nan/nan.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_version.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/errno.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/version.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/unix.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/threadpool.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/uv/linux.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-internal.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-version.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8config.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/v8-platform.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_version.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_buffer.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node.h:
+-/home/quanglam2807/.cache/node-gyp/12.13.0/include/node/node_object_wrap.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node_version.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/errno.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/version.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/unix.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/threadpool.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/uv/linux.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/v8.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-internal.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-version.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/v8config.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/v8-platform.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node_version.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node_buffer.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node.h:
++/home/quanglam2807/.electron-gyp/7.0.0/include/node/node_object_wrap.h:
+ ../../../nan/nan_callbacks.h:
+ ../../../nan/nan_callbacks_12_inl.h:
+ ../../../nan/nan_maybe_43_inl.h:
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d
+index a364bb5..3926e3e 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/spellchecker/src/spellchecker_hunspell.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d.raw   -c -o Release/obj.target/spellchecker/src/spellchecker_hunspell.o ../src/spellchecker_hunspell.cc
++cmd_Release/obj.target/spellchecker/src/spellchecker_hunspell.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/spellchecker_hunspell.o.d.raw   -c -o Release/obj.target/spellchecker/src/spellchecker_hunspell.o ../src/spellchecker_hunspell.cc
+ Release/obj.target/spellchecker/src/spellchecker_hunspell.o: \
+  ../src/spellchecker_hunspell.cc \
+  ../src/../vendor/hunspell/src/hunspell/hunspell.hxx \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d
+index 7d1fb85..e40584c 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/spellchecker/src/spellchecker_linux.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d.raw   -c -o Release/obj.target/spellchecker/src/spellchecker_linux.o ../src/spellchecker_linux.cc
++cmd_Release/obj.target/spellchecker/src/spellchecker_linux.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/spellchecker_linux.o.d.raw   -c -o Release/obj.target/spellchecker/src/spellchecker_linux.o ../src/spellchecker_linux.cc
+ Release/obj.target/spellchecker/src/spellchecker_linux.o: \
+  ../src/spellchecker_linux.cc ../src/spellchecker.h \
+  ../src/spellchecker_hunspell.h ../src/transcoder.h
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d
+index c6ed24f..78ed6cc 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d
++++ b/node_modules/@felixrieseberg/spellchecker/build/Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d
+@@ -1,4 +1,4 @@
+-cmd_Release/obj.target/spellchecker/src/transcoder_posix.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node -I/home/quanglam2807/.cache/node-gyp/12.13.0/src -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib -I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d.raw   -c -o Release/obj.target/spellchecker/src/transcoder_posix.o ../src/transcoder_posix.cc
++cmd_Release/obj.target/spellchecker/src/transcoder_posix.o := g++ '-DNODE_GYP_MODULE_NAME=spellchecker' '-DUSING_UV_SHARED=1' '-DUSING_V8_SHARED=1' '-DV8_DEPRECATION_WARNINGS=1' '-DV8_DEPRECATION_WARNINGS' '-DV8_IMMINENT_DEPRECATION_WARNINGS' '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DOPENSSL_NO_PINSHARED' '-DOPENSSL_THREADS' '-DWCHAR_T_IS_UTF32' '-DHUNSPELL_STATIC' '-DUSE_HUNSPELL' '-DHUNSPELL_CHROME_CLIENT' '-DBUILDING_NODE_EXTENSION' -I/home/quanglam2807/.electron-gyp/7.0.0/include/node -I/home/quanglam2807/.electron-gyp/7.0.0/src -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config -I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include -I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib -I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include -I../../../nan -I../vendor/hunspell/src  -fPIC -pthread -Wall -Wextra -Wno-unused-parameter -m64 -O3 -fno-omit-frame-pointer -fno-rtti -fno-exceptions -std=gnu++1y -MMD -MF ./Release/.deps/Release/obj.target/spellchecker/src/transcoder_posix.o.d.raw   -c -o Release/obj.target/spellchecker/src/transcoder_posix.o ../src/transcoder_posix.cc
+ Release/obj.target/spellchecker/src/transcoder_posix.o: \
+  ../src/transcoder_posix.cc
+ ../src/transcoder_posix.cc:
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker.node b/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker.node
+index ad80547..9a4afec 100755
+Binary files a/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker.node and b/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker.node differ
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker/src/main.o b/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker/src/main.o
+index ea558a6..fe10fdc 100644
+Binary files a/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker/src/main.o and b/node_modules/@felixrieseberg/spellchecker/build/Release/obj.target/spellchecker/src/main.o differ
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/Release/spellchecker.node b/node_modules/@felixrieseberg/spellchecker/build/Release/spellchecker.node
+index ad80547..9a4afec 100755
+Binary files a/node_modules/@felixrieseberg/spellchecker/build/Release/spellchecker.node and b/node_modules/@felixrieseberg/spellchecker/build/Release/spellchecker.node differ
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/config.gypi b/node_modules/@felixrieseberg/spellchecker/build/config.gypi
+index 35f502d..a124a18 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/config.gypi
++++ b/node_modules/@felixrieseberg/spellchecker/build/config.gypi
+@@ -72,21 +72,30 @@
+     "v8_use_siphash": 1,
+     "v8_use_snapshot": 1,
+     "want_separate_host_toolset": 0,
+-    "nodedir": "/home/quanglam2807/.cache/node-gyp/12.13.0",
++    "nodedir": "/home/quanglam2807/.electron-gyp/7.0.0",
+     "standalone_static_library": 1,
+     "version_commit_hooks": "true",
+     "user_agent": "yarn/1.19.1 npm/? node/v12.13.0 linux x64",
+     "bin_links": "true",
++    "build_from_source": "",
++    "wrap_output": "",
+     "init_version": "1.0.0",
++    "update_binary": "true",
+     "init_license": "MIT",
+     "version_tag_prefix": "v",
++    "target": "7.0.0",
+     "registry": "https://registry.yarnpkg.com",
++    "runtime": "electron",
+     "ignore_scripts": "",
++    "disturl": "https://electronjs.org/headers",
+     "version_git_message": "v%s",
+     "version_git_tag": "true",
+     "version_git_sign": "",
+     "strict_ssl": "true",
++    "fallback_to_build": "true",
+     "save_prefix": "^",
+-    "ignore_optional": ""
++    "ignore_optional": "",
++    "platform": "linux",
++    "target_platform": "linux"
+   }
+ }
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/hunspell.target.mk b/node_modules/@felixrieseberg/spellchecker/build/hunspell.target.mk
+index 14c2ff7..f1ffc1a 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/hunspell.target.mk
++++ b/node_modules/@felixrieseberg/spellchecker/build/hunspell.target.mk
+@@ -41,13 +41,13 @@ CFLAGS_CC_Debug := \
+ 	-std=gnu++1y
+ 
+ INCS_Debug := \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/src \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/include/node \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/src \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include \
+ 	-I$(srcdir)/vendor/hunspell/src
+ 
+ DEFS_Release := \
+@@ -86,13 +86,13 @@ CFLAGS_CC_Release := \
+ 	-std=gnu++1y
+ 
+ INCS_Release := \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/src \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/include/node \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/src \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include \
+ 	-I$(srcdir)/vendor/hunspell/src
+ 
+ OBJS := \
+diff --git a/node_modules/@felixrieseberg/spellchecker/build/spellchecker.target.mk b/node_modules/@felixrieseberg/spellchecker/build/spellchecker.target.mk
+index c433cee..cdae3f6 100644
+--- a/node_modules/@felixrieseberg/spellchecker/build/spellchecker.target.mk
++++ b/node_modules/@felixrieseberg/spellchecker/build/spellchecker.target.mk
+@@ -43,13 +43,13 @@ CFLAGS_CC_Debug := \
+ 	-std=gnu++1y
+ 
+ INCS_Debug := \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/src \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/include/node \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/src \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include \
+ 	-I$(srcdir)/../../nan \
+ 	-I$(srcdir)/vendor/hunspell/src
+ 
+@@ -91,13 +91,13 @@ CFLAGS_CC_Release := \
+ 	-std=gnu++1y
+ 
+ INCS_Release := \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/include/node \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/src \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/config \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/openssl/openssl/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/uv/include \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/zlib \
+-	-I/home/quanglam2807/.cache/node-gyp/12.13.0/deps/v8/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/include/node \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/src \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/config \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/openssl/openssl/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/uv/include \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/zlib \
++	-I/home/quanglam2807/.electron-gyp/7.0.0/deps/v8/include \
+ 	-I$(srcdir)/../../nan \
+ 	-I$(srcdir)/vendor/hunspell/src
+ 
+diff --git a/node_modules/@felixrieseberg/spellchecker/src/main.cc b/node_modules/@felixrieseberg/spellchecker/src/main.cc
+index 040fb67..80b86ce 100644
+--- a/node_modules/@felixrieseberg/spellchecker/src/main.cc
++++ b/node_modules/@felixrieseberg/spellchecker/src/main.cc
+@@ -6,6 +6,8 @@ using Nan::ObjectWrap;
+ using namespace spellchecker;
+ using namespace v8;
+ 
++// Patched with goddessfreya's code: https://github.com/atom/node-spellchecker/pull/128
++
+ namespace {
+ 
+ class Spellchecker : public Nan::ObjectWrap {
+@@ -101,9 +103,15 @@ class Spellchecker : public Nan::ObjectWrap {
+       uint32_t start = iter->start, end = iter->end;
+ 
+       Local<Object> misspelled_range = Nan::New<Object>();
+-      misspelled_range->Set(Nan::New("start").ToLocalChecked(), Nan::New<Integer>(start));
+-      misspelled_range->Set(Nan::New("end").ToLocalChecked(), Nan::New<Integer>(end));
+-      result->Set(index, misspelled_range);
++      {
++        Isolate* isolate = misspelled_range->GetIsolate();
++        Local<Context> context = isolate->GetCurrentContext();
++        misspelled_range->Set(context, Nan::New("start").ToLocalChecked(), Nan::New<Integer>(start)).Check();
++        misspelled_range->Set(context, Nan::New("end").ToLocalChecked(), Nan::New<Integer>(end)).Check();
++      }
++      Isolate* isolate = result->GetIsolate();
++      Local<Context> context = isolate->GetCurrentContext();
++      result->Set(context, index, misspelled_range).Check();
+     }
+   }
+ 
+@@ -156,7 +164,9 @@ class Spellchecker : public Nan::ObjectWrap {
+     Local<Array> result = Nan::New<Array>(dictionaries.size());
+     for (size_t i = 0; i < dictionaries.size(); ++i) {
+       const std::string& dict = dictionaries[i];
+-      result->Set(i, Nan::New(dict.data(), dict.size()).ToLocalChecked());
++      Isolate* isolate = result->GetIsolate();
++      Local<Context> context = isolate->GetCurrentContext();
++      result->Set(context, i, Nan::New(dict.data(), dict.size()).ToLocalChecked()).Check();
+     }
+ 
+     info.GetReturnValue().Set(result);
+@@ -184,7 +194,9 @@ class Spellchecker : public Nan::ObjectWrap {
+       const std::string& word = corrections[i];
+ 
+       Nan::MaybeLocal<String> val = Nan::New<String>(word.data(), word.size());
+-      result->Set(i, val.ToLocalChecked());
++      Isolate* isolate = result->GetIsolate();
++      Local<Context> context = isolate->GetCurrentContext();
++      result->Set(context, i, val.ToLocalChecked()).Check();
+     }
+ 
+     info.GetReturnValue().Set(result);

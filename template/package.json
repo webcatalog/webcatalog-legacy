@@ -7,7 +7,7 @@
   },
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "npx electron-builder install-app-deps",
+    "postinstall": "patch-package && npx electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
@@ -49,6 +49,8 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.3",
     "lodash.camelcase": "4.3.0",
+    "patch-package": "6.2.0",
+    "postinstall-postinstall": "2.0.0",
     "prop-types": "15.7.2",
     "react": "16.11.0",
     "react-dom": "16.11.0",
