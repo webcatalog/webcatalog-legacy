@@ -130,7 +130,7 @@ function createMenu() {
 
             if (win != null) {
               const contents = win.getBrowserView().webContents;
-              contents.zoomFactor += 0.1;
+              contents.zoomFactor -= 0.1;
             }
           },
         },
