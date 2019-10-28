@@ -13,6 +13,7 @@ import packageJson from '../../../package.json';
 import {
   requestShowMessageBox,
   requestInstallApp,
+  requestUpdateApp,
 } from '../../senders';
 
 import {
@@ -65,7 +66,7 @@ export const updateApp = (engine, id, name, url, icon, mailtoHandler) => (dispat
   // download icon when updating apps in the catalog
   const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-  return requestInstallApp(engine, id, name, url, iconUrl, mailtoHandler);
+  return requestUpdateApp(engine, id, name, url, iconUrl, mailtoHandler);
 };
 
 export const updateAllApps = () => (dispatch, getState) => {
@@ -87,7 +88,7 @@ export const updateAllApps = () => (dispatch, getState) => {
     // download icon when updating apps in the catalog
     const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-    return requestInstallApp(engine, id, name, url, iconUrl, mailtoHandler);
+    return requestUpdateApp(engine, id, name, url, iconUrl, mailtoHandler);
   });
 
   return null;

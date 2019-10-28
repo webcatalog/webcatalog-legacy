@@ -64,6 +64,7 @@ const styles = (theme) => ({
     position: 'absolute',
     top: theme.spacing.unit,
     right: theme.spacing.unit,
+    color: theme.palette.text.secondary,
   },
 });
 
