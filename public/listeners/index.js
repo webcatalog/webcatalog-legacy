@@ -157,6 +157,31 @@ const loadListeners = () => {
       }));
   });
 
+  ipcMain.on('request-update-app', (e, engine, id, name, url, icon, mailtoHandler) => {
+    e.sender.send('set-app', id, {
+      status: 'INSTALLING',
+    });
+
+    p = p.then(() => installAppAsync(engine, id, name, url, icon, mailtoHandler)
+      .then(() => {
+        e.sender.send('set-app', id, {
+          version: packageJson.templateVersion,
+          status: 'INSTALLED',
+        });
+      })
+      .catch((error) => {
+        /* eslint-disable-next-line */
+        console.log(error);
+        dialog.showMessageBox(mainWindow.get(), {
+          type: 'error',
+          message: `Failed to update ${name}. (${error.message})`,
+        });
+        e.sender.send('set-app', id, {
+          status: 'INSTALLED',
+        });
+      }));
+  });
+
   // Native Theme
   ipcMain.on('get-should-use-dark-colors', (e) => {
     e.returnValue = nativeTheme.shouldUseDarkColors;
