@@ -9,7 +9,7 @@ const v = '2018';
 
 const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
-    return path.join(app.getPath('home'), 'Applications', 'WebCatalog Apps');
+    return path.join('~', 'Applications', 'WebCatalog Apps');
   }
   if (process.platform === 'linux') {
     return '~/.webcatalog';
@@ -27,7 +27,7 @@ const defaultPreferences = {
   preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
-  hideEnginePrompt: false,
+  hideEnginePrompt: true,
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });

@@ -11,8 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import electronIcon from '../../assets/electron.png';
 import chromeIcon from '../../assets/chrome.png';
@@ -23,13 +21,11 @@ import connectComponent from '../../helpers/connect-component';
 
 import {
   close,
-  create,
+  save,
   updateForm,
-} from '../../state/dialog-choose-engine/actions';
+} from '../../state/dialog-set-preferred-engine/actions';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
-
-import { requestSetPreference } from '../../senders';
 
 const styles = (theme) => ({
   grid: {
@@ -49,16 +45,14 @@ const styles = (theme) => ({
   },
 });
 
-const DialogChooseEngine = (props) => {
+const DialogSetPreferredEngine = (props) => {
   const {
     classes,
     engine,
-    name,
     onClose,
-    onCreate,
+    onSave,
     onUpdateForm,
     open,
-    hideEnginePrompt,
   } = props;
 
   return (
@@ -69,14 +63,13 @@ const DialogChooseEngine = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Choose an Browser Engine for
-        {` ${name}`}
+        Choose Preferred Browser Engine
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography component="span" className={classes.tip} color="textPrimary">
-          WebCatalog lets you pick your preferrred browser engine to power the app.
-          This cannot be changed later.
-          You will have to uninstall and then reinstall to change the engine of an app.
+          WebCatalog lets you pick your preferrred browser engine to power your apps.
+          After you install an app,
+          you will have to uninstall and then reinstall to change the engine.
         </Typography>
         <List>
           <ListItem
@@ -228,16 +221,6 @@ const DialogChooseEngine = (props) => {
         </List>
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={hideEnginePrompt}
-              onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
-              color="primary"
-            />
-          )}
-          label="Don't ask again"
-        />
         <Button
           onClick={onClose}
         >
@@ -245,22 +228,20 @@ const DialogChooseEngine = (props) => {
         </Button>
         <Button
           color="primary"
-          onClick={onCreate}
+          onClick={onSave}
         >
-          Create
+          Save
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-DialogChooseEngine.propTypes = {
+DialogSetPreferredEngine.propTypes = {
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string.isRequired,
-  hideEnginePrompt: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
@@ -269,31 +250,24 @@ const mapStateToProps = (state) => {
   const {
     open,
     form: {
-      name,
       engine,
     },
-  } = state.dialogChooseEngine;
-
-  const {
-    hideEnginePrompt,
-  } = state.preferences;
+  } = state.dialogSetPreferredEngine;
 
   return {
     engine,
-    name,
     open,
-    hideEnginePrompt,
   };
 };
 
 const actionCreators = {
   close,
-  create,
+  save,
   updateForm,
 };
 
 export default connectComponent(
-  DialogChooseEngine,
+  DialogSetPreferredEngine,
   mapStateToProps,
   actionCreators,
   styles,
