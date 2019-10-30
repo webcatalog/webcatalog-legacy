@@ -21,6 +21,8 @@ import connectComponent from '../../../helpers/connect-component';
 import { getInstallingAppsAsList, getAppCount } from '../../../state/app-management/utils';
 
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
+import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
+
 
 import {
   requestOpenInBrowser,
@@ -106,6 +108,7 @@ const Preferences = ({
   installationPath,
   installingAppCount,
   onOpenDialogSetInstallationPath,
+  onOpenDialogSetPreferredEngine,
   preferredEngine,
   requireAdmin,
   themeSource,
@@ -133,43 +136,6 @@ const Preferences = ({
       </AppBar>
       <div className={classes.scrollContainer}>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
-            Engine
-          </Typography>
-          <Paper className={classes.paper}>
-            <List dense>
-              <StatedMenu
-                id="preferredEngine"
-                buttonElement={(
-                  <ListItem button>
-                    <ListItemText primary="Preferred engine" secondary={getEngineName(preferredEngine)} />
-                    <ChevronRightIcon color="action" />
-                  </ListItem>
-                )}
-              >
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'electron')}>Electron (recommended)</MenuItem>
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chrome')}>Google Chrome</MenuItem>
-                {window.process.platform !== 'win32' && <MenuItem onClick={() => requestSetPreference('preferredEngine', 'chromium')}>Chromium</MenuItem>}
-                <MenuItem onClick={() => requestSetPreference('preferredEngine', 'firefox')}>Mozilla Firefox</MenuItem>
-              </StatedMenu>
-              <Divider />
-              <ListItem>
-                <ListItemText
-                  primary="Ask for engine selection before every installation"
-                />
-                <Switch
-                  checked={!hideEnginePrompt}
-                  onChange={(e) => {
-                    requestSetPreference('hideEnginePrompt', !e.target.checked);
-                  }}
-                  classes={{
-                    switchBase: classes.switchBase,
-                  }}
-                />
-              </ListItem>
-            </List>
-          </Paper>
-
           <Typography variant="subtitle2" className={classes.sectionTitle}>
             Appearance
           </Typography>
@@ -207,6 +173,26 @@ const Preferences = ({
           </Typography>
           <Paper className={classes.paper}>
             <List dense>
+              <ListItem button onClick={onOpenDialogSetPreferredEngine}>
+                <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Ask for browser engine selection before every installation"
+                />
+                <Switch
+                  checked={!hideEnginePrompt}
+                  onChange={(e) => {
+                    requestSetPreference('hideEnginePrompt', !e.target.checked);
+                  }}
+                  classes={{
+                    switchBase: classes.switchBase,
+                  }}
+                />
+              </ListItem>
+              <Divider />
               {window.process.platform === 'win32' && (
                 <>
                   <ListItem>
@@ -355,6 +341,7 @@ Preferences.propTypes = {
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
+  onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   preferredEngine: PropTypes.string.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
@@ -374,6 +361,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   openDialogSetInstallationPath,
+  openDialogSetPreferredEngine,
 };
 
 export default connectComponent(
