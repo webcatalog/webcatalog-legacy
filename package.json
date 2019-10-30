@@ -46,7 +46,7 @@
     "fs-extra": "8.1.0",
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.8.5",
+    "jimp": "0.6.8",
     "read-chunk": "3.2.0",
     "sudo-prompt": "9.0.0",
     "tmp": "0.1.0",
