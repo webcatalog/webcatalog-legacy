@@ -25,6 +25,12 @@ export const getInstallingAppsAsList = (state) => {
   return Object.values(apps).filter((app) => app.status !== 'INSTALLED');
 };
 
+export const getAppBadgeCount = (state) => {
+  const { apps } = state.appManagement;
+  return Object.values(apps)
+    .filter((app) => isOutdatedApp(app.id, state) || app.status !== 'INSTALLED').length;
+};
+
 export const isNameExisted = (name, state) => {
   const { apps } = state.appManagement;
   return Boolean(Object.keys(apps).find((id) => {
