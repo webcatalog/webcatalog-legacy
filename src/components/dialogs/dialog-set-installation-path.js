@@ -74,10 +74,13 @@ const DialogSetInstallationPath = (props) => {
                   onClick={() => {
                     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
                       properties: ['openDirectory'],
-                    }, (filePaths) => {
-                      if (!filePaths || filePaths.length < 1) return;
-                      onUpdateForm({ installationPath: filePaths[0] });
-                    });
+                    })
+                      .then(({ canceled, filePaths }) => {
+                        if (!canceled && filePaths && filePaths.length > 0) {
+                          onUpdateForm({ installationPath: filePaths[0] });
+                        }
+                      })
+                      .then(console.log); // eslint-disable-line
                   }}
                 >
                   Change

@@ -117,15 +117,16 @@ const EditWorkspace = ({
               const opts = {
                 properties: ['openFile'],
                 filters: [
-                  { name: 'Images', extensions: ['jpg', 'png'] },
+                  { name: 'Images', extensions: ['jpg', 'jpeg', 'png'] },
                 ],
               };
               remote.dialog.showOpenDialog(remote.getCurrentWindow(), opts)
                 .then(({ canceled, filePaths }) => {
-                  if (!canceled && filePaths.length > 0) {
+                  if (!canceled && filePaths && filePaths.length > 0) {
                     onUpdateForm({ picturePath: filePaths[0] });
                   }
-                });
+                })
+                .catch(console.log); // eslint-disable-line
             }}
           >
             Change Icon

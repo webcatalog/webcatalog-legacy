@@ -105,11 +105,13 @@ const DialogCreateCustomApp = (props) => {
                 dialog.showOpenDialog({
                   filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
                   properties: ['openFile'],
-                }, (filePaths) => {
-                  if (filePaths && filePaths.length > 0) {
-                    onUpdateForm({ icon: filePaths[0] });
-                  }
-                });
+                })
+                  .then(({ canceled, filePaths }) => {
+                    if (!canceled && filePaths && filePaths.length > 0) {
+                      onUpdateForm({ icon: filePaths[0] });
+                    }
+                  })
+                  .catch(console.log); // eslint-disable-line
               }}
             >
               Change Icon
