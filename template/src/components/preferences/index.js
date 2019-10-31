@@ -248,13 +248,13 @@ const Preferences = ({
           onClick={() => {
             remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
               properties: ['openDirectory'],
-            }).then((result) => {
-              if (!result.canceled && result.filePaths) {
-                requestSetPreference('downloadPath', result.filePaths[0]);
-              }
-            }).catch((err) => {
-              console.log(err);
-            });
+            })
+              .then(({ canceled, filePaths }) => {
+                if (!canceled && filePaths && filePaths.length > 0) {
+                  requestSetPreference('downloadPath', filePaths[0]);
+                }
+              })
+              .catch(console.log); // eslint-disable-line
           }}
         >
           <ListItemText
