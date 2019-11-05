@@ -28,6 +28,7 @@ const defaultPreferences = {
   registered: false,
   requireAdmin: false,
   hideEnginePrompt: true,
+  themeSource: 'system',
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });

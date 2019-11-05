@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const {
-  app, protocol, ipcMain, nativeTheme,
+  app, protocol, ipcMain, systemPreferences,
 } = require('electron');
 
 const loadListeners = require('./listeners');
@@ -69,9 +69,18 @@ if (!gotTheLock) {
       checkForUpdates(true);
     }
 
+    /* Electron 7
     nativeTheme.addListener('updated', () => {
       sendToAllWindows('native-theme-updated');
     });
+    */
+
+    systemPreferences.subscribeNotification(
+      'AppleInterfaceThemeChangedNotification',
+      () => {
+        sendToAllWindows('native-theme-updated');
+      },
+    );
   });
 
   app.on('before-quit', () => {

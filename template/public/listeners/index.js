@@ -3,7 +3,8 @@ const {
   dialog,
   ipcMain,
   shell,
-  nativeTheme,
+  // nativeTheme,
+  systemPreferences,
 } = require('electron');
 
 const {
@@ -37,7 +38,7 @@ const {
 } = require('../libs/workspaces-views');
 
 const createMenu = require('../libs/create-menu');
-
+const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
 
 const mainWindow = require('../windows/main');
@@ -283,15 +284,30 @@ const loadListeners = () => {
 
   // Native Theme
   ipcMain.on('get-should-use-dark-colors', (e) => {
+    /* Electron 7
     e.returnValue = nativeTheme.shouldUseDarkColors;
+    */
+    const themeSource = getPreference('themeSource');
+    if (getPreference('themeSource') === 'system') {
+      e.returnValue = systemPreferences.isDarkMode();
+    } else {
+      e.returnValue = themeSource === 'dark';
+    }
   });
 
   ipcMain.on('get-theme-source', (e) => {
+    /* Electron 7
     e.returnValue = nativeTheme.themeSource;
+    */
+    e.returnValue = getPreference('themeSource');
   });
 
   ipcMain.on('request-set-theme-source', (e, val) => {
+    /* Electron 7
     nativeTheme.themeSource = val;
+    */
+    setPreference('themeSource', val);
+    sendToAllWindows('native-theme-updated');
   });
 };
 

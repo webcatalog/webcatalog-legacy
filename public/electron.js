@@ -1,5 +1,5 @@
 const path = require('path');
-const { app, nativeTheme } = require('electron');
+const { app, systemPreferences } = require('electron');
 
 const createMenu = require('./libs/create-menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
@@ -30,9 +30,18 @@ if (!gotTheLock) {
     mainWindow.create();
     createMenu();
 
+    /* Electron 7
     nativeTheme.addListener('updated', () => {
       sendToAllWindows('native-theme-updated');
     });
+    */
+
+    systemPreferences.subscribeNotification(
+      'AppleInterfaceThemeChangedNotification',
+      () => {
+        sendToAllWindows('native-theme-updated');
+      },
+    );
   });
 
   app.on('window-all-closed', () => {
