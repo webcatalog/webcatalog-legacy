@@ -2,10 +2,12 @@ const {
   app,
   dialog,
   ipcMain,
-  nativeTheme,
+  // nativeTheme,
+  systemPreferences,
   shell,
 } = require('electron');
 
+const sendToAllWindows = require('../libs/send-to-all-windows');
 const openApp = require('../libs/app-management/open-app');
 const installAppAsync = require('../libs/app-management/install-app-async');
 const uninstallAppAsync = require('../libs/app-management/uninstall-app-async');
@@ -184,15 +186,30 @@ const loadListeners = () => {
 
   // Native Theme
   ipcMain.on('get-should-use-dark-colors', (e) => {
+    /* Electron 7
     e.returnValue = nativeTheme.shouldUseDarkColors;
+    */
+    const themeSource = getPreference('themeSource');
+    if (getPreference('themeSource') === 'system') {
+      e.returnValue = systemPreferences.isDarkMode();
+    } else {
+      e.returnValue = themeSource === 'dark';
+    }
   });
 
   ipcMain.on('get-theme-source', (e) => {
+    /* Electron 7
     e.returnValue = nativeTheme.themeSource;
+    */
+    e.returnValue = getPreference('themeSource');
   });
 
   ipcMain.on('request-set-theme-source', (e, val) => {
+    /* Electron 7
     nativeTheme.themeSource = val;
+    */
+    setPreference('themeSource', val);
+    sendToAllWindows('native-theme-updated');
   });
 };
 

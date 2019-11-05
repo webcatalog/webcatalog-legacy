@@ -193,6 +193,7 @@ decompress(templatePath, tmpPath)
       overwrite: true,
       prune: true,
       osxSign: false,
+      darwinDarkModeSupport: true,
       asar: {
         unpack: '{app.json,icon.png,package.json,manifest.json}',
       },

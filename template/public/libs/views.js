@@ -154,17 +154,17 @@ const addView = (browserWindow, workspace) => {
     if (!askForDownloadPath) {
       const finalFilePath = path.join(downloadPath, item.getFilename());
       if (!fsExtra.existsSync(finalFilePath)) {
-        item.savePath = finalFilePath; // eslint-disable-line
+        item.setSavePath(finalFilePath);
       }
     }
   });
 
   // Hide Electron from UA to improve compatibility
   // https://github.com/quanglam2807/webcatalog/issues/182
-  let uaStr = view.webContents.userAgent;
-  uaStr = uaStr.replace(` ${app.name}/${app.getVersion()}`, '');
+  let uaStr = view.webContents.getUserAgent();
+  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, '');
   uaStr = uaStr.replace(` Electron/${process.versions.electron}`, '');
-  view.webContents.userAgent = uaStr;
+  view.webContents.setUserAgent(uaStr);
 
   // Unread count badge
   if (unreadCountBadge) {
@@ -185,7 +185,7 @@ const addView = (browserWindow, workspace) => {
         count += c;
       });
 
-      app.badgeCount = count;
+      app.setBadgeCount(count);
     });
   }
 
