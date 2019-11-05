@@ -106,7 +106,7 @@ function createMenu() {
 
             if (win != null) {
               const contents = win.getBrowserView().webContents;
-              contents.zoomFactor = 1;
+              contents.setZoomFactor(1);
             }
           },
         },
@@ -118,7 +118,9 @@ function createMenu() {
 
             if (win != null) {
               const contents = win.getBrowserView().webContents;
-              contents.zoomFactor += 0.1;
+              contents.getZoomFactor((zoomFactor) => {
+                contents.setZoomFactor(zoomFactor + 0.1);
+              });
             }
           },
         },
@@ -130,7 +132,9 @@ function createMenu() {
 
             if (win != null) {
               const contents = win.getBrowserView().webContents;
-              contents.zoomFactor -= 0.1;
+              contents.getZoomFactor((zoomFactor) => {
+                contents.setZoomFactor(zoomFactor - 0.1);
+              });
             }
           },
         },
