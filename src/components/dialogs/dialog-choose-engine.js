@@ -89,7 +89,7 @@ const DialogChooseEngine = (props) => {
               <Avatar alt="Electron" src={electronIcon} />
             </ListItemAvatar>
             <ListItemText
-              primary="Electron (recommended)"
+              primary="Electron (highly recommended)"
               secondary={(
                 <>
                   <Typography component="span" className={classes.inline} color="textPrimary">
@@ -100,7 +100,7 @@ const DialogChooseEngine = (props) => {
                   <Typography component="span" className={classes.inline} color="textPrimary">
                     Feature-rich
                   </Typography>
-                  {' — Supports workspaces, menubar, code injection, etc.'}
+                  {' — Supports badges, notifications, workspaces, menubar, code injection, etc.'}
                   <br />
                   <Typography component="span" className={classes.inline} color="textPrimary">
                     Less compatible
