@@ -25,6 +25,7 @@ const defaultPreferences = {
   spellChecker: true,
   swipeToNavigate: true,
   unreadCountBadge: true,
+  themeSource: process.platform === 'darwin' ? 'system' : 'light',
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });

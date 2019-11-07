@@ -74,13 +74,14 @@ if (!gotTheLock) {
       sendToAllWindows('native-theme-updated');
     });
     */
-
-    systemPreferences.subscribeNotification(
-      'AppleInterfaceThemeChangedNotification',
-      () => {
-        sendToAllWindows('native-theme-updated');
-      },
-    );
+    if (process.platform === 'darwin') {
+      systemPreferences.subscribeNotification(
+        'AppleInterfaceThemeChangedNotification',
+        () => {
+          sendToAllWindows('native-theme-updated');
+        },
+      );
+    }
   });
 
   app.on('before-quit', () => {
