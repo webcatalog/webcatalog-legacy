@@ -100,6 +100,7 @@ const getEngineName = (engine) => {
 };
 
 const Preferences = ({
+  allowPrerelease,
   appCount,
   classes,
   createDesktopShortcut,
@@ -312,6 +313,21 @@ const Preferences = ({
               <ListItem button onClick={requestOpenInstallLocation}>
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
               </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Receive pre-release updates"
+                />
+                <Switch
+                  checked={allowPrerelease}
+                  onChange={(e) => {
+                    requestSetPreference('allowPrerelease', e.target.checked);
+                  }}
+                  classes={{
+                    switchBase: classes.switchBase,
+                  }}
+                />
+              </ListItem>
             </List>
           </Paper>
 
@@ -333,6 +349,7 @@ const Preferences = ({
 };
 
 Preferences.propTypes = {
+  allowPrerelease: PropTypes.bool.isRequired,
   appCount: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
   createDesktopShortcut: PropTypes.bool.isRequired,
@@ -348,6 +365,7 @@ Preferences.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  allowPrerelease: state.preferences.allowPrerelease,
   appCount: getAppCount(state),
   createDesktopShortcut: state.preferences.createDesktopShortcut,
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,
