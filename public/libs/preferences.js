@@ -28,7 +28,7 @@ const defaultPreferences = {
   registered: false,
   requireAdmin: false,
   hideEnginePrompt: true,
-  themeSource: 'system',
+  themeSource: process.platform === 'darwin' ? 'system' : 'light',
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
