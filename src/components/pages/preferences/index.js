@@ -151,7 +151,7 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>
+                {window.process.platform === 'darwin' && <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
                 <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
                 <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>

@@ -29,7 +29,7 @@ const defaultPreferences = {
   preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
-  themeSource: 'system',
+  themeSource: process.platform === 'darwin' ? 'system' : 'light',
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
