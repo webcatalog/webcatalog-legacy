@@ -21,13 +21,14 @@ const getDefaultInstallationPath = () => {
 };
 
 const defaultPreferences = {
+  allowPrerelease: false,
   createDesktopShortcut: true,
   createStartMenuShortcut: true,
+  hideEnginePrompt: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
-  hideEnginePrompt: true,
   themeSource: 'system',
 };
 

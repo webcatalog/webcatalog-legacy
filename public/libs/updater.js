@@ -3,12 +3,15 @@ const { autoUpdater } = require('electron-updater');
 
 const sendToAllWindows = require('./send-to-all-windows');
 const createMenu = require('./create-menu');
+const { getPreference } = require('./preferences');
 
 const mainWindow = require('../windows/main');
 
 global.updateSilent = true;
 global.updateAvailable = false;
 global.updaterProgressObj = null;
+
+autoUpdater.allowPrerelease = getPreference('allowPrerelease');
 
 autoUpdater.on('update-available', (info) => {
   if (!global.updateSilent) {
