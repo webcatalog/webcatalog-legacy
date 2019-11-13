@@ -102,14 +102,20 @@ const installAppAsync = (
     },
   });
 
+  let err = null;
   child.on('message', (message) => {
+    if (message && message.error) {
+      err = new Error(message.error.message);
+      err.stack = message.error.stack;
+      err.name = message.error.name;
+    }
     console.log(message);
   });
 
   child.on('exit', (code) => {
     if (code === 1) {
       lastUsedTmpPath = null;
-      reject(new Error('Forked script failed to run correctly.'));
+      reject(err || new Error('Forked script failed to run correctly.'));
       return;
     }
     if (lastUsedTmpPath) {

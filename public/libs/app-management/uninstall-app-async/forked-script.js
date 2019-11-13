@@ -85,11 +85,23 @@ Promise.resolve()
     process.exit(0);
   })
   .catch((e) => {
-    process.send(e);
+    process.send({
+      error: {
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+      },
+    });
     process.exit(1);
   });
 
 process.on('uncaughtException', (e) => {
-  process.exit(1);
+  process.send({
+    error: {
+      name: e.name,
+      message: e.message,
+      stack: e.stack,
+    },
+  });
   process.send(e);
 });
