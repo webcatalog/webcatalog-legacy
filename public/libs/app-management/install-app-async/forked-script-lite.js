@@ -318,15 +318,23 @@ Terminal=false;
     process.exit(0);
   })
   .catch((e) => {
-    /* eslint-disable-next-line */
-    console.log(e);
-    process.send(e);
+    process.send({
+      error: {
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+      },
+    });
     process.exit(1);
   });
 
 process.on('uncaughtException', (e) => {
-  /* eslint-disable-next-line */
-  console.log(e);
+  process.send({
+    error: {
+      name: e.name,
+      message: e.message,
+      stack: e.stack,
+    },
+  });
   process.exit(1);
-  process.send(e);
 });

@@ -118,6 +118,10 @@ const loadListeners = () => {
           .catch((error) => {
             /* eslint-disable-next-line */
             console.log(error);
+            dialog.showMessageBox(mainWindow.get(), {
+              type: 'error',
+              message: `Failed to uninstall ${name}. (${error.stack})`,
+            });
             e.sender.send('set-app', id, {
               status: 'INSTALLED',
             });
@@ -153,7 +157,7 @@ const loadListeners = () => {
         console.log(error);
         dialog.showMessageBox(mainWindow.get(), {
           type: 'error',
-          message: `Failed to install ${name}. (${error.message})`,
+          message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
         });
         e.sender.send('remove-app', id);
       }));
