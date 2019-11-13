@@ -6,7 +6,6 @@ const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
 const download = require('download');
-const tmp = require('tmp');
 const decompress = require('decompress');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
@@ -24,12 +23,11 @@ const {
   username,
   createDesktopShortcut,
   createStartMenuShortcut,
+  tmpPath,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
 
-const tmpObj = tmp.dirSync();
-const tmpPath = tmpObj.name;
 const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');

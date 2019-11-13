@@ -1,12 +1,15 @@
 const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
+const tmp = require('tmp');
 
 const { getPreference } = require('./../../preferences');
 const isEngineInstalled = require('../../is-engine-installed');
 
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
+
+let lastUsedTmpPath = null;
 
 const installAppAsync = (
   engine, id, name, url, icon, mailtoHandler,
@@ -82,6 +85,15 @@ const installAppAsync = (
     );
   }
 
+  let tmpPath = null;
+  if (engine === 'electron') {
+    tmpPath = lastUsedTmpPath || tmp.dirSync().name;
+    params.push(
+      '--tmpPath',
+      tmpPath,
+    );
+  }
+
   const child = fork(scriptPath, params, {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
@@ -96,10 +108,13 @@ const installAppAsync = (
 
   child.on('exit', (code) => {
     if (code === 1) {
+      lastUsedTmpPath = null;
       reject(new Error('Forked script failed to run correctly.'));
       return;
     }
-
+    if (lastUsedTmpPath) {
+      lastUsedTmpPath = tmpPath;
+    }
     resolve();
   });
 });
