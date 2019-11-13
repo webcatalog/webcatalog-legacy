@@ -6,7 +6,6 @@ const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
 const download = require('download');
-const tmp = require('tmp');
 const decompress = require('decompress');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
@@ -24,12 +23,11 @@ const {
   username,
   createDesktopShortcut,
   createStartMenuShortcut,
+  tmpPath,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
 
-const tmpObj = tmp.dirSync();
-const tmpPath = tmpObj.name;
 const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
@@ -95,7 +93,19 @@ const createShortcutAsync = (shortcutPath, opts) => {
   });
 };
 
-decompress(templatePath, tmpPath)
+Promise.resolve()
+  .then(() => fsExtra.exists(packageJsonPath))
+  .then((exists) => {
+    // if tmp path has package.json file
+    // assume that it has the template code
+    if (exists) {
+      console.log('Skipped decompressing template code');
+      return null;
+    }
+    // if not, decompress new template code
+    console.log('Decompressing template code...');
+    return decompress(templatePath, tmpPath);
+  })
   .then(() => {
     if (isUrl(icon)) {
       return download(icon, buildResourcesPath, {
