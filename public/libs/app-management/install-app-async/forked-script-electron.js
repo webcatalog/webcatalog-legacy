@@ -93,7 +93,15 @@ const createShortcutAsync = (shortcutPath, opts) => {
   });
 };
 
-decompress(templatePath, tmpPath)
+Promise.resolve()
+  .then(() => fsExtra.exists(packageJsonPath))
+  .then((exists) => {
+    // if tmp path has package.json file
+    // assume that it has the template code
+    if (exists) return null;
+    // if not, decompress new template code
+    return decompress(templatePath, tmpPath);
+  })
   .then(() => {
     if (isUrl(icon)) {
       return download(icon, buildResourcesPath, {
