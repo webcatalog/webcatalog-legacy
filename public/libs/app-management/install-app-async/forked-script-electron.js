@@ -98,8 +98,12 @@ Promise.resolve()
   .then((exists) => {
     // if tmp path has package.json file
     // assume that it has the template code
-    if (exists) return null;
+    if (exists) {
+      console.log('Skipped decompressing template code');
+      return null;
+    }
     // if not, decompress new template code
+    console.log('Decompressing template code...');
     return decompress(templatePath, tmpPath);
   })
   .then(() => {

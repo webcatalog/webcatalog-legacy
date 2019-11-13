@@ -118,7 +118,7 @@ const installAppAsync = (
       reject(err || new Error('Forked script failed to run correctly.'));
       return;
     }
-    if (lastUsedTmpPath) {
+    if (tmpPath) {
       lastUsedTmpPath = tmpPath;
     }
     resolve();
