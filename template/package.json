@@ -7,7 +7,7 @@
   },
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "npx patch-package && npx electron-builder install-app-deps",
+    "postinstall": "npx electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
@@ -23,7 +23,7 @@
     "electron": "6.1.4",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
-    "electron-spellchecker": "2.2.0",
+    "electron-spellchecker": "2.2.1",
     "electron-window-state": "5.0.3",
     "follow-redirects": "1.9.0",
     "fs-extra": "8.1.0",

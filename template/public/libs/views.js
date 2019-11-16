@@ -1,6 +1,7 @@
 const {
-  app,
   BrowserView,
+  BrowserWindow,
+  app,
   session,
   shell,
 } = require('electron');
@@ -116,25 +117,36 @@ const addView = (browserWindow, workspace) => {
     }
   });
 
-  view.webContents.on('new-window', (e, nextUrl) => {
-    const curDomain = extractDomain(appJson.url);
+  view.webContents.on('new-window', (e, nextUrl, frameName, disposition, options, additionalFeatures, referrer) => {
+    const curDomain = extractDomain(workspace.homeUrl);
     const nextDomain = extractDomain(nextUrl);
-
-    // open new window normally if domain is not defined (about:)
-    if (nextDomain === null) {
-      return;
-    }
-
-    e.preventDefault();
 
     // load in same window
     if (
-      nextDomain === curDomain
-      || nextDomain === 'accounts.google.com'
+      nextDomain === 'accounts.google.com'
       || nextDomain === 'feedly.com'
-      || nextUrl.indexOf('oauth') > -1 // Works with Google & Facebook.
     ) {
+      e.preventDefault();
       view.webContents.loadURL(nextUrl);
+      return;
+    }
+
+    // open new window normally if domain is not defined or same domain (about:)
+    if (nextDomain === null || nextDomain === curDomain || nextUrl.indexOf('oauth') > -1) {
+      e.preventDefault();
+      const popupWin = new BrowserWindow({
+        width: 500,
+        height: 500,
+        webPreferences: {
+          nodeIntegration: false,
+          contextIsolation: true,
+          partition: shareWorkspaceBrowsingData ? 'persist:shared' : `persist:${workspace.id}`,
+          preload: path.join(__dirname, '..', 'preload', 'view.js'),
+        },
+      });
+      popupWin.loadURL(nextUrl, { httpReferrer: referrer });
+      e.newGuest = popupWin;
+
       return;
     }
 
