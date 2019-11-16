@@ -14,9 +14,10 @@ import Avatar from '@material-ui/core/Avatar';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import electronIcon from '../../assets/electron.png';
+import braveIcon from '../../assets/brave.png';
 import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
+import electronIcon from '../../assets/electron.png';
 import firefoxIcon from '../../assets/firefox.png';
 
 import connectComponent from '../../helpers/connect-component';
@@ -189,6 +190,42 @@ const DialogChooseEngine = (props) => {
               />
             </ListItem>
           )}
+          <ListItem
+            alignItems="flex-start"
+            button
+            onClick={() => onUpdateForm({ engine: 'brave' })}
+            selected={engine === 'brave'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Brave" src={braveIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Brave"
+              secondary={(
+                <>
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Lightweight
+                  </Typography>
+                  {' — Takes up to 1 MB of disk space.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Less Feature-rich
+                  </Typography>
+                  {' — Offers less features but supports extensions.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    Compatible
+                  </Typography>
+                  {' — Works with all sites.'}
+                  <br />
+                  <Typography component="span" className={classes.inline} color="textPrimary">
+                    No updates needed
+                  </Typography>
+                  {' — Automatically updates with the browser.'}
+                </>
+              )}
+            />
+          </ListItem>
           <ListItem
             alignItems="flex-start"
             button

@@ -29,6 +29,10 @@ const installAppAsync = (
         engineName = 'Chromium';
         break;
       }
+      case 'brave': {
+        engineName = 'Brave';
+        break;
+      }
       default:
       case 'chrome': {
         engineName = 'Google Chrome';

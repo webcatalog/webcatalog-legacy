@@ -103,5 +103,5 @@ process.on('uncaughtException', (e) => {
       stack: e.stack,
     },
   });
-  process.send(e);
+  process.exit(1);
 });

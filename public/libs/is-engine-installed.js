@@ -39,6 +39,18 @@ const isEngineInstalled = (browser) => {
 
       return false;
     }
+    case 'brave': {
+      if (process.platform === 'darwin') {
+        const bravePath = path.join('/Applications', 'Brave Browser.app');
+        return fs.existsSync(bravePath);
+      }
+
+      // if (process.platform === 'linux') {
+      // return commandExistsSync('chromium-browser');
+      // }
+
+      return false;
+    }
     case 'chrome':
     default: {
       if (process.platform === 'darwin') {
