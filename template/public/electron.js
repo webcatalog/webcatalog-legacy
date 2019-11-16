@@ -12,7 +12,7 @@ const openUrlWithWindow = require('./windows/open-url-with');
 const createMenu = require('./libs/create-menu');
 const { addView } = require('./libs/views');
 const { checkForUpdates } = require('./libs/updater');
-const { getPreference } = require('./libs/preferences');
+const { setPreference, getPreference } = require('./libs/preferences');
 const { getWorkspaces } = require('./libs/workspaces');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 
@@ -66,7 +66,13 @@ if (!gotTheLock) {
 
     const autoCheckForUpdates = getPreference('autoCheckForUpdates');
     if (autoCheckForUpdates) {
-      checkForUpdates(true);
+      const lastCheckForUpdates = getPreference('lastCheckForUpdates');
+      const updateInterval = 7 * 24 * 60 * 60 * 1000; // one week
+      const now = Date.now();
+      if (now - lastCheckForUpdates > updateInterval) {
+        checkForUpdates(true);
+        setPreference('lastCheckForUpdates', now);
+      }
     }
 
     /* Electron 7

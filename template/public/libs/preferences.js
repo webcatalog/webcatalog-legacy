@@ -18,14 +18,15 @@ const defaultPreferences = {
   cssCodeInjection: null,
   downloadPath: getDefaultDownloadsPath(),
   jsCodeInjection: null,
+  lastCheckForUpdates: 0,
   navigationBar: false,
   rememberLastPageVisited: false,
   shareWorkspaceBrowsingData: false,
   sidebar: Boolean(appJson.mailtoHandler),
   spellChecker: true,
   swipeToNavigate: true,
-  unreadCountBadge: true,
   themeSource: process.platform === 'darwin' ? 'system' : 'light',
+  unreadCountBadge: true,
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
