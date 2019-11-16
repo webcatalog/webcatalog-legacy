@@ -46,9 +46,9 @@ const isEngineInstalled = (browser) => {
         return fs.existsSync(bravePath);
       }
 
-      // if (process.platform === 'linux') {
-      // return commandExistsSync('chromium-browser');
-      // }
+      if (process.platform === 'linux') {
+        return commandExistsSync('brave-browser');
+      }
 
       if (process.platform === 'win32') {
         const bravePaths = getWin32BravePaths();

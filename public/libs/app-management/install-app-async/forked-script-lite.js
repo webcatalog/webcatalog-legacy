@@ -233,6 +233,11 @@ chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="
 google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
               break;
             }
+            case 'brave': {
+              execFileContent = `#!/bin/sh -ue
+brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
