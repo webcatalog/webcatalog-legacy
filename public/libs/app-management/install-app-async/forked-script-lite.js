@@ -25,6 +25,7 @@ const {
   username,
   firefoxPath,
   chromePath,
+  bravePath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -172,10 +173,18 @@ Promise.resolve()
 /Applications/Chromium.app/Contents/MacOS/Chromium --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
               break;
             }
-            case 'chrome':
-            default: {
+            case 'chrome': {
               execFileContent = `#!/usr/bin/env bash
 /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
+            case 'brave': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
+            default: {
+              return Promise.reject(new Error('Engine is not supported'));
             }
           }
           return fsExtra.outputFile(execFilePath, execFileContent);
@@ -219,10 +228,18 @@ firefox --class ${id} --P ${id} "${url}";`;
 chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
               break;
             }
-            case 'chrome':
-            default: {
+            case 'chrome': {
               execFileContent = `#!/bin/sh -ue
 google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            case 'brave': {
+              execFileContent = `#!/bin/sh -ue
+brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            default: {
+              return Promise.reject(new Error('Engine is not supported'));
             }
           }
           return fsExtra.outputFile(execFilePath, execFileContent);
@@ -286,6 +303,9 @@ Terminal=false;
         args = `--class ${id} --P ${id} "${url}"`;
       } else if (engine === 'chrome') {
         browserPath = chromePath;
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'brave') {
+        browserPath = bravePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));

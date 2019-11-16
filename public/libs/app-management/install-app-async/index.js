@@ -6,6 +6,7 @@ const tmp = require('tmp');
 const { getPreference } = require('./../../preferences');
 const isEngineInstalled = require('../../is-engine-installed');
 
+const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
@@ -27,6 +28,10 @@ const installAppAsync = (
       }
       case 'chromium': {
         engineName = 'Chromium';
+        break;
+      }
+      case 'brave': {
+        engineName = 'Brave';
         break;
       }
       default:
@@ -76,6 +81,11 @@ const installAppAsync = (
   if (engine === 'chrome') {
     params.push('--chromePath');
     params.push(getWin32ChromePaths()[0]);
+  }
+
+  if (engine === 'brave') {
+    params.push('--bravePath');
+    params.push(getWin32BravePaths()[0]);
   }
 
   if (mailtoHandler && mailtoHandler.length > 0) {

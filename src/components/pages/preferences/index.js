@@ -92,9 +92,14 @@ const getEngineName = (engine) => {
     case 'chromium': {
       return 'Chromium';
     }
-    default:
     case 'chrome': {
       return 'Google Chrome';
+    }
+    case 'brave': {
+      return 'Brave';
+    }
+    default: {
+      throw new Error('Engine is not supported');
     }
   }
 };

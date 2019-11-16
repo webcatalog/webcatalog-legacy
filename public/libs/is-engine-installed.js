@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const commandExistsSync = require('command-exists').sync;
 
+const getWin32BravePaths = require('./get-win32-brave-paths');
 const getWin32ChromePaths = require('./get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
 
@@ -35,6 +36,23 @@ const isEngineInstalled = (browser) => {
 
       if (process.platform === 'linux') {
         return commandExistsSync('chromium-browser');
+      }
+
+      return false;
+    }
+    case 'brave': {
+      if (process.platform === 'darwin') {
+        const bravePath = path.join('/Applications', 'Brave Browser.app');
+        return fs.existsSync(bravePath);
+      }
+
+      if (process.platform === 'linux') {
+        return commandExistsSync('brave-browser');
+      }
+
+      if (process.platform === 'win32') {
+        const bravePaths = getWin32BravePaths();
+        return bravePaths.length > 0;
       }
 
       return false;
