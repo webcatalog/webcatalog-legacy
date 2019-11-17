@@ -159,9 +159,7 @@ const Main = ({
                   <SortableItem key={`item-${workspace.id}`} index={i} value={{ index: i, workspace }} />
                 ))}
               </SortableContainer>
-              {Object.keys(workspaces).length < 9 && (
-                <WorkspaceSelector id="add" onClick={requestCreateWorkspace} />
-              )}
+              <WorkspaceSelector id="add" onClick={requestCreateWorkspace} />
             </div>
             {!navigationBar && (
             <div className={classes.end}>

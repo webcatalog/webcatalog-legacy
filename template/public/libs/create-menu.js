@@ -388,7 +388,7 @@ function createMenu() {
           setActiveWorkspaceView(workspace.id);
           createMenu();
         },
-        accelerator: `CmdOrCtrl+${i + 1}`,
+        accelerator: i < 9 ? `CmdOrCtrl+${i + 1}` : null,
       });
 
       template[2].submenu[7].submenu.push({
@@ -441,7 +441,7 @@ function createMenu() {
     { type: 'separator' },
     {
       label: 'Add Workspace',
-      enabled: countWorkspaces() < 9,
+      enabled: countWorkspaces(),
       click: () => {
         createWorkspaceView();
         createMenu();

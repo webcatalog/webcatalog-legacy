@@ -19,10 +19,6 @@ const {
 const mainWindow = require('../windows/main');
 
 const createWorkspaceView = () => {
-  if (countWorkspaces() > 8) {
-    return;
-  }
-
   const newWorkspace = createWorkspace();
   setActiveWorkspace(newWorkspace.id);
 
