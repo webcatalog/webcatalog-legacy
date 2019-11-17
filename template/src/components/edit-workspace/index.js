@@ -64,6 +64,7 @@ const styles = (theme) => ({
 const EditWorkspace = ({
   classes,
   homeUrl,
+  homeUrlError,
   id,
   name,
   onSave,
@@ -89,7 +90,8 @@ const EditWorkspace = ({
       />
       <TextField
         id="outlined-full-width"
-        label="Home URL"
+        label={homeUrlError || 'Home URL'}
+        error={Boolean(homeUrlError)}
         placeholder="Optional"
         fullWidth
         margin="dense"
@@ -152,11 +154,13 @@ const EditWorkspace = ({
 
 EditWorkspace.defaultProps = {
   picturePath: null,
+  homeUrlError: null,
 };
 
 EditWorkspace.propTypes = {
   classes: PropTypes.object.isRequired,
   homeUrl: PropTypes.string.isRequired,
+  homeUrlError: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -167,6 +171,7 @@ EditWorkspace.propTypes = {
 
 const mapStateToProps = (state) => ({
   homeUrl: state.editWorkspace.form.homeUrl,
+  homeUrlError: state.editWorkspace.form.homeUrlError,
   id: state.editWorkspace.form.id,
   name: state.editWorkspace.form.name,
   order: state.editWorkspace.form.order,
