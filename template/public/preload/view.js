@@ -72,15 +72,13 @@ window.onload = () => {
 
           const workspaceLst = Object.values(workspaces).sort((a, b) => a.order - b.order);
 
-          if (workspaceLst.length < 9) {
-            menu.append(new MenuItem({
-              label: 'Open Link in New Workspace',
-              click: () => {
-                ipcRenderer.send('request-open-url-in-workspace', info.linkURL);
-              },
-            }));
-            menu.append(new MenuItem({ type: 'separator' }));
-          }
+          menu.append(new MenuItem({
+            label: 'Open Link in New Workspace',
+            click: () => {
+              ipcRenderer.send('request-open-url-in-workspace', info.linkURL);
+            },
+          }));
+          menu.append(new MenuItem({ type: 'separator' }));
 
           workspaceLst.forEach((workspace) => {
             const workspaceName = workspace.name || `Workspace ${workspace.order + 1}`;
