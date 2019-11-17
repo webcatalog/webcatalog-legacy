@@ -96,8 +96,6 @@ const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 
-const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-
 const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
@@ -161,6 +159,7 @@ Promise.resolve()
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
         .then(() => fsExtra.copy(iconIcnsPath, publicIconIcnsPath))
         .then(() => {
+          const chromiumDataPath = path.join('$HOME', '.webcatalog', 'chromium-data', id);
           let execFileContent = '';
           switch (engine) {
             case 'firefox': {
@@ -216,6 +215,7 @@ Promise.resolve()
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
         .then(() => {
+          const chromiumDataPath = path.join('$HOME', '.webcatalog', 'chromium-data', id);
           let execFileContent = '';
           switch (engine) {
             case 'firefox': {
@@ -295,6 +295,7 @@ Terminal=false;
     }
 
     if (process.platform === 'win32') {
+      const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
       let browserPath;
       let args;
 
