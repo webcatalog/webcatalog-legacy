@@ -1,8 +1,10 @@
 const path = require('path');
 const { app, systemPreferences } = require('electron');
+const { autoUpdater } = require('electron-updater');
 
 const createMenu = require('./libs/create-menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
+const { getPreference } = require('./libs/preferences');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
@@ -44,6 +46,8 @@ if (!gotTheLock) {
         },
       );
     }
+
+    autoUpdater.allowPrerelease = getPreference('allowPrerelease');
   });
 
   app.on('window-all-closed', () => {
