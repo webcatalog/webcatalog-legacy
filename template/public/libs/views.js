@@ -118,7 +118,7 @@ const addView = (browserWindow, workspace) => {
   });
 
   view.webContents.on('new-window', (e, nextUrl, frameName, disposition, options, additionalFeatures, referrer) => {
-    const curDomain = extractDomain(workspace.homeUrl);
+    const curDomain = extractDomain(workspace.homeUrl || appJson.url);
     const nextDomain = extractDomain(nextUrl);
 
     // load in same window
