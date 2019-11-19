@@ -17,6 +17,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import StatedMenu from '../../shared/stated-menu';
 
 import connectComponent from '../../../helpers/connect-component';
+import getEngineName from '../../../helpers/get-engine-name';
 
 import { getInstallingAppsAsList, getAppCount } from '../../../state/app-management/utils';
 
@@ -79,29 +80,6 @@ const getFileManagerName = () => {
   if (window.process.platform === 'darwin') return 'Finder';
   if (window.process.platform === 'win32') return 'FIle Explorer';
   return 'file manager';
-};
-
-const getEngineName = (engine) => {
-  switch (engine) {
-    case 'electron': {
-      return 'Electron';
-    }
-    case 'firefox': {
-      return 'Mozilla Firefox';
-    }
-    case 'chromium': {
-      return 'Chromium';
-    }
-    case 'chrome': {
-      return 'Google Chrome';
-    }
-    case 'brave': {
-      return 'Brave';
-    }
-    default: {
-      throw new Error('Engine is not supported');
-    }
-  }
 };
 
 const Preferences = ({

@@ -26,7 +26,7 @@ export const close = () => ({
   type: DIALOG_CREATE_CUSTOM_APP_CLOSE,
 });
 
-export const open = () => (dispatch, getState) => {
+export const open = (form) => (dispatch, getState) => {
   const state = getState();
 
   const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
@@ -37,6 +37,7 @@ export const open = () => (dispatch, getState) => {
 
   return dispatch({
     type: DIALOG_CREATE_CUSTOM_APP_OPEN,
+    form,
   });
 };
 
