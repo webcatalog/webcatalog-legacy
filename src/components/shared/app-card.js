@@ -5,9 +5,15 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import StatedMenu from './stated-menu';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
+import getEngineName from '../../helpers/get-engine-name';
 
 import extractHostname from '../../helpers/extract-hostname';
 
@@ -25,6 +31,7 @@ import {
 import { isOutdatedApp } from '../../state/app-management/utils';
 import { updateApp } from '../../state/app-management/actions';
 import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
+import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
 const styles = (theme) => ({
   card: {
@@ -59,8 +66,7 @@ const styles = (theme) => ({
     minWidth: 'auto',
     boxShadow: 'none',
   },
-  engine: {
-    fontSize: '12px',
+  topRight: {
     position: 'absolute',
     top: theme.spacing.unit,
     right: theme.spacing.unit,
@@ -79,6 +85,7 @@ const AppCard = (props) => {
     mailtoHandler,
     name,
     onOpenDialogChooseEngine,
+    onOpenDialogCreateCustomApp,
     onUpdateApp,
     status,
     url,
@@ -153,11 +160,32 @@ const AppCard = (props) => {
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
-        {engine && (
-          <div className={classes.engine}>
-            {engine}
-          </div>
-        )}
+        <StatedMenu
+          id={`more-menu-${id}`}
+          buttonElement={(
+            <IconButton aria-label="Delete" className={classes.topRight}>
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          )}
+        >
+          <MenuItem
+            onClick={() => onOpenDialogCreateCustomApp({
+              name: `${name} 2`,
+              url,
+              icon,
+            })}
+          >
+            Create custom app from&nbsp;
+            {name}
+          </MenuItem>
+          {engine && (
+            <MenuItem onClick={null} disabled>
+              Installed using&nbsp;
+              {getEngineName(engine)}
+            </MenuItem>
+          )}
+        </StatedMenu>
+
       </Paper>
     </Grid>
   );
@@ -180,6 +208,7 @@ AppCard.propTypes = {
   mailtoHandler: PropTypes.string,
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
+  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
   status: PropTypes.string,
   url: PropTypes.string.isRequired,
@@ -191,6 +220,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const actionCreators = {
   openDialogChooseEngine,
+  openDialogCreateCustomApp,
   updateApp,
 };
 

@@ -55,6 +55,7 @@ const DialogCreateCustomApp = (props) => {
     open,
     url,
     urlError,
+    hideEnginePrompt,
   } = props;
 
   let iconPath = defaultIcon;
@@ -129,7 +130,7 @@ const DialogCreateCustomApp = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          Continue
+          {hideEnginePrompt ? 'Install' : 'Continue'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -155,6 +156,7 @@ DialogCreateCustomApp.propTypes = {
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
   urlError: PropTypes.string,
+  hideEnginePrompt: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -176,6 +178,7 @@ const mapStateToProps = (state) => {
     open,
     url,
     urlError,
+    hideEnginePrompt: state.preferences.hideEnginePrompt,
   };
 };
 
