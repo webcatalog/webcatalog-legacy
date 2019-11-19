@@ -10,7 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import SearchIcon from '@material-ui/icons/Search';
-import AddIcon from '@material-ui/icons/Add';
+import BrushIcon from '@material-ui/icons/Brush';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -22,6 +22,8 @@ import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
 import EmptyState from '../../shared/empty-state';
+import CreateCustomAppCard from './create-custom-app-card';
+import SubmitAppCard from './submit-app-card';
 
 import SearchBox from './search-box';
 
@@ -65,6 +67,9 @@ const styles = (theme) => ({
     height: 20,
     cursor: 'pointer',
   },
+  noMatchingResultOpts: {
+    marginTop: theme.spacing.unit * 4,
+  },
 });
 
 class Home extends React.Component {
@@ -106,11 +111,10 @@ class Home extends React.Component {
       if (!isGetting && hits.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title="No Matching Results">
-            <>
-              Please create a custom app instead
-              <br />
-              or submit a new app to the catalog (Help &gt; Report an Issue...).
-            </>
+            <Grid container justify="center" spacing={16} className={classes.noMatchingResultOpts}>
+              <CreateCustomAppCard />
+              <SubmitAppCard />
+            </Grid>
           </EmptyState>
         );
       }
@@ -131,6 +135,8 @@ class Home extends React.Component {
                 engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
+            <CreateCustomAppCard key="create-custom-app" />
+            <SubmitAppCard key="submit-new-app" />
           </Grid>
 
           {!isGetting && (
@@ -162,7 +168,7 @@ class Home extends React.Component {
               Home
             </Typography>
             <Button color="inherit" onClick={onOpenDialogCreateCustomApp}>
-              <AddIcon className={classes.leftIcon} />
+              <BrushIcon className={classes.leftIcon} />
               Create Custom App
             </Button>
           </Toolbar>
