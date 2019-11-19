@@ -36,6 +36,7 @@ import { open as openDialogCreateCustomApp } from '../../state/dialog-create-cus
 const styles = (theme) => ({
   card: {
     width: 220,
+    height: 190,
     boxSizing: 'border-box',
     borderRadius: 4,
     padding: theme.spacing.unit * 1.5,

@@ -65,8 +65,20 @@ const createMenu = () => {
       role: 'help',
       submenu: [
         {
-          label: 'Report an Issue...',
+          label: 'WebCatalog Support',
+          click: () => shell.openExternal('https://getwebcatalog.com/support'),
+        },
+        {
+          label: 'Report an Issue via GitHub...',
           click: () => shell.openExternal('https://github.com/quanglam2807/webcatalog/issues'),
+        },
+        {
+          label: 'Request a New Feature via GitHub...',
+          click: () => shell.openExternal('https://github.com/quanglam2807/webcatalog/issues/new?template=feature.md&title=feature%3A+'),
+        },
+        {
+          label: 'Submit New App to Catalog...',
+          click: () => shell.openExternal('https://github.com/quanglam2807/webcatalog/issues/new?template=app.md&title=app%3A+'),
         },
         {
           label: 'Learn More...',

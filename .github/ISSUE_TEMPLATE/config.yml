@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Email
+    url: mailto:support@getwebcatalog.com
+    about: Contact the developer directly via email

@@ -1,7 +1,7 @@
 ---
 name: App Submission
 about: Submit new app to catalog
-title: 'bug: '
+title: 'app: '
 ---
 
 # App Submission
