@@ -10,7 +10,7 @@ on:
     branches:
       - master
     paths:
-    - 'catalog/**'
+      - 'catalog/**'
 
 jobs:
   build:
