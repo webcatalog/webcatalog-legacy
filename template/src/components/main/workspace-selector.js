@@ -92,7 +92,7 @@ const WorkspaceSelector = ({
   >
     <div className={classes.avatar}>
       {picturePath ? (
-        <img alt="Icon" className={classes.avatarPicture} src={`file://${picturePath}`} />
+        <img alt="Icon" className={classes.avatarPicture} src={`file://${picturePath}`} draggable={false} />
       ) : getAvatarText(id, name, order)}
     </div>
     {badgeCount > 0 && (
