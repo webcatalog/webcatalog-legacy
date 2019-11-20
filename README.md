@@ -2,7 +2,7 @@
 
 |macOS|Linux|Windows|Catalog|
 |---|---|---|---|
-|[![GitHub Actions Build Status](https://github.com/quanglam2807/webcatalog/workflows/macOS/badge.svg)](https://github.com/quanglam2807/webcatalog/actions)|[![GitHub Actions Build Status](https://github.com/quanglam2807/webcatalog/workflows/Linux/badge.svg)](https://github.com/quanglam2807/webcatalog/actions)|[![GitHub Actions Build Status](https://github.com/quanglam2807/webcatalog/workflows/Windows/badge.svg)](https://github.com/quanglam2807/webcatalog/actions)|[![GitHub Actions Build Status](https://github.com/quanglam2807/webcatalog/workflows/Catalog/badge.svg)](https://github.com/quanglam2807/webcatalog/actions)|
+|[![GitHub Actions macOS Build Status](https://github.com/quanglam2807/webcatalog/workflows/macOS/badge.svg)](https://github.com/quanglam2807/webcatalog/actions?query=workflow%3AmacOS)|[![GitHub Actions Linux Build Status](https://github.com/quanglam2807/webcatalog/workflows/Linux/badge.svg)](https://github.com/quanglam2807/webcatalog/actions?query=workflow%3ALinux)|[![GitHub Actions Windows Build Status](https://github.com/quanglam2807/webcatalog/workflows/Windows/badge.svg)](https://github.com/quanglam2807/webcatalog/actions?query=workflow%3AWindows)|[![GitHub Actions Catalog Build Status](https://github.com/quanglam2807/webcatalog/workflows/Catalog/badge.svg)](https://github.com/quanglam2807/webcatalog/actions?query=workflow%3ACatalog)|
 
 
 **[WebCatalog](https://getwebcatalog.com)** - Run Web Apps like Real Apps.
