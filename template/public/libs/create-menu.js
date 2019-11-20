@@ -279,11 +279,11 @@ function createMenu() {
       role: 'help',
       submenu: [
         {
-          label: 'Report an Issue...',
-          click: () => shell.openExternal('https://github.com/quanglam2807/webcatalog/issues'),
+          label: 'WebCatalog Support',
+          click: () => shell.openExternal('https://getwebcatalog.com/support'),
         },
         {
-          label: 'Learn More...',
+          label: 'WebCatalog Website',
           click: () => shell.openExternal('https://getwebcatalog.com'),
         },
       ],

@@ -65,11 +65,11 @@ const createMenu = () => {
       role: 'help',
       submenu: [
         {
-          label: 'WebCatalog Support',
+          label: 'webcatalog Support',
           click: () => shell.openExternal('https://getwebcatalog.com/support'),
         },
         {
-          label: 'Report an Issue via GitHub...',
+          label: 'Report a Bug via GitHub...',
           click: () => shell.openExternal('https://github.com/quanglam2807/webcatalog/issues'),
         },
         {
