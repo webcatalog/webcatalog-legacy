@@ -13,7 +13,6 @@ const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 
 const {
-  countWorkspaces,
   getWorkspaces,
   getActiveWorkspace,
   getNextWorkspace,
