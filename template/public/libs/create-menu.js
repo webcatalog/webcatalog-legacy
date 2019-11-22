@@ -441,7 +441,6 @@ function createMenu() {
     { type: 'separator' },
     {
       label: 'Add Workspace',
-      enabled: countWorkspaces(),
       click: () => {
         createWorkspaceView();
         createMenu();
