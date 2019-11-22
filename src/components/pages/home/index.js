@@ -135,8 +135,8 @@ class Home extends React.Component {
                 engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
-            <CreateCustomAppCard key="create-custom-app" />
-            <SubmitAppCard key="submit-new-app" />
+            {!isGetting && <CreateCustomAppCard key="create-custom-app" />}
+            {!isGetting && <SubmitAppCard key="submit-new-app" />}
           </Grid>
 
           {!isGetting && (

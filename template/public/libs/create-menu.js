@@ -13,7 +13,6 @@ const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 
 const {
-  countWorkspaces,
   getWorkspaces,
   getActiveWorkspace,
   getNextWorkspace,
@@ -441,7 +440,6 @@ function createMenu() {
     { type: 'separator' },
     {
       label: 'Add Workspace',
-      enabled: countWorkspaces(),
       click: () => {
         createWorkspaceView();
         createMenu();
