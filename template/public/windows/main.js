@@ -124,10 +124,6 @@ const createAsync = () => {
     win = null;
   });
 
-  win.on('show', () => {
-    win.focus();
-  });
-
   win.on('focus', () => {
     const view = win.getBrowserView();
     if (view && view.webContents) {
