@@ -23,11 +23,21 @@ const get = () => {
 const createAsync = () => {
   const attachToMenubar = getPreference('attachToMenubar');
   if (attachToMenubar) {
+    const menubarWindowState = windowStateKeeper({
+      file: 'window-state-menubar.json',
+      defaultWidth: 400,
+      defaultHeight: 400,
+    });
+
     mb = menubar({
       index: REACT_PATH,
       icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
       preloadWindow: true,
       browserWindow: {
+        x: menubarWindowState.x,
+        y: menubarWindowState.y,
+        width: menubarWindowState.width,
+        height: menubarWindowState.height,
         webPreferences: {
           nodeIntegration: true,
         },
@@ -57,6 +67,8 @@ const createAsync = () => {
     return new Promise((resolve, reject) => {
       try {
         mb.on('ready', () => {
+          menubarWindowState.manage(mb.window);
+
           mb.tray.on('right-click', () => {
             mb.tray.popUpContextMenu(contextMenu);
           });
