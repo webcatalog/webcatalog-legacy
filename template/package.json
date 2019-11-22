@@ -7,7 +7,7 @@
   },
   "main": "public/electron.js",
   "scripts": {
-    "postinstall": "npx electron-builder install-app-deps",
+    "postinstall": "npx patch-package && npx electron-builder install-app-deps",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src --ext js",
@@ -28,7 +28,7 @@
     "follow-redirects": "1.9.0",
     "fs-extra": "8.1.0",
     "jimp": "0.6.8",
-    "menubar": "7.0.0",
+    "menubar": "6.0.8",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",
