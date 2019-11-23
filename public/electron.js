@@ -9,6 +9,8 @@ const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
 
+const packageJson = require('../package.json');
+
 require('./libs/updater');
 
 const gotTheLock = app.requestSingleInstanceLock();
@@ -27,6 +29,7 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
+    global.templateVersion = packageJson.templateVersion;
     global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
     mainWindow.create();

@@ -1,3 +1,5 @@
+import semver from 'semver';
+
 import {
   UPDATE_SHOULD_USE_DARK_COLORS,
   UPDATE_THEME_SOURCE,
@@ -6,6 +8,8 @@ import {
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
   UPDATE_MOVING_ALL_APPS,
 } from '../../constants/actions';
+
+const { remote } = window.require('electron');
 
 export const updateIsFullScreen = (isFullScreen) => ({
   type: UPDATE_IS_FULL_SCREEN,
@@ -49,10 +53,19 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
     })
     .then((res) => res.json())
     .then((fetchedJson) => {
-      dispatch(updateLatestTemplateVersion(fetchedJson.templateVersion));
+      const globalTemplateVersion = remote.getGlobal('templateVersion');
+      if (globalTemplateVersion && semver.lt(fetchedJson.templateVersion, globalTemplateVersion)) {
+        dispatch(updateLatestTemplateVersion(globalTemplateVersion));
+      } else {
+        dispatch(updateLatestTemplateVersion(fetchedJson.templateVersion));
+      }
       dispatch(updateFetchingLatestTemplateVersion(false));
     })
     .catch((err) => {
+      const globalTemplateVersion = remote.getGlobal('templateVersion');
+      if (globalTemplateVersion) {
+        dispatch(updateLatestTemplateVersion(globalTemplateVersion));
+      }
       dispatch(updateFetchingLatestTemplateVersion(false));
       console.log(err);
     });
