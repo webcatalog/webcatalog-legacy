@@ -32,6 +32,7 @@ import {
   requestSetPreference,
   requestSetThemeSource,
   requestShowMessageBox,
+  requestShowRequireRestartDialog,
 } from '../../../senders';
 
 const { remote } = window.require('electron');
@@ -305,6 +306,7 @@ const Preferences = ({
                   checked={allowPrerelease}
                   onChange={(e) => {
                     requestSetPreference('allowPrerelease', e.target.checked);
+                    requestShowRequireRestartDialog();
                   }}
                   classes={{
                     switchBase: classes.switchBase,
