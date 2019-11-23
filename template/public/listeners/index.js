@@ -152,7 +152,7 @@ const loadListeners = () => {
     }).then(({ response }) => {
       if (response === 0) {
         app.relaunch();
-        app.quit();
+        app.exit(0);
       }
     })
     .catch(console.log); // eslint-disable-line
