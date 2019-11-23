@@ -138,7 +138,7 @@ const Main = ({
         {sidebar && (
           <div className={classes.sidebarRoot}>
             <div className={classNames(classes.sidebarTop,
-              isFullScreen && classes.sidebarTopFullScreen)}
+              (isFullScreen || window.mode === 'menubar') && classes.sidebarTopFullScreen)}
             >
               <SortableContainer
                 distance={10}
