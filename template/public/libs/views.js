@@ -1,6 +1,5 @@
 const {
   BrowserView,
-  BrowserWindow,
   app,
   session,
   shell,
