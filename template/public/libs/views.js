@@ -1,6 +1,5 @@
 const {
   BrowserView,
-  BrowserWindow,
   app,
   session,
   shell,
@@ -37,6 +36,7 @@ const addView = (browserWindow, workspace) => {
 
   const view = new BrowserView({
     webPreferences: {
+      nativeWindowOpen: true,
       nodeIntegration: false,
       contextIsolation: true,
       partition: shareWorkspaceBrowsingData ? 'persist:shared' : `persist:${workspace.id}`,
@@ -88,7 +88,7 @@ const addView = (browserWindow, workspace) => {
 
     // edge case to handle failed auth
     if (errorCode === -300 && view.webContents.getURL().length === 0) {
-      view.webContents.loadURL(workspace.homeUrl || appJson.url);
+      view.webContents.loadURL(getWorkspace(workspace.id).homeUrl || appJson.url);
     }
   });
 
@@ -106,8 +106,8 @@ const addView = (browserWindow, workspace) => {
     }
   });
 
-  view.webContents.on('new-window', (e, nextUrl, frameName, disposition, options, additionalFeatures, referrer) => {
-    const curDomain = extractDomain(workspace.homeUrl || appJson.url);
+  view.webContents.on('new-window', (e, nextUrl, frameName, disposition, options) => {
+    const curDomain = extractDomain(getWorkspace(workspace.id).homeUrl || appJson.url);
     const nextDomain = extractDomain(nextUrl);
 
     // load in same window
@@ -122,24 +122,21 @@ const addView = (browserWindow, workspace) => {
 
     // open new window normally if domain is not defined or same domain (about:)
     if (nextDomain === null || nextDomain === curDomain || nextUrl.indexOf('oauth') > -1) {
-      e.preventDefault();
-      const popupWin = new BrowserWindow({
-        width: 500,
-        height: 500,
-        webPreferences: {
-          nodeIntegration: false,
-          contextIsolation: true,
-          partition: shareWorkspaceBrowsingData ? 'persist:shared' : `persist:${workspace.id}`,
-          preload: path.join(__dirname, '..', 'preload', 'view.js'),
-        },
+      // e.preventDefault();
+      // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
+      // options.webPreferences.affinity is not needed
+      Object.assign(options, {
+        parent: browserWindow,
       });
-      popupWin.loadURL(nextUrl, { httpReferrer: referrer });
-      e.newGuest = popupWin;
+      // default behavior is similar so no need for overwriting
+      // const popupWin = new BrowserWindow(options);
+      // e.newGuest = popupWin;
 
       return;
     }
 
     // open external url in browser if domain doesn't match.
+    e.preventDefault();
     shell.openExternal(nextUrl);
   });
 
@@ -199,9 +196,6 @@ const addView = (browserWindow, workspace) => {
     view.webContents.send('update-target-url', url);
   });
 
-  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl)
-    || workspace.homeUrl || appJson.url);
-
   views[workspace.id] = view;
 
   if (workspace.active) {
@@ -224,6 +218,9 @@ const addView = (browserWindow, workspace) => {
       height: true,
     });
   }
+
+  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl)
+  || workspace.homeUrl || appJson.url);
 };
 
 const getView = (id) => views[id];
