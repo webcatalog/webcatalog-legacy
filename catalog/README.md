@@ -57,18 +57,29 @@ apps
 ### YML File Rules
 
 - `name` is required.
-- `url` is required, and must be a fully-qualified URL. 
-- `category` is required, and must be one of the following values: 
+- `url` is required, and must be a fully-qualified URL.
+- `category` is required, and must be one of the following values:
   - Business
   - Developer Tools
+  - Education
+  - Entertainment
+  - Finance
   - Games
   - Graphics & Design
+  - Health & Fitness
+  - Lifestyle
+  - Medical
   - Music
+  - News
   - Photography
   - Productivity
+  - Reference
   - Social Networking
+  - Sports
+  - Travel
   - Utilities
   - Video
+  - Weather
 - `mailtoHandler` is not required, specifies the URL pattern to handle `mailto` links. See [Navigator.registerProtocolHandler() Web API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler). Example: `https://mail.google.com/mail/?extsrc=mailto&url=%s`.
 
 ### Icons
