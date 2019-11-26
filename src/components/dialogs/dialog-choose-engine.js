@@ -284,7 +284,7 @@ const DialogChooseEngine = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          Create
+          Install
         </Button>
       </DialogActions>
     </Dialog>

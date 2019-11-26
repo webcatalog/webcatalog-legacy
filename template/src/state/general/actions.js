@@ -5,6 +5,7 @@ import {
   UPDATE_SHOULD_USE_DARK_COLORS,
   UPDATE_THEME_SOURCE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
+  UPDATE_IS_DEFAULT_WEB_BROWSER,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
 } from '../../constants/actions';
@@ -42,6 +43,13 @@ export const updateIsDefaultMailClient = (isDefaultMailClient) => (dispatch) => 
   dispatch({
     type: UPDATE_IS_DEFAULT_MAIL_CLIENT,
     isDefaultMailClient,
+  });
+};
+
+export const updateIsDefaultWebBrowser = (isDefaultWebBrowser) => (dispatch) => {
+  dispatch({
+    type: UPDATE_IS_DEFAULT_WEB_BROWSER,
+    isDefaultWebBrowser,
   });
 };
 

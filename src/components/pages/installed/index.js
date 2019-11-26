@@ -115,7 +115,6 @@ const Installed = (props) => {
                     url={app.url}
                     icon={app.icon}
                     status={app.status}
-                    mailtoHandler={app.mailtoHandler}
                     engine={app.engine}
                   />
                 ))}

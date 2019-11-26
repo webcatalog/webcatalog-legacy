@@ -7,6 +7,7 @@ import {
   UPDATE_SHOULD_USE_DARK_COLORS,
   UPDATE_THEME_SOURCE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
+  UPDATE_IS_DEFAULT_WEB_BROWSER,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
 } from '../../constants/actions';
@@ -46,6 +47,13 @@ const isDefaultMailClient = (state = remote.app.isDefaultProtocolClient('mailto'
   }
 };
 
+const isDefaultWebBrowser = (state = remote.app.isDefaultProtocolClient('http'), action) => {
+  switch (action.type) {
+    case UPDATE_IS_DEFAULT_WEB_BROWSER: return action.isDefaultWebBrowser;
+    default: return state;
+  }
+};
+
 const shouldUseDarkColors = (state = getShouldUseDarkColors(), action) => {
   switch (action.type) {
     case UPDATE_SHOULD_USE_DARK_COLORS: return action.shouldUseDarkColors;
@@ -81,6 +89,7 @@ export default combineReducers({
   shouldUseDarkColors,
   themeSource,
   isDefaultMailClient,
+  isDefaultWebBrowser,
   isFullScreen,
   isLoading,
 });

@@ -134,7 +134,7 @@ const loadListeners = () => {
   // Chain app installing promises
   let p = Promise.resolve();
 
-  ipcMain.on('request-install-app', (e, engine, id, name, url, icon, mailtoHandler) => {
+  ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
       engine,
@@ -142,10 +142,9 @@ const loadListeners = () => {
       name,
       url,
       icon,
-      mailtoHandler,
     });
 
-    p = p.then(() => installAppAsync(engine, id, name, url, icon, mailtoHandler)
+    p = p.then(() => installAppAsync(engine, id, name, url, icon)
       .then(() => {
         e.sender.send('set-app', id, {
           version: packageJson.templateVersion,
@@ -163,12 +162,12 @@ const loadListeners = () => {
       }));
   });
 
-  ipcMain.on('request-update-app', (e, engine, id, name, url, icon, mailtoHandler) => {
+  ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
     });
 
-    p = p.then(() => installAppAsync(engine, id, name, url, icon, mailtoHandler)
+    p = p.then(() => installAppAsync(engine, id, name, url, icon)
       .then(() => {
         e.sender.send('set-app', id, {
           version: packageJson.templateVersion,

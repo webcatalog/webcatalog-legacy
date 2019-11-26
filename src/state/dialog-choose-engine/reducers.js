@@ -20,7 +20,6 @@ const formInitialState = {
   id: '',
   name: '',
   url: '',
-  mailtoHandler: null,
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {
@@ -31,7 +30,6 @@ const form = (state = formInitialState, action) => {
       id: action.id,
       name: action.name,
       url: action.url,
-      mailtoHandler: action.mailtoHandler,
     };
     case DIALOG_CHOOSE_ENGINE_CLOSE: return formInitialState;
     case DIALOG_CHOOSE_ENGINE_FORM_UPDATE: {

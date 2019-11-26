@@ -17,7 +17,7 @@ const extractHostname = (url) => {
   // find & remove "www"
   hostname = hostname.replace('www.', '');
 
-  return hostname;
+  return hostname.trim();
 };
 
 export default extractHostname;

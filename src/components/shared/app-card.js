@@ -83,7 +83,6 @@ const AppCard = (props) => {
     icon128,
     id,
     isOutdated,
-    mailtoHandler,
     name,
     onOpenDialogChooseEngine,
     onOpenDialogCreateCustomApp,
@@ -101,7 +100,7 @@ const AppCard = (props) => {
               className={classes.actionButton}
               color="primary"
               size="medium"
-              onClick={() => onUpdateApp(engine, id, name, url, icon, mailtoHandler)}
+              onClick={() => onUpdateApp(engine, id, name, url, icon)}
             >
               Update
             </Button>
@@ -136,7 +135,7 @@ const AppCard = (props) => {
         color="primary"
         size="medium"
         disabled={status !== null}
-        onClick={() => onOpenDialogChooseEngine(id, name, url, icon, mailtoHandler)}
+        onClick={() => onOpenDialogChooseEngine(id, name, url, icon)}
       >
         <span>{label}</span>
       </Button>
@@ -193,7 +192,6 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
-  mailtoHandler: null,
   status: null,
   icon128: null,
   engine: null,
@@ -206,7 +204,6 @@ AppCard.propTypes = {
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isOutdated: PropTypes.bool.isRequired,
-  mailtoHandler: PropTypes.string,
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,

@@ -35,7 +35,7 @@ export const removeApp = (id) => ({
   id,
 });
 
-export const installApp = (engine, id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+export const installApp = (engine, id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
   const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
@@ -50,11 +50,11 @@ export const installApp = (engine, id, name, url, icon, mailtoHandler) => (dispa
     return null;
   }
 
-  requestInstallApp(engine, id, name, url, icon, mailtoHandler);
+  requestInstallApp(engine, id, name, url, icon);
   return null;
 };
 
-export const updateApp = (engine, id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+export const updateApp = (engine, id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
   const { latestTemplateVersion } = state.general;
@@ -66,7 +66,7 @@ export const updateApp = (engine, id, name, url, icon, mailtoHandler) => (dispat
   // download icon when updating apps in the catalog
   const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-  return requestUpdateApp(engine, id, name, url, iconUrl, mailtoHandler);
+  return requestUpdateApp(engine, id, name, url, iconUrl);
 };
 
 export const updateAllApps = () => (dispatch, getState) => {
@@ -82,13 +82,13 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   outdatedApps.forEach((app) => {
     const {
-      engine, id, name, url, icon, mailtoHandler,
+      engine, id, name, url, icon,
     } = app;
 
     // download icon when updating apps in the catalog
     const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
-    return requestUpdateApp(engine, id, name, url, iconUrl, mailtoHandler);
+    return requestUpdateApp(engine, id, name, url, iconUrl);
   });
 
   return null;

@@ -9,35 +9,43 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import connectComponent from '../../helpers/connect-component';
 import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
+import getMailtoUrl from '../../helpers/get-mailto-url';
 
 import { requestLoadURL } from '../../senders';
 
-const { remote } = window.require('electron');
+const OpenUrlWith = ({ workspaces }) => {
+  const { remote } = window.require('electron');
+  const appJson = remote.getGlobal('appJson');
+  const incomingUrl = remote.getGlobal('incomingUrl');
+  const isMailtoUrl = incomingUrl.startsWith('mailto:');
 
-const OpenUrlWith = ({ workspaces }) => (
-  <List dense>
-    {getWorkspacesAsList(workspaces).map((workspace) => (
+  const renderWorkspace = (workspace, i) => {
+    if (isMailtoUrl && !getMailtoUrl(workspace.homeUrl || appJson.url)) return null;
+    return (
       <ListItem
         button
         onClick={() => {
-          const appJson = remote.getGlobal('appJson');
-          const incomingUrl = remote.getGlobal('incomingUrl');
-
-          const u = incomingUrl.startsWith('mailto:') ? appJson.mailtoHandler.replace('%s', incomingUrl) : incomingUrl;
+          const u = isMailtoUrl ? getMailtoUrl(workspace.homeUrl || appJson.url).replace('%s', incomingUrl) : incomingUrl;
 
           requestLoadURL(u, workspace.id);
           remote.getCurrentWindow().close();
         }}
       >
         <ListItemText
-          primary={workspace.name || `Workspace ${workspace.order + 1}`}
-          secondary={`#${workspace.order + 1}`}
+          primary={workspace.name || `Workspace ${i + 1}`}
+          secondary={`#${i + 1}`}
         />
         <ChevronRightIcon color="action" />
       </ListItem>
-    ))}
-  </List>
-);
+    );
+  };
+
+  return (
+    <List dense>
+      {getWorkspacesAsList(workspaces).map(renderWorkspace)}
+    </List>
+  );
+};
 
 OpenUrlWith.propTypes = {
   workspaces: PropTypes.object.isRequired,

@@ -32,7 +32,7 @@ export const create = () => (dispatch, getState) => {
   const { form } = state.dialogChooseEngine;
 
   const {
-    engine, id, icon, name, url, mailtoHandler,
+    engine, id, icon, name, url,
   } = form;
 
   if (isNameExisted(name, state)) {
@@ -40,13 +40,13 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(installApp(engine, id, name, url, icon, mailtoHandler));
+  dispatch(installApp(engine, id, name, url, icon));
 
   dispatch(close());
   return null;
 };
 
-export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState) => {
+export const open = (id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
   const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
@@ -61,7 +61,6 @@ export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState)
       engine: getPreference('preferredEngine'),
       icon,
       id,
-      mailtoHandler,
       name,
       url,
     }));
@@ -74,7 +73,6 @@ export const open = (id, name, url, icon, mailtoHandler) => (dispatch, getState)
     engine: getPreference('preferredEngine'),
     icon,
     id,
-    mailtoHandler,
     name,
     url,
   });
