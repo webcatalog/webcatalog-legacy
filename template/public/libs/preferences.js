@@ -2,7 +2,10 @@ const path = require('path');
 const settings = require('electron-settings');
 const { app } = require('electron');
 
-const sendToAllWindows = require('../libs/send-to-all-windows');
+const sendToAllWindows = require('./send-to-all-windows');
+const extractHostname = require('./extract-hostname');
+
+const MAILTO_URLS = require('../constants/mailto-urls');
 
 const appJson = require('../app.json');
 
@@ -22,7 +25,7 @@ const defaultPreferences = {
   navigationBar: false,
   rememberLastPageVisited: false,
   shareWorkspaceBrowsingData: false,
-  sidebar: Boolean(appJson.mailtoHandler),
+  sidebar: Boolean(MAILTO_URLS[extractHostname(appJson.url)]),
   spellChecker: true,
   swipeToNavigate: true,
   themeSource: process.platform === 'darwin' ? 'system' : 'light',

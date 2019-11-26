@@ -14,10 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import connectComponent from '../../helpers/connect-component';
+import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
+import getMailtoUrl from '../../helpers/get-mailto-url';
 
 import StatedMenu from '../shared/stated-menu';
 
-import { updateIsDefaultMailClient } from '../../state/general/actions';
+import { updateIsDefaultMailClient, updateIsDefaultWebBrowser } from '../../state/general/actions';
 
 import {
   requestClearBrowsingData,
@@ -63,6 +65,12 @@ const getOpenAtLoginString = (openAtLogin) => {
   return 'No';
 };
 
+const hasMailWorkspaceFunc = (workspaces) => {
+  const workspacesList = getWorkspacesAsList(workspaces);
+  return Boolean(workspacesList
+    .find((workspace) => Boolean(getMailtoUrl(workspace.homeUrl || appJson.url))));
+};
+
 const Preferences = ({
   askForDownloadPath,
   attachToMenubar,
@@ -70,10 +78,13 @@ const Preferences = ({
   classes,
   cssCodeInjection,
   downloadPath,
+  hasMailWorkspace,
   isDefaultMailClient,
+  isDefaultWebBrowser,
   jsCodeInjection,
   navigationBar,
   onUpdateIsDefaultMailClient,
+  onUpdateIsDefaultWebBrowser,
   openAtLogin,
   rememberLastPageVisited,
   shareWorkspaceBrowsingData,
@@ -323,38 +334,61 @@ const Preferences = ({
       </List>
     </Paper>
 
-    {appJson.mailtoHandler && appJson.mailtoHandler.length > 0 && (
-      <>
-        <Typography variant="subtitle2" className={classes.sectionTitle}>
-          Default Email Client
-        </Typography>
-        <Paper className={classes.paper}>
-          <List dense>
-            {isDefaultMailClient ? (
-              <ListItem>
-                <ListItemText secondary={`${appJson.name} is your default email client.`} />
-              </ListItem>
-            ) : (
-              <ListItem>
-                <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  color="default"
-                  className={classes.button}
-                  onClick={() => {
-                    remote.app.setAsDefaultProtocolClient('mailto');
-                    onUpdateIsDefaultMailClient(remote.app.isDefaultProtocolClient('mailto'));
-                  }}
-                >
-                  Make default
-                </Button>
-              </ListItem>
-            )}
-          </List>
-        </Paper>
-      </>
-    )}
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Default App
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        {(hasMailWorkspace || isDefaultMailClient) && (
+        <>
+          {isDefaultMailClient ? (
+            <ListItem>
+              <ListItemText secondary={`${appJson.name} is your default email client.`} />
+            </ListItem>
+          ) : (
+            <ListItem>
+              <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
+              <Button
+                variant="outlined"
+                size="small"
+                color="default"
+                className={classes.button}
+                onClick={() => {
+                  remote.app.setAsDefaultProtocolClient('mailto');
+                  onUpdateIsDefaultMailClient(remote.app.isDefaultProtocolClient('mailto'));
+                }}
+              >
+                Make default
+              </Button>
+            </ListItem>
+          )}
+          <Divider />
+        </>
+        )}
+        {isDefaultWebBrowser ? (
+          <ListItem>
+            <ListItemText secondary={`${appJson.name} is your default web browser.`} />
+          </ListItem>
+        ) : (
+          <ListItem>
+            <ListItemText primary="Default web browser" secondary={`Make ${appJson.name} the default web browser.`} />
+            <Button
+              variant="outlined"
+              size="small"
+              color="default"
+              className={classes.button}
+              onClick={() => {
+                remote.app.setAsDefaultProtocolClient('http');
+                remote.app.setAsDefaultProtocolClient('https');
+                onUpdateIsDefaultWebBrowser(remote.app.isDefaultProtocolClient('http'));
+              }}
+            >
+              Make default
+            </Button>
+          </ListItem>
+        )}
+      </List>
+    </Paper>
 
     {window.process.platform !== 'linux' && (
     <>
@@ -423,10 +457,13 @@ Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
   downloadPath: PropTypes.string.isRequired,
+  hasMailWorkspace: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
+  isDefaultWebBrowser: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
   navigationBar: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
+  onUpdateIsDefaultWebBrowser: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
   shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
@@ -443,7 +480,9 @@ const mapStateToProps = (state) => ({
   autoCheckForUpdates: state.preferences.autoCheckForUpdates,
   cssCodeInjection: state.preferences.cssCodeInjection,
   downloadPath: state.preferences.downloadPath,
+  hasMailWorkspace: hasMailWorkspaceFunc(state.workspaces),
   isDefaultMailClient: state.general.isDefaultMailClient,
+  isDefaultWebBrowser: state.general.isDefaultWebBrowser,
   jsCodeInjection: state.preferences.jsCodeInjection,
   navigationBar: state.preferences.navigationBar,
   openAtLogin: state.systemPreferences.openAtLogin,
@@ -458,6 +497,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   updateIsDefaultMailClient,
+  updateIsDefaultWebBrowser,
 };
 
 export default connectComponent(
