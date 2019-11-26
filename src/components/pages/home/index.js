@@ -130,7 +130,6 @@ class Home extends React.Component {
                 url={app.url}
                 icon={app.icon}
                 icon128={app.icon128}
-                mailtoHandler={app.mailtoHandler}
                 status={apps[app.id] ? apps[app.id].status : null}
                 engine={apps[app.id] ? apps[app.id].engine : null}
               />

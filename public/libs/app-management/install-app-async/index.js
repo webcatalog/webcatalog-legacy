@@ -13,7 +13,7 @@ const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 let lastUsedTmpPath = null;
 
 const installAppAsync = (
-  engine, id, name, url, icon, mailtoHandler,
+  engine, id, name, url, icon,
 ) => new Promise((resolve, reject) => {
   if (!isEngineInstalled(engine)) {
     let engineName;
@@ -86,13 +86,6 @@ const installAppAsync = (
   if (engine === 'brave') {
     params.push('--bravePath');
     params.push(getWin32BravePaths()[0]);
-  }
-
-  if (mailtoHandler && mailtoHandler.length > 0) {
-    params.push(
-      '--mailtoHandler',
-      mailtoHandler,
-    );
   }
 
   let tmpPath = null;

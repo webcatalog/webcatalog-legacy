@@ -15,7 +15,6 @@ const {
   name,
   url,
   icon,
-  mailtoHandler,
   homePath,
   desktopPath,
   installationPath,
@@ -175,7 +174,7 @@ Promise.resolve()
   .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
   .then(() => {
     const appJson = JSON.stringify({
-      id, name, url, mailtoHandler, engine: 'electron',
+      id, name, url, engine: 'electron',
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })
@@ -218,14 +217,11 @@ Promise.resolve()
         name: 'HTTP Protocol',
         schemes: ['http'],
       },
-    ];
-
-    if (mailtoHandler && mailtoHandler.length > 0) {
-      opts.protocols.push({
+      {
         name: 'Mailto Protocol',
         schemes: ['mailto'],
-      });
-    }
+      },
+    ];
 
     return packager(opts);
   })
