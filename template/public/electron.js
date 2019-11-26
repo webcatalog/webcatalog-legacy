@@ -123,12 +123,14 @@ if (!gotTheLock) {
     e.preventDefault();
 
     const workspaces = Object.values(getWorkspaces());
+
     if (workspaces.length < 1) return;
 
     // handle mailto:
     if (url.startsWith('mailto:')) {
       const mailtoWorkspaces = workspaces
         .filter((workspace) => extractHostname(workspace.homeUrl || appJson.url) in MAILTO_URLS);
+
       // pick automically if there's only one choice
       if (mailtoWorkspaces.length === 0) {
         ipcMain.emit(
@@ -136,14 +138,17 @@ if (!gotTheLock) {
           'None of your workspaces supports composing email messages.',
           'error',
         );
-      } else if (mailtoWorkspaces.length === 1) {
+        return;
+      }
+      if (mailtoWorkspaces.length === 1) {
         const mailtoUrl = MAILTO_URLS[extractHostname(mailtoWorkspaces[0].homeUrl || appJson.url)];
         const u = mailtoUrl.replace('%s', url);
         ipcMain.emit('request-load-url', null, u, mailtoWorkspaces[0].id);
-      } else {
-        app.whenReady()
-          .then(() => openUrlWithWindow.show(url));
+        return
       }
+
+      app.whenReady()
+        .then(() => openUrlWithWindow.show(url));
       return;
     }
 
@@ -151,7 +156,9 @@ if (!gotTheLock) {
     // pick automically if there's only one choice
     if (workspaces.length === 1) {
       ipcMain.emit('request-load-url', null, url, workspaces[0].id);
+      return;
     }
+
     app.whenReady()
       .then(() => openUrlWithWindow.show(url));
   });
