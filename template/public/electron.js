@@ -144,7 +144,7 @@ if (!gotTheLock) {
         const mailtoUrl = MAILTO_URLS[extractHostname(mailtoWorkspaces[0].homeUrl || appJson.url)];
         const u = mailtoUrl.replace('%s', url);
         ipcMain.emit('request-load-url', null, u, mailtoWorkspaces[0].id);
-        return
+        return;
       }
 
       app.whenReady()
