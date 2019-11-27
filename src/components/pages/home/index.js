@@ -93,6 +93,7 @@ class Home extends React.Component {
       classes,
       hasFailed,
       hits,
+      query,
       shouldUseDarkColors,
       isGetting,
       onGetHits,
@@ -108,9 +109,17 @@ class Home extends React.Component {
         );
       }
 
-      if (!isGetting && hits.length < 1) {
+      if (!isGetting && query.length > 0 && hits.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title="No Matching Results">
+            <Typography
+              variant="subtitle1"
+              align="center"
+            >
+              Your search -&nbsp;
+              <b>{query}</b>
+              &nbsp;- did not match any apps in the catalog.
+            </Typography>
             <Grid container justify="center" spacing={16} className={classes.noMatchingResultOpts}>
               <CreateCustomAppCard />
               <SubmitAppCard />
@@ -193,24 +202,29 @@ class Home extends React.Component {
   }
 }
 
+Home.defaultProps = {
+  query: '',
+};
 
 Home.propTypes = {
   apps: PropTypes.object.isRequired,
-  hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
-  shouldUseDarkColors: PropTypes.bool.isRequired,
+  hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  query: PropTypes.string,
+  shouldUseDarkColors: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   apps: state.appManagement.apps,
   hasFailed: state.home.hasFailed,
   hits: state.home.hits,
-  shouldUseDarkColors: state.general.shouldUseDarkColors,
   isGetting: state.home.isGetting,
+  query: state.home.query,
+  shouldUseDarkColors: state.general.shouldUseDarkColors,
 });
 
 const actionCreators = {
