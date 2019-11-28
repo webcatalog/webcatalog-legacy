@@ -19,7 +19,7 @@ const canAccess = (file) => {
 const getWin32BravePaths = () => {
   const installations = [];
   const suffixes = [
-    `${path.sep}BraveSoftware${path.sep}Brave-Browser${path.sep}Application${path.sep}brave.exe`,
+    `${path.sep}Vivaldi${path.sep}Application${path.sep}vivaldi.exe`,
   ];
   const prefixes = [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']].filter(Boolean);
 

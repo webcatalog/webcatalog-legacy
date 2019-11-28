@@ -9,6 +9,7 @@ const isEngineInstalled = require('../../is-engine-installed');
 const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
+const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
 
 let lastUsedTmpPath = null;
 
@@ -32,6 +33,10 @@ const installAppAsync = (
       }
       case 'brave': {
         engineName = 'Brave';
+        break;
+      }
+      case 'vivaldi': {
+        engineName = 'Vivaldi';
         break;
       }
       default:
@@ -86,6 +91,11 @@ const installAppAsync = (
   if (engine === 'brave') {
     params.push('--bravePath');
     params.push(getWin32BravePaths()[0]);
+  }
+
+  if (engine === 'vivaldi') {
+    params.push('--vivaldiPath');
+    params.push(getWin32VivaldiPaths()[0]);
   }
 
   let tmpPath = null;

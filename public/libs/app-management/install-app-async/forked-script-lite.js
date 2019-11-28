@@ -26,6 +26,7 @@ const {
   firefoxPath,
   chromePath,
   bravePath,
+  vivaldiPath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -182,6 +183,11 @@ Promise.resolve()
 /Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
               break;
             }
+            case 'vivaldi': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -236,6 +242,11 @@ google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${u
             case 'brave': {
               execFileContent = `#!/bin/sh -ue
 brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            case 'vivaldi': {
+              execFileContent = `#!/bin/sh -ue
+vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
               break;
             }
             default: {
@@ -307,6 +318,9 @@ Terminal=false;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'brave') {
         browserPath = bravePath;
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'vivaldi') {
+        browserPath = vivaldiPath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));
