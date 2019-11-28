@@ -243,6 +243,11 @@ google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${u
 brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
               break;
             }
+            case 'vivaldi': {
+              execFileContent = `#!/bin/sh -ue
+vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
