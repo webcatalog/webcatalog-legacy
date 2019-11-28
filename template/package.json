@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "5.5.2",
+  "version": "5.6.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
