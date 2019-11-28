@@ -19,6 +19,12 @@ const styles = (theme) => ({
     zIndex: 10,
     position: 'relative',
     borderRadius: 0,
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3,
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: theme.spacing.unit * 1.5,
+      paddingRight: theme.spacing.unit * 1.5,
+    },
   },
   toolbarSectionSearch: {
     alignItems: 'center',
@@ -57,12 +63,8 @@ const styles = (theme) => ({
     },
   },
   searchIcon: {
-    paddingLeft: 24,
     paddingRight: 6,
     fill: theme.palette.text.primary,
-    [theme.breakpoints.down('xs')]: {
-      paddingLeft: 12,
-    },
   },
   searchButton: {
     [theme.breakpoints.up('md')]: {

@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -68,7 +69,50 @@ const Installed = (props) => {
     onFetchLatestTemplateVersionAsync,
     onUpdateAllApps,
     outdatedAppCount,
+    query,
   } = props;
+
+  const renderContent = () => {
+    if (Object.keys(apps).length > 0) {
+      return (
+        <Grid container justify="center" spacing={16}>
+          {Object.values(apps).map((app) => (
+            <AppCard
+              key={app.id}
+              id={app.id}
+              name={app.name}
+              url={app.url}
+              icon={app.icon}
+              status={app.status}
+              engine={app.engine}
+            />
+          ))}
+        </Grid>
+      );
+    }
+
+    if (query) {
+      return (
+        <EmptyState
+          icon={SearchIcon}
+          title="No Matching Results"
+        >
+          Your search -&nbsp;
+          <b>{query}</b>
+          &nbsp;- did not match any installed apps.
+        </EmptyState>
+      );
+    }
+
+    return (
+      <EmptyState
+        icon={GetAppIcon}
+        title="No Installed Apps"
+      >
+        Your installed apps on this machine will show up here.
+      </EmptyState>
+    );
+  };
 
   return (
     <div className={classes.root}>
@@ -105,33 +149,16 @@ const Installed = (props) => {
               </Button>
             </div>
             <Divider className={classes.divider} />
-            {(Object.keys(apps).length > 0) ? (
-              <Grid container justify="center" spacing={16}>
-                {Object.values(apps).map((app) => (
-                  <AppCard
-                    key={app.id}
-                    id={app.id}
-                    name={app.name}
-                    url={app.url}
-                    icon={app.icon}
-                    status={app.status}
-                    engine={app.engine}
-                  />
-                ))}
-              </Grid>
-            ) : (
-              <EmptyState
-                icon={GetAppIcon}
-                title="No Installed Apps"
-              >
-                Your installed apps on this machine will show up here.
-              </EmptyState>
-            )}
+            {renderContent()}
           </Grid>
         </Grid>
       </div>
     </div>
   );
+};
+
+Installed.defaultProps = {
+  query: null,
 };
 
 Installed.propTypes = {
@@ -141,12 +168,14 @@ Installed.propTypes = {
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
+  query: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   apps: filterApps(state.appManagement.apps, state.installed.query),
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
+  query: state.installed.query,
 });
 
 const actionCreators = {
