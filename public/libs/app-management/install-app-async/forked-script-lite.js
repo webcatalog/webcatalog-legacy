@@ -26,6 +26,7 @@ const {
   firefoxPath,
   chromePath,
   bravePath,
+  vivaldiPath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -317,6 +318,9 @@ Terminal=false;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'brave') {
         browserPath = bravePath;
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'vivaldi') {
+        browserPath = vivaldiPath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));
