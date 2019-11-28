@@ -5,6 +5,7 @@ const commandExistsSync = require('command-exists').sync;
 const getWin32BravePaths = require('./get-win32-brave-paths');
 const getWin32ChromePaths = require('./get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
+const getWin32VivaldiPaths = require('./get-win32-vivaldi-paths');
 
 const isEngineInstalled = (browser) => {
   switch (browser) {
@@ -63,16 +64,14 @@ const isEngineInstalled = (browser) => {
         return fs.existsSync(bravePath);
       }
 
-      /*
       if (process.platform === 'linux') {
-        return commandExistsSync('brave-browser');
+        return commandExistsSync('vivaldi');
       }
 
       if (process.platform === 'win32') {
-        const bravePaths = getWin32BravePaths();
+        const bravePaths = getWin32VivaldiPaths();
         return bravePaths.length > 0;
       }
-      */
 
       return false;
     }
