@@ -15,6 +15,9 @@ const getEngineName = (engine) => {
     case 'brave': {
       return 'Brave';
     }
+    case 'vivaldi': {
+      return 'Vivaldi';
+    }
     default: {
       throw new Error('Engine is not supported');
     }

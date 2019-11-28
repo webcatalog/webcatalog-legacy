@@ -34,6 +34,10 @@ const installAppAsync = (
         engineName = 'Brave';
         break;
       }
+      case 'vivaldi': {
+        engineName = 'Vivaldi';
+        break;
+      }
       default:
       case 'chrome': {
         engineName = 'Google Chrome';

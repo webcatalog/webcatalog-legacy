@@ -57,8 +57,26 @@ const isEngineInstalled = (browser) => {
 
       return false;
     }
-    case 'chrome':
-    default: {
+    case 'vivaldi': {
+      if (process.platform === 'darwin') {
+        const bravePath = path.join('/Applications', 'Vivaldi.app');
+        return fs.existsSync(bravePath);
+      }
+
+      /*
+      if (process.platform === 'linux') {
+        return commandExistsSync('brave-browser');
+      }
+
+      if (process.platform === 'win32') {
+        const bravePaths = getWin32BravePaths();
+        return bravePaths.length > 0;
+      }
+      */
+
+      return false;
+    }
+    case 'chrome': {
       if (process.platform === 'darwin') {
         const chromePath = path.join('/Applications', 'Google Chrome.app');
         return fs.existsSync(chromePath);
@@ -73,6 +91,9 @@ const isEngineInstalled = (browser) => {
         return chromePaths.length > 0;
       }
 
+      return false;
+    }
+    default: {
       return false;
     }
   }

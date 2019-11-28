@@ -182,6 +182,11 @@ Promise.resolve()
 /Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
               break;
             }
+            case 'vivaldi': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
