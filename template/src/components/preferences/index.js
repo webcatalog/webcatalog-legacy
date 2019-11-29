@@ -24,6 +24,7 @@ import { updateIsDefaultMailClient, updateIsDefaultWebBrowser } from '../../stat
 import {
   requestClearBrowsingData,
   requestOpenInBrowser,
+  requestRealignActiveWorkspace,
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
@@ -123,7 +124,7 @@ const Preferences = ({
             checked={sidebar}
             onChange={(e) => {
               requestSetPreference('sidebar', e.target.checked);
-              requestShowRequireRestartDialog();
+              requestRealignActiveWorkspace();
             }}
             classes={{
               switchBase: classes.switchBase,
@@ -140,7 +141,7 @@ const Preferences = ({
             checked={navigationBar}
             onChange={(e) => {
               requestSetPreference('navigationBar', e.target.checked);
-              requestShowRequireRestartDialog();
+              requestRealignActiveWorkspace();
             }}
             classes={{
               switchBase: classes.switchBase,
@@ -424,6 +425,7 @@ const Preferences = ({
           <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
           <ChevronRightIcon color="action" />
         </ListItem>
+        <Divider />
         <ListItem button onClick={() => requestShowCodeInjectionWindow('css')}>
           <ListItemText primary="CSS Code Injection" secondary={cssCodeInjection ? 'Set' : 'Not set'} />
           <ChevronRightIcon color="action" />
