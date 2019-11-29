@@ -67,6 +67,6 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
         dispatch(updateLatestTemplateVersion(globalTemplateVersion));
       }
       dispatch(updateFetchingLatestTemplateVersion(false));
-      console.log(err);
+      console.log(err); // eslint-disable-line no-console
     });
 };

@@ -27,8 +27,6 @@ export const save = () => (dispatch, getState) => {
     engine,
   } = form;
 
-  console.log('save');
-
   requestSetPreference('preferredEngine', engine);
 
   dispatch(close());

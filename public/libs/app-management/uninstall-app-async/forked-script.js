@@ -17,15 +17,11 @@ const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
     name: 'WebCatalog',
   };
-  console.log(prompt);
   process.env.USER = username;
   sudo.exec(prompt, opts, (error, stdout, stderr) => {
     if (error) {
-      console.log(error);
       return reject(error);
     }
-    console.log(stdout);
-    console.log(stderr);
     return resolve(stdout, stderr);
   });
 });

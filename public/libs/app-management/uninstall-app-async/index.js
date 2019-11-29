@@ -36,7 +36,7 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
       err.stack = message.error.stack;
       err.name = message.error.name;
     }
-    console.log(message);
+    console.log(message); // eslint-disable-line no-console
   });
 
   child.on('exit', (code) => {
