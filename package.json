@@ -2,7 +2,7 @@
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
   "version": "17.9.0",
-  "templateVersion": "5.6.0",
+  "templateVersion": "5.6.2",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -54,7 +54,7 @@
     "yargs-parser": "16.1.0"
   },
   "devDependencies": {
-    "@material-ui/core": "3.9.3",
+    "@material-ui/core": "3.9.4",
     "@material-ui/icons": "3.0.2",
     "algoliasearch": "3.35.1",
     "babel-eslint": "10.0.3",
