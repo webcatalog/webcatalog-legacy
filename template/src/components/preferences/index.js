@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import { TimePicker } from 'material-ui-pickers';
+
 import connectComponent from '../../helpers/connect-component';
 import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
 import getMailtoUrl from '../../helpers/get-mailto-url';
@@ -49,6 +51,12 @@ const styles = (theme) => ({
   },
   switchBase: {
     height: 'auto',
+  },
+  timePickerContainer: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });
 
@@ -87,6 +95,9 @@ const Preferences = ({
   onUpdateIsDefaultMailClient,
   onUpdateIsDefaultWebBrowser,
   openAtLogin,
+  pauseNotificationsBySchedule,
+  pauseNotificationsByScheduleFrom,
+  pauseNotificationsByScheduleTo,
   rememberLastPageVisited,
   shareWorkspaceBrowsingData,
   sidebar,
@@ -121,6 +132,7 @@ const Preferences = ({
             secondary="Sidebar lets you switch easily between workspaces."
           />
           <Switch
+            color="primary"
             checked={sidebar}
             onChange={(e) => {
               requestSetPreference('sidebar', e.target.checked);
@@ -138,6 +150,7 @@ const Preferences = ({
             secondary="Navigation bar lets you go back, forward, home and reload."
           />
           <Switch
+            color="primary"
             checked={navigationBar}
             onChange={(e) => {
               requestSetPreference('navigationBar', e.target.checked);
@@ -152,6 +165,67 @@ const Preferences = ({
     </Paper>
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Notifications
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <ListItem>
+          <ListItemText>
+            Automatically disable notifications by schedule:
+            <div className={classes.timePickerContainer}>
+              <TimePicker
+                autoOk={false}
+                label="from"
+                value={new Date(pauseNotificationsByScheduleFrom)}
+                onChange={(d) => requestSetPreference('pauseNotificationsByScheduleFrom', d.toString())}
+                disabled={!pauseNotificationsBySchedule}
+              />
+              <TimePicker
+                autoOk={false}
+                label="to"
+                value={new Date(pauseNotificationsByScheduleTo)}
+                onChange={(d) => requestSetPreference('pauseNotificationsByScheduleTo', d.toString())}
+                disabled={!pauseNotificationsBySchedule}
+              />
+            </div>
+            (
+            {window.Intl.DateTimeFormat().resolvedOptions().timeZone}
+            )
+          </ListItemText>
+          <Switch
+            color="primary"
+            checked={pauseNotificationsBySchedule}
+            onChange={(e) => {
+              requestSetPreference('pauseNotificationsBySchedule', e.target.checked);
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        {window.process.platform === 'darwin' && (
+          <>
+            <Divider />
+            <ListItem>
+              <ListItemText primary="Show unread count badge" />
+              <Switch
+                color="primary"
+                checked={unreadCountBadge}
+                onChange={(e) => {
+                  requestSetPreference('unreadCountBadge', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
       Experience
     </Typography>
     <Paper className={classes.paper}>
@@ -162,6 +236,7 @@ const Preferences = ({
               ? 'Attach to taskbar' : 'Attach to menubar'}
           />
           <Switch
+            color="primary"
             checked={attachToMenubar}
             onChange={(e) => {
               requestSetPreference('attachToMenubar', e.target.checked);
@@ -175,20 +250,6 @@ const Preferences = ({
         <Divider />
         {window.process.platform === 'darwin' && (
           <>
-            <ListItem>
-              <ListItemText primary="Show unread count badge" />
-              <Switch
-                checked={unreadCountBadge}
-                onChange={(e) => {
-                  requestSetPreference('unreadCountBadge', e.target.checked);
-                  requestShowRequireRestartDialog();
-                }}
-                classes={{
-                  switchBase: classes.switchBase,
-                }}
-              />
-            </ListItem>
-            <Divider />
             <ListItem>
               <ListItemText
                 primary="Swipe to navigate"
@@ -208,6 +269,7 @@ const Preferences = ({
                 )}
               />
               <Switch
+                color="primary"
                 checked={swipeToNavigate}
                 onChange={(e) => {
                   requestSetPreference('swipeToNavigate', e.target.checked);
@@ -224,6 +286,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Use spell checker" />
           <Switch
+            color="primary"
             checked={spellChecker}
             onChange={(e) => {
               requestSetPreference('spellChecker', e.target.checked);
@@ -238,6 +301,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Automatically check for updates" />
           <Switch
+            color="primary"
             checked={autoCheckForUpdates}
             onChange={(e) => {
               requestSetPreference('autoCheckForUpdates', e.target.checked);
@@ -279,6 +343,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Ask where to save each file before downloading" />
           <Switch
+            color="primary"
             checked={askForDownloadPath}
             onChange={(e) => {
               requestSetPreference('askForDownloadPath', e.target.checked);
@@ -299,6 +364,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Remember last page visited" />
           <Switch
+            color="primary"
             checked={rememberLastPageVisited}
             onChange={(e) => {
               requestSetPreference('rememberLastPageVisited', e.target.checked);
@@ -313,6 +379,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Share browsing data between workspaces" />
           <Switch
+            color="primary"
             checked={shareWorkspaceBrowsingData}
             onChange={(e) => {
               requestSetPreference('shareWorkspaceBrowsingData', e.target.checked);
@@ -467,6 +534,9 @@ Preferences.propTypes = {
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   onUpdateIsDefaultWebBrowser: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
+  pauseNotificationsBySchedule: PropTypes.bool.isRequired,
+  pauseNotificationsByScheduleFrom: PropTypes.string.isRequired,
+  pauseNotificationsByScheduleTo: PropTypes.string.isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
   shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
@@ -488,6 +558,9 @@ const mapStateToProps = (state) => ({
   jsCodeInjection: state.preferences.jsCodeInjection,
   navigationBar: state.preferences.navigationBar,
   openAtLogin: state.systemPreferences.openAtLogin,
+  pauseNotificationsBySchedule: state.preferences.pauseNotificationsBySchedule,
+  pauseNotificationsByScheduleFrom: state.preferences.pauseNotificationsByScheduleFrom,
+  pauseNotificationsByScheduleTo: state.preferences.pauseNotificationsByScheduleTo,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   shareWorkspaceBrowsingData: state.preferences.shareWorkspaceBrowsingData,
   sidebar: state.preferences.sidebar,

@@ -168,6 +168,7 @@ const Preferences = ({
                   primary="Ask for browser engine selection before every installation"
                 />
                 <Switch
+                  color="primary"
                   checked={!hideEnginePrompt}
                   onChange={(e) => {
                     requestSetPreference('hideEnginePrompt', !e.target.checked);
@@ -185,6 +186,7 @@ const Preferences = ({
                       primary="Automatically create desktop shortcuts for newly installed apps"
                     />
                     <Switch
+                      color="primary"
                       checked={createDesktopShortcut}
                       onChange={(e) => {
                         requestSetPreference('createDesktopShortcut', e.target.checked);
@@ -201,6 +203,7 @@ const Preferences = ({
                       secondary="This preference only works with Electron engine."
                     />
                     <Switch
+                      color="primary"
                       checked={createStartMenuShortcut}
                       onChange={(e) => {
                         requestSetPreference('createStartMenuShortcut', e.target.checked);
@@ -303,6 +306,7 @@ const Preferences = ({
                   primary="Receive pre-release updates"
                 />
                 <Switch
+                  color="primary"
                   checked={allowPrerelease}
                   onChange={(e) => {
                     requestSetPreference('allowPrerelease', e.target.checked);

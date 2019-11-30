@@ -13,6 +13,12 @@ export const requestReload = () => ipcRenderer.send('request-reload');
 export const requestShowPreferencesWindow = () => ipcRenderer.send('request-show-preferences-window');
 export const requestShowEditWorkspaceWindow = (id) => ipcRenderer.send('request-show-edit-workspace-window', id);
 export const requestShowCodeInjectionWindow = (type) => ipcRenderer.send('request-show-code-injection-window', type);
+export const requestShowNotificationsWindow = () => ipcRenderer.send('request-show-notifications-window');
+
+// Notifications
+export const requestShowNotification = (opts) => ipcRenderer.send('request-show-notification', opts);
+export const requestUpdatePauseNotificationsInfo = () => ipcRenderer.send('request-update-pause-notifications-info');
+export const getPauseNotificationsInfo = () => ipcRenderer.sendSync('get-pause-notifications-info');
 
 // Preferences
 export const getPreference = (name) => ipcRenderer.sendSync('get-preference', name);

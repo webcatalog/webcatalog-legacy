@@ -36,3 +36,6 @@ export const UPDATE_AUTH_FORM = 'UPDATE_AUTH_FORM';
 // About
 export const ABOUT_CLOSE = 'ABOUT_CLOSE';
 export const ABOUT_OPEN = 'ABOUT_OPEN';
+
+// Notifications
+export const UPDATE_PAUSE_NOTIFICATIONS_INFO = 'UPDATE_PAUSE_NOTIFICATIONS_INFO';

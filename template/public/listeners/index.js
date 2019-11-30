@@ -5,6 +5,7 @@ const {
   shell,
   // nativeTheme,
   systemPreferences,
+  Notification,
 } = require('electron');
 
 const {
@@ -37,6 +38,11 @@ const {
   loadURL,
 } = require('../libs/workspaces-views');
 
+const {
+  updatePauseNotificationsInfo,
+  getPauseNotificationsInfo,
+} = require('../libs/notifications');
+
 const createMenu = require('../libs/create-menu');
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
@@ -45,6 +51,7 @@ const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const codeInjectionWindow = require('../windows/code-injection');
+const notificationsWindow = require('../windows/notifications');
 
 const appJson = require('../app.json');
 
@@ -143,6 +150,10 @@ const loadListeners = () => {
     editWorkspaceWindow.show(id);
   });
 
+  ipcMain.on('request-show-notifications-window', () => {
+    notificationsWindow.show();
+  });
+
   ipcMain.on('request-show-require-restart-dialog', () => {
     dialog.showMessageBox({
       type: 'question',
@@ -158,6 +169,21 @@ const loadListeners = () => {
     .catch(console.log); // eslint-disable-line
   });
 
+  // Notifications
+  ipcMain.on('request-show-notification', (e, opts) => {
+    if (Notification.isSupported()) {
+      const notif = new Notification(opts);
+      notif.show();
+    }
+  });
+
+  ipcMain.on('get-pause-notifications-info', (e) => {
+    e.returnValue = getPauseNotificationsInfo();
+  });
+
+  ipcMain.on('request-update-pause-notifications-info', () => {
+    updatePauseNotificationsInfo();
+  });
 
   // Workspaces
   ipcMain.on('get-workspace', (e, id) => {

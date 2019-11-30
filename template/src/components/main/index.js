@@ -5,7 +5,9 @@ import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SettingsIcon from '@material-ui/icons/SettingsSharp';
+
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsPausedIcon from '@material-ui/icons/NotificationsPaused';
 
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 
@@ -18,12 +20,12 @@ import NavigationBar from './navigation-bar';
 import FakeTitleBar from './fake-title-bar';
 
 import {
-  requestShowPreferencesWindow,
   requestCreateWorkspace,
   requestSetWorkspace,
   requestSetActiveWorkspace,
   requestRemoveWorkspace,
   requestShowEditWorkspaceWindow,
+  requestShowNotificationsWindow,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -127,6 +129,7 @@ const Main = ({
   isFullScreen,
   isLoading,
   navigationBar,
+  shouldPauseNotifications,
   sidebar,
   workspaces,
 }) => {
@@ -163,8 +166,8 @@ const Main = ({
             </div>
             {!navigationBar && (
             <div className={classes.end}>
-              <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow}>
-                <SettingsIcon />
+              <IconButton aria-label="Notifications" onClick={requestShowNotificationsWindow} className={classes.iconButton}>
+                {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
               </IconButton>
             </div>
             )}
@@ -204,6 +207,7 @@ Main.propTypes = {
   isFullScreen: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   navigationBar: PropTypes.bool.isRequired,
+  shouldPauseNotifications: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   workspaces: PropTypes.object.isRequired,
 };
@@ -214,6 +218,7 @@ const mapStateToProps = (state) => ({
   isFullScreen: state.general.isFullScreen,
   isLoading: state.general.isLoading,
   navigationBar: state.preferences.navigationBar,
+  shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
   sidebar: state.preferences.sidebar,
   workspaces: state.workspaces,
 });
