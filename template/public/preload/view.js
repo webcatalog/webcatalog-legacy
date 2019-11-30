@@ -16,21 +16,6 @@ window.global = {};
 window.ipcRenderer = ipcRenderer;
 
 window.onload = () => {
-  // overwrite gmail email discard button
-  if (window.location.href.startsWith('https://mail.google.com') && window.location.href.includes('source=mailto')) {
-    const checkExist = setInterval(() => {
-      if (document.getElementById(':qz')) {
-        const discardButton = document.getElementById(':qz');
-        // https://stackoverflow.com/a/46986927
-        discardButton.addEventListener('click', (e) => {
-          e.stopPropagation();
-          ipcRenderer.send('request-go-home');
-        }, true);
-        clearInterval(checkExist);
-      }
-    }, 100); // check every 100ms
-  }
-
   const jsCodeInjection = ipcRenderer.sendSync('get-preference', 'jsCodeInjection');
   const cssCodeInjection = ipcRenderer.sendSync('get-preference', 'cssCodeInjection');
 
@@ -138,46 +123,65 @@ window.onload = () => {
     }
   });
 
+  // overwrite gmail email discard button
+  if (window.location.href.startsWith('https://mail.google.com') && window.location.href.includes('source=mailto')) {
+    const checkExist = setInterval(() => {
+      if (document.getElementById(':qz')) {
+        const discardButton = document.getElementById(':qz');
+        // https://stackoverflow.com/a/46986927
+        discardButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          ipcRenderer.send('request-go-home');
+        }, true);
+        clearInterval(checkExist);
+      }
+    }, 100); // check every 100ms
+  }
+
   // Fix WhatsApp requires Google Chrome 49+ bug
   // https://github.com/meetfranz/recipe-whatsapp/blob/master/webview.js
-  setTimeout(() => {
-    if (!window.location.hostname.includes('web.whatsapp.com')) {
-      return;
-    }
-    const elem = document.querySelector('.landing-title.version-title');
-    if (elem && elem.innerText.toLowerCase().includes('google chrome')) {
-      window.location.reload();
-    }
-  }, 1000);
+  if (window.location.hostname.includes('web.whatsapp.com')) {
+    setTimeout(() => {
+      const elem = document.querySelector('.landing-title.version-title');
+      if (elem && elem.innerText.toLowerCase().includes('google chrome')) {
+        window.location.reload();
+      }
+    }, 1000);
 
-  window.addEventListener('beforeunload', async () => {
-    if (!window.location.hostname.includes('web.whatsapp.com')) {
-      return;
-    }
-    try {
-      const webContents = remote.getCurrentWebContents();
-      const { session } = webContents;
-      session.flushStorageData();
-      session.clearStorageData({
-        storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
-      });
+    window.addEventListener('beforeunload', async () => {
+      try {
+        const webContents = remote.getCurrentWebContents();
+        const { session } = webContents;
+        session.flushStorageData();
+        session.clearStorageData({
+          storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
+        });
 
-      const registrations = await window.navigator.serviceWorker.getRegistrations();
+        const registrations = await window.navigator.serviceWorker.getRegistrations();
 
-      registrations.forEach((r) => {
-        r.unregister();
-        console.log('ServiceWorker unregistered'); // eslint-disable-line no-console
-      });
-    } catch (err) {
-      console.err(err); // eslint-disable-line no-console
-    }
-  });
+        registrations.forEach((r) => {
+          r.unregister();
+          console.log('ServiceWorker unregistered'); // eslint-disable-line no-console
+        });
+      } catch (err) {
+        console.err(err); // eslint-disable-line no-console
+      }
+    });
+  }
 };
+
+// Communicate with the frame
+// Have to use this weird trick because contextIsolation: true
+ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
+  console.log(e);
+  window.postMessage({ type: 'should-pause-notifications-changed', val });
+});
 
 // Fix Can't show file list of Google Drive
 // https://github.com/electron/electron/issues/16587
 // Fix chrome.runtime.sendMessage is undefined for FastMail
 // https://github.com/quanglam2807/singlebox/issues/21
+const initialShouldPauseNotifications = ipcRenderer.sendSync('get-pause-notifications-info') != null;
 webFrame.executeJavaScript(`
 window.chrome = {
   runtime: {
@@ -200,4 +204,22 @@ window.electronSafeIpc = {
   on: () => null,
 };
 window.desktop = undefined;
+
+// Customize Notification behavior
+// https://stackoverflow.com/questions/53390156/how-to-override-javascript-web-api-notification-object
+(function() {
+  const oldNotification = window.Notification;
+  let shouldPauseNotifications = ${initialShouldPauseNotifications};
+  window.addEventListener('message', function(e) {
+    if (!e.data || e.data.type !== 'should-pause-notifications-changed') return;
+    shouldPauseNotifications = e.data.val;
+  });
+  window.Notification = function() {
+    if (!shouldPauseNotifications) {
+      return new oldNotification(...arguments);
+    }
+    return null;
+  }
+  window.Notification.requestPermission = oldNotification.requestPermission;
+})();
 `);

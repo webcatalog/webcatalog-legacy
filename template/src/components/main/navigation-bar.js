@@ -7,6 +7,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import HomeIcon from '@material-ui/icons/Home';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SettingsIcon from '@material-ui/icons/SettingsSharp';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsPausedIcon from '@material-ui/icons/NotificationsPaused';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -16,6 +18,7 @@ import {
   requestGoHome,
   requestReload,
   requestShowPreferencesWindow,
+  requestShowNotificationsWindow,
 } from '../../senders';
 
 const styles = (theme) => ({
@@ -42,7 +45,12 @@ const styles = (theme) => ({
   },
 });
 
-const NavigationBar = ({ canGoBack, canGoForward, classes }) => (
+const NavigationBar = ({
+  canGoBack,
+  canGoForward,
+  classes,
+  shouldPauseNotifications,
+}) => (
   <div className={classes.root}>
     <div className={classes.left}>
       <IconButton aria-label="Go back" className={classes.iconButton} disabled={!canGoBack} onClick={requestGoBack}>
@@ -59,6 +67,11 @@ const NavigationBar = ({ canGoBack, canGoForward, classes }) => (
       </IconButton>
     </div>
     <div>
+      <IconButton aria-label="Notifications" onClick={requestShowNotificationsWindow} className={classes.iconButton}>
+        {shouldPauseNotifications
+          ? <NotificationsPausedIcon className={classes.icon} />
+          : <NotificationsIcon className={classes.icon} />}
+      </IconButton>
       <IconButton aria-label="Preferences" className={classes.iconButton} onClick={requestShowPreferencesWindow}>
         <SettingsIcon className={classes.icon} />
       </IconButton>
@@ -70,11 +83,13 @@ NavigationBar.propTypes = {
   canGoBack: PropTypes.bool.isRequired,
   canGoForward: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  shouldPauseNotifications: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   canGoBack: state.general.canGoBack,
   canGoForward: state.general.canGoForward,
+  shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
 });
 
 export default connectComponent(

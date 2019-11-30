@@ -19,6 +19,7 @@ const Auth = React.lazy(() => import('./components/auth'));
 const CodeInjection = React.lazy(() => import('./components/code-injection'));
 const EditWorkspace = React.lazy(() => import('./components/edit-workspace'));
 const Main = React.lazy(() => import('./components/main'));
+const Notifications = React.lazy(() => import('./components/notifications'));
 const OpenUrlWith = React.lazy(() => import('./components/open-url-with'));
 const Preferences = React.lazy(() => import('./components/preferences'));
 
@@ -28,6 +29,7 @@ const App = () => {
     case 'auth': return <Auth />;
     case 'code-injection': return <CodeInjection />;
     case 'edit-workspace': return <EditWorkspace />;
+    case 'notifications': return <Notifications />;
     case 'open-url-with': return <OpenUrlWith />;
     case 'preferences': return <Preferences />;
     default: return <Main />;
@@ -64,6 +66,8 @@ const runApp = () => {
         document.title = `Edit ${codeInjectionType.toUpperCase()} Code Injection`;
       } else if (window.mode === 'code-injection') {
         document.title = 'Sign in';
+      } else if (window.mode === 'notifications') {
+        document.title = 'Notifications';
       } else {
         document.title = remote.getGlobal('appJson').name;
       }

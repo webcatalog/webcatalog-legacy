@@ -10,6 +10,7 @@ import codeInjection from './code-injection/reducers';
 import editWorkspace from './edit-workspace/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
+import notifications from './notifications/reducers';
 import preferences from './preferences/reducers';
 import systemPreferences from './system-preferences/reducers';
 import workspaces from './workspaces/reducers';
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   editWorkspace,
   findInPage,
   general,
+  notifications,
   preferences,
   systemPreferences,
   workspaces,

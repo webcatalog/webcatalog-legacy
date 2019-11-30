@@ -15,6 +15,10 @@ import {
   updateFindInPageMatches,
 } from '../state/find-in-page/actions';
 import {
+  updatePauseNotificationsInfo,
+} from '../state/notifications/actions';
+
+import {
   getShouldUseDarkColors,
   getThemeSource,
   requestFindInPage,
@@ -80,6 +84,10 @@ const loadListeners = (store) => {
   ipcRenderer.on('native-theme-updated', () => {
     store.dispatch(updateThemeSource(getThemeSource()));
     store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
+  });
+
+  ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
+    store.dispatch(updatePauseNotificationsInfo(val));
   });
 };
 
