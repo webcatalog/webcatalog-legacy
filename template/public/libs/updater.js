@@ -7,7 +7,7 @@ const mainWindow = require('../windows/main');
 const appJson = require('../app.json');
 
 const checkForUpdates = (silent) => {
-  console.log('Checking for updates...');
+  console.log('Checking for updates...'); // eslint-disable-line no-console
   fetch('https://api.github.com/repos/quanglam2807/webcatalog/releases/latest')
     .then((res) => res.json())
     .then((release) => {

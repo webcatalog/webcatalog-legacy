@@ -66,15 +66,11 @@ const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
     name: 'WebCatalog',
   };
-  console.log(prompt);
   process.env.USER = username;
   sudo.exec(prompt, opts, (error, stdout, stderr) => {
     if (error) {
-      console.log(error);
       return reject(error);
     }
-    console.log(stdout);
-    console.log(stderr);
     return resolve(stdout, stderr);
   });
 });
@@ -98,11 +94,11 @@ Promise.resolve()
     // if tmp path has package.json file
     // assume that it has the template code
     if (exists) {
-      console.log('Skipped decompressing template code');
+      console.log('Skipped decompressing template code'); // eslint-disable-line no-console
       return null;
     }
     // if not, decompress new template code
-    console.log('Decompressing template code...');
+    console.log('Decompressing template code...'); // eslint-disable-line no-console
     return decompress(templatePath, tmpPath);
   })
   .then(() => {
