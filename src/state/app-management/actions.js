@@ -45,12 +45,13 @@ export const installApp = (engine, id, name, url, icon) => (dispatch, getState) 
     return null;
   }
 
-  if (isNameExisted(name, state)) {
-    requestShowMessageBox(`An app named ${name} already exists.`, 'error');
+  const sanitizedName = name.trim();
+  if (isNameExisted(sanitizedName, state)) {
+    requestShowMessageBox(`An app named ${sanitizedName} already exists.`, 'error');
     return null;
   }
 
-  requestInstallApp(engine, id, name, url, icon);
+  requestInstallApp(engine, id, sanitizedName, url, icon);
   return null;
 };
 
