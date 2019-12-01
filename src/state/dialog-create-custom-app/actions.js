@@ -45,6 +45,7 @@ const getValidationRules = () => ({
   name: {
     fieldName: 'Name',
     required: true,
+    filePath: true,
   },
   url: {
     fieldName: 'URL',
