@@ -51,6 +51,7 @@
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.3",
+    "eslint-plugin-react-hooks": "1.7.0",
     "lodash.camelcase": "4.3.0",
     "material-ui-pickers": "2.2.4",
     "prop-types": "15.7.2",
