@@ -26,6 +26,10 @@ const getDefaultPauseNotificationsByScheduleTo = () => {
 };
 
 const getDefaultSpellCheckerLanguages = () => {
+  const locale = app.getLocale();
+
+  if (!locale) return null;
+
   // language code extracted from https://github.com/electron/electron/releases/download/v8.0.0-beta.3/hunspell_dictionaries.zip
   const supportedLangs = [
     'af-ZA',
@@ -71,11 +75,7 @@ const getDefaultSpellCheckerLanguages = () => {
     'vi-VN',
   ];
 
-  const locale = app.getLocale();
-
-  if (!locale) return null;
-
-  if (supportedLangs.indexOf('locale') > -1) return [locale];
+  if (supportedLangs.indexOf(locale) > -1) return [locale];
 
   // find first identical language (same language code, different country code)
   const identicalLang = supportedLangs
