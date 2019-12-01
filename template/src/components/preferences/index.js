@@ -80,6 +80,56 @@ const hasMailWorkspaceFunc = (workspaces) => {
     .find((workspace) => Boolean(getMailtoUrl(workspace.homeUrl || appJson.url))));
 };
 
+// language code extracted from https://github.com/electron/electron/releases/download/v8.0.0-beta.3/hunspell_dictionaries.zip
+// languages name from http://www.lingoes.net/en/translator/langcode.htm & Chrome preferences
+const hunspellLanguagesMap = {
+  'af-ZA': 'Afrikaans',
+  'bg-BG': 'Bulgarian - български',
+  'ca-ES': 'Catalan - català',
+  'cs-CZ': 'Czech - čeština',
+  'cy-GB': 'Welsh - Cymraeg',
+  'da-DK': 'Danish - dansk',
+  'de-DE': 'German - Deutsch',
+  'el-GR': 'Greek - Ελληνικά',
+  'en-AU': 'English (Australia)',
+  'en-CA': 'English (Canada)',
+  'en-GB': 'English (United Kingdom)',
+  'en-US': 'English (United States)',
+  'es-ES': 'Spanish - español',
+  'et-EE': 'Estonian - eesti',
+  'fa-IR': 'Persian - ‎‫فارسی‬‎',
+  'fo-FO': 'Faroese - føroyskt',
+  'fr-FR': 'French - français',
+  'he-IL': 'Hebrew - ‎‫עברית‬‎',
+  'hi-IN': 'Hindi - हिन्दी',
+  'hr-HR': 'Croatian - hrvatski',
+  'hu-HU': 'Hungarian - magyar',
+  hy: 'Armenian - հայերեն',
+  'id-ID': 'Indonesian - Indonesia',
+  'it-IT': 'Italian - italiano',
+  ko: 'Korean - 한국어',
+  'lt-LT': 'Lithuanian - lietuvių',
+  'lv-LV': 'Latvian - latviešu',
+  'nb-NO': 'Norwegian Bokmål - norsk bokmål',
+  'nl-NL': 'Dutch - Nederlands',
+  'pl-PL': 'Polish - polski',
+  'pt-BR': 'Portuguese (Brazil) - português (Brasil)',
+  'pt-PT': 'Portuguese (Portugal) - português (Portugal)',
+  'ro-RO': 'Romanian - română',
+  'ru-RU': 'Russian - русский',
+  sh: 'Serbo-Croatian - srpskohrvatski',
+  'sk-SK': 'Slovak - slovenčina',
+  'sl-SI': 'Slovenian - slovenščina',
+  sq: 'Albanian - shqip',
+  sr: 'Serbian - српски',
+  'sv-SE': 'Swedish - svenska',
+  'ta-IN': 'Tamil - தமிழ்',
+  'tg-TG': 'Tajik - тоҷикӣ',
+  'tr-TR': 'Turkish - Türkçe',
+  'uk-UA': 'Ukrainian - українська',
+  'vi-VN': 'Vietnamese - Tiếng Việt',
+};
+
 const Preferences = ({
   askForDownloadPath,
   attachToMenubar,
@@ -102,6 +152,7 @@ const Preferences = ({
   shareWorkspaceBrowsingData,
   sidebar,
   spellChecker,
+  spellCheckerLanguages,
   swipeToNavigate,
   themeSource,
   unreadCountBadge,
@@ -226,6 +277,53 @@ const Preferences = ({
     </Paper>
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Languages
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <ListItem>
+          <ListItemText primary="Spell check" />
+          <Switch
+            color="primary"
+            checked={spellChecker}
+            onChange={(e) => {
+              requestSetPreference('spellChecker', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <StatedMenu
+          id="spellcheckerLanguages"
+          buttonElement={(
+            <ListItem button>
+              <ListItemText
+                primary="Spell checking language"
+                secondary={spellCheckerLanguages.map((code) => hunspellLanguagesMap[code]).join(' | ')}
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+          )}
+        >
+          {Object.keys(hunspellLanguagesMap).map((code) => (
+            <MenuItem
+              key={code}
+              onClick={() => {
+                requestSetPreference('spellCheckerLanguages', [code]);
+                requestShowRequireRestartDialog();
+              }}
+            >
+              {hunspellLanguagesMap[code]}
+            </MenuItem>
+          ))}
+        </StatedMenu>
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
       Experience
     </Typography>
     <Paper className={classes.paper}>
@@ -283,21 +381,6 @@ const Preferences = ({
             <Divider />
           </>
         )}
-        <ListItem>
-          <ListItemText primary="Use spell checker" />
-          <Switch
-            color="primary"
-            checked={spellChecker}
-            onChange={(e) => {
-              requestSetPreference('spellChecker', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
         <ListItem>
           <ListItemText primary="Automatically check for updates" />
           <Switch
@@ -541,6 +624,7 @@ Preferences.propTypes = {
   shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
   spellChecker: PropTypes.bool.isRequired,
+  spellCheckerLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
@@ -565,6 +649,7 @@ const mapStateToProps = (state) => ({
   shareWorkspaceBrowsingData: state.preferences.shareWorkspaceBrowsingData,
   sidebar: state.preferences.sidebar,
   spellChecker: state.preferences.spellChecker,
+  spellCheckerLanguages: state.preferences.spellCheckerLanguages,
   swipeToNavigate: state.preferences.swipeToNavigate,
   themeSource: state.general.themeSource,
   unreadCountBadge: state.preferences.unreadCountBadge,
