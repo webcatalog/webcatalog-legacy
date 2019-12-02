@@ -55,6 +55,8 @@ if (!gotTheLock) {
           const workspace = workspaceObjects[id];
           addView(mainWindow.get(), workspace);
         });
+
+        ipcMain.emit('request-update-pause-notifications-info');
       });
   };
 

@@ -101,6 +101,7 @@ const defaultPreferences = {
   pauseNotificationsBySchedule: false,
   pauseNotificationsByScheduleFrom: getDefaultPauseNotificationsByScheduleFrom(),
   pauseNotificationsByScheduleTo: getDefaultPauseNotificationsByScheduleTo(),
+  pauseNotificationsMuteAudio: false,
   rememberLastPageVisited: false,
   shareWorkspaceBrowsingData: false,
   sidebar: Boolean(MAILTO_URLS[extractHostname(appJson.url)]),

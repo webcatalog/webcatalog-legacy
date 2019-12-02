@@ -149,6 +149,7 @@ const Preferences = ({
   pauseNotificationsBySchedule,
   pauseNotificationsByScheduleFrom,
   pauseNotificationsByScheduleTo,
+  pauseNotificationsMuteAudio,
   rememberLastPageVisited,
   shareWorkspaceBrowsingData,
   sidebar,
@@ -249,6 +250,20 @@ const Preferences = ({
             checked={pauseNotificationsBySchedule}
             onChange={(e) => {
               requestSetPreference('pauseNotificationsBySchedule', e.target.checked);
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText primary="Mute audio when notifications are paused" />
+          <Switch
+            color="primary"
+            checked={pauseNotificationsMuteAudio}
+            onChange={(e) => {
+              requestSetPreference('pauseNotificationsMuteAudio', e.target.checked);
             }}
             classes={{
               switchBase: classes.switchBase,
@@ -621,6 +636,7 @@ Preferences.propTypes = {
   pauseNotificationsBySchedule: PropTypes.bool.isRequired,
   pauseNotificationsByScheduleFrom: PropTypes.string.isRequired,
   pauseNotificationsByScheduleTo: PropTypes.string.isRequired,
+  pauseNotificationsMuteAudio: PropTypes.bool.isRequired,
   rememberLastPageVisited: PropTypes.bool.isRequired,
   shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
@@ -646,6 +662,7 @@ const mapStateToProps = (state) => ({
   pauseNotificationsBySchedule: state.preferences.pauseNotificationsBySchedule,
   pauseNotificationsByScheduleFrom: state.preferences.pauseNotificationsByScheduleFrom,
   pauseNotificationsByScheduleTo: state.preferences.pauseNotificationsByScheduleTo,
+  pauseNotificationsMuteAudio: state.preferences.pauseNotificationsMuteAudio,
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   shareWorkspaceBrowsingData: state.preferences.shareWorkspaceBrowsingData,
   sidebar: state.preferences.sidebar,

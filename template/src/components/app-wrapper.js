@@ -14,8 +14,6 @@ import connectComponent from '../helpers/connect-component';
 
 import { updateIsFullScreen } from '../state/general/actions';
 
-import { requestUpdatePauseNotificationsInfo } from '../senders';
-
 const { remote } = window.require('electron');
 
 class AppWrapper extends React.Component {
@@ -27,8 +25,6 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
-    requestUpdatePauseNotificationsInfo();
-
     remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
   }
