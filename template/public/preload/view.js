@@ -222,5 +222,10 @@ window.desktop = undefined;
     return null;
   }
   window.Notification.requestPermission = oldNotification.requestPermission;
+  Object.defineProperty(Notification, 'permission', {
+    get() {
+      return 'granted';
+    }
+  });
 })();
 `);
