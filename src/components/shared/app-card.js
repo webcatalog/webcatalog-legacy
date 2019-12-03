@@ -95,7 +95,14 @@ const AppCard = (props) => {
     if (status === INSTALLED) {
       return (
         <div>
-          {isOutdated ? (
+          <Button
+            className={classes.actionButton}
+            size="medium"
+            onClick={() => requestOpenApp(id, name)}
+          >
+            Open
+          </Button>
+          {isOutdated && (
             <Button
               className={classes.actionButton}
               color="primary"
@@ -104,23 +111,17 @@ const AppCard = (props) => {
             >
               Update
             </Button>
-          ) : (
+          )}
+          {!isOutdated && (
             <Button
               className={classes.actionButton}
+              color="secondary"
               size="medium"
-              onClick={() => requestOpenApp(id, name)}
+              onClick={() => requestUninstallApp(id, name)}
             >
-              Open
+              Uninstall
             </Button>
           )}
-          <Button
-            className={classes.actionButton}
-            color="secondary"
-            size="medium"
-            onClick={() => requestUninstallApp(id, name)}
-          >
-            Uninstall
-          </Button>
         </div>
       );
     }
@@ -168,6 +169,11 @@ const AppCard = (props) => {
             </IconButton>
           )}
         >
+          {isOutdated && (
+            <MenuItem onClick={() => requestUninstallApp(id, name)}>
+              Uninstall
+            </MenuItem>
+          )}
           <MenuItem
             onClick={() => onOpenDialogCreateCustomApp({
               name: `${name} 2`,
