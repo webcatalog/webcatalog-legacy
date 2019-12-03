@@ -85,6 +85,7 @@ const Installed = (props) => {
               icon={app.icon}
               status={app.status}
               engine={app.engine}
+              version={app.version}
             />
           ))}
         </Grid>
