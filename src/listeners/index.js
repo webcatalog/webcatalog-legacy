@@ -1,6 +1,7 @@
 import { setApp, removeApp, clean as cleanAppManagement } from '../state/app-management/actions';
 import { changeRoute } from '../state/router/actions';
 import { setPreference } from '../state/preferences/actions';
+import { setSystemPreference } from '../state/system-preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
 import {
@@ -34,6 +35,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-preference', (e, name, value) => {
     store.dispatch(setPreference(name, value));
+  });
+
+  ipcRenderer.on('set-system-preference', (e, name, value) => {
+    store.dispatch(setSystemPreference(name, value));
   });
 
   ipcRenderer.on('go-to-preferences', () => store.dispatch(changeRoute(ROUTE_PREFERENCES)));
