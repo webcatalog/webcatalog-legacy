@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import StatedMenu from './stated-menu';
 
@@ -83,12 +84,14 @@ const AppCard = (props) => {
     icon128,
     id,
     isOutdated,
+    latestTemplateVersion,
     name,
     onOpenDialogChooseEngine,
     onOpenDialogCreateCustomApp,
     onUpdateApp,
     status,
     url,
+    version,
   } = props;
 
   const renderActionsElement = () => {
@@ -181,14 +184,30 @@ const AppCard = (props) => {
               icon,
             })}
           >
-            Create custom app from&nbsp;
+            Create Custom App from&nbsp;
             {name}
           </MenuItem>
           {engine && (
-            <MenuItem onClick={null} disabled>
-              Installed using&nbsp;
-              {getEngineName(engine)}
-            </MenuItem>
+            <>
+              <Divider />
+              <MenuItem onClick={null} disabled>
+                Installed with&nbsp;
+                {getEngineName(engine)}
+              </MenuItem>
+              {engine === 'electron' && (
+                <MenuItem onClick={null} disabled>
+                  Version&nbsp;
+                  {version}
+                  {isOutdated && (
+                    <span>
+                      &nbsp;(Latest:&nbsp;
+                      {latestTemplateVersion}
+                      )
+                    </span>
+                  )}
+                </MenuItem>
+              )}
+            </>
           )}
         </StatedMenu>
 
@@ -198,9 +217,11 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
-  status: null,
-  icon128: null,
   engine: null,
+  icon128: null,
+  latestTemplateVersion: null,
+  status: null,
+  version: null,
 };
 
 AppCard.propTypes = {
@@ -210,16 +231,19 @@ AppCard.propTypes = {
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isOutdated: PropTypes.bool.isRequired,
+  latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
   status: PropTypes.string,
   url: PropTypes.string.isRequired,
+  version: PropTypes.string,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   isOutdated: isOutdatedApp(ownProps.id, state),
+  latestTemplateVersion: state.general.latestTemplateVersion,
 });
 
 const actionCreators = {
