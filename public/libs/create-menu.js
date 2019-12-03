@@ -97,7 +97,7 @@ const createMenu = () => {
     visible: updaterEnabled,
   };
   if (global.updateDownloaded) {
-    updaterMenuItem.label = 'Restart to apply updates...';
+    updaterMenuItem.label = 'Restart to Apply Updates...';
     updaterMenuItem.click = () => {
       setImmediate(() => {
         app.removeAllListeners('window-all-closed');
@@ -109,7 +109,7 @@ const createMenu = () => {
     };
   } else if (global.updaterProgressObj) {
     const { transferred, total, bytesPerSecond } = global.updaterProgressObj;
-    updaterMenuItem.label = `Downloading updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
+    updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
     updaterMenuItem.enabled = false;
   }
 

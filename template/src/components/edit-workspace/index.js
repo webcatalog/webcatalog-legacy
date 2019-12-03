@@ -55,6 +55,7 @@ const styles = (theme) => ({
     fontWeight: 500,
     textTransform: 'uppercase',
     userSelect: 'none',
+    boxShadow: theme.shadows[1],
   },
   avatarPicture: {
     height: 64,
