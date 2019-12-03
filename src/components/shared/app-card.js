@@ -130,7 +130,8 @@ const AppCard = (props) => {
     }
 
     let label = 'Install';
-    if (status === INSTALLING) label = 'Installing...';
+    if (status === INSTALLING && version) label = 'Updating...';
+    else if (status === INSTALLING) label = 'Installing...';
     else if (status === UNINSTALLING) label = 'Uninstalling...';
 
     return (
@@ -194,7 +195,7 @@ const AppCard = (props) => {
                 Installed with&nbsp;
                 {getEngineName(engine)}
               </MenuItem>
-              {engine === 'electron' && (
+              {engine === 'electron' && version && (
                 <MenuItem onClick={null} disabled>
                   Version&nbsp;
                   {version}
