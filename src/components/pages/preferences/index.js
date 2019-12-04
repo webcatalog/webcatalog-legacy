@@ -45,6 +45,10 @@ const styles = (theme) => ({
     flexDirection: 'column',
     overflow: 'hidden',
   },
+  appBar: {
+    WebkitAppRegion: 'drag',
+    WebkitUserSelect: 'none',
+  },
   title: {
     flex: 1,
     textAlign: 'center',
@@ -95,9 +99,11 @@ const getFileManagerName = () => {
 const Preferences = ({
   allowPrerelease,
   appCount,
+  attachToMenubar,
   classes,
   createDesktopShortcut,
   createStartMenuShortcut,
+  defaultHome,
   hideEnginePrompt,
   installationPath,
   installingAppCount,
@@ -132,7 +138,7 @@ const Preferences = ({
       <div className={classes.scrollContainer}>
         <div className={classes.inner}>
           <Typography variant="subtitle2" className={classes.sectionTitle}>
-            Appearance
+            General
           </Typography>
           <Paper className={classes.paper}>
             <List dense>
@@ -149,6 +155,45 @@ const Preferences = ({
                 <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
                 <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary={window.process.platform === 'win32'
+                    ? 'Attach to taskbar' : 'Attach to menubar'}
+                />
+                <Switch
+                  color="primary"
+                  checked={attachToMenubar}
+                  onChange={(e) => {
+                    requestSetPreference('attachToMenubar', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                  classes={{
+                    switchBase: classes.switchBase,
+                  }}
+                />
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Show installed apps at launch"
+                />
+                <Switch
+                  color="primary"
+                  checked={attachToMenubar || defaultHome === 'installed'}
+                  disabled={attachToMenubar}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      requestSetPreference('defaultHome', 'installed');
+                    } else {
+                      requestSetPreference('defaultHome', 'home');
+                    }
+                  }}
+                  classes={{
+                    switchBase: classes.switchBase,
+                  }}
+                />
+              </ListItem>
             </List>
           </Paper>
 
@@ -375,9 +420,11 @@ const Preferences = ({
 Preferences.propTypes = {
   allowPrerelease: PropTypes.bool.isRequired,
   appCount: PropTypes.number.isRequired,
+  attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   createDesktopShortcut: PropTypes.bool.isRequired,
   createStartMenuShortcut: PropTypes.bool.isRequired,
+  defaultHome: PropTypes.string.isRequired,
   hideEnginePrompt: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
@@ -392,8 +439,10 @@ Preferences.propTypes = {
 const mapStateToProps = (state) => ({
   allowPrerelease: state.preferences.allowPrerelease,
   appCount: getAppCount(state),
+  attachToMenubar: state.preferences.attachToMenubar,
   createDesktopShortcut: state.preferences.createDesktopShortcut,
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,
+  defaultHome: state.preferences.defaultHome,
   hideEnginePrompt: state.preferences.hideEnginePrompt,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,

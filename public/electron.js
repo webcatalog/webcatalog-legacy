@@ -32,7 +32,7 @@ if (!gotTheLock) {
     global.templateVersion = packageJson.templateVersion;
     global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
-    mainWindow.create();
+    mainWindow.createAsync();
     createMenu();
 
     /* Electron 7

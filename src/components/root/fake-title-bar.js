@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 
 import connectComponent from '../../helpers/connect-component';
 
-const titleBarHeight = window.process.platform === 'darwin' ? 22 : 0;
-
 const styles = (theme) => ({
   root: {
     background: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
-    height: titleBarHeight,
+    height: 22,
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },

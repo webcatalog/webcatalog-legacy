@@ -67,6 +67,8 @@ class Home extends React.Component {
     const el = this.scrollContainer;
     el.onscroll = () => {
       // Plus 300 to run ahead.
+      const { isGetting, query, hits } = this.props;
+      if (!isGetting && query.length > 0 && hits.length < 1) return; // no result
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
         onGetHits();
       }
@@ -117,7 +119,6 @@ class Home extends React.Component {
         <>
           <Grid container justify="center" spacing={16}>
             {!isGetting && <CreateCustomAppCard key="create-custom-app" />}
-            {!isGetting && <SubmitAppCard key="submit-new-app" />}
             {hits.map((app) => (
               <AppCard
                 key={app.id}
@@ -130,6 +131,7 @@ class Home extends React.Component {
                 engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
+            {!isGetting && <SubmitAppCard key="submit-new-app" />}
           </Grid>
 
           {!isGetting && (
