@@ -20,6 +20,12 @@ const {
   resetPreferences,
 } = require('../libs/preferences');
 
+const {
+  getSystemPreference,
+  getSystemPreferences,
+  setSystemPreference,
+} = require('../libs/system-preferences');
+
 const createMenu = require('../libs/create-menu');
 
 const mainWindow = require('../windows/main');
@@ -55,6 +61,21 @@ const loadListeners = () => {
     if (name === 'registered') {
       createMenu();
     }
+  });
+
+  // System Preferences
+  ipcMain.on('get-system-preference', (e, name) => {
+    const val = getSystemPreference(name);
+    e.returnValue = val;
+  });
+
+  ipcMain.on('get-system-preferences', (e) => {
+    const preferences = getSystemPreferences();
+    e.returnValue = preferences;
+  });
+
+  ipcMain.on('request-set-system-preference', (e, name, value) => {
+    setSystemPreference(name, value);
   });
 
   ipcMain.on('request-reset-preferences', () => {

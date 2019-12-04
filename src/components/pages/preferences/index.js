@@ -30,6 +30,7 @@ import {
   requestOpenInstallLocation,
   requestResetPreferences,
   requestSetPreference,
+  requestSetSystemPreference,
   requestSetThemeSource,
   requestShowMessageBox,
   requestShowRequireRestartDialog,
@@ -79,9 +80,15 @@ const getThemeString = (theme) => {
   return 'System default';
 };
 
+const getOpenAtLoginString = (openAtLogin) => {
+  if (openAtLogin === 'yes-hidden') return 'Yes, but minimized';
+  if (openAtLogin === 'yes') return 'Yes';
+  return 'No';
+};
+
 const getFileManagerName = () => {
   if (window.process.platform === 'darwin') return 'Finder';
-  if (window.process.platform === 'win32') return 'FIle Explorer';
+  if (window.process.platform === 'win32') return 'File Explorer';
   return 'file manager';
 };
 
@@ -96,6 +103,7 @@ const Preferences = ({
   installingAppCount,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
+  openAtLogin,
   preferredEngine,
   requireAdmin,
   themeSource,
@@ -154,6 +162,31 @@ const Preferences = ({
               </ListItem>
             </List>
           </Paper>
+
+          {window.process.platform !== 'linux' && (
+            <>
+              <Typography variant="subtitle2" className={classes.sectionTitle}>
+                System
+              </Typography>
+              <Paper className={classes.paper}>
+                <List dense>
+                  <StatedMenu
+                    id="openAtLogin"
+                    buttonElement={(
+                      <ListItem button>
+                        <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
+                        <ChevronRightIcon color="action" />
+                      </ListItem>
+                    )}
+                  >
+                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+                  </StatedMenu>
+                </List>
+              </Paper>
+            </>
+          )}
 
           <Typography variant="subtitle2" className={classes.sectionTitle}>
             Advanced
@@ -350,6 +383,7 @@ Preferences.propTypes = {
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
+  openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   preferredEngine: PropTypes.string.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
@@ -363,6 +397,7 @@ const mapStateToProps = (state) => ({
   hideEnginePrompt: state.preferences.hideEnginePrompt,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
+  openAtLogin: state.systemPreferences.openAtLogin,
   preferredEngine: state.preferences.preferredEngine,
   requireAdmin: state.preferences.requireAdmin,
   themeSource: state.general.themeSource,

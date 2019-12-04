@@ -20,6 +20,9 @@ export const UPDATE_MOVING_ALL_APPS = 'UPDATE_MOVING_ALL_APPS';
 // Preferences
 export const SET_PREFERENCE = 'SET_PREFERENCE';
 
+// System Preferences
+export const SET_SYSTEM_PREFERENCE = 'SET_SYSTEM_PREFERENCE';
+
 // App Management
 export const SET_APP = 'SET_APP';
 export const REMOVE_APP = 'REMOVE_APP';
