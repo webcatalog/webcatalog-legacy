@@ -46,6 +46,8 @@ const styles = (theme) => ({
   },
   title: {
     flex: 1,
+    textAlign: 'center',
+    color: theme.palette.text.primary,
   },
   scrollContainer: {
     flex: 1,
@@ -112,8 +114,8 @@ const Preferences = ({
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar} elevation={2}>
-        <Toolbar variant="dense">
+      <AppBar position="static" className={classes.appBar} elevation={2} color="inherit">
+        <Toolbar variant="dense" className={classes.toolbar}>
           <Typography variant="h6" color="inherit" className={classes.title}>
             Preferences
           </Typography>
