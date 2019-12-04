@@ -18,7 +18,7 @@ const create = () => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 500,
+    minWidth: 440,
     minHeight: 500,
     titleBarStyle: 'hidden',
     webPreferences: {

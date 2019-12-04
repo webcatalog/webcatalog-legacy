@@ -4,20 +4,15 @@ import PropTypes from 'prop-types';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import SearchIcon from '@material-ui/icons/Search';
-import BrushIcon from '@material-ui/icons/Brush';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../../senders';
 
 import { getHits } from '../../../state/home/actions';
-import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
 
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
@@ -37,15 +32,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-  },
-  title: {
-    flex: 1,
-  },
-  paper: {
-    zIndex: 1,
-    display: 'flex',
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
   },
   scrollContainer: {
     flex: 1,
@@ -97,7 +83,6 @@ class Home extends React.Component {
       shouldUseDarkColors,
       isGetting,
       onGetHits,
-      onOpenDialogCreateCustomApp,
     } = this.props;
 
     const renderContent = () => {
@@ -131,6 +116,8 @@ class Home extends React.Component {
       return (
         <>
           <Grid container justify="center" spacing={16}>
+            {!isGetting && <CreateCustomAppCard key="create-custom-app" />}
+            {!isGetting && <SubmitAppCard key="submit-new-app" />}
             {hits.map((app) => (
               <AppCard
                 key={app.id}
@@ -143,8 +130,6 @@ class Home extends React.Component {
                 engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
-            {!isGetting && <CreateCustomAppCard key="create-custom-app" />}
-            {!isGetting && <SubmitAppCard key="submit-new-app" />}
           </Grid>
 
           {!isGetting && (
@@ -170,17 +155,6 @@ class Home extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" className={classes.appBar} elevation={0}>
-          <Toolbar variant="dense">
-            <Typography variant="h6" color="inherit" className={classes.title}>
-              Home
-            </Typography>
-            <Button color="inherit" onClick={onOpenDialogCreateCustomApp}>
-              <BrushIcon className={classes.leftIcon} />
-              Create Custom App
-            </Button>
-          </Toolbar>
-        </AppBar>
         <Grid container spacing={16}>
           <Grid item xs={12}>
             <SearchBox />
@@ -213,7 +187,6 @@ Home.propTypes = {
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   query: PropTypes.string,
   shouldUseDarkColors: PropTypes.bool.isRequired,
 };
@@ -229,7 +202,6 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   getHits,
-  openDialogCreateCustomApp,
 };
 
 export default connectComponent(

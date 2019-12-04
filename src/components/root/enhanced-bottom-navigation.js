@@ -23,6 +23,16 @@ const styles = {
   paper: {
     zIndex: 1,
   },
+  bottomNavigation: {
+    height: 40,
+  },
+  bottomNavigationActionWrapper: {
+    flexDirection: 'row',
+  },
+  bottomNavigationActionLabel: {
+    fontSize: '0.8rem !important',
+    paddingLeft: 4,
+  },
 };
 
 const EnhancedBottomNavigation = ({
@@ -33,11 +43,16 @@ const EnhancedBottomNavigation = ({
       value={route}
       onChange={(e, value) => onChangeRoute(value)}
       showLabels
+      classes={{ root: classes.bottomNavigation }}
     >
       <BottomNavigationAction
         label="Home"
         icon={<HomeIcon />}
         value={ROUTE_HOME}
+        classes={{
+          wrapper: classes.bottomNavigationActionWrapper,
+          label: classes.bottomNavigationActionLabel,
+        }}
       />
       <BottomNavigationAction
         label="Installed"
@@ -47,11 +62,19 @@ const EnhancedBottomNavigation = ({
           </Badge>
         ) : <SystemUpdateIcon />}
         value={ROUTE_INSTALLED}
+        classes={{
+          wrapper: classes.bottomNavigationActionWrapper,
+          label: classes.bottomNavigationActionLabel,
+        }}
       />
       <BottomNavigationAction
         label="Preferences"
         icon={<SettingsIcon />}
         value={ROUTE_PREFERENCES}
+        classes={{
+          wrapper: classes.bottomNavigationActionWrapper,
+          label: classes.bottomNavigationActionLabel,
+        }}
       />
     </BottomNavigation>
   </Paper>

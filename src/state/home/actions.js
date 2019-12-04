@@ -33,7 +33,7 @@ export const getHits = () => (dispatch, getState) => {
   index.search({
     query,
     page: page + 1,
-    hitsPerPage: 24,
+    hitsPerPage: 40,
   })
     .then((res) => dispatch(homeGetSuccess({
       hits: res.hits,

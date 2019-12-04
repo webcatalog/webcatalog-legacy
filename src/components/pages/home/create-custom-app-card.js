@@ -12,11 +12,11 @@ import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-
 
 const styles = (theme) => ({
   card: {
-    width: 220,
-    height: 190,
+    width: 180,
+    height: 155,
     boxSizing: 'border-box',
     borderRadius: 4,
-    padding: theme.spacing.unit * 1.5,
+    padding: theme.spacing.unit,
     textAlign: 'center',
     position: 'relative',
     display: 'flex',
@@ -30,7 +30,7 @@ const styles = (theme) => ({
     },
   },
   icon: {
-    fontSize: '96px',
+    fontSize: '72px',
   },
   desc: {
     overflow: 'hidden',
@@ -51,7 +51,7 @@ const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
       onClick={onOpenDialogCreateCustomApp}
     >
       <BrushIcon className={classes.icon} />
-      <Typography variant="subtitle1" className={classes.desc}>
+      <Typography variant="subtitle2" className={classes.desc}>
         Create Custom App
       </Typography>
     </Paper>

@@ -36,11 +36,11 @@ import { open as openDialogCreateCustomApp } from '../../state/dialog-create-cus
 
 const styles = (theme) => ({
   card: {
-    width: 220,
-    height: 190,
+    width: 180,
+    height: 155,
     boxSizing: 'border-box',
     borderRadius: 4,
-    padding: theme.spacing.unit * 1.5,
+    padding: theme.spacing.unit,
     textAlign: 'center',
     position: 'relative',
   },
@@ -58,11 +58,11 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
   },
   paperIcon: {
-    width: 64,
-    height: 64,
+    width: 48,
+    height: 48,
   },
   actionContainer: {
-    marginTop: theme.spacing.unit * 2.5,
+    marginTop: theme.spacing.unit,
   },
   actionButton: {
     minWidth: 'auto',
@@ -155,7 +155,7 @@ const AppCard = (props) => {
           className={classes.paperIcon}
           src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
         />
-        <Typography variant="subtitle1" className={classes.appName}>
+        <Typography variant="subtitle2" className={classes.appName}>
           {name}
         </Typography>
         <Typography variant="body1" color="textSecondary" className={classes.appUrl}>
@@ -173,7 +173,7 @@ const AppCard = (props) => {
             </IconButton>
           )}
         >
-          {isOutdated && (
+          {status === INSTALLED && isOutdated && (
             <MenuItem onClick={() => requestUninstallApp(id, name)}>
               Uninstall
             </MenuItem>
