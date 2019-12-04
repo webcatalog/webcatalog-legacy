@@ -32,7 +32,7 @@ const styles = (theme) => ({
     flex: 1,
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit * 3,
+    paddingTop: theme.spacing.unit,
     paddingBottom: theme.spacing.unit * 2,
     overflow: 'auto',
     boxSizing: 'border-box',

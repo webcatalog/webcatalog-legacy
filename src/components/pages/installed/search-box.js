@@ -65,6 +65,8 @@ const styles = (theme) => ({
   searchIcon: {
     paddingRight: 6,
     fill: theme.palette.text.primary,
+    WebkitAppRegion: 'drag',
+    WebkitUserSelect: 'none',
   },
   searchButton: {
     [theme.breakpoints.up('md')]: {

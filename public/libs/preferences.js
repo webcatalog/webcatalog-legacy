@@ -22,8 +22,10 @@ const getDefaultInstallationPath = () => {
 
 const defaultPreferences = {
   allowPrerelease: false,
+  attachToMenubar: false,
   createDesktopShortcut: true,
   createStartMenuShortcut: true,
+  defaultHome: 'home',
   hideEnginePrompt: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: 'electron',

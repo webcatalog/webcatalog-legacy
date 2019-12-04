@@ -73,6 +73,7 @@ const styles = (theme) => ({
     top: theme.spacing.unit,
     right: theme.spacing.unit,
     color: theme.palette.text.secondary,
+    padding: theme.spacing.unit,
   },
 });
 
@@ -168,7 +169,7 @@ const AppCard = (props) => {
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
-            <IconButton aria-label="Delete" className={classes.topRight}>
+            <IconButton aria-label="Delete" classes={{ root: classes.topRight }}>
               <MoreVertIcon fontSize="small" />
             </IconButton>
           )}

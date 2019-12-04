@@ -57,7 +57,7 @@ class App extends React.Component {
 
     return (
       <div className={classes.root}>
-        {!isFullScreen && <FakeTitleBar />}
+        {!isFullScreen && window.process.platform === 'darwin' && window.mode !== 'menubar' && <FakeTitleBar />}
         {pageContent}
         <EnhancedBottomNavigation />
         <DialogAbout />

@@ -155,7 +155,7 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-show-require-restart-dialog', () => {
-    dialog.showMessageBox({
+    dialog.showMessageBox(mainWindow.get(), {
       type: 'question',
       buttons: ['Restart Now', 'Later'],
       message: 'You need to restart the app for this change to take affect.',

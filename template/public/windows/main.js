@@ -13,15 +13,15 @@ const { getPreference } = require('../libs/preferences');
 
 let win;
 let mb = {};
+let attachToMenubar = false;
 
 const get = () => {
-  const attachToMenubar = getPreference('attachToMenubar');
   if (attachToMenubar) return mb.window;
   return win;
 };
 
 const createAsync = () => {
-  const attachToMenubar = getPreference('attachToMenubar');
+  attachToMenubar = getPreference('attachToMenubar');
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
       file: 'window-state-menubar.json',
@@ -158,8 +158,6 @@ const createAsync = () => {
 };
 
 const show = () => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   if (attachToMenubar) {
     if (mb == null) {
       createAsync();
@@ -176,8 +174,8 @@ const show = () => {
 };
 
 const send = (...args) => {
-  if (win !== null) {
-    win.webContents.send(...args);
+  if (get() !== null) {
+    get().webContents.send(...args);
   }
 };
 
