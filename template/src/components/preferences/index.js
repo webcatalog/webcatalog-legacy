@@ -507,30 +507,30 @@ const Preferences = ({
     <Paper className={classes.paper}>
       <List dense>
         {(hasMailWorkspace || isDefaultMailClient) && (
-        <>
-          {isDefaultMailClient ? (
-            <ListItem>
-              <ListItemText secondary={`${appJson.name} is your default email client.`} />
-            </ListItem>
-          ) : (
-            <ListItem>
-              <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
-              <Button
-                variant="outlined"
-                size="small"
-                color="default"
-                className={classes.button}
-                onClick={() => {
-                  remote.app.setAsDefaultProtocolClient('mailto');
-                  onUpdateIsDefaultMailClient(remote.app.isDefaultProtocolClient('mailto'));
-                }}
-              >
+          <>
+            {isDefaultMailClient ? (
+              <ListItem>
+                <ListItemText secondary={`${appJson.name} is your default email client.`} />
+              </ListItem>
+            ) : (
+              <ListItem>
+                <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="default"
+                  className={classes.button}
+                  onClick={() => {
+                    remote.app.setAsDefaultProtocolClient('mailto');
+                    onUpdateIsDefaultMailClient(remote.app.isDefaultProtocolClient('mailto'));
+                  }}
+                >
                 Make default
-              </Button>
-            </ListItem>
-          )}
-          <Divider />
-        </>
+                </Button>
+              </ListItem>
+            )}
+            <Divider />
+          </>
         )}
         {isDefaultWebBrowser ? (
           <ListItem>
@@ -558,28 +558,28 @@ const Preferences = ({
     </Paper>
 
     {window.process.platform !== 'linux' && (
-    <>
-      <Typography variant="subtitle2" className={classes.sectionTitle}>
+      <>
+        <Typography variant="subtitle2" className={classes.sectionTitle}>
         System
-      </Typography>
-      <Paper className={classes.paper}>
-        <List dense>
-          <StatedMenu
-            id="openAtLogin"
-            buttonElement={(
-              <ListItem button>
-                <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
-                <ChevronRightIcon color="action" />
-              </ListItem>
+        </Typography>
+        <Paper className={classes.paper}>
+          <List dense>
+            <StatedMenu
+              id="openAtLogin"
+              buttonElement={(
+                <ListItem button>
+                  <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
+                  <ChevronRightIcon color="action" />
+                </ListItem>
             )}
-          >
-            <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
-            <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
-            <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
-          </StatedMenu>
-        </List>
-      </Paper>
-    </>
+            >
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+              <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+            </StatedMenu>
+          </List>
+        </Paper>
+      </>
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
