@@ -76,6 +76,9 @@ const styles = (theme) => ({
   switchBase: {
     height: 'auto',
   },
+  listItemSwitchGutters: {
+    paddingRight: 0,
+  },
 });
 
 const getThemeString = (theme) => {
@@ -156,7 +159,7 @@ const Preferences = ({
                 <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
               <Divider />
-              <ListItem>
+              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                 <ListItemText
                   primary={window.process.platform === 'win32'
                     ? 'Attach to taskbar' : 'Attach to menubar'}
@@ -174,7 +177,7 @@ const Preferences = ({
                 />
               </ListItem>
               <Divider />
-              <ListItem>
+              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                 <ListItemText
                   primary="Show installed apps at launch"
                 />
@@ -243,7 +246,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem>
+              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                 <ListItemText
                   primary="Ask for browser engine selection before every installation"
                 />
@@ -261,7 +264,7 @@ const Preferences = ({
               <Divider />
               {window.process.platform === 'win32' && (
                 <>
-                  <ListItem>
+                  <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                     <ListItemText
                       primary="Automatically create desktop shortcuts for newly installed apps"
                     />
@@ -277,7 +280,7 @@ const Preferences = ({
                     />
                   </ListItem>
                   <Divider />
-                  <ListItem>
+                  <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                     <ListItemText
                       primary="Automatically create Start Menu shortcuts for newly installed apps"
                       secondary="This preference only works with Electron engine."
@@ -381,7 +384,7 @@ const Preferences = ({
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
               </ListItem>
               <Divider />
-              <ListItem>
+              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
                 <ListItemText
                   primary="Receive pre-release updates"
                 />

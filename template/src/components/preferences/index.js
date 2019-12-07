@@ -58,6 +58,9 @@ const styles = (theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  listItemSwitchGutters: {
+    paddingRight: 0,
+  },
 });
 
 const appJson = remote.getGlobal('appJson');
@@ -161,7 +164,7 @@ const Preferences = ({
 }) => (
   <div className={classes.root}>
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      Appearance
+      General
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
@@ -179,7 +182,7 @@ const Preferences = ({
           <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
         </StatedMenu>
         <Divider />
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText
             primary="Show sidebar"
             secondary="Sidebar lets you switch easily between workspaces."
@@ -197,7 +200,7 @@ const Preferences = ({
           />
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText
             primary="Show navigation bar"
             secondary="Navigation bar lets you go back, forward, home and reload."
@@ -214,6 +217,73 @@ const Preferences = ({
             }}
           />
         </ListItem>
+        <Divider />
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+          <ListItemText
+            primary={window.process.platform === 'win32'
+              ? 'Attach to taskbar' : 'Attach to menubar'}
+          />
+          <Switch
+            color="primary"
+            checked={attachToMenubar}
+            onChange={(e) => {
+              requestSetPreference('attachToMenubar', e.target.checked);
+              requestShowRequireRestartDialog();
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+        <Divider />
+        {window.process.platform === 'darwin' && (
+          <>
+            <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+              <ListItemText
+                primary="Swipe to navigate"
+                secondary={(
+                  <>
+                    <span>Navigate between pages with 3-finger gestures.</span>
+                    <br />
+                    <span>To enable it, you also need to change </span>
+                    <b>
+                      macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
+                    </b>
+                    <span> to </span>
+                    <b>Swipe with three fingers</b>
+                    <span> or </span>
+                    <b>Swipe with two or three fingers.</b>
+                  </>
+                )}
+              />
+              <Switch
+                color="primary"
+                checked={swipeToNavigate}
+                onChange={(e) => {
+                  requestSetPreference('swipeToNavigate', e.target.checked);
+                  requestShowRequireRestartDialog();
+                }}
+                classes={{
+                  switchBase: classes.switchBase,
+                }}
+              />
+            </ListItem>
+            <Divider />
+          </>
+        )}
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+          <ListItemText primary="Automatically check for updates" />
+          <Switch
+            color="primary"
+            checked={autoCheckForUpdates}
+            onChange={(e) => {
+              requestSetPreference('autoCheckForUpdates', e.target.checked);
+            }}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
       </List>
     </Paper>
 
@@ -222,7 +292,7 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText>
             Automatically disable notifications by schedule:
             <div className={classes.timePickerContainer}>
@@ -257,7 +327,7 @@ const Preferences = ({
           />
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Mute audio when notifications are paused" />
           <Switch
             color="primary"
@@ -273,7 +343,7 @@ const Preferences = ({
         {window.process.platform === 'darwin' && (
           <>
             <Divider />
-            <ListItem>
+            <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
               <ListItemText primary="Show unread count badge" />
               <Switch
                 color="primary"
@@ -297,7 +367,7 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Spell check" />
           <Switch
             color="primary"
@@ -340,80 +410,6 @@ const Preferences = ({
     </Paper>
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      Experience
-    </Typography>
-    <Paper className={classes.paper}>
-      <List dense>
-        <ListItem>
-          <ListItemText
-            primary={window.process.platform === 'win32'
-              ? 'Attach to taskbar' : 'Attach to menubar'}
-          />
-          <Switch
-            color="primary"
-            checked={attachToMenubar}
-            onChange={(e) => {
-              requestSetPreference('attachToMenubar', e.target.checked);
-              requestShowRequireRestartDialog();
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-        <Divider />
-        {window.process.platform === 'darwin' && (
-          <>
-            <ListItem>
-              <ListItemText
-                primary="Swipe to navigate"
-                secondary={(
-                  <>
-                    <span>Navigate between pages with 3-finger gestures.</span>
-                    <br />
-                    <span>To enable it, you also need to change </span>
-                    <b>
-                      macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
-                    </b>
-                    <span> to </span>
-                    <b>Swipe with three fingers</b>
-                    <span> or </span>
-                    <b>Swipe with two or three fingers.</b>
-                  </>
-                )}
-              />
-              <Switch
-                color="primary"
-                checked={swipeToNavigate}
-                onChange={(e) => {
-                  requestSetPreference('swipeToNavigate', e.target.checked);
-                  requestShowRequireRestartDialog();
-                }}
-                classes={{
-                  switchBase: classes.switchBase,
-                }}
-              />
-            </ListItem>
-            <Divider />
-          </>
-        )}
-        <ListItem>
-          <ListItemText primary="Automatically check for updates" />
-          <Switch
-            color="primary"
-            checked={autoCheckForUpdates}
-            onChange={(e) => {
-              requestSetPreference('autoCheckForUpdates', e.target.checked);
-            }}
-            classes={{
-              switchBase: classes.switchBase,
-            }}
-          />
-        </ListItem>
-      </List>
-    </Paper>
-
-    <Typography variant="subtitle2" className={classes.sectionTitle}>
       Downloads
     </Typography>
     <Paper className={classes.paper}>
@@ -439,7 +435,7 @@ const Preferences = ({
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Ask where to save each file before downloading" />
           <Switch
             color="primary"
@@ -460,7 +456,7 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Remember last page visited" />
           <Switch
             color="primary"
@@ -475,7 +471,7 @@ const Preferences = ({
           />
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Share browsing data between workspaces" />
           <Switch
             color="primary"
