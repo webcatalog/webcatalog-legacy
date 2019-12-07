@@ -76,8 +76,9 @@ const DialogChooseEngine = (props) => {
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography component="span" className={classes.tip} color="textPrimary">
-          WebCatalog lets you pick your preferrred browser engine to power the app.
-          This cannot be changed later.
+          WebCatalog lets you pick your preferrred browser engine to power&nbsp;
+          {name}
+          . This cannot be changed later.
           You will have to uninstall and then reinstall to change the engine of an app.
         </Typography>
         <List>
@@ -92,29 +93,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Electron (highly recommended)"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Heavy
-                  </Typography>
-                  {' — Takes up to 300 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Feature-rich
-                  </Typography>
-                  {' — Supports badges, notifications, workspaces, menubar, code injection, etc.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less compatible
-                  </Typography>
-                  {' — Works with most sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Updates needed
-                  </Typography>
-                  {' — Needs to be manually updated regularly.'}
-                </>
-              )}
+              secondary="This option creates Electron-based app with many exclusive features such as workspaces, notifications, badges and email handling. It takes more disk space (up to 300 MB per app), needs to be updated manually and doesn't support with DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           <ListItem
@@ -128,29 +107,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Google Chrome"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Lightweight
-                  </Typography>
-                  {' — Takes up to 1 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less Feature-rich
-                  </Typography>
-                  {' — Offers less features but supports extensions.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Compatible
-                  </Typography>
-                  {' — Works with all sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    No updates needed
-                  </Typography>
-                  {' — Automatically updates with the browser.'}
-                </>
-              )}
+              secondary="This option creates bare-bone Google Chrome-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           {window.process.platform !== 'win32' && (
@@ -165,29 +122,7 @@ const DialogChooseEngine = (props) => {
               </ListItemAvatar>
               <ListItemText
                 primary="Chromium"
-                secondary={(
-                  <>
-                    <Typography component="span" className={classes.inline} color="textPrimary">
-                      Lightweight
-                    </Typography>
-                    {' — Takes up to 1 MB of disk space.'}
-                    <br />
-                    <Typography component="span" className={classes.inline} color="textPrimary">
-                      Less Feature-rich
-                    </Typography>
-                    {' — Offers less features but supports extensions.'}
-                    <br />
-                    <Typography component="span" className={classes.inline} color="textPrimary">
-                      Compatible
-                    </Typography>
-                    {' — Works with all sites.'}
-                    <br />
-                    <Typography component="span" className={classes.inline} color="textPrimary">
-                      No updates needed
-                    </Typography>
-                    {' — Automatically updates with the browser.'}
-                  </>
-                )}
+                secondary="This option creates bare-bone Chromium-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
               />
             </ListItem>
           )}
@@ -202,29 +137,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Brave"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Lightweight
-                  </Typography>
-                  {' — Takes up to 1 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less Feature-rich
-                  </Typography>
-                  {' — Offers less features but supports extensions.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Compatible
-                  </Typography>
-                  {' — Works with all sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    No updates needed
-                  </Typography>
-                  {' — Automatically updates with the browser.'}
-                </>
-              )}
+              secondary="This option creates bare-bone Brave-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           <ListItem
@@ -238,29 +151,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Vivaldi"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Lightweight
-                  </Typography>
-                  {' — Takes up to 1 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less Feature-rich
-                  </Typography>
-                  {' — Offers less features but supports extensions.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Compatible
-                  </Typography>
-                  {' — Works with all sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    No updates needed
-                  </Typography>
-                  {' — Automatically updates with the browser.'}
-                </>
-              )}
+              secondary="This option creates bare-bone Vivaldi-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           <ListItem
@@ -274,29 +165,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Mozilla Firefox"
-              secondary={(
-                <>
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Lightweight
-                  </Typography>
-                  {' — Takes up to 1 MB of disk space.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Less Feature-rich
-                  </Typography>
-                  {' — Offers less features but supports extensions.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    Compatible
-                  </Typography>
-                  {' — Works with all sites.'}
-                  <br />
-                  <Typography component="span" className={classes.inline} color="textPrimary">
-                    No updates needed
-                  </Typography>
-                  {' — Automatically updates with the browser.'}
-                </>
-              )}
+              secondary="This option creates Firefox-based app with normal browser user interface and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify but requires advanced configurations."
             />
           </ListItem>
         </List>
