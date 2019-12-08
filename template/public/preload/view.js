@@ -174,7 +174,6 @@ window.onload = () => {
 // Communicate with the frame
 // Have to use this weird trick because contextIsolation: true
 ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
-  console.log(e);
   window.postMessage({ type: 'should-pause-notifications-changed', val });
 });
 
