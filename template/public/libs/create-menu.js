@@ -1,8 +1,8 @@
 const {
   Menu,
   clipboard,
+  ipcMain,
   shell,
-  dialog,
 } = require('electron');
 
 const appJson = require('../app.json');
@@ -24,7 +24,6 @@ const {
   createWorkspaceView,
   setActiveWorkspaceView,
   removeWorkspaceView,
-  clearBrowsingData,
 } = require('./workspaces-views');
 
 const {
@@ -331,18 +330,7 @@ function createMenu() {
         {
           label: 'Clear Browsing Data...',
           accelerator: 'CmdOrCtrl+Shift+Delete',
-          click: () => {
-            dialog.showMessageBox(preferencesWindow.get() || mainWindow.get(), {
-              type: 'question',
-              buttons: ['Clear Now', 'Cancel'],
-              message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
-              cancelId: 1,
-            }).then(({ response }) => {
-              if (response === 0) {
-                clearBrowsingData();
-              }
-            }).catch(console.log); // eslint-disable-line
-          },
+          click: () => ipcMain.emit('request-clear-browsing-data'),
         },
         { type: 'separator' },
         { role: 'services', submenu: [] },
@@ -381,18 +369,7 @@ function createMenu() {
         {
           label: 'Clear Browsing Data...',
           accelerator: 'CmdOrCtrl+Shift+Delete',
-          click: () => {
-            dialog.showMessageBox(preferencesWindow.get() || mainWindow.get(), {
-              type: 'question',
-              buttons: ['Clear Now', 'Cancel'],
-              message: 'Are you sure? All browsing data will be cleared. This action cannot be undone.',
-              cancelId: 1,
-            }).then(({ response }) => {
-              if (response === 0) {
-                clearBrowsingData();
-              }
-            }).catch(console.log); // eslint-disable-line
-          },
+          click: () => ipcMain.emit('request-clear-browsing-data'),
         },
         { type: 'separator' },
         { role: 'quit', label: 'Exit' },

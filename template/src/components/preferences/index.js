@@ -235,9 +235,9 @@ const Preferences = ({
             }}
           />
         </ListItem>
-        <Divider />
         {window.process.platform === 'darwin' && (
           <>
+            <Divider />
             <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
               <ListItemText
                 primary="Swipe to navigate"
@@ -268,9 +268,9 @@ const Preferences = ({
                 }}
               />
             </ListItem>
-            <Divider />
           </>
         )}
+        <Divider />
         <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
           <ListItemText primary="Automatically check for updates" />
           <Switch
