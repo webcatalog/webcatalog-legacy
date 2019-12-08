@@ -157,10 +157,10 @@ const createAsync = () => {
   win = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    minWidth: 415,
-    minHeight: 500,
+    width: 640,
+    height: 640,
+    minWidth: 640,
+    minHeight: 640,
     titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
@@ -168,7 +168,7 @@ const createAsync = () => {
     },
   });
 
-  mainWindowState.manage(win);
+  // mainWindowState.manage(win);
 
   win.loadURL(REACT_PATH);
 
