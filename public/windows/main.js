@@ -125,7 +125,6 @@ const createAsync = () => {
               { type: 'separator' },
               {
                 label: 'Preferences...',
-                accelerator: 'Cmd+,',
                 click: () => {
                   sendToAllWindows('go-to-preferences');
                   mb.showWindow();
