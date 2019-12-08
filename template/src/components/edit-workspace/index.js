@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Switch from '@material-ui/core/Switch';
 
 import connectComponent from '../../helpers/connect-component';
 import getAvatarText from '../../helpers/get-avatar-text';
@@ -65,14 +70,18 @@ const styles = (theme) => ({
   buttonBot: {
     marginTop: theme.spacing.unit,
   },
+  switchBase: {
+    height: 'auto',
+  },
 });
 
 const EditWorkspace = ({
   classes,
+  hibernateWhenUnused,
   homeUrl,
   homeUrlError,
-  isMailApp,
   id,
+  isMailApp,
   name,
   onSave,
   onUpdateForm,
@@ -158,6 +167,20 @@ const EditWorkspace = ({
           </Button>
         </div>
       </div>
+      <List>
+        <Divider />
+        <ListItem disableGutters>
+          <ListItemText primary="Hibernate when not used" secondary="Save CPU usage, memory and battery." />
+          <Switch
+            color="primary"
+            checked={hibernateWhenUnused}
+            onChange={(e) => onUpdateForm({ hibernateWhenUnused: e.target.checked })}
+            classes={{
+              switchBase: classes.switchBase,
+            }}
+          />
+        </ListItem>
+      </List>
     </div>
     <div>
       <Button color="primary" variant="contained" className={classes.button} onClick={onSave}>
@@ -174,10 +197,11 @@ EditWorkspace.defaultProps = {
 
 EditWorkspace.propTypes = {
   classes: PropTypes.object.isRequired,
+  hibernateWhenUnused: PropTypes.bool.isRequired,
   homeUrl: PropTypes.string.isRequired,
   homeUrlError: PropTypes.string,
-  isMailApp: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+  isMailApp: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
@@ -186,10 +210,11 @@ EditWorkspace.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  hibernateWhenUnused: Boolean(state.editWorkspace.form.hibernateWhenUnused),
   homeUrl: state.editWorkspace.form.homeUrl,
   homeUrlError: state.editWorkspace.form.homeUrlError,
-  isMailApp: Boolean(getMailtoUrl(state.editWorkspace.form.homeUrl)),
   id: state.editWorkspace.form.id,
+  isMailApp: Boolean(getMailtoUrl(state.editWorkspace.form.homeUrl)),
   name: state.editWorkspace.form.name,
   order: state.editWorkspace.form.order,
   picturePath: state.editWorkspace.form.picturePath,
