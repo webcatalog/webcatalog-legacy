@@ -1,19 +1,22 @@
 const { session } = require('electron');
 
 const {
-  createWorkspace,
   countWorkspaces,
-  setActiveWorkspace,
-  removeWorkspace,
+  createWorkspace,
   getPreviousWorkspace,
   getWorkspace,
   getWorkspaces,
+  removeWorkspace,
+  setActiveWorkspace,
+  setWorkspace,
 } = require('./workspaces');
 
 const {
   addView,
   setActiveView,
   removeView,
+  setViewsAudioPref,
+  setViewsNotificationsPref,
 } = require('./views');
 
 const mainWindow = require('../windows/main');
@@ -24,6 +27,12 @@ const createWorkspaceView = () => {
 
   addView(mainWindow.get(), getWorkspace(newWorkspace.id));
   setActiveView(mainWindow.get(), newWorkspace.id);
+};
+
+const setWorkspaceView = (id, opts) => {
+  setWorkspace(id, opts);
+  setViewsAudioPref();
+  setViewsNotificationsPref();
 };
 
 const setActiveWorkspaceView = (id) => {
@@ -63,9 +72,10 @@ const loadURL = (url, id) => {
 };
 
 module.exports = {
-  createWorkspaceView,
-  setActiveWorkspaceView,
-  removeWorkspaceView,
   clearBrowsingData,
+  createWorkspaceView,
   loadURL,
+  removeWorkspaceView,
+  setActiveWorkspaceView,
+  setWorkspaceView,
 };
