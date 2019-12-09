@@ -27,6 +27,8 @@ import {
 import {
   requestOpenApp,
   requestUninstallApp,
+  requestCancelInstallApp,
+  requestCancelUpdateApp,
 } from '../../senders';
 
 import { isOutdatedApp } from '../../state/app-management/utils';
@@ -67,6 +69,7 @@ const styles = (theme) => ({
   actionButton: {
     minWidth: 'auto',
     boxShadow: 'none',
+    fontSize: '0.8em',
   },
   topRight: {
     position: 'absolute',
@@ -79,6 +82,7 @@ const styles = (theme) => ({
 
 const AppCard = (props) => {
   const {
+    cancelable,
     classes,
     engine,
     icon,
@@ -131,9 +135,13 @@ const AppCard = (props) => {
     }
 
     let label = 'Install';
-    if (status === INSTALLING && version) label = 'Updating...';
-    else if (status === INSTALLING) label = 'Installing...';
-    else if (status === UNINSTALLING) label = 'Uninstalling...';
+    if (status === INSTALLING && version) {
+      if (cancelable) label = 'Waiting to Update...';
+      else label = 'Updating...';
+    } else if (status === INSTALLING) {
+      if (cancelable) label = 'Waiting to Install...';
+      else label = 'Installing...';
+    } else if (status === UNINSTALLING) label = 'Uninstalling...';
 
     return (
       <Button
@@ -174,6 +182,16 @@ const AppCard = (props) => {
             </IconButton>
           )}
         >
+          {status === INSTALLING && cancelable && (
+            <MenuItem
+              onClick={() => {
+                if (version) return requestCancelUpdateApp(id);
+                return requestCancelInstallApp(id);
+              }}
+            >
+              {version ? 'Cancel Update' : 'Cancel Installation'}
+            </MenuItem>
+          )}
           {status === INSTALLED && isOutdated && (
             <MenuItem onClick={() => requestUninstallApp(id, name)}>
               Uninstall
@@ -227,6 +245,7 @@ AppCard.defaultProps = {
 };
 
 AppCard.propTypes = {
+  cancelable: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string,
   icon128: PropTypes.string,
@@ -243,10 +262,18 @@ AppCard.propTypes = {
   version: PropTypes.string,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  isOutdated: isOutdatedApp(ownProps.id, state),
-  latestTemplateVersion: state.general.latestTemplateVersion,
-});
+const mapStateToProps = (state, ownProps) => {
+  const app = state.appManagement.apps[ownProps.id];
+
+  return {
+    isOutdated: isOutdatedApp(ownProps.id, state),
+    latestTemplateVersion: state.general.latestTemplateVersion,
+    status: app ? app.status : null,
+    engine: app ? app.engine : null,
+    version: app ? app.version : null,
+    cancelable: app ? app.cancelable : false,
+  };
+};
 
 const actionCreators = {
   openDialogChooseEngine,

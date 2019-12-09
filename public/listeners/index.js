@@ -161,6 +161,8 @@ const loadListeners = () => {
   // Chain app installing promises
   let p = Promise.resolve();
 
+  const promiseFuncMap = {};
+
   ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
@@ -169,55 +171,104 @@ const loadListeners = () => {
       name,
       url,
       icon,
+      cancelable: true,
     });
 
-    p = p.then(() => installAppAsync(engine, id, name, url, icon)
-      .then(() => {
-        e.sender.send('set-app', id, {
-          version: packageJson.templateVersion,
-          status: 'INSTALLED',
+    promiseFuncMap[id] = () => {
+      // prevent canceling when installation has already started
+      e.sender.send('set-app', id, {
+        cancelable: false,
+      });
+
+      return installAppAsync(engine, id, name, url, icon)
+        .then(() => {
+          e.sender.send('set-app', id, {
+            version: packageJson.templateVersion,
+            status: 'INSTALLED',
+          });
+          delete promiseFuncMap[id];
+        })
+        .catch((error) => {
+          /* eslint-disable-next-line */
+          console.log(error);
+          dialog.showMessageBox(mainWindow.get(), {
+            type: 'error',
+            message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
+            buttons: ['OK'],
+            cancelId: 0,
+            defaultId: 0,
+          });
+          e.sender.send('remove-app', id);
+          delete promiseFuncMap[id];
         });
-      })
-      .catch((error) => {
-        /* eslint-disable-next-line */
-        console.log(error);
-        dialog.showMessageBox(mainWindow.get(), {
-          type: 'error',
-          message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
-          buttons: ['OK'],
-          cancelId: 0,
-          defaultId: 0,
-        });
-        e.sender.send('remove-app', id);
-      }));
+    };
+
+    p = p.then(() => {
+      if (promiseFuncMap[id]) {
+        return promiseFuncMap[id]();
+      }
+      return null;
+    });
   });
 
   ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
+      cancelable: true,
     });
 
-    p = p.then(() => installAppAsync(engine, id, name, url, icon)
-      .then(() => {
-        e.sender.send('set-app', id, {
-          version: packageJson.templateVersion,
-          status: 'INSTALLED',
+    promiseFuncMap[id] = () => {
+      // prevent canceling when installation has already started
+      e.sender.send('set-app', id, {
+        cancelable: false,
+      });
+
+      return installAppAsync(engine, id, name, url, icon)
+        .then(() => {
+          e.sender.send('set-app', id, {
+            version: packageJson.templateVersion,
+            status: 'INSTALLED',
+          });
+        })
+        .catch((error) => {
+          /* eslint-disable-next-line */
+          console.log(error);
+          dialog.showMessageBox(mainWindow.get(), {
+            type: 'error',
+            message: `Failed to update ${name}. (${error.message})`,
+            buttons: ['OK'],
+            cancelId: 0,
+            defaultId: 0,
+          });
+          e.sender.send('set-app', id, {
+            status: 'INSTALLED',
+          });
         });
-      })
-      .catch((error) => {
-        /* eslint-disable-next-line */
-        console.log(error);
-        dialog.showMessageBox(mainWindow.get(), {
-          type: 'error',
-          message: `Failed to update ${name}. (${error.message})`,
-          buttons: ['OK'],
-          cancelId: 0,
-          defaultId: 0,
-        });
-        e.sender.send('set-app', id, {
-          status: 'INSTALLED',
-        });
-      }));
+    };
+
+    p = p.then(() => {
+      if (promiseFuncMap[id]) {
+        return promiseFuncMap[id]();
+      }
+      return null;
+    });
+  });
+
+  ipcMain.on('request-cancel-install-app', (e, id) => {
+    if (promiseFuncMap[id]) {
+      e.sender.send('remove-app', id);
+      delete promiseFuncMap[id];
+    }
+  });
+
+  ipcMain.on('request-cancel-update-app', (e, id) => {
+    if (promiseFuncMap[id]) {
+      e.sender.send('set-app', id, {
+        status: 'INSTALLED',
+        cancelable: false,
+      });
+      delete promiseFuncMap[id];
+    }
   });
 
   // Native Theme

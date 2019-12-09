@@ -21,6 +21,8 @@ export const requestSetSystemPreference = (name, value) => ipcRenderer.send('req
 export const requestGetInstalledApps = () => ipcRenderer.send('request-get-installed-apps');
 export const requestInstallApp = (engine, id, name, url, icon) => ipcRenderer.send('request-install-app', engine, id, name, url, icon);
 export const requestUpdateApp = (engine, id, name, url, icon) => ipcRenderer.send('request-update-app', engine, id, name, url, icon);
+export const requestCancelInstallApp = (id) => ipcRenderer.send('request-cancel-install-app', id);
+export const requestCancelUpdateApp = (id) => ipcRenderer.send('request-cancel-update-app', id);
 export const requestUninstallApp = (id, name) => ipcRenderer.send('request-uninstall-app', id, name);
 export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app', id, name);
 

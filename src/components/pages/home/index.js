@@ -77,7 +77,6 @@ class Home extends React.Component {
 
   render() {
     const {
-      apps,
       classes,
       hasFailed,
       hits,
@@ -127,8 +126,6 @@ class Home extends React.Component {
                 url={app.url}
                 icon={app.icon}
                 icon128={app.icon128}
-                status={apps[app.id] ? apps[app.id].status : null}
-                engine={apps[app.id] ? apps[app.id].engine : null}
               />
             ))}
             {!isGetting && <SubmitAppCard key="submit-new-app" />}
@@ -183,7 +180,6 @@ Home.defaultProps = {
 };
 
 Home.propTypes = {
-  apps: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   hasFailed: PropTypes.bool.isRequired,
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -194,7 +190,6 @@ Home.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  apps: state.appManagement.apps,
   hasFailed: state.home.hasFailed,
   hits: state.home.hits,
   isGetting: state.home.isGetting,

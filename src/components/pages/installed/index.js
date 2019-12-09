@@ -19,7 +19,9 @@ import SearchBox from './search-box';
 
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { updateAllApps } from '../../../state/app-management/actions';
-import { getOutdatedAppsAsList, filterApps } from '../../../state/app-management/utils';
+import { getCancelableAppsAsList, getOutdatedAppsAsList, filterApps } from '../../../state/app-management/utils';
+
+import { requestCancelInstallApp, requestCancelUpdateApp } from '../../../senders';
 
 const styles = (theme) => ({
   root: {
@@ -63,6 +65,7 @@ const styles = (theme) => ({
 const Installed = (props) => {
   const {
     apps,
+    cancelableAppsAsList,
     classes,
     fetchingLatestTemplateVersion,
     onFetchLatestTemplateVersionAsync,
@@ -82,9 +85,6 @@ const Installed = (props) => {
               name={app.name}
               url={app.url}
               icon={app.icon}
-              status={app.status}
-              engine={app.engine}
-              version={app.version}
             />
           ))}
         </Grid>
@@ -139,6 +139,20 @@ const Installed = (props) => {
                     Update All
                   </Button>
                 )}
+                {cancelableAppsAsList.length > 0 && (
+                  <Button
+                    className={classes.updateAllButton}
+                    onClick={() => {
+                      cancelableAppsAsList.forEach((app) => {
+                        if (app.version) return requestCancelUpdateApp(app.id);
+                        return requestCancelInstallApp(app.id);
+                      });
+                    }}
+                    size="small"
+                  >
+                    Cancel All
+                  </Button>
+                )}
               </div>
 
               <Button
@@ -164,6 +178,7 @@ Installed.defaultProps = {
 
 Installed.propTypes = {
   apps: PropTypes.object.isRequired,
+  cancelableAppsAsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
@@ -174,6 +189,7 @@ Installed.propTypes = {
 
 const mapStateToProps = (state) => ({
   apps: filterApps(state.appManagement.apps, state.installed.query),
+  cancelableAppsAsList: getCancelableAppsAsList(state),
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
   query: state.installed.query,
