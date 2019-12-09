@@ -47,6 +47,9 @@ export const save = () => (dispatch, getState) => {
     remote.dialog.showMessageBox(remote.getCurrentWindow(), {
       title: 'Uninstall all of WebCatalog apps first',
       message: 'You need to uninstall all of your WebCatalog apps before updating this preference.',
+      buttons: ['OK'],
+      cancelId: 0,
+      defaultId: 0,
     });
     dispatch(close());
   } else {

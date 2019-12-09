@@ -20,11 +20,17 @@ const checkForUpdates = (silent) => {
         dialog.showMessageBox(mainWindow.get(), {
           type: 'info',
           message: `An update (${appJson.name} ${fetchedJson.templateVersion}) is available. Use the latest version of WebCatalog to update this app.`,
+          buttons: ['OK'],
+          cancelId: 0,
+          defaultId: 0,
         });
       } else if (!silent) {
         dialog.showMessageBox(mainWindow.get(), {
           type: 'info',
           message: `${appJson.name} is up-to-date.`,
+          buttons: ['OK'],
+          cancelId: 0,
+          defaultId: 0,
         });
       }
     })
@@ -33,6 +39,9 @@ const checkForUpdates = (silent) => {
         dialog.showMessageBox(mainWindow.get(), {
           type: 'error',
           message: 'Failed to check for updates. Please check your Internet connection.',
+          buttons: ['OK'],
+          cancelId: 0,
+          defaultId: 0,
         });
       }
     });

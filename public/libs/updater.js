@@ -16,6 +16,9 @@ autoUpdater.on('update-available', (info) => {
     dialog.showMessageBox(mainWindow.get(), {
       title: 'An Update is Available',
       message: 'There is an available update. It is being downloaded. We will let you know when it is ready.',
+      buttons: ['OK'],
+      cancelId: 0,
+      defaultId: 0,
     });
     global.updateSilent = true;
   }
@@ -29,6 +32,9 @@ autoUpdater.on('update-not-available', (info) => {
     dialog.showMessageBox(mainWindow.get(), {
       title: 'No Updates',
       message: 'There are currently no updates available.',
+      buttons: ['OK'],
+      cancelId: 0,
+      defaultId: 0,
     });
     global.updateSilent = true;
   }
@@ -43,6 +49,9 @@ autoUpdater.on('error', (err) => {
     dialog.showMessageBox(mainWindow.get(), {
       title: 'Failed to Check for Updates',
       message: 'Failed to check for updates. Please check your Internet connection.',
+      buttons: ['OK'],
+      cancelId: 0,
+      defaultId: 0,
     });
     global.updateSilent = true;
   }
@@ -72,6 +81,7 @@ autoUpdater.on('update-downloaded', (info) => {
     buttons: ['Restart', 'Later'],
     title: 'Application Update',
     detail: `A new version (${info.version}) has been downloaded. Restart the application to apply the updates.`,
+    cancelId: 1,
   };
 
   dialog.showMessageBox(mainWindow.get(), dialogOpts)

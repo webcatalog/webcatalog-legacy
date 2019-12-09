@@ -41,6 +41,9 @@ const loadListeners = () => {
     dialog.showMessageBox(mainWindow.get(), {
       type: type || 'error',
       message,
+      buttons: ['OK'],
+      cancelId: 0,
+      defaultId: 0,
     });
   });
 
@@ -142,6 +145,9 @@ const loadListeners = () => {
             dialog.showMessageBox(mainWindow.get(), {
               type: 'error',
               message: `Failed to uninstall ${name}. (${error.stack})`,
+              buttons: ['OK'],
+              cancelId: 0,
+              defaultId: 0,
             });
             e.sender.send('set-app', id, {
               status: 'INSTALLED',
@@ -188,6 +194,9 @@ const loadListeners = () => {
           dialog.showMessageBox(mainWindow.get(), {
             type: 'error',
             message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
+            buttons: ['OK'],
+            cancelId: 0,
+            defaultId: 0,
           });
           e.sender.send('remove-app', id);
           delete promiseFuncMap[id];
@@ -227,6 +236,9 @@ const loadListeners = () => {
           dialog.showMessageBox(mainWindow.get(), {
             type: 'error',
             message: `Failed to update ${name}. (${error.message})`,
+            buttons: ['OK'],
+            cancelId: 0,
+            defaultId: 0,
           });
           e.sender.send('set-app', id, {
             status: 'INSTALLED',

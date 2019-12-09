@@ -579,7 +579,7 @@ const Preferences = ({
     )}
 
     <Typography variant="subtitle2" className={classes.sectionTitle}>
-      Developers
+      Advanced
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
