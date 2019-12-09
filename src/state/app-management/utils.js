@@ -15,9 +15,19 @@ export const isOutdatedApp = (id, state) => {
   return semver.lt(v, latestV);
 };
 
+export const isCancelableApp = (id, state) => {
+  const { apps } = state.appManagement;
+  return (apps[id] && apps[id].cancelable);
+};
+
 export const getOutdatedAppsAsList = (state) => {
   const { apps } = state.appManagement;
   return Object.values(apps).filter((app) => isOutdatedApp(app.id, state));
+};
+
+export const getCancelableAppsAsList = (state) => {
+  const { apps } = state.appManagement;
+  return Object.values(apps).filter((app) => isCancelableApp(app.id, state));
 };
 
 export const getInstallingAppsAsList = (state) => {

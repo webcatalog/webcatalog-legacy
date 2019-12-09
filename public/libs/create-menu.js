@@ -33,7 +33,6 @@ const createMenu = () => {
     {
       label: 'View',
       submenu: [
-        { role: 'reload' },
         {
           label: 'Developer Tools',
           role: 'toggledevtools',
