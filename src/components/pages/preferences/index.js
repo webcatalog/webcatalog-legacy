@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
@@ -72,12 +73,6 @@ const styles = (theme) => ({
     width: '100%',
     maxWidth: 500,
     margin: '0 auto',
-  },
-  switchBase: {
-    height: 'auto',
-  },
-  listItemSwitchGutters: {
-    paddingRight: 0,
   },
 });
 
@@ -162,43 +157,41 @@ const Preferences = ({
                 <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
               <Divider />
-              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+              <ListItem>
                 <ListItemText
                   primary={window.process.platform === 'win32'
                     ? 'Attach to taskbar' : 'Attach to menubar'}
                 />
-                <Switch
-                  color="primary"
-                  checked={attachToMenubar}
-                  onChange={(e) => {
-                    requestSetPreference('attachToMenubar', e.target.checked);
-                    requestShowRequireRestartDialog();
-                  }}
-                  classes={{
-                    switchBase: classes.switchBase,
-                  }}
-                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    color="primary"
+                    checked={attachToMenubar}
+                    onChange={(e) => {
+                      requestSetPreference('attachToMenubar', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
               </ListItem>
               <Divider />
-              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+              <ListItem>
                 <ListItemText
                   primary="Show installed apps at launch"
                 />
-                <Switch
-                  color="primary"
-                  checked={attachToMenubar || defaultHome === 'installed'}
-                  disabled={attachToMenubar}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      requestSetPreference('defaultHome', 'installed');
-                    } else {
-                      requestSetPreference('defaultHome', 'home');
-                    }
-                  }}
-                  classes={{
-                    switchBase: classes.switchBase,
-                  }}
-                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    color="primary"
+                    checked={attachToMenubar || defaultHome === 'installed'}
+                    disabled={attachToMenubar}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        requestSetPreference('defaultHome', 'installed');
+                      } else {
+                        requestSetPreference('defaultHome', 'home');
+                      }
+                    }}
+                  />
+                </ListItemSecondaryAction>
               </ListItem>
             </List>
           </Paper>
@@ -249,55 +242,52 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+              <ListItem>
                 <ListItemText
                   primary="Ask for browser engine selection before every installation"
                 />
-                <Switch
-                  color="primary"
-                  checked={!hideEnginePrompt}
-                  onChange={(e) => {
-                    requestSetPreference('hideEnginePrompt', !e.target.checked);
-                  }}
-                  classes={{
-                    switchBase: classes.switchBase,
-                  }}
-                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    color="primary"
+                    checked={!hideEnginePrompt}
+                    onChange={(e) => {
+                      requestSetPreference('hideEnginePrompt', !e.target.checked);
+                    }}
+                  />
+                </ListItemSecondaryAction>
               </ListItem>
               <Divider />
               {window.process.platform === 'win32' && (
                 <>
-                  <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+                  <ListItem>
                     <ListItemText
                       primary="Automatically create desktop shortcuts for newly installed apps"
                     />
-                    <Switch
-                      color="primary"
-                      checked={createDesktopShortcut}
-                      onChange={(e) => {
-                        requestSetPreference('createDesktopShortcut', e.target.checked);
-                      }}
-                      classes={{
-                        switchBase: classes.switchBase,
-                      }}
-                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        color="primary"
+                        checked={createDesktopShortcut}
+                        onChange={(e) => {
+                          requestSetPreference('createDesktopShortcut', e.target.checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
                   </ListItem>
                   <Divider />
-                  <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+                  <ListItem>
                     <ListItemText
                       primary="Automatically create Start Menu shortcuts for newly installed apps"
                       secondary="This preference only works with Electron engine."
                     />
-                    <Switch
-                      color="primary"
-                      checked={createStartMenuShortcut}
-                      onChange={(e) => {
-                        requestSetPreference('createStartMenuShortcut', e.target.checked);
-                      }}
-                      classes={{
-                        switchBase: classes.switchBase,
-                      }}
-                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        color="primary"
+                        checked={createStartMenuShortcut}
+                        onChange={(e) => {
+                          requestSetPreference('createStartMenuShortcut', e.target.checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
                   </ListItem>
                   <Divider />
                 </>
@@ -387,21 +377,20 @@ const Preferences = ({
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
               </ListItem>
               <Divider />
-              <ListItem classes={{ gutters: classes.listItemSwitchGutters }}>
+              <ListItem>
                 <ListItemText
                   primary="Receive pre-release updates"
                 />
-                <Switch
-                  color="primary"
-                  checked={allowPrerelease}
-                  onChange={(e) => {
-                    requestSetPreference('allowPrerelease', e.target.checked);
-                    requestShowRequireRestartDialog();
-                  }}
-                  classes={{
-                    switchBase: classes.switchBase,
-                  }}
-                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    color="primary"
+                    checked={allowPrerelease}
+                    onChange={(e) => {
+                      requestSetPreference('allowPrerelease', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
               </ListItem>
             </List>
           </Paper>
