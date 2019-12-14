@@ -17,6 +17,7 @@ const { remote, webFrame } = window.require('electron');
 const About = React.lazy(() => import('./components/about'));
 const Auth = React.lazy(() => import('./components/auth'));
 const CodeInjection = React.lazy(() => import('./components/code-injection'));
+const DisplayMedia = React.lazy(() => import('./components/display-media'));
 const EditWorkspace = React.lazy(() => import('./components/edit-workspace'));
 const Main = React.lazy(() => import('./components/main'));
 const Notifications = React.lazy(() => import('./components/notifications'));
@@ -28,6 +29,7 @@ const App = () => {
     case 'about': return <About />;
     case 'auth': return <Auth />;
     case 'code-injection': return <CodeInjection />;
+    case 'display-media': return <DisplayMedia />;
     case 'edit-workspace': return <EditWorkspace />;
     case 'notifications': return <Notifications />;
     case 'open-url-with': return <OpenUrlWith />;
@@ -68,6 +70,8 @@ const runApp = () => {
         document.title = 'Sign in';
       } else if (window.mode === 'notifications') {
         document.title = 'Notifications';
+      } else if (window.mode === 'display-media') {
+        document.title = 'Share your Screen';
       } else {
         document.title = remote.getGlobal('appJson').name;
       }

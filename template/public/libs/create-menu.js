@@ -8,10 +8,11 @@ const {
 const appJson = require('../app.json');
 
 const aboutWindow = require('../windows/about');
-const mainWindow = require('../windows/main');
-const preferencesWindow = require('../windows/preferences');
+const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
+const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
+const preferencesWindow = require('../windows/preferences');
 
 const {
   getWorkspaces,
@@ -196,6 +197,19 @@ function createMenu() {
               label: 'Notifications Window',
               click: () => {
                 const win = notificationsWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            {
+              label: 'Display Media Window',
+              click: () => {
+                const win = displayMediaWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();
