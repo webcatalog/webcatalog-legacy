@@ -173,10 +173,16 @@ const addView = (browserWindow, workspace) => {
   // Hide Electron from UA to improve compatibility
   // https://github.com/quanglam2807/webcatalog/issues/182
   let uaStr = view.webContents.getUserAgent();
-  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, '');
+  // Use standard name for all apps created with WebCatalog
+  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, ` WebCatalogJuli/${app.getVersion()}`);
+  // Hide Electron from UA to improve compatibility
+  // https://github.com/quanglam2807/webcatalog/issues/182
   uaStr = uaStr.replace(` Electron/${process.versions.electron}`, '');
   // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
-  uaStr += ' Edge/12.10136';
+  const homeDomain = extractDomain(workspace.homeUrl || appJson.url);
+  if (homeDomain.includes('google.com') || homeDomain.includes('gmail.com')) {
+    uaStr += ' Edge/18.18875'; // mock EdgeHTML Edge (mocking Chromium-based Edge doesn't work)
+  }
   view.webContents.setUserAgent(uaStr);
 
   // Unread count badge
