@@ -1,6 +1,6 @@
 const path = require('path');
 const settings = require('electron-settings');
-const { app } = require('electron');
+const { app, ipcMain } = require('electron');
 
 const sendToAllWindows = require('./send-to-all-windows');
 
@@ -63,6 +63,9 @@ const getPreference = (name) => {
 };
 
 const setPreference = (name, value) => {
+  if (name === 'registered' && value === true) {
+    ipcMain.emit('request-get-installed-apps');
+  }
   settings.set(`preferences.${v}.${name}`, value);
   sendToAllWindows('set-preference', name, value);
 };

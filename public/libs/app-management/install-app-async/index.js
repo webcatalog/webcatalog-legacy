@@ -76,6 +76,8 @@ const installAppAsync = (
     getPreference('createDesktopShortcut'),
     '--createStartMenuShortcut',
     getPreference('createStartMenuShortcut'),
+    '--registered',
+    getPreference('registered'),
   ];
 
   if (engine === 'firefox') {

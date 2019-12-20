@@ -46,6 +46,10 @@ const getInstalledAppsAsync = () => {
                 appJson = fsExtra.readJSONSync(legacyAppJsonPath);
               } else if (fsExtra.pathExistsSync(appJsonPath)) {
                 appJson = fsExtra.readJSONSync(appJsonPath);
+                const registered = getPreference('registered');
+                if (registered && appJson.engine === 'electron' && !appJson.registered) {
+                  fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
+                }
               } else {
                 return;
               }

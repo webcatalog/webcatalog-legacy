@@ -45,7 +45,7 @@ const DialogLicenseRegistration = (props) => {
   return (
     <Dialog
       fullWidth
-      maxWidth="xs"
+      maxWidth="sm"
       onClose={onClose}
       open={open}
     >
@@ -55,9 +55,9 @@ const DialogLicenseRegistration = (props) => {
       <DialogContent>
         <DialogContentText className={classes.dialogContentText}>
           You are currently running a trial version of WebCatalog which only
-            lets you install up to two apps.
+            lets you install up to two apps (with up to two workspaces per app).
            To remove the trial limitations, please purchase a
-           perpetual license key ($9.99) from our store.
+           perpetual license key ($14.99) from our store.
         </DialogContentText>
         <TextField
           fullWidth

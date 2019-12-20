@@ -1,5 +1,6 @@
 {
     "id": "gmail",
     "name": "Gmail",
-    "url": "https://gmail.com"
+    "url": "https://gmail.com",
+    "registered": false
 }
