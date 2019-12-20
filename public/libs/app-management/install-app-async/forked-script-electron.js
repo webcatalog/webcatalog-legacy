@@ -23,6 +23,7 @@ const {
   createDesktopShortcut,
   createStartMenuShortcut,
   tmpPath,
+  registered,
 } = argv;
 
 const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
@@ -170,7 +171,11 @@ Promise.resolve()
   .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
   .then(() => {
     const appJson = JSON.stringify({
-      id, name, url, engine: 'electron',
+      id,
+      name,
+      url,
+      engine: 'electron',
+      registered: registered === 'true',
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })

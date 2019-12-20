@@ -199,6 +199,26 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-create-workspace', () => {
+    if (!global.appJson.registered) {
+      const workspaces = getWorkspaces();
+      if (Object.keys(workspaces).length > 1) {
+        dialog.showMessageBox(mainWindow.get(), {
+          type: 'info',
+          message: 'You are currently running a trial version of WebCatalog which only lets you add up to two workspaces per app. To remove the trial limitations, please purchase a perpetual license key ($14.99) from our store.',
+          buttons: ['OK', 'Visit Store...'],
+          cancelId: 0,
+          defaultId: 0,
+        })
+          .then(({ response }) => {
+            if (response === 1) {
+              shell.openExternal('https://webcatalog.onfastspring.com/webcatalog-lite');
+            }
+          })
+          .catch(console.log); // eslint-disable-line no-console
+        return;
+      }
+    }
+
     createWorkspaceView();
     createMenu();
   });
