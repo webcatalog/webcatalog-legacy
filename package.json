@@ -62,7 +62,7 @@
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "classnames": "2.2.6",
-    "concurrently": "5.0.0",
+    "concurrently": "5.0.2",
     "cross-env": "6.0.3",
     "electron": "6.1.5",
     "electron-builder": "21.2.0",
