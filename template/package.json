@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "6.2.1",
+  "version": "6.2.2",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -20,7 +20,7 @@
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "electron": "6.1.5",
+    "electron": "6.1.6",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
     "electron-spellchecker": "2.2.1",
@@ -43,7 +43,7 @@
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "classnames": "2.2.6",
-    "concurrently": "5.0.0",
+    "concurrently": "5.0.2",
     "cross-env": "6.0.3",
     "date-fns": "2.8.1",
     "eslint": "6.7.2",

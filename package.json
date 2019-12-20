@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "18.3.1",
-  "templateVersion": "6.2.1",
+  "version": "18.3.2",
+  "templateVersion": "6.2.2",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -64,7 +64,7 @@
     "classnames": "2.2.6",
     "concurrently": "5.0.2",
     "cross-env": "6.0.3",
-    "electron": "6.1.5",
+    "electron": "6.1.6",
     "electron-builder": "21.2.0",
     "electron-notarize": "0.2.1",
     "eslint": "6.7.2",

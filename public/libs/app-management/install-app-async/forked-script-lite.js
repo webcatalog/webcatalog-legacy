@@ -27,6 +27,7 @@ const {
   chromePath,
   bravePath,
   vivaldiPath,
+  registered,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -271,7 +272,11 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
   })
   .then(() => {
     const appJson = JSON.stringify({
-      id, name, url, engine,
+      id,
+      name,
+      url,
+      engine,
+      registered: registered === 'true',
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })
