@@ -173,8 +173,8 @@ const addView = (browserWindow, workspace) => {
   // Hide Electron from UA to improve compatibility
   // https://github.com/quanglam2807/webcatalog/issues/182
   let uaStr = view.webContents.getUserAgent();
-  // Use standard name for all apps created with WebCatalog
-  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, ` WebCatalogJuli/${app.getVersion()}`);
+  // Fix WhatsApp requires Google Chrome 49+ bug
+  uaStr = uaStr.replace(` ${app.getName()}/${app.getVersion()}`, '');
   // Hide Electron from UA to improve compatibility
   // https://github.com/quanglam2807/webcatalog/issues/182
   uaStr = uaStr.replace(` Electron/${process.versions.electron}`, '');
