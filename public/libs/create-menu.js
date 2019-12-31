@@ -52,7 +52,7 @@ const createMenu = () => {
       role: 'help',
       submenu: [
         {
-          label: 'Webcatalog Support',
+          label: 'WebCatalog Support',
           click: () => shell.openExternal('https://getwebcatalog.com/support'),
         },
         {
