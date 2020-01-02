@@ -310,8 +310,10 @@ const addView = (browserWindow, workspace) => {
     });
   }
 
-  view.webContents.loadURL((rememberLastPageVisited && workspace.lastUrl)
-  || workspace.homeUrl || appJson.url);
+  const initialUrl = (rememberLastPageVisited && workspace.lastUrl)
+  || workspace.homeUrl || appJson.url;
+  adjustUserAgentByUrl(initialUrl);
+  view.webContents.loadURL(initialUrl);
 };
 
 const getView = (id) => views[id];
