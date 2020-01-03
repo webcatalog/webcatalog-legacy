@@ -137,6 +137,7 @@ const Preferences = ({
   cssCodeInjection,
   downloadPath,
   hasMailWorkspace,
+  hibernateUnusedWorkspacesAtLaunch,
   isDefaultMailClient,
   isDefaultWebBrowser,
   jsCodeInjection,
@@ -566,6 +567,22 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
+        <ListItem>
+          <ListItemText
+            primary="Hibernate unused workspaces at app launch"
+            secondary="Hibernate all workspaces at launch, except the last active workspace."
+          />
+          <ListItemSecondaryAction>
+            <Switch
+              color="primary"
+              checked={hibernateUnusedWorkspacesAtLaunch}
+              onChange={(e) => {
+                requestSetPreference('hibernateUnusedWorkspacesAtLaunch', e.target.checked);
+              }}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Divider />
         <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
           <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
           <ChevronRightIcon color="action" />
@@ -605,6 +622,7 @@ Preferences.propTypes = {
   cssCodeInjection: PropTypes.string,
   downloadPath: PropTypes.string.isRequired,
   hasMailWorkspace: PropTypes.bool.isRequired,
+  hibernateUnusedWorkspacesAtLaunch: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
   isDefaultWebBrowser: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
@@ -633,6 +651,7 @@ const mapStateToProps = (state) => ({
   cssCodeInjection: state.preferences.cssCodeInjection,
   downloadPath: state.preferences.downloadPath,
   hasMailWorkspace: hasMailWorkspaceFunc(state.workspaces),
+  hibernateUnusedWorkspacesAtLaunch: state.preferences.hibernateUnusedWorkspacesAtLaunch,
   isDefaultMailClient: state.general.isDefaultMailClient,
   isDefaultWebBrowser: state.general.isDefaultWebBrowser,
   jsCodeInjection: state.preferences.jsCodeInjection,

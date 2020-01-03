@@ -26,6 +26,7 @@ const defaultPreferences = {
   createDesktopShortcut: true,
   createStartMenuShortcut: true,
   defaultHome: 'home',
+  hibernateUnusedWorkspacesAtLaunch: false,
   hideEnginePrompt: true,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: 'electron',

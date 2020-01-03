@@ -13,7 +13,7 @@ const createMenu = require('./libs/create-menu');
 const { addView } = require('./libs/views');
 const { checkForUpdates } = require('./libs/updater');
 const { setPreference, getPreference } = require('./libs/preferences');
-const { getWorkspaces } = require('./libs/workspaces');
+const { getWorkspaces, setWorkspace } = require('./libs/workspaces');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 const extractHostname = require('./libs/extract-hostname');
 
@@ -45,6 +45,8 @@ if (!gotTheLock) {
   loadListeners();
 
   const commonInit = () => {
+    const hibernateUnusedWorkspacesAtLaunch = getPreference('hibernateUnusedWorkspacesAtLaunch');
+
     mainWindow.createAsync()
       .then(() => {
         createMenu();
@@ -53,7 +55,15 @@ if (!gotTheLock) {
 
         Object.keys(workspaceObjects).forEach((id) => {
           const workspace = workspaceObjects[id];
-          if (workspace.hibernateWhenUnused && !workspace.active) return;
+          if (
+            (hibernateUnusedWorkspacesAtLaunch || workspace.hibernateWhenUnused)
+            && !workspace.active
+          ) {
+            if (!workspace.hibernated) {
+              setWorkspace(workspace.id, { hibernated: true });
+            }
+            return;
+          }
           addView(mainWindow.get(), workspace);
         });
 
