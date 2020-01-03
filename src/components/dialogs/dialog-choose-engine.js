@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import braveIcon from '../../assets/brave.png';
 import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
+import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/electron.png';
 import firefoxIcon from '../../assets/firefox.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
@@ -99,6 +100,20 @@ const DialogChooseEngine = (props) => {
           <ListItem
             alignItems="flex-start"
             button
+            onClick={() => onUpdateForm({ engine: 'brave' })}
+            selected={engine === 'brave'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Brave" src={braveIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Brave"
+              secondary="This option creates bare-bone Brave-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+            />
+          </ListItem>
+          <ListItem
+            alignItems="flex-start"
+            button
             onClick={() => onUpdateForm({ engine: 'chrome' })}
             selected={engine === 'chrome'}
           >
@@ -126,34 +141,22 @@ const DialogChooseEngine = (props) => {
               />
             </ListItem>
           )}
-          <ListItem
-            alignItems="flex-start"
-            button
-            onClick={() => onUpdateForm({ engine: 'brave' })}
-            selected={engine === 'brave'}
-          >
-            <ListItemAvatar>
-              <Avatar alt="Brave" src={braveIcon} />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Brave"
-              secondary="This option creates bare-bone Brave-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-            />
-          </ListItem>
-          <ListItem
-            alignItems="flex-start"
-            button
-            onClick={() => onUpdateForm({ engine: 'vivaldi' })}
-            selected={engine === 'vivaldi'}
-          >
-            <ListItemAvatar>
-              <Avatar alt="Brave" src={vivaldiIcon} />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Vivaldi"
-              secondary="This option creates bare-bone Vivaldi-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-            />
-          </ListItem>
+          {window.process.platform !== 'linux' && (
+            <ListItem
+              alignItems="flex-start"
+              button
+              onClick={() => onUpdateForm({ engine: 'edge' })}
+              selected={engine === 'edge'}
+            >
+              <ListItemAvatar>
+                <Avatar alt="Microsoft Edge" src={edgeIcon} />
+              </ListItemAvatar>
+              <ListItemText
+                primary="Microsoft Edge"
+                secondary="This option creates bare-bone Microsoft Edge (Chromium)-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+              />
+            </ListItem>
+          )}
           <ListItem
             alignItems="flex-start"
             button
@@ -166,6 +169,20 @@ const DialogChooseEngine = (props) => {
             <ListItemText
               primary="Mozilla Firefox"
               secondary="This option creates Firefox-based app with normal browser user interface and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify but requires advanced configurations."
+            />
+          </ListItem>
+          <ListItem
+            alignItems="flex-start"
+            button
+            onClick={() => onUpdateForm({ engine: 'vivaldi' })}
+            selected={engine === 'vivaldi'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Vivaldi" src={vivaldiIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Vivaldi"
+              secondary="This option creates bare-bone Vivaldi-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
         </List>

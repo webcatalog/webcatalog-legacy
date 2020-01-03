@@ -6,6 +6,7 @@ const getWin32BravePaths = require('./get-win32-brave-paths');
 const getWin32ChromePaths = require('./get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('./get-win32-vivaldi-paths');
+const getWin32EdgePaths = require('./get-win32-edge-paths');
 
 const isEngineInstalled = (browser) => {
   switch (browser) {
@@ -87,6 +88,19 @@ const isEngineInstalled = (browser) => {
 
       if (process.platform === 'win32') {
         const chromePaths = getWin32ChromePaths();
+        return chromePaths.length > 0;
+      }
+
+      return false;
+    }
+    case 'edge': {
+      if (process.platform === 'darwin') {
+        const chromePath = path.join('/Applications', 'Microsoft Edge Beta.app');
+        return fs.existsSync(chromePath);
+      }
+
+      if (process.platform === 'win32') {
+        const chromePaths = getWin32EdgePaths();
         return chromePaths.length > 0;
       }
 
