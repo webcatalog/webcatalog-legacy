@@ -21,7 +21,6 @@ const sendToAllWindows = require('./send-to-all-windows');
 const views = {};
 const badgeCounts = {};
 const didFailLoad = {};
-let activeId;
 let shouldMuteAudio;
 let shouldPauseNotifications;
 
@@ -32,6 +31,8 @@ const extractDomain = (fullUrl) => {
 };
 
 const addView = (browserWindow, workspace) => {
+  if (views[workspace.id] != null) return;
+
   const {
     rememberLastPageVisited,
     shareWorkspaceBrowsingData,
@@ -288,8 +289,6 @@ const addView = (browserWindow, workspace) => {
   views[workspace.id] = view;
 
   if (workspace.active) {
-    activeId = workspace.id;
-
     browserWindow.setBrowserView(view);
 
     const contentSize = browserWindow.getContentSize();
@@ -324,9 +323,6 @@ const setActiveView = (browserWindow, id) => {
   currentView.webContents.stopFindInPage('clearSelection');
   browserWindow.send('close-find-in-page');
 
-  const oldActiveId = activeId;
-  activeId = id;
-
   if (views[id] == null) {
     addView(browserWindow, getWorkspace(id));
 
@@ -359,15 +355,6 @@ const setActiveView = (browserWindow, id) => {
 
     sendToAllWindows('update-is-loading', view.webContents.isLoading());
     sendToAllWindows('update-did-fail-load', Boolean(didFailLoad[id]));
-  }
-
-  // hibernate old view
-  if (oldActiveId !== activeId) {
-    const oldWorkspace = getWorkspace(oldActiveId);
-    if (oldWorkspace.hibernateWhenUnused && views[oldWorkspace.id] != null) {
-      views[oldWorkspace.id].destroy();
-      views[oldWorkspace.id] = null;
-    }
   }
 };
 
@@ -409,11 +396,19 @@ const setViewsNotificationsPref = (_shouldPauseNotifications) => {
   });
 };
 
+const hibernateView = (id) => {
+  if (views[id] != null) {
+    views[id].destroy();
+    views[id] = null;
+  }
+};
+
 module.exports = {
   addView,
   getView,
-  setActiveView,
+  hibernateView,
   removeView,
+  setActiveView,
   setViewsAudioPref,
   setViewsNotificationsPref,
 };
