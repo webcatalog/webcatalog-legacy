@@ -21,11 +21,13 @@ import FakeTitleBar from './fake-title-bar';
 
 import {
   requestCreateWorkspace,
-  requestSetWorkspace,
-  requestSetActiveWorkspace,
+  requestHibernateWorkspace,
   requestRemoveWorkspace,
+  requestSetActiveWorkspace,
+  requestSetWorkspace,
   requestShowEditWorkspaceWindow,
   requestShowNotificationsWindow,
+  requestWakeUpWorkspace,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -87,7 +89,7 @@ const styles = (theme) => ({
 const SortableItem = sortableElement(({ value }) => {
   const { workspace, index } = value;
   const {
-    active, id, name, badgeCount, picturePath,
+    active, id, name, badgeCount, picturePath, hibernated,
   } = workspace;
   return (
     <WorkspaceSelector
@@ -112,6 +114,19 @@ const SortableItem = sortableElement(({ value }) => {
             click: () => requestRemoveWorkspace(id),
           },
         ];
+
+        if (!active) {
+          template.splice(1, 0, {
+            label: hibernated ? 'Wake Up Workspace' : 'Hibernate Workspace',
+            click: () => {
+              if (hibernated) {
+                return requestWakeUpWorkspace(id);
+              }
+              return requestHibernateWorkspace(id);
+            },
+          });
+        }
+
         const menu = remote.Menu.buildFromTemplate(template);
 
         menu.popup(remote.getCurrentWindow());
