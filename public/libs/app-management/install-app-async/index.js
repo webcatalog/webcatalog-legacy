@@ -10,6 +10,7 @@ const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
+const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 
 let lastUsedTmpPath = null;
 
@@ -37,6 +38,10 @@ const installAppAsync = (
       }
       case 'vivaldi': {
         engineName = 'Vivaldi';
+        break;
+      }
+      case 'edge': {
+        engineName = 'Microsoft Edge';
         break;
       }
       default:
@@ -98,6 +103,11 @@ const installAppAsync = (
   if (engine === 'vivaldi') {
     params.push('--vivaldiPath');
     params.push(getWin32VivaldiPaths()[0]);
+  }
+
+  if (engine === 'edge') {
+    params.push('--edgePath');
+    params.push(getWin32EdgePaths()[0]);
   }
 
   let tmpPath = null;

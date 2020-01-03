@@ -27,6 +27,7 @@ const {
   chromePath,
   bravePath,
   vivaldiPath,
+  edgePath,
   registered,
 } = argv;
 
@@ -185,6 +186,11 @@ Promise.resolve()
 /Applications/Vivaldi.app/Contents/MacOS/Vivaldi --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
               break;
             }
+            case 'edge': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -322,6 +328,9 @@ Terminal=false;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'vivaldi') {
         browserPath = vivaldiPath;
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'edge') {
+        browserPath = edgePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));

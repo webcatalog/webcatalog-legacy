@@ -18,6 +18,9 @@ const getEngineName = (engine) => {
     case 'vivaldi': {
       return 'Vivaldi';
     }
+    case 'edge': {
+      return 'Microsoft Edge';
+    }
     default: {
       throw new Error('Engine is not supported');
     }
