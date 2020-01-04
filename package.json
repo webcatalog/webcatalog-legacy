@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "18.4.0",
-  "templateVersion": "6.3.0",
+  "version": "18.5.0",
+  "templateVersion": "6.4.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
