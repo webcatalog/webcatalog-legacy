@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import auth from './auth/reducers';
 import codeInjection from './code-injection/reducers';
+import customUserAgent from './custom-user-agent/reducers';
 import editWorkspace from './edit-workspace/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
@@ -20,6 +21,7 @@ import loadListeners from '../listeners';
 const rootReducer = combineReducers({
   auth,
   codeInjection,
+  customUserAgent,
   editWorkspace,
   findInPage,
   general,

@@ -8,6 +8,8 @@ const {
 const appJson = require('../app.json');
 
 const aboutWindow = require('../windows/about');
+const codeInjectionWindow = require('../windows/code-injection');
+const customUserAgentWindow = require('../windows/custom-user-agent');
 const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const mainWindow = require('../windows/main');
@@ -171,6 +173,32 @@ function createMenu() {
               label: 'Preferences Window',
               click: () => {
                 const win = preferencesWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            {
+              label: 'Code Injection Window',
+              click: () => {
+                const win = codeInjectionWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
+            {
+              label: 'Custom User Agent Window',
+              click: () => {
+                const win = customUserAgentWindow.get();
                 if (win != null) {
                   if (win.webContents.isDevToolsOpened()) {
                     win.webContents.closeDevTools();
