@@ -45,6 +45,7 @@ export const requestRemoveWorkspacePicture = (id) => ipcRenderer.send('request-r
 export const requestSetActiveWorkspace = (id) => ipcRenderer.send('request-set-active-workspace', id);
 export const requestSetWorkspace = (id, opts) => ipcRenderer.send('request-set-workspace', id, opts);
 export const requestSetWorkspacePicture = (id, picturePath) => ipcRenderer.send('request-set-workspace-picture', id, picturePath);
+export const requestShowCustomUserAgentWindow = () => ipcRenderer.send('request-show-custom-user-agent-window');
 export const requestWakeUpWorkspace = (id) => ipcRenderer.send('request-wake-up-workspace', id);
 
 // Find In Page

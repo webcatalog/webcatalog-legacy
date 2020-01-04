@@ -33,6 +33,7 @@ import {
   requestSetSystemPreference,
   requestSetThemeSource,
   requestShowCodeInjectionWindow,
+  requestShowCustomUserAgentWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
 
@@ -55,6 +56,11 @@ const styles = (theme) => ({
     marginBottom: theme.spacing.unit,
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  secondaryEllipsis: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
 });
 
@@ -135,6 +141,7 @@ const Preferences = ({
   autoCheckForUpdates,
   classes,
   cssCodeInjection,
+  customUserAgent,
   downloadPath,
   hasMailWorkspace,
   hibernateUnusedWorkspacesAtLaunch,
@@ -583,6 +590,15 @@ const Preferences = ({
           </ListItemSecondaryAction>
         </ListItem>
         <Divider />
+        <ListItem button onClick={requestShowCustomUserAgentWindow}>
+          <ListItemText
+            primary="Custom User Agent"
+            secondary={customUserAgent || 'Not set'}
+            classes={{ secondary: classes.secondaryEllipsis }}
+          />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
         <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
           <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
           <ChevronRightIcon color="action" />
@@ -611,6 +627,7 @@ const Preferences = ({
 
 Preferences.defaultProps = {
   cssCodeInjection: null,
+  customUserAgent: null,
   jsCodeInjection: null,
 };
 
@@ -620,6 +637,7 @@ Preferences.propTypes = {
   autoCheckForUpdates: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
+  customUserAgent: PropTypes.string,
   downloadPath: PropTypes.string.isRequired,
   hasMailWorkspace: PropTypes.bool.isRequired,
   hibernateUnusedWorkspacesAtLaunch: PropTypes.bool.isRequired,
@@ -649,6 +667,7 @@ const mapStateToProps = (state) => ({
   attachToMenubar: state.preferences.attachToMenubar,
   autoCheckForUpdates: state.preferences.autoCheckForUpdates,
   cssCodeInjection: state.preferences.cssCodeInjection,
+  customUserAgent: state.preferences.customUserAgent,
   downloadPath: state.preferences.downloadPath,
   hasMailWorkspace: hasMailWorkspaceFunc(state.workspaces),
   hibernateUnusedWorkspacesAtLaunch: state.preferences.hibernateUnusedWorkspacesAtLaunch,

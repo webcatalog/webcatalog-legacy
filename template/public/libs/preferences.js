@@ -93,6 +93,7 @@ const defaultPreferences = {
   attachToMenubar: false,
   autoCheckForUpdates: true,
   cssCodeInjection: null,
+  customUserAgent: null,
   downloadPath: getDefaultDownloadsPath(),
   jsCodeInjection: null,
   lastCheckForUpdates: 0,

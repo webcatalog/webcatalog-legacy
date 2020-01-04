@@ -51,6 +51,7 @@ const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
 
 const codeInjectionWindow = require('../windows/code-injection');
+const customUserAgentWindow = require('../windows/custom-user-agent');
 const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const mainWindow = require('../windows/main');
@@ -131,6 +132,9 @@ const loadListeners = () => {
     codeInjectionWindow.show(type);
   });
 
+  ipcMain.on('request-show-custom-user-agent-window', () => {
+    customUserAgentWindow.show();
+  });
 
   ipcMain.on('request-reset-preferences', () => {
     dialog.showMessageBox(preferencesWindow.get(), {
