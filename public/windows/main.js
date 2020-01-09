@@ -36,6 +36,7 @@ const createAsync = () => {
       index: REACT_PATH,
       icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
       preloadWindow: true,
+      showOnRightClick: true,
       browserWindow: {
         x: menubarWindowState.x,
         y: menubarWindowState.y,
@@ -65,7 +66,7 @@ const createAsync = () => {
         });
 
         mb.on('ready', () => {
-          mb.tray.on('right-click', () => {
+          mb.tray.on('click', () => {
             const registered = getPreference('registered');
             const updaterEnabled = process.env.SNAP == null
               && !process.mas && !process.windowsStore;

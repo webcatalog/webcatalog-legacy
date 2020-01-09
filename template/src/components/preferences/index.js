@@ -223,6 +223,7 @@ const Preferences = ({
           <ListItemText
             primary={window.process.platform === 'win32'
               ? 'Attach to taskbar' : 'Attach to menubar'}
+            secondary={window.process.platform !== 'linux' ? 'Tip: Double-click or right-click on icon to open the app immediately.' : null}
           />
           <ListItemSecondaryAction>
             <Switch
