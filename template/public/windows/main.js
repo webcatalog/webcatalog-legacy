@@ -10,6 +10,7 @@ const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
 const { getPreference } = require('../libs/preferences');
+const appJson = require('../app.json');
 
 let win;
 let mb = {};
@@ -46,7 +47,10 @@ const createAsync = () => {
     });
 
     const contextMenu = Menu.buildFromTemplate([
-      { role: 'about' },
+      {
+        label: `About ${appJson.name}`,
+        click: () => ipcMain.emit('request-show-about-window'),
+      },
       {
         label: 'Check for Updates...',
         click: () => ipcMain.emit('check-for-updates'),
