@@ -2,6 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -67,8 +68,8 @@ class Home extends React.Component {
     const el = this.scrollContainer;
     el.onscroll = () => {
       // Plus 300 to run ahead.
-      const { isGetting, query, hits } = this.props;
-      if (!isGetting && query.length > 0 && hits.length < 1) return; // no result
+      const { isGetting, currentQuery, hits } = this.props;
+      if (!isGetting && currentQuery.length > 0 && hits.length < 1) return; // no result
       if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
         onGetHits();
       }
@@ -78,12 +79,12 @@ class Home extends React.Component {
   render() {
     const {
       classes,
+      currentQuery,
       hasFailed,
       hits,
-      query,
-      shouldUseDarkColors,
       isGetting,
       onGetHits,
+      shouldUseDarkColors,
     } = this.props;
 
     const renderContent = () => {
@@ -95,7 +96,7 @@ class Home extends React.Component {
         );
       }
 
-      if (!isGetting && query.length > 0 && hits.length < 1) {
+      if (!isGetting && currentQuery.length > 0 && hits.length < 1) {
         return (
           <EmptyState icon={SearchIcon} title="No Matching Results">
             <Typography
@@ -103,7 +104,7 @@ class Home extends React.Component {
               align="center"
             >
               Your search -&nbsp;
-              <b>{query}</b>
+              <b>{currentQuery}</b>
               &nbsp;- did not match any apps in the catalog.
             </Typography>
             <Grid container justify="center" spacing={16} className={classes.noMatchingResultOpts}>
@@ -117,6 +118,18 @@ class Home extends React.Component {
       return (
         <>
           <Grid container justify="center" spacing={16}>
+            {currentQuery && (
+              <Grid item xs={12}>
+                <Typography
+                  variant="subtitle1"
+                  align="left"
+                >
+                  Search results for&nbsp;
+                  <b>{currentQuery}</b>
+                </Typography>
+                <Divider className={classes.divider} />
+              </Grid>
+            )}
             {!isGetting && <CreateCustomAppCard key="create-custom-app" />}
             {hits.map((app) => (
               <AppCard
@@ -176,24 +189,24 @@ class Home extends React.Component {
 }
 
 Home.defaultProps = {
-  query: '',
+  currentQuery: '',
 };
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
+  currentQuery: PropTypes.string,
   hasFailed: PropTypes.bool.isRequired,
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
-  query: PropTypes.string,
   shouldUseDarkColors: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  currentQuery: state.home.currentQuery,
   hasFailed: state.home.hasFailed,
   hits: state.home.hits,
   isGetting: state.home.isGetting,
-  query: state.home.query,
   shouldUseDarkColors: state.general.shouldUseDarkColors,
 });
 
