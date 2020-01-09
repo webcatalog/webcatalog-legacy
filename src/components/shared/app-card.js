@@ -271,7 +271,7 @@ const mapStateToProps = (state, ownProps) => {
     status: app ? app.status : null,
     engine: app ? app.engine : null,
     version: app ? app.version : null,
-    cancelable: app ? app.cancelable : false,
+    cancelable: Boolean(app ? app.cancelable : false),
   };
 };
 
