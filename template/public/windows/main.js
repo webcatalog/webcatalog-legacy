@@ -34,6 +34,8 @@ const createAsync = () => {
       index: REACT_PATH,
       icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
       preloadWindow: true,
+      showOnRightClick: true,
+      tooltip: appJson.name,
       browserWindow: {
         x: menubarWindowState.x,
         y: menubarWindowState.y,
@@ -47,6 +49,13 @@ const createAsync = () => {
     });
 
     const contextMenu = Menu.buildFromTemplate([
+      {
+        label: `Open ${appJson.name}`,
+        click: () => mb.showWindow(),
+      },
+      {
+        type: 'separator',
+      },
       {
         label: `About ${appJson.name}`,
         click: () => ipcMain.emit('request-show-about-window'),
@@ -83,10 +92,7 @@ const createAsync = () => {
         });
 
         mb.on('ready', () => {
-          mb.tray.on('right-click', () => {
-            mb.tray.popUpContextMenu(contextMenu);
-          });
-
+          mb.tray.setContextMenu(contextMenu);
           resolve();
         });
       } catch (e) {

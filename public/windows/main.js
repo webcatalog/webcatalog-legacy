@@ -37,6 +37,7 @@ const createAsync = () => {
       icon: path.resolve(__dirname, '..', 'menubarTemplate.png'),
       preloadWindow: true,
       showOnRightClick: true,
+      tooltip: 'WebCatalog',
       browserWindow: {
         x: menubarWindowState.x,
         y: menubarWindowState.y,
@@ -97,17 +98,17 @@ const createAsync = () => {
 
             const contextMenu = Menu.buildFromTemplate([
               {
+                label: 'Open WebCatalog',
+                click: () => mb.showWindow(),
+              },
+              {
+                type: 'separator',
+              },
+              {
                 label: 'About WebCatalog',
                 click: () => {
                   sendToAllWindows('open-dialog-about');
                   mb.showWindow();
-                },
-              },
-              {
-                label: 'Check for Updates...',
-                click: () => {
-                  global.updateSilent = false;
-                  autoUpdater.checkForUpdates();
                 },
               },
               {
