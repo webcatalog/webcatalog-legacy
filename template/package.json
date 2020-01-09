@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -28,7 +28,7 @@
     "follow-redirects": "1.9.0",
     "fs-extra": "8.1.0",
     "jimp": "0.6.8",
-    "menubar": "6.0.8",
+    "menubar": "7.1.0",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",

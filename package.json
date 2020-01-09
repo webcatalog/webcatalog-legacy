@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "18.5.0",
-  "templateVersion": "6.4.0",
+  "version": "18.6.0",
+  "templateVersion": "6.5.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -47,7 +47,7 @@
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
     "jimp": "0.6.8",
-    "menubar": "6.0.8",
+    "menubar": "7.1.0",
     "read-chunk": "3.2.0",
     "sudo-prompt": "9.1.1",
     "tmp": "0.1.0",
