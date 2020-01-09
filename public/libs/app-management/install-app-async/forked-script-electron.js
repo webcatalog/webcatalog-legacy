@@ -127,22 +127,20 @@ Promise.resolve()
       })) : [];
 
     // menubar icon
-    if (process.platform === 'darwin') {
-      p.push(new Promise((resolve) => {
-        img
-          .clone()
-          .resize(20, 20)
-          .quality(100)
-          .write(menubarIconPath, resolve);
-      }));
-      p.push(new Promise((resolve) => {
-        img
-          .clone()
-          .resize(40, 40)
-          .quality(100)
-          .write(menubarIcon2xPath, resolve);
-      }));
-    }
+    p.push(new Promise((resolve) => {
+      img
+        .clone()
+        .resize(20, 20)
+        .quality(100)
+        .write(menubarIconPath, resolve);
+    }));
+    p.push(new Promise((resolve) => {
+      img
+        .clone()
+        .resize(40, 40)
+        .quality(100)
+        .write(menubarIcon2xPath, resolve);
+    }));
 
     return Promise.all(p)
       .then(() => {
