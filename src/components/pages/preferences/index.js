@@ -45,6 +45,8 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    WebkitAppRegion: 'drag',
+    WebkitUserSelect: 'none',
   },
   appBar: {
     WebkitAppRegion: 'drag',
@@ -68,6 +70,7 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit * 0.5,
     marginBottom: theme.spacing.unit * 3,
     width: '100%',
+    WebkitAppRegion: 'none',
   },
   inner: {
     width: '100%',
@@ -129,6 +132,7 @@ const Preferences = ({
 
   return (
     <div className={classes.root}>
+      {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
       <AppBar position="static" className={classes.appBar} elevation={2} color="inherit">
         <Toolbar variant="dense" className={classes.toolbar}>
           <Typography variant="h6" color="inherit" className={classes.title}>
@@ -136,6 +140,7 @@ const Preferences = ({
           </Typography>
         </Toolbar>
       </AppBar>
+      )}
       <div className={classes.scrollContainer}>
         <div className={classes.inner}>
           <Typography variant="subtitle2" className={classes.sectionTitle}>
