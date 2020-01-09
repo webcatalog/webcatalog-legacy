@@ -162,6 +162,7 @@ const createAsync = () => {
     minWidth: 415,
     minHeight: 500,
     titleBarStyle: 'hidden',
+    icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
