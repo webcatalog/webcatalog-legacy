@@ -50,6 +50,7 @@ const createMenu = require('../libs/create-menu');
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
 
+const aboutWindow = require('../windows/about');
 const codeInjectionWindow = require('../windows/code-injection');
 const customUserAgentWindow = require('../windows/custom-user-agent');
 const displayMediaWindow = require('../windows/display-media');
@@ -148,6 +149,10 @@ const loadListeners = () => {
         ipcMain.emit('request-show-require-restart-dialog');
       }
     }).catch(console.log); // eslint-disable-line
+  });
+
+  ipcMain.on('request-show-about-window', () => {
+    aboutWindow.show();
   });
 
   ipcMain.on('request-show-preferences-window', () => {
