@@ -117,8 +117,19 @@ const loadListeners = () => {
   });
 
   // App Management
+  let scanningPromise = Promise.resolve();
   ipcMain.on('request-get-installed-apps', () => {
-    getInstalledAppsAsync();
+    scanningPromise = scanningPromise
+      .then(() => getInstalledAppsAsync())
+      .catch((error) => {
+        dialog.showMessageBox(mainWindow.get(), {
+          type: 'error',
+          message: `Failed to scan for installed apps. (${error.stack})`,
+          buttons: ['OK'],
+          cancelId: 0,
+          defaultId: 0,
+        });
+      });
   });
 
   ipcMain.on('request-open-app', (e, id, name) => openApp(id, name));

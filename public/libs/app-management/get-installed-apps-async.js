@@ -11,14 +11,16 @@ const getInstalledAppsAsync = () => {
   const apps = [];
 
   const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
+  const registered = getPreference('registered');
 
   return Promise.resolve()
     .then(() => {
       if (fsExtra.pathExistsSync(installationPath)) {
-        return fsExtra.readdir(installationPath)
+        return fsExtra.readdir(installationPath, { withFileTypes: true })
           .then((files) => {
-            files.forEach((fileName) => {
-              if (fileName === '.DS_Store') return;
+            files.forEach((file) => {
+              if (!file.isDirectory()) return;
+              const fileName = file.name;
 
               const resourcesPath = process.platform === 'darwin'
                 ? path.join(installationPath, fileName, 'Contents', 'Resources')
@@ -46,7 +48,6 @@ const getInstalledAppsAsync = () => {
                 appJson = fsExtra.readJSONSync(legacyAppJsonPath);
               } else if (fsExtra.pathExistsSync(appJsonPath)) {
                 appJson = fsExtra.readJSONSync(appJsonPath);
-                const registered = getPreference('registered');
                 if (registered && appJson.engine === 'electron' && !appJson.registered) {
                   fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
                 }
