@@ -34,7 +34,7 @@ const createAsync = () => {
 
     mb = menubar({
       index: REACT_PATH,
-      icon: path.resolve(__dirname, '..', 'menubar-icon.png'),
+      icon: path.resolve(__dirname, '..', 'menubarTemplate.png'),
       preloadWindow: true,
       browserWindow: {
         x: menubarWindowState.x,
