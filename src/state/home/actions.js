@@ -18,7 +18,7 @@ export const getHits = () => (dispatch, getState) => {
   const {
     isGetting,
     page,
-    query,
+    currentQuery,
     totalPage,
   } = state.home;
 
@@ -27,11 +27,10 @@ export const getHits = () => (dispatch, getState) => {
   // If all pages have already been fetched, we stop
   if (totalPage && page + 1 > totalPage) return;
 
-  dispatch(homeUpdateCurrentQuery(query));
   dispatch(homeGetRequest());
 
   index.search({
-    query,
+    query: currentQuery,
     page: page + 1,
     hitsPerPage: 40,
   })
@@ -43,11 +42,16 @@ export const getHits = () => (dispatch, getState) => {
     .catch(() => dispatch(homeGetFailed()));
 };
 
-export const resetThenGetHits = () => (dispatch) => {
+export const resetThenGetHits = () => (dispatch, getState) => {
+  const state = getState();
+  const { query } = state.home;
+
   dispatch(homeReset());
+  dispatch(homeUpdateCurrentQuery(query));
   dispatch(getHits());
 };
 
+let timeout = null;
 export const updateQuery = (query) => (dispatch, getState) => {
   const state = getState();
 
@@ -56,7 +60,15 @@ export const updateQuery = (query) => (dispatch, getState) => {
   } = state.home;
 
   dispatch(homeUpdateQuery(query));
-  if (query === '' && currentQuery !== query) {
-    dispatch(resetThenGetHits());
+
+  clearTimeout(timeout);
+  if (currentQuery !== query) {
+    if (query === '') {
+      dispatch(resetThenGetHits());
+    } else {
+      timeout = setTimeout(() => {
+        dispatch(resetThenGetHits());
+      }, 300);
+    }
   }
 };

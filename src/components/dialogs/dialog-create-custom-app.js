@@ -101,7 +101,7 @@ const DialogCreateCustomApp = (props) => {
           </Grid>
           <Grid item>
             <Button
-              variant="raised"
+              variant="contained"
               onClick={() => {
                 dialog.showOpenDialog({
                   filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
