@@ -15,7 +15,8 @@ const extractHostname = (url) => {
   hostname = hostname.split('?')[0];
 
   // find & remove "www"
-  hostname = hostname.replace('www.', '');
+  // https://stackoverflow.com/a/9928725
+  hostname = hostname.replace(/^(www\.)/, '');
 
   return hostname.trim();
 };
