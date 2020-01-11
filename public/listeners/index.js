@@ -194,6 +194,11 @@ const loadListeners = () => {
       return installAppAsync(engine, id, name, url, icon)
         .then(() => {
           e.sender.send('set-app', id, {
+            engine,
+            id,
+            name,
+            url,
+            icon,
             version: packageJson.templateVersion,
             status: 'INSTALLED',
           });

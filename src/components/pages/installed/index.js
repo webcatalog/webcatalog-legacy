@@ -6,14 +6,18 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
+import StatedMenu from '../../shared/stated-menu';
 
 import SearchBox from './search-box';
 
@@ -21,7 +25,11 @@ import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions'
 import { updateAllApps } from '../../../state/app-management/actions';
 import { getCancelableAppsAsList, getOutdatedAppsAsList, filterApps } from '../../../state/app-management/utils';
 
-import { requestCancelInstallApp, requestCancelUpdateApp } from '../../../senders';
+import {
+  requestCancelInstallApp,
+  requestCancelUpdateApp,
+  requestGetInstalledApps,
+} from '../../../senders';
 
 const styles = (theme) => ({
   root: {
@@ -60,6 +68,9 @@ const styles = (theme) => ({
   updateAllButton: {
     marginLeft: theme.spacing.unit,
   },
+  moreVertIcon: {
+    padding: theme.spacing.unit * 0.5,
+  },
 });
 
 const Installed = (props) => {
@@ -78,15 +89,17 @@ const Installed = (props) => {
     if (Object.keys(apps).length > 0) {
       return (
         <Grid container justify="center" spacing={16}>
-          {Object.values(apps).map((app) => (
-            <AppCard
-              key={app.id}
-              id={app.id}
-              name={app.name}
-              url={app.url}
-              icon={app.icon}
-            />
-          ))}
+          {Object.values(apps)
+            .sort((x, y) => x.name.localeCompare(y.name))
+            .map((app) => (
+              <AppCard
+                key={app.id}
+                id={app.id}
+                name={app.name}
+                url={app.url}
+                icon={app.icon}
+              />
+            ))}
         </Grid>
       );
     }
@@ -155,13 +168,28 @@ const Installed = (props) => {
                 )}
               </div>
 
-              <Button
-                disabled={fetchingLatestTemplateVersion}
-                onClick={onFetchLatestTemplateVersionAsync}
-                size="small"
+
+              <StatedMenu
+                id="more-options"
+                buttonElement={(
+                  <IconButton aria-label="More Options" classes={{ root: classes.moreVertIcon }}>
+                    <MoreVertIcon fontSize="small" />
+                  </IconButton>
+                )}
               >
-                {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
-              </Button>
+                <MenuItem
+                  disabled={fetchingLatestTemplateVersion}
+                  onClick={onFetchLatestTemplateVersionAsync}
+                >
+                  {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
+                </MenuItem>
+                <Divider />
+                <MenuItem
+                  onClick={requestGetInstalledApps}
+                >
+                  Rescan for Installed Apps
+                </MenuItem>
+              </StatedMenu>
             </div>
             <Divider className={classes.divider} />
             {renderContent()}

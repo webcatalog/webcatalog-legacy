@@ -177,7 +177,7 @@ const AppCard = (props) => {
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
-            <IconButton aria-label="Delete" classes={{ root: classes.topRight }}>
+            <IconButton aria-label="More Options" classes={{ root: classes.topRight }}>
               <MoreVertIcon fontSize="small" />
             </IconButton>
           )}
