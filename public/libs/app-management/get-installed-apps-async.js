@@ -8,13 +8,13 @@ const sendToAllWindows = require('../send-to-all-windows');
 const getInstalledAppsAsync = () => {
   sendToAllWindows('clean-app-management');
 
-  const apps = [];
-
   const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
   const registered = getPreference('registered');
 
   return Promise.resolve()
     .then(() => {
+      const apps = [];
+
       if (fsExtra.pathExistsSync(installationPath)) {
         return fsExtra.readdir(installationPath, { withFileTypes: true })
           .then((files) => {
@@ -49,7 +49,12 @@ const getInstalledAppsAsync = () => {
               } else if (fsExtra.pathExistsSync(appJsonPath)) {
                 appJson = fsExtra.readJSONSync(appJsonPath);
                 if (registered && appJson.engine === 'electron' && !appJson.registered) {
-                  fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
+                  try {
+                    fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
+                    appJson.registered = true;
+                  } catch (err) {
+                    sendToAllWindows('log', `Failed to register app license ${appJsonPath} ${err ? err.stack : ''}`);
+                  }
                 }
               } else {
                 return;
@@ -61,24 +66,20 @@ const getInstalledAppsAsync = () => {
                 icon = iconPath;
               }
 
-              apps.push(Object.assign(appJson, {
+              const appObj = Object.assign(appJson, {
                 version: packageJson.version,
                 icon,
                 engine: appJson.engine || 'electron',
                 status: 'INSTALLED',
-              }));
+              });
+              apps.push(appObj);
+              sendToAllWindows('set-app', appObj.id, appObj);
             });
           });
       }
 
-      return null;
-    })
-    .then(() => {
-      apps.forEach((appObj) => {
-        sendToAllWindows('set-app', appObj.id, appObj);
-      });
-    })
-    .then(() => apps);
+      return apps;
+    });
 };
 
 module.exports = getInstalledAppsAsync;

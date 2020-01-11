@@ -175,7 +175,7 @@ function createMenu() {
         },
         { type: 'separator' },
         {
-          label: 'Developer Tools',
+          label: 'Toggle Developer Tools',
           submenu: [
             {
               label: 'Main Window',

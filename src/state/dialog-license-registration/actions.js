@@ -46,7 +46,7 @@ export const register = () => (dispatch, getState) => {
 
   requestSetPreference('registered', true);
 
-  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to relaunch apps installed from WebCatalog for the license to be fully activated.');
+  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to update and relaunch apps installed from WebCatalog for the license to be fully activated.');
 
   dispatch(close());
   return null;

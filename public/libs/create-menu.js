@@ -33,12 +33,11 @@ const createMenu = () => {
     {
       label: 'View',
       submenu: [
+        { role: 'togglefullscreen' },
+        { type: 'separator' },
         {
-          label: 'Developer Tools',
           role: 'toggledevtools',
         },
-        { type: 'separator' },
-        { role: 'togglefullscreen' },
       ],
     },
     {

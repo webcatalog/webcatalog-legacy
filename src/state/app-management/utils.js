@@ -1,16 +1,26 @@
 
 import semver from 'semver';
+import { INSTALLING } from '../../constants/app-statuses';
+
 
 export const isOutdatedApp = (id, state) => {
   const { apps } = state.appManagement;
+  const { registered } = state.preferences;
 
-  if (apps[id] && apps[id].status === 'INSTALLING') return false;
+  if (!apps[id]) return true;
 
-  if (apps[id] && apps[id].engine !== 'electron') return false;
+  // check if app is installing
+  if (apps[id].status === INSTALLING) return false;
 
-  const v = apps[id] ? apps[id].version : null;
+  // check if app is Electron-based
+  if (apps[id].engine !== 'electron') return false;
+
+  // check if license is correctly assigned
+  if (Boolean(apps[id].registered) !== registered) return true;
+
+  // check version
+  const v = apps[id].version;
   const latestV = state.general.latestTemplateVersion;
-
   if (!v) return true;
   return semver.lt(v, latestV);
 };
