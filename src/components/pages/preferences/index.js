@@ -207,7 +207,7 @@ const Preferences = ({
               <ListItem>
                 <ListItemText
                   primary={window.process.platform === 'win32'
-                    ? 'Attach to taskbar' : 'Attach to menubar'}
+                    ? 'Attach to taskbar' : 'Attach to menu bar'}
                 />
                 <ListItemSecondaryAction>
                   <Switch

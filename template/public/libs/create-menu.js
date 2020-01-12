@@ -353,7 +353,7 @@ function createMenu() {
         { type: 'separator' },
         {
           label: 'Preferences...',
-          accelerator: 'Cmd+,',
+          accelerator: 'CmdOrCtrl+,',
           click: () => preferencesWindow.show(),
         },
         { type: 'separator' },
@@ -393,7 +393,7 @@ function createMenu() {
         { type: 'separator' },
         {
           label: 'Preferences...',
-          accelerator: 'Ctrl+,',
+          accelerator: 'CmdOrCtrl+,',
           click: () => preferencesWindow.show(),
         },
         { type: 'separator' },

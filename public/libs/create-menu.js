@@ -114,7 +114,7 @@ const createMenu = () => {
         { type: 'separator' },
         {
           label: 'Preferences...',
-          accelerator: 'Cmd+,',
+          accelerator: 'CmdOrCtrl+,',
           click: () => sendToAllWindows('go-to-preferences'),
         },
         { type: 'separator' },
@@ -159,7 +159,7 @@ const createMenu = () => {
         { type: 'separator' },
         {
           label: 'Preferences...',
-          accelerator: 'Ctrl+,',
+          accelerator: 'CmdOrCtrl+,',
           click: () => sendToAllWindows('go-to-preferences'),
         },
         { type: 'separator' },

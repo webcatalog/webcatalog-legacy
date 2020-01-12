@@ -187,14 +187,14 @@ const Main = ({
             </div>
             {!navigationBar && (
             <div className={classes.end}>
+              <IconButton aria-label="Notifications" onClick={requestShowNotificationsWindow} className={classes.iconButton}>
+                {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
+              </IconButton>
               {window.mode === 'menubar' && (
                 <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow} className={classes.iconButton}>
                   <SettingsIcon />
                 </IconButton>
               )}
-              <IconButton aria-label="Notifications" onClick={requestShowNotificationsWindow} className={classes.iconButton}>
-                {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
-              </IconButton>
             </div>
             )}
           </div>
@@ -243,7 +243,10 @@ const mapStateToProps = (state) => ({
   didFailLoad: state.general.didFailLoad,
   isFullScreen: state.general.isFullScreen,
   isLoading: state.general.isLoading,
-  navigationBar: state.preferences.navigationBar,
+  navigationBar: (window.process.platform === 'linux'
+    && state.preferences.attachToMenubar
+    && !state.preferences.sidebar)
+    || state.preferences.navigationBar,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
   sidebar: state.preferences.sidebar,
   workspaces: state.workspaces,
