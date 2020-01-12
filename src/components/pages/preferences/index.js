@@ -112,8 +112,6 @@ const formatBytes = (bytes, decimals = 2) => {
 };
 
 const getUpdaterDesc = (status, info) => {
-  console.log('func', status, info);
-
   if (status === 'download-progress') {
     if (info != null) {
       const { transferred, total, bytesPerSecond } = info;
