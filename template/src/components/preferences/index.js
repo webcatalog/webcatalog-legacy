@@ -35,6 +35,9 @@ import {
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
   requestShowRequireRestartDialog,
+  requestCheckForUpdates,
+  requestShowAboutWindow,
+  requestQuit,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -223,7 +226,6 @@ const Preferences = ({
           <ListItemText
             primary={window.process.platform === 'win32'
               ? 'Attach to taskbar' : 'Attach to menubar'}
-            secondary={window.process.platform !== 'linux' ? 'Tip: Double-click or right-click on icon to open the app immediately.' : null}
           />
           <ListItemSecondaryAction>
             <Switch
@@ -619,6 +621,33 @@ const Preferences = ({
       <List dense>
         <ListItem button onClick={requestResetPreferences}>
           <ListItemText primary="Restore preferences to their original defaults" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Miscellaneous
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <ListItem button onClick={requestShowAboutWindow}>
+          <ListItemText primary="About" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem
+          button
+          onClick={requestCheckForUpdates}
+        >
+          <ListItemText
+            primary="Check for Updates"
+          />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={requestQuit}>
+          <ListItemText primary="Quit" />
           <ChevronRightIcon color="action" />
         </ListItem>
       </List>

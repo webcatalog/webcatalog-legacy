@@ -76,7 +76,7 @@ const createAsync = () => {
               },
               {
                 label: 'Check for Updates...',
-                click: () => ipcMain.emit('check-for-updates'),
+                click: () => ipcMain.emit('request-check-for-updates'),
               },
               { type: 'separator' },
               {
