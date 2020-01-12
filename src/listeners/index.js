@@ -4,6 +4,7 @@ import { setPreference } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
+import { updateUpdater } from '../state/updater/actions';
 import {
   updateShouldUseDarkColors,
   updateThemeSource,
@@ -54,6 +55,10 @@ const loadListeners = (store) => {
   ipcRenderer.on('native-theme-updated', () => {
     store.dispatch(updateThemeSource(getThemeSource()));
     store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
+  });
+
+  ipcRenderer.on('update-updater', (e, updaterObj) => {
+    store.dispatch(updateUpdater(updaterObj));
   });
 };
 

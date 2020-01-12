@@ -18,7 +18,10 @@ import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 
 import { ROUTE_PREFERENCES, ROUTE_INSTALLED } from '../constants/routes';
-import { requestGetInstalledApps } from '../senders';
+import {
+  requestGetInstalledApps,
+  requestCheckForUpdates,
+} from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 
@@ -35,6 +38,7 @@ const styles = (theme) => ({
 
 class App extends React.Component {
   componentDidMount() {
+    requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
     const { onFetchLatestTemplateVersionAsync } = this.props;
