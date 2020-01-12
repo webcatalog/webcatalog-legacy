@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 const extractHostname = (url) => {
-  let hostname;
+  let hostname = url.trim();
 
   // find & remove protocol (http, ftp, etc.) and get hostname
   if (url.indexOf('://') > -1) {
@@ -18,7 +18,7 @@ const extractHostname = (url) => {
   // https://stackoverflow.com/a/9928725
   hostname = hostname.replace(/^(www\.)/, '');
 
-  return hostname.trim();
+  return hostname;
 };
 
 export default extractHostname;
