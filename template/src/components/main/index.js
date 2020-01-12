@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsPausedIcon from '@material-ui/icons/NotificationsPaused';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 
@@ -27,6 +28,7 @@ import {
   requestSetWorkspace,
   requestShowEditWorkspaceWindow,
   requestShowNotificationsWindow,
+  requestShowPreferencesWindow,
   requestWakeUpWorkspace,
 } from '../../senders';
 
@@ -83,6 +85,10 @@ const styles = (theme) => ({
   grabbing: {
     cursor: 'grabbing !important',
     pointerEvents: 'auto !important',
+  },
+  end: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 });
 
@@ -181,6 +187,11 @@ const Main = ({
             </div>
             {!navigationBar && (
             <div className={classes.end}>
+              {window.mode === 'menubar' && (
+                <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow} className={classes.iconButton}>
+                  <SettingsIcon />
+                </IconButton>
+              )}
               <IconButton aria-label="Notifications" onClick={requestShowNotificationsWindow} className={classes.iconButton}>
                 {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
               </IconButton>

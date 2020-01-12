@@ -25,6 +25,8 @@ import { getInstallingAppsAsList, getAppCount } from '../../../state/app-managem
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
+import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
+
 
 import {
   requestCheckForUpdates,
@@ -144,10 +146,12 @@ const Preferences = ({
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
+  onOpenDialogLicenseRegistration,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
   openAtLogin,
   preferredEngine,
+  registered,
   requireAdmin,
   themeSource,
   updaterInfo,
@@ -460,6 +464,11 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={registered}>
+                <ListItemText primary="License Registration" secondary={registered ? 'Registered. Thank you for supporting the development of WebCatalog.' : null} />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
               <ListItem
                 button
                 onClick={() => requestCheckForUpdates(false)}
@@ -503,10 +512,12 @@ Preferences.propTypes = {
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   preferredEngine: PropTypes.string.isRequired,
+  registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
@@ -525,6 +536,7 @@ const mapStateToProps = (state) => ({
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
   preferredEngine: state.preferences.preferredEngine,
+  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   themeSource: state.general.themeSource,
   updaterInfo: state.updater.info,
@@ -533,6 +545,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   openDialogAbout,
+  openDialogLicenseRegistration,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,
 };

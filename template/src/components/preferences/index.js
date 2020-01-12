@@ -25,19 +25,20 @@ import StatedMenu from '../shared/stated-menu';
 import { updateIsDefaultMailClient, updateIsDefaultWebBrowser } from '../../state/general/actions';
 
 import {
+  requestCheckForUpdates,
   requestClearBrowsingData,
   requestOpenInBrowser,
+  requestQuit,
   requestRealignActiveWorkspace,
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
   requestSetThemeSource,
+  requestShowAboutWindow,
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
+  requestShowNotificationsWindow,
   requestShowRequireRestartDialog,
-  requestCheckForUpdates,
-  requestShowAboutWindow,
-  requestQuit,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -293,6 +294,11 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
+        <ListItem button onClick={requestShowNotificationsWindow}>
+          <ListItemText primary="Control notifications" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
         <ListItem>
           <ListItemText>
             Automatically disable notifications by schedule:

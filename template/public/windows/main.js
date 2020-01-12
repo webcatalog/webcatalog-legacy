@@ -74,6 +74,7 @@ const createAsync = () => {
                 label: `About ${appJson.name}`,
                 click: () => ipcMain.emit('request-show-about-window'),
               },
+              { type: 'separator' },
               {
                 label: 'Check for Updates...',
                 click: () => ipcMain.emit('request-check-for-updates'),
