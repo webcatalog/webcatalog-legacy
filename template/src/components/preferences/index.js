@@ -25,15 +25,19 @@ import StatedMenu from '../shared/stated-menu';
 import { updateIsDefaultMailClient, updateIsDefaultWebBrowser } from '../../state/general/actions';
 
 import {
+  requestCheckForUpdates,
   requestClearBrowsingData,
   requestOpenInBrowser,
+  requestQuit,
   requestRealignActiveWorkspace,
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
   requestSetThemeSource,
+  requestShowAboutWindow,
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
+  requestShowNotificationsWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
 
@@ -223,7 +227,6 @@ const Preferences = ({
           <ListItemText
             primary={window.process.platform === 'win32'
               ? 'Attach to taskbar' : 'Attach to menubar'}
-            secondary={window.process.platform !== 'linux' ? 'Tip: Double-click or right-click on icon to open the app immediately.' : null}
           />
           <ListItemSecondaryAction>
             <Switch
@@ -291,6 +294,11 @@ const Preferences = ({
     </Typography>
     <Paper className={classes.paper}>
       <List dense>
+        <ListItem button onClick={requestShowNotificationsWindow}>
+          <ListItemText primary="Control notifications" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
         <ListItem>
           <ListItemText>
             Automatically disable notifications by schedule:
@@ -619,6 +627,33 @@ const Preferences = ({
       <List dense>
         <ListItem button onClick={requestResetPreferences}>
           <ListItemText primary="Restore preferences to their original defaults" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+      </List>
+    </Paper>
+
+    <Typography variant="subtitle2" className={classes.sectionTitle}>
+      Miscellaneous
+    </Typography>
+    <Paper className={classes.paper}>
+      <List dense>
+        <ListItem button onClick={requestShowAboutWindow}>
+          <ListItemText primary="About" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem
+          button
+          onClick={requestCheckForUpdates}
+        >
+          <ListItemText
+            primary="Check for Updates"
+          />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={requestQuit}>
+          <ListItemText primary="Quit" />
           <ChevronRightIcon color="action" />
         </ListItem>
       </List>

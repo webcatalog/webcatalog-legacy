@@ -2,6 +2,8 @@ const { ipcRenderer } = window.require('electron');
 
 export const requestOpenInBrowser = (url) => ipcRenderer.send('request-open-in-browser', url);
 export const requestShowMessageBox = (message, type) => ipcRenderer.send('request-show-message-box', message, type);
+export const requestQuit = () => ipcRenderer.send('request-quit');
+export const requestCheckForUpdates = (isSilent) => ipcRenderer.send('request-check-for-updates', isSilent);
 
 // Preferences
 export const getPreference = (name) => ipcRenderer.sendSync('get-preference', name);
@@ -15,7 +17,6 @@ export const requestOpenInstallLocation = () => ipcRenderer.send('request-open-i
 export const getSystemPreference = (name) => ipcRenderer.sendSync('get-system-preference', name);
 export const getSystemPreferences = () => ipcRenderer.sendSync('get-system-preferences');
 export const requestSetSystemPreference = (name, value) => ipcRenderer.send('request-set-system-preference', name, value);
-
 
 // App Management
 export const requestGetInstalledApps = () => ipcRenderer.send('request-get-installed-apps');

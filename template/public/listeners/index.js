@@ -355,7 +355,7 @@ const loadListeners = () => {
     }
   });
 
-  ipcMain.on('check-for-updates', () => {
+  ipcMain.on('request-check-for-updates', () => {
     checkForUpdates();
   });
 
@@ -390,6 +390,10 @@ const loadListeners = () => {
   ipcMain.on('request-show-display-media-window', (e) => {
     const viewId = BrowserView.fromWebContents(e.sender).id;
     displayMediaWindow.show(viewId);
+  });
+
+  ipcMain.on('request-quit', () => {
+    app.quit();
   });
 };
 

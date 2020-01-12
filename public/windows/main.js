@@ -1,11 +1,10 @@
 const {
-  app,
   BrowserWindow,
   Menu,
+  ipcMain,
 } = require('electron');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
-const { autoUpdater } = require('electron-updater');
 const { menubar } = require('menubar');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
@@ -36,7 +35,6 @@ const createAsync = () => {
       index: REACT_PATH,
       icon: path.resolve(__dirname, '..', 'menubarTemplate.png'),
       preloadWindow: true,
-      showOnRightClick: true,
       tooltip: 'WebCatalog',
       browserWindow: {
         x: menubarWindowState.x,
@@ -67,32 +65,26 @@ const createAsync = () => {
         });
 
         mb.on('ready', () => {
-          mb.tray.on('click', () => {
+          mb.tray.on('right-click', () => {
             const registered = getPreference('registered');
             const updaterEnabled = process.env.SNAP == null
               && !process.mas && !process.windowsStore;
             const updaterMenuItem = {
               label: 'Check for Updates...',
-              click: () => {
-                global.updateSilent = false;
-                autoUpdater.checkForUpdates();
-              },
+              click: () => ipcMain.emit('request-check-for-updates'),
               visible: updaterEnabled,
             };
-            if (global.updateDownloaded) {
+            if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
               updaterMenuItem.label = 'Restart to Apply Updates...';
-              updaterMenuItem.click = () => {
-                setImmediate(() => {
-                  app.removeAllListeners('window-all-closed');
-                  if (get() != null) {
-                    get().close();
-                  }
-                  autoUpdater.quitAndInstall(false);
-                });
-              };
-            } else if (global.updaterProgressObj) {
-              const { transferred, total, bytesPerSecond } = global.updaterProgressObj;
+            } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
+              updaterMenuItem.label = 'Downloading Updates...';
+              updaterMenuItem.enabled = false;
+            } else if (global.updaterObj && global.updaterObj.status === 'download-progress') {
+              const { transferred, total, bytesPerSecond } = global.updaterObj.info;
               updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
+              updaterMenuItem.enabled = false;
+            } else if (global.updaterObj && global.updaterObj.status === 'checking-for-update') {
+              updaterMenuItem.label = 'Checking for Updates...';
               updaterMenuItem.enabled = false;
             }
 

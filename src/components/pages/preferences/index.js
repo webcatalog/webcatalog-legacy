@@ -22,13 +22,17 @@ import getEngineName from '../../../helpers/get-engine-name';
 
 import { getInstallingAppsAsList, getAppCount } from '../../../state/app-management/utils';
 
+import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
+import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 
 
 import {
+  requestCheckForUpdates,
   requestOpenInBrowser,
   requestOpenInstallLocation,
+  requestQuit,
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
@@ -97,6 +101,39 @@ const getFileManagerName = () => {
   return 'file manager';
 };
 
+const formatBytes = (bytes, decimals = 2) => {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
+};
+
+const getUpdaterDesc = (status, info) => {
+  if (status === 'download-progress') {
+    if (info != null) {
+      const { transferred, total, bytesPerSecond } = info;
+      return `Downloading updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
+    }
+    return 'Downloading updates...';
+  }
+  if (status === 'checking-for-update') {
+    return 'Checking for updates...';
+  }
+  if (status === 'update-available') {
+    return 'Downloading updates...';
+  }
+  if (status === 'update-downloaded') {
+    if (info && info.version) return `A new version (${info.version}) has been downloaded.`;
+    return 'A new version has been downloaded.';
+  }
+  return null;
+};
+
 const Preferences = ({
   allowPrerelease,
   appCount,
@@ -108,12 +145,17 @@ const Preferences = ({
   hideEnginePrompt,
   installationPath,
   installingAppCount,
+  onOpenDialogAbout,
+  onOpenDialogLicenseRegistration,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
   openAtLogin,
   preferredEngine,
+  registered,
   requireAdmin,
   themeSource,
+  updaterInfo,
+  updaterStatus,
 }) => {
   const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
     if (appCount > 0) {
@@ -166,7 +208,6 @@ const Preferences = ({
                 <ListItemText
                   primary={window.process.platform === 'win32'
                     ? 'Attach to taskbar' : 'Attach to menubar'}
-                  secondary={window.process.platform !== 'linux' ? 'Tip: Double-click or right-click on icon to open the app immediately.' : null}
                 />
                 <ListItemSecondaryAction>
                   <Switch
@@ -412,10 +453,51 @@ const Preferences = ({
               </ListItem>
             </List>
           </Paper>
+
+          <Typography variant="subtitle2" className={classes.sectionTitle}>
+            Miscellaneous
+          </Typography>
+          <Paper className={classes.paper}>
+            <List dense>
+              <ListItem button onClick={onOpenDialogAbout}>
+                <ListItemText primary="About" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={registered}>
+                <ListItemText primary="License Registration" secondary={registered ? 'Registered. Thank you for supporting the development of WebCatalog.' : null} />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => requestCheckForUpdates(false)}
+                disabled={updaterStatus === 'download-progress'
+                  || updaterStatus === 'download-progress'
+                  || updaterStatus === 'update-available'}
+              >
+                <ListItemText
+                  primary={updaterStatus === 'update-downloaded' ? 'Restart to Apply Updates' : 'Check for Updates'}
+                  secondary={getUpdaterDesc(updaterStatus, updaterInfo)}
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={requestQuit}>
+                <ListItemText primary="Quit" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            </List>
+          </Paper>
         </div>
       </div>
     </div>
   );
+};
+
+Preferences.defaultProps = {
+  updaterInfo: null,
+  updaterStatus: null,
 };
 
 Preferences.propTypes = {
@@ -429,12 +511,17 @@ Preferences.propTypes = {
   hideEnginePrompt: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
+  onOpenDialogAbout: PropTypes.func.isRequired,
+  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   preferredEngine: PropTypes.string.isRequired,
+  registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
+  updaterInfo: PropTypes.object,
+  updaterStatus: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
@@ -449,11 +536,16 @@ const mapStateToProps = (state) => ({
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
   preferredEngine: state.preferences.preferredEngine,
+  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   themeSource: state.general.themeSource,
+  updaterInfo: state.updater.info,
+  updaterStatus: state.updater.status,
 });
 
 const actionCreators = {
+  openDialogAbout,
+  openDialogLicenseRegistration,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,
 };
