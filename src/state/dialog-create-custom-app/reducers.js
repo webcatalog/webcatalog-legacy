@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import {
   DIALOG_CREATE_CUSTOM_APP_CLOSE,
+  DIALOG_CREATE_CUSTOM_APP_DOWNLOADING_ICON_UPDATE,
   DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE,
   DIALOG_CREATE_CUSTOM_APP_OPEN,
 } from '../../constants/actions';
@@ -31,7 +32,16 @@ const form = (state = formInitialState, action) => {
   }
 };
 
+const downloadingIcon = (state = false, action) => {
+  switch (action.type) {
+    case DIALOG_CREATE_CUSTOM_APP_OPEN: return false;
+    case DIALOG_CREATE_CUSTOM_APP_DOWNLOADING_ICON_UPDATE: return action.downloadingIcon;
+    default: return state;
+  }
+};
+
 export default combineReducers({
+  downloadingIcon,
   form,
   open,
 });
