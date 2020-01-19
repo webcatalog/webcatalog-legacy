@@ -57,6 +57,20 @@ const getWebsiteIconUrlAsync = (websiteURL) => fetch(websiteURL)
       }
     }
     return undefined;
+  })
+  .then((icon) => {
+    if (!icon) {
+      // try to get /apple-touch-icon.png
+      // https://apple.stackexchange.com/questions/172204/how-apple-com-set-apple-touch-icon
+      const appleTouchIconUrl = url.resolve(websiteURL, '/apple-touch-icon.png');
+      return fetch(appleTouchIconUrl)
+        .then((res) => {
+          if (res.status === 200 && res.headers.get('Content-Type') === 'image/png') return appleTouchIconUrl;
+          return undefined;
+        })
+        .catch(() => undefined);
+    }
+    return icon;
   });
 
 module.exports = getWebsiteIconUrlAsync;
