@@ -116,7 +116,7 @@ const DialogCreateCustomApp = (props) => {
               onClick={() => {
                 dialog.showOpenDialog({
                   filters: [
-                    { name: 'Images', extensions: ['png', 'jpg', 'jpeg'] },
+                    { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                   ],
                   properties: ['openFile'],
                 })
@@ -131,7 +131,7 @@ const DialogCreateCustomApp = (props) => {
               Select Local Image...
             </Button>
             <Typography variant="caption">
-              PNG or JPEG.
+              PNG, JPEG, GIF, TIFF or BMP.
             </Typography>
             <Button
               variant="outlined"
