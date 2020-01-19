@@ -46,6 +46,10 @@ const styles = (theme) => ({
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
     color: theme.palette.getContrastText(theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black),
   },
+  transparentAvatar: {
+    background: 'transparent',
+    boxShadow: 'none',
+  },
   avatarPicture: {
     height: 32,
     width: 32,
@@ -86,6 +90,7 @@ const WorkspaceSelector = ({
   onContextMenu,
   order,
   picturePath,
+  transparentBackground,
 }) => (
   <div
     role="button"
@@ -95,7 +100,13 @@ const WorkspaceSelector = ({
     onContextMenu={onContextMenu}
     tabIndex="0"
   >
-    <div className={classNames(classes.avatar, (id === 'add' || !picturePath) && classes.textAvatar)}>
+    <div
+      className={classNames(
+        classes.avatar,
+        (id === 'add' || !picturePath) && classes.textAvatar,
+        id !== 'add' && picturePath && transparentBackground && classes.transparentAvatar,
+      )}
+    >
       {picturePath ? (
         <img alt="Icon" className={classes.avatarPicture} src={`file://${picturePath}`} draggable={false} />
       ) : getAvatarText(id, name, order)}
@@ -118,6 +129,7 @@ WorkspaceSelector.defaultProps = {
   onContextMenu: null,
   order: 0,
   picturePath: null,
+  transparentBackground: false,
 };
 
 WorkspaceSelector.propTypes = {
@@ -130,6 +142,7 @@ WorkspaceSelector.propTypes = {
   onContextMenu: PropTypes.func,
   order: PropTypes.number,
   picturePath: PropTypes.string,
+  transparentBackground: PropTypes.bool,
 };
 
 export default connectComponent(

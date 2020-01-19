@@ -11,6 +11,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import connectComponent from '../../helpers/connect-component';
 import getAvatarText from '../../helpers/get-avatar-text';
@@ -82,6 +85,10 @@ const styles = (theme) => ({
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
     color: theme.palette.getContrastText(theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black),
   },
+  transparentAvatar: {
+    background: 'transparent',
+    boxShadow: 'none',
+  },
   avatarPicture: {
     height: 64,
     width: 64,
@@ -109,6 +116,7 @@ const EditWorkspace = ({
   onUpdateForm,
   order,
   picturePath,
+  transparentBackground,
 }) => (
   <div className={classes.root}>
     <div className={classes.flexGrow}>
@@ -156,6 +164,7 @@ const EditWorkspace = ({
             className={classNames(
               classes.avatar,
               !picturePath && !internetIcon && classes.textAvatar,
+              (picturePath || internetIcon) && transparentBackground && classes.transparentAvatar,
             )}
           >
             {picturePath || internetIcon ? (
@@ -206,6 +215,18 @@ const EditWorkspace = ({
           >
             Reset to Default
           </Button>
+          <FormGroup>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={picturePath && transparentBackground}
+                  disabled={!picturePath}
+                  onChange={(e) => onUpdateForm({ transparentBackground: e.target.checked })}
+                />
+              )}
+              label="Use transparent background"
+            />
+          </FormGroup>
         </div>
       </div>
       <List>
@@ -273,6 +294,7 @@ EditWorkspace.propTypes = {
   onUpdateForm: PropTypes.func.isRequired,
   order: PropTypes.number.isRequired,
   picturePath: PropTypes.string,
+  transparentBackground: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -288,6 +310,7 @@ const mapStateToProps = (state) => ({
   name: state.editWorkspace.form.name,
   order: state.editWorkspace.form.order,
   picturePath: state.editWorkspace.form.picturePath,
+  transparentBackground: Boolean(state.editWorkspace.form.transparentBackground),
 });
 
 const actionCreators = {
