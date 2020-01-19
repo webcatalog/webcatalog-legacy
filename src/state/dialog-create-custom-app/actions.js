@@ -136,7 +136,7 @@ export const create = () => (dispatch, getState) => {
 
   const id = `custom-${Date.now().toString()}`;
   const { name, url } = form;
-  const icon = form.icon || remote.getGlobal('defaultIcon');
+  const icon = form.icon || form.internetIcon || remote.getGlobal('defaultIcon');
 
   if (isNameExisted(name, state)) {
     requestShowMessageBox(`An app named ${name} already exists.`, 'error');
