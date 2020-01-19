@@ -49,6 +49,7 @@ const styles = (theme) => ({
   transparentAvatar: {
     background: 'transparent',
     boxShadow: 'none',
+    color: theme.palette.text.primary,
   },
   avatarPicture: {
     height: 32,
@@ -104,7 +105,7 @@ const WorkspaceSelector = ({
       className={classNames(
         classes.avatar,
         (id === 'add' || !picturePath) && classes.textAvatar,
-        id !== 'add' && picturePath && transparentBackground && classes.transparentAvatar,
+        transparentBackground && classes.transparentAvatar,
       )}
     >
       {picturePath ? (

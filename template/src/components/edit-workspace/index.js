@@ -88,6 +88,7 @@ const styles = (theme) => ({
   transparentAvatar: {
     background: 'transparent',
     boxShadow: 'none',
+    color: theme.palette.text.primary,
   },
   avatarPicture: {
     height: 64,
@@ -164,7 +165,7 @@ const EditWorkspace = ({
             className={classNames(
               classes.avatar,
               !picturePath && !internetIcon && classes.textAvatar,
-              (picturePath || internetIcon) && transparentBackground && classes.transparentAvatar,
+              transparentBackground && classes.transparentAvatar,
             )}
           >
             {picturePath || internetIcon ? (
@@ -219,8 +220,7 @@ const EditWorkspace = ({
             <FormControlLabel
               control={(
                 <Checkbox
-                  checked={picturePath && transparentBackground}
-                  disabled={!picturePath}
+                  checked={transparentBackground}
                   onChange={(e) => onUpdateForm({ transparentBackground: e.target.checked })}
                 />
               )}
