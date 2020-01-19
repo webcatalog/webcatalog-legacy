@@ -49,6 +49,7 @@ const {
 const createMenu = require('../libs/create-menu');
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
+const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
 
 const aboutWindow = require('../windows/about');
 const codeInjectionWindow = require('../windows/code-injection');
@@ -396,6 +397,18 @@ const loadListeners = () => {
 
   ipcMain.on('request-quit', () => {
     app.quit();
+  });
+
+  // to be replaced with invoke (electron 7+)
+  // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
+  ipcMain.on('request-get-website-icon-url', (e, id, url) => {
+    getWebsiteIconUrlAsync(url)
+      .then((iconUrl) => {
+        sendToAllWindows(id, iconUrl);
+      })
+      .catch(() => {
+        sendToAllWindows(id, null);
+      });
   });
 };
 

@@ -20,6 +20,8 @@
   "repository": "https://github.com/quanglam2807/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
+    "cheerio": "1.0.0-rc.3",
+    "download": "7.1.0",
     "electron": "6.1.6",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
@@ -27,12 +29,14 @@
     "electron-window-state": "5.0.3",
     "follow-redirects": "1.9.0",
     "fs-extra": "8.1.0",
+    "is-url": "1.2.4",
     "jimp": "0.6.8",
     "menubar": "7.1.0",
     "node-fetch": "2.6.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",
     "semver": "6.3.0",
+    "tmp": "0.1.0",
     "uuid": "3.3.3"
   },
   "devDependencies": {
