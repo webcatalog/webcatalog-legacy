@@ -98,13 +98,13 @@ export const save = () => (dispatch, getState) => {
       disableAudio: Boolean(form.disableAudio),
       disableNotifications: Boolean(form.disableNotifications),
       hibernateWhenUnused: Boolean(form.hibernateWhenUnused),
+      transparentBackground: Boolean(form.transparentBackground),
     },
   );
 
   if (form.picturePath) {
     requestSetWorkspacePicture(id, form.picturePath);
   } else if (form.internetIcon) {
-    console.log(form.internetIcon);
     requestSetWorkspacePicture(id, form.internetIcon);
   } else {
     requestRemoveWorkspacePicture(id);
