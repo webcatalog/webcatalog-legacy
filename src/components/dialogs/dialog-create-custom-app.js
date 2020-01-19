@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -114,7 +115,9 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               onClick={() => {
                 dialog.showOpenDialog({
-                  filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
+                  filters: [
+                    { name: 'Images', extensions: ['png', 'jpg', 'jpeg'] },
+                  ],
                   properties: ['openFile'],
                 })
                   .then(({ canceled, filePaths }) => {
@@ -127,33 +130,28 @@ const DialogCreateCustomApp = (props) => {
             >
               Select Local Image...
             </Button>
-            {url && !urlError && (
-              <>
-                <br />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  className={classes.buttonBot}
-                  disabled={downloadingIcon}
-                  onClick={() => onGetIconFromInternet(true)}
-                >
-                  {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
-                </Button>
-              </>
-            )}
-            {(icon || internetIcon) && (
-              <>
-                <br />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  className={classes.buttonBot}
-                  onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
-                >
-                  Reset to Default
-                </Button>
-              </>
-            )}
+            <Typography variant="caption">
+              PNG or JPEG.
+            </Typography>
+            <Button
+              variant="outlined"
+              size="small"
+              className={classes.buttonBot}
+              disabled={!url || urlError || downloadingIcon}
+              onClick={() => onGetIconFromInternet(true)}
+            >
+              {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
+            </Button>
+            <br />
+            <Button
+              variant="outlined"
+              size="small"
+              className={classes.buttonBot}
+              disabled={!(icon || internetIcon)}
+              onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
+            >
+              Reset to Default
+            </Button>
           </Grid>
         </Grid>
       </DialogContent>
