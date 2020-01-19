@@ -14,6 +14,7 @@ import isUrl from '../../helpers/is-url';
 import {
   close,
   create,
+  getIconFromInternet,
   updateForm,
 } from '../../state/dialog-create-custom-app/actions';
 
@@ -28,40 +29,48 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit,
   },
   iconContainer: {
-    height: 128,
-    width: 128,
+    height: 96,
+    width: 96,
     backgroundColor: theme.palette.common.minBlack,
   },
   icon: {
-    height: 128,
-    width: 128,
+    height: 96,
+    width: 96,
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
     padding: theme.spacing.unit,
   },
+  buttonBot: {
+    marginTop: theme.spacing.unit,
+  },
 });
 
 const DialogCreateCustomApp = (props) => {
   const {
     classes,
+    downloadingIcon,
+    hideEnginePrompt,
     icon,
+    internetIcon,
     name,
     nameError,
     onClose,
     onCreate,
+    onGetIconFromInternet,
     onUpdateForm,
     open,
     url,
     urlError,
-    hideEnginePrompt,
   } = props;
 
   let iconPath = defaultIcon;
   if (icon) {
     if (isUrl(icon)) iconPath = icon;
     else iconPath = `file://${icon}`;
+  } else if (internetIcon) {
+    iconPath = internetIcon;
   }
 
   return (
@@ -94,14 +103,15 @@ const DialogCreateCustomApp = (props) => {
           error={Boolean(urlError)}
         />
         <Grid container spacing={16} className={classes.grid}>
-          <Grid item>
+          <Grid item xs={12} sm="auto">
             <div className={classes.iconContainer}>
               <img src={iconPath} alt={name} className={classes.icon} />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm="auto">
             <Button
-              variant="contained"
+              variant="outlined"
+              size="small"
               onClick={() => {
                 dialog.showOpenDialog({
                   filters: [{ name: 'PNG (Portable Network Graphics)', extensions: ['png'] }],
@@ -115,8 +125,35 @@ const DialogCreateCustomApp = (props) => {
                   .catch(console.log); // eslint-disable-line
               }}
             >
-              Change Icon
+              Select Local Image...
             </Button>
+            {url && !urlError && (
+              <>
+                <br />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.buttonBot}
+                  disabled={downloadingIcon}
+                  onClick={() => onGetIconFromInternet(true)}
+                >
+                  {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
+                </Button>
+              </>
+            )}
+            {(icon || internetIcon) && (
+              <>
+                <br />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.buttonBot}
+                  onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
+                >
+                  Reset to Default
+                </Button>
+              </>
+            )}
           </Grid>
         </Grid>
       </DialogContent>
@@ -139,6 +176,7 @@ const DialogCreateCustomApp = (props) => {
 
 DialogCreateCustomApp.defaultProps = {
   icon: null,
+  internetIcon: null,
   name: '',
   nameError: null,
   url: '',
@@ -147,20 +185,24 @@ DialogCreateCustomApp.defaultProps = {
 
 DialogCreateCustomApp.propTypes = {
   classes: PropTypes.object.isRequired,
+  downloadingIcon: PropTypes.bool.isRequired,
+  hideEnginePrompt: PropTypes.bool.isRequired,
   icon: PropTypes.string,
+  internetIcon: PropTypes.string,
   name: PropTypes.string,
   nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
+  onGetIconFromInternet: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
   urlError: PropTypes.string,
-  hideEnginePrompt: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const {
+    downloadingIcon,
     open,
     form: {
       icon,
@@ -168,23 +210,27 @@ const mapStateToProps = (state) => {
       nameError,
       url,
       urlError,
+      internetIcon,
     },
   } = state.dialogCreateCustomApp;
 
   return {
+    downloadingIcon,
+    hideEnginePrompt: state.preferences.hideEnginePrompt,
     icon,
+    internetIcon,
     name,
     nameError,
     open,
     url,
     urlError,
-    hideEnginePrompt: state.preferences.hideEnginePrompt,
   };
 };
 
 const actionCreators = {
   close,
   create,
+  getIconFromInternet,
   updateForm,
 };
 
