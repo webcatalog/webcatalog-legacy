@@ -349,7 +349,8 @@ const loadListeners = () => {
       .then((iconUrl) => {
         sendToAllWindows(id, iconUrl);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err); // eslint-disable-line no-console
         sendToAllWindows(id, null);
       });
   });

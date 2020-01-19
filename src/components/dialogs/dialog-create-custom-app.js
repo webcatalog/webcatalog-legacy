@@ -137,7 +137,7 @@ const DialogCreateCustomApp = (props) => {
               variant="outlined"
               size="small"
               className={classes.buttonBot}
-              disabled={!url || urlError || downloadingIcon}
+              disabled={Boolean(!url || urlError || downloadingIcon)}
               onClick={() => onGetIconFromInternet(true)}
             >
               {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
