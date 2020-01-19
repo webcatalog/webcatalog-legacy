@@ -4,6 +4,9 @@ const fsExtra = require('fs-extra');
 const settings = require('electron-settings');
 const uuidv1 = require('uuid/v1');
 const Jimp = require('jimp');
+const isUrl = require('is-url');
+const download = require('download');
+const tmp = require('tmp');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 
@@ -135,7 +138,19 @@ const setWorkspacePicture = (id, sourcePicturePath) => {
 
   const destPicturePath = path.join(app.getPath('userData'), 'pictures', `${pictureId}.png`);
 
-  Jimp.read(sourcePicturePath)
+  Promise.resolve()
+    .then(() => {
+      if (isUrl(sourcePicturePath)) {
+        const tmpObj = tmp.dirSync();
+        const tmpPath = tmpObj.name;
+        return download(sourcePicturePath, tmpPath, {
+          filename: 'e.png',
+        }).then(() => path.join(tmpPath, 'e.png'));
+      }
+
+      return sourcePicturePath;
+    })
+    .then((picturePath) => Jimp.read(picturePath))
     .then((img) => new Promise((resolve) => {
       img.clone()
         .resize(128, 128)
