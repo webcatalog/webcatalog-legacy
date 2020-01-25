@@ -111,15 +111,18 @@ const getValidationRules = () => ({
 });
 
 let timeout;
-export const updateForm = (changes) => (dispatch) => {
+export const updateForm = (changes) => (dispatch, getState) => {
+  const oldUrl = getState().dialogCreateCustomApp.form.url;
+
   dispatch({
     type: DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE,
     changes: validate(changes, getValidationRules()),
   });
 
   clearTimeout(timeout);
+  if (getState().dialogCreateCustomApp.form.url === oldUrl) return; // url didn't change
+  if (changes.internetIcon === null) return; // user explictly want to get rid of icon
   timeout = setTimeout(() => {
-    if (changes.internetIcon === null) return; // user explictly want to get rid of icon
     dispatch(getIconFromInternet());
   }, 300);
 };
