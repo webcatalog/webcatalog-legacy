@@ -14,6 +14,13 @@ const kits = {
     }
     return null;
   },
+  // accept link without protocol prefix
+  lessStrictUrl: (val, _, fieldName) => {
+    if (!isUrl(val) && !isUrl(`http://${val}`)) {
+      return '{fieldName} is not valid.'.replace('{fieldName}', fieldName);
+    }
+    return null;
+  },
 };
 
 const validate = (changes, rules) => {

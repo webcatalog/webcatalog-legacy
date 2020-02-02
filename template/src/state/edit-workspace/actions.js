@@ -4,8 +4,9 @@ import {
   UPDATE_EDIT_WORKSPACE_DOWNLOADING_ICON,
 } from '../../constants/actions';
 
-import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
+import isUrl from '../../helpers/is-url';
+import validate from '../../helpers/validate';
 
 import {
   requestSetWorkspace,
@@ -18,7 +19,7 @@ const { ipcRenderer, remote } = window.require('electron');
 const getValidationRules = () => ({
   homeUrl: {
     fieldName: 'Home URL',
-    url: true,
+    lessStrictUrl: true,
   },
 });
 
@@ -88,12 +89,19 @@ export const save = () => (dispatch, getState) => {
   }
 
   const id = remote.getGlobal('editWorkspaceId');
+  const homeUrl = (() => {
+    if (form.homeUrl) {
+      const url = form.homeUrl.trim();
+      return isUrl(url) ? url : `http://${url}`;
+    }
+    return null;
+  })();
 
   requestSetWorkspace(
     id,
     {
       name: form.name,
-      homeUrl: form.homeUrl ? form.homeUrl.trim() : form.homeUrl,
+      homeUrl,
       // prefs
       disableAudio: Boolean(form.disableAudio),
       disableNotifications: Boolean(form.disableNotifications),
