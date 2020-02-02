@@ -91,7 +91,8 @@ export const save = () => (dispatch, getState) => {
   const id = remote.getGlobal('editWorkspaceId');
   const homeUrl = (() => {
     if (form.homeUrl) {
-      return isUrl(form.homeUrl) ? form.homeUrl : `http://${form.homeUrl}`;
+      const url = form.homeUrl.trim();
+      return isUrl(url) ? url : `http://${url}`;
     }
     return null;
   })();
