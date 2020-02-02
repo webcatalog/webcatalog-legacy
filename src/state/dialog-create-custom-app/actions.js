@@ -6,8 +6,9 @@ import {
   DIALOG_CREATE_CUSTOM_APP_OPEN,
 } from '../../constants/actions';
 
-import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
+import isUrl from '../../helpers/is-url';
+import validate from '../../helpers/validate';
 
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
@@ -106,7 +107,7 @@ const getValidationRules = () => ({
   url: {
     fieldName: 'URL',
     required: true,
-    url: true,
+    lessStrictUrl: true,
   },
 });
 
@@ -140,13 +141,14 @@ export const create = () => (dispatch, getState) => {
   const id = `custom-${Date.now().toString()}`;
   const { name, url } = form;
   const icon = form.icon || form.internetIcon || remote.getGlobal('defaultIcon');
+  const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
   if (isNameExisted(name, state)) {
     requestShowMessageBox(`An app named ${name} already exists.`, 'error');
     return null;
   }
 
-  dispatch(openDialogChooseEngine(id, name, url, icon));
+  dispatch(openDialogChooseEngine(id, name, protocolledUrl, icon));
 
   dispatch(close());
   return null;
