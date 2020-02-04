@@ -209,7 +209,11 @@ Promise.resolve()
       },
     ];
 
-    return packager(opts);
+    return packager(opts)
+      // if packager fails, the template might be corrupt
+      // so remove it
+      .catch((err) => fsExtra.remove(appPath)
+        .then(() => Promise.reject(err)));
   })
   .then(() => {
     if (requireAdmin === 'true') {
