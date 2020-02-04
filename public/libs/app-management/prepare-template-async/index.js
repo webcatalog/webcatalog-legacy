@@ -10,6 +10,8 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
     app.getVersion(),
     '--templatePath',
     path.join(app.getPath('userData'), 'webcatalog-template'),
+    '--platform',
+    process.platform,
   ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',

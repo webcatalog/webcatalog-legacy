@@ -9,13 +9,14 @@ const tmp = require('tmp');
 const {
   appVersion,
   templatePath,
+  platform,
 } = argv;
 
 const fetchLatestTemplateVersionAsync = () => fetch(`https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template.json`)
   .then((res) => res.json())
   .then((fetchedJson) => ({
     templateVersion: fetchedJson.version,
-    templateZipUrl: `https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template.zip`,
+    templateZipUrl: `https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template-${platform}.zip`,
   }));
 
 fetchLatestTemplateVersionAsync()

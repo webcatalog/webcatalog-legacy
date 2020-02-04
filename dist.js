@@ -10,7 +10,7 @@ console.log(`Machine: ${process.platform}`);
 const PACKAGE_JSON_PATH = 'package.json';
 const TEMPLATE_PACKAGE_JSON_PATH = 'template/package.json';
 const TEMPLATE_JSON_PATH = 'dist/template.json';
-const TEMPLATE_ZIP_PATH = 'template.zip';
+const TEMPLATE_ZIP_PATH = `template-${process.platform}.zip`;
 
 const packageJson = fs.readJSONSync(PACKAGE_JSON_PATH);
 const templatePackageJson = fs.readJSONSync(TEMPLATE_PACKAGE_JSON_PATH);
