@@ -6,11 +6,11 @@ const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
 const download = require('download');
-const decompress = require('decompress');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
 
 const {
+  appPath,
   id,
   name,
   url,
@@ -26,9 +26,6 @@ const {
   registered,
 } = argv;
 
-const templatePath = path.resolve(__dirname, '..', '..', '..', '..', 'template.zip');
-
-const appPath = path.join(tmpPath, 'template');
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
@@ -91,17 +88,6 @@ const createShortcutAsync = (shortcutPath, opts) => {
 
 Promise.resolve()
   .then(() => fsExtra.exists(packageJsonPath))
-  .then((exists) => {
-    // if tmp path has package.json file
-    // assume that it has the template code
-    if (exists) {
-      console.log('Skipped decompressing template code'); // eslint-disable-line no-console
-      return null;
-    }
-    // if not, decompress new template code
-    console.log('Decompressing template code...'); // eslint-disable-line no-console
-    return decompress(templatePath, tmpPath);
-  })
   .then(() => {
     if (isUrl(icon)) {
       return download(icon, buildResourcesPath, {
