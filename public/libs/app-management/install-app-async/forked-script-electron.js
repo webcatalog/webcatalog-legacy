@@ -202,6 +202,7 @@ Promise.resolve()
       prune: true,
       osxSign: false,
       darwinDarkModeSupport: true,
+      tmpdir: false,
       asar: {
         unpack: '{app.json,icon.png,package.json,manifest.json}',
       },
