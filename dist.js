@@ -10,6 +10,8 @@ console.log(`Machine: ${process.platform}`);
 const PACKAGE_JSON_PATH = 'package.json';
 const TEMPLATE_PACKAGE_JSON_PATH = 'template/package.json';
 const TEMPLATE_JSON_PATH = 'dist/template.json';
+const TEMPLATE_ORIGINAL_ZIP_PATH = 'template.zip';
+const TEMPLATE_ZIP_PATH = `template-${process.platform}-${process.arch}.zip`;
 
 const packageJson = fs.readJSONSync(PACKAGE_JSON_PATH);
 const templatePackageJson = fs.readJSONSync(TEMPLATE_PACKAGE_JSON_PATH);
@@ -49,7 +51,6 @@ const opts = {
     asar: false,
     files: [
       'default-icon.png',
-      'template.zip',
       '!tests/**/*',
       '!docs/**/*',
       '!catalog/**/*',
@@ -70,7 +71,7 @@ const opts = {
       category: 'Utility',
       packageCategory: 'utils',
     },
-    afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH],
+    afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH, TEMPLATE_ZIP_PATH],
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
       const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
@@ -92,7 +93,14 @@ const opts = {
   },
 };
 
-builder.build(opts)
+Promise.resolve()
+  .then(() => {
+    if (!fs.existsSync(TEMPLATE_ZIP_PATH)) {
+      return fs.move(TEMPLATE_ORIGINAL_ZIP_PATH, TEMPLATE_ZIP_PATH);
+    }
+    return null;
+  })
+  .then(() => builder.build(opts))
   .then(() => {
     console.log('build successful');
   })
