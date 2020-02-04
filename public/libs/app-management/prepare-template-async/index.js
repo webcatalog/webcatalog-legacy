@@ -12,6 +12,8 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
     path.join(app.getPath('userData'), 'webcatalog-template'),
     '--platform',
     process.platform,
+    '--arch',
+    process.arch,
   ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',

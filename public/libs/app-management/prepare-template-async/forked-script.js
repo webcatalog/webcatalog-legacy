@@ -10,13 +10,14 @@ const {
   appVersion,
   templatePath,
   platform,
+  arch,
 } = argv;
 
 const fetchLatestTemplateVersionAsync = () => fetch(`https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template.json`)
   .then((res) => res.json())
   .then((fetchedJson) => ({
     templateVersion: fetchedJson.version,
-    templateZipUrl: `https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template-${platform}.zip`,
+    templateZipUrl: `https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
   }));
 
 fetchLatestTemplateVersionAsync()
