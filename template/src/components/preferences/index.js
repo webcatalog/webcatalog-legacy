@@ -526,7 +526,7 @@ const Preferences = ({
                     onUpdateIsDefaultMailClient(remote.app.isDefaultProtocolClient('mailto'));
                   }}
                 >
-                Make default
+                  Make default
                 </Button>
               </ListItem>
             )}
@@ -561,7 +561,7 @@ const Preferences = ({
     {window.process.platform !== 'linux' && (
       <>
         <Typography variant="subtitle2" className={classes.sectionTitle}>
-        System
+          System
         </Typography>
         <Paper className={classes.paper}>
           <List dense>
