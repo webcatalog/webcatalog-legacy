@@ -29,8 +29,7 @@ export const getHits = () => (dispatch, getState) => {
 
   dispatch(homeGetRequest());
 
-  index.search({
-    query: currentQuery,
+  index.search(currentQuery, {
     page: page + 1,
     hitsPerPage: 40,
   })
