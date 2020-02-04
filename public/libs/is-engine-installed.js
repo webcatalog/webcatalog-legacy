@@ -95,7 +95,7 @@ const isEngineInstalled = (browser) => {
     }
     case 'edge': {
       if (process.platform === 'darwin') {
-        const chromePath = path.join('/Applications', 'Microsoft Edge Beta.app');
+        const chromePath = path.join('/Applications', 'Microsoft Edge.app');
         return fs.existsSync(chromePath);
       }
 
