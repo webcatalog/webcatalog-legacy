@@ -204,6 +204,7 @@ const loadListeners = () => {
             icon,
             version: packageJson.templateVersion,
             status: 'INSTALLED',
+            registered: getPreference('registered'),
           });
           delete promiseFuncMap[id];
         })
@@ -247,6 +248,7 @@ const loadListeners = () => {
           e.sender.send('set-app', id, {
             version: packageJson.templateVersion,
             status: 'INSTALLED',
+            registered: getPreference('registered'),
           });
         })
         .catch((error) => {
