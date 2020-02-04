@@ -93,7 +93,13 @@ const opts = {
   },
 };
 
-fs.move(TEMPLATE_ORIGINAL_ZIP_PATH, TEMPLATE_ZIP_PATH)
+Promise.resolve()
+  .then(() => {
+    if (!fs.existsSync(TEMPLATE_ZIP_PATH)) {
+      return fs.move(TEMPLATE_ORIGINAL_ZIP_PATH, TEMPLATE_ZIP_PATH);
+    }
+    return null;
+  })
   .then(() => builder.build(opts))
   .then(() => {
     console.log('build successful');
