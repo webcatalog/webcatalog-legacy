@@ -137,6 +137,7 @@ const installAppAsync = (
       env: {
         ELECTRON_RUN_AS_NODE: 'true',
         ELECTRON_NO_ASAR: 'true',
+        // for require('download')
         APPDATA: app.getPath('appData'),
       },
     });
