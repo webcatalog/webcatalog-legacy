@@ -43,16 +43,7 @@ fetchLatestTemplateVersionAsync()
         .then(() => download(latest.templateZipUrl, tmpPath, {
           filename: templateZipName,
         }))
-        .then(() => decompress(templateZipPath, templatePath, {
-          map: (file) => {
-            if (file.path.startsWith('template/')) {
-              return Object.assign(file, {
-                path: file.path.replace('template/', ''),
-              });
-            }
-            return file;
-          },
-        }));
+        .then(() => decompress(templateZipPath, templatePath));
     }
     return null;
   })
