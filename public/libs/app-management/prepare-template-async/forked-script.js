@@ -40,19 +40,12 @@ fetchLatestTemplateVersionAsync()
       const templateZipName = 'template.zip';
       const templateZipPath = path.join(tmpPath, templateZipName);
       return fs.remove(templatePath)
+        .then(() => console.log(`Downloading template code to ${templateZipPath}...`)) // eslint-disable-line no-console
         .then(() => download(latest.templateZipUrl, tmpPath, {
           filename: templateZipName,
         }))
-        .then(() => decompress(templateZipPath, templatePath, {
-          map: (file) => {
-            if (file.path.startsWith('template/')) {
-              return Object.assign(file, {
-                path: file.path.replace('template/', ''),
-              });
-            }
-            return file;
-          },
-        }));
+        .then(() => console.log(`Extracting template code to ${templatePath}...`)) // eslint-disable-line no-console
+        .then(() => decompress(templateZipPath, templatePath));
     }
     return null;
   })
