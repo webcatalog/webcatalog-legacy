@@ -115,7 +115,7 @@ const NavigationBar = ({
         placeholder="Search Google or type a URL"
         type="text"
         value={address}
-        endAdornment={addressEdited && (
+        endAdornment={addressEdited && address && (
           <IconButton
             aria-label="Go"
             className={classes.goButton}

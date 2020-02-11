@@ -40,6 +40,8 @@ const createAsync = () => {
         y: menubarWindowState.y,
         width: menubarWindowState.width,
         height: menubarWindowState.height,
+        minHeight: 100,
+        minWidth: 250,
         webPreferences: {
           nodeIntegration: true,
           preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
@@ -118,6 +120,7 @@ const createAsync = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minHeight: 100,
+    minWidth: 250,
     title: global.appJson.name,
     titleBarStyle: 'hidden',
     show: !wasOpenedAsHidden,

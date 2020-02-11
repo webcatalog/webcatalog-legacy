@@ -11,6 +11,7 @@ import {
   UPDATE_IS_LOADING,
   UPDATE_SHOULD_USE_DARK_COLORS,
   UPDATE_THEME_SOURCE,
+  UPDATE_TITLE,
 } from '../../constants/actions';
 
 import {
@@ -97,16 +98,24 @@ const addressEdited = (state = false, action) => {
   }
 };
 
+const title = (state = '', action) => {
+  switch (action.type) {
+    case UPDATE_TITLE: return action.title;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   address,
   addressEdited,
   canGoBack,
   canGoForward,
   didFailLoad,
-  shouldUseDarkColors,
-  themeSource,
   isDefaultMailClient,
   isDefaultWebBrowser,
   isFullScreen,
   isLoading,
+  shouldUseDarkColors,
+  themeSource,
+  title,
 });
