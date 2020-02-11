@@ -1,15 +1,16 @@
 import { combineReducers } from 'redux';
 
 import {
+  UPDATE_ADDRESS_BAR_INFO,
   UPDATE_CAN_GO_BACK,
   UPDATE_CAN_GO_FORWARD,
   UPDATE_DID_FAIL_LOAD,
-  UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_THEME_SOURCE,
   UPDATE_IS_DEFAULT_MAIL_CLIENT,
   UPDATE_IS_DEFAULT_WEB_BROWSER,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
+  UPDATE_SHOULD_USE_DARK_COLORS,
+  UPDATE_THEME_SOURCE,
 } from '../../constants/actions';
 
 import {
@@ -82,7 +83,23 @@ const didFailLoad = (state = false, action) => {
   }
 };
 
+const address = (state = null, action) => {
+  switch (action.type) {
+    case UPDATE_ADDRESS_BAR_INFO: return action.address;
+    default: return state;
+  }
+};
+
+const addressEdited = (state = false, action) => {
+  switch (action.type) {
+    case UPDATE_ADDRESS_BAR_INFO: return action.edited;
+    default: return state;
+  }
+};
+
 export default combineReducers({
+  address,
+  addressEdited,
   canGoBack,
   canGoForward,
   didFailLoad,
