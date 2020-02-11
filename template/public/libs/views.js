@@ -435,7 +435,7 @@ const setActiveView = (browserWindow, id) => {
 
     sendToAllWindows('update-address', view.webContents.getURL(), false);
     sendToAllWindows('update-is-loading', view.webContents.isLoading());
-    sendToAllWindows('update-did-fail-load', false);
+    sendToAllWindows('update-did-fail-load', Boolean(didFailLoad[id]));
   }
 };
 
