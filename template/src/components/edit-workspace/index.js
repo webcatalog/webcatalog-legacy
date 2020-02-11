@@ -137,7 +137,7 @@ const EditWorkspace = ({
       />
       <TextField
         id="outlined-full-width"
-        label={homeUrlError || 'Home URL'}
+        label="Home URL"
         error={Boolean(homeUrlError)}
         placeholder="Optional"
         fullWidth
@@ -156,7 +156,7 @@ const EditWorkspace = ({
           if (!homeUrl) {
             return `Defaults to ${appJson.url}.`;
           }
-          return null;
+          return homeUrl;
         })()}
       />
       <div className={classes.avatarFlex}>
