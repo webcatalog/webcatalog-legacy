@@ -160,6 +160,7 @@ const createAsync = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
+      preload: path.join(__dirname, '..', 'preload', 'main.js'),
     },
   });
 
