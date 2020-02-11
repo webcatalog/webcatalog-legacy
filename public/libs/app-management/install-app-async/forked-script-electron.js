@@ -95,6 +95,15 @@ Promise.resolve()
       });
     }
 
+    // try to get fresh icon from catalog if possible
+    if (!id.startsWith('custom-')) {
+      const catalogIconUrl = `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
+      return download(catalogIconUrl, buildResourcesPath, {
+        filename: 'e.png',
+      })
+        .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
+    }
+
     return fsExtra.copy(icon, iconPngPath);
   })
   .then(() => Jimp.read(iconPngPath))
