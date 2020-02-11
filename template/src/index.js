@@ -20,6 +20,7 @@ const CodeInjection = React.lazy(() => import('./components/code-injection'));
 const CustomUserAgent = React.lazy(() => import('./components/custom-user-agent'));
 const DisplayMedia = React.lazy(() => import('./components/display-media'));
 const EditWorkspace = React.lazy(() => import('./components/edit-workspace'));
+const GoToUrl = React.lazy(() => import('./components/go-to-url'));
 const Main = React.lazy(() => import('./components/main'));
 const Notifications = React.lazy(() => import('./components/notifications'));
 const OpenUrlWith = React.lazy(() => import('./components/open-url-with'));
@@ -33,6 +34,7 @@ const App = () => {
     case 'custom-user-agent': return <CustomUserAgent />;
     case 'display-media': return <DisplayMedia />;
     case 'edit-workspace': return <EditWorkspace />;
+    case 'go-to-url': return <GoToUrl />;
     case 'notifications': return <Notifications />;
     case 'open-url-with': return <OpenUrlWith />;
     case 'preferences': return <Preferences />;
@@ -76,6 +78,8 @@ const runApp = () => {
         document.title = 'Share your Screen';
       } else if (window.mode === 'custom-user-agent') {
         document.title = 'Edit Custom User Agent';
+      } else if (window.mode === 'go-to-url') {
+        document.title = 'Go to URL';
       } else {
         document.title = remote.getGlobal('appJson').name;
       }

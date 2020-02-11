@@ -12,6 +12,7 @@ const codeInjectionWindow = require('../windows/code-injection');
 const customUserAgentWindow = require('../windows/custom-user-agent');
 const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
+const goToUrlWindow = require('../windows/go-to-url');
 const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
@@ -267,6 +268,19 @@ function createMenu() {
                 }
               },
             },
+            {
+              label: 'Go To URL Window',
+              click: () => {
+                const win = goToUrlWindow.get();
+                if (win != null) {
+                  if (win.webContents.isDevToolsOpened()) {
+                    win.webContents.closeDevTools();
+                  } else {
+                    win.webContents.openDevTools({ mode: 'detach' });
+                  }
+                }
+              },
+            },
             { type: 'separator' },
           ],
         },
@@ -301,6 +315,14 @@ function createMenu() {
               const url = win.getBrowserView().webContents.getURL();
               clipboard.writeText(url);
             }
+          },
+        },
+        { type: 'separator' },
+        {
+          label: 'Go to URL...',
+          accelerator: 'CmdOrCtrl+Shift+G',
+          click: () => {
+            goToUrlWindow.show();
           },
         },
       ],

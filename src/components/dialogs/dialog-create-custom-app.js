@@ -88,7 +88,8 @@ const DialogCreateCustomApp = (props) => {
         <TextField
           fullWidth
           id="name"
-          label={nameError || 'Name'}
+          label="Name"
+          helperText={nameError}
           margin="normal"
           onChange={(e) => onUpdateForm({ name: e.target.value })}
           value={name}
@@ -97,7 +98,8 @@ const DialogCreateCustomApp = (props) => {
         <TextField
           fullWidth
           id="url"
-          label={urlError || 'URL'}
+          label="URL"
+          helperText={urlError}
           margin="normal"
           onChange={(e) => onUpdateForm({ url: e.target.value })}
           value={url}
