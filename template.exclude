@@ -56,3 +56,4 @@ node_modules/*/*.html
 *.ts
 *.yml
 *.txt
+*.cxx
