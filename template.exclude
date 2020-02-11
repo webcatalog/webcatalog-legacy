@@ -6,7 +6,7 @@ node_modules/cld/deps
 LICENSE
 license
 *.map
-*.html
+node_modules/**/*.html
 *.md
 *.cc
 *.h
