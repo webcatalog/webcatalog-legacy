@@ -9,6 +9,7 @@ import {
   UPDATE_IS_LOADING,
   UPDATE_SHOULD_USE_DARK_COLORS,
   UPDATE_THEME_SOURCE,
+  UPDATE_TITLE,
 } from '../../constants/actions';
 
 export const updateCanGoBack = (canGoBack) => ({
@@ -62,4 +63,9 @@ export const updateAddressBarInfo = (address, edited) => ({
   type: UPDATE_ADDRESS_BAR_INFO,
   address,
   edited,
+});
+
+export const updateTitle = (title) => ({
+  type: UPDATE_TITLE,
+  title,
 });

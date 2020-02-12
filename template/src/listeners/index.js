@@ -9,6 +9,7 @@ import {
   updateIsLoading,
   updateShouldUseDarkColors,
   updateThemeSource,
+  updateTitle,
 } from '../state/general/actions';
 import {
   closeFindInPage,
@@ -55,6 +56,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('update-address', (e, address, edited) => {
     store.dispatch(updateAddressBarInfo(address, edited));
+  });
+
+  ipcRenderer.on('update-title', (e, title) => {
+    store.dispatch(updateTitle(title));
   });
 
   ipcRenderer.on('update-is-loading', (e, value) => {
