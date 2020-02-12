@@ -249,6 +249,8 @@ const loadListeners = () => {
             version: packageJson.templateVersion,
             status: 'INSTALLED',
             registered: getPreference('registered'),
+            // ensure fresh icon from the catalog is shown
+            icon: !id.startsWith('custom-') ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
           });
         })
         .catch((error) => {
