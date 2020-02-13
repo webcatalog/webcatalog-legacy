@@ -31,7 +31,7 @@
     "follow-redirects": "1.10.0",
     "fs-extra": "8.1.0",
     "is-url": "1.2.4",
-    "jimp": "0.6.8",
+    "jimp": "0.9.3",
     "menubar": "7.2.0",
     "node-fetch": "2.6.0",
     "semver": "7.1.3",
