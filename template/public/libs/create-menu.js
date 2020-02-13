@@ -116,6 +116,7 @@ function createMenu() {
         {
           label: global.navigationBar ? 'Hide Navigation Bar' : 'Show Navigation Bar',
           accelerator: 'CmdOrCtrl+Alt+N',
+          enabled: !(window.process.platform === 'linux' && global.attachToMenubar && !global.sidebar),
           click: () => {
             ipcMain.emit('request-set-preference', null, 'navigationBar', !global.navigationBar);
             ipcMain.emit('request-realign-active-workspace');
