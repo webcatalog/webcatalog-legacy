@@ -124,6 +124,7 @@ function createMenu() {
         },
         {
           label: (!global.sidebar && !global.navigationBar) || global.titleBar ? 'Hide Title Bar' : 'Show Title Bar',
+          accelerator: 'CmdOrCtrl+Alt+T',
           enabled: global.sidebar || global.navigationBar,
           visible: process.platform === 'darwin',
           click: () => {
