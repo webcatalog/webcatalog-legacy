@@ -154,7 +154,7 @@ const Main = ({
   workspaces,
 }) => {
   const workspacesList = getWorkspacesAsList(workspaces);
-  const showTitleBar = titleBar || (!navigationBar && !sidebar);
+  const showTitleBar = titleBar || (window.mode !== 'menubar' && !navigationBar && !sidebar);
 
   return (
     <div className={classes.outerRoot}>

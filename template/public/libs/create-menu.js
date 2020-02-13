@@ -17,6 +17,8 @@ const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
 
+const getViewBounds = require('../libs/get-view-bounds');
+
 const {
   getWorkspaces,
   getActiveWorkspace,
@@ -36,8 +38,6 @@ const {
 const {
   checkForUpdates,
 } = require('./updater');
-
-const FIND_IN_PAGE_HEIGHT = 42;
 
 function createMenu() {
   const template = [
@@ -65,22 +65,7 @@ function createMenu() {
               const contentSize = win.getContentSize();
               const view = win.getBrowserView();
 
-              const showSidebar = global.sidebar;
-              const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
-              const showNavigationBar = (process.platform === 'linux'
-                && global.attachToMenubar
-                && !global.sidebar) || global.navigationBar;
-
-              const offsetTitlebar = showTitleBar ? 22 : 0;
-              const x = showSidebar ? 68 : 0;
-              const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
-
-              view.setBounds({
-                x,
-                y: y + FIND_IN_PAGE_HEIGHT,
-                height: contentSize[1] - y - FIND_IN_PAGE_HEIGHT,
-                width: contentSize[0] - x,
-              });
+              view.setBounds(getViewBounds(contentSize, true));
             }
           },
         },
@@ -116,7 +101,7 @@ function createMenu() {
         {
           label: global.navigationBar ? 'Hide Navigation Bar' : 'Show Navigation Bar',
           accelerator: 'CmdOrCtrl+Alt+N',
-          enabled: !(window.process.platform === 'linux' && global.attachToMenubar && !global.sidebar),
+          enabled: !(process.platform === 'linux' && global.attachToMenubar && !global.sidebar),
           click: () => {
             ipcMain.emit('request-set-preference', null, 'navigationBar', !global.navigationBar);
             ipcMain.emit('request-realign-active-workspace');

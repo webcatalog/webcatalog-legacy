@@ -50,6 +50,7 @@ const createMenu = require('../libs/create-menu');
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const { checkForUpdates } = require('../libs/updater');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
+const getViewBounds = require('../libs/get-view-bounds');
 
 const aboutWindow = require('../windows/about');
 const codeInjectionWindow = require('../windows/code-injection');
@@ -86,23 +87,7 @@ const loadListeners = () => {
     // adjust bounds to hide the gap for find in page
     if (close) {
       const contentSize = win.getContentSize();
-
-      const showSidebar = global.sidebar;
-      const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
-      const showNavigationBar = (process.platform === 'linux'
-        && global.attachToMenubar
-        && !global.sidebar) || global.navigationBar;
-
-      const offsetTitlebar = showTitleBar ? 22 : 0;
-      const x = showSidebar ? 68 : 0;
-      const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
-
-      view.setBounds({
-        x,
-        y,
-        width: contentSize[0] - x,
-        height: contentSize[1] - y,
-      });
+      view.setBounds(getViewBounds(contentSize));
     }
   });
 
@@ -248,13 +233,11 @@ const loadListeners = () => {
 
   ipcMain.on('request-realign-active-workspace', () => {
     const {
-      attachToMenubar,
       sidebar,
       titleBar,
       navigationBar,
     } = getPreferences();
 
-    global.attachToMenubar = attachToMenubar;
     global.sidebar = sidebar;
     global.titleBar = titleBar;
     global.navigationBar = navigationBar;

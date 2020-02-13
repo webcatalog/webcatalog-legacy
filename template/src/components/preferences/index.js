@@ -238,8 +238,8 @@ const Preferences = ({
               <ListItemSecondaryAction>
                 <Switch
                   color="primary"
-                  checked={!sidebar && !navigationBar ? true : titleBar}
-                  disabled={!sidebar && !navigationBar}
+                  checked={!attachToMenubar && !sidebar && !navigationBar ? true : titleBar}
+                  disabled={!attachToMenubar && !sidebar && !navigationBar}
                   onChange={(e) => {
                     requestSetPreference('titleBar', e.target.checked);
                     requestRealignActiveWorkspace();
