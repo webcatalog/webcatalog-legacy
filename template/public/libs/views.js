@@ -17,6 +17,7 @@ const {
 } = require('./workspaces');
 
 const sendToAllWindows = require('./send-to-all-windows');
+const getViewBounds = require('./get-view-bounds');
 
 const views = {};
 const badgeCounts = {};
@@ -74,10 +75,6 @@ const addView = (browserWindow, workspace) => {
 
   const contentSize = browserWindow.getContentSize();
 
-  const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-  const x = global.showSidebar ? 68 : 0;
-  const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
-
   const view = new BrowserView({
     webPreferences: {
       nativeWindowOpen: true,
@@ -132,12 +129,7 @@ const addView = (browserWindow, workspace) => {
       // show browserView again when reloading after error
       // see did-fail-load event
       if (didFailLoad[workspace.id]) {
-        view.setBounds({
-          x,
-          y,
-          width: contentSize[0] - x,
-          height: contentSize[1] - y,
-        });
+        view.setBounds(getViewBounds(contentSize));
       }
 
       didFailLoad[workspace.id] = false;
@@ -175,12 +167,9 @@ const addView = (browserWindow, workspace) => {
         sendToAllWindows('update-loading', false);
 
         didFailLoad[workspace.id] = true;
-        view.setBounds({
-          x,
-          y,
-          height: 0,
-          width: 0,
-        }); // hide browserView to show error message
+        view.setBounds(
+          getViewBounds(contentSize, false, 0, 0),
+        ); // hide browserView to show error message
         sendToAllWindows('update-did-fail-load', true);
       }
     }
@@ -373,12 +362,7 @@ const addView = (browserWindow, workspace) => {
   if (workspace.active) {
     browserWindow.setBrowserView(view);
 
-    view.setBounds({
-      x,
-      y,
-      width: contentSize[0] - x,
-      height: contentSize[1] - y,
-    });
+    view.setBounds(getViewBounds(contentSize));
     view.setAutoResize({
       width: true,
       height: true,
@@ -409,25 +393,12 @@ const setActiveView = (browserWindow, id) => {
     browserWindow.setBrowserView(view);
 
     const contentSize = browserWindow.getContentSize();
-
-    const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-    const x = global.showSidebar ? 68 : 0;
-    const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
-
     if (didFailLoad[id]) {
-      view.setBounds({
-        x,
-        y,
-        height: 0,
-        width: 0,
-      }); // hide browserView to show error message
+      view.setBounds(
+        getViewBounds(contentSize, false, 0, 0),
+      ); // hide browserView to show error message
     } else {
-      view.setBounds({
-        x,
-        y,
-        width: contentSize[0] - x,
-        height: contentSize[1] - y,
-      });
+      view.setBounds(getViewBounds(contentSize));
     }
     view.setAutoResize({
       width: true,

@@ -110,6 +110,7 @@ const defaultPreferences = {
   spellCheckerLanguages: null,
   swipeToNavigate: true,
   themeSource: process.platform === 'darwin' ? 'system' : 'light',
+  titleBar: false,
   unreadCountBadge: true,
 };
 

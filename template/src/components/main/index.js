@@ -44,12 +44,10 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    height: '100vh',
-    width: '100vw',
     flex: 1,
   },
   sidebarRoot: {
-    height: '100vh',
+    height: '100%',
     width: 68,
     borderRight: '1px solid rgba(0, 0, 0, 0.2)',
     backgroundColor: theme.palette.background.paper,
@@ -145,7 +143,6 @@ const SortableItem = sortableElement(({ value }) => {
 const SortableContainer = sortableContainer(({ children }) => <div>{children}</div>);
 
 const Main = ({
-  attachToMenubar,
   classes,
   didFailLoad,
   isFullScreen,
@@ -153,17 +150,20 @@ const Main = ({
   navigationBar,
   shouldPauseNotifications,
   sidebar,
+  titleBar,
   workspaces,
 }) => {
   const workspacesList = getWorkspacesAsList(workspaces);
+  const showTitleBar = titleBar || (window.mode !== 'menubar' && !navigationBar && !sidebar);
+
   return (
     <div className={classes.outerRoot}>
-      {!sidebar && !attachToMenubar && (<FakeTitleBar />)}
+      {showTitleBar && (<FakeTitleBar />)}
       <div className={classes.root}>
         {sidebar && (
           <div className={classes.sidebarRoot}>
             <div className={classNames(classes.sidebarTop,
-              (isFullScreen || window.mode === 'menubar') && classes.sidebarTopFullScreen)}
+              (isFullScreen || showTitleBar || window.mode === 'menubar') && classes.sidebarTopFullScreen)}
             >
               <SortableContainer
                 distance={10}
@@ -231,7 +231,6 @@ const Main = ({
 };
 
 Main.propTypes = {
-  attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   didFailLoad: PropTypes.bool.isRequired,
   isFullScreen: PropTypes.bool.isRequired,
@@ -239,11 +238,11 @@ Main.propTypes = {
   navigationBar: PropTypes.bool.isRequired,
   shouldPauseNotifications: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
+  titleBar: PropTypes.bool.isRequired,
   workspaces: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  attachToMenubar: state.preferences.attachToMenubar,
   didFailLoad: state.general.didFailLoad,
   isFullScreen: state.general.isFullScreen,
   isLoading: state.general.isLoading,
@@ -253,6 +252,7 @@ const mapStateToProps = (state) => ({
     || state.preferences.navigationBar,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
   sidebar: state.preferences.sidebar,
+  titleBar: state.preferences.titleBar,
   workspaces: state.workspaces,
 });
 

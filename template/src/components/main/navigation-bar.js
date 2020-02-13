@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -38,6 +39,9 @@ const styles = (theme) => ({
     paddingRight: theme.spacing.unit,
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
+  },
+  rootWithTrafficLights: {
+    paddingLeft: 68 + theme.spacing.unit,
   },
   center: {
     flex: 1,
@@ -91,10 +95,11 @@ const NavigationBar = ({
   canGoBack,
   canGoForward,
   classes,
-  shouldPauseNotifications,
   onUpdateAddressBarInfo,
+  shouldPauseNotifications,
+  hasTrafficLights,
 }) => (
-  <div className={classes.root}>
+  <div className={classNames(classes.root, hasTrafficLights && classes.rootWithTrafficLights)}>
     <div className={classes.left}>
       <IconButton aria-label="Go back" className={classes.iconButton} disabled={!canGoBack} onClick={requestGoBack}>
         <ArrowBackIcon className={classes.icon} />
@@ -163,6 +168,7 @@ NavigationBar.propTypes = {
   canGoBack: PropTypes.bool.isRequired,
   canGoForward: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  hasTrafficLights: PropTypes.bool.isRequired,
   onUpdateAddressBarInfo: PropTypes.func.isRequired,
   shouldPauseNotifications: PropTypes.bool.isRequired,
 };
@@ -173,6 +179,7 @@ const mapStateToProps = (state) => ({
   canGoBack: state.general.canGoBack,
   canGoForward: state.general.canGoForward,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
+  hasTrafficLights: !state.preferences.titleBar && !state.preferences.sidebar,
 });
 
 const actionCreators = {
