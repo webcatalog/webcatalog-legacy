@@ -120,7 +120,7 @@ const createAsync = () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minHeight: 100,
-    minWidth: 250,
+    minWidth: 350,
     title: global.appJson.name,
     titleBarStyle: 'hidden',
     show: !wasOpenedAsHidden,

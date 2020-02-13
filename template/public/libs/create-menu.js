@@ -65,9 +65,15 @@ function createMenu() {
               const contentSize = win.getContentSize();
               const view = win.getBrowserView();
 
-              const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-              const x = global.showSidebar ? 68 : 0;
-              const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+              const showSidebar = global.sidebar;
+              const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
+              const showNavigationBar = (process.platform === 'linux'
+                && global.attachToMenubar
+                && !global.sidebar) || global.navigationBar;
+
+              const offsetTitlebar = showTitleBar ? 22 : 0;
+              const x = showSidebar ? 68 : 0;
+              const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
               view.setBounds({
                 x,
@@ -100,22 +106,27 @@ function createMenu() {
       label: 'View',
       submenu: [
         {
-          label: 'Show Sidebar',
-          type: 'checkbox',
-          checked: global.showSidebar,
+          label: global.sidebar ? 'Hide Sidebar' : 'Show Sidebar',
           accelerator: 'CmdOrCtrl+Alt+S',
           click: () => {
-            ipcMain.emit('request-set-preference', null, 'sidebar', !global.showSidebar);
+            ipcMain.emit('request-set-preference', null, 'sidebar', !global.sidebar);
             ipcMain.emit('request-realign-active-workspace');
           },
         },
         {
-          label: 'Show Navigation Bar',
-          type: 'checkbox',
-          checked: global.showNavigationBar,
+          label: global.navigationBar ? 'Hide Navigation Bar' : 'Show Navigation Bar',
           accelerator: 'CmdOrCtrl+Alt+N',
           click: () => {
-            ipcMain.emit('request-set-preference', null, 'navigationBar', !global.showNavigationBar);
+            ipcMain.emit('request-set-preference', null, 'navigationBar', !global.navigationBar);
+            ipcMain.emit('request-realign-active-workspace');
+          },
+        },
+        {
+          label: (!global.sidebar && !global.navigationBar) || global.titleBar ? 'Hide Title Bar' : 'Show Title Bar',
+          enabled: global.sidebar || global.navigationBar,
+          visible: process.platform === 'darwin',
+          click: () => {
+            ipcMain.emit('request-set-preference', null, 'titleBar', !global.titleBar);
             ipcMain.emit('request-realign-active-workspace');
           },
         },

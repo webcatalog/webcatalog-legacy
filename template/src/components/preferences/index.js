@@ -167,6 +167,7 @@ const Preferences = ({
   spellCheckerLanguages,
   swipeToNavigate,
   themeSource,
+  titleBar,
   unreadCountBadge,
 }) => (
   <div className={classes.root}>
@@ -226,6 +227,28 @@ const Preferences = ({
             />
           </ListItemSecondaryAction>
         </ListItem>
+        {window.process.platform === 'darwin' && (
+          <>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary="Show title bar"
+                secondary="Title bar shows you the title of the current page."
+              />
+              <ListItemSecondaryAction>
+                <Switch
+                  color="primary"
+                  checked={!sidebar && !navigationBar ? true : titleBar}
+                  disabled={!sidebar && !navigationBar}
+                  onChange={(e) => {
+                    requestSetPreference('titleBar', e.target.checked);
+                    requestRealignActiveWorkspace();
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+          </>
+        )}
         <Divider />
         <ListItem>
           <ListItemText
@@ -700,6 +723,7 @@ Preferences.propTypes = {
   spellCheckerLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
+  titleBar: PropTypes.bool.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
 };
 
@@ -728,6 +752,7 @@ const mapStateToProps = (state) => ({
   spellCheckerLanguages: state.preferences.spellCheckerLanguages,
   swipeToNavigate: state.preferences.swipeToNavigate,
   themeSource: state.general.themeSource,
+  titleBar: state.preferences.titleBar,
   unreadCountBadge: state.preferences.unreadCountBadge,
 });
 

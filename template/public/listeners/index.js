@@ -87,9 +87,15 @@ const loadListeners = () => {
     if (close) {
       const contentSize = win.getContentSize();
 
-      const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-      const x = global.showSidebar ? 68 : 0;
-      const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+      const showSidebar = global.sidebar;
+      const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
+      const showNavigationBar = (process.platform === 'linux'
+        && global.attachToMenubar
+        && !global.sidebar) || global.navigationBar;
+
+      const offsetTitlebar = showTitleBar ? 22 : 0;
+      const x = showSidebar ? 68 : 0;
+      const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
       view.setBounds({
         x,
@@ -241,11 +247,17 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-realign-active-workspace', () => {
-    global.attachToMenubar = getPreference('attachToMenubar');
-    global.showSidebar = getPreference('sidebar');
-    global.showNavigationBar = (process.platform === 'linux'
-      && global.attachToMenubar
-      && !global.showSidebar) || getPreference('navigationBar');
+    const {
+      attachToMenubar,
+      sidebar,
+      titleBar,
+      navigationBar,
+    } = getPreferences();
+
+    global.attachToMenubar = attachToMenubar;
+    global.sidebar = sidebar;
+    global.titleBar = titleBar;
+    global.navigationBar = navigationBar;
 
     const activeWorkspace = getActiveWorkspace();
     setActiveWorkspaceView(activeWorkspace.id);

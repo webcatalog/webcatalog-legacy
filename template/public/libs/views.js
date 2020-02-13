@@ -74,9 +74,15 @@ const addView = (browserWindow, workspace) => {
 
   const contentSize = browserWindow.getContentSize();
 
-  const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-  const x = global.showSidebar ? 68 : 0;
-  const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+  const showSidebar = global.sidebar;
+  const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
+  const showNavigationBar = (process.platform === 'linux'
+    && global.attachToMenubar
+    && !global.sidebar) || global.navigationBar;
+
+  const offsetTitlebar = showTitleBar ? 22 : 0;
+  const x = showSidebar ? 68 : 0;
+  const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
   const view = new BrowserView({
     webPreferences: {
@@ -410,9 +416,15 @@ const setActiveView = (browserWindow, id) => {
 
     const contentSize = browserWindow.getContentSize();
 
-    const offsetTitlebar = process.platform !== 'darwin' || global.showSidebar || global.attachToMenubar ? 0 : 22;
-    const x = global.showSidebar ? 68 : 0;
-    const y = global.showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
+    const showSidebar = global.sidebar;
+    const showTitleBar = (process.platform === 'darwin' && !global.sidebar && !global.navigationBar) || global.titleBar;
+    const showNavigationBar = (process.platform === 'linux'
+      && global.attachToMenubar
+      && !global.sidebar) || global.navigationBar;
+
+    const offsetTitlebar = showTitleBar ? 22 : 0;
+    const x = showSidebar ? 68 : 0;
+    const y = showNavigationBar ? 36 + offsetTitlebar : 0 + offsetTitlebar;
 
     if (didFailLoad[id]) {
       view.setBounds({
