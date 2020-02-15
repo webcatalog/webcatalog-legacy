@@ -21,6 +21,7 @@ const {
   desktopPath,
   installationPath,
   createDesktopShortcut,
+  createStartMenuShortcut,
   requireAdmin,
   username,
   firefoxPath,
@@ -348,12 +349,14 @@ Terminal=false;
 
       const p = [createShortcutAsync(coreShortcutPath, opts)];
 
-      if (createDesktopShortcut) {
+      if (createDesktopShortcut === 'true') {
         p.push(createShortcutAsync(desktopShortcutPath, opts));
       }
 
-      p.push(fsExtra.ensureDir(startMenuPath)
-        .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+      if (createStartMenuShortcut === 'true') {
+        p.push(fsExtra.ensureDir(startMenuPath)
+          .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+      }
 
       return Promise.all(p);
     }
