@@ -46,7 +46,6 @@ yarn.lock
 .yarn-metadata.json
 .github
 *.map
-node_modules/*/*.html
 *.md
 *.cc
 *.h
