@@ -32,6 +32,7 @@ const defaultPreferences = {
   preferredEngine: 'electron',
   registered: false,
   requireAdmin: false,
+  hideMenuBar: false,
   themeSource: process.platform === 'darwin' ? 'system' : 'light',
 };
 

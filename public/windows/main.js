@@ -24,6 +24,7 @@ const get = () => {
 
 const createAsync = () => {
   attachToMenubar = getPreference('attachToMenubar');
+
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
       file: 'window-state-menubar.json',
@@ -157,6 +158,7 @@ const createAsync = () => {
     minHeight: 500,
     titleBarStyle: 'hidden',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
+    autoHideMenuBar: getPreference('hideMenuBar'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,

@@ -95,6 +95,7 @@ const defaultPreferences = {
   cssCodeInjection: null,
   customUserAgent: null,
   downloadPath: getDefaultDownloadsPath(),
+  hideMenuBar: false,
   jsCodeInjection: null,
   lastCheckForUpdates: 0,
   navigationBar: false,
