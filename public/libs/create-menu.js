@@ -170,9 +170,6 @@ const createMenu = () => {
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-  menu.on('menu-will-show', () => {
-    console.log('menu-will-show');
-  });
 };
 
 module.exports = createMenu;
