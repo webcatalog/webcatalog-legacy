@@ -199,7 +199,7 @@ Promise.resolve()
       darwinDarkModeSupport: true,
       tmpdir: false,
       asar: {
-        unpack: '{app.json,icon.png,package.json,manifest.json}',
+        unpack: '{app.json,icon.png,icon.ico,package.json,manifest.json}',
       },
     };
 
@@ -255,7 +255,7 @@ Terminal=false;
       const opts = {
         target: exePath,
         args: '',
-        icon: publicIconIcoPath,
+        icon: path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico'),
       };
       const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
       const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
