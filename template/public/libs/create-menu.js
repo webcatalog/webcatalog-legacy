@@ -504,6 +504,9 @@ function createMenu() {
   );
 
   const menu = Menu.buildFromTemplate(template);
+  menu.on('menu-will-show', () => {
+    console.log('menu-will-show');
+  });
   Menu.setApplicationMenu(menu);
 }
 
