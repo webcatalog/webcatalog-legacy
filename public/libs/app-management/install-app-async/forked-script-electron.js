@@ -263,11 +263,11 @@ Terminal=false;
 
       const p = [];
 
-      if (createDesktopShortcut) {
+      if (createDesktopShortcut === 'true') {
         p.push(createShortcutAsync(desktopShortcutPath, opts));
       }
 
-      if (createStartMenuShortcut) {
+      if (createStartMenuShortcut === 'true') {
         p.push(fsExtra.ensureDir(startMenuPath)
           .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
       }
