@@ -179,7 +179,7 @@ const mapStateToProps = (state) => ({
   canGoBack: state.general.canGoBack,
   canGoForward: state.general.canGoForward,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
-  hasTrafficLights: !state.preferences.titleBar && !state.preferences.sidebar,
+  hasTrafficLights: window.process.platform === 'darwin' && !state.preferences.titleBar && !state.preferences.sidebar,
 });
 
 const actionCreators = {
