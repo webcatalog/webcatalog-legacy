@@ -1,5 +1,5 @@
-/public
-/src
+./public
+./src
 patches
 node_modules/.cache
 node_modules/.bin
