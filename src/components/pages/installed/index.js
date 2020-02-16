@@ -110,9 +110,14 @@ const Installed = (props) => {
           icon={SearchIcon}
           title="No Matching Results"
         >
-          Your search -&nbsp;
-          <b>{query}</b>
-          &nbsp;- did not match any installed apps.
+          <Typography
+            variant="subtitle1"
+            align="center"
+          >
+            Your search -&nbsp;
+            <b>{query}</b>
+            &nbsp;- did not match any installed apps.
+          </Typography>
         </EmptyState>
       );
     }
