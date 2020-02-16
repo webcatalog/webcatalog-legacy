@@ -28,9 +28,6 @@ const getInstalledAppsAsync = () => {
 
               const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
 
-              const legacyAppJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'public', 'app.json');
-              const legacyIconPath = path.join(resourcesPath, 'app.asar.unpacked', 'public', 'icon.png');
-
               const appJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'app.json');
               const iconPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'icon.png');
 
@@ -44,9 +41,7 @@ const getInstalledAppsAsync = () => {
                 return;
               }
 
-              if (fsExtra.pathExistsSync(legacyAppJsonPath)) {
-                appJson = fsExtra.readJSONSync(legacyAppJsonPath);
-              } else if (fsExtra.pathExistsSync(appJsonPath)) {
+              if (fsExtra.pathExistsSync(appJsonPath)) {
                 appJson = fsExtra.readJSONSync(appJsonPath);
                 if (registered && appJson.engine === 'electron' && !appJson.registered) {
                   try {
@@ -60,9 +55,7 @@ const getInstalledAppsAsync = () => {
                 return;
               }
 
-              if (fsExtra.pathExistsSync(legacyIconPath)) {
-                icon = legacyIconPath;
-              } else if (fsExtra.pathExistsSync(iconPath)) {
+              if (fsExtra.pathExistsSync(iconPath)) {
                 icon = iconPath;
               }
 
