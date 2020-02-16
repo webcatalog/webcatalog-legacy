@@ -156,7 +156,7 @@ const EditWorkspace = ({
           if (!homeUrl) {
             return `Defaults to ${appJson.url}.`;
           }
-          return homeUrl;
+          return homeUrlError;
         })()}
       />
       <div className={classes.avatarFlex}>
