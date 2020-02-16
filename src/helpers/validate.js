@@ -49,6 +49,8 @@ const validate = (changes, rules) => {
   const newChanges = { ...changes };
 
   Object.keys(changes).forEach((key) => {
+    if (key.endsWith('Error')) return;
+
     let err = null;
 
     const val = newChanges[key];

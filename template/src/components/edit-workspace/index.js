@@ -202,7 +202,7 @@ const EditWorkspace = ({
             variant="outlined"
             size="small"
             className={classes.buttonBot}
-            disabled={homeUrlError || downloadingIcon}
+            disabled={Boolean(homeUrlError || downloadingIcon)}
             onClick={() => onGetIconFromInternet(true)}
           >
             {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
