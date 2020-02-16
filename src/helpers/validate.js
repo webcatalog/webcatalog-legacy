@@ -10,20 +10,20 @@ const kits = {
     return null;
   },
   url: (val, _, fieldName) => {
-    if (!isUrl(val)) {
+    if (val && !isUrl(val)) {
       return '{fieldName} is not valid.'.replace('{fieldName}', fieldName);
     }
     return null;
   },
   // accept link without protocol prefix
   lessStrictUrl: (val, _, fieldName) => {
-    if (!isUrl(val) && !isUrl(`http://${val}`)) {
+    if (val && !isUrl(val) && !isUrl(`http://${val}`)) {
       return '{fieldName} is not valid.'.replace('{fieldName}', fieldName);
     }
     return null;
   },
   licenseKey: (val, _, fieldName) => {
-    if (!isValidLicenseKey(val)) {
+    if (val && !isValidLicenseKey(val)) {
       return '{fieldName} is not valid.'.replace('{fieldName}', fieldName);
     }
     return null;
