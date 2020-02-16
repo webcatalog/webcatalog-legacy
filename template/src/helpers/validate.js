@@ -16,7 +16,7 @@ const kits = {
   },
   // accept link without protocol prefix
   lessStrictUrl: (val, _, fieldName) => {
-    if (!isUrl(val) && !isUrl(`http://${val}`)) {
+    if (val && !isUrl(val) && !isUrl(`http://${val}`)) {
       return '{fieldName} is not valid.'.replace('{fieldName}', fieldName);
     }
     return null;
@@ -27,6 +27,8 @@ const validate = (changes, rules) => {
   const newChanges = { ...changes };
 
   Object.keys(changes).forEach((key) => {
+    if (key.endsWith('Error')) return;
+
     let err = null;
 
     const val = newChanges[key];
