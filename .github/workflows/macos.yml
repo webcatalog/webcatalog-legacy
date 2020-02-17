@@ -9,6 +9,12 @@ on:
     paths-ignore:
       - 'catalog/**'
       - 'docs/**'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'catalog/**'
+      - 'docs/**'
 
 jobs:
   build:
@@ -40,3 +46,5 @@ jobs:
         CSC_LINK: ${{ secrets.CSC_LINK }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
+    - name: Update Homebrew Cask
+      run: cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
