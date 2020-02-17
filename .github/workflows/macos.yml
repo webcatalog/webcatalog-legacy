@@ -47,10 +47,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
     - name: Update Homebrew Cask
-      run: |
-        brew install vitorgalvao/tiny-scripts/cask-repair
-        (cd $(brew --repository) && hub issue)
-        cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
+      run: brew install vitorgalvao/tiny-scripts/cask-repair && (cd $(brew --repository) && hub issue) && cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
