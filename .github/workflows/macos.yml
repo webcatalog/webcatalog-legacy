@@ -53,4 +53,4 @@ jobs:
         cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
