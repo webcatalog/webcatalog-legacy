@@ -49,7 +49,7 @@ jobs:
     - name: Update Homebrew Cask
       run: |
         brew install vitorgalvao/tiny-scripts/cask-repair
-        cd $(brew --repository) && hub issue
+        (cd $(brew --repository) && hub issue)
         cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
