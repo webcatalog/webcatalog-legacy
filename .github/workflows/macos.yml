@@ -57,4 +57,4 @@ jobs:
       env:
         GITHUB_USER: quanglam2807
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
