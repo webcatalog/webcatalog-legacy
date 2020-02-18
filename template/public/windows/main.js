@@ -177,13 +177,10 @@ const createAsync = () => {
   if (process.platform === 'linux') {
     const handleMaximize = () => {
       // getContentSize is not updated immediately
-      // try once after 0.2s, another after 0.5s, another one after 1s
+      // try once after 0.2s (for fast computer), another one after 1s (to be sure)
       setTimeout(() => {
         ipcMain.emit('request-realign-active-workspace');
       }, 200);
-      setTimeout(() => {
-        ipcMain.emit('request-realign-active-workspace');
-      }, 500);
       setTimeout(() => {
         ipcMain.emit('request-realign-active-workspace');
       }, 1000);
