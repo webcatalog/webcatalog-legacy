@@ -171,6 +171,27 @@ const createAsync = () => {
     }
   });
 
+  // Fix webview is not resized automatically
+  // when window is maximized on Linux
+  // https://github.com/quanglam2807/webcatalog/issues/561
+  if (process.platform === 'linux') {
+    const handleMaximize = () => {
+      // getContentSize is not updated immediately
+      // try once after 0.2s, another after 0.5s, another one after 1s
+      setTimeout(() => {
+        ipcMain.emit('request-realign-active-workspace');
+      }, 200);
+      setTimeout(() => {
+        ipcMain.emit('request-realign-active-workspace');
+      }, 500);
+      setTimeout(() => {
+        ipcMain.emit('request-realign-active-workspace');
+      }, 1000);
+    };
+    win.on('maximize', handleMaximize);
+    win.on('unmaximize', handleMaximize);
+  }
+
 
   return Promise.resolve();
 };
