@@ -2,7 +2,7 @@ const { app } = require('electron');
 const path = require('path');
 const fsExtra = require('fs-extra');
 const settings = require('electron-settings');
-const { v4: uuidv4 } = require('uuid');
+const { v1: uuidv1 } = require('uuid');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
 const download = require('download');
@@ -20,7 +20,7 @@ const getWorkspaces = () => {
   if (workspaces) return workspaces;
 
   const defaultWorkspaces = {};
-  const initialWorkspaceId = uuidv4();
+  const initialWorkspaceId = uuidv1();
   defaultWorkspaces[initialWorkspaceId] = {
     id: initialWorkspaceId,
     name: '',
@@ -76,7 +76,7 @@ const getNextWorkspace = (id) => {
 };
 
 const createWorkspace = (active) => {
-  const newId = uuidv4();
+  const newId = uuidv1();
 
   // find largest order
   const workspaceLst = getWorkspacesAsList();
@@ -130,7 +130,7 @@ const setWorkspace = (id, opts) => {
 
 const setWorkspacePicture = (id, sourcePicturePath) => {
   const workspace = getWorkspace(id);
-  const pictureId = uuidv4();
+  const pictureId = uuidv1();
 
   if (workspace.picturePath === sourcePicturePath) {
     return;
