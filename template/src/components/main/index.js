@@ -56,7 +56,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: theme.spacing(1),
     boxSizing: 'border-box',
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -210,14 +210,14 @@ const Main = ({
                   This site can’t be reached.
                 </Typography>
 
-                <Typography align="center" variant="body1">
+                <Typography align="center" variant="body2">
                   Try:
                   - Checking the network cables, modem, and router.
                   - Checking the proxy and the firewall.
                   - Reconnecting to Wi-Fi.
                 </Typography>
 
-                <Typography align="center" variant="body1">
+                <Typography align="center" variant="body2">
                   Press ⌘ + R to reload.
                 </Typography>
               </div>
