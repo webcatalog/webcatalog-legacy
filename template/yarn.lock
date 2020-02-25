@@ -911,17 +911,22 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@date-io/core@1.x", "@date-io/core@^1.3.13":
+"@date-io/core@1.x":
   version "1.3.13"
   resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.13.tgz#90c71da493f20204b7a972929cc5c482d078b3fa"
   integrity sha512-AlEKV7TxjeK+jxWVKcCFrfYAk8spX9aCyiToFIiLPtfQbsjmRGLIhb5VZgptQcJdHtLXo7+m0DuurwFgUToQuA==
 
-"@date-io/date-fns@1.3.13":
-  version "1.3.13"
-  resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-1.3.13.tgz#7798844041640ab393f7e21a7769a65d672f4735"
-  integrity sha512-yXxGzcRUPcogiMj58wVgFjc9qUYrCnnU9eLcyNbsQCmae4jPuZCDoIBR21j8ZURsM7GRtU62VOw5yNd4dDHunA==
+"@date-io/core@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@date-io/core/-/core-2.4.0.tgz#59e1c6de1d48ee63c6e97681b415076d04e7b5bf"
+  integrity sha512-XUr4TSwFmthcCn5QYnGqobbnBqOsSyCggRfvieMQHPSz5zei8KYpw4xlvFFQfu/MI3CmCHDjWMkVaPy/uFIDNA==
+
+"@date-io/date-fns@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-2.4.0.tgz#d41aa353806a3b8aa28fbcadf2c860438bcbfaa9"
+  integrity sha512-DYlfSiTs6GuPmbAmJ9ws7aaOd8f89lVBBqU+71w4Qxxv9DW2qQvBWwOkvCJ5qSp4ae4+PtCzy6JKQDKsdgBaJg==
   dependencies:
-    "@date-io/core" "^1.3.13"
+    "@date-io/core" "^2.4.0"
 
 "@emotion/hash@^0.7.4":
   version "0.7.4"
