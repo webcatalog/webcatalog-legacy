@@ -167,7 +167,7 @@ const AppCard = (props) => {
         <Typography variant="subtitle2" className={classes.appName}>
           {name}
         </Typography>
-        <Typography variant="body1" color="textSecondary" className={classes.appUrl}>
+        <Typography variant="body2" color="textSecondary" className={classes.appUrl}>
           {extractHostname(url)}
         </Typography>
 
