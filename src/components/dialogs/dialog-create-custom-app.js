@@ -27,7 +27,7 @@ const { dialog } = window.require('electron').remote;
 
 const styles = (theme) => ({
   grid: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   iconContainer: {
     height: 96,
@@ -41,10 +41,13 @@ const styles = (theme) => ({
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   buttonBot: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
+  },
+  caption: {
+    display: 'block',
   },
 });
 
@@ -105,7 +108,7 @@ const DialogCreateCustomApp = (props) => {
           value={url}
           error={Boolean(urlError)}
         />
-        <Grid container spacing={16} className={classes.grid}>
+        <Grid container spacing={1} className={classes.grid}>
           <Grid item xs={12} sm="auto">
             <div className={classes.iconContainer}>
               <img src={iconPath} alt={name} className={classes.icon} />
@@ -132,7 +135,7 @@ const DialogCreateCustomApp = (props) => {
             >
               Select Local Image...
             </Button>
-            <Typography variant="caption">
+            <Typography variant="caption" className={classes.caption}>
               PNG, JPEG, GIF, TIFF or BMP.
             </Typography>
             <Button

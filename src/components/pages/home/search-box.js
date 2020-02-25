@@ -21,12 +21,8 @@ const styles = (theme) => ({
     zIndex: 10,
     position: 'relative',
     borderRadius: 0,
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
-    [theme.breakpoints.down('xs')]: {
-      paddingLeft: theme.spacing.unit * 1.5,
-      paddingRight: theme.spacing.unit * 1.5,
-    },
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
   },
   toolbarSectionSearch: {
     alignItems: 'center',

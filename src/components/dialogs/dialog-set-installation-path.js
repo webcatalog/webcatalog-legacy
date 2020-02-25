@@ -25,12 +25,12 @@ const { remote } = window.require('electron');
 
 const styles = (theme) => ({
   top: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
 });
 
@@ -56,7 +56,7 @@ const DialogSetInstallationPath = (props) => {
         Set Custom Installation Path
       </EnhancedDialogTitle>
       <DialogContent>
-        <Typography align="center" variant="body1" className={classes.top}>
+        <Typography align="center" variant="body2" className={classes.top}>
           Use at your own risk.
         </Typography>
         <TextField

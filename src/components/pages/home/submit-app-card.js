@@ -12,11 +12,11 @@ import { requestOpenInBrowser } from '../../../senders';
 
 const styles = (theme) => ({
   card: {
-    width: 180,
-    height: 155,
+    width: 160,
+    height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     textAlign: 'center',
     position: 'relative',
     display: 'flex',
@@ -37,8 +37,8 @@ const styles = (theme) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     lineHeight: 1,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     fontWeight: 500,
   },
 });

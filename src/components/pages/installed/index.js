@@ -40,10 +40,10 @@ const styles = (theme) => ({
   },
   scrollContainer: {
     flex: 1,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
     overflow: 'auto',
     boxSizing: 'border-box',
   },
@@ -51,7 +51,7 @@ const styles = (theme) => ({
     minHeight: '100%',
   },
   divider: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
   updateAllFlexRoot: {
     display: 'flex',
@@ -63,13 +63,13 @@ const styles = (theme) => ({
     flexDirection: 'row',
   },
   pendingUpdates: {
-    paddingLeft: theme.spacing.unit,
+    paddingLeft: theme.spacing(1),
   },
   updateAllButton: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
   moreVertIcon: {
-    padding: theme.spacing.unit * 0.5,
+    padding: theme.spacing(0.5),
   },
 });
 
@@ -88,7 +88,7 @@ const Installed = (props) => {
   const renderContent = () => {
     if (Object.keys(apps).length > 0) {
       return (
-        <Grid container justify="center" spacing={16}>
+        <Grid container justify="center" spacing={1}>
           {Object.values(apps)
             .sort((x, y) => x.name.localeCompare(y.name))
             .map((app) => (
@@ -134,29 +134,28 @@ const Installed = (props) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={16}>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <SearchBox />
         </Grid>
       </Grid>
       <div className={classes.scrollContainer}>
-        <Grid spacing={16} container className={classes.grid}>
+        <Grid spacing={1} container className={classes.grid}>
           <Grid item xs={12}>
             <div className={classes.updateAllFlexRoot}>
               <div className={classes.updateAllFlexLeft}>
-                <Typography variant="body1" color="default" className={classes.pendingUpdates}>
+                <Typography variant="body2" color="textPrimary" className={classes.pendingUpdates}>
                   <span>{outdatedAppCount}</span>
                   <span>&nbsp;Pending Updates</span>
                 </Typography>
-                {outdatedAppCount > 0 && (
-                  <Button
-                    className={classes.updateAllButton}
-                    onClick={onUpdateAllApps}
-                    size="small"
-                  >
-                    Update All
-                  </Button>
-                )}
+                <Button
+                  className={classes.updateAllButton}
+                  onClick={onUpdateAllApps}
+                  size="small"
+                  disabled={outdatedAppCount < 1}
+                >
+                  Update All
+                </Button>
                 {cancelableAppsAsList.length > 0 && (
                   <Button
                     className={classes.updateAllButton}

@@ -18,7 +18,7 @@ const apps = (state = {}, action) => {
     }
     case SET_APP: {
       const overwritingState = {};
-      overwritingState[action.id] = { ...state[action.id] || {}, ...action.app };
+      overwritingState[action.id] = { ...(state[action.id] || {}), ...action.app };
 
       return { ...state, ...overwritingState };
     }

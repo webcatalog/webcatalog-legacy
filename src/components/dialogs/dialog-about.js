@@ -27,25 +27,26 @@ const styles = (theme) => ({
   dialogContent: {
     minWidth: 320,
     textAlign: 'center',
+    paddingBottom: theme.spacing(2),
   },
   title: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   version: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   versionSmallContainer: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   versionSmall: {
     fontSize: 13,
   },
   goToTheWebsiteButton: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   madeBy: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   link: {
     fontWeight: 600,
@@ -74,9 +75,9 @@ const About = (props) => {
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
         <img src={iconPng} alt="WebCatalog" className={classes.icon} />
-        <Typography variant="title" className={classes.title}>WebCatalog</Typography>
+        <Typography variant="h6" className={classes.title}>WebCatalog</Typography>
         <Typography
-          variant="body1"
+          variant="body2"
           className={classes.version}
         >
           {`Version v${appVersion}`}
@@ -94,7 +95,7 @@ const About = (props) => {
           Support
         </Button>
 
-        <Typography variant="body1" className={classes.madeBy}>
+        <Typography variant="body2" className={classes.madeBy}>
           <span>Made with </span>
           <span role="img" aria-label="love">❤</span>
           <span> by </span>
