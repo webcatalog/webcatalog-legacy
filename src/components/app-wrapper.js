@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/pink';
 import grey from '@material-ui/core/colors/grey';
@@ -47,6 +46,9 @@ class AppWrapper extends React.Component {
     const { shouldUseDarkColors } = this.props;
 
     const themeObj = {
+      typography: {
+        fontSize: 13.5,
+      },
       palette: {
         type: shouldUseDarkColors ? 'dark' : 'light',
         primary: {

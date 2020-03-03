@@ -5,8 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
@@ -63,22 +63,22 @@ const styles = (theme) => ({
   },
   scrollContainer: {
     flex: 1,
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     overflow: 'auto',
     boxSizing: 'border-box',
   },
   sectionTitle: {
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
   },
   paper: {
-    marginTop: theme.spacing.unit * 0.5,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(3),
     width: '100%',
     WebkitAppRegion: 'none',
   },
   inner: {
     width: '100%',
-    maxWidth: 500,
+    maxWidth: 560,
     margin: '0 auto',
   },
 });
@@ -110,7 +110,7 @@ const formatBytes = (bytes, decimals = 2) => {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
+  return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
 };
 
 const getUpdaterDesc = (status, info) => {
@@ -186,11 +186,11 @@ const Preferences = ({
       )}
       <div className={classes.scrollContainer}>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
             General
           </Typography>
           <Paper className={classes.paper}>
-            <List dense>
+            <List disablePadding dense>
               <StatedMenu
                 id="themeSource"
                 buttonElement={(
@@ -265,11 +265,11 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
             Privacy &amp; Security
           </Typography>
           <Paper className={classes.paper}>
-            <List dense>
+            <List disablePadding dense>
               <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
                 <ListItemText primary="Privacy Policy" />
               </ListItem>
@@ -278,11 +278,15 @@ const Preferences = ({
 
           {window.process.platform !== 'linux' && (
             <>
-              <Typography variant="subtitle2" className={classes.sectionTitle}>
+              <Typography
+                variant="subtitle2"
+                color="textPrimary"
+                className={classes.sectionTitle}
+              >
                 System
               </Typography>
               <Paper className={classes.paper}>
-                <List dense>
+                <List disablePadding dense>
                   <StatedMenu
                     id="openAtLogin"
                     buttonElement={(
@@ -301,11 +305,11 @@ const Preferences = ({
             </>
           )}
 
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
             Advanced
           </Typography>
           <Paper className={classes.paper}>
-            <List dense>
+            <List disablePadding dense>
               <ListItem button onClick={onOpenDialogSetPreferredEngine}>
                 <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
                 <ChevronRightIcon color="action" />
@@ -381,59 +385,63 @@ const Preferences = ({
                   )}
                 >
                   {window.process.platform === 'win32' && (
-                    <>
-                      {(installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
-                        <MenuItem>
+                    [
+                      (installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
+                        <MenuItem key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
-                      )}
+                      ),
                       <MenuItem
+                        key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath(`${remote.app.getPath('home')}\\WebCatalog Apps`, false);
                         }}
                       >
                         {`${remote.app.getPath('home')}\\WebCatalog Apps`}
-                      </MenuItem>
-                    </>
+                      </MenuItem>,
+                    ]
                   )}
                   {window.process.platform === 'darwin' && (
-                    <>
-                      {(installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
-                        <MenuItem>
+                    [
+                      (installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
+                        <MenuItem key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
-                      )}
+                      ),
                       <MenuItem
+                        key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('~/Applications/WebCatalog Apps', false);
                         }}
                       >
                         ~/Applications/WebCatalog Apps (default)
-                      </MenuItem>
+                      </MenuItem>,
                       <MenuItem
+                        key="default-sudo-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('/Applications/WebCatalog Apps', true);
                         }}
                       >
                         /Applications/WebCatalog Apps (requires sudo)
-                      </MenuItem>
-                    </>
+                      </MenuItem>,
+                    ]
                   )}
                   {window.process.platform === 'linux' && (
-                    <>
-                      {(installationPath !== '~/.webcatalog') && (
-                        <MenuItem>
+                    [
+                      (installationPath !== '~/.webcatalog') && (
+                        <MenuItem key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
-                      )}
+                      ),
                       <MenuItem
+                        key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('~/.webcatalog', false);
                         }}
                       >
                         ~/.webcatalog (default)
-                      </MenuItem>
-                    </>
+                      </MenuItem>,
+                    ]
                   )}
                   <MenuItem onClick={onOpenDialogSetInstallationPath}>
                     Custom
@@ -463,11 +471,11 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
             Reset
           </Typography>
           <Paper className={classes.paper}>
-            <List dense>
+            <List disablePadding dense>
               <ListItem button onClick={requestResetPreferences}>
                 <ListItemText primary="Restore preferences to their original defaults" />
                 <ChevronRightIcon color="action" />
@@ -475,11 +483,11 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
             Miscellaneous
           </Typography>
           <Paper className={classes.paper}>
-            <List dense>
+            <List disablePadding dense>
               <ListItem button onClick={onOpenDialogAbout}>
                 <ListItemText primary="About" />
                 <ChevronRightIcon color="action" />

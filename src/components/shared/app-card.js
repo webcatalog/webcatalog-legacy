@@ -38,11 +38,11 @@ import { open as openDialogCreateCustomApp } from '../../state/dialog-create-cus
 
 const styles = (theme) => ({
   card: {
-    width: 180,
-    height: 155,
+    width: 160,
+    height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     textAlign: 'center',
     position: 'relative',
   },
@@ -51,7 +51,7 @@ const styles = (theme) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     lineHeight: 1,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     fontWeight: 500,
   },
   appUrl: {
@@ -64,7 +64,7 @@ const styles = (theme) => ({
     height: 48,
   },
   actionContainer: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   actionButton: {
     minWidth: 'auto',
@@ -73,10 +73,10 @@ const styles = (theme) => ({
   },
   topRight: {
     position: 'absolute',
-    top: theme.spacing.unit,
-    right: theme.spacing.unit,
+    top: theme.spacing(1),
+    right: theme.spacing(1),
     color: theme.palette.text.secondary,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
 });
 
@@ -167,7 +167,7 @@ const AppCard = (props) => {
         <Typography variant="subtitle2" className={classes.appName}>
           {name}
         </Typography>
-        <Typography variant="body1" color="textSecondary" className={classes.appUrl}>
+        <Typography variant="body2" color="textSecondary" className={classes.appUrl}>
           {extractHostname(url)}
         </Typography>
 
@@ -208,14 +208,14 @@ const AppCard = (props) => {
             {name}
           </MenuItem>
           {engine && (
-            <>
-              <Divider />
-              <MenuItem onClick={null} disabled>
+            [
+              <Divider key={`menu-divider-${id}`} />,
+              <MenuItem key={`menu-engine-${id}`} onClick={null} disabled>
                 Installed with&nbsp;
                 {getEngineName(engine)}
-              </MenuItem>
-              {engine === 'electron' && version && (
-                <MenuItem onClick={null} disabled>
+              </MenuItem>,
+              engine === 'electron' && version && (
+                <MenuItem key={`menu-version-${id}`} onClick={null} disabled>
                   Version&nbsp;
                   {version}
                   {isOutdated && (
@@ -226,8 +226,8 @@ const AppCard = (props) => {
                     </span>
                   )}
                 </MenuItem>
-              )}
-            </>
+              ),
+            ]
           )}
         </StatedMenu>
 

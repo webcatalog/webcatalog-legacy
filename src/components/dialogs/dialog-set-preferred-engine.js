@@ -32,16 +32,16 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const styles = (theme) => ({
   grid: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   tip: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   inline: {
     display: 'inline',
@@ -75,7 +75,7 @@ const DialogSetPreferredEngine = (props) => {
           you will have to uninstall and then reinstall to change the engine.
         </Typography>
 
-        <List>
+        <List disablePadding>
           <ListItem
             alignItems="flex-start"
             button

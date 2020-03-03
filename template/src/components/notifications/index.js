@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { DateTimePicker } from 'material-ui-pickers';
+import { DateTimePicker } from '@material-ui/pickers';
 
 import {
   format, isTomorrow, isToday,
@@ -29,6 +29,8 @@ import StatedMenu from '../shared/stated-menu';
 
 // https://www.sketchappsources.com/free-source/2501-iphone-app-background-sketch-freebie-resource.html
 import nightBackgroundPng from '../../images/night-background.png';
+
+import { updateShowDateTimePicker } from '../../state/notifications/actions';
 
 const styles = (theme) => ({
   hidden: {
@@ -61,13 +63,12 @@ const formatDate = (d) => {
 const DialogPauseNotifications = (props) => {
   const {
     classes,
+    onUpdateShowDateTimePicker,
     pauseNotificationsInfo,
+    showDateTimePicker,
   } = props;
 
   const shouldPauseNotifications = pauseNotificationsInfo !== null;
-
-  // https://material-ui-pickers-v2.dmtr-kovalenko.now.sh/guides/controlling-programmatically
-  const pickerRef = React.useRef(null);
 
   const { remote } = window.require('electron');
 
@@ -174,11 +175,7 @@ const DialogPauseNotifications = (props) => {
                   </MenuItem>
                 ))}
                 <MenuItem
-                  onClick={(e) => {
-                    if (pickerRef.current) {
-                      pickerRef.current.open(e);
-                    }
-                  }}
+                  onClick={() => onUpdateShowDateTimePicker(true)}
                 >
                   Custom...
                 </MenuItem>
@@ -216,11 +213,7 @@ const DialogPauseNotifications = (props) => {
         ))}
         <ListItem
           button
-          onClick={(e) => {
-            if (pickerRef.current) {
-              pickerRef.current.open(e);
-            }
-          }}
+          onClick={() => onUpdateShowDateTimePicker(true)}
         >
           <ListItemText primary="Custom..." />
         </ListItem>
@@ -245,7 +238,9 @@ const DialogPauseNotifications = (props) => {
         value={new Date()}
         onChange={pauseNotif}
         label="Custom"
-        ref={pickerRef}
+        open={showDateTimePicker}
+        onOpen={() => onUpdateShowDateTimePicker(true)}
+        onClose={() => onUpdateShowDateTimePicker(false)}
         className={classes.hidden}
         disablePast
         showTodayButton
@@ -260,14 +255,19 @@ DialogPauseNotifications.defaultProps = {
 
 DialogPauseNotifications.propTypes = {
   classes: PropTypes.object.isRequired,
+  onUpdateShowDateTimePicker: PropTypes.func.isRequired,
   pauseNotificationsInfo: PropTypes.object,
+  showDateTimePicker: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   pauseNotificationsInfo: state.notifications.pauseNotificationsInfo,
+  showDateTimePicker: state.notifications.showDateTimePicker,
 });
 
-const actionCreators = {};
+const actionCreators = {
+  updateShowDateTimePicker,
+};
 
 export default connectComponent(
   DialogPauseNotifications,

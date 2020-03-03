@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { TimePicker } from 'material-ui-pickers';
+import { TimePicker } from '@material-ui/pickers';
 
 import connectComponent from '../../helpers/connect-component';
 import getWorkspacesAsList from '../../helpers/get-workspaces-as-list';
@@ -45,19 +45,19 @@ const { remote } = window.require('electron');
 
 const styles = (theme) => ({
   root: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     background: theme.palette.background.default,
   },
   sectionTitle: {
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
   },
   paper: {
-    marginTop: theme.spacing.unit * 0.5,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(3),
   },
   timePickerContainer: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -176,7 +176,7 @@ const Preferences = ({
       General
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <StatedMenu
           id="theme"
           buttonElement={(
@@ -343,7 +343,7 @@ const Preferences = ({
       Notifications
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem button onClick={requestShowNotificationsWindow}>
           <ListItemText primary="Control notifications" />
           <ChevronRightIcon color="action" />
@@ -420,7 +420,7 @@ const Preferences = ({
       Languages
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem>
           <ListItemText primary="Spell check" />
           <ListItemSecondaryAction>
@@ -466,7 +466,7 @@ const Preferences = ({
       Downloads
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem
           button
           onClick={() => {
@@ -507,7 +507,7 @@ const Preferences = ({
       Privacy &amp; Security
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem>
           <ListItemText primary="Remember last page visited" />
           <ListItemSecondaryAction>
@@ -551,7 +551,7 @@ const Preferences = ({
       Default App
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         {(hasMailWorkspace || isDefaultMailClient) && (
           <>
             {isDefaultMailClient ? (
@@ -609,7 +609,7 @@ const Preferences = ({
           System
         </Typography>
         <Paper className={classes.paper}>
-          <List dense>
+          <List disablePadding dense>
             <StatedMenu
               id="openAtLogin"
               buttonElement={(
@@ -632,7 +632,7 @@ const Preferences = ({
       Advanced
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem>
           <ListItemText
             primary="Hibernate unused workspaces at app launch"
@@ -674,7 +674,7 @@ const Preferences = ({
       Reset
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem button onClick={requestResetPreferences}>
           <ListItemText primary="Restore preferences to their original defaults" />
           <ChevronRightIcon color="action" />
@@ -686,7 +686,7 @@ const Preferences = ({
       Miscellaneous
     </Typography>
     <Paper className={classes.paper}>
-      <List dense>
+      <List disablePadding dense>
         <ListItem button onClick={requestShowAboutWindow}>
           <ListItemText primary="About" />
           <ChevronRightIcon color="action" />

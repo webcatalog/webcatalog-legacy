@@ -36,18 +36,18 @@ const styles = (theme) => ({
   },
   scrollContainer: {
     flex: 1,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(2),
     overflow: 'auto',
     boxSizing: 'border-box',
   },
   grid: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
   searchByAlgoliaContainer: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     outline: 'none',
   },
   searchByAlgolia: {
@@ -55,7 +55,7 @@ const styles = (theme) => ({
     cursor: 'pointer',
   },
   noMatchingResultOpts: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
   },
 });
 
@@ -107,7 +107,7 @@ class Home extends React.Component {
               <b>{currentQuery}</b>
               &nbsp;- did not match any apps in the catalog.
             </Typography>
-            <Grid container justify="center" spacing={16} className={classes.noMatchingResultOpts}>
+            <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
               <CreateCustomAppCard />
               <SubmitAppCard />
             </Grid>
@@ -117,7 +117,7 @@ class Home extends React.Component {
 
       return (
         <>
-          <Grid container justify="center" spacing={16}>
+          <Grid container justify="center" spacing={2}>
             {currentQuery && (
               <Grid item xs={12}>
                 <Typography
@@ -145,7 +145,7 @@ class Home extends React.Component {
           </Grid>
 
           {!isGetting && (
-            <Grid container justify="center" spacing={16}>
+            <Grid container justify="center" spacing={1}>
               <div
                 onKeyDown={() => requestOpenInBrowser('https://algolia.com')}
                 onClick={() => requestOpenInBrowser('https://algolia.com')}
@@ -167,7 +167,7 @@ class Home extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={16}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
             <SearchBox />
           </Grid>
@@ -176,7 +176,7 @@ class Home extends React.Component {
           className={classes.scrollContainer}
           ref={(container) => { this.scrollContainer = container; }}
         >
-          <Grid container className={classes.grid} spacing={16}>
+          <Grid container className={classes.grid} spacing={1}>
             <Grid item xs={12}>
               {renderContent()}
             </Grid>
