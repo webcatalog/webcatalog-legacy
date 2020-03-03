@@ -117,7 +117,7 @@ class Home extends React.Component {
 
       return (
         <>
-          <Grid container justify="center" spacing={1}>
+          <Grid container justify="center" spacing={2}>
             {currentQuery && (
               <Grid item xs={12}>
                 <Typography

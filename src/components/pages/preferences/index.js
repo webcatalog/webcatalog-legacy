@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -50,6 +52,15 @@ const styles = (theme) => ({
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
+  appBar: {
+    WebkitAppRegion: 'drag',
+    WebkitUserSelect: 'none',
+  },
+  title: {
+    flex: 1,
+    textAlign: 'center',
+    color: theme.palette.text.primary,
+  },
   scrollContainer: {
     flex: 1,
     padding: theme.spacing(2),
@@ -67,7 +78,7 @@ const styles = (theme) => ({
   },
   inner: {
     width: '100%',
-    maxWidth: 600,
+    maxWidth: 560,
     margin: '0 auto',
   },
 });
@@ -164,6 +175,15 @@ const Preferences = ({
 
   return (
     <div className={classes.root}>
+      {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
+      <AppBar position="static" className={classes.appBar} elevation={2} color="inherit">
+        <Toolbar variant="dense" className={classes.toolbar}>
+          <Typography variant="h6" color="inherit" className={classes.title}>
+            Preferences
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      )}
       <div className={classes.scrollContainer}>
         <div className={classes.inner}>
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
@@ -185,9 +205,9 @@ const Preferences = ({
                 <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
               {window.process.platform !== 'darwin' && (
-                [
-                  <Divider key="menu-bar-divider" />,
-                  <ListItem key="menu-bar-menu-item">
+                <>
+                  <Divider />
+                  <ListItem>
                     <ListItemText
                       primary="Hide menu bar"
                       secondary="Hide the menu bar unless the Alt key is pressed."
@@ -202,8 +222,8 @@ const Preferences = ({
                         }}
                       />
                     </ListItemSecondaryAction>
-                  </ListItem>,
-                ]
+                  </ListItem>
+                </>
               )}
               <Divider />
               <ListItem>
@@ -257,16 +277,15 @@ const Preferences = ({
           </Paper>
 
           {window.process.platform !== 'linux' && (
-            [
+            <>
               <Typography
-                key="system-subtitle"
                 variant="subtitle2"
                 color="textPrimary"
                 className={classes.sectionTitle}
               >
                 System
-              </Typography>,
-              <Paper className={classes.paper} key="system-paper">
+              </Typography>
+              <Paper className={classes.paper}>
                 <List disablePadding dense>
                   <StatedMenu
                     id="openAtLogin"
@@ -282,8 +301,8 @@ const Preferences = ({
                     <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
                   </StatedMenu>
                 </List>
-              </Paper>,
-            ]
+              </Paper>
+            </>
           )}
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
@@ -312,8 +331,8 @@ const Preferences = ({
               </ListItem>
               <Divider />
               {window.process.platform === 'win32' && (
-                [
-                  <ListItem key="desktop-shortcut-listitem">
+                <>
+                  <ListItem>
                     <ListItemText
                       primary="Automatically create desktop shortcuts for newly installed apps"
                     />
@@ -326,9 +345,9 @@ const Preferences = ({
                         }}
                       />
                     </ListItemSecondaryAction>
-                  </ListItem>,
-                  <Divider key="desktop-shortcut-divider" />,
-                  <ListItem key="start-menu-shortcut-listitem">
+                  </ListItem>
+                  <Divider />
+                  <ListItem>
                     <ListItemText
                       primary="Automatically create Start Menu shortcuts for newly installed apps"
                     />
@@ -341,9 +360,9 @@ const Preferences = ({
                         }}
                       />
                     </ListItemSecondaryAction>
-                  </ListItem>,
-                  <Divider />,
-                ]
+                  </ListItem>
+                  <Divider />
+                </>
               )}
               {installingAppCount > 0 ? (
                 <ListItem

@@ -88,7 +88,7 @@ const Installed = (props) => {
   const renderContent = () => {
     if (Object.keys(apps).length > 0) {
       return (
-        <Grid container justify="center" spacing={1}>
+        <Grid container justify="center" spacing={2}>
           {Object.values(apps)
             .sort((x, y) => x.name.localeCompare(y.name))
             .map((app) => (

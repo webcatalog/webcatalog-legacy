@@ -52,7 +52,7 @@ const styles = (theme) => ({
     paddingLeft: theme.spacing(2),
   },
   paper: {
-    marginTop: theme.spacing.unit * 0.5,
+    marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(3),
   },
   timePickerContainer: {
