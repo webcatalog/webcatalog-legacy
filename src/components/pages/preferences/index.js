@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,6 +15,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CodeIcon from '@material-ui/icons/Code';
+import ComputerIcon from '@material-ui/icons/Computer';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import SecurityIcon from '@material-ui/icons/Security';
+import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import StatedMenu from '../../shared/stated-menu';
 
@@ -78,8 +85,16 @@ const styles = (theme) => ({
   },
   inner: {
     width: '100%',
-    maxWidth: 560,
+    maxWidth: 500,
     margin: '0 auto',
+  },
+  sidebar: {
+    position: 'fixed',
+    width: 200,
+    color: theme.palette.text.primary,
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
 });
 
@@ -173,6 +188,40 @@ const Preferences = ({
     }
   };
 
+  const sections = {
+    general: {
+      text: 'General',
+      Icon: WidgetsIcon,
+      ref: useRef(),
+    },
+    privacy: {
+      text: 'Privacy & Security',
+      Icon: SecurityIcon,
+      ref: useRef(),
+    },
+    system: {
+      text: 'System',
+      Icon: ComputerIcon,
+      ref: useRef(),
+      hidden: window.process.platform === 'linux',
+    },
+    advanced: {
+      text: 'Advanced',
+      Icon: CodeIcon,
+      ref: useRef(),
+    },
+    reset: {
+      text: 'Reset',
+      Icon: RotateLeftIcon,
+      ref: useRef(),
+    },
+    miscs: {
+      text: 'Miscellaneous',
+      Icon: MoreHorizIcon,
+      ref: useRef(),
+    },
+  };
+
   return (
     <div className={classes.root}>
       {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
@@ -185,8 +234,31 @@ const Preferences = ({
       </AppBar>
       )}
       <div className={classes.scrollContainer}>
+        <div className={classes.sidebar}>
+          <List dense>
+            {Object.keys(sections).map((sectionKey, i) => {
+              const {
+                Icon, text, ref, hidden,
+              } = sections[sectionKey];
+              if (hidden) return null;
+              return (
+                <React.Fragment key={sectionKey}>
+                  {i > 0 && <Divider />}
+                  <ListItem button onClick={() => ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
+                    <ListItemIcon>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                    />
+                  </ListItem>
+                </React.Fragment>
+              );
+            })}
+          </List>
+        </div>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
           </Typography>
           <Paper className={classes.paper}>
@@ -265,7 +337,7 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.privacy.ref}>
             Privacy &amp; Security
           </Typography>
           <Paper className={classes.paper}>
@@ -282,6 +354,7 @@ const Preferences = ({
                 variant="subtitle2"
                 color="textPrimary"
                 className={classes.sectionTitle}
+                ref={sections.system.ref}
               >
                 System
               </Typography>
@@ -305,7 +378,7 @@ const Preferences = ({
             </>
           )}
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced
           </Typography>
           <Paper className={classes.paper}>
@@ -471,7 +544,7 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.reset.ref}>
             Reset
           </Typography>
           <Paper className={classes.paper}>
@@ -483,7 +556,7 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.miscs.ref}>
             Miscellaneous
           </Typography>
           <Paper className={classes.paper}>
