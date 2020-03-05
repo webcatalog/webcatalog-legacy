@@ -14,7 +14,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const save = () => (dispatch, getState) => {
-  const { form } = getState().customUserAgent;
+  const { form } = getState().dialogCustomUserAgent;
 
   if (getPreference('customUserAgent') !== form.code) {
     requestSetPreference('customUserAgent', form.code);

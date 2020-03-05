@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 
-import { updateForm, go } from '../../state/go-to-url/actions';
+import { updateForm, save } from '../../state/dialog-custom-user-agent/actions';
 
 const styles = (theme) => ({
   root: {
@@ -25,18 +25,17 @@ const styles = (theme) => ({
   },
 });
 
-const GoToUrl = ({
-  classes, url, urlError, onUpdateForm, onGo,
+const CustomUserAgent = ({
+  classes, code, onUpdateForm, onSave,
 }) => (
   <div className={classes.root}>
     <div className={classes.flexGrow}>
       <TextField
         autoFocus
         id="outlined-full-width"
-        label="URL"
-        error={Boolean(urlError)}
-        helperText={urlError}
-        placeholder="Type a URL"
+        label="User-Agent"
+        placeholder=""
+        helperText="Leave it blank to use default User-Agent string."
         fullWidth
         margin="dense"
         variant="outlined"
@@ -44,48 +43,36 @@ const GoToUrl = ({
         InputLabelProps={{
           shrink: true,
         }}
-        value={url}
-        onChange={(e) => onUpdateForm({ url: e.target.value })}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            onGo();
-            e.target.blur();
-          }
-        }}
+        value={code}
+        onChange={(e) => onUpdateForm({ code: e.target.value })}
       />
     </div>
     <div>
-      <Button color="primary" variant="contained" className={classes.button} onClick={onGo}>
-        Go
+      <Button color="primary" variant="contained" className={classes.button} onClick={onSave}>
+        Save
       </Button>
     </div>
   </div>
 );
 
-GoToUrl.defaultProps = {
-  urlError: null,
-};
-
-GoToUrl.propTypes = {
+CustomUserAgent.propTypes = {
   classes: PropTypes.object.isRequired,
-  url: PropTypes.string.isRequired,
-  urlError: PropTypes.string,
+  code: PropTypes.string.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
-  onGo: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  url: state.goToUrl.form.url,
-  urlError: state.goToUrl.form.urlError,
+  code: state.dialogCustomUserAgent.form.code,
 });
 
 const actionCreators = {
   updateForm,
-  go,
+  save,
 };
 
 export default connectComponent(
-  GoToUrl,
+  CustomUserAgent,
   mapStateToProps,
   actionCreators,
   styles,

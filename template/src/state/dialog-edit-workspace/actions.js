@@ -38,7 +38,7 @@ export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => 
 });
 
 export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
-  const { form: { picturePath, homeUrl, homeUrlError } } = getState().editWorkspace;
+  const { form: { picturePath, homeUrl, homeUrlError } } = getState().dialogEditWorkspace;
   if ((!forceOverwrite && picturePath) || homeUrlError) return;
 
   dispatch({
@@ -49,7 +49,7 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
   const appJson = remote.getGlobal('appJson');
   getWebsiteIconUrlAsync(homeUrl || appJson.url)
     .then((iconUrl) => {
-      const { form } = getState().editWorkspace;
+      const { form } = getState().dialogEditWorkspace;
       if (form.homeUrl === homeUrl) {
         const changes = { internetIcon: iconUrl || form.internetIcon };
         if (forceOverwrite) changes.picturePath = null;
@@ -81,7 +81,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const save = () => (dispatch, getState) => {
-  const { form } = getState().editWorkspace;
+  const { form } = getState().dialogEditWorkspace;
 
   const validatedChanges = validate(form, getValidationRules());
   if (hasErrors(validatedChanges)) {

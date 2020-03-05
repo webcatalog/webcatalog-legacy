@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 
-import { updateForm, save } from '../../state/custom-user-agent/actions';
+import { updateForm, save } from '../../state/dialog-code-injection/actions';
 
 const styles = (theme) => ({
   root: {
@@ -25,7 +25,7 @@ const styles = (theme) => ({
   },
 });
 
-const CustomUserAgent = ({
+const CodeInjection = ({
   classes, code, onUpdateForm, onSave,
 }) => (
   <div className={classes.root}>
@@ -33,13 +33,13 @@ const CustomUserAgent = ({
       <TextField
         autoFocus
         id="outlined-full-width"
-        label="User-Agent"
+        label="Code"
         placeholder=""
-        helperText="Leave it blank to use default User-Agent string."
         fullWidth
         margin="dense"
         variant="outlined"
-        multiline={false}
+        multiline
+        rows="12"
         InputLabelProps={{
           shrink: true,
         }}
@@ -55,7 +55,7 @@ const CustomUserAgent = ({
   </div>
 );
 
-CustomUserAgent.propTypes = {
+CodeInjection.propTypes = {
   classes: PropTypes.object.isRequired,
   code: PropTypes.string.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ CustomUserAgent.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  code: state.customUserAgent.form.code,
+  code: state.dialogCodeInjection.form.code,
 });
 
 const actionCreators = {
@@ -72,7 +72,7 @@ const actionCreators = {
 };
 
 export default connectComponent(
-  CustomUserAgent,
+  CodeInjection,
   mapStateToProps,
   actionCreators,
   styles,

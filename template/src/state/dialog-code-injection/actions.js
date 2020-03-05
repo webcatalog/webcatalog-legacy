@@ -10,7 +10,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const save = () => (dispatch, getState) => {
-  const { form } = getState().codeInjection;
+  const { form } = getState().dialogCodeInjection;
 
   const codeInjectionType = window.require('electron').remote.getGlobal('codeInjectionType');
   requestSetPreference(`${codeInjectionType}CodeInjection`, form.code);

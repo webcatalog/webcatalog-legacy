@@ -23,7 +23,7 @@ import {
   getIconFromInternet,
   updateForm,
   save,
-} from '../../state/edit-workspace/actions';
+} from '../../state/dialog-edit-workspace/actions';
 
 const { remote } = window.require('electron');
 
@@ -298,19 +298,19 @@ EditWorkspace.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  disableAudio: Boolean(state.editWorkspace.form.disableAudio),
-  disableNotifications: Boolean(state.editWorkspace.form.disableNotifications),
-  downloadingIcon: state.editWorkspace.downloadingIcon,
-  hibernateWhenUnused: Boolean(state.editWorkspace.form.hibernateWhenUnused),
-  homeUrl: state.editWorkspace.form.homeUrl,
-  homeUrlError: state.editWorkspace.form.homeUrlError,
-  id: state.editWorkspace.form.id,
-  internetIcon: state.editWorkspace.form.internetIcon,
-  isMailApp: Boolean(getMailtoUrl(state.editWorkspace.form.homeUrl)),
-  name: state.editWorkspace.form.name,
-  order: state.editWorkspace.form.order,
-  picturePath: state.editWorkspace.form.picturePath,
-  transparentBackground: Boolean(state.editWorkspace.form.transparentBackground),
+  disableAudio: Boolean(state.dialogEditWorkspace.form.disableAudio),
+  disableNotifications: Boolean(state.dialogEditWorkspace.form.disableNotifications),
+  downloadingIcon: state.dialogEditWorkspace.downloadingIcon,
+  hibernateWhenUnused: Boolean(state.dialogEditWorkspace.form.hibernateWhenUnused),
+  homeUrl: state.dialogEditWorkspace.form.homeUrl,
+  homeUrlError: state.dialogEditWorkspace.form.homeUrlError,
+  id: state.dialogEditWorkspace.form.id,
+  internetIcon: state.dialogEditWorkspace.form.internetIcon,
+  isMailApp: Boolean(getMailtoUrl(state.dialogEditWorkspace.form.homeUrl)),
+  name: state.dialogEditWorkspace.form.name,
+  order: state.dialogEditWorkspace.form.order,
+  picturePath: state.dialogEditWorkspace.form.picturePath,
+  transparentBackground: Boolean(state.dialogEditWorkspace.form.transparentBackground),
 });
 
 const actionCreators = {

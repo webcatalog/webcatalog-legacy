@@ -14,30 +14,30 @@ import getWorkspacesAsList from './helpers/get-workspaces-as-list';
 
 const { remote, webFrame } = window.require('electron');
 
-const About = React.lazy(() => import('./components/about'));
-const Auth = React.lazy(() => import('./components/auth'));
-const CodeInjection = React.lazy(() => import('./components/code-injection'));
-const CustomUserAgent = React.lazy(() => import('./components/custom-user-agent'));
-const DisplayMedia = React.lazy(() => import('./components/display-media'));
-const EditWorkspace = React.lazy(() => import('./components/edit-workspace'));
-const GoToUrl = React.lazy(() => import('./components/go-to-url'));
+const DialogAbout = React.lazy(() => import('./components/dialog-about'));
+const DialogAuth = React.lazy(() => import('./components/dialog-auth'));
+const DialogCodeInjection = React.lazy(() => import('./components/dialog-code-injection'));
+const DialogCustomUserAgent = React.lazy(() => import('./components/dialog-custom-user-agent'));
+const DialogDisplayMedia = React.lazy(() => import('./components/dialog-display-media'));
+const DialogEditWorkspace = React.lazy(() => import('./components/dialog-edit-workspace'));
+const DialogGoToUrl = React.lazy(() => import('./components/dialog-go-to-url'));
+const DialogNotifications = React.lazy(() => import('./components/dialog-notifications'));
+const DialogOpenUrlWith = React.lazy(() => import('./components/dialog-open-url-with'));
+const DialogPreferences = React.lazy(() => import('./components/dialog-preferences'));
 const Main = React.lazy(() => import('./components/main'));
-const Notifications = React.lazy(() => import('./components/notifications'));
-const OpenUrlWith = React.lazy(() => import('./components/open-url-with'));
-const Preferences = React.lazy(() => import('./components/preferences'));
 
 const App = () => {
   switch (window.mode) {
-    case 'about': return <About />;
-    case 'auth': return <Auth />;
-    case 'code-injection': return <CodeInjection />;
-    case 'custom-user-agent': return <CustomUserAgent />;
-    case 'display-media': return <DisplayMedia />;
-    case 'edit-workspace': return <EditWorkspace />;
-    case 'go-to-url': return <GoToUrl />;
-    case 'notifications': return <Notifications />;
-    case 'open-url-with': return <OpenUrlWith />;
-    case 'preferences': return <Preferences />;
+    case 'about': return <DialogAbout />;
+    case 'auth': return <DialogAuth />;
+    case 'code-injection': return <DialogCodeInjection />;
+    case 'custom-user-agent': return <DialogCustomUserAgent />;
+    case 'display-media': return <DialogDisplayMedia />;
+    case 'edit-workspace': return <DialogEditWorkspace />;
+    case 'go-to-url': return <DialogGoToUrl />;
+    case 'notifications': return <DialogNotifications />;
+    case 'open-url-with': return <DialogOpenUrlWith />;
+    case 'preferences': return <DialogPreferences />;
     default: return <Main />;
   }
 };
