@@ -87,7 +87,7 @@ const DialogProxy = (props) => {
                       tabIndex={0}
                       className={classes.link}
                       onClick={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
-                      onKeydown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
+                      onKeyDown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
                     >
                       Learn more
                     </span>
@@ -113,7 +113,7 @@ const DialogProxy = (props) => {
                       tabIndex={0}
                       className={classes.link}
                       onClick={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
-                      onKeydown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
+                      onKeyDown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
                     >
                       Learn more
                     </span>
@@ -152,7 +152,7 @@ const DialogProxy = (props) => {
                       tabIndex={0}
                       className={classes.link}
                       onClick={() => requestOpenInBrowser('https://en.wikipedia.org/wiki/Proxy_auto-config')}
-                      onKeydown={() => requestOpenInBrowser('https://en.wikipedia.org/wiki/Proxy_auto-config')}
+                      onKeyDown={() => requestOpenInBrowser('https://en.wikipedia.org/wiki/Proxy_auto-config')}
                     >
                       Learn more
                     </span>
@@ -178,7 +178,7 @@ const DialogProxy = (props) => {
                       tabIndex={0}
                       className={classes.link}
                       onClick={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
-                      onKeydown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
+                      onKeyDown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
                     >
                       Learn more
                     </span>

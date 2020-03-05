@@ -40,7 +40,7 @@ if (!gotTheLock) {
       proxyType,
     } = getPreferences();
 
-    // configure proxy
+    // configure proxy for default session
     if (proxyType === 'rules') {
       session.defaultSession.setProxy({
         proxyRules,

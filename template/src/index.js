@@ -7,12 +7,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto/index.css';
 
 import store from './state';
+import { init as initDialogProxy } from './state/dialog-proxy/actions';
 
 import AppWrapper from './components/app-wrapper';
 
 import getWorkspacesAsList from './helpers/get-workspaces-as-list';
 
 const { remote, webFrame } = window.require('electron');
+
 
 const DialogAbout = React.lazy(() => import('./components/dialog-about'));
 const DialogAuth = React.lazy(() => import('./components/dialog-auth'));
@@ -83,6 +85,7 @@ const runApp = () => {
       } else if (window.mode === 'go-to-url') {
         document.title = 'Go to URL';
       } else if (window.mode === 'proxy') {
+        store.dispatch(initDialogProxy());
         document.title = 'Proxy Settings';
       } else {
         document.title = remote.getGlobal('appJson').name;
