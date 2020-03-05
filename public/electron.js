@@ -1,10 +1,10 @@
 const path = require('path');
-const { app, systemPreferences } = require('electron');
+const { app, session, systemPreferences } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const createMenu = require('./libs/create-menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
-const { getPreference } = require('./libs/preferences');
+const { getPreferences } = require('./libs/preferences');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
@@ -32,6 +32,27 @@ if (!gotTheLock) {
     global.templateVersion = packageJson.templateVersion;
     global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
+    const {
+      allowPrerelease,
+      proxyBypassRules,
+      proxyPacScript,
+      proxyRules,
+      proxyType,
+    } = getPreferences();
+
+    // configure proxy
+    if (proxyType === 'rules') {
+      session.defaultSession.setProxy({
+        proxyRules,
+        proxyBypassRules,
+      });
+    } else if (proxyType === 'pacScript') {
+      session.defaultSession.setProxy({
+        proxyPacScript,
+        proxyBypassRules,
+      });
+    }
+
     mainWindow.createAsync();
     createMenu();
 
@@ -50,7 +71,7 @@ if (!gotTheLock) {
       );
     }
 
-    autoUpdater.allowPrerelease = getPreference('allowPrerelease');
+    autoUpdater.allowPrerelease = allowPrerelease;
   });
 
   app.on('window-all-closed', () => {

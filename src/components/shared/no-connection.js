@@ -6,7 +6,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles = (theme) => ({
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -14,6 +14,7 @@ const styles = {
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+    color: theme.palette.text.disabled,
   },
   icon: {
     height: 64,
@@ -22,7 +23,7 @@ const styles = {
   tryAgainButton: {
     marginTop: 16,
   },
-};
+});
 
 const NoConnection = (props) => {
   const {
@@ -35,12 +36,13 @@ const NoConnection = (props) => {
       <ErrorIcon className={classes.icon} color="disabled" />
       <br />
       <Typography
-        color="disabled"
+        color="inherit"
         variant="h6"
       >
         Failed to Connect to Server
       </Typography>
       <Typography
+        color="inherit"
         align="center"
         variant="subtitle1"
       >

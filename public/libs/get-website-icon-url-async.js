@@ -1,8 +1,9 @@
-const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const url = require('url');
 
-const getWebsiteIconUrlAsync = (websiteURL) => fetch(websiteURL)
+const customizedFetch = require('./customized-fetch');
+
+const getWebsiteIconUrlAsync = (websiteURL) => customizedFetch(websiteURL)
   .then((res) => res.text().then((html) => ({ html, redirectedUrl: res.url })))
   .then(({ html, redirectedUrl }) => {
     const $ = cheerio.load(html);

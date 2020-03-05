@@ -27,11 +27,15 @@ const defaultPreferences = {
   createStartMenuShortcut: true,
   defaultHome: 'home',
   hideEnginePrompt: true,
+  hideMenuBar: false,
   installationPath: getDefaultInstallationPath(),
   preferredEngine: 'electron',
+  proxyBypassRules: '',
+  proxyPacScript: '',
+  proxyRules: '',
+  proxyType: 'none',
   registered: false,
   requireAdmin: false,
-  hideMenuBar: false,
   themeSource: process.platform === 'darwin' ? 'system' : 'light',
 };
 

@@ -13,10 +13,10 @@ import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
+import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CodeIcon from '@material-ui/icons/Code';
-import ComputerIcon from '@material-ui/icons/Computer';
 import LanguageIcon from '@material-ui/icons/Language';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -219,7 +219,7 @@ const Preferences = ({
     },
     system: {
       text: 'System',
-      Icon: ComputerIcon,
+      Icon: BuildIcon,
       ref: useRef(),
     },
     advanced: {
