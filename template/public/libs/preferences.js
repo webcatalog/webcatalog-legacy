@@ -92,6 +92,7 @@ const defaultPreferences = {
   askForDownloadPath: true,
   attachToMenubar: false,
   autoCheckForUpdates: true,
+  blockAds: false,
   cssCodeInjection: null,
   customUserAgent: null,
   downloadPath: getDefaultDownloadsPath(),
