@@ -13,14 +13,15 @@ import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
+import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import CodeIcon from '@material-ui/icons/Code';
-import ComputerIcon from '@material-ui/icons/Computer';
 import LanguageIcon from '@material-ui/icons/Language';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
@@ -48,6 +49,7 @@ import {
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
   requestShowNotificationsWindow,
+  requestShowProxyWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
 
@@ -213,6 +215,11 @@ const Preferences = ({
       Icon: CloudDownloadIcon,
       ref: useRef(),
     },
+    network: {
+      text: 'Network',
+      Icon: RouterIcon,
+      ref: useRef(),
+    },
     privacy: {
       text: 'Privacy & Security',
       Icon: SecurityIcon,
@@ -220,7 +227,7 @@ const Preferences = ({
     },
     system: {
       text: 'System',
-      Icon: ComputerIcon,
+      Icon: BuildIcon,
       ref: useRef(),
     },
     advanced: {
@@ -292,6 +299,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={sidebar}
                   onChange={(e) => {
@@ -309,6 +317,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   // must show sidebar or navigation bar on Linux
                   // if not, as user can't right-click on menu bar icon
@@ -332,6 +341,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={!attachToMenubar && !sidebar && !navigationBar ? true : titleBar}
                       disabled={!attachToMenubar && !sidebar && !navigationBar}
@@ -354,6 +364,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={hideMenuBar}
                       onChange={(e) => {
@@ -374,6 +385,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={attachToMenubar}
                   onChange={(e) => {
@@ -406,6 +418,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={swipeToNavigate}
                       onChange={(e) => {
@@ -422,6 +435,7 @@ const Preferences = ({
               <ListItemText primary="Automatically check for updates" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={autoCheckForUpdates}
                   onChange={(e) => {
@@ -468,6 +482,7 @@ const Preferences = ({
               </ListItemText>
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={pauseNotificationsBySchedule}
                   onChange={(e) => {
@@ -481,6 +496,7 @@ const Preferences = ({
               <ListItemText primary="Mute audio when notifications are paused" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={pauseNotificationsMuteAudio}
                   onChange={(e) => {
@@ -496,6 +512,7 @@ const Preferences = ({
                   <ListItemText primary="Show unread count badge" />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={unreadCountBadge}
                       onChange={(e) => {
@@ -519,6 +536,7 @@ const Preferences = ({
               <ListItemText primary="Spell check" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={spellChecker}
                   onChange={(e) => {
@@ -586,6 +604,7 @@ const Preferences = ({
               <ListItemText primary="Ask where to save each file before downloading" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={askForDownloadPath}
                   onChange={(e) => {
@@ -593,6 +612,18 @@ const Preferences = ({
                   }}
                 />
               </ListItemSecondaryAction>
+            </ListItem>
+          </List>
+        </Paper>
+
+        <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
+          Network
+        </Typography>
+        <Paper className={classes.paper}>
+          <List disablePadding dense>
+            <ListItem button onClick={requestShowProxyWindow}>
+              <ListItemText primary="Configure proxy settings" />
+              <ChevronRightIcon color="action" />
             </ListItem>
           </List>
         </Paper>
@@ -620,6 +651,7 @@ const Preferences = ({
               <ListItemText primary="Remember last page visited" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={rememberLastPageVisited}
                   onChange={(e) => {
@@ -634,6 +666,7 @@ const Preferences = ({
               <ListItemText primary="Share browsing data between workspaces" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={shareWorkspaceBrowsingData}
                   onChange={(e) => {
@@ -747,6 +780,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={hibernateUnusedWorkspacesAtLaunch}
                   onChange={(e) => {

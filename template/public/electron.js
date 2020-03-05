@@ -1,6 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const {
-  app, protocol, ipcMain, systemPreferences,
+  app,
+  ipcMain,
+  protocol,
+  session,
+  systemPreferences,
 } = require('electron');
 
 const loadListeners = require('./listeners');
@@ -45,7 +49,26 @@ if (!gotTheLock) {
   loadListeners();
 
   const commonInit = () => {
-    const hibernateUnusedWorkspacesAtLaunch = getPreference('hibernateUnusedWorkspacesAtLaunch');
+    const {
+      hibernateUnusedWorkspacesAtLaunch,
+      proxyBypassRules,
+      proxyPacScript,
+      proxyRules,
+      proxyType,
+    } = getPreferences();
+
+    // configure proxy for default session
+    if (proxyType === 'rules') {
+      session.defaultSession.setProxy({
+        proxyRules,
+        proxyBypassRules,
+      });
+    } else if (proxyType === 'pacScript') {
+      session.defaultSession.setProxy({
+        proxyPacScript,
+        proxyBypassRules,
+      });
+    }
 
     mainWindow.createAsync()
       .then(() => {
@@ -75,6 +98,7 @@ if (!gotTheLock) {
     global.appJson = appJson;
 
     const {
+      autoCheckForUpdates,
       attachToMenubar,
       sidebar,
       titleBar,
@@ -89,7 +113,6 @@ if (!gotTheLock) {
 
     commonInit();
 
-    const autoCheckForUpdates = getPreference('autoCheckForUpdates');
     if (autoCheckForUpdates) {
       const lastCheckForUpdates = getPreference('lastCheckForUpdates');
       const updateInterval = 7 * 24 * 60 * 60 * 1000; // one week

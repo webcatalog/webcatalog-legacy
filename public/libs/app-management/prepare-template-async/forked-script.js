@@ -1,10 +1,11 @@
 const argv = require('yargs-parser')(process.argv.slice(1));
 const decompress = require('decompress');
 const download = require('download');
-const fetch = require('node-fetch');
 const fs = require('fs-extra');
 const path = require('path');
 const tmp = require('tmp');
+
+const customizedFetch = require('../../customized-fetch');
 
 const {
   appVersion,
@@ -13,7 +14,7 @@ const {
   arch,
 } = argv;
 
-const fetchLatestTemplateVersionAsync = () => fetch(`https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template.json`)
+const fetchLatestTemplateVersionAsync = () => customizedFetch(`https://github.com/quanglam2807/webcatalog/releases/download/v${appVersion}/template.json`)
   .then((res) => res.json())
   .then((fetchedJson) => ({
     templateVersion: fetchedJson.version,

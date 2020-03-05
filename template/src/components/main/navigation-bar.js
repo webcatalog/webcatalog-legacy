@@ -159,7 +159,7 @@ const NavigationBar = ({
 );
 
 NavigationBar.defaultProps = {
-  address: null,
+  address: '',
 };
 
 NavigationBar.propTypes = {
@@ -174,7 +174,7 @@ NavigationBar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  address: state.general.address,
+  address: state.general.address || '',
   addressEdited: Boolean(state.general.addressEdited),
   canGoBack: state.general.canGoBack,
   canGoForward: state.general.canGoForward,

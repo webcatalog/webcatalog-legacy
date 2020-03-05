@@ -14,11 +14,12 @@ import Switch from '@material-ui/core/Switch';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CodeIcon from '@material-ui/icons/Code';
-import ComputerIcon from '@material-ui/icons/Computer';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
@@ -30,9 +31,10 @@ import getEngineName from '../../../helpers/get-engine-name';
 import { getInstallingAppsAsList, getAppCount } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
+import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
+import { open as openDialogProxy } from '../../../state/dialog-proxy/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
-import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 
 
 import {
@@ -87,12 +89,17 @@ const styles = (theme) => ({
     width: '100%',
     maxWidth: 500,
     margin: '0 auto',
+    [theme.breakpoints.between(800, 928)]: {
+      margin: 0,
+      float: 'right',
+      maxWidth: 'calc(100% - 220px)',
+    },
   },
   sidebar: {
     position: 'fixed',
     width: 200,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down(800)]: {
       display: 'none',
     },
   },
@@ -163,6 +170,7 @@ const Preferences = ({
   installingAppCount,
   onOpenDialogAbout,
   onOpenDialogLicenseRegistration,
+  onOpenDialogProxy,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
   openAtLogin,
@@ -177,7 +185,7 @@ const Preferences = ({
     if (appCount > 0) {
       remote.dialog.showMessageBox(remote.getCurrentWindow(), {
         title: 'Uninstall all of WebCatalog apps first',
-        message: 'You need to uninstall all of your WebCatalog apps before updating this preference.',
+        message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
         buttons: ['OK'],
         cancelId: 0,
         defaultId: 0,
@@ -194,6 +202,11 @@ const Preferences = ({
       Icon: WidgetsIcon,
       ref: useRef(),
     },
+    network: {
+      text: 'Network',
+      Icon: RouterIcon,
+      ref: useRef(),
+    },
     privacy: {
       text: 'Privacy & Security',
       Icon: SecurityIcon,
@@ -201,7 +214,7 @@ const Preferences = ({
     },
     system: {
       text: 'System',
-      Icon: ComputerIcon,
+      Icon: BuildIcon,
       ref: useRef(),
       hidden: window.process.platform === 'linux',
     },
@@ -333,6 +346,18 @@ const Preferences = ({
                     }}
                   />
                 </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
+            Network
+          </Typography>
+          <Paper className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem button onClick={onOpenDialogProxy}>
+                <ListItemText primary="Configure proxy settings" />
+                <ChevronRightIcon color="action" />
               </ListItem>
             </List>
           </Paper>
@@ -617,6 +642,7 @@ Preferences.propTypes = {
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
+  onOpenDialogProxy: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
@@ -653,6 +679,7 @@ const actionCreators = {
   openDialogLicenseRegistration,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,
+  openDialogProxy,
 };
 
 export default connectComponent(
