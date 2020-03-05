@@ -637,6 +637,7 @@ const Preferences = ({
               <ListItemText primary="Block ads &amp; trackers" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={blockAds}
                   onChange={(e) => {

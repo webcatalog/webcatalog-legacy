@@ -4,7 +4,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 
 const { getPreferences } = require('./preferences');
 
-const customizedFetch = (url, _opts) => {
+const customizedFetch = (url, _opts, ...args) => {
   const {
     proxyPacScript,
     proxyRules,
@@ -20,7 +20,7 @@ const customizedFetch = (url, _opts) => {
     opts.agent = agent;
   }
 
-  return fetch(url, opts);
+  return fetch(url, opts, ...args);
 };
 
 module.exports = customizedFetch;
