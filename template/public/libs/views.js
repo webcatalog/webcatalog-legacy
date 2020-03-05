@@ -117,7 +117,7 @@ const addView = (browserWindow, workspace) => {
   // blocker
   if (blockAds) {
     ElectronBlocker.fromPrebuiltAdsAndTracking(customizedFetch, {
-      path: path.join(app.getPath('userData'), 'ad-blocker.bin'),
+      path: path.join(app.getPath('userData'), 'adblocker.bin'),
       read: fsExtra.readFile,
       write: fsExtra.writeFile,
     }).then((blocker) => {
