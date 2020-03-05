@@ -165,6 +165,7 @@ const Preferences = ({
   askForDownloadPath,
   attachToMenubar,
   autoCheckForUpdates,
+  blockAds,
   classes,
   cssCodeInjection,
   customUserAgent,
@@ -633,6 +634,21 @@ const Preferences = ({
         <Paper className={classes.paper}>
           <List disablePadding dense>
             <ListItem>
+              <ListItemText primary="Block ads &amp; trackers" />
+              <ListItemSecondaryAction>
+                <Switch
+                  edge="end"
+                  color="primary"
+                  checked={blockAds}
+                  onChange={(e) => {
+                    requestSetPreference('blockAds', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider />
+            <ListItem>
               <ListItemText primary="Remember last page visited" />
               <ListItemSecondaryAction>
                 <Switch
@@ -849,6 +865,7 @@ Preferences.propTypes = {
   askForDownloadPath: PropTypes.bool.isRequired,
   attachToMenubar: PropTypes.bool.isRequired,
   autoCheckForUpdates: PropTypes.bool.isRequired,
+  blockAds: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   cssCodeInjection: PropTypes.string,
   customUserAgent: PropTypes.string,
@@ -882,6 +899,7 @@ const mapStateToProps = (state) => ({
   askForDownloadPath: state.preferences.askForDownloadPath,
   attachToMenubar: state.preferences.attachToMenubar,
   autoCheckForUpdates: state.preferences.autoCheckForUpdates,
+  blockAds: state.preferences.blockAds,
   cssCodeInjection: state.preferences.cssCodeInjection,
   customUserAgent: state.preferences.customUserAgent,
   downloadPath: state.preferences.downloadPath,
