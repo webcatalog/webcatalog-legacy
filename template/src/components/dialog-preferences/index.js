@@ -21,6 +21,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
@@ -48,6 +49,7 @@ import {
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
   requestShowNotificationsWindow,
+  requestShowProxyWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
 
@@ -210,6 +212,11 @@ const Preferences = ({
     downloads: {
       text: 'Downloads',
       Icon: CloudDownloadIcon,
+      ref: useRef(),
+    },
+    network: {
+      text: 'Network',
+      Icon: RouterIcon,
       ref: useRef(),
     },
     privacy: {
@@ -592,6 +599,18 @@ const Preferences = ({
                   }}
                 />
               </ListItemSecondaryAction>
+            </ListItem>
+          </List>
+        </Paper>
+
+        <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
+          Network
+        </Typography>
+        <Paper className={classes.paper}>
+          <List disablePadding dense>
+            <ListItem button onClick={requestShowProxyWindow}>
+              <ListItemText primary="Configure proxy settings" />
+              <ChevronRightIcon color="action" />
             </ListItem>
           </List>
         </Paper>

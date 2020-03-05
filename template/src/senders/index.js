@@ -18,6 +18,7 @@ export const requestShowPreferencesWindow = () => ipcRenderer.send('request-show
 export const requestShowEditWorkspaceWindow = (id) => ipcRenderer.send('request-show-edit-workspace-window', id);
 export const requestShowCodeInjectionWindow = (type) => ipcRenderer.send('request-show-code-injection-window', type);
 export const requestShowNotificationsWindow = () => ipcRenderer.send('request-show-notifications-window');
+export const requestShowProxyWindow = () => ipcRenderer.send('request-show-proxy-window');
 
 // Notifications
 export const requestShowNotification = (opts) => ipcRenderer.send('request-show-notification', opts);

@@ -10,6 +10,7 @@ import dialogCodeInjection from './dialog-code-injection/reducers';
 import dialogCustomUserAgent from './dialog-custom-user-agent/reducers';
 import dialogEditWorkspace from './dialog-edit-workspace/reducers';
 import dialogGoToUrl from './go-to-url/reducers';
+import dialogProxy from './dialog-proxy/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
 import notifications from './notifications/reducers';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   dialogCustomUserAgent,
   dialogEditWorkspace,
   dialogGoToUrl,
+  dialogProxy,
   findInPage,
   general,
   notifications,

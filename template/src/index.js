@@ -24,6 +24,7 @@ const DialogGoToUrl = React.lazy(() => import('./components/dialog-go-to-url'));
 const DialogNotifications = React.lazy(() => import('./components/dialog-notifications'));
 const DialogOpenUrlWith = React.lazy(() => import('./components/dialog-open-url-with'));
 const DialogPreferences = React.lazy(() => import('./components/dialog-preferences'));
+const DialogProxy = React.lazy(() => import('./components/dialog-proxy'));
 const Main = React.lazy(() => import('./components/main'));
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
     case 'notifications': return <DialogNotifications />;
     case 'open-url-with': return <DialogOpenUrlWith />;
     case 'preferences': return <DialogPreferences />;
+    case 'proxy': return <DialogProxy />;
     default: return <Main />;
   }
 };
@@ -80,6 +82,8 @@ const runApp = () => {
         document.title = 'Edit Custom User Agent';
       } else if (window.mode === 'go-to-url') {
         document.title = 'Go to URL';
+      } else if (window.mode === 'proxy') {
+        document.title = 'Proxy Settings';
       } else {
         document.title = remote.getGlobal('appJson').name;
       }
