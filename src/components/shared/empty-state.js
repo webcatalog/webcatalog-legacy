@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles = (theme) => ({
   root: {
     alignItems: 'center',
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     width: '100%',
+    color: theme.palette.text.disabled,
   },
   title: {
     marginBottom: 8,
@@ -19,7 +20,7 @@ const styles = {
     height: 112,
     width: 112,
   },
-};
+});
 
 const EmptyState = (props) => {
   const {
@@ -39,6 +40,7 @@ const EmptyState = (props) => {
         <Typography
           className={classes.title}
           variant="h6"
+          color="inherit"
         >
           {title}
         </Typography>
@@ -47,6 +49,7 @@ const EmptyState = (props) => {
         <Typography
           variant="subtitle1"
           align="center"
+          color="inherit"
         >
           {children}
         </Typography>

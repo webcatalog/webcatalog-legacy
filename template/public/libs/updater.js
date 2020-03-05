@@ -1,18 +1,19 @@
 const { dialog } = require('electron');
-const fetch = require('node-fetch');
 const semver = require('semver');
 
 const packageJson = require('../../package.json');
 const mainWindow = require('../windows/main');
 const appJson = require('../app.json');
 
+const customizedFetch = require('./customized-fetch');
+
 const checkForUpdates = (silent) => {
   console.log('Checking for updates...'); // eslint-disable-line no-console
-  fetch('https://api.github.com/repos/quanglam2807/webcatalog/releases/latest')
+  customizedFetch('https://api.github.com/repos/quanglam2807/webcatalog/releases/latest')
     .then((res) => res.json())
     .then((release) => {
       const v = release.tag_name;
-      return fetch(`https://raw.githubusercontent.com/quanglam2807/webcatalog/${v}/package.json`);
+      return customizedFetch(`https://raw.githubusercontent.com/quanglam2807/webcatalog/${v}/package.json`);
     })
     .then((res) => res.json())
     .then((fetchedJson) => {

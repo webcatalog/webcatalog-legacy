@@ -6,6 +6,7 @@ import dialogAbout from './dialog-about/reducers';
 import dialogChooseEngine from './dialog-choose-engine/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
+import dialogProxy from './dialog-proxy/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
 import dialogSetPreferredEngine from './dialog-set-preferred-engine/reducers';
 import general from './general/reducers';
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   dialogChooseEngine,
   dialogCreateCustomApp,
   dialogLicenseRegistration,
+  dialogProxy,
   dialogSetInstallationPath,
   dialogSetPreferredEngine,
   general,
