@@ -22,7 +22,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const go = () => (dispatch, getState) => {
-  const { form } = getState().goToUrl;
+  const { form } = getState().dialogGoToUrl;
 
   const validatedChanges = validate(form, getValidationRules());
   if (hasErrors(validatedChanges)) {

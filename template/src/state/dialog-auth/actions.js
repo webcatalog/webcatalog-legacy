@@ -11,7 +11,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const login = () => (dispatch, getState) => {
-  const { form } = getState().auth;
+  const { form } = getState().dialogAuth;
 
   const { username, password } = form;
 
