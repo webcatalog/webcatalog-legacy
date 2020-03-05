@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 
-import { updateForm, login } from '../../state/auth/actions';
+import { updateForm, login } from '../../state/dialog-auth/actions';
 
 const { remote } = window.require('electron');
 
@@ -85,8 +85,8 @@ Auth.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  username: state.auth.form.username,
-  password: state.auth.form.password,
+  username: state.dialogAuth.form.username,
+  password: state.dialogAuth.form.password,
 });
 
 const actionCreators = {
