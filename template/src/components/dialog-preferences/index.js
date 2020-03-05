@@ -298,6 +298,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={sidebar}
                   onChange={(e) => {
@@ -315,6 +316,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   // must show sidebar or navigation bar on Linux
                   // if not, as user can't right-click on menu bar icon
@@ -338,6 +340,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={!attachToMenubar && !sidebar && !navigationBar ? true : titleBar}
                       disabled={!attachToMenubar && !sidebar && !navigationBar}
@@ -360,6 +363,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={hideMenuBar}
                       onChange={(e) => {
@@ -380,6 +384,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={attachToMenubar}
                   onChange={(e) => {
@@ -412,6 +417,7 @@ const Preferences = ({
                   />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={swipeToNavigate}
                       onChange={(e) => {
@@ -428,6 +434,7 @@ const Preferences = ({
               <ListItemText primary="Automatically check for updates" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={autoCheckForUpdates}
                   onChange={(e) => {
@@ -474,6 +481,7 @@ const Preferences = ({
               </ListItemText>
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={pauseNotificationsBySchedule}
                   onChange={(e) => {
@@ -487,6 +495,7 @@ const Preferences = ({
               <ListItemText primary="Mute audio when notifications are paused" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={pauseNotificationsMuteAudio}
                   onChange={(e) => {
@@ -502,6 +511,7 @@ const Preferences = ({
                   <ListItemText primary="Show unread count badge" />
                   <ListItemSecondaryAction>
                     <Switch
+                      edge="end"
                       color="primary"
                       checked={unreadCountBadge}
                       onChange={(e) => {
@@ -525,6 +535,7 @@ const Preferences = ({
               <ListItemText primary="Spell check" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={spellChecker}
                   onChange={(e) => {
@@ -592,6 +603,7 @@ const Preferences = ({
               <ListItemText primary="Ask where to save each file before downloading" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={askForDownloadPath}
                   onChange={(e) => {
@@ -624,6 +636,7 @@ const Preferences = ({
               <ListItemText primary="Remember last page visited" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={rememberLastPageVisited}
                   onChange={(e) => {
@@ -638,6 +651,7 @@ const Preferences = ({
               <ListItemText primary="Share browsing data between workspaces" />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={shareWorkspaceBrowsingData}
                   onChange={(e) => {
@@ -751,6 +765,7 @@ const Preferences = ({
               />
               <ListItemSecondaryAction>
                 <Switch
+                  edge="end"
                   color="primary"
                   checked={hibernateUnusedWorkspacesAtLaunch}
                   onChange={(e) => {
