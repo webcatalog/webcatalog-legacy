@@ -160,7 +160,7 @@ const DialogProxy = (props) => {
                 error={Boolean(proxyPacScriptError)}
                 helperText={proxyPacScriptError || (
                   <>
-                    <span>Example: pac+https://bar.com+. </span>
+                    <span>Example: http://example.com/proxy.pac. </span>
                     <span
                       role="link"
                       tabIndex={0}
