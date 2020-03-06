@@ -73,7 +73,7 @@ const DialogProxy = (props) => {
               <TextField
                 margin="dense"
                 fullWidth
-                label="Proxy address or rules"
+                label="Proxy address"
                 variant="outlined"
                 disabled={proxyType !== 'rules'}
                 value={proxyRules}

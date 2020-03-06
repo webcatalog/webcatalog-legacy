@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
-const PacProxyAgent = require('pac-proxy-agent');
-const HttpsProxyAgent = require('https-proxy-agent');
+const ProxyAgent = require('proxy-agent');
 
 const { getPreference } = require('./preferences');
 
@@ -11,10 +10,10 @@ const customizedFetch = (url, _opts, ...args) => {
 
   const opts = { ..._opts };
   if (proxyType === 'rules') {
-    const agent = new HttpsProxyAgent(proxyRules);
+    const agent = new ProxyAgent(proxyRules);
     opts.agent = agent;
   } else if (proxyType === 'pacScript') {
-    const agent = new PacProxyAgent(proxyPacScript);
+    const agent = new ProxyAgent(`pac+${proxyPacScript}`);
     opts.agent = agent;
   }
 
