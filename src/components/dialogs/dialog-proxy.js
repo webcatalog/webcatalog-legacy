@@ -68,7 +68,7 @@ const DialogProxy = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Proxy Settings
+        Proxy Settings [BETA]
       </EnhancedDialogTitle>
       <DialogContent>
         <List disablePadding dense>
@@ -87,7 +87,7 @@ const DialogProxy = (props) => {
               <TextField
                 margin="dense"
                 fullWidth
-                label="Proxy address or rules"
+                label="Proxy address"
                 variant="outlined"
                 disabled={proxyType !== 'rules'}
                 value={proxyRules}
@@ -100,8 +100,8 @@ const DialogProxy = (props) => {
                       role="link"
                       tabIndex={0}
                       className={classes.link}
-                      onClick={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
-                      onKeyDown={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
+                      onClick={() => requestOpenInBrowser('https://www.npmjs.com/package/proxy-agent')}
+                      onKeyDown={() => requestOpenInBrowser('https://www.npmjs.com/package/proxy-agent')}
                     >
                       Learn more
                     </span>

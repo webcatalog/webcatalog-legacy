@@ -20,7 +20,7 @@ const getValidationRules = (proxyType) => {
   if (proxyType === 'rules') {
     return {
       proxyRules: {
-        fieldName: 'Proxy address or rules',
+        fieldName: 'Proxy address',
         required: true,
       },
     };

@@ -356,7 +356,7 @@ const Preferences = ({
           <Paper className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={onOpenDialogProxy}>
-                <ListItemText primary="Configure proxy settings" />
+                <ListItemText primary="Configure proxy settings (BETA)" />
                 <ChevronRightIcon color="action" />
               </ListItem>
             </List>
