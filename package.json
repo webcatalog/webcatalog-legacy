@@ -23,6 +23,7 @@
     "template:prepare-zip": "cd template && 7z a -mm=Deflate -mx=9 -r ../template.zip . -x@../template.x -xr@../template.xr",
     "template:prepare-dist": "cd template && yarn && yarn build && yarn install --production --ignore-scripts --prefer-offline && cd .. && yarn template:prepare-zip",
     "dist": "yarn template:prepare-dist && yarn build && cross-env NODE_ENV=production node dist.js",
+    "dist-local": "yarn template:prepare-dist && yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js",
     "catalog:install": "cd catalog && yarn install && pip3 install --user -r requirements.txt",
     "catalog:test": "cd catalog && yarn test",
     "catalog:pack": "cd catalog && yarn build:pack",
