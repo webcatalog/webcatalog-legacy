@@ -38,7 +38,6 @@
     "cheerio": "1.0.0-rc.3",
     "command-exists": "1.2.8",
     "decompress": "4.2.0",
-    "download": "7.1.0",
     "electron-context-menu": "0.16.0",
     "electron-is-dev": "1.1.0",
     "electron-packager": "14.2.1",
