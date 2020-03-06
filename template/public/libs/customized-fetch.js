@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const ProxyAgent = require('proxy-agent');
 
-const { getPreference } = require('./preferences');
+const { getPreference } = process.env.ELECTRON_RUN_AS_NODE === 'true' ? {} : require('./preferences');
 
 const customizedFetch = (url, _opts, ...args) => {
   const proxyPacScript = process.env.PROXY_PAC_SCRIPT || getPreference('proxyPacScript');
