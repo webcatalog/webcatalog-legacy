@@ -1,11 +1,11 @@
 const argv = require('yargs-parser')(process.argv.slice(1));
 const decompress = require('decompress');
-const download = require('download');
 const fs = require('fs-extra');
 const path = require('path');
 const tmp = require('tmp');
 
 const customizedFetch = require('../../customized-fetch');
+const downloadAsync = require('../../download-async');
 
 const {
   appVersion,
@@ -42,9 +42,7 @@ fetchLatestTemplateVersionAsync()
       const templateZipPath = path.join(tmpPath, templateZipName);
       return fs.remove(templatePath)
         .then(() => console.log(`Downloading template code to ${templateZipPath}...`)) // eslint-disable-line no-console
-        .then(() => download(latest.templateZipUrl, tmpPath, {
-          filename: templateZipName,
-        }))
+        .then(() => downloadAsync(latest.templateZipUrl, path.join(tmpPath, templateZipName)))
         .then(() => console.log(`Extracting template code to ${templatePath}...`)) // eslint-disable-line no-console
         .then(() => decompress(templateZipPath, templatePath));
     }

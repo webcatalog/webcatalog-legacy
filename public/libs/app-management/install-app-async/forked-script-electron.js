@@ -5,9 +5,10 @@ const fsExtra = require('fs-extra');
 const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
-const download = require('download');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
+
+const downloadAsync = require('../../download-async');
 
 const {
   appPath,
@@ -90,17 +91,13 @@ Promise.resolve()
   .then(() => fsExtra.exists(packageJsonPath))
   .then(() => {
     if (isUrl(icon)) {
-      return download(icon, buildResourcesPath, {
-        filename: 'e.png',
-      });
+      return downloadAsync(icon, iconPngPath);
     }
 
     // try to get fresh icon from catalog if possible
     if (!id.startsWith('custom-')) {
       const catalogIconUrl = `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
-      return download(catalogIconUrl, buildResourcesPath, {
-        filename: 'e.png',
-      })
+      return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
     }
 

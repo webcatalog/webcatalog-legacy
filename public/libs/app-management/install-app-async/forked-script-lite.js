@@ -8,8 +8,9 @@ const path = require('path');
 const tmp = require('tmp');
 const fsExtra = require('fs-extra');
 const isUrl = require('is-url');
-const download = require('download');
 const sudo = require('sudo-prompt');
+
+const downloadAsync = require('../../download-async');
 
 const {
   engine,
@@ -106,9 +107,7 @@ const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 
 Promise.resolve()
   .then(() => {
     if (isUrl(icon)) {
-      return download(icon, buildResourcesPath, {
-        filename: 'e.png',
-      });
+      return downloadAsync(icon, iconPngPath);
     }
 
     return fsExtra.copy(icon, iconPngPath);
