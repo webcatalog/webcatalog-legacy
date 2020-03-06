@@ -2,8 +2,16 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
+const { getPreferences } = require('../../preferences');
+
 const prepareTemplateAsync = () => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
+
+  const {
+    proxyPacScript,
+    proxyRules,
+    proxyType,
+  } = getPreferences();
 
   const child = fork(scriptPath, [
     '--appVersion',
@@ -20,6 +28,9 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
       ELECTRON_NO_ASAR: 'true',
       // for require('download')
       APPDATA: app.getPath('appData'),
+      PROXY_PAC_SCRIPT: proxyPacScript,
+      PROXY_RULES: proxyRules,
+      PROXY_TYPE: proxyType,
     },
   });
 
