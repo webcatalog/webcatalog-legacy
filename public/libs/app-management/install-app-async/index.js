@@ -16,6 +16,8 @@ const prepareTemplateAsync = require('../prepare-template-async');
 
 let lastUsedTmpPath = null;
 
+const { getPreferences } = require('../../preferences');
+
 const installAppAsync = (
   engine, id, name, url, icon,
 ) => Promise.resolve()
@@ -133,12 +135,21 @@ const installAppAsync = (
       );
     }
 
+    const {
+      proxyPacScript,
+      proxyRules,
+      proxyType,
+    } = getPreferences();
+
     const child = fork(scriptPath, params, {
       env: {
         ELECTRON_RUN_AS_NODE: 'true',
         ELECTRON_NO_ASAR: 'true',
         // for require('download')
         APPDATA: app.getPath('appData'),
+        PROXY_PAC_SCRIPT: proxyPacScript,
+        PROXY_RULES: proxyRules,
+        PROXY_TYPE: proxyType,
       },
     });
 

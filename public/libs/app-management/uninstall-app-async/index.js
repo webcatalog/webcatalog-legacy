@@ -2,10 +2,18 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
-const { getPreference } = require('./../../preferences');
+const { getPreferences } = require('./../../preferences');
 
 const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
+
+  const {
+    installationPath,
+    proxyPacScript,
+    proxyRules,
+    proxyType,
+    requireAdmin,
+  } = getPreferences();
 
   const child = fork(scriptPath, [
     '--id',
@@ -17,15 +25,18 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
     '--desktopPath',
     app.getPath('desktop'),
     '--installationPath',
-    getPreference('installationPath'),
+    installationPath,
     '--requireAdmin',
-    getPreference('requireAdmin').toString(),
+    requireAdmin.toString(),
     'username',
     process.env.USER, // required by sudo-prompt
   ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
+      PROXY_PAC_SCRIPT: proxyPacScript,
+      PROXY_RULES: proxyRules,
+      PROXY_TYPE: proxyType,
     },
   });
 
