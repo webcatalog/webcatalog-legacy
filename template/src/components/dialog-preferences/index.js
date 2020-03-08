@@ -683,7 +683,7 @@ const Preferences = ({
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
+            <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com/privacy')}>
               <ListItemText primary="Privacy Policy" />
             </ListItem>
           </List>

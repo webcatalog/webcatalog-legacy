@@ -69,13 +69,13 @@ const About = (props) => {
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://getwebcatalog.com')}
+          onClick={() => requestOpenInBrowser('https://webcatalogapp.com')}
         >
           WebCatalog Website
         </Button>
         <br />
         <Button
-          onClick={() => requestOpenInBrowser('https://getwebcatalog.com/support')}
+          onClick={() => requestOpenInBrowser('https://webcatalogapp.com/support')}
         >
           WebCatalog Support
         </Button>
