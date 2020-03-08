@@ -51,7 +51,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'WebCatalog Support',
-          click: () => shell.openExternal('https://getwebcatalog.com/support'),
+          click: () => shell.openExternal('https://webcatalogapp.com/support'),
         },
         {
           label: 'Report a Bug via GitHub...',
@@ -67,7 +67,7 @@ const createMenu = () => {
         },
         {
           label: 'Learn More...',
-          click: () => shell.openExternal('https://getwebcatalog.com'),
+          click: () => shell.openExternal('https://webcatalogapp.com'),
         },
       ],
     },

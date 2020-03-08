@@ -6,4 +6,4 @@ title: 'support: '
 
 # Support Question
 
-You can ask your question here or email support@getwebcatalog.com to receive direct support from the developer.
+You can ask your question here or email support@webcatalogapp.com to receive direct support from the developer.

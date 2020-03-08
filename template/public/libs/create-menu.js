@@ -360,11 +360,11 @@ function createMenu() {
       submenu: [
         {
           label: 'WebCatalog Support',
-          click: () => shell.openExternal('https://getwebcatalog.com/support'),
+          click: () => shell.openExternal('https://webcatalogapp.com/support'),
         },
         {
           label: 'WebCatalog Website',
-          click: () => shell.openExternal('https://getwebcatalog.com'),
+          click: () => shell.openExternal('https://webcatalogapp.com'),
         },
       ],
     },

@@ -367,7 +367,7 @@ const Preferences = ({
           </Typography>
           <Paper className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={() => requestOpenInBrowser('https://getwebcatalog.com/privacy')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com/privacy')}>
                 <ListItemText primary="Privacy Policy" />
               </ListItem>
             </List>
