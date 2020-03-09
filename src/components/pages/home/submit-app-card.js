@@ -48,8 +48,7 @@ const SubmitAppCard = ({ classes }) => (
     <Paper
       className={classes.card}
       elevation={1}
-      onClick={() => requestOpenInBrowser('https://github.com/
-atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
+      onClick={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
     >
       <AddCircleIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>

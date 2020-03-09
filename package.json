@@ -29,8 +29,7 @@
     "catalog:pack": "cd catalog && yarn build:pack",
     "catalog:publish": "cd catalog && yarn build:publish"
   },
-  "repository": "https://github.com/
-atomery/webcatalog",
+  "repository": "https://github.com/atomery/webcatalog",
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam2807@gmail.com"

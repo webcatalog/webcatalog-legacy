@@ -173,8 +173,7 @@ const createAsync = () => {
 
   // Fix webview is not resized automatically
   // when window is maximized on Linux
-  // https://github.com/
-atomery/webcatalog/issues/561
+  // https://github.com/atomery/webcatalog/issues/561
   if (process.platform === 'linux') {
     const handleMaximize = () => {
       // getContentSize is not updated immediately
