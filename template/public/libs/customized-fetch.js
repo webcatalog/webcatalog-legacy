@@ -7,9 +7,14 @@ const ProxyAgent = require('proxy-agent');
 const { getPreference } = process.env.ELECTRON_RUN_AS_NODE ? {} : require('./preferences');
 
 const customizedFetch = (url, _opts, ...args) => {
-  const proxyPacScript = process.env.PROXY_PAC_SCRIPT || getPreference('proxyPacScript');
-  const proxyRules = process.env.PROXY_RULES || getPreference('proxyRules');
-  const proxyType = process.env.PROXY_TYPE || getPreference('proxyType');
+  let proxyPacScript = process.env.PROXY_PAC_SCRIPT;
+  let proxyRules = process.env.PROXY_RULES;
+  let proxyType = process.env.PROXY_TYPE;
+  if (getPreference) {
+    proxyPacScript = getPreference('proxyPacScript');
+    proxyRules = getPreference('proxyRules');
+    proxyType = getPreference('proxyType');
+  }
 
   const opts = { ..._opts };
   if (proxyType === 'rules') {
