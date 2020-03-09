@@ -14,13 +14,11 @@ const {
   arch,
 } = argv;
 
-const fetchLatestTemplateVersionAsync = () => customizedFetch(`https://github.com/
-atomery/webcatalog/releases/download/v${appVersion}/template.json`)
+const fetchLatestTemplateVersionAsync = () => customizedFetch(`https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template.json`)
   .then((res) => res.json())
   .then((fetchedJson) => ({
     templateVersion: fetchedJson.version,
-    templateZipUrl: `https://github.com/
-atomery/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
+    templateZipUrl: `https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
   }));
 
 fetchLatestTemplateVersionAsync()

@@ -71,8 +71,7 @@ const isInternalUrl = (url, currentInternalUrls) => {
     const internalDomain = equivalentDomain(extractDomain(internalUrl));
 
     // Ex: music.yandex.ru => passport.yandex.ru?retpath=....music.yandex.ru
-    // https://github.com/
-atomery/webcatalog/issues/546#issuecomment-586639519
+    // https://github.com/atomery/webcatalog/issues/546#issuecomment-586639519
     if (domain === 'clck.yandex.ru' || domain === 'passport.yandex.ru') {
       return url.includes(internalDomain);
     }
@@ -141,21 +140,18 @@ const addView = (browserWindow, workspace) => {
     view.webContents.setUserAgent(customUserAgent);
   } else {
     // Hide Electron from UA to improve compatibility
-    // https://github.com/
-atomery/webcatalog/issues/182
+    // https://github.com/atomery/webcatalog/issues/182
     const uaStr = view.webContents.getUserAgent();
     const commonUaStr = uaStr
       // Fix WhatsApp requires Google Chrome 49+ bug
       .replace(` ${app.getName()}/${app.getVersion()}`, '')
       // Hide Electron from UA to improve compatibility
-      // https://github.com/
-atomery/webcatalog/issues/182
+      // https://github.com/atomery/webcatalog/issues/182
       .replace(` Electron/${process.versions.electron}`, '');
     view.webContents.setUserAgent(commonUaStr);
 
     // fix Google prevents signing in because of security concerns
-    // https://github.com/
-atomery/webcatalog/issues/455
+    // https://github.com/atomery/webcatalog/issues/455
     // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
     const fakedEdgeUaStr = `${commonUaStr} Edge/18.18875`;
     adjustUserAgentByUrl = (url) => {
@@ -208,8 +204,7 @@ atomery/webcatalog/issues/455
   if (workspace.active) {
     const handleFocus = () => {
       // focus on webview
-      // https://github.com/
-atomery/webcatalog/issues/398
+      // https://github.com/atomery/webcatalog/issues/398
       view.webContents.focus();
       view.webContents.removeListener('did-stop-loading', handleFocus);
     };
@@ -239,8 +234,7 @@ atomery/webcatalog/issues/398
 
   view.webContents.on('did-navigate', (e, url) => {
     // fix Google prevents signing in because of security concerns
-    // https://github.com/
-atomery/webcatalog/issues/455
+    // https://github.com/atomery/webcatalog/issues/455
     // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
     // will-navigate doesn't trigger for loadURL, goBack, goForward
     // so user agent to needed to be double check here
@@ -282,8 +276,7 @@ atomery/webcatalog/issues/455
     if (
       // Google: Switch account
       nextDomain === 'accounts.google.com'
-      // https://github.com/
-atomery/webcatalog/issues/315
+      // https://github.com/atomery/webcatalog/issues/315
       || ((appDomain.includes('asana.com') || currentDomain.includes('asana.com')) && nextDomain.includes('asana.com'))
       || (disposition === 'foreground-tab' && isInternalUrl(nextUrl, [appUrl, currentUrl]))
     ) {
@@ -319,8 +312,7 @@ atomery/webcatalog/issues/315
 
     // App tries to open external link using JS
     // nextURL === 'about:blank' but then window will redirect to the external URL
-    // https://github.com/
-atomery/webcatalog/issues/467#issuecomment-569857721
+    // https://github.com/atomery/webcatalog/issues/467#issuecomment-569857721
     if (
       nextDomain === null
       && (disposition === 'foreground-tab' || disposition === 'background-tab')
@@ -466,8 +458,7 @@ const setActiveView = (browserWindow, id) => {
     });
 
     // focus on webview
-    // https://github.com/
-atomery/webcatalog/issues/398
+    // https://github.com/atomery/webcatalog/issues/398
     view.webContents.focus();
 
 

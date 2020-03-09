@@ -45,13 +45,11 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))
-    .then(() => window.fetch('https://api.github.com/repos/
-atomery/webcatalog/releases/latest'))
+    .then(() => window.fetch('https://api.github.com/repos/atomery/webcatalog/releases/latest'))
     .then((res) => res.json())
     .then((release) => {
       const v = release.tag_name;
-      return window.fetch(`https://raw.githubusercontent.com/
-atomery/webcatalog/${v}/package.json`);
+      return window.fetch(`https://raw.githubusercontent.com/atomery/webcatalog/${v}/package.json`);
     })
     .then((res) => res.json())
     .then((fetchedJson) => {
