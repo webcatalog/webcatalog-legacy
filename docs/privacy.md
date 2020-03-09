@@ -23,4 +23,5 @@ The website uses [Google Analytics](https://support.google.com/analytics/answer/
 
 * * *
 
-This privacy policy is subject to change without notice and was last updated on April 28, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/quanglam2807/webcatalog/issues).
+This privacy policy is subject to change without notice and was last updated on April 28, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/
+atomery/webcatalog/issues).

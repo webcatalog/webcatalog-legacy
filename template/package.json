@@ -17,7 +17,8 @@
     "dist": "yarn build && node dist.js",
     "test": "mocha ./tests"
   },
-  "repository": "https://github.com/quanglam2807/webcatalog",
+  "repository": "https://github.com/
+atomery/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
     "@cliqz/adblocker-electron": "1.9.2",
