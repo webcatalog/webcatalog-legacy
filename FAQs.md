@@ -23,6 +23,6 @@ Yes, you can as long as you're the only person who use the app on these computer
 Yes, we offer a full refund within 30 days of your purchase.
 
 ##### I lost my license key. How can I retrieve it?
-You should have received an email with your license key when you purchased WebCatalog for [our store](https://webcatalog.onfastspring.com/). If you can’t find the email, you can retrieve your license key from the [License Manager](https://webcatalog.onfastspring.com/account).
+You should have received an email with your license key when you purchased WebCatalog from [our store](https://webcatalog.onfastspring.com/). If you can’t find the email, you can retrieve your license key from the [License Manager](https://webcatalog.onfastspring.com/account).
 
 If you purchase the app from other stores, such as [BundleHunt](https://bundlehunt.com/), please contact the corresponding store to retrieve your license key.
