@@ -23,6 +23,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
+import StorefrontIcon from '@material-ui/icons/Storefront';
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import { TimePicker } from '@material-ui/pickers';
@@ -52,6 +54,10 @@ import {
   requestShowProxyWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
+
+import webcatalogLogo from '../../images/webcatalog-logo.svg';
+import translatiumLogo from '../../images/translatium-logo.svg';
+import singleboxLogo from '../../images/singlebox-logo.svg';
 
 const { remote } = window.require('electron');
 
@@ -87,6 +93,9 @@ const styles = (theme) => ({
     width: '100%',
     maxWidth: 500,
     float: 'right',
+  },
+  logo: {
+    height: 28,
   },
 });
 
@@ -230,6 +239,11 @@ const Preferences = ({
       Icon: BuildIcon,
       ref: useRef(),
     },
+    updates: {
+      text: 'Updates',
+      Icon: SystemUpdateAltIcon,
+      ref: useRef(),
+    },
     advanced: {
       text: 'Advanced',
       Icon: CodeIcon,
@@ -238,6 +252,11 @@ const Preferences = ({
     reset: {
       text: 'Reset',
       Icon: RotateLeftIcon,
+      ref: useRef(),
+    },
+    atomeryApps: {
+      text: 'Atomery Apps',
+      Icon: StorefrontIcon,
       ref: useRef(),
     },
     miscs: {
@@ -683,7 +702,7 @@ const Preferences = ({
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com/privacy')}>
+            <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/privacy?app=webcatalog&utm_source=webcatalog_app')}>
               <ListItemText primary="Privacy Policy" />
             </ListItem>
           </List>
@@ -769,6 +788,23 @@ const Preferences = ({
           </List>
         </Paper>
 
+        <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.updates.ref}>
+          Updates
+        </Typography>
+        <Paper className={classes.paper}>
+          <List disablePadding dense>
+            <ListItem
+              button
+              onClick={requestCheckForUpdates}
+            >
+              <ListItemText
+                primary="Check for Updates"
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+          </List>
+        </Paper>
+
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.advanced.ref}>
           Advanced
         </Typography>
@@ -824,6 +860,38 @@ const Preferences = ({
           </List>
         </Paper>
 
+        <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.atomeryApps.ref}>
+          Atomery Apps
+        </Typography>
+        <Paper className={classes.paper}>
+          <List disablePadding dense>
+            <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
+              <ListItemText
+                primary={(<img src={webcatalogLogo} alt="WebCatalog" className={classes.logo} />)}
+                secondary="Run Web Apps like Real Apps"
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app')}>
+              <ListItemText
+                primary={(<img src={singleboxLogo} alt="Singlebox" className={classes.logo} />)}
+                secondary="All Your Apps in One Single Window"
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => requestOpenInBrowser('https://translatiumapp.com?utm_source=webcatalog_app')}>
+              <ListItemText
+                primary={(<img src={translatiumLogo} alt="Translatium" className={classes.logo} />)}
+                secondary="Translate Any Languages like a Pro"
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            <Divider />
+          </List>
+        </Paper>
+
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.miscs.ref}>
           Miscellaneous
         </Typography>
@@ -831,16 +899,6 @@ const Preferences = ({
           <List disablePadding dense>
             <ListItem button onClick={requestShowAboutWindow}>
               <ListItemText primary="About" />
-              <ChevronRightIcon color="action" />
-            </ListItem>
-            <Divider />
-            <ListItem
-              button
-              onClick={requestCheckForUpdates}
-            >
-              <ListItemText
-                primary="Check for Updates"
-              />
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />

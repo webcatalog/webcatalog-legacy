@@ -51,6 +51,7 @@ const styles = (theme) => ({
   link: {
     fontWeight: 600,
     cursor: 'pointer',
+    outline: 'none',
     '&:hover': {
       textDecoration: 'underline',
     },
@@ -100,13 +101,13 @@ const About = (props) => {
           <span role="img" aria-label="love">❤</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://quanglam2807.com/')}
-            onKeyDown={() => requestOpenInBrowser('https://quanglam2807.com/')}
+            onClick={() => requestOpenInBrowser('https://atomery.com/')}
+            onKeyDown={() => requestOpenInBrowser('https://atomery.com/')}
             role="link"
             tabIndex="0"
             className={classes.link}
           >
-            Quang Lam
+            Atomery
           </span>
         </Typography>
       </DialogContent>

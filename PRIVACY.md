@@ -1,4 +1,4 @@
-WebCatalog respects your privacy and **does not track or log anything from you**.
+[WebCatalog](https://webcatalogapp.com) respects your privacy and **does not track or log anything from you**.
 
 ---
 
@@ -23,4 +23,4 @@ Our websites use:
 
 ---
 
-This privacy policy is subject to change without notice and was last updated on March 10, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/atomery/webcatalog/issues).
+This privacy policy is subject to change without notice and was last updated on March 10, 2019. If you have any questions feel free to [create a GitHub issue](https://github.com/atomery/webcatalog/issues) or contact us via [contact@atomery.com](mailto:contact@atomery.com).

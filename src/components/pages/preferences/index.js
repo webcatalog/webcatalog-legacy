@@ -21,6 +21,8 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
+import StorefrontIcon from '@material-ui/icons/Storefront';
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import StatedMenu from '../../shared/stated-menu';
@@ -49,6 +51,10 @@ import {
   requestShowMessageBox,
   requestShowRequireRestartDialog,
 } from '../../../senders';
+
+import webcatalogLogo from '../../../assets/webcatalog-logo.svg';
+import translatiumLogo from '../../../assets/translatium-logo.svg';
+import singleboxLogo from '../../../assets/singlebox-logo.svg';
 
 const { remote } = window.require('electron');
 
@@ -102,6 +108,9 @@ const styles = (theme) => ({
     [theme.breakpoints.down(800)]: {
       display: 'none',
     },
+  },
+  logo: {
+    height: 28,
   },
 });
 
@@ -218,6 +227,11 @@ const Preferences = ({
       ref: useRef(),
       hidden: window.process.platform === 'linux',
     },
+    updates: {
+      text: 'Updates',
+      Icon: SystemUpdateAltIcon,
+      ref: useRef(),
+    },
     advanced: {
       text: 'Advanced',
       Icon: CodeIcon,
@@ -226,6 +240,11 @@ const Preferences = ({
     reset: {
       text: 'Reset',
       Icon: RotateLeftIcon,
+      ref: useRef(),
+    },
+    atomeryApps: {
+      text: 'Atomery Apps',
+      Icon: StorefrontIcon,
       ref: useRef(),
     },
     miscs: {
@@ -367,7 +386,7 @@ const Preferences = ({
           </Typography>
           <Paper className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com/privacy')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/privacy?app=webcatalog&utm_source=webcatalog_app')}>
                 <ListItemText primary="Privacy Policy" />
               </ListItem>
             </List>
@@ -402,6 +421,44 @@ const Preferences = ({
               </Paper>
             </>
           )}
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.updates.ref}>
+            Updates
+          </Typography>
+          <Paper className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem
+                button
+                onClick={() => requestCheckForUpdates(false)}
+                disabled={updaterStatus === 'checking-for-update'
+                  || updaterStatus === 'download-progress'
+                  || updaterStatus === 'download-progress'
+                  || updaterStatus === 'update-available'}
+              >
+                <ListItemText
+                  primary={updaterStatus === 'update-downloaded' ? 'Restart to Apply Updates' : 'Check for Updates'}
+                  secondary={getUpdaterDesc(updaterStatus, updaterInfo)}
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Receive pre-release updates"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    color="primary"
+                    checked={allowPrerelease}
+                    onChange={(e) => {
+                      requestSetPreference('allowPrerelease', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced
@@ -550,22 +607,6 @@ const Preferences = ({
               <ListItem button onClick={requestOpenInstallLocation}>
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
               </ListItem>
-              <Divider />
-              <ListItem>
-                <ListItemText
-                  primary="Receive pre-release updates"
-                />
-                <ListItemSecondaryAction>
-                  <Switch
-                    color="primary"
-                    checked={allowPrerelease}
-                    onChange={(e) => {
-                      requestSetPreference('allowPrerelease', e.target.checked);
-                      requestShowRequireRestartDialog();
-                    }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
             </List>
           </Paper>
 
@@ -578,6 +619,38 @@ const Preferences = ({
                 <ListItemText primary="Restore preferences to their original defaults" />
                 <ChevronRightIcon color="action" />
               </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.atomeryApps.ref}>
+            Atomery Apps
+          </Typography>
+          <Paper className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
+                <ListItemText
+                  primary={(<img src={webcatalogLogo} alt="WebCatalog" className={classes.logo} />)}
+                  secondary="Run Web Apps like Real Apps"
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app')}>
+                <ListItemText
+                  primary={(<img src={singleboxLogo} alt="Singlebox" className={classes.logo} />)}
+                  secondary="All Your Apps in One Single Window"
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://translatiumapp.com?utm_source=webcatalog_app')}>
+                <ListItemText
+                  primary={(<img src={translatiumLogo} alt="Translatium" className={classes.logo} />)}
+                  secondary="Translate Any Languages like a Pro"
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
             </List>
           </Paper>
 
