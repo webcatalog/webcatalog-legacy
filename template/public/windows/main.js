@@ -115,6 +115,7 @@ const createAsync = () => {
   });
 
   win = new BrowserWindow({
+    backgroundColor: '#FFF',
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
