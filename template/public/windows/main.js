@@ -123,7 +123,7 @@ const createAsync = () => {
     minWidth: 350,
     title: global.appJson.name,
     titleBarStyle: 'hidden',
-    show: !wasOpenedAsHidden,
+    show: false,
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
     autoHideMenuBar: getPreference('hideMenuBar'),
     webPreferences: {
@@ -189,8 +189,16 @@ const createAsync = () => {
     win.on('unmaximize', handleMaximize);
   }
 
+  return new Promise((resolve) => {
+    win.once('ready-to-show', () => {
+      resolve();
+      if (!wasOpenedAsHidden) {
+        win.show();
+      }
+    });
 
-  return Promise.resolve();
+    win.loadURL(REACT_PATH);
+  });
 };
 
 const show = () => {
