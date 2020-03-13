@@ -22,7 +22,7 @@
   "dependencies": {
     "@cliqz/adblocker-electron": "1.9.2",
     "cheerio": "1.0.0-rc.3",
-    "electron": "6.1.6",
+    "electron": "6.1.9",
     "electron-context-menu": "0.16.0",
     "electron-is-dev": "1.1.0",
     "electron-settings": "3.2.0",
