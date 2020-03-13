@@ -126,6 +126,7 @@ const addView = (browserWindow, workspace) => {
   }
 
   const view = new BrowserView({
+    backgroundColor: '#FFF',
     webPreferences: {
       nativeWindowOpen: true,
       nodeIntegration: false,

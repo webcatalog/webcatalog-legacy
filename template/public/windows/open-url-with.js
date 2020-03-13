@@ -16,6 +16,7 @@ const create = (url) => {
   global.incomingUrl = url;
 
   win = new BrowserWindow({
+    backgroundColor: '#FFF',
     width: 400,
     height: 530,
     resizable: false,

@@ -16,6 +16,7 @@ const create = (viewId) => {
   global.displayMediaRequestedViewId = viewId;
 
   win = new BrowserWindow({
+    backgroundColor: '#FFF',
     width: 400,
     height: 600,
     resizable: false,

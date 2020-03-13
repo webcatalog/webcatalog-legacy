@@ -17,6 +17,7 @@ const create = (id) => {
   emitted[id] = false;
 
   wins[id] = new BrowserWindow({
+    backgroundColor: '#FFF',
     width: 400,
     height: 250,
     resizable: false,

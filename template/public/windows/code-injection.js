@@ -19,6 +19,7 @@ const create = (type) => {
   global.codeInjectionType = type;
 
   win = new BrowserWindow({
+    backgroundColor: '#FFF',
     width: 400,
     height: 400,
     resizable: false,
