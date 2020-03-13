@@ -184,6 +184,7 @@ const AppCard = (props) => {
         >
           {status === INSTALLING && cancelable && (
             <MenuItem
+              dense
               onClick={() => {
                 if (version) return requestCancelUpdateApp(id);
                 return requestCancelInstallApp(id);
@@ -193,11 +194,12 @@ const AppCard = (props) => {
             </MenuItem>
           )}
           {status === INSTALLED && isOutdated && (
-            <MenuItem onClick={() => requestUninstallApp(id, name)}>
+            <MenuItem dense onClick={() => requestUninstallApp(id, name)}>
               Uninstall
             </MenuItem>
           )}
           <MenuItem
+            dense
             onClick={() => onOpenDialogCreateCustomApp({
               name: `${name} 2`,
               url,
@@ -210,12 +212,12 @@ const AppCard = (props) => {
           {engine && (
             [
               <Divider key={`menu-divider-${id}`} />,
-              <MenuItem key={`menu-engine-${id}`} onClick={null} disabled>
+              <MenuItem dense key={`menu-engine-${id}`} onClick={null} disabled>
                 Installed with&nbsp;
                 {getEngineName(engine)}
               </MenuItem>,
               engine === 'electron' && version && (
-                <MenuItem key={`menu-version-${id}`} onClick={null} disabled>
+                <MenuItem dense key={`menu-version-${id}`} onClick={null} disabled>
                   Version&nbsp;
                   {version}
                   {isOutdated && (

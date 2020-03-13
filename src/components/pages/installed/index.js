@@ -182,6 +182,7 @@ const Installed = (props) => {
                 )}
               >
                 <MenuItem
+                  dense
                   disabled={fetchingLatestTemplateVersion}
                   onClick={onFetchLatestTemplateVersionAsync}
                 >
@@ -189,6 +190,7 @@ const Installed = (props) => {
                 </MenuItem>
                 <Divider />
                 <MenuItem
+                  dense
                   onClick={requestGetInstalledApps}
                 >
                   Rescan for Installed Apps

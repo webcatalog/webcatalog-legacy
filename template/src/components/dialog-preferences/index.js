@@ -306,9 +306,9 @@ const Preferences = ({
                 </ListItem>
               )}
             >
-              {window.process.platform === 'darwin' && <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
-              <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
-              <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
+              {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
+              <MenuItem dense onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
+              <MenuItem dense onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
             </StatedMenu>
             <Divider />
             <ListItem>
@@ -580,6 +580,7 @@ const Preferences = ({
             >
               {Object.keys(hunspellLanguagesMap).map((code) => (
                 <MenuItem
+                  dense
                   key={code}
                   onClick={() => {
                     requestSetPreference('spellCheckerLanguages', [code]);
@@ -716,12 +717,9 @@ const Preferences = ({
             {(hasMailWorkspace || isDefaultMailClient) && (
               <>
                 {isDefaultMailClient ? (
-                  <>
-                    <ListItem>
-                      <ListItemText secondary={`${appJson.name} is your default email client.`} />
-                    </ListItem>
-                    <Divider />
-                  </>
+                  <ListItem>
+                    <ListItemText secondary={`${appJson.name} is your default email client.`} />
+                  </ListItem>
                 ) : (
                   <ListItem>
                     <ListItemText primary="Default email client" secondary={`Make ${appJson.name} the default email client.`} />
@@ -743,33 +741,28 @@ const Preferences = ({
               </>
             )}
             {isDefaultWebBrowser ? (
-              <>
-                <ListItem>
-                  <ListItemText secondary={`${appJson.name} is your default web browser.`} />
-                </ListItem>
-                <Divider />
-              </>
+              <ListItem>
+                <ListItemText secondary={`${appJson.name} is your default web browser.`} />
+              </ListItem>
             ) : (
-              <>
-                <ListItem>
-                  <ListItemText primary="Default web browser" secondary={`Make ${appJson.name} the default web browser.`} />
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="default"
-                    className={classes.button}
-                    onClick={() => {
-                      remote.app.setAsDefaultProtocolClient('http');
-                      remote.app.setAsDefaultProtocolClient('https');
-                      onUpdateIsDefaultWebBrowser(remote.app.isDefaultProtocolClient('http'));
-                    }}
-                  >
-                    Make default
-                  </Button>
-                </ListItem>
-                <Divider />
-              </>
+              <ListItem>
+                <ListItemText primary="Default web browser" secondary={`Make ${appJson.name} the default web browser.`} />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="default"
+                  className={classes.button}
+                  onClick={() => {
+                    remote.app.setAsDefaultProtocolClient('http');
+                    remote.app.setAsDefaultProtocolClient('https');
+                    onUpdateIsDefaultWebBrowser(remote.app.isDefaultProtocolClient('http'));
+                  }}
+                >
+                  Make default
+                </Button>
+              </ListItem>
             )}
+            <Divider />
             {window.process.platform !== 'linux' && (
               <StatedMenu
                 id="openAtLogin"
@@ -780,9 +773,9 @@ const Preferences = ({
                   </ListItem>
               )}
               >
-                <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
-                <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
-                <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+                <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+                <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+                <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
               </StatedMenu>
             )}
           </List>

@@ -168,6 +168,7 @@ const DialogPauseNotifications = (props) => {
               >
                 {quickShortcuts.map((shortcut) => (
                   <MenuItem
+                    dense
                     key={shortcut.name}
                     onClick={() => pauseNotif(shortcut.calcDate())}
                   >
@@ -175,6 +176,7 @@ const DialogPauseNotifications = (props) => {
                   </MenuItem>
                 ))}
                 <MenuItem
+                  dense
                   onClick={() => onUpdateShowDateTimePicker(true)}
                 >
                   Custom...

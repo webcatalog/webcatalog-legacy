@@ -304,9 +304,9 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                {window.process.platform === 'darwin' && <MenuItem onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
-                <MenuItem onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
-                <MenuItem onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
+                {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
+                <MenuItem dense onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
+                <MenuItem dense onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
               </StatedMenu>
               {window.process.platform !== 'darwin' && (
                 <>
@@ -318,6 +318,7 @@ const Preferences = ({
                     />
                     <ListItemSecondaryAction>
                       <Switch
+                        edge="end"
                         color="primary"
                         checked={hideMenuBar}
                         onChange={(e) => {
@@ -337,6 +338,7 @@ const Preferences = ({
                 />
                 <ListItemSecondaryAction>
                   <Switch
+                    edge="end"
                     color="primary"
                     checked={attachToMenubar}
                     onChange={(e) => {
@@ -353,6 +355,7 @@ const Preferences = ({
                 />
                 <ListItemSecondaryAction>
                   <Switch
+                    edge="end"
                     color="primary"
                     checked={attachToMenubar || defaultHome === 'installed'}
                     disabled={attachToMenubar}
@@ -413,9 +416,9 @@ const Preferences = ({
                       </ListItem>
                     )}
                   >
-                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
-                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
-                    <MenuItem onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
+                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
+                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
+                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
                   </StatedMenu>
                 </List>
               </Paper>
@@ -448,6 +451,7 @@ const Preferences = ({
                 />
                 <ListItemSecondaryAction>
                   <Switch
+                    edge="end"
                     color="primary"
                     checked={allowPrerelease}
                     onChange={(e) => {
@@ -476,6 +480,7 @@ const Preferences = ({
                 />
                 <ListItemSecondaryAction>
                   <Switch
+                    edge="end"
                     color="primary"
                     checked={!hideEnginePrompt}
                     onChange={(e) => {
@@ -493,6 +498,7 @@ const Preferences = ({
                     />
                     <ListItemSecondaryAction>
                       <Switch
+                        edge="end"
                         color="primary"
                         checked={createDesktopShortcut}
                         onChange={(e) => {
@@ -508,6 +514,7 @@ const Preferences = ({
                     />
                     <ListItemSecondaryAction>
                       <Switch
+                        edge="end"
                         color="primary"
                         checked={createStartMenuShortcut}
                         onChange={(e) => {
@@ -542,11 +549,12 @@ const Preferences = ({
                   {window.process.platform === 'win32' && (
                     [
                       (installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
-                        <MenuItem key="installation-path-menu-item">
+                        <MenuItem dense key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
                       ),
                       <MenuItem
+                        dense
                         key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath(`${remote.app.getPath('home')}\\WebCatalog Apps`, false);
@@ -559,11 +567,12 @@ const Preferences = ({
                   {window.process.platform === 'darwin' && (
                     [
                       (installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
-                        <MenuItem key="installation-path-menu-item">
+                        <MenuItem dense key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
                       ),
                       <MenuItem
+                        dense
                         key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('~/Applications/WebCatalog Apps', false);
@@ -572,6 +581,7 @@ const Preferences = ({
                         ~/Applications/WebCatalog Apps (default)
                       </MenuItem>,
                       <MenuItem
+                        dense
                         key="default-sudo-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('/Applications/WebCatalog Apps', true);
@@ -584,11 +594,12 @@ const Preferences = ({
                   {window.process.platform === 'linux' && (
                     [
                       (installationPath !== '~/.webcatalog') && (
-                        <MenuItem key="installation-path-menu-item">
+                        <MenuItem dense key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
                       ),
                       <MenuItem
+                        dense
                         key="default-installation-path-menu-item"
                         onClick={() => {
                           handleUpdateInstallationPath('~/.webcatalog', false);
@@ -598,7 +609,7 @@ const Preferences = ({
                       </MenuItem>,
                     ]
                   )}
-                  <MenuItem onClick={onOpenDialogSetInstallationPath}>
+                  <MenuItem dense onClick={onOpenDialogSetInstallationPath}>
                     Custom
                   </MenuItem>
                 </StatedMenu>
