@@ -94,7 +94,7 @@ const DialogChooseEngine = (props) => {
             </ListItemAvatar>
             <ListItemText
               primary="Electron (highly recommended)"
-              secondary="This option creates Electron-based app with many exclusive features such as workspaces, notifications, badges and email handling. It takes more disk space (up to 200 MB per app), needs to be updated manually and doesn't support with DRM-protected apps such as Netflix or Spotify."
+              secondary="This option creates Electron-based app with many exclusive features such as workspaces, notifications, badges and email handling. It takes more disk space (up to 200 MB per app), needs to be updated manually and doesn't support DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           <ListItem

@@ -136,10 +136,10 @@ const AppCard = (props) => {
 
     let label = 'Install';
     if (status === INSTALLING && version) {
-      if (cancelable) label = 'Waiting to Update...';
+      if (cancelable) label = 'Queueing...';
       else label = 'Updating...';
     } else if (status === INSTALLING) {
-      if (cancelable) label = 'Waiting to Install...';
+      if (cancelable) label = 'Queueing...';
       else label = 'Installing...';
     } else if (status === UNINSTALLING) label = 'Uninstalling...';
 
