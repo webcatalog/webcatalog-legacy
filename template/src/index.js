@@ -54,6 +54,8 @@ const runApp = () => {
 
       if (window.mode === 'about') {
         document.title = 'About';
+      } else if (window.mode === 'auth') {
+        document.title = 'Authentication';
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
@@ -89,6 +91,17 @@ const runApp = () => {
         document.title = 'Proxy Settings';
       } else {
         document.title = remote.getGlobal('appJson').name;
+      }
+
+      if (window.mode !== 'main' && window.mode !== 'menubar') {
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            if (window.preventClosingWindow) {
+              return;
+            }
+            remote.getCurrentWindow().close();
+          }
+        });
       }
     });
 

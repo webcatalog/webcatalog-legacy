@@ -9,7 +9,7 @@ import dialogAuth from './dialog-auth/reducers';
 import dialogCodeInjection from './dialog-code-injection/reducers';
 import dialogCustomUserAgent from './dialog-custom-user-agent/reducers';
 import dialogEditWorkspace from './dialog-edit-workspace/reducers';
-import dialogGoToUrl from './go-to-url/reducers';
+import dialogGoToUrl from './dialog-go-to-url/reducers';
 import dialogProxy from './dialog-proxy/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';

@@ -491,6 +491,8 @@ const Preferences = ({
                     label="from"
                     value={new Date(pauseNotificationsByScheduleFrom)}
                     onChange={(d) => requestSetPreference('pauseNotificationsByScheduleFrom', d.toString())}
+                    onClose={() => { window.preventClosingWindow = false; }}
+                    onOpen={() => { window.preventClosingWindow = true; }}
                     disabled={!pauseNotificationsBySchedule}
                   />
                   <TimePicker
@@ -498,6 +500,8 @@ const Preferences = ({
                     label="to"
                     value={new Date(pauseNotificationsByScheduleTo)}
                     onChange={(d) => requestSetPreference('pauseNotificationsByScheduleTo', d.toString())}
+                    onClose={() => { window.preventClosingWindow = false; }}
+                    onOpen={() => { window.preventClosingWindow = true; }}
                     disabled={!pauseNotificationsBySchedule}
                   />
                 </div>
@@ -887,7 +891,6 @@ const Preferences = ({
               />
               <ChevronRightIcon color="action" />
             </ListItem>
-            <Divider />
           </List>
         </Paper>
 

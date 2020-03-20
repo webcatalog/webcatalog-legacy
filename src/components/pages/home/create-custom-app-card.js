@@ -25,6 +25,7 @@ const styles = (theme) => ({
     justifyContent: 'center',
     cursor: 'pointer',
     color: theme.palette.text.primary,
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
     '&:hover, &:focus': {
       backgroundColor: theme.palette.action.selected,
     },
@@ -47,8 +48,11 @@ const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
   <Grid item>
     <Paper
       className={classes.card}
-      elevation={1}
+      elevation={0}
       onClick={onOpenDialogCreateCustomApp}
+      onKeyDown={onOpenDialogCreateCustomApp}
+      role="button"
+      tabIndex="0"
     >
       <BrushIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>

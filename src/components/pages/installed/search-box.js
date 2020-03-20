@@ -90,7 +90,7 @@ class EnhancedAppBar extends React.Component {
     );
 
     return (
-      <Paper elevation={2} className={classes.toolbarSearchContainer}>
+      <Paper elevation={1} className={classes.toolbarSearchContainer}>
         <div className={classes.toolbarSectionSearch}>
           <SearchIcon
             className={classes.searchIcon}

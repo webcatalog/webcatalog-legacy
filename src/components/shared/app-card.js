@@ -45,6 +45,7 @@ const styles = (theme) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     position: 'relative',
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   appName: {
     overflow: 'hidden',
@@ -68,7 +69,6 @@ const styles = (theme) => ({
   },
   actionButton: {
     minWidth: 'auto',
-    boxShadow: 'none',
     fontSize: '0.8em',
   },
   topRight: {
@@ -158,7 +158,7 @@ const AppCard = (props) => {
 
   return (
     <Grid item>
-      <Paper elevation={1} className={classes.card}>
+      <Paper elevation={0} className={classes.card}>
         <img
           alt={name}
           className={classes.paperIcon}

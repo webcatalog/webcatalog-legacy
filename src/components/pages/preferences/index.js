@@ -90,6 +90,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(3),
     width: '100%',
     WebkitAppRegion: 'none',
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   inner: {
     width: '100%',
@@ -257,7 +258,7 @@ const Preferences = ({
   return (
     <div className={classes.root}>
       {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
-      <AppBar position="static" className={classes.appBar} elevation={2} color="inherit">
+      <AppBar position="static" className={classes.appBar} elevation={1} color="inherit">
         <Toolbar variant="dense" className={classes.toolbar}>
           <Typography variant="h6" color="inherit" className={classes.title}>
             Preferences
@@ -293,7 +294,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <StatedMenu
                 id="themeSource"
@@ -375,7 +376,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
             Network
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={onOpenDialogProxy}>
                 <ListItemText primary="Configure proxy settings (BETA)" />
@@ -387,7 +388,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.privacy.ref}>
             Privacy &amp; Security
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/privacy?app=webcatalog&utm_source=webcatalog_app')}>
                 <ListItemText primary="Privacy Policy" />
@@ -405,7 +406,7 @@ const Preferences = ({
               >
                 System
               </Typography>
-              <Paper className={classes.paper}>
+              <Paper elevation={0} className={classes.paper}>
                 <List disablePadding dense>
                   <StatedMenu
                     id="openAtLogin"
@@ -428,7 +429,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.updates.ref}>
             Updates
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem
                 button
@@ -467,7 +468,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={onOpenDialogSetPreferredEngine}>
                 <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
@@ -624,7 +625,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.reset.ref}>
             Reset
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={requestResetPreferences}>
                 <ListItemText primary="Restore preferences to their original defaults" />
@@ -636,7 +637,7 @@ const Preferences = ({
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.atomeryApps.ref}>
             Atomery Apps
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
                 <ListItemText
@@ -661,14 +662,13 @@ const Preferences = ({
                 />
                 <ChevronRightIcon color="action" />
               </ListItem>
-              <Divider />
             </List>
           </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.miscs.ref}>
             Miscellaneous
           </Typography>
-          <Paper className={classes.paper}>
+          <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button onClick={onOpenDialogAbout}>
                 <ListItemText primary="About" />

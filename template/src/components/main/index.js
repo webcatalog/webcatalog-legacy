@@ -192,7 +192,7 @@ const Main = ({
                 {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
               </IconButton>
               {window.mode === 'menubar' && (
-                <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow} className={classes.iconButton}>
+                <IconButton aria-label="Preferences" onClick={() => requestShowPreferencesWindow()} className={classes.iconButton}>
                   <SettingsIcon />
                 </IconButton>
               )}

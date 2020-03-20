@@ -40,7 +40,7 @@ const styles = (theme) => ({
     textAlign: 'center',
     fontWeight: 500,
     textTransform: 'uppercase',
-    boxShadow: theme.shadows[1],
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   textAvatar: {
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
@@ -48,7 +48,6 @@ const styles = (theme) => ({
   },
   transparentAvatar: {
     background: 'transparent',
-    boxShadow: 'none',
     color: theme.palette.text.primary,
   },
   avatarPicture: {
