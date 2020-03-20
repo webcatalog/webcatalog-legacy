@@ -1,7 +1,10 @@
 
-import { UPDATE_CODE_INJECTION_FORM } from '../../constants/actions';
+import { UPDATE_CODE_INJECTION_FORM, DIALOG_CODE_INJECTION_INIT } from '../../constants/actions';
 import { requestSetPreference, requestShowRequireRestartDialog } from '../../senders';
 
+export const init = () => ({
+  type: DIALOG_CODE_INJECTION_INIT,
+});
 
 export const updateForm = (changes) => (dispatch) => dispatch({
   type: UPDATE_CODE_INJECTION_FORM,
