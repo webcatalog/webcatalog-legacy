@@ -60,6 +60,7 @@ const runApp = () => {
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
+        store.dispatch(initDialogEditWorkspace());
         const { workspaces } = store.getState();
         const workspaceList = getWorkspacesAsList(workspaces);
         const editWorkspaceId = remote.getGlobal('editWorkspaceId');
