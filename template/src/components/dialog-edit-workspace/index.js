@@ -93,6 +93,9 @@ const styles = (theme) => ({
   buttonBot: {
     marginTop: theme.spacing(1),
   },
+  caption: {
+    display: 'block',
+  },
 });
 
 const EditWorkspace = ({
@@ -191,7 +194,7 @@ const EditWorkspace = ({
           >
             Select Local Image...
           </Button>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.caption}>
             PNG, JPEG, GIF, TIFF or BMP.
           </Typography>
           <Button
