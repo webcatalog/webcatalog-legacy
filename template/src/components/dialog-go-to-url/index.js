@@ -6,14 +6,14 @@ import TextField from '@material-ui/core/TextField';
 
 import connectComponent from '../../helpers/connect-component';
 
-import { updateForm, go } from '../../state/go-to-url/actions';
+import { updateForm, go } from '../../state/dialog-go-to-url/actions';
 
 const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
     height: '100vh',
     width: '100vw',
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
   },
@@ -22,6 +22,7 @@ const styles = (theme) => ({
   },
   button: {
     float: 'right',
+    marginLeft: theme.spacing(1),
   },
 });
 
@@ -55,8 +56,11 @@ const GoToUrl = ({
       />
     </div>
     <div>
-      <Button color="primary" variant="contained" className={classes.button} onClick={onGo}>
+      <Button color="primary" variant="contained" disableElevation className={classes.button} onClick={onGo}>
         Go
+      </Button>
+      <Button variant="contained" disableElevation className={classes.button} onClick={() => window.require('electron').remote.getCurrentWindow().close()}>
+        Cancel
       </Button>
     </div>
   </div>

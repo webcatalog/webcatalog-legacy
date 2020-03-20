@@ -22,8 +22,6 @@ import {
 
 import { requestShowMessageBox } from '../../senders';
 
-const { remote, ipcRenderer } = window.require('electron');
-
 export const close = () => ({
   type: DIALOG_CREATE_CUSTOM_APP_CLOSE,
 });
@@ -47,6 +45,7 @@ export const open = (form) => (dispatch, getState) => {
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
 export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => {
   try {
+    const { ipcRenderer } = window.require('electron');
     const id = Date.now().toString();
     ipcRenderer.once(id, (e, uurl) => {
       resolve(uurl);
@@ -81,6 +80,7 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
       }
 
       if (forceOverwrite && !iconUrl) {
+        const { remote } = window.require('electron');
         remote.dialog.showMessageBox(remote.getCurrentWindow(), {
           message: 'Unable to find a suitable icon from the Internet.',
           buttons: ['OK'],
@@ -140,7 +140,7 @@ export const create = () => (dispatch, getState) => {
 
   const id = `custom-${Date.now().toString()}`;
   const { name, url } = form;
-  const icon = form.icon || form.internetIcon || remote.getGlobal('defaultIcon');
+  const icon = form.icon || form.internetIcon || window.require('electron').remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
   if (isNameExisted(name, state)) {

@@ -38,7 +38,7 @@ const styles = {
 const EnhancedBottomNavigation = ({
   classes, route, appBadgeCount, onChangeRoute,
 }) => (
-  <Paper elevation={2} className={classes.paper}>
+  <Paper elevation={1} className={classes.paper}>
     <BottomNavigation
       value={route}
       onChange={(e, value) => onChangeRoute(value)}

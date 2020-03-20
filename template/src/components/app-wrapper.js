@@ -13,8 +13,6 @@ import connectComponent from '../helpers/connect-component';
 
 import { updateIsFullScreen } from '../state/general/actions';
 
-const { remote } = window.require('electron');
-
 class AppWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -24,11 +22,13 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
+    const { remote } = window.require('electron');
     remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
   }
 
   componentWillUnmount() {
+    const { remote } = window.require('electron');
     remote.getCurrentWindow().removeListener('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().removeListener('leave-full-screen', this.handleLeaveFullScreen);
   }

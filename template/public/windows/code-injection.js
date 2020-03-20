@@ -21,7 +21,7 @@ const create = (type) => {
   win = new BrowserWindow({
     backgroundColor: '#FFF',
     width: 400,
-    height: 400,
+    height: 350,
     resizable: false,
     maximizable: false,
     minimizable: false,

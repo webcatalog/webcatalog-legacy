@@ -7,14 +7,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto/index.css';
 
 import store from './state';
+import { init as initDialogCodeInjection } from './state/dialog-code-injection/actions';
+import { init as initDialogCustomUserAgent } from './state/dialog-custom-user-agent/actions';
+import { init as initDialogEditWorkspace } from './state/dialog-edit-workspace/actions';
 import { init as initDialogProxy } from './state/dialog-proxy/actions';
 
 import AppWrapper from './components/app-wrapper';
 
 import getWorkspacesAsList from './helpers/get-workspaces-as-list';
-
-const { remote, webFrame } = window.require('electron');
-
 
 const DialogAbout = React.lazy(() => import('./components/dialog-about'));
 const DialogAuth = React.lazy(() => import('./components/dialog-auth'));
@@ -49,17 +49,21 @@ const App = () => {
 const runApp = () => {
   Promise.resolve()
     .then(() => {
+      const { remote, webFrame } = window.require('electron');
       webFrame.setVisualZoomLevelLimits(1, 1);
       webFrame.setLayoutZoomLevelLimits(0, 0);
 
       if (window.mode === 'about') {
         document.title = 'About';
+      } else if (window.mode === 'auth') {
+        document.title = 'Sign In';
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
+        store.dispatch(initDialogEditWorkspace());
         const { workspaces } = store.getState();
         const workspaceList = getWorkspacesAsList(workspaces);
-        const editWorkspaceId = window.require('electron').remote.getGlobal('editWorkspaceId');
+        const editWorkspaceId = remote.getGlobal('editWorkspaceId');
         const workspace = workspaces[editWorkspaceId];
         workspaceList.some((item, index) => {
           if (item.id === editWorkspaceId) {
@@ -72,15 +76,15 @@ const runApp = () => {
       } else if (window.mode === 'open-url-with') {
         document.title = 'Open Link With';
       } else if (window.mode === 'code-injection') {
-        const codeInjectionType = window.require('electron').remote.getGlobal('codeInjectionType');
+        store.dispatch(initDialogCodeInjection());
+        const codeInjectionType = remote.getGlobal('codeInjectionType');
         document.title = `Edit ${codeInjectionType.toUpperCase()} Code Injection`;
-      } else if (window.mode === 'code-injection') {
-        document.title = 'Sign in';
       } else if (window.mode === 'notifications') {
         document.title = 'Notifications';
       } else if (window.mode === 'display-media') {
         document.title = 'Share your Screen';
       } else if (window.mode === 'custom-user-agent') {
+        store.dispatch(initDialogCustomUserAgent());
         document.title = 'Edit Custom User Agent';
       } else if (window.mode === 'go-to-url') {
         document.title = 'Go to URL';
@@ -89,6 +93,17 @@ const runApp = () => {
         document.title = 'Proxy Settings';
       } else {
         document.title = remote.getGlobal('appJson').name;
+      }
+
+      if (window.mode !== 'main' && window.mode !== 'menubar') {
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            if (window.preventClosingWindow) {
+              return;
+            }
+            remote.getCurrentWindow().close();
+          }
+        });
       }
     });
 

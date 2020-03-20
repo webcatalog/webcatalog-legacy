@@ -9,8 +9,6 @@ import {
   UPDATE_MOVING_ALL_APPS,
 } from '../../constants/actions';
 
-const { remote } = window.require('electron');
-
 export const updateIsFullScreen = (isFullScreen) => ({
   type: UPDATE_IS_FULL_SCREEN,
   isFullScreen,
@@ -42,6 +40,7 @@ export const updateMovingAllApps = (movingAllApps) => ({
 });
 
 export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
+  const { remote } = window.require('electron');
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))

@@ -59,8 +59,6 @@ import webcatalogLogo from '../../images/webcatalog-logo.svg';
 import translatiumLogo from '../../images/translatium-logo.svg';
 import singleboxLogo from '../../images/singlebox-logo.svg';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(2),
@@ -99,8 +97,6 @@ const styles = (theme) => ({
   },
 });
 
-const appJson = remote.getGlobal('appJson');
-
 const getThemeString = (theme) => {
   if (theme === 'light') return 'Light';
   if (theme === 'dark') return 'Dark';
@@ -116,7 +112,7 @@ const getOpenAtLoginString = (openAtLogin) => {
 const hasMailWorkspaceFunc = (workspaces) => {
   const workspacesList = getWorkspacesAsList(workspaces);
   return Boolean(workspacesList
-    .find((workspace) => Boolean(getMailtoUrl(workspace.homeUrl || appJson.url))));
+    .find((workspace) => Boolean(getMailtoUrl(workspace.homeUrl || window.require('electron').remote.getGlobal('appJson').url))));
 };
 
 // language code extracted from https://github.com/electron/electron/releases/download/v8.0.0-beta.3/hunspell_dictionaries.zip
@@ -203,6 +199,9 @@ const Preferences = ({
   titleBar,
   unreadCountBadge,
 }) => {
+  const { remote } = window.require('electron');
+  const appJson = remote.getGlobal('appJson');
+
   const sections = {
     general: {
       text: 'General',
@@ -491,6 +490,8 @@ const Preferences = ({
                     label="from"
                     value={new Date(pauseNotificationsByScheduleFrom)}
                     onChange={(d) => requestSetPreference('pauseNotificationsByScheduleFrom', d.toString())}
+                    onClose={() => { window.preventClosingWindow = false; }}
+                    onOpen={() => { window.preventClosingWindow = true; }}
                     disabled={!pauseNotificationsBySchedule}
                   />
                   <TimePicker
@@ -498,6 +499,8 @@ const Preferences = ({
                     label="to"
                     value={new Date(pauseNotificationsByScheduleTo)}
                     onChange={(d) => requestSetPreference('pauseNotificationsByScheduleTo', d.toString())}
+                    onClose={() => { window.preventClosingWindow = false; }}
+                    onOpen={() => { window.preventClosingWindow = true; }}
                     disabled={!pauseNotificationsBySchedule}
                   />
                 </div>
@@ -887,7 +890,6 @@ const Preferences = ({
               />
               <ChevronRightIcon color="action" />
             </ListItem>
-            <Divider />
           </List>
         </Paper>
 

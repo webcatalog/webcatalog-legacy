@@ -25,6 +25,7 @@ const styles = (theme) => ({
     justifyContent: 'center',
     cursor: 'pointer',
     color: theme.palette.text.primary,
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
     '&:hover, &:focus': {
       backgroundColor: theme.palette.action.selected,
     },
@@ -47,8 +48,11 @@ const SubmitAppCard = ({ classes }) => (
   <Grid item>
     <Paper
       className={classes.card}
-      elevation={1}
+      elevation={0}
       onClick={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
+      onKeyDown={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
+      role="link"
+      tabIndex="0"
     >
       <AddCircleIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>

@@ -26,9 +26,9 @@ import {
   requestFindInPage,
 } from '../senders';
 
-const { ipcRenderer } = window.require('electron');
-
 const loadListeners = (store) => {
+  const { ipcRenderer } = window.require('electron');
+
   ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
     if (message) console.log(message);

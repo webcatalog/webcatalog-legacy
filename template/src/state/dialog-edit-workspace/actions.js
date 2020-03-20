@@ -1,5 +1,6 @@
 
 import {
+  DIALOG_EDIT_WORKSPACE_INIT,
   UPDATE_EDIT_WORKSPACE_FORM,
   UPDATE_EDIT_WORKSPACE_DOWNLOADING_ICON,
 } from '../../constants/actions';
@@ -14,8 +15,6 @@ import {
   requestRemoveWorkspacePicture,
 } from '../../senders';
 
-const { ipcRenderer, remote } = window.require('electron');
-
 const getValidationRules = () => ({
   homeUrl: {
     fieldName: 'Home URL',
@@ -23,11 +22,16 @@ const getValidationRules = () => ({
   },
 });
 
+export const init = () => ({
+  type: DIALOG_EDIT_WORKSPACE_INIT,
+});
+
 // to be replaced with invoke (electron 7+)
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
 export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => {
   try {
     const id = Date.now().toString();
+    const { ipcRenderer } = window.require('electron');
     ipcRenderer.once(id, (e, uurl) => {
       resolve(uurl);
     });
@@ -46,6 +50,7 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
     downloadingIcon: true,
   });
 
+  const { remote } = window.require('electron');
   const appJson = remote.getGlobal('appJson');
   getWebsiteIconUrlAsync(homeUrl || appJson.url)
     .then((iconUrl) => {
@@ -81,6 +86,7 @@ export const updateForm = (changes) => (dispatch) => dispatch({
 });
 
 export const save = () => (dispatch, getState) => {
+  const { remote } = window.require('electron');
   const { form } = getState().dialogEditWorkspace;
 
   const validatedChanges = validate(form, getValidationRules());

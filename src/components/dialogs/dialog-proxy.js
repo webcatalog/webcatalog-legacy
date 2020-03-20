@@ -68,7 +68,7 @@ const DialogProxy = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Proxy Settings [BETA]
+        Proxy Settings (BETA)
       </EnhancedDialogTitle>
       <DialogContent>
         <List disablePadding dense>

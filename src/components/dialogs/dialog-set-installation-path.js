@@ -21,8 +21,6 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   top: {
     marginTop: theme.spacing(1),
@@ -72,6 +70,7 @@ const DialogSetInstallationPath = (props) => {
               <InputAdornment position="end">
                 <Button
                   onClick={() => {
+                    const { remote } = window.require('electron');
                     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
                       properties: ['openDirectory'],
                     })

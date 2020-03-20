@@ -25,10 +25,6 @@ import {
   save,
 } from '../../state/dialog-edit-workspace/actions';
 
-const { remote } = window.require('electron');
-
-const appJson = remote.getGlobal('appJson');
-
 const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
@@ -79,7 +75,7 @@ const styles = (theme) => ({
     fontWeight: 500,
     textTransform: 'uppercase',
     userSelect: 'none',
-    boxShadow: theme.shadows[1],
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   textAvatar: {
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
@@ -87,7 +83,6 @@ const styles = (theme) => ({
   },
   transparentAvatar: {
     background: 'transparent',
-    boxShadow: 'none',
     color: theme.palette.text.primary,
   },
   avatarPicture: {
@@ -154,7 +149,7 @@ const EditWorkspace = ({
             return 'Email app detected.';
           }
           if (!homeUrl) {
-            return `Defaults to ${appJson.url}.`;
+            return `Defaults to ${window.require('electron').remote.getGlobal('appJson').url}.`;
           }
           return homeUrlError;
         })()}
@@ -184,6 +179,7 @@ const EditWorkspace = ({
                   { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                 ],
               };
+              const { remote } = window.require('electron');
               remote.dialog.showOpenDialog(remote.getCurrentWindow(), opts)
                 .then(({ canceled, filePaths }) => {
                   if (!canceled && filePaths && filePaths.length > 0) {
@@ -302,13 +298,13 @@ const mapStateToProps = (state) => ({
   disableNotifications: Boolean(state.dialogEditWorkspace.form.disableNotifications),
   downloadingIcon: state.dialogEditWorkspace.downloadingIcon,
   hibernateWhenUnused: Boolean(state.dialogEditWorkspace.form.hibernateWhenUnused),
-  homeUrl: state.dialogEditWorkspace.form.homeUrl,
+  homeUrl: state.dialogEditWorkspace.form.homeUrl || '',
   homeUrlError: state.dialogEditWorkspace.form.homeUrlError,
-  id: state.dialogEditWorkspace.form.id,
+  id: state.dialogEditWorkspace.form.id || '',
   internetIcon: state.dialogEditWorkspace.form.internetIcon,
   isMailApp: Boolean(getMailtoUrl(state.dialogEditWorkspace.form.homeUrl)),
-  name: state.dialogEditWorkspace.form.name,
-  order: state.dialogEditWorkspace.form.order,
+  name: state.dialogEditWorkspace.form.name || '',
+  order: state.dialogEditWorkspace.form.order || 0,
   picturePath: state.dialogEditWorkspace.form.picturePath,
   transparentBackground: Boolean(state.dialogEditWorkspace.form.transparentBackground),
 });
