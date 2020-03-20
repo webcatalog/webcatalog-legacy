@@ -7,6 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto/index.css';
 
 import store from './state';
+import { init as initDialogCodeInjection } from './state/dialog-code-injection/actions';
+import { init as initDialogCustomUserAgent } from './state/dialog-custom-user-agent/actions';
+import { init as initDialogEditWorkspace } from './state/dialog-edit-workspace/actions';
 import { init as initDialogProxy } from './state/dialog-proxy/actions';
 
 import AppWrapper from './components/app-wrapper';
@@ -53,7 +56,7 @@ const runApp = () => {
       if (window.mode === 'about') {
         document.title = 'About';
       } else if (window.mode === 'auth') {
-        document.title = 'Authentication';
+        document.title = 'Sign In';
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
@@ -72,15 +75,15 @@ const runApp = () => {
       } else if (window.mode === 'open-url-with') {
         document.title = 'Open Link With';
       } else if (window.mode === 'code-injection') {
+        store.dispatch(initDialogCodeInjection());
         const codeInjectionType = remote.getGlobal('codeInjectionType');
         document.title = `Edit ${codeInjectionType.toUpperCase()} Code Injection`;
-      } else if (window.mode === 'code-injection') {
-        document.title = 'Sign in';
       } else if (window.mode === 'notifications') {
         document.title = 'Notifications';
       } else if (window.mode === 'display-media') {
         document.title = 'Share your Screen';
       } else if (window.mode === 'custom-user-agent') {
+        store.dispatch(initDialogCustomUserAgent());
         document.title = 'Edit Custom User Agent';
       } else if (window.mode === 'go-to-url') {
         document.title = 'Go to URL';
