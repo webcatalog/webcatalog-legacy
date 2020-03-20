@@ -13,9 +13,6 @@ import AppWrapper from './components/app-wrapper';
 
 import getWorkspacesAsList from './helpers/get-workspaces-as-list';
 
-const { remote, webFrame } = window.require('electron');
-
-
 const DialogAbout = React.lazy(() => import('./components/dialog-about'));
 const DialogAuth = React.lazy(() => import('./components/dialog-auth'));
 const DialogCodeInjection = React.lazy(() => import('./components/dialog-code-injection'));
@@ -49,6 +46,7 @@ const App = () => {
 const runApp = () => {
   Promise.resolve()
     .then(() => {
+      const { remote, webFrame } = window.require('electron');
       webFrame.setVisualZoomLevelLimits(1, 1);
       webFrame.setLayoutZoomLevelLimits(0, 0);
 
@@ -61,7 +59,7 @@ const runApp = () => {
       } else if (window.mode === 'edit-workspace') {
         const { workspaces } = store.getState();
         const workspaceList = getWorkspacesAsList(workspaces);
-        const editWorkspaceId = window.require('electron').remote.getGlobal('editWorkspaceId');
+        const editWorkspaceId = remote.getGlobal('editWorkspaceId');
         const workspace = workspaces[editWorkspaceId];
         workspaceList.some((item, index) => {
           if (item.id === editWorkspaceId) {
@@ -74,7 +72,7 @@ const runApp = () => {
       } else if (window.mode === 'open-url-with') {
         document.title = 'Open Link With';
       } else if (window.mode === 'code-injection') {
-        const codeInjectionType = window.require('electron').remote.getGlobal('codeInjectionType');
+        const codeInjectionType = remote.getGlobal('codeInjectionType');
         document.title = `Edit ${codeInjectionType.toUpperCase()} Code Injection`;
       } else if (window.mode === 'code-injection') {
         document.title = 'Sign in';

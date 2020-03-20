@@ -14,7 +14,6 @@ import loadListeners from './listeners';
 import AppWrapper from './components/app-wrapper';
 
 const { webFrame } = window.require('electron');
-
 webFrame.setVisualZoomLevelLimits(1, 1);
 webFrame.setLayoutZoomLevelLimits(0, 0);
 

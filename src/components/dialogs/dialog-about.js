@@ -15,10 +15,6 @@ import { requestOpenInBrowser } from '../../senders';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const { remote } = window.require('electron');
-
-const appVersion = remote.app.getVersion();
-
 const styles = (theme) => ({
   icon: {
     height: 96,
@@ -64,6 +60,8 @@ const About = (props) => {
     onClose,
     open,
   } = props;
+
+  const appVersion = window.require('electron').remote.app.getVersion();
 
   return (
     <Dialog

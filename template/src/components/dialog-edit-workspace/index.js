@@ -25,10 +25,6 @@ import {
   save,
 } from '../../state/dialog-edit-workspace/actions';
 
-const { remote } = window.require('electron');
-
-const appJson = remote.getGlobal('appJson');
-
 const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
@@ -153,7 +149,7 @@ const EditWorkspace = ({
             return 'Email app detected.';
           }
           if (!homeUrl) {
-            return `Defaults to ${appJson.url}.`;
+            return `Defaults to ${window.require('electron').remote.getGlobal('appJson').url}.`;
           }
           return homeUrlError;
         })()}
@@ -183,6 +179,7 @@ const EditWorkspace = ({
                   { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                 ],
               };
+              const { remote } = window.require('electron');
               remote.dialog.showOpenDialog(remote.getCurrentWindow(), opts)
                 .then(({ canceled, filePaths }) => {
                   if (!canceled && filePaths && filePaths.length > 0) {

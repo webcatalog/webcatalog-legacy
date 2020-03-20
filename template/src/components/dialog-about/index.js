@@ -9,11 +9,6 @@ import connectComponent from '../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../senders';
 
-const { remote } = window.require('electron');
-
-const appVersion = remote.app.getVersion();
-const appJson = remote.getGlobal('appJson');
-
 const styles = (theme) => ({
   icon: {
     height: 96,
@@ -56,6 +51,10 @@ const About = (props) => {
   const {
     classes,
   } = props;
+
+  const { remote } = window.require('electron');
+  const appVersion = remote.app.getVersion();
+  const appJson = remote.getGlobal('appJson');
 
   return (
     <div>

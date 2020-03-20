@@ -56,8 +56,6 @@ import webcatalogLogo from '../../../assets/webcatalog-logo.svg';
 import translatiumLogo from '../../../assets/translatium-logo.svg';
 import singleboxLogo from '../../../assets/singlebox-logo.svg';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   root: {
     flex: 1,
@@ -193,6 +191,7 @@ const Preferences = ({
 }) => {
   const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
     if (appCount > 0) {
+      const { remote } = window.require('electron');
       remote.dialog.showMessageBox(remote.getCurrentWindow(), {
         title: 'Uninstall all of WebCatalog apps first',
         message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
@@ -254,6 +253,8 @@ const Preferences = ({
       ref: useRef(),
     },
   };
+
+  const { remote } = window.require('electron');
 
   return (
     <div className={classes.root}>

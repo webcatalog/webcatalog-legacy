@@ -16,9 +16,9 @@ import {
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
-const { ipcRenderer } = window.require('electron');
-
 const loadListeners = (store) => {
+  const { ipcRenderer } = window.require('electron');
+
   ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
     if (message) console.log(message);

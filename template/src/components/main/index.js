@@ -32,8 +32,6 @@ import {
   requestWakeUpWorkspace,
 } from '../../senders';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   outerRoot: {
     display: 'flex',
@@ -132,8 +130,8 @@ const SortableItem = sortableElement(({ value }) => {
           });
         }
 
+        const { remote } = window.require('electron');
         const menu = remote.Menu.buildFromTemplate(template);
-
         menu.popup(remote.getCurrentWindow());
       }}
     />

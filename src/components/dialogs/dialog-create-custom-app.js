@@ -23,8 +23,6 @@ import defaultIcon from '../../assets/default-icon.png';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const { dialog } = window.require('electron').remote;
-
 const styles = (theme) => ({
   grid: {
     marginTop: theme.spacing(1),
@@ -119,7 +117,7 @@ const DialogCreateCustomApp = (props) => {
               variant="outlined"
               size="small"
               onClick={() => {
-                dialog.showOpenDialog({
+                window.require('electron').remote.dialog.showOpenDialog({
                   filters: [
                     { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                   ],
