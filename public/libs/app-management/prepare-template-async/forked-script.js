@@ -61,7 +61,7 @@ fetchTemplateInfoAsync()
     .then(() => {
       // extracting is expensive so try not to do it too many times
       let shouldExtract = false;
-      if (process.env.FORCE_EXTRACT) { // see error handling installAppAsync for usage
+      if (process.env.FORCE_EXTRACT === 'true') { // see error handling installAppAsync for usage
         shouldExtract = true;
       } else if (fs.pathExistsSync(templatePath)) {
         const templateJsonPath = path.join(templatePath, 'package.json');
