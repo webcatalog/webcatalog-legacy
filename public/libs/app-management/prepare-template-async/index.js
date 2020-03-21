@@ -4,6 +4,9 @@ const { app } = require('electron');
 
 const { getPreferences } = require('../../preferences');
 
+// force re-extract for first installation after launch
+global.forceExtract = true;
+
 const prepareTemplateAsync = () => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
@@ -32,6 +35,7 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
       PROXY_PAC_SCRIPT: proxyPacScript,
       PROXY_RULES: proxyRules,
       PROXY_TYPE: proxyType,
+      FORCE_EXTRACT: Boolean(global.forceExtract).toString(),
     },
   });
 
@@ -50,6 +54,9 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
       reject(err || new Error('Forked script failed to run correctly.'));
       return;
     }
+
+    // // extracting template code successful so need to re-extract next time
+    global.forceExtract = false;
 
     resolve();
   });
