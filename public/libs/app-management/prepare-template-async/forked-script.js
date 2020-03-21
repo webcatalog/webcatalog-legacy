@@ -1,8 +1,8 @@
 const argv = require('yargs-parser')(process.argv.slice(1));
 const decompress = require('decompress');
 const fs = require('fs-extra');
+const hasha = require('hasha');
 const path = require('path');
-const tmp = require('tmp');
 
 const customizedFetch = require('../../customized-fetch');
 const downloadAsync = require('../../download-async');
@@ -10,44 +10,76 @@ const downloadAsync = require('../../download-async');
 const {
   appVersion,
   templatePath,
+  templateZipPath,
   platform,
   arch,
 } = argv;
 
-const fetchLatestTemplateVersionAsync = () => customizedFetch(`https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template.json`)
-  .then((res) => res.json())
-  .then((fetchedJson) => ({
-    templateVersion: fetchedJson.version,
-    templateZipUrl: `https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
-  }));
+let cachedFetchTemplateInfoAsync;
+const fetchTemplateInfoAsync = () => {
+  if (cachedFetchTemplateInfoAsync) {
+    return Promise.resolve(cachedFetchTemplateInfoAsync);
+  }
 
-fetchLatestTemplateVersionAsync()
-  .then((latest) => {
-    let shouldDownload = false;
-    const templateJsonPath = path.join(templatePath, 'package.json');
-    if (fs.pathExistsSync(templateJsonPath)) {
-      const templatePackageJson = fs.readJsonSync(templateJsonPath);
-      if (templatePackageJson.version !== latest.templateVersion) {
+  return customizedFetch(`https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${process.platform}-${process.arch}.json`)
+    .then((res) => res.json())
+    .then((fetchedJson) => {
+      cachedFetchTemplateInfoAsync = {
+        ...fetchedJson, // version, sha256
+        zipUrl: `https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
+      };
+      return cachedFetchTemplateInfoAsync;
+    });
+};
+
+fetchTemplateInfoAsync()
+  .then((templateInfo) => Promise.resolve()
+    .then(async () => {
+      let shouldDownload = false;
+      if (fs.pathExistsSync(templateZipPath)) {
+        const localSha256 = await hasha.fromFile(templateZipPath, { algorithm: 'sha256' });
+        shouldDownload = localSha256 !== templateInfo.sha256;
+      } else {
         shouldDownload = true;
       }
-    } else {
-      shouldDownload = true;
-    }
 
-    if (shouldDownload) {
-      // local template is outdated
-      // download new template
-      const tmpPath = tmp.dirSync().name;
-      const templateZipName = 'template.zip';
-      const templateZipPath = path.join(tmpPath, templateZipName);
-      return fs.remove(templatePath)
-        .then(() => console.log(`Downloading template code to ${templateZipPath}...`)) // eslint-disable-line no-console
-        .then(() => downloadAsync(latest.templateZipUrl, path.join(tmpPath, templateZipName)))
-        .then(() => console.log(`Extracting template code to ${templatePath}...`)) // eslint-disable-line no-console
-        .then(() => decompress(templateZipPath, templatePath));
-    }
-    return null;
-  })
+      if (shouldDownload) {
+        console.log(`Downloading template code zip to ${templateZipPath}...`); // eslint-disable-line no-console
+        return fs.remove(templateZipPath)
+          .then(() => fs.remove(templatePath))
+          .then(() => downloadAsync(templateInfo.zipUrl, templateZipPath))
+          .then(() => hasha.fromFile(templateZipPath, { algorithm: 'sha256' }))
+          .then((sha256) => {
+            if (sha256 !== templateInfo.sha256) {
+              return Promise.reject(new Error('Downloaded template code zip is corrupted (validated with SHA256).'));
+            }
+            return null;
+          });
+      }
+      return null;
+    })
+    .then(() => {
+      let shouldExtract = false;
+      const templateJsonPath = path.join(templatePath, 'package.json');
+      if (global.forceExtract) { // see error handling installAppAsync for usage
+        shouldExtract = true;
+      } else if (fs.pathExistsSync(templateJsonPath)) {
+        const templatePackageJson = fs.readJsonSync(templateJsonPath);
+        shouldExtract = templatePackageJson.version !== templateInfo.templateVersion;
+      } else {
+        shouldExtract = true;
+      }
+
+      if (shouldExtract) {
+        console.log(`Extracting template code to ${templatePath}...`); // eslint-disable-line no-console
+        return fs.remove(templatePath)
+          .then(() => decompress(templateZipPath, templatePath))
+          .then(() => {
+            global.forceExtract = false;
+          });
+      }
+      return null;
+    }))
   .then(() => {
     process.exit(0);
   })
