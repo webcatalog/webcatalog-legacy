@@ -3,7 +3,7 @@ const { fork } = require('child_process');
 const { app } = require('electron');
 const tmp = require('tmp');
 
-const { getPreference } = require('./../../preferences');
+const { getPreference } = require('../../preferences');
 const isEngineInstalled = require('../../is-engine-installed');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
@@ -165,6 +165,8 @@ const installAppAsync = (
     child.on('exit', (code) => {
       if (code === 1) {
         lastUsedTmpPath = null;
+        // force reextracting template code to avoid bugs related to corrupted files
+        global.forceExtract = true;
         reject(err || new Error('Forked script failed to run correctly.'));
         return;
       }

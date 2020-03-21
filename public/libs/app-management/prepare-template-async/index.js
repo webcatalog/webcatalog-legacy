@@ -18,6 +18,8 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
     app.getVersion(),
     '--templatePath',
     path.join(app.getPath('userData'), 'webcatalog-template'),
+    '--templateZipPath',
+    path.join(app.getPath('userData'), 'webcatalog-template.zip'),
     '--platform',
     process.platform,
     '--arch',

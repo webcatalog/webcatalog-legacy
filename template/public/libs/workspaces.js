@@ -7,8 +7,8 @@ const Jimp = require('jimp');
 const isUrl = require('is-url');
 const tmp = require('tmp');
 
-const sendToAllWindows = require('../libs/send-to-all-windows');
-const downloadAsync = require('../libs/download-async');
+const sendToAllWindows = require('./send-to-all-windows');
+const downloadAsync = require('./download-async');
 
 const v = '43';
 

@@ -2,7 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
-const { getPreferences } = require('./../../preferences');
+const { getPreferences } = require('../../preferences');
 
 const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');

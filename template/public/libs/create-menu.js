@@ -18,7 +18,7 @@ const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
 const proxyWindow = require('../windows/proxy');
 
-const getViewBounds = require('../libs/get-view-bounds');
+const getViewBounds = require('./get-view-bounds');
 
 const {
   getWorkspaces,
