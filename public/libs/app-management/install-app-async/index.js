@@ -3,7 +3,7 @@ const { fork } = require('child_process');
 const { app } = require('electron');
 const tmp = require('tmp');
 
-const { getPreference } = require('./../../preferences');
+const { getPreference } = require('../../preferences');
 const isEngineInstalled = require('../../is-engine-installed');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
