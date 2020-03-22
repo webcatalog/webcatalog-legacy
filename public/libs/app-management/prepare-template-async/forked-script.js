@@ -59,13 +59,16 @@ fetchTemplateInfoAsync()
       return null;
     })
     .then(() => {
+      // extracting is expensive so try not to do it too many times
       let shouldExtract = false;
-      const templateJsonPath = path.join(templatePath, 'package.json');
-      if (global.forceExtract) { // see error handling installAppAsync for usage
+      if (process.env.FORCE_EXTRACT === 'true') { // see error handling installAppAsync for usage
         shouldExtract = true;
-      } else if (fs.pathExistsSync(templateJsonPath)) {
+      } else if (fs.pathExistsSync(templatePath)) {
+        const templateJsonPath = path.join(templatePath, 'package.json');
         const templatePackageJson = fs.readJsonSync(templateJsonPath);
-        shouldExtract = templatePackageJson.version !== templateInfo.templateVersion;
+        // redundant check as the previous step already wipes out template dir
+        // but check anyway to be certain
+        shouldExtract = templatePackageJson.version !== templateInfo.version;
       } else {
         shouldExtract = true;
       }
@@ -73,10 +76,7 @@ fetchTemplateInfoAsync()
       if (shouldExtract) {
         console.log(`Extracting template code to ${templatePath}...`); // eslint-disable-line no-console
         return fs.remove(templatePath)
-          .then(() => decompress(templateZipPath, templatePath))
-          .then(() => {
-            global.forceExtract = false;
-          });
+          .then(() => decompress(templateZipPath, templatePath));
       }
       return null;
     }))
