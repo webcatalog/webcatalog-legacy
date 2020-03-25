@@ -3,7 +3,6 @@ const {
   dialog,
   ipcMain,
   nativeTheme,
-  systemPreferences,
   shell,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');

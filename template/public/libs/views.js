@@ -138,7 +138,7 @@ const addView = (browserWindow, workspace) => {
 
   let adjustUserAgentByUrl = () => false;
   if (customUserAgent) {
-    view.webContents.setUserAgent(customUserAgent);
+    view.webContents.userAgent = customUserAgent;
   } else {
     // Hide Electron from UA to improve compatibility
     // https://github.com/atomery/webcatalog/issues/182
@@ -149,7 +149,7 @@ const addView = (browserWindow, workspace) => {
       // Hide Electron from UA to improve compatibility
       // https://github.com/atomery/webcatalog/issues/182
       .replace(` Electron/${process.versions.electron}`, '');
-    view.webContents.setUserAgent(commonUaStr);
+    view.webContents.userAgent = commonUaStr;
 
     // fix Google prevents signing in because of security concerns
     // https://github.com/atomery/webcatalog/issues/455
@@ -160,11 +160,11 @@ const addView = (browserWindow, workspace) => {
       const currentUaStr = view.webContents.userAgent;
       if (navigatedDomain === 'accounts.google.com') {
         if (currentUaStr !== fakedEdgeUaStr) {
-          view.webContents.setUserAgent(fakedEdgeUaStr);
+          view.webContents.userAgent = fakedEdgeUaStr;
           return true;
         }
       } else if (currentUaStr !== commonUaStr) {
-        view.webContents.setUserAgent(commonUaStr);
+        view.webContents.userAgent = commonUaStr;
         return true;
       }
       return false;

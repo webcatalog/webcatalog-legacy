@@ -2,7 +2,6 @@ const path = require('path');
 const {
   app,
   session,
-  systemPreferences,
   nativeTheme,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
