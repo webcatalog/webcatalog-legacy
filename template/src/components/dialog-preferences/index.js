@@ -526,7 +526,7 @@ const Preferences = ({
                 />
               </ListItemSecondaryAction>
             </ListItem>
-            {window.process.platform === 'darwin' && (
+            {window.process.platform !== 'darwin' && (
               <>
                 <Divider />
                 <ListItem button onClick={requestShowSpellcheckLanguagesWindow}>

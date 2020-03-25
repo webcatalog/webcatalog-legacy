@@ -89,13 +89,15 @@ const addView = (browserWindow, workspace) => {
   const {
     blockAds,
     customUserAgent,
-    rememberLastPageVisited,
-    shareWorkspaceBrowsingData,
-    unreadCountBadge,
     proxyBypassRules,
     proxyPacScript,
     proxyRules,
     proxyType,
+    rememberLastPageVisited,
+    shareWorkspaceBrowsingData,
+    spellcheck,
+    spellcheckLanguages,
+    unreadCountBadge,
   } = getPreferences();
 
   // configure session, proxy & ad blocker
@@ -124,10 +126,15 @@ const addView = (browserWindow, workspace) => {
       blocker.enableBlockingInSession(ses);
     });
   }
+  // spellchecker
+  if (spellcheck && process.platform !== 'darwin') {
+    ses.setSpellCheckerLanguages(spellcheckLanguages);
+  }
 
   const view = new BrowserView({
     backgroundColor: '#FFF',
     webPreferences: {
+      spellcheck,
       nativeWindowOpen: true,
       nodeIntegration: false,
       contextIsolation: true,
