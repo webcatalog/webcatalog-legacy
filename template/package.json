@@ -20,7 +20,7 @@
   "repository": "https://github.com/atomery/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "@cliqz/adblocker-electron": "1.9.2",
+    "@cliqz/adblocker-electron": "1.10.0",
     "cheerio": "1.0.0-rc.3",
     "electron": "8.2.0",
     "electron-context-menu": "0.16.0",
