@@ -68,9 +68,6 @@ const styles = (theme) => ({
   updateAllButton: {
     marginLeft: theme.spacing(1),
   },
-  moreVertIcon: {
-    padding: theme.spacing(0.5),
-  },
 });
 
 const Installed = (props) => {
@@ -172,30 +169,31 @@ const Installed = (props) => {
                 )}
               </div>
 
-
-              <StatedMenu
-                id="more-options"
-                buttonElement={(
-                  <IconButton aria-label="More Options" classes={{ root: classes.moreVertIcon }}>
-                    <MoreVertIcon fontSize="small" />
-                  </IconButton>
-                )}
-              >
-                <MenuItem
-                  dense
-                  disabled={fetchingLatestTemplateVersion}
-                  onClick={onFetchLatestTemplateVersionAsync}
+              <div>
+                <StatedMenu
+                  id="more-options"
+                  buttonElement={(
+                    <IconButton size="small" aria-label="More Options">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  )}
                 >
-                  {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
-                </MenuItem>
-                <Divider />
-                <MenuItem
-                  dense
-                  onClick={requestGetInstalledApps}
-                >
-                  Rescan for Installed Apps
-                </MenuItem>
-              </StatedMenu>
+                  <MenuItem
+                    dense
+                    disabled={fetchingLatestTemplateVersion}
+                    onClick={onFetchLatestTemplateVersionAsync}
+                  >
+                    {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem
+                    dense
+                    onClick={requestGetInstalledApps}
+                  >
+                    Rescan for Installed Apps
+                  </MenuItem>
+                </StatedMenu>
+              </div>
             </div>
             <Divider className={classes.divider} />
             {renderContent()}

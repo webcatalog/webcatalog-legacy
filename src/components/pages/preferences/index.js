@@ -69,6 +69,9 @@ const styles = (theme) => ({
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
   },
+  toolbar: {
+    minHeight: 40,
+  },
   title: {
     flex: 1,
     textAlign: 'center',
@@ -261,7 +264,7 @@ const Preferences = ({
       {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
       <AppBar position="static" className={classes.appBar} elevation={1} color="inherit">
         <Toolbar variant="dense" className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" className={classes.title}>
+          <Typography variant="subtitle1" color="inherit" className={classes.title}>
             Preferences
           </Typography>
         </Toolbar>
