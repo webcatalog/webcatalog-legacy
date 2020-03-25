@@ -19,6 +19,7 @@ export const requestShowEditWorkspaceWindow = (id) => ipcRenderer.send('request-
 export const requestShowCodeInjectionWindow = (type) => ipcRenderer.send('request-show-code-injection-window', type);
 export const requestShowNotificationsWindow = () => ipcRenderer.send('request-show-notifications-window');
 export const requestShowProxyWindow = () => ipcRenderer.send('request-show-proxy-window');
+export const requestShowSpellcheckLanguagesWindow = () => ipcRenderer.send('request-show-spellcheck-languages-window');
 
 // Notifications
 export const requestShowNotification = (opts) => ipcRenderer.send('request-show-notification', opts);

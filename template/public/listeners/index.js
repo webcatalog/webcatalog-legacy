@@ -60,6 +60,7 @@ const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
 const proxyWindow = require('../windows/proxy');
+const spellcheckLanguagesWindow = require('../windows/spellcheck-languages');
 
 const appJson = require('../app.json');
 
@@ -161,6 +162,10 @@ const loadListeners = () => {
 
   ipcMain.on('request-show-proxy-window', () => {
     proxyWindow.show();
+  });
+
+  ipcMain.on('request-show-spellcheck-languages-window', () => {
+    spellcheckLanguagesWindow.show();
   });
 
   ipcMain.on('request-show-require-restart-dialog', () => {

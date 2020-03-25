@@ -11,6 +11,7 @@ import dialogCustomUserAgent from './dialog-custom-user-agent/reducers';
 import dialogEditWorkspace from './dialog-edit-workspace/reducers';
 import dialogGoToUrl from './dialog-go-to-url/reducers';
 import dialogProxy from './dialog-proxy/reducers';
+import dialogSpellcheckLanguages from './dialog-spellcheck-languages/reducers';
 import findInPage from './find-in-page/reducers';
 import general from './general/reducers';
 import notifications from './notifications/reducers';
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   dialogEditWorkspace,
   dialogGoToUrl,
   dialogProxy,
+  dialogSpellcheckLanguages,
   findInPage,
   general,
   notifications,
