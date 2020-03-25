@@ -76,7 +76,6 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     right: theme.spacing(1),
     color: theme.palette.text.secondary,
-    padding: theme.spacing(1),
   },
 });
 
@@ -177,7 +176,7 @@ const AppCard = (props) => {
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
-            <IconButton aria-label="More Options" classes={{ root: classes.topRight }}>
+            <IconButton size="small" aria-label="More Options" classes={{ root: classes.topRight }}>
               <MoreVertIcon fontSize="small" />
             </IconButton>
           )}

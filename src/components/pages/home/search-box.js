@@ -28,7 +28,7 @@ const styles = (theme) => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    height: 48,
+    height: 40,
     margin: '0 auto',
   },
   searchBarText: {
@@ -41,7 +41,6 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
     transform: 'translateY(-1px)',
     fontWeight: 'normal',
-    fontSize: 18,
   },
   input: {
     font: 'inherit',
@@ -86,17 +85,19 @@ class EnhancedAppBar extends React.Component {
       <>
         <IconButton
           color="default"
+          size="small"
           aria-label="Clear"
           onClick={() => onUpdateQuery('')}
         >
-          <CloseIcon />
+          <CloseIcon fontSize="small" />
         </IconButton>
         <IconButton
           color="default"
+          size="small"
           aria-label="Search"
           onClick={onResetThenGetHits}
         >
-          <KeyboardReturnIcon />
+          <KeyboardReturnIcon fontSize="small" />
         </IconButton>
       </>
     );
@@ -106,11 +107,12 @@ class EnhancedAppBar extends React.Component {
         <div className={classes.toolbarSectionSearch}>
           <SearchIcon
             className={classes.searchIcon}
+            fontSize="small"
           />
           <Typography
             className={classes.searchBarText}
             color="inherit"
-            variant="h6"
+            variant="subtitle1"
           >
             <input
               className={classes.input}

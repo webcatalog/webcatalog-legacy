@@ -14,9 +14,8 @@ const create = () => {
   const attachToMenubar = getPreference('attachToMenubar');
 
   win = new BrowserWindow({
-    backgroundColor: '#FFF',
     width: 400,
-    height: 565,
+    height: 590,
     resizable: false,
     maximizable: false,
     minimizable: false,
@@ -25,7 +24,7 @@ const create = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
-      preload: path.join(__dirname, '..', 'preload', 'notifications.js'),
+      preload: path.join(__dirname, '..', 'preload', 'spellcheck-languages.js'),
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });

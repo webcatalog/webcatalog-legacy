@@ -52,8 +52,11 @@ import {
   requestShowCustomUserAgentWindow,
   requestShowNotificationsWindow,
   requestShowProxyWindow,
+  requestShowSpellcheckLanguagesWindow,
   requestShowRequireRestartDialog,
 } from '../../senders';
+
+import hunspellLanguagesMap from '../../constants/hunspell-languages';
 
 import webcatalogLogo from '../../images/webcatalog-logo.svg';
 import translatiumLogo from '../../images/translatium-logo.svg';
@@ -70,6 +73,7 @@ const styles = (theme) => ({
   paper: {
     marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(3),
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   timePickerContainer: {
     marginTop: theme.spacing(1),
@@ -115,57 +119,6 @@ const hasMailWorkspaceFunc = (workspaces) => {
     .find((workspace) => Boolean(getMailtoUrl(workspace.homeUrl || window.require('electron').remote.getGlobal('appJson').url))));
 };
 
-// language code extracted from https://github.com/electron/electron/releases/download/v8.0.0-beta.3/hunspell_dictionaries.zip
-// languages name from http://www.lingoes.net/en/translator/langcode.htm & Chrome preferences
-// sorted by name
-const hunspellLanguagesMap = {
-  'af-ZA': 'Afrikaans',
-  sq: 'Albanian - shqip',
-  hy: 'Armenian - հայերեն',
-  'bg-BG': 'Bulgarian - български',
-  'ca-ES': 'Catalan - català',
-  'hr-HR': 'Croatian - hrvatski',
-  'cs-CZ': 'Czech - čeština',
-  'da-DK': 'Danish - dansk',
-  'nl-NL': 'Dutch - Nederlands',
-  'en-AU': 'English (Australia)',
-  'en-CA': 'English (Canada)',
-  'en-GB': 'English (United Kingdom)',
-  'en-US': 'English (United States)',
-  'et-EE': 'Estonian - eesti',
-  'fo-FO': 'Faroese - føroyskt',
-  'fr-FR': 'French - français',
-  'de-DE': 'German - Deutsch',
-  'el-GR': 'Greek - Ελληνικά',
-  'he-IL': 'Hebrew - ‎‫עברית‬‎',
-  'hi-IN': 'Hindi - हिन्दी',
-  'hu-HU': 'Hungarian - magyar',
-  'id-ID': 'Indonesian - Indonesia',
-  'it-IT': 'Italian - italiano',
-  ko: 'Korean - 한국어',
-  'lv-LV': 'Latvian - latviešu',
-  'lt-LT': 'Lithuanian - lietuvių',
-  'nb-NO': 'Norwegian Bokmål - norsk bokmål',
-  'fa-IR': 'Persian - ‎‫فارسی‬‎',
-  'pl-PL': 'Polish - polski',
-  'pt-BR': 'Portuguese (Brazil) - português (Brasil)',
-  'pt-PT': 'Portuguese (Portugal) - português (Portugal)',
-  'ro-RO': 'Romanian - română',
-  'ru-RU': 'Russian - русский',
-  sr: 'Serbian - српски',
-  sh: 'Serbo-Croatian - srpskohrvatski',
-  'sk-SK': 'Slovak - slovenčina',
-  'sl-SI': 'Slovenian - slovenščina',
-  'es-ES': 'Spanish - español',
-  'sv-SE': 'Swedish - svenska',
-  'tg-TG': 'Tajik - тоҷикӣ',
-  'ta-IN': 'Tamil - தமிழ்',
-  'tr-TR': 'Turkish - Türkçe',
-  'uk-UA': 'Ukrainian - українська',
-  'vi-VN': 'Vietnamese - Tiếng Việt',
-  'cy-GB': 'Welsh - Cymraeg',
-};
-
 const Preferences = ({
   askForDownloadPath,
   attachToMenubar,
@@ -192,8 +145,8 @@ const Preferences = ({
   rememberLastPageVisited,
   shareWorkspaceBrowsingData,
   sidebar,
-  spellChecker,
-  spellCheckerLanguages,
+  spellcheck,
+  spellcheckLanguages,
   swipeToNavigate,
   themeSource,
   titleBar,
@@ -300,7 +253,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.general.ref}>
           General
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <StatedMenu
               id="theme"
@@ -474,7 +427,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.notifications.ref}>
           Notifications
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem button onClick={requestShowNotificationsWindow}>
               <ListItemText primary="Control notifications" />
@@ -558,7 +511,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.languages.ref}>
           Languages
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem>
               <ListItemText primary="Spell check" />
@@ -566,47 +519,33 @@ const Preferences = ({
                 <Switch
                   edge="end"
                   color="primary"
-                  checked={spellChecker}
+                  checked={spellcheck}
                   onChange={(e) => {
-                    requestSetPreference('spellChecker', e.target.checked);
+                    requestSetPreference('spellcheck', e.target.checked);
                     requestShowRequireRestartDialog();
                   }}
                 />
               </ListItemSecondaryAction>
             </ListItem>
-            <Divider />
-            <StatedMenu
-              id="spellcheckerLanguages"
-              buttonElement={(
-                <ListItem button>
+            {window.process.platform !== 'darwin' && (
+              <>
+                <Divider />
+                <ListItem button onClick={requestShowSpellcheckLanguagesWindow}>
                   <ListItemText
-                    primary="Spell checking language"
-                    secondary={spellCheckerLanguages.map((code) => hunspellLanguagesMap[code]).join(' | ')}
+                    primary="Spell checking languages"
+                    secondary={spellcheckLanguages.map((code) => hunspellLanguagesMap[code]).join(' | ')}
                   />
                   <ChevronRightIcon color="action" />
                 </ListItem>
-              )}
-            >
-              {Object.keys(hunspellLanguagesMap).map((code) => (
-                <MenuItem
-                  dense
-                  key={code}
-                  onClick={() => {
-                    requestSetPreference('spellCheckerLanguages', [code]);
-                    requestShowRequireRestartDialog();
-                  }}
-                >
-                  {hunspellLanguagesMap[code]}
-                </MenuItem>
-              ))}
-            </StatedMenu>
+              </>
+            )}
           </List>
         </Paper>
 
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.downloads.ref}>
           Downloads
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem
               button
@@ -648,7 +587,7 @@ const Preferences = ({
         <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
           Network
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem button onClick={requestShowProxyWindow}>
               <ListItemText primary="Configure proxy settings (BETA)" />
@@ -660,7 +599,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.privacy.ref}>
           Privacy &amp; Security
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem>
               <ListItemText primary="Block ads &amp; trackers" />
@@ -721,7 +660,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.system.ref}>
           System
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             {(hasMailWorkspace || isDefaultMailClient) && (
               <>
@@ -793,7 +732,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.updates.ref}>
           Updates
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem
               button
@@ -810,7 +749,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.advanced.ref}>
           Advanced
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem>
               <ListItemText
@@ -853,7 +792,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.reset.ref}>
           Reset
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem button onClick={requestResetPreferences}>
               <ListItemText primary="Restore preferences to their original defaults" />
@@ -865,7 +804,7 @@ const Preferences = ({
         <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.atomeryApps.ref}>
           Atomery Apps
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
               <ListItemText
@@ -896,7 +835,7 @@ const Preferences = ({
         <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.miscs.ref}>
           Miscellaneous
         </Typography>
-        <Paper className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
             <ListItem button onClick={requestShowAboutWindow}>
               <ListItemText primary="About" />
@@ -946,8 +885,8 @@ Preferences.propTypes = {
   rememberLastPageVisited: PropTypes.bool.isRequired,
   shareWorkspaceBrowsingData: PropTypes.bool.isRequired,
   sidebar: PropTypes.bool.isRequired,
-  spellChecker: PropTypes.bool.isRequired,
-  spellCheckerLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  spellcheck: PropTypes.bool.isRequired,
+  spellcheckLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
   titleBar: PropTypes.bool.isRequired,
@@ -977,8 +916,8 @@ const mapStateToProps = (state) => ({
   rememberLastPageVisited: state.preferences.rememberLastPageVisited,
   shareWorkspaceBrowsingData: state.preferences.shareWorkspaceBrowsingData,
   sidebar: state.preferences.sidebar,
-  spellChecker: state.preferences.spellChecker,
-  spellCheckerLanguages: state.preferences.spellCheckerLanguages,
+  spellcheck: state.preferences.spellcheck,
+  spellcheckLanguages: state.preferences.spellcheckLanguages,
   swipeToNavigate: state.preferences.swipeToNavigate,
   themeSource: state.general.themeSource,
   titleBar: state.preferences.titleBar,

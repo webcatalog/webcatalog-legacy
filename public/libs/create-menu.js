@@ -94,7 +94,7 @@ const createMenu = () => {
 
   if (process.platform === 'darwin') {
     template.unshift({
-      label: app.getName(),
+      label: app.name,
       submenu: [
         {
           label: 'About WebCatalog',

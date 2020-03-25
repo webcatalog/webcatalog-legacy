@@ -4,7 +4,7 @@ const {
   ipcMain,
   protocol,
   session,
-  systemPreferences,
+  nativeTheme,
 } = require('electron');
 
 const loadListeners = require('./listeners');
@@ -24,6 +24,9 @@ const extractHostname = require('./libs/extract-hostname');
 const MAILTO_URLS = require('./constants/mailto-urls');
 
 const appJson = require('./app.json');
+
+// see https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = true;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -74,6 +77,10 @@ if (!gotTheLock) {
       .then(() => {
         createMenu();
 
+        nativeTheme.addListener('updated', () => {
+          sendToAllWindows('native-theme-updated');
+        });
+
         const workspaceObjects = getWorkspaces();
 
         Object.keys(workspaceObjects).forEach((id) => {
@@ -121,20 +128,6 @@ if (!gotTheLock) {
         checkForUpdates(true);
         setPreference('lastCheckForUpdates', now);
       }
-    }
-
-    /* Electron 7
-    nativeTheme.addListener('updated', () => {
-      sendToAllWindows('native-theme-updated');
-    });
-    */
-    if (process.platform === 'darwin') {
-      systemPreferences.subscribeNotification(
-        'AppleInterfaceThemeChangedNotification',
-        () => {
-          sendToAllWindows('native-theme-updated');
-        },
-      );
     }
   });
 
