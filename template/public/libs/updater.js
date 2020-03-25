@@ -24,7 +24,7 @@ const checkForUpdates = (silent) => {
           buttons: ['OK'],
           cancelId: 0,
           defaultId: 0,
-        });
+        }).catch(console.log); // eslint-disable-line
       } else if (!silent) {
         dialog.showMessageBox(mainWindow.get(), {
           type: 'info',
@@ -32,7 +32,7 @@ const checkForUpdates = (silent) => {
           buttons: ['OK'],
           cancelId: 0,
           defaultId: 0,
-        });
+        }).catch(console.log); // eslint-disable-line
       }
     })
     .catch(() => {
@@ -43,7 +43,7 @@ const checkForUpdates = (silent) => {
           buttons: ['OK'],
           cancelId: 0,
           defaultId: 0,
-        });
+        }).catch(console.log); // eslint-disable-line
       }
     });
 };

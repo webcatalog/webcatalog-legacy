@@ -49,7 +49,7 @@ export const save = () => (dispatch, getState) => {
       buttons: ['OK'],
       cancelId: 0,
       defaultId: 0,
-    });
+    }).catch(console.log); // eslint-disable-line
     dispatch(close());
   } else {
     requestSetPreference('requireAdmin', requireAdmin);

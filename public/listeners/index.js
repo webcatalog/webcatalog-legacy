@@ -46,7 +46,7 @@ const loadListeners = () => {
       buttons: ['OK'],
       cancelId: 0,
       defaultId: 0,
-    });
+    }).catch(console.log); // eslint-disable-line
   });
 
   // Preferences
@@ -130,7 +130,7 @@ const loadListeners = () => {
           buttons: ['OK'],
           cancelId: 0,
           defaultId: 0,
-        });
+        }).catch(console.log); // eslint-disable-line
       });
   });
 
@@ -219,7 +219,7 @@ const loadListeners = () => {
           });
           e.sender.send('remove-app', id);
           delete promiseFuncMap[id];
-        });
+        }).catch(console.log); // eslint-disable-line
     };
 
     p = p.then(() => {
@@ -261,7 +261,7 @@ const loadListeners = () => {
             buttons: ['OK'],
             cancelId: 0,
             defaultId: 0,
-          });
+          }).catch(console.log); // eslint-disable-line
           e.sender.send('set-app', id, {
             status: 'INSTALLED',
           });

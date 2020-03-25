@@ -70,7 +70,7 @@ EmptyState.propTypes = {
     PropTypes.string,
   ]),
   classes: PropTypes.object.isRequired,
-  icon: PropTypes.func.isRequired,
+  icon: PropTypes.object.isRequired,
   title: PropTypes.string,
 };
 
