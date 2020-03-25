@@ -1,5 +1,10 @@
 const path = require('path');
-const { app, session, systemPreferences } = require('electron');
+const {
+  app,
+  session,
+  systemPreferences,
+  nativeTheme,
+} = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const createMenu = require('./libs/create-menu');
@@ -12,6 +17,9 @@ const mainWindow = require('./windows/main');
 const packageJson = require('../package.json');
 
 require('./libs/updater');
+
+// see https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = true;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -56,20 +64,9 @@ if (!gotTheLock) {
     mainWindow.createAsync();
     createMenu();
 
-    /* Electron 7
     nativeTheme.addListener('updated', () => {
       sendToAllWindows('native-theme-updated');
     });
-    */
-
-    if (process.platform === 'darwin') {
-      systemPreferences.subscribeNotification(
-        'AppleInterfaceThemeChangedNotification',
-        () => {
-          sendToAllWindows('native-theme-updated');
-        },
-      );
-    }
 
     autoUpdater.allowPrerelease = allowPrerelease;
   });

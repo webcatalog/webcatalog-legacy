@@ -4,7 +4,7 @@ const {
   ipcMain,
   protocol,
   session,
-  systemPreferences,
+  nativeTheme,
 } = require('electron');
 
 const loadListeners = require('./listeners');
@@ -74,6 +74,10 @@ if (!gotTheLock) {
       .then(() => {
         createMenu();
 
+        nativeTheme.addListener('updated', () => {
+          sendToAllWindows('native-theme-updated');
+        });
+
         const workspaceObjects = getWorkspaces();
 
         Object.keys(workspaceObjects).forEach((id) => {
@@ -121,20 +125,6 @@ if (!gotTheLock) {
         checkForUpdates(true);
         setPreference('lastCheckForUpdates', now);
       }
-    }
-
-    /* Electron 7
-    nativeTheme.addListener('updated', () => {
-      sendToAllWindows('native-theme-updated');
-    });
-    */
-    if (process.platform === 'darwin') {
-      systemPreferences.subscribeNotification(
-        'AppleInterfaceThemeChangedNotification',
-        () => {
-          sendToAllWindows('native-theme-updated');
-        },
-      );
     }
   });
 

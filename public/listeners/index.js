@@ -2,7 +2,7 @@ const {
   app,
   dialog,
   ipcMain,
-  // nativeTheme,
+  nativeTheme,
   systemPreferences,
   shell,
 } = require('electron');
@@ -294,34 +294,6 @@ const loadListeners = () => {
     }
   });
 
-  // Native Theme
-  ipcMain.on('get-should-use-dark-colors', (e) => {
-    /* Electron 7
-    e.returnValue = nativeTheme.shouldUseDarkColors;
-    */
-    const themeSource = getPreference('themeSource');
-    if (getPreference('themeSource') === 'system') {
-      e.returnValue = systemPreferences.isDarkMode();
-    } else {
-      e.returnValue = themeSource === 'dark';
-    }
-  });
-
-  ipcMain.on('get-theme-source', (e) => {
-    /* Electron 7
-    e.returnValue = nativeTheme.themeSource;
-    */
-    e.returnValue = getPreference('themeSource');
-  });
-
-  ipcMain.on('request-set-theme-source', (e, val) => {
-    /* Electron 7
-    nativeTheme.themeSource = val;
-    */
-    setPreference('themeSource', val);
-    sendToAllWindows('native-theme-updated');
-  });
-
   ipcMain.on('request-quit', () => {
     app.quit();
   });
@@ -357,6 +329,19 @@ const loadListeners = () => {
         console.log(err); // eslint-disable-line no-console
         sendToAllWindows(id, null);
       });
+  });
+
+  // Native Theme
+  ipcMain.on('get-should-use-dark-colors', (e) => {
+    e.returnValue = nativeTheme.shouldUseDarkColors;
+  });
+
+  ipcMain.on('get-theme-source', (e) => {
+    e.returnValue = nativeTheme.themeSource;
+  });
+
+  ipcMain.on('request-set-theme-source', (e, val) => {
+    nativeTheme.themeSource = val;
   });
 };
 
