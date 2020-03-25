@@ -287,12 +287,14 @@ const loadListeners = () => {
       buttons: ['Remove Workspace', 'Cancel'],
       message: 'Are you sure? All browsing data of this workspace will be wiped. This action cannot be undone.',
       cancelId: 1,
-    }, (response) => {
-      if (response === 0) {
-        removeWorkspaceView(id);
-        createMenu();
-      }
-    });
+    })
+      .then(({ response }) => {
+        if (response === 0) {
+          removeWorkspaceView(id);
+          createMenu();
+        }
+      })
+      .catch(console.log); // eslint-disable-line
   });
 
   ipcMain.on('request-set-workspace', (e, id, opts) => {

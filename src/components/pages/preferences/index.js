@@ -201,7 +201,7 @@ const Preferences = ({
         buttons: ['OK'],
         cancelId: 0,
         defaultId: 0,
-      });
+      }).catch(console.log); // eslint-disable-line
     } else {
       requestSetPreference('requireAdmin', newRequireAdmin);
       requestSetPreference('installationPath', newInstallationPath);
