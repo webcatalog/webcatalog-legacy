@@ -69,13 +69,13 @@ const About = (props) => {
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalogapp.com')}
+          onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}
         >
           WebCatalog Website
         </Button>
         <br />
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalogapp.com/support')}
+          onClick={() => requestOpenInBrowser('https://atomery.com/support?app=webcatalog&utm_source=webcatalog_app')}
         >
           WebCatalog Support
         </Button>
@@ -85,8 +85,8 @@ const About = (props) => {
           <span role="img" aria-label="love">❤</span>
           <span> by </span>
           <span
-            onClick={() => requestOpenInBrowser('https://atomery.com/')}
-            onKeyDown={() => requestOpenInBrowser('https://atomery.com/')}
+            onClick={() => requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')}
+            onKeyDown={() => requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')}
             role="link"
             tabIndex="0"
             className={classes.link}

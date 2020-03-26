@@ -20,7 +20,7 @@ const styles = (theme) => ({
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
-    top: 6,
+    top: 4,
     color: theme.palette.grey[500],
     padding: theme.spacing(1),
   },
@@ -28,10 +28,10 @@ const styles = (theme) => ({
 
 const EnhancedDialogTitle = ({ children, classes, onClose }) => (
   <MuiDialogTitle disableTypography className={classes.root}>
-    <Typography variant="h6">{children}</Typography>
+    <Typography variant="subtitle1">{children}</Typography>
     {onClose ? (
-      <IconButton aria-label="Close" className={classes.closeButton} onClick={onClose}>
-        <CloseIcon />
+      <IconButton size="small" aria-label="Close" className={classes.closeButton} onClick={onClose}>
+        <CloseIcon fontSize="small" />
       </IconButton>
     ) : null}
   </MuiDialogTitle>
