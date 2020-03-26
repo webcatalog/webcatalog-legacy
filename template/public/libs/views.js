@@ -441,8 +441,10 @@ const getView = (id) => views[id];
 const setActiveView = (browserWindow, id) => {
   // stop find in page when switching workspaces
   const currentView = browserWindow.getBrowserView();
-  currentView.webContents.stopFindInPage('clearSelection');
-  browserWindow.send('close-find-in-page');
+  if (currentView) {
+    currentView.webContents.stopFindInPage('clearSelection');
+    browserWindow.send('close-find-in-page');
+  }
 
   if (views[id] == null) {
     addView(browserWindow, getWorkspace(id));
