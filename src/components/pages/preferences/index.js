@@ -679,6 +679,16 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
+                <ListItemText primary="Website" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/support?app=webcatalog&utm_source=webcatalog_app')}>
+                <ListItemText primary="Support" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
               <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={registered}>
                 <ListItemText primary="License Registration" secondary={registered ? 'Registered. Thank you for supporting the development of WebCatalog.' : null} />
                 <ChevronRightIcon color="action" />
