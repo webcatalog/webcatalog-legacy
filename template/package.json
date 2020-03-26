@@ -20,7 +20,7 @@
   "repository": "https://github.com/atomery/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "@cliqz/adblocker-electron": "1.10.0",
+    "@cliqz/adblocker-electron": "1.10.1",
     "cheerio": "1.0.0-rc.3",
     "electron": "8.2.0",
     "electron-context-menu": "0.16.0",
@@ -55,7 +55,7 @@
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.19.0",
-    "eslint-plugin-react-hooks": "1.7.0",
+    "eslint-plugin-react-hooks": "2.5.1",
     "lodash.camelcase": "4.3.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
