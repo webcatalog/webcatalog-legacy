@@ -123,6 +123,7 @@ class Home extends React.Component {
                 <Typography
                   variant="subtitle1"
                   align="left"
+                  color="textPrimary"
                 >
                   Search results for&nbsp;
                   <b>{currentQuery}</b>

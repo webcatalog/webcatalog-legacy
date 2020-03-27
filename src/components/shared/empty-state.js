@@ -11,7 +11,7 @@ const styles = (theme) => ({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
-    color: theme.palette.text.disabled,
+    color: theme.palette.text.primary,
   },
   title: {
     marginBottom: 8,
@@ -34,7 +34,7 @@ const EmptyState = (props) => {
 
   return (
     <div className={classes.root}>
-      <Icon className={classes.icon} color="disabled" />
+      <Icon className={classes.icon} color="textPrimary" />
       <br />
       {title && (
         <Typography

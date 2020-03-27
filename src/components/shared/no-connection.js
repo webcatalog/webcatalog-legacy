@@ -14,7 +14,7 @@ const styles = (theme) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    color: theme.palette.text.disabled,
+    color: theme.palette.text.primary,
   },
   icon: {
     height: 64,
@@ -33,7 +33,7 @@ const NoConnection = (props) => {
 
   return (
     <div className={classes.root}>
-      <ErrorIcon className={classes.icon} color="disabled" />
+      <ErrorIcon className={classes.icon} color="textPrimary" />
       <br />
       <Typography
         color="inherit"

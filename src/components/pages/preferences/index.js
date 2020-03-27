@@ -694,21 +694,6 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem
-                button
-                onClick={() => requestCheckForUpdates(false)}
-                disabled={updaterStatus === 'checking-for-update'
-                  || updaterStatus === 'download-progress'
-                  || updaterStatus === 'download-progress'
-                  || updaterStatus === 'update-available'}
-              >
-                <ListItemText
-                  primary={updaterStatus === 'update-downloaded' ? 'Restart to Apply Updates' : 'Check for Updates'}
-                  secondary={getUpdaterDesc(updaterStatus, updaterInfo)}
-                />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
               <ListItem button onClick={requestQuit}>
                 <ListItemText primary="Quit" />
                 <ChevronRightIcon color="action" />
