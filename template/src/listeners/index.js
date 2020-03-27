@@ -8,7 +8,6 @@ import {
   updateDidFailLoad,
   updateIsLoading,
   updateShouldUseDarkColors,
-  updateThemeSource,
   updateTitle,
 } from '../state/general/actions';
 import {
@@ -22,7 +21,6 @@ import {
 
 import {
   getShouldUseDarkColors,
-  getThemeSource,
   requestFindInPage,
 } from '../senders';
 
@@ -91,7 +89,6 @@ const loadListeners = (store) => {
   });
 
   ipcRenderer.on('native-theme-updated', () => {
-    store.dispatch(updateThemeSource(getThemeSource()));
     store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
   });
 

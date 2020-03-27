@@ -47,7 +47,6 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestSetThemeSource,
   requestShowMessageBox,
   requestShowRequireRestartDialog,
 } from '../../../senders';
@@ -309,9 +308,9 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
-                <MenuItem dense onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
-                <MenuItem dense onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
+                {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetPreference('themeSource', 'system')}>System default</MenuItem>}
+                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'light')}>Light</MenuItem>
+                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'dark')}>Dark</MenuItem>
               </StatedMenu>
               {window.process.platform !== 'darwin' && (
                 <>
@@ -752,7 +751,7 @@ const mapStateToProps = (state) => ({
   preferredEngine: state.preferences.preferredEngine,
   registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
-  themeSource: state.general.themeSource,
+  themeSource: state.preferences.themeSource,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,
 });

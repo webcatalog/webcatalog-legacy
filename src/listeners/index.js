@@ -7,11 +7,9 @@ import { open as openDialogLicenseRegistration } from '../state/dialog-license-r
 import { updateUpdater } from '../state/updater/actions';
 import {
   updateShouldUseDarkColors,
-  updateThemeSource,
 } from '../state/general/actions';
 import {
   getShouldUseDarkColors,
-  getThemeSource,
 } from '../senders';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
@@ -53,7 +51,6 @@ const loadListeners = (store) => {
   });
 
   ipcRenderer.on('native-theme-updated', () => {
-    store.dispatch(updateThemeSource(getThemeSource()));
     store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
   });
 

@@ -1,6 +1,6 @@
 const path = require('path');
 const settings = require('electron-settings');
-const { app, ipcMain } = require('electron');
+const { app, nativeTheme, ipcMain } = require('electron');
 
 const sendToAllWindows = require('./send-to-all-windows');
 const extractHostname = require('./extract-hostname');
@@ -56,7 +56,7 @@ const defaultPreferences = {
   spellcheck: true,
   spellcheckLanguages: ['en-US'],
   swipeToNavigate: true,
-  themeSource: process.platform === 'darwin' ? 'system' : 'light',
+  themeSource: 'system',
   titleBar: false,
   unreadCountBadge: true,
 };
@@ -76,6 +76,10 @@ const setPreference = (name, value) => {
 
   if (name.startsWith('pauseNotifications')) {
     ipcMain.emit('request-update-pause-notifications-info');
+  }
+
+  if (name === 'themeSource') {
+    nativeTheme.themeSource = value;
   }
 };
 

@@ -10,12 +10,10 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
   UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_THEME_SOURCE,
   UPDATE_TITLE,
 } from '../../constants/actions';
 
 import {
-  getThemeSource,
   getShouldUseDarkColors,
 } from '../../senders';
 
@@ -59,13 +57,6 @@ const isDefaultWebBrowser = (state = remote.app.isDefaultProtocolClient('http'),
 const shouldUseDarkColors = (state = getShouldUseDarkColors(), action) => {
   switch (action.type) {
     case UPDATE_SHOULD_USE_DARK_COLORS: return action.shouldUseDarkColors;
-    default: return state;
-  }
-};
-
-const themeSource = (state = getThemeSource(), action) => {
-  switch (action.type) {
-    case UPDATE_THEME_SOURCE: return action.themeSource;
     default: return state;
   }
 };
@@ -116,6 +107,5 @@ export default combineReducers({
   isFullScreen,
   isLoading,
   shouldUseDarkColors,
-  themeSource,
   title,
 });

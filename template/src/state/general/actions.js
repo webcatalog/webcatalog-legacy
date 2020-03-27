@@ -8,7 +8,6 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_LOADING,
   UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_THEME_SOURCE,
   UPDATE_TITLE,
 } from '../../constants/actions';
 
@@ -45,11 +44,6 @@ export const updateIsDefaultWebBrowser = (isDefaultWebBrowser) => ({
 export const updateShouldUseDarkColors = (shouldUseDarkColors) => ({
   type: UPDATE_SHOULD_USE_DARK_COLORS,
   shouldUseDarkColors,
-});
-
-export const updateThemeSource = (themeSource) => ({
-  type: UPDATE_THEME_SOURCE,
-  themeSource,
 });
 
 export const updateIsLoading = (isLoading) => (dispatch) => {
