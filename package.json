@@ -58,7 +58,7 @@
     "sudo-prompt": "9.1.1",
     "tmp": "0.1.0",
     "windows-shortcuts": "0.1.6",
-    "yargs-parser": "18.1.1"
+    "yargs-parser": "18.1.2"
   },
   "devDependencies": {
     "@material-ui/core": "4.9.7",
