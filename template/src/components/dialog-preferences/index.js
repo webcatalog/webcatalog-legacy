@@ -46,7 +46,6 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestSetThemeSource,
   requestShowAboutWindow,
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
@@ -264,9 +263,9 @@ const Preferences = ({
                 </ListItem>
               )}
             >
-              {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetThemeSource('system')}>System default</MenuItem>}
-              <MenuItem dense onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
-              <MenuItem dense onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
+              {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetPreference('themeSource', 'system')}>System default</MenuItem>}
+              <MenuItem dense onClick={() => requestSetPreference('themeSource', 'light')}>Light</MenuItem>
+              <MenuItem dense onClick={() => requestSetPreference('themeSource', 'dark')}>Dark</MenuItem>
             </StatedMenu>
             <Divider />
             <ListItem>
@@ -929,7 +928,7 @@ const mapStateToProps = (state) => ({
   spellcheck: state.preferences.spellcheck,
   spellcheckLanguages: state.preferences.spellcheckLanguages,
   swipeToNavigate: state.preferences.swipeToNavigate,
-  themeSource: state.general.themeSource,
+  themeSource: state.preferences.themeSource,
   titleBar: state.preferences.titleBar,
   unreadCountBadge: state.preferences.unreadCountBadge,
 });

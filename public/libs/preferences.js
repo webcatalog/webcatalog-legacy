@@ -1,6 +1,6 @@
 const path = require('path');
 const settings = require('electron-settings');
-const { app, ipcMain } = require('electron');
+const { app, nativeTheme, ipcMain } = require('electron');
 
 const sendToAllWindows = require('./send-to-all-windows');
 
@@ -36,7 +36,7 @@ const defaultPreferences = {
   proxyType: 'none',
   registered: false,
   requireAdmin: false,
-  themeSource: process.platform === 'darwin' ? 'system' : 'light',
+  themeSource: 'system',
 };
 
 const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
@@ -73,6 +73,10 @@ const setPreference = (name, value) => {
   }
   settings.set(`preferences.${v}.${name}`, value);
   sendToAllWindows('set-preference', name, value);
+
+  if (name === 'themeSource') {
+    nativeTheme.themeSource = value;
+  }
 };
 
 const resetPreferences = () => {

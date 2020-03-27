@@ -29,5 +29,3 @@ export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app',
 
 // Native Theme
 export const getShouldUseDarkColors = () => ipcRenderer.sendSync('get-should-use-dark-colors');
-export const getThemeSource = () => ipcRenderer.sendSync('get-theme-source');
-export const requestSetThemeSource = (val) => ipcRenderer.send('request-set-theme-source', val);

@@ -2,7 +2,6 @@ import semver from 'semver';
 
 import {
   UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_THEME_SOURCE,
   UPDATE_IS_FULL_SCREEN,
   UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
@@ -17,11 +16,6 @@ export const updateIsFullScreen = (isFullScreen) => ({
 export const updateShouldUseDarkColors = (shouldUseDarkColors) => ({
   type: UPDATE_SHOULD_USE_DARK_COLORS,
   shouldUseDarkColors,
-});
-
-export const updateThemeSource = (themeSource) => ({
-  type: UPDATE_THEME_SOURCE,
-  themeSource,
 });
 
 export const updateLatestTemplateVersion = (latestTemplateVersion) => ({
