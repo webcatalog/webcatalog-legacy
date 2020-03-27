@@ -6,6 +6,7 @@ const {
   shell,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const commandExistsSync = require('command-exists').sync;
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
@@ -176,7 +177,31 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
+  const isUnzipInstalled = () => {
+    // https://github.com/atomery/webcatalog/issues/614
+    // unzip is used by electron-packager > cross-zip
+    if (process.platform === 'linux' && !commandExistsSync('unzip')) {
+      dialog.showMessageBox(mainWindow.get(), {
+        type: 'error',
+        message: 'unzip package is not installed on your system. Please install the package to continue.',
+        buttons: ['Learn more', 'OK'],
+        cancelId: 0,
+        defaultId: 0,
+      })
+        .then(({ response }) => {
+          if (response === 0) {
+            shell.openExternal('https://pkgs.org/download/unzip');
+          }
+        })
+        .catch(console.log); // eslint-disable-line
+      return false;
+    }
+    return true;
+  };
+
   ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
+    if (!isUnzipInstalled()) return;
+
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
       engine,
@@ -231,6 +256,8 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
+    if (!isUnzipInstalled()) return;
+
     e.sender.send('set-app', id, {
       status: 'INSTALLING',
       cancelable: true,
