@@ -76,6 +76,7 @@ const styles = (theme) => ({
     textTransform: 'uppercase',
     userSelect: 'none',
     border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
+    overflow: 'hidden',
   },
   textAvatar: {
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
@@ -89,7 +90,6 @@ const styles = (theme) => ({
   avatarPicture: {
     height: 64,
     width: 64,
-    borderRadius: 4,
   },
   buttonBot: {
     marginTop: theme.spacing(1),
