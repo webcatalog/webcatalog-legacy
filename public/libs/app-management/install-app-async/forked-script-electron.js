@@ -155,6 +155,18 @@ Promise.resolve()
           })
             .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
         }
+        // dock icon for Linux
+        // used in template/public/windows/main.png
+        if (process.platform === 'linux') {
+          const pp = [1, 2, 3, 4, 5].map((zoom) => new Promise((resolve) => {
+            img
+              .clone()
+              .resize(64 * zoom, 64 * zoom)
+              .quality(100)
+              .write(path.join(appPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`), resolve);
+          }));
+          return Promise.all(pp);
+        }
         return null;
       });
   })
