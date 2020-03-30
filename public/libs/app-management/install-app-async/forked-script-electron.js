@@ -33,10 +33,6 @@ const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 const appJsonPath = path.join(appPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
-const publicIconPng2xPath = path.join(appPath, 'build', 'icon@2x.png');
-const publicIconPng3xPath = path.join(appPath, 'build', 'icon@3x.png');
-const publicIconPng4xPath = path.join(appPath, 'build', 'icon@4x.png');
-const publicIconPng5xPath = path.join(appPath, 'build', 'icon@5x.png');
 const publicIconIcoPath = path.join(appPath, 'build', 'icon.ico');
 const packageJsonPath = path.join(appPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
@@ -158,6 +154,18 @@ Promise.resolve()
             },
           })
             .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
+        }
+        // dock icon for Linux
+        // used in template/public/windows/main.png
+        if (process.platform === 'linux') {
+          const pp = [1, 2, 3, 4, 5].map((zoom) => new Promise((resolve) => {
+            img
+              .clone()
+              .resize(64 * zoom, 64 * zoom)
+              .quality(100)
+              .write(path.join(appPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`), resolve);
+          }));
+          return Promise.all(pp);
         }
         return null;
       });
