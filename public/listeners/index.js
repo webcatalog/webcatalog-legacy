@@ -184,12 +184,12 @@ const loadListeners = () => {
       dialog.showMessageBox(mainWindow.get(), {
         type: 'error',
         message: 'unzip package is not installed on your system. Please install the package to continue.',
-        buttons: ['Learn more', 'OK'],
+        buttons: ['OK', 'Learn more'],
         cancelId: 0,
         defaultId: 0,
       })
         .then(({ response }) => {
-          if (response === 0) {
+          if (response === 1) {
             shell.openExternal('https://pkgs.org/download/unzip');
           }
         })
@@ -334,12 +334,12 @@ const loadListeners = () => {
       dialog.showMessageBox(mainWindow.get(), {
         type: 'error',
         message: 'The app updater is incompatible with AppImageLauncher. For the updater to work properly, please use other methods to run/install the app.',
-        buttons: ['Learn more', 'OK'],
+        buttons: ['OK', 'Learn more'],
         cancelId: 0,
         defaultId: 0,
       })
         .then(({ response }) => {
-          if (response === 0) {
+          if (response === 1) {
             shell.openExternal('https://github.com/atomery/webcatalog/issues/634');
           }
         })
