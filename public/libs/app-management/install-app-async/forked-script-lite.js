@@ -307,7 +307,7 @@ Name=${name}
 GenericName=${name}
 Icon=${iconPath}
 Exec="${finalExecFilePath}"
-Terminal=false;
+Terminal=false
 `;
       return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
     }
