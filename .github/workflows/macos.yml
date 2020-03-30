@@ -40,6 +40,12 @@ jobs:
         CSC_LINK: ${{ secrets.CSC_LINK }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
+  cask:
+    runs-on: macos-latest
+    - name: Set up SSH Agent
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Update Homebrew Cask
       # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
       # So `brew update` needs to be run manually
