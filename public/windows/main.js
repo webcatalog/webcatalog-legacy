@@ -2,6 +2,7 @@ const {
   BrowserWindow,
   Menu,
   ipcMain,
+  nativeImage,
 } = require('electron');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
@@ -158,7 +159,7 @@ const createAsync = () => {
     minWidth: 415,
     minHeight: 500,
     titleBarStyle: 'hidden',
-    icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
+    icon: process.platform === 'linux' ? nativeImage.createFromPath(path.resolve(__dirname, '..', 'icon.png')) : null,
     autoHideMenuBar: getPreference('hideMenuBar'),
     webPreferences: {
       nodeIntegration: true,
