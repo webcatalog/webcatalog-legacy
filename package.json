@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "20.0.7",
-  "templateVersion": "8.0.7",
+  "version": "20.0.8",
+  "templateVersion": "8.0.8",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -50,7 +50,7 @@
     "hasha": "5.2.0",
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.9.8",
+    "jimp": "0.10.0",
     "menubar": "8.0.1",
     "node-fetch": "2.6.0",
     "proxy-agent": "3.1.1",
