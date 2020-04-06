@@ -60,3 +60,5 @@ test
 tests
 thumbs.db
 yarn.lock
+node_modules/.bin
+node_modules/.cache
