@@ -84,8 +84,9 @@ const styles = (theme) => ({
   },
   transparentAvatar: {
     background: 'transparent',
-    color: theme.palette.text.primary,
+    border: 'none',
     borderRadius: 0,
+    color: theme.palette.text.primary,
   },
   avatarPicture: {
     height: 64,
