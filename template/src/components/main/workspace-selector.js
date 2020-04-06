@@ -46,10 +46,10 @@ const styles = (theme) => ({
   textAvatar: {
     background: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
     color: theme.palette.getContrastText(theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black),
-    borderRadius: 0,
   },
   transparentAvatar: {
     background: 'transparent',
+    border: 'none',
     color: theme.palette.text.primary,
   },
   avatarPicture: {
