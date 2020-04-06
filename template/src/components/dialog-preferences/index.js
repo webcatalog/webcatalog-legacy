@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import semver from 'semver';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -427,7 +428,11 @@ const Preferences = ({
               <ListItemText
                 primary="Test notifications"
                 secondary={(() => {
-                  if (window.process.platform === 'darwin' && remote.process.getSystemVersion() === '10.15.4') {
+                  // only show this message on macOS Catalina 10.15 & above
+                  if (
+                    window.process.platform === 'darwin'
+                    && semver.gte(remote.process.getSystemVersion(), '10.15.0')
+                  ) {
                     return (
                       <>
                         <span>If notifications don&apos;t show up,</span>
