@@ -416,41 +416,6 @@ const Preferences = ({
         </Typography>
         <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
-            <ListItem
-              button
-              onClick={() => {
-                requestShowNotification({
-                  title: 'Test notifications',
-                  body: 'It is working!',
-                });
-              }}
-            >
-              <ListItemText
-                primary="Test notifications"
-                secondary={(() => {
-                  // only show this message on macOS Catalina 10.15 & above
-                  if (
-                    window.process.platform === 'darwin'
-                    && semver.gte(remote.process.getSystemVersion(), '10.15.0')
-                  ) {
-                    return (
-                      <>
-                        <span>If notifications don&apos;t show up,</span>
-                        <span> make sure you enable notifications in </span>
-                        <b>
-                          <span>macOS Preferences &gt; Notifications &gt; </span>
-                          {appJson.name}
-                        </b>
-                        <span>.</span>
-                      </>
-                    );
-                  }
-                  return null;
-                })()}
-              />
-              <ChevronRightIcon color="action" />
-            </ListItem>
-            <Divider />
             <ListItem button onClick={requestShowNotificationsWindow}>
               <ListItemText primary="Control notifications" />
               <ChevronRightIcon color="action" />
@@ -527,6 +492,41 @@ const Preferences = ({
                 </ListItem>
               </>
             )}
+            <Divider />
+            <ListItem
+              button
+              onClick={() => {
+                requestShowNotification({
+                  title: 'Test notifications',
+                  body: 'It is working!',
+                });
+              }}
+            >
+              <ListItemText
+                primary="Test notifications"
+                secondary={(() => {
+                  // only show this message on macOS Catalina 10.15 & above
+                  if (
+                    window.process.platform === 'darwin'
+                    && semver.gte(remote.process.getSystemVersion(), '10.15.0')
+                  ) {
+                    return (
+                      <>
+                        <span>If notifications don&apos;t show up,</span>
+                        <span> make sure you enable notifications in </span>
+                        <b>
+                          <span>macOS Preferences &gt; Notifications &gt; </span>
+                          {appJson.name}
+                        </b>
+                        <span>.</span>
+                      </>
+                    );
+                  }
+                  return null;
+                })()}
+              />
+              <ChevronRightIcon color="action" />
+            </ListItem>
           </List>
         </Paper>
 
