@@ -20,7 +20,7 @@
   "repository": "https://github.com/atomery/webcatalog",
   "author": "Quang Lam <quang.lam2807@gmail.com>",
   "dependencies": {
-    "@cliqz/adblocker-electron": "1.13.1",
+    "@cliqz/adblocker-electron": "1.14.1",
     "cheerio": "1.0.0-rc.3",
     "electron": "8.2.1",
     "electron-context-menu": "0.16.0",
@@ -49,7 +49,7 @@
     "classnames": "2.2.6",
     "concurrently": "5.1.0",
     "cross-env": "7.0.2",
-    "date-fns": "2.11.1",
+    "date-fns": "2.12.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "18.1.0",
     "eslint-plugin-import": "2.20.2",
@@ -65,7 +65,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "typeface-roboto": "0.0.75",
-    "wait-on": "4.0.1"
+    "wait-on": "4.0.2"
   },
   "homepage": "./",
   "private": true,
