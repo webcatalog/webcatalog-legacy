@@ -88,7 +88,7 @@
     "redux-thunk": "2.3.0",
     "semver": "7.2.1",
     "typeface-roboto": "0.0.75",
-    "wait-on": "4.0.1"
+    "wait-on": "4.0.2"
   },
   "homepage": "./",
   "private": true,
