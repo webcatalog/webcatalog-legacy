@@ -11,10 +11,18 @@
 
 ---
 
-## Notes
-**WebCatalog is open-source but not free.** You can install up to two apps for free. [Pay just $14.99](https://webcatalog.onfastspring.com/webcatalog-lite) to install as many as you need.
+## Licensing
+### Usage
+**WebCatalog is paid software.** You can install up to two apps for free or [pay just $14.99](https://webcatalog.onfastspring.com/webcatalog-lite) to install as many as you need.
 
-WebCatalog has permanent licenses, which have no time limit. In other words, the license never expires and works with all versions (including major updates). Also, your license permits you to use the app on all of the devices you own, as long as you are the only one using the app.
+The license:
+- Lets you add unlimited apps and workspaces.
+- Has no time limit and never expires.
+- Works with all versions (including major updates).
+- Permits uses on all of the devices you own (regardless of platforms or operating systems).
+
+### Source Code
+On the other hand, **the source code is freely available** for use, modification and distribution under the permissions, limitations, & conditions listed in the [Mozilla Public License 2.0](LICENSE).
 
 ---
 
