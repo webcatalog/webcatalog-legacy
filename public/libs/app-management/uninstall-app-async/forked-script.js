@@ -4,12 +4,13 @@ const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
 
 const {
-  id,
-  name,
-  installationPath,
-  requireAdmin,
-  homePath,
+  appDataPath,
   desktopPath,
+  homePath,
+  id,
+  installationPath,
+  name,
+  requireAdmin,
   username,
 } = argv;
 
@@ -50,9 +51,12 @@ Promise.resolve()
     return checkExistsAndRemove(dotAppPath);
   })
   .then(() => {
+    // remove userData
+    // userData The directory for storing your app's configuration files,
+    // which by default it is the appData directory appended with your app's name.
     if (process.platform === 'darwin') {
-      const appDataPath = path.join(homePath, 'Library', 'Application Support', name);
-      return checkExistsAndRemove(appDataPath);
+      const userDataPath = path.join(appDataPath, name);
+      return checkExistsAndRemove(userDataPath);
     }
 
     if (process.platform === 'linux') {

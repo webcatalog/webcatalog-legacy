@@ -22,6 +22,8 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
     name,
     '--homePath',
     app.getPath('home'),
+    '--appDataPath',
+    app.getPath('appData'),
     '--desktopPath',
     app.getPath('desktop'),
     '--installationPath',
