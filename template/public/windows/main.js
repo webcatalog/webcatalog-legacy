@@ -136,8 +136,6 @@ const createAsync = () => {
 
   mainWindowState.manage(win);
 
-  win.loadURL(REACT_PATH);
-
   // Enable swipe to navigate
   const swipeToNavigate = getPreference('swipeToNavigate');
   if (swipeToNavigate) {
