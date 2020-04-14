@@ -78,6 +78,8 @@ Promise.resolve()
     return null;
   })
   .then(() => {
+    // for forked-script-lite-v1
+    // forked-script-lite-v2 stores data inside *.app
     const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
     return checkExistsAndRemove(chromiumDataPath);
   })

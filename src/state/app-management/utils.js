@@ -12,14 +12,21 @@ export const isOutdatedApp = (id, state) => {
   // check if app is installing
   if (apps[id].status === INSTALLING) return false;
 
-  // check if app is Electron-based
-  if (apps[id].engine !== 'electron') return false;
-
   // check if license is correctly assigned
   if (Boolean(apps[id].registered) !== registered) return true;
 
-  // check version
   const v = apps[id].version;
+
+  // check if lite app is installed using forked-script-lite-v1 (outdated)
+  if (apps[id].engine === 'chrome'
+    && window.process.platform === 'darwin' && semver.lt(v, '2.0.0')) {
+    return true;
+  }
+
+  // check if app is Electron-based
+  if (apps[id].engine !== 'electron') return false;
+
+  // check version
   const latestV = state.general.latestTemplateVersion;
   if (!v) return true;
   return semver.lt(v, latestV);
