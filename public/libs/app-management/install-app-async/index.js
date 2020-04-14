@@ -70,6 +70,10 @@ const installAppAsync = (
           engineName = 'Microsoft Edge';
           break;
         }
+        case 'chromeCanary': {
+          engineName = 'Google Chrome Canary';
+          break;
+        }
         default:
         case 'chrome': {
           engineName = 'Google Chrome';

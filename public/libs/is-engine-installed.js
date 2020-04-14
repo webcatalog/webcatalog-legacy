@@ -93,6 +93,14 @@ const isEngineInstalled = (browser) => {
 
       return false;
     }
+    case 'chromeCanary': {
+      if (process.platform === 'darwin') {
+        const chromePath = path.join('/Applications', 'Google Chrome Canary.app');
+        return fs.existsSync(chromePath);
+      }
+
+      return false;
+    }
     case 'edge': {
       if (process.platform === 'darwin') {
         const chromePath = path.join('/Applications', 'Microsoft Edge.app');
