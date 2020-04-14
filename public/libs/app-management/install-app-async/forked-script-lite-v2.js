@@ -22,9 +22,39 @@ const {
   registered,
 } = argv;
 
+const engineConstants = {
+  brave: {
+    appDir: 'Brave Browser.app',
+    userDataDir: path.join('BraveSoftware', 'Brave-Browser'),
+    execFile: 'Brave Browser',
+  },
+  chrome: {
+    appDir: 'Google Chrome.app',
+    userDataDir: path.join('Google', 'Chrome'),
+    execFile: 'Google Chrome',
+  },
+  chromium: {
+    appDir: 'Chromium.app',
+    userDataDir: path.join('Chromium'),
+    execFile: 'Chromium',
+  },
+  edge: {
+    appDir: 'Microsoft Edge.app',
+    userDataDir: path.join('Microsoft Edge'),
+    execFile: 'Microsoft Edge',
+  },
+  vivaldi: {
+    appDir: 'Vivaldi.app',
+    userDataDir: path.join('Vivaldi'),
+    execFile: 'Vivaldi',
+  },
+};
+
 const unescapeString = (str) => str.replace(/\\"/gmi, '"');
 
 const escapeString = (str) => str.replace(/"/gmi, '\\"');
+
+const addSlash = (str) => str.replace(/ /g, '\\ ');
 
 // https://github.com/iteufel/node-strings-file/blob/master/index.js
 const strings2Obj = (data, wantComments) => {
@@ -125,6 +155,12 @@ const finalPath = process.platform === 'darwin'
 
 Promise.resolve()
   .then(() => {
+    if (!engineConstants[engine]) {
+      return Promise.reject(new Error('Engine is not supported.'));
+    }
+    return null;
+  })
+  .then(() => {
     if (isUrl(icon)) {
       return downloadAsync(icon, iconPngPath);
     }
@@ -176,7 +212,7 @@ DIR=$(dirname "$0");
 cd ..;
 cd Resources;
 
-cp -rf ~/Library/Application\\ Support/Google/Chrome/NativeMessagingHosts ../../Contents/Profile/NativeMessagingHosts
+cp -rf ~/Library/Application\\ Support/${addSlash(engineConstants[engine].userDataDir)}/NativeMessagingHosts ../../Contents/Profile/NativeMessagingHosts
 
 pgrepResult=$(pgrep -f "$DIR/${id}.app")
 numProc=$(echo "$pgrepResult" | wc -l)
@@ -184,12 +220,12 @@ if [ $numProc -ge 2 ]
     then
     exit;
 fi
-pgrepResult=$(pgrep -f "$PWD"/${id}.app/Contents/MacOS/Google\\ Chrome)
+pgrepResult=$(pgrep -f "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)})
 if [ -n "$pgrepResult" ]; then
     exit
 fi
 
-exec "$PWD"/${id}.app/Contents/MacOS/Google\\ Chrome --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$DIR"/../Profile
+exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$DIR"/../Profile
 `;
           return fsExtra.outputFile(execFilePath, execFileContent)
             .then(() => fsExtra.chmod(execFilePath, '755'));
@@ -228,7 +264,7 @@ exec "$PWD"/${id}.app/Contents/MacOS/Google\\ Chrome --no-sandbox --test-type  -
           // init cloned Chromium app
           const clonedBrowserPath = path.join(resourcesPath, `${id}.app`);
           const clonedBrowserContentsPath = path.join(clonedBrowserPath, 'Contents');
-          const browserPath = path.join('/Applications', 'Google Chrome.app');
+          const browserPath = path.join('/Applications', engineConstants[engine].appDir);
           const browserContentsPath = path.join(browserPath, 'Contents');
 
           const p = [];
