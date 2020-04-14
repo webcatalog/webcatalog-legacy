@@ -18,6 +18,19 @@ let lastUsedTmpPath = null;
 
 const { getPreferences } = require('../../preferences');
 
+const getScriptFileName = (engine) => {
+  if (engine === 'electron') {
+    return 'forked-script-electron.js';
+  }
+
+  // use v2 script for Chrome on Mac
+  if (process.platform === 'darwin' && engine === 'chrome') {
+    return 'forked-script-lite-v2.js';
+  }
+
+  return 'forked-script-lite-v1.js';
+};
+
 const installAppAsync = (
   engine, id, name, url, icon,
 ) => Promise.resolve()
@@ -65,7 +78,7 @@ const installAppAsync = (
       return;
     }
 
-    const scriptPath = path.join(__dirname, engine === 'electron' ? 'forked-script-electron.js' : 'forked-script-lite.js');
+    const scriptPath = path.join(__dirname, getScriptFileName(engine));
 
     const params = [
       '--engine',
@@ -96,27 +109,27 @@ const installAppAsync = (
       getPreference('registered'),
     ];
 
-    if (engine === 'firefox') {
+    if (process.platform === 'win32' && engine === 'firefox') {
       params.push('--firefoxPath');
       params.push(getWin32FirefoxPaths()[0]);
     }
 
-    if (engine === 'chrome') {
+    if (process.platform === 'win32' && engine === 'chrome') {
       params.push('--chromePath');
       params.push(getWin32ChromePaths()[0]);
     }
 
-    if (engine === 'brave') {
+    if (process.platform === 'win32' && engine === 'brave') {
       params.push('--bravePath');
       params.push(getWin32BravePaths()[0]);
     }
 
-    if (engine === 'vivaldi') {
+    if (process.platform === 'win32' && engine === 'vivaldi') {
       params.push('--vivaldiPath');
       params.push(getWin32VivaldiPaths()[0]);
     }
 
-    if (engine === 'edge') {
+    if (process.platform === 'win32' && engine === 'edge') {
       params.push('--edgePath');
       params.push(getWin32EdgePaths()[0]);
     }
