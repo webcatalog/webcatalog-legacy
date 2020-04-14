@@ -258,13 +258,14 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
           // as it is also hard coded in the exec bash script
           const profilePath = path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id);
 
-          fsExtra.ensureDirSync(profilePath);
-
           // move data from v1
           const legacyProfilePath = path.join(homePath, '.webcatalog', 'chromium-data', id);
           if (fsExtra.existsSync(legacyProfilePath)) {
-            fsExtra.moveSync(legacyProfilePath, profilePath);
+            fsExtra.moveSync(legacyProfilePath, profilePath, { overwrite: true });
           }
+
+          // (redundant as ensureFileSync would ensureDir too
+          // fsExtra.ensureDirSync(profilePath);
 
           // add empty "First Run" file so default browser prompt doesn't show up
           fsExtra.ensureFileSync(path.join(profilePath, 'First Run'));
