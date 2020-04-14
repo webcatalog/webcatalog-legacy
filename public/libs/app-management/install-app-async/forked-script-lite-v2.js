@@ -33,6 +33,11 @@ const engineConstants = {
     userDataDir: path.join('Google', 'Chrome'),
     execFile: 'Google Chrome',
   },
+  chromeCanary: {
+    appDir: 'Google Chrome Canary.app',
+    userDataDir: path.join('Google', 'Chrome Canary'),
+    execFile: 'Google Chrome Canary',
+  },
   chromium: {
     appDir: 'Chromium.app',
     userDataDir: path.join('Chromium'),

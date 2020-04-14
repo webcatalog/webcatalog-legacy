@@ -16,6 +16,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import braveIcon from '../../assets/brave.png';
 import chromeIcon from '../../assets/chrome.png';
+import chromeCanaryIcon from '../../assets/chrome-canary.png';
 import chromiumIcon from '../../assets/chromium.png';
 import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/electron.png';
@@ -82,7 +83,7 @@ const DialogChooseEngine = (props) => {
           . This cannot be changed later.
           You will have to uninstall and then reinstall to change the engine of an app.
         </Typography>
-        <List disablePadding>
+        <List>
           <ListItem
             alignItems="flex-start"
             button
@@ -125,6 +126,22 @@ const DialogChooseEngine = (props) => {
               secondary="This option creates bare-bone Google Chrome-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
+          {window.process.platform === 'darwin' && (
+            <ListItem
+              alignItems="flex-start"
+              button
+              onClick={() => onUpdateForm({ engine: 'chromeCanary' })}
+              selected={engine === 'chromeCanary'}
+            >
+              <ListItemAvatar>
+                <Avatar alt="Google Chrome Canary" src={chromeCanaryIcon} />
+              </ListItemAvatar>
+              <ListItemText
+                primary="Google Chrome Canary"
+                secondary="This option creates bare-bone Google Chrome Canary-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+              />
+            </ListItem>
+          )}
           {window.process.platform !== 'win32' && (
             <ListItem
               alignItems="flex-start"
