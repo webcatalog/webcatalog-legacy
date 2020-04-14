@@ -6,6 +6,7 @@ const sudo = require('sudo-prompt');
 const {
   appDataPath,
   desktopPath,
+  engine,
   homePath,
   id,
   installationPath,
@@ -51,17 +52,25 @@ Promise.resolve()
     return checkExistsAndRemove(dotAppPath);
   })
   .then(() => {
+    const p = [];
     // remove userData
     // userData The directory for storing your app's configuration files,
     // which by default it is the appData directory appended with your app's name.
     if (process.platform === 'darwin') {
-      const userDataPath = path.join(appDataPath, name);
-      return checkExistsAndRemove(userDataPath);
+      if (engine === 'electron') {
+        const userDataPath = path.join(appDataPath, name);
+        p.push(checkExistsAndRemove(userDataPath));
+      } else if (engine !== 'firefox') { // chromium-based browsers
+        // forked-script-lite-v1
+        p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));
+        // forked-script-lite-v2
+        p.push(checkExistsAndRemove(path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id)));
+      }
     }
 
     if (process.platform === 'linux') {
       const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-      return checkExistsAndRemove(desktopFilePath);
+      p.push(checkExistsAndRemove(desktopFilePath));
     }
 
     if (process.platform === 'win32') {
@@ -69,19 +78,11 @@ Promise.resolve()
       const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
       const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
 
-      return Promise.all([
-        checkExistsAndRemove(startMenuShortcutPath),
-        checkExistsAndRemove(desktopShortcutPath),
-      ]);
+      p.push(checkExistsAndRemove(startMenuShortcutPath));
+      p.push(checkExistsAndRemove(desktopShortcutPath));
     }
 
-    return null;
-  })
-  .then(() => {
-    // for forked-script-lite-v1
-    // forked-script-lite-v2 stores data inside *.app
-    const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-    return checkExistsAndRemove(chromiumDataPath);
+    return Promise.all(p);
   })
   .then(() => {
     process.exit(0);

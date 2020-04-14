@@ -124,7 +124,7 @@ const AppCard = (props) => {
               className={classes.actionButton}
               color="secondary"
               size="medium"
-              onClick={() => requestUninstallApp(id, name)}
+              onClick={() => requestUninstallApp(id, name, engine)}
             >
               Uninstall
             </Button>
@@ -193,7 +193,7 @@ const AppCard = (props) => {
             </MenuItem>
           )}
           {status === INSTALLED && isOutdated && (
-            <MenuItem dense onClick={() => requestUninstallApp(id, name)}>
+            <MenuItem dense onClick={() => requestUninstallApp(id, name, engine)}>
               Uninstall
             </MenuItem>
           )}
