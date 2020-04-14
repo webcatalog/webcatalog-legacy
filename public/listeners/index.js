@@ -137,7 +137,7 @@ const loadListeners = () => {
 
   ipcMain.on('request-open-app', (e, id, name) => openApp(id, name));
 
-  ipcMain.on('request-uninstall-app', (e, id, name) => {
+  ipcMain.on('request-uninstall-app', (e, id, name, engine) => {
     dialog.showMessageBox(mainWindow.get(), {
       type: 'question',
       buttons: ['Uninstall', 'Cancel'],
@@ -149,7 +149,7 @@ const loadListeners = () => {
           status: 'UNINSTALLING',
         });
 
-        uninstallAppAsync(id, name)
+        uninstallAppAsync(id, name, engine)
           .then(() => {
             e.sender.send('remove-app', id);
           })

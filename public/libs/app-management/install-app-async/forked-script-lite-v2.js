@@ -217,7 +217,7 @@ DIR=$(dirname "$0");
 cd ..;
 cd Resources;
 
-cp -rf ~/Library/Application\\ Support/${addSlash(engineConstants[engine].userDataDir)}/NativeMessagingHosts ../../Contents/Profile/NativeMessagingHosts
+cp -rf ~/Library/Application\\ Support/${addSlash(engineConstants[engine].userDataDir)}/NativeMessagingHosts ~/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}/NativeMessagingHosts
 
 pgrepResult=$(pgrep -f "$DIR/${id}.app")
 numProc=$(echo "$pgrepResult" | wc -l)
@@ -230,7 +230,7 @@ if [ -n "$pgrepResult" ]; then
     exit
 fi
 
-exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$DIR"/../Profile
+exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           return fsExtra.outputFile(execFilePath, execFileContent)
             .then(() => fsExtra.chmod(execFilePath, '755'));
@@ -254,16 +254,20 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
         })
         .then(() => {
           // init profile
-          // add empty "First Run" file so default browser prompt doesn't show up
-          const profilePath = path.join(contentsPath, 'Profile');
+          // hard code instead of relying on Electron app.getPath('userData')
+          // as it is also hard coded in the exec bash script
+          const profilePath = path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id);
+
+          fsExtra.ensureDirSync(profilePath);
 
           // move data from v1
-          const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-          if (fsExtra.existsSync(chromiumDataPath)) {
-            fsExtra.moveSync(chromiumDataPath, profilePath);
+          const legacyProfilePath = path.join(homePath, '.webcatalog', 'chromium-data', id);
+          if (fsExtra.existsSync(legacyProfilePath)) {
+            fsExtra.moveSync(legacyProfilePath, profilePath);
           }
 
-          return fsExtra.ensureFile(path.join(profilePath, 'First Run'));
+          // add empty "First Run" file so default browser prompt doesn't show up
+          fsExtra.ensureFileSync(path.join(profilePath, 'First Run'));
         })
         .then(() => {
           // init cloned Chromium app

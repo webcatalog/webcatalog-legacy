@@ -4,7 +4,7 @@ const { app } = require('electron');
 
 const { getPreferences } = require('../../preferences');
 
-const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
+const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
   const {
@@ -20,6 +20,8 @@ const uninstallAppAsync = (id, name) => new Promise((resolve, reject) => {
     id,
     '--name',
     name,
+    '--engine',
+    engine,
     '--homePath',
     app.getPath('home'),
     '--appDataPath',
