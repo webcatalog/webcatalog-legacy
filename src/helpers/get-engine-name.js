@@ -12,6 +12,9 @@ const getEngineName = (engine) => {
     case 'chrome': {
       return 'Google Chrome';
     }
+    case 'chromeCanary': {
+      return 'Google Chrome Canary';
+    }
     case 'brave': {
       return 'Brave';
     }
