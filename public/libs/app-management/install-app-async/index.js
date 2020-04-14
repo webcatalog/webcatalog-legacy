@@ -23,8 +23,10 @@ const getScriptFileName = (engine) => {
     return 'forked-script-electron.js';
   }
 
-  // use v2 script for Chrome on Mac
-  if (process.platform === 'darwin' && engine === 'chrome') {
+  // use v2 script for Chrome & Chromium-based browsers on Mac
+  if (process.platform === 'darwin'
+    && engine !== 'firefox'
+  ) {
     return 'forked-script-lite-v2.js';
   }
 
