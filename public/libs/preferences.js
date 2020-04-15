@@ -39,7 +39,33 @@ const defaultPreferences = {
   themeSource: 'system',
 };
 
-const getPreferences = () => ({ ...defaultPreferences, ...settings.get(`preferences.${v}`) });
+let cachedPreferences = null;
+
+const initCachedPreferences = () => {
+  cachedPreferences = { ...defaultPreferences, ...settings.get(`preferences.${v}`) };
+};
+
+const getPreferences = () => {
+  // store in memory to boost performance
+  if (cachedPreferences == null) {
+    initCachedPreferences();
+  }
+  return cachedPreferences;
+};
+
+const setPreference = (name, value) => {
+  sendToAllWindows('set-preference', name, value);
+  cachedPreferences[name] = value;
+  Promise.resolve(() => settings.set(`preferences.${v}.${name}`, value));
+
+  if (name === 'registered' && value === true) {
+    ipcMain.emit('request-get-installed-apps');
+  }
+
+  if (name === 'themeSource') {
+    nativeTheme.themeSource = value;
+  }
+};
 
 const getPreference = (name) => {
   // ensure compatiblity with old version
@@ -48,11 +74,8 @@ const getPreference = (name) => {
     if (settings.get('preferences.2018.installLocation') === 'root') {
       settings.delete('preferences.2018.installLocation');
 
-      settings.set(`preferences.${v}.installationPath`, '/Applications/WebCatalog Apps');
-      sendToAllWindows('set-preference', 'installationPath', '/Applications/WebCatalog Apps');
-
-      settings.set(`preferences.${v}.requireAdmin`, true);
-      sendToAllWindows('set-preference', 'requireAdmin', true);
+      setPreference('installationPath', '/Applications/WebCatalog Apps');
+      setPreference('requireAdmin', true);
 
       if (name === 'installationPath') {
         return '/Applications/WebCatalog Apps';
@@ -61,25 +84,15 @@ const getPreference = (name) => {
     }
   }
 
-  if (settings.has(`preferences.${v}.${name}`)) {
-    return settings.get(`preferences.${v}.${name}`);
+  // store in memory to boost performance
+  if (cachedPreferences == null) {
+    initCachedPreferences();
   }
-  return defaultPreferences[name];
-};
-
-const setPreference = (name, value) => {
-  if (name === 'registered' && value === true) {
-    ipcMain.emit('request-get-installed-apps');
-  }
-  settings.set(`preferences.${v}.${name}`, value);
-  sendToAllWindows('set-preference', name, value);
-
-  if (name === 'themeSource') {
-    nativeTheme.themeSource = value;
-  }
+  return cachedPreferences[name];
 };
 
 const resetPreferences = () => {
+  cachedPreferences = null;
   settings.deleteAll();
 
   const preferences = getPreferences();
