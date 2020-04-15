@@ -56,7 +56,7 @@ const getPreferences = () => {
 const setPreference = (name, value) => {
   sendToAllWindows('set-preference', name, value);
   cachedPreferences[name] = value;
-  Promise.resolve(() => settings.set(`preferences.${v}.${name}`, value));
+  Promise.resolve().then(() => settings.set(`preferences.${v}.${name}`, value));
 
   if (name === 'registered' && value === true) {
     ipcMain.emit('request-get-installed-apps');
