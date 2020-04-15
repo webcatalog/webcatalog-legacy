@@ -50,7 +50,7 @@
     "hasha": "5.2.0",
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.10.1",
+    "jimp": "0.10.2",
     "menubar": "8.0.1",
     "node-fetch": "2.6.0",
     "proxy-agent": "3.1.1",
@@ -86,7 +86,7 @@
     "react-scripts": "3.4.1",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "semver": "7.3.0",
+    "semver": "7.3.2",
     "typeface-roboto": "0.0.75",
     "wait-on": "4.0.2"
   },

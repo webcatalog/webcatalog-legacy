@@ -14,7 +14,7 @@ const mainWindow = require('./windows/main');
 const openUrlWithWindow = require('./windows/open-url-with');
 
 const createMenu = require('./libs/create-menu');
-const { addView } = require('./libs/views');
+const { addView, reloadViewsDarkReader } = require('./libs/views');
 const { checkForUpdates } = require('./libs/updater');
 const { setPreference, getPreference, getPreferences } = require('./libs/preferences');
 const { getWorkspaces, setWorkspace } = require('./libs/workspaces');
@@ -91,6 +91,7 @@ if (!gotTheLock) {
 
         nativeTheme.addListener('updated', () => {
           sendToAllWindows('native-theme-updated');
+          reloadViewsDarkReader();
         });
 
         const workspaceObjects = getWorkspaces();

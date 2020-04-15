@@ -22,6 +22,7 @@
   "dependencies": {
     "@cliqz/adblocker-electron": "1.14.1",
     "cheerio": "1.0.0-rc.3",
+    "darkreader": "4.9.2",
     "electron": "8.2.2",
     "electron-context-menu": "1.0.0",
     "electron-is-dev": "1.2.0",
@@ -30,11 +31,11 @@
     "follow-redirects": "1.11.0",
     "fs-extra": "9.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.10.1",
+    "jimp": "0.10.2",
     "menubar": "8.0.1",
     "node-fetch": "2.6.0",
     "proxy-agent": "3.1.1",
-    "semver": "7.3.0",
+    "semver": "7.3.2",
     "tmp": "0.1.0",
     "uuid": "7.0.3"
   },
