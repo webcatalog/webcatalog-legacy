@@ -18,7 +18,6 @@ window.ipcRenderer = ipcRenderer;
 
 document.addEventListener('DOMContentLoaded', () => {
   const loadDarkReader = () => {
-    console.log('reload-dark-reader');
     const shouldUseDarkColor = ipcRenderer.sendSync('get-should-use-dark-colors');
     const darkReader = ipcRenderer.sendSync('get-preference', 'darkReader');
     if (shouldUseDarkColor && darkReader) {
@@ -82,6 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (info.linkURL && info.linkURL.length > 0) {
           menu.append(new MenuItem({ type: 'separator' }));
 
+          menu.append(new MenuItem({
+            label: 'Open Link in New Window',
+            click: () => {
+              ipcRenderer.send('request-set-global-force-new-window', true);
+              window.open(info.linkURL);
+            },
+          }));
+
+          menu.append(new MenuItem({ type: 'separator' }));
+
           const workspaces = ipcRenderer.sendSync('get-workspaces');
 
           const workspaceLst = Object.values(workspaces).sort((a, b) => a.order - b.order);
@@ -107,25 +116,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         menu.append(new MenuItem({ type: 'separator' }));
 
-        const view = remote.getCurrentWindow().getBrowserView();
+        const contents = remote.getCurrentWebContents();
         menu.append(new MenuItem({
           label: 'Back',
-          enabled: view.webContents.canGoBack(),
+          enabled: contents.canGoBack(),
           click: () => {
-            view.webContents.goBack();
+            contents.goBack();
           },
         }));
         menu.append(new MenuItem({
           label: 'Forward',
-          enabled: view.webContents.canGoForward(),
+          enabled: contents.canGoForward(),
           click: () => {
-            view.webContents.goForward();
+            contents.goForward();
           },
         }));
         menu.append(new MenuItem({
           label: 'Reload',
           click: () => {
-            view.webContents.reload();
+            contents.reload();
           },
         }));
 
