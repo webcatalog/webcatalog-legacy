@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         }));
         menu.append(new MenuItem({
-          enabled: view.webContents.canGoForward(),
           label: 'Forward',
+          enabled: view.webContents.canGoForward(),
           click: () => {
             view.webContents.goForward();
           },
