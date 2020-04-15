@@ -8,15 +8,11 @@ const {
 const appJson = require('../app.json');
 
 const aboutWindow = require('../windows/about');
-const codeInjectionWindow = require('../windows/code-injection');
-const customUserAgentWindow = require('../windows/custom-user-agent');
-const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const goToUrlWindow = require('../windows/go-to-url');
 const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
-const proxyWindow = require('../windows/proxy');
 
 const getViewBounds = require('./get-view-bounds');
 
@@ -171,126 +167,7 @@ function createMenu() {
         { type: 'separator' },
         {
           label: 'Toggle Developer Tools',
-          submenu: [
-            {
-              label: 'Main Window',
-              click: () => {
-                const win = mainWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Preferences Window',
-              click: () => {
-                const win = preferencesWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Code Injection Window',
-              click: () => {
-                const win = codeInjectionWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Custom User Agent Window',
-              click: () => {
-                const win = customUserAgentWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Edit Workspace Window',
-              click: () => {
-                const win = editWorkspaceWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Notifications Window',
-              click: () => {
-                const win = notificationsWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Display Media Window',
-              click: () => {
-                const win = displayMediaWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Go To URL Window',
-              click: () => {
-                const win = goToUrlWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            {
-              label: 'Proxy Window',
-              click: () => {
-                const win = proxyWindow.get();
-                if (win != null) {
-                  if (win.webContents.isDevToolsOpened()) {
-                    win.webContents.closeDevTools();
-                  } else {
-                    win.webContents.openDevTools({ mode: 'detach' });
-                  }
-                }
-              },
-            },
-            { type: 'separator' },
-          ],
+          submenu: [],
         },
       ],
     },
