@@ -525,7 +525,7 @@ const Preferences = ({
                     <Slider
                       classes={{ markLabel: classes.sliderMarkLabel }}
                       value={darkReaderBrightness - 100}
-                      disabled={themeSource === 'light'}
+                      disabled={themeSource === 'light' || !darkReader}
                       aria-labelledby="brightness-slider"
                       valueLabelDisplay="auto"
                       step={5}
@@ -557,7 +557,7 @@ const Preferences = ({
                     <Slider
                       classes={{ markLabel: classes.sliderMarkLabel }}
                       value={darkReaderContrast - 100}
-                      disabled={themeSource === 'light'}
+                      disabled={themeSource === 'light' || !darkReader}
                       aria-labelledby="contrast-slider"
                       valueLabelDisplay="auto"
                       step={5}
@@ -589,7 +589,7 @@ const Preferences = ({
                     <Slider
                       classes={{ markLabel: classes.sliderMarkLabel }}
                       value={darkReaderSepia}
-                      disabled={themeSource === 'light'}
+                      disabled={themeSource === 'light' || !darkReader}
                       aria-labelledby="sepia-slider"
                       valueLabelDisplay="auto"
                       step={5}
@@ -617,7 +617,7 @@ const Preferences = ({
                     <Slider
                       classes={{ markLabel: classes.sliderMarkLabel }}
                       value={darkReaderGrayscale}
-                      disabled={themeSource === 'light'}
+                      disabled={themeSource === 'light' || !darkReader}
                       aria-labelledby="grayscale-slider"
                       valueLabelDisplay="auto"
                       step={5}
