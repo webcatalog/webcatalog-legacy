@@ -410,6 +410,12 @@ const loadListeners = () => {
   ipcMain.on('request-reload-views-dark-reader', () => {
     reloadViewsDarkReader();
   });
+
+  // if global.forceNewWindow = true
+  // the next external link request will be opened in new window
+  ipcMain.on('request-set-global-force-new-window', (e, val) => {
+    global.forceNewWindow = val;
+  });
 };
 
 module.exports = loadListeners;

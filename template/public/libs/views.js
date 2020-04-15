@@ -280,6 +280,28 @@ const addView = (browserWindow, workspace) => {
     const currentDomain = extractDomain(currentUrl);
     const nextDomain = extractDomain(nextUrl);
 
+    const openInNewWindow = () => {
+      // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
+      e.preventDefault();
+      const newOptions = {
+        ...options,
+        parent: browserWindow,
+      };
+      const popupWin = new BrowserWindow(newOptions);
+      popupWin.webContents.on('new-window', handleNewWindow);
+      e.newGuest = popupWin;
+    };
+
+    // Conditions are listed by order of priority
+
+    // if global.forceNewWindow = true
+    // the next external link request will be opened in new window
+    if (global.forceNewWindow) {
+      global.forceNewWindow = false;
+      openInNewWindow();
+      return;
+    }
+
     // load in same window
     if (
       // Google: Switch account
@@ -294,17 +316,9 @@ const addView = (browserWindow, workspace) => {
       return;
     }
 
-    // open new window
+    // open new window if the link is internal
     if (isInternalUrl(nextUrl, [appUrl, currentUrl])) {
-      // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
-      e.preventDefault();
-      const newOptions = {
-        ...options,
-        parent: browserWindow,
-      };
-      const popupWin = new BrowserWindow(newOptions);
-      popupWin.webContents.on('new-window', handleNewWindow);
-      e.newGuest = popupWin;
+      openInNewWindow();
       return;
     }
 
