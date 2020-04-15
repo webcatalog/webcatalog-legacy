@@ -280,12 +280,7 @@ const addView = (browserWindow, workspace) => {
     const currentDomain = extractDomain(currentUrl);
     const nextDomain = extractDomain(nextUrl);
 
-    // Conditions are listed by order of priority
-
-    // if global.forceNewWindow = true
-    // the next external link request will be opened in new window
-    if (global.forceNewWindow) {
-      global.forceNewWindow = false;
+    const openInNewWindow = () => {
       // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
       e.preventDefault();
       const newOptions = {
@@ -295,6 +290,15 @@ const addView = (browserWindow, workspace) => {
       const popupWin = new BrowserWindow(newOptions);
       popupWin.webContents.on('new-window', handleNewWindow);
       e.newGuest = popupWin;
+    };
+
+    // Conditions are listed by order of priority
+
+    // if global.forceNewWindow = true
+    // the next external link request will be opened in new window
+    if (global.forceNewWindow) {
+      global.forceNewWindow = false;
+      openInNewWindow();
       return;
     }
 
@@ -314,15 +318,7 @@ const addView = (browserWindow, workspace) => {
 
     // open new window if the link is internal
     if (isInternalUrl(nextUrl, [appUrl, currentUrl])) {
-      // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
-      e.preventDefault();
-      const newOptions = {
-        ...options,
-        parent: browserWindow,
-      };
-      const popupWin = new BrowserWindow(newOptions);
-      popupWin.webContents.on('new-window', handleNewWindow);
-      e.newGuest = popupWin;
+      openInNewWindow();
       return;
     }
 
