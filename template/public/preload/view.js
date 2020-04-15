@@ -106,22 +106,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         menu.append(new MenuItem({ type: 'separator' }));
+
+        const view = remote.getCurrentWindow().getBrowserView();
         menu.append(new MenuItem({
           label: 'Back',
+          enabled: view.webContents.canGoBack(),
           click: () => {
-            remote.getCurrentWindow().send('go-back');
+            view.webContents.goBack();
           },
         }));
         menu.append(new MenuItem({
+          enabled: view.webContents.canGoForward(),
           label: 'Forward',
           click: () => {
-            remote.getCurrentWindow().send('go-forward');
+            view.webContents.goForward();
           },
         }));
         menu.append(new MenuItem({
           label: 'Reload',
           click: () => {
-            remote.getCurrentWindow().send('reload');
+            view.webContents.reload();
           },
         }));
 
