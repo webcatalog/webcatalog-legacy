@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
@@ -221,7 +220,11 @@ const Main = ({
                 </Typography>
               </div>
             )}
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+              <Typography align="center" variant="body2">
+                Loading...
+              </Typography>
+            )}
           </div>
         </div>
       </div>
