@@ -8,7 +8,8 @@ const { getPreferences } = require('../../preferences');
 global.forceExtract = true;
 
 const prepareTemplateAsync = () => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js');
+  const scriptPath = path.join(__dirname, 'forked-script.js')
+    .replace('app.asar', 'app.asar.unpacked');
 
   const {
     proxyPacScript,
