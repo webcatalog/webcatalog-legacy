@@ -44,12 +44,7 @@ const opts = {
   config: {
     appId: 'com.webcatalog.jordan',
     productName: 'WebCatalog',
-    asar: true,
-    asarUnpack: [
-      '**/forked-script*.js',
-      '**/customized-fetch.js',
-      '**/download-async.js',
-    ],
+    asar: false,
     files: [
       'default-icon.png',
       '!tests/**/*',

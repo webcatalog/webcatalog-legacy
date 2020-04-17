@@ -84,8 +84,7 @@ const installAppAsync = (
       return;
     }
 
-    const scriptPath = path.join(__dirname, getScriptFileName(engine))
-      .replace('app.asar', 'app.asar.unpacked');
+    const scriptPath = path.join(__dirname, getScriptFileName(engine));
 
     const params = [
       '--engine',
