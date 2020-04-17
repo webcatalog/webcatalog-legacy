@@ -565,7 +565,7 @@ const reloadViewsWebContentsIfDidFailLoad = () => {
 
     const view = views[id];
     if (view != null) {
-      view.webContents.send('reload-dark-reader');
+      view.webContents.reload();
     }
   });
 };
