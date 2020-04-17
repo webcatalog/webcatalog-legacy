@@ -44,7 +44,7 @@ const opts = {
   config: {
     appId: 'com.webcatalog.jordan',
     productName: 'WebCatalog',
-    asar: false,
+    asar: true,
     files: [
       'default-icon.png',
       '!tests/**/*',
