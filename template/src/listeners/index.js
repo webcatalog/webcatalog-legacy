@@ -6,6 +6,7 @@ import {
   updateCanGoBack,
   updateCanGoForward,
   updateDidFailLoad,
+  updateIsFullScreen,
   updateIsLoading,
   updateShouldUseDarkColors,
   updateTitle,
@@ -103,6 +104,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
     store.dispatch(updatePauseNotificationsInfo(val));
+  });
+
+  ipcRenderer.on('is-fullscreen-updated', (e, val) => {
+    store.dispatch(updateIsFullScreen(val));
   });
 };
 

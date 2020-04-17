@@ -176,6 +176,9 @@ const createAsync = () => {
     }
   });
 
+  win.on('enter-full-screen', () => win.webContents.send('is-fullscreen-updated', true));
+  win.on('leave-full-screen', () => win.webContents.send('is-fullscreen-updated', false));
+
   win.loadURL(REACT_PATH);
 
   return Promise.resolve();
