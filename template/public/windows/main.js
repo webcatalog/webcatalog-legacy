@@ -21,7 +21,7 @@ const get = () => {
   return win;
 };
 
-const createAsync = () => {
+const createAsync = () => new Promise((resolve) => {
   attachToMenubar = getPreference('attachToMenubar');
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
@@ -49,63 +49,56 @@ const createAsync = () => {
       },
     });
 
-    return new Promise((resolve, reject) => {
-      try {
-        mb.on('after-create-window', () => {
-          menubarWindowState.manage(mb.window);
+    mb.on('after-create-window', () => {
+      menubarWindowState.manage(mb.window);
 
-          mb.window.on('focus', () => {
-            const view = mb.window.getBrowserView();
-            if (view && view.webContents) {
-              view.webContents.focus();
-            }
-          });
-        });
+      mb.window.on('focus', () => {
+        const view = mb.window.getBrowserView();
+        if (view && view.webContents) {
+          view.webContents.focus();
+        }
+      });
+    });
 
-        mb.on('ready', () => {
-          mb.tray.on('right-click', () => {
-            const contextMenu = Menu.buildFromTemplate([
-              {
-                label: `Open ${appJson.name}`,
-                click: () => mb.showWindow(),
-              },
-              {
-                type: 'separator',
-              },
-              {
-                label: `About ${appJson.name}`,
-                click: () => ipcMain.emit('request-show-about-window'),
-              },
-              { type: 'separator' },
-              {
-                label: 'Check for Updates...',
-                click: () => ipcMain.emit('request-check-for-updates'),
-              },
-              { type: 'separator' },
-              {
-                label: 'Preferences...',
-                click: () => ipcMain.emit('request-show-preferences-window'),
-              },
-              { type: 'separator' },
-              {
-                label: 'Quit',
-                click: () => {
-                  mb.app.quit();
-                },
-              },
-            ]);
+    mb.on('ready', () => {
+      mb.tray.on('right-click', () => {
+        const contextMenu = Menu.buildFromTemplate([
+          {
+            label: `Open ${appJson.name}`,
+            click: () => mb.showWindow(),
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: `About ${appJson.name}`,
+            click: () => ipcMain.emit('request-show-about-window'),
+          },
+          { type: 'separator' },
+          {
+            label: 'Check for Updates...',
+            click: () => ipcMain.emit('request-check-for-updates'),
+          },
+          { type: 'separator' },
+          {
+            label: 'Preferences...',
+            click: () => ipcMain.emit('request-show-preferences-window'),
+          },
+          { type: 'separator' },
+          {
+            label: 'Quit',
+            click: () => {
+              mb.app.quit();
+            },
+          },
+        ]);
 
-            mb.tray.popUpContextMenu(contextMenu);
-          });
+        mb.tray.popUpContextMenu(contextMenu);
+      });
 
-          resolve();
-        });
-      } catch (e) {
-        reject(e);
-      }
+      resolve();
     });
   }
-
 
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
 
@@ -179,10 +172,14 @@ const createAsync = () => {
   win.on('enter-full-screen', () => win.webContents.send('is-fullscreen-updated', true));
   win.on('leave-full-screen', () => win.webContents.send('is-fullscreen-updated', false));
 
-  win.loadURL(REACT_PATH);
+  // ensure redux is loaded first
+  // if not, redux might not be able catch changes sent from ipcMain
+  win.webContents.once('did-stop-loading', () => {
+    resolve();
+  });
 
-  return Promise.resolve();
-};
+  win.loadURL(REACT_PATH);
+});
 
 const show = () => {
   if (attachToMenubar) {
