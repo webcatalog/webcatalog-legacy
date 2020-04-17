@@ -191,16 +191,17 @@ const addView = (browserWindow, workspace) => {
 
   view.webContents.on('did-start-loading', () => {
     if (getWorkspace(workspace.id).active) {
-      // show browserView again when reloading after error
-      // see did-fail-load event
       if (didFailLoad[workspace.id]) {
+        didFailLoad[workspace.id] = false;
+        // show browserView again when reloading after error
+        // see did-fail-load event
         const contentSize = browserWindow.getContentSize();
         view.setBounds(getViewBounds(contentSize));
       }
-
-      didFailLoad[workspace.id] = false;
       sendToAllWindows('update-did-fail-load', false);
       sendToAllWindows('update-is-loading', true);
+    } else {
+      didFailLoad[workspace.id] = false;
     }
   });
 
@@ -229,10 +230,9 @@ const addView = (browserWindow, workspace) => {
   // https://electronjs.org/docs/api/web-contents#event-did-fail-load
   view.webContents.on('did-fail-load', (e, errorCode, errorDesc, validateUrl, isMainFrame) => {
     if (isMainFrame && errorCode < 0 && errorCode !== -3) {
+      didFailLoad[workspace.id] = true;
       if (getWorkspace(workspace.id).active) {
         sendToAllWindows('update-loading', false);
-
-        didFailLoad[workspace.id] = true;
         const contentSize = browserWindow.getContentSize();
         view.setBounds(
           getViewBounds(contentSize, false, 0, 0),

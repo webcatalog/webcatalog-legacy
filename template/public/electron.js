@@ -44,11 +44,15 @@ if (!gotTheLock) {
   app.quit();
 } else {
   // mock app.whenReady
-  const trulyReady = false;
+  let trulyReady = false;
+  ipcMain.once('truly-ready', () => { trulyReady = true; });
   const whenTrulyReady = () => {
     if (trulyReady) return Promise.resolve();
     return new Promise((resolve) => {
-      ipcMain.once('truly-ready', () => resolve());
+      ipcMain.once('truly-ready', () => {
+        trulyReady = true;
+        resolve();
+      });
     });
   };
 
