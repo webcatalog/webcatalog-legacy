@@ -14,7 +14,7 @@
     "lint": "eslint ./public ./src ./dist.js --ext js && yarn template:lint",
     "lint:fix": "eslint ./public ./src ./dist.js --ext js --fix && yarn template:lint:fix",
     "start": "react-scripts start",
-    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\"",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\" -k",
     "template:lint": "cd template && yarn lint",
     "template:lint:fix": "cd template && yarn lint:fix",
     "template:install": "cd template && yarn",
