@@ -116,18 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         menu.append(new MenuItem({ type: 'separator' }));
 
-        menu.append(new MenuItem({
-          label: 'Preferences...',
-          click: () => ipcRenderer.send('request-show-preferences-window'),
-        }));
-
-        menu.append(new MenuItem({ type: 'separator' }));
-
-        menu.append(new MenuItem({
-          label: 'Quit',
-          click: () => ipcRenderer.send('request-quit'),
-        }));
-
         const contents = remote.getCurrentWebContents();
         menu.append(new MenuItem({
           label: 'Back',
@@ -148,6 +136,23 @@ document.addEventListener('DOMContentLoaded', () => {
           click: () => {
             contents.reload();
           },
+        }));
+
+        menu.append(new MenuItem({ type: 'separator' }));
+
+        menu.append(new MenuItem({
+          label: 'Preferences...',
+          click: () => ipcRenderer.send('request-show-preferences-window'),
+        }));
+
+        menu.append(new MenuItem({
+          label: 'Check for Updates...',
+          click: () => ipcRenderer.send('request-check-for-updates'),
+        }));
+
+        menu.append(new MenuItem({
+          label: 'Quit',
+          click: () => ipcRenderer.send('request-quit'),
         }));
 
         menu.popup(remote.getCurrentWindow());
