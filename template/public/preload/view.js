@@ -150,11 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
           click: () => ipcRenderer.send('request-check-for-updates'),
         }));
 
-        menu.append(new MenuItem({
-          label: 'Quit',
-          click: () => ipcRenderer.send('request-quit'),
-        }));
-
         menu.append(
           new MenuItem({
             label: 'More...',
@@ -174,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
           }),
         );
+
+        menu.append(new MenuItem({
+          label: 'Quit',
+          click: () => ipcRenderer.send('request-quit'),
+        }));
 
         menu.popup(remote.getCurrentWindow());
       });
