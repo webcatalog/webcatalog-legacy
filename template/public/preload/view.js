@@ -11,7 +11,7 @@ const {
 
 const ContextMenuBuilder = require('../libs/context-menu-builder');
 
-const { MenuItem } = remote;
+const { MenuItem, shell } = remote;
 
 window.global = {};
 window.ipcRenderer = ipcRenderer;
@@ -154,6 +154,26 @@ document.addEventListener('DOMContentLoaded', () => {
           label: 'Quit',
           click: () => ipcRenderer.send('request-quit'),
         }));
+
+        menu.append(
+          new MenuItem({
+            label: 'More...',
+            submenu: [
+              {
+                label: 'About',
+                click: () => ipcRenderer.send('request-show-about-window'),
+              },
+              {
+                label: 'WebCatalog Support',
+                click: () => shell.openExternal('https://webcatalogapp.com/support'),
+              },
+              {
+                label: 'WebCatalog Website',
+                click: () => shell.openExternal('https://webcatalogapp.com'),
+              },
+            ],
+          }),
+        );
 
         menu.popup(remote.getCurrentWindow());
       });
