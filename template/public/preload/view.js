@@ -140,24 +140,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         menu.append(new MenuItem({ type: 'separator' }));
 
-        menu.append(new MenuItem({
-          label: 'Preferences...',
-          click: () => ipcRenderer.send('request-show-preferences-window'),
-        }));
-
-        menu.append(new MenuItem({
-          label: 'Check for Updates...',
-          click: () => ipcRenderer.send('request-check-for-updates'),
-        }));
-
         menu.append(
           new MenuItem({
-            label: 'More...',
+            label: 'More',
             submenu: [
               {
                 label: 'About',
                 click: () => ipcRenderer.send('request-show-about-window'),
               },
+              { type: 'separator' },
+              {
+                label: 'Check for Updates',
+                click: () => ipcRenderer.send('request-check-for-updates'),
+              },
+              {
+                label: 'Preferences...',
+                click: () => ipcRenderer.send('request-show-preferences-window'),
+              },
+              { type: 'separator' },
               {
                 label: 'WebCatalog Support',
                 click: () => shell.openExternal('https://webcatalogapp.com/support'),
@@ -166,14 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 label: 'WebCatalog Website',
                 click: () => shell.openExternal('https://webcatalogapp.com'),
               },
+              { type: 'separator' },
+              {
+                label: 'Quit',
+                click: () => ipcRenderer.send('request-quit'),
+              },
             ],
           }),
         );
-
-        menu.append(new MenuItem({
-          label: 'Quit',
-          click: () => ipcRenderer.send('request-quit'),
-        }));
 
         menu.popup(remote.getCurrentWindow());
       });
