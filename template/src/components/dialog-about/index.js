@@ -55,6 +55,7 @@ const About = (props) => {
   const { remote } = window.require('electron');
   const appVersion = remote.app.getVersion();
   const appJson = remote.getGlobal('appJson');
+  const versions = window.getVersions();
 
   return (
     <div>
@@ -66,6 +67,16 @@ const About = (props) => {
           className={classes.version}
         >
           {`Version v${appVersion}. Powered by WebCatalog.`}
+        </Typography>
+        <Typography variant="body2" className={classes.version}>
+          {versions.map(({ name, version }) => (
+            <div>
+              {name}
+              :
+              {' '}
+              {version}
+            </div>
+          ))}
         </Typography>
 
         <Button
