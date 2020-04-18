@@ -50,9 +50,9 @@ export const save = () => (dispatch, getState) => {
       cancelId: 0,
       defaultId: 0,
     }).catch(console.log); // eslint-disable-line
-    dispatch(close());
   } else {
     requestSetPreference('requireAdmin', requireAdmin);
     requestSetPreference('installationPath', installationPath);
   }
+  dispatch(close());
 };
