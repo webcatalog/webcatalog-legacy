@@ -29,7 +29,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(2),
   },
   versionSmall: {
-    fontSize: 13,
+    fontSize: '0.8rem',
   },
   goToTheWebsiteButton: {
     marginRight: theme.spacing(1),
@@ -55,7 +55,12 @@ const About = (props) => {
   const { remote } = window.require('electron');
   const appVersion = remote.app.getVersion();
   const appJson = remote.getGlobal('appJson');
-  const versions = window.getVersions();
+
+  const versions = [
+    { name: 'Electron Version', version: window.process.versions.electron },
+    { name: 'Node Version', version: window.process.versions.node },
+    { name: 'Chrome Version', version: window.process.versions.chrome },
+  ];
 
   return (
     <div>
@@ -68,16 +73,16 @@ const About = (props) => {
         >
           {`Version v${appVersion}. Powered by WebCatalog.`}
         </Typography>
-        <Typography variant="body2" className={classes.version}>
+        <div className={classes.versionSmallContainer}>
           {versions.map(({ name, version }) => (
-            <div>
+            <Typography key={name} variant="body2" className={classes.versionSmall}>
               {name}
               :
               {' '}
               {version}
-            </div>
+            </Typography>
           ))}
-        </Typography>
+        </div>
 
         <Button
           onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}
