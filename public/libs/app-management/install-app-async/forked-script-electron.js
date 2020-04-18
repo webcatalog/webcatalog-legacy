@@ -7,6 +7,7 @@ const Jimp = require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
+const { exec } = require('child_process');
 
 const downloadAsync = require('../../download-async');
 
@@ -19,13 +20,17 @@ const {
   homePath,
   desktopPath,
   installationPath,
-  requireAdmin,
   username,
   createDesktopShortcut,
   createStartMenuShortcut,
   tmpPath,
   registered,
 } = argv;
+
+// ignore requireAdmin if installationPath is not custom
+const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
+|| installationPath === '/Applications/WebCatalog Apps';
+const requireAdmin = isStandardInstallationPath ? false : argv.requireAdmin;
 
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
@@ -60,6 +65,22 @@ const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
+
+const execAsync = (cmd) => new Promise((resolve, reject) => {
+  exec(cmd, (e, stdout, stderr) => {
+    if (e instanceof Error) {
+      reject(e);
+      return;
+    }
+
+    if (stderr) {
+      reject(new Error(stderr));
+      return;
+    }
+
+    resolve(stdout);
+  });
+});
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
@@ -233,9 +254,20 @@ Promise.resolve()
       .catch((err) => fsExtra.remove(appPath)
         .then(() => Promise.reject(err)));
   })
-  .then(() => {
+  .then(async () => {
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
+    }
+    // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
+    // need to correct to user to install apps without sudo
+    if (installationPath === '/Applications/WebCatalog Apps') {
+      // https://unix.stackexchange.com/a/7732
+      const installationPathOwner = await execAsync("ls -ld '/Applications/WebCatalog Apps' | awk '{print $3}'");
+      if (installationPathOwner.trim() === 'root') {
+        // https://askubuntu.com/questions/6723/change-folder-permissions-and-ownership
+        // https://stackoverflow.com/questions/23714097/sudo-chown-command-not-found
+        await sudoAsync(`/usr/sbin/chown -R ${username} '/Applications/WebCatalog Apps'`);
+      }
     }
     return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
   })

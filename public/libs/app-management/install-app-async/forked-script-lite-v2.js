@@ -6,6 +6,7 @@ const tmp = require('tmp');
 const fsExtra = require('fs-extra');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
+const { exec } = require('child_process');
 
 const downloadAsync = require('../../download-async');
 
@@ -17,10 +18,14 @@ const {
   icon,
   homePath,
   installationPath,
-  requireAdmin,
   username,
   registered,
 } = argv;
+
+// ignore requireAdmin if installationPath is not custom
+const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
+|| installationPath === '/Applications/WebCatalog Apps';
+const requireAdmin = isStandardInstallationPath ? false : argv.requireAdmin;
 
 const engineConstants = {
   brave: {
@@ -108,6 +113,22 @@ const obj2Strings = (obj) => {
   return data;
 };
 /* eslint-enable prefer-template */
+
+const execAsync = (cmd) => new Promise((resolve, reject) => {
+  exec(cmd, (e, stdout, stderr) => {
+    if (e instanceof Error) {
+      reject(e);
+      return;
+    }
+
+    if (stderr) {
+      reject(new Error(stderr));
+      return;
+    }
+
+    resolve(stdout);
+  });
+});
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
@@ -360,9 +381,20 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })
-  .then(() => {
+  .then(async () => {
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${appFolderPath}" "${finalPath}"`);
+    }
+    // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
+    // need to correct to user to install apps without sudo
+    if (installationPath === '/Applications/WebCatalog Apps') {
+      // https://unix.stackexchange.com/a/7732
+      const installationPathOwner = await execAsync("ls -ld '/Applications/WebCatalog Apps' | awk '{print $3}'");
+      if (installationPathOwner.trim() === 'root') {
+        // https://askubuntu.com/questions/6723/change-folder-permissions-and-ownership
+        // https://stackoverflow.com/questions/23714097/sudo-chown-command-not-found
+        await sudoAsync(`/usr/sbin/chown -R ${username} '/Applications/WebCatalog Apps'`);
+      }
     }
     return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
   })

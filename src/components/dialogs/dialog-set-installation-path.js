@@ -92,7 +92,8 @@ const DialogSetInstallationPath = (props) => {
           <FormControlLabel
             control={(
               <Checkbox
-                checked={requireAdmin}
+                disabled={installationPath === '~/Applications/WebCatalog Apps' || installationPath === '/Applications/WebCatalog Apps'}
+                checked={installationPath === '~/Applications/WebCatalog Apps' || installationPath === '/Applications/WebCatalog Apps' ? false : requireAdmin}
                 onChange={(e) => onUpdateForm({ requireAdmin: e.target.checked })}
               />
             )}

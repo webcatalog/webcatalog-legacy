@@ -588,10 +588,10 @@ const Preferences = ({
                         dense
                         key="default-sudo-installation-path-menu-item"
                         onClick={() => {
-                          handleUpdateInstallationPath('/Applications/WebCatalog Apps', true);
+                          handleUpdateInstallationPath('/Applications/WebCatalog Apps', false);
                         }}
                       >
-                        /Applications/WebCatalog Apps (requires sudo)
+                        /Applications/WebCatalog Apps
                       </MenuItem>,
                     ]
                   )}
