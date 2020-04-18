@@ -50,8 +50,8 @@ const SubmitAppCard = ({ classes }) => (
     <Paper
       className={classes.card}
       elevation={0}
-      onClick={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
-      onKeyDown={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/issues/new?template=app.md&title=app%3A+')}
+      onClick={() => requestOpenInBrowser('https://github.com/atomery/catalog/issues')}
+      onKeyDown={() => requestOpenInBrowser('https://github.com/atomery/catalog/issues')}
       role="link"
       tabIndex="0"
     >
