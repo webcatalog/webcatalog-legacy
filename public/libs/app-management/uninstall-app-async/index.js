@@ -32,7 +32,7 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
     installationPath,
     '--requireAdmin',
     requireAdmin.toString(),
-    'username',
+    '--username',
     process.env.USER, // required by sudo-prompt
   ], {
     env: {
