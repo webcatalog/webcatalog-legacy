@@ -203,7 +203,7 @@ const DialogProxy = (props) => {
                       onClick={() => requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')}
                       onKeyDown={(e) => {
                         if (e.key !== 'Enter') return;
-                        requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig')
+                        requestOpenInBrowser('https://www.electronjs.org/docs/api/session#sessetproxyconfig');
                       }}
                     >
                       Learn more
