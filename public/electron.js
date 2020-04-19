@@ -80,6 +80,7 @@ if (!gotTheLock) {
   });
 
   app.on('activate', () => {
-    mainWindow.show();
+    app.whenReady()
+      .then(() => mainWindow.show());
   });
 }
