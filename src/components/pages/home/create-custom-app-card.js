@@ -51,7 +51,10 @@ const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
       className={classes.card}
       elevation={0}
       onClick={onOpenDialogCreateCustomApp}
-      onKeyDown={onOpenDialogCreateCustomApp}
+      onKeyDown={(e) => {
+        if (e.key !== 'Enter') return;
+        onOpenDialogCreateCustomApp();
+      }}
       role="button"
       tabIndex="0"
     >

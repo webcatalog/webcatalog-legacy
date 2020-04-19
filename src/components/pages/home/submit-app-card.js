@@ -51,7 +51,10 @@ const SubmitAppCard = ({ classes }) => (
       className={classes.card}
       elevation={0}
       onClick={() => requestOpenInBrowser('https://github.com/atomery/catalog/issues')}
-      onKeyDown={() => requestOpenInBrowser('https://github.com/atomery/catalog/issues')}
+      onKeyDown={(e) => {
+        if (e.key !== 'Enter') return;
+        requestOpenInBrowser('https://github.com/atomery/catalog/issues');
+      }}
       role="link"
       tabIndex="0"
     >

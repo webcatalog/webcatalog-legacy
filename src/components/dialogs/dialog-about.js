@@ -100,7 +100,10 @@ const About = (props) => {
           <span> by </span>
           <span
             onClick={() => requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')}
-            onKeyDown={() => requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter') return;
+              requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')
+            }}
             role="link"
             tabIndex="0"
             className={classes.link}
