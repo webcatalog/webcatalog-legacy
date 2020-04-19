@@ -27,6 +27,12 @@ const createMenu = () => {
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
         { role: 'selectall' },
+        { type: 'separator' },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => sendToAllWindows('focus-search'),
+        },
       ],
     },
     {
