@@ -148,7 +148,10 @@ class Home extends React.Component {
           {!isGetting && (
             <Grid container justify="center" spacing={1}>
               <div
-                onKeyDown={() => requestOpenInBrowser('https://algolia.com')}
+                onKeyDown={(e) => {
+                  if (e.key !== 'Enter') return;
+                  requestOpenInBrowser('https://algolia.com');
+                }}
                 onClick={() => requestOpenInBrowser('https://algolia.com')}
                 role="link"
                 tabIndex="0"
