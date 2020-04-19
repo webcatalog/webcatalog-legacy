@@ -1,4 +1,5 @@
 const {
+  app,
   BrowserWindow,
   Menu,
   ipcMain,
@@ -22,7 +23,7 @@ const get = () => {
   return win;
 };
 
-const createAsync = () => {
+const createAsync = () => new Promise((resolve) => {
   attachToMenubar = getPreference('attachToMenubar');
 
   if (attachToMenubar) {
@@ -52,95 +53,89 @@ const createAsync = () => {
       },
     });
 
-    return new Promise((resolve, reject) => {
-      try {
-        mb.on('after-create-window', () => {
-          menubarWindowState.manage(mb.window);
+    mb.on('after-create-window', () => {
+      menubarWindowState.manage(mb.window);
 
-          mb.window.on('focus', () => {
-            const view = mb.window.getBrowserView();
-            if (view && view.webContents) {
-              view.webContents.focus();
-            }
-          });
-        });
+      mb.window.on('focus', () => {
+        const view = mb.window.getBrowserView();
+        if (view && view.webContents) {
+          view.webContents.focus();
+        }
+      });
+    });
 
-        mb.on('ready', () => {
-          mb.tray.on('right-click', () => {
-            const registered = getPreference('registered');
-            const updaterEnabled = process.env.SNAP == null
-              && !process.mas && !process.windowsStore;
-            const updaterMenuItem = {
-              label: 'Check for Updates...',
-              click: () => ipcMain.emit('request-check-for-updates'),
-              visible: updaterEnabled,
-            };
-            if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
-              updaterMenuItem.label = 'Restart to Apply Updates...';
-            } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
-              updaterMenuItem.label = 'Downloading Updates...';
-              updaterMenuItem.enabled = false;
-            } else if (global.updaterObj && global.updaterObj.status === 'download-progress') {
-              const { transferred, total, bytesPerSecond } = global.updaterObj.info;
-              updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
-              updaterMenuItem.enabled = false;
-            } else if (global.updaterObj && global.updaterObj.status === 'checking-for-update') {
-              updaterMenuItem.label = 'Checking for Updates...';
-              updaterMenuItem.enabled = false;
-            }
+    mb.on('ready', () => {
+      mb.tray.on('right-click', () => {
+        const registered = getPreference('registered');
+        const updaterEnabled = process.env.SNAP == null
+          && !process.mas && !process.windowsStore;
+        const updaterMenuItem = {
+          label: 'Check for Updates...',
+          click: () => ipcMain.emit('request-check-for-updates'),
+          visible: updaterEnabled,
+        };
+        if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
+          updaterMenuItem.label = 'Restart to Apply Updates...';
+        } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
+          updaterMenuItem.label = 'Downloading Updates...';
+          updaterMenuItem.enabled = false;
+        } else if (global.updaterObj && global.updaterObj.status === 'download-progress') {
+          const { transferred, total, bytesPerSecond } = global.updaterObj.info;
+          updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
+          updaterMenuItem.enabled = false;
+        } else if (global.updaterObj && global.updaterObj.status === 'checking-for-update') {
+          updaterMenuItem.label = 'Checking for Updates...';
+          updaterMenuItem.enabled = false;
+        }
 
-            const contextMenu = Menu.buildFromTemplate([
-              {
-                label: 'Open WebCatalog',
-                click: () => mb.showWindow(),
-              },
-              {
-                type: 'separator',
-              },
-              {
-                label: 'About WebCatalog',
-                click: () => {
-                  sendToAllWindows('open-dialog-about');
-                  mb.showWindow();
-                },
-              },
-              {
-                label: registered ? 'Registered' : 'Registration...',
-                enabled: !registered,
-                click: registered ? null : () => {
-                  sendToAllWindows('open-license-registration-dialog');
-                  mb.showWindow();
-                },
-              },
-              {
-                type: 'separator',
-                visible: updaterEnabled,
-              },
-              updaterMenuItem,
-              { type: 'separator' },
-              {
-                label: 'Preferences...',
-                click: () => {
-                  sendToAllWindows('go-to-preferences');
-                  mb.showWindow();
-                },
-              },
-              { type: 'separator' },
-              {
-                label: 'Quit',
-                click: () => {
-                  mb.app.quit();
-                },
-              },
-            ]);
-            mb.tray.popUpContextMenu(contextMenu);
-          });
+        const contextMenu = Menu.buildFromTemplate([
+          {
+            label: 'Open WebCatalog',
+            click: () => mb.showWindow(),
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'About WebCatalog',
+            click: () => {
+              sendToAllWindows('open-dialog-about');
+              mb.showWindow();
+            },
+          },
+          {
+            label: registered ? 'Registered' : 'Registration...',
+            enabled: !registered,
+            click: registered ? null : () => {
+              sendToAllWindows('open-license-registration-dialog');
+              mb.showWindow();
+            },
+          },
+          {
+            type: 'separator',
+            visible: updaterEnabled,
+          },
+          updaterMenuItem,
+          { type: 'separator' },
+          {
+            label: 'Preferences...',
+            click: () => {
+              sendToAllWindows('go-to-preferences');
+              mb.showWindow();
+            },
+          },
+          { type: 'separator' },
+          {
+            label: 'Quit',
+            click: () => {
+              mb.app.quit();
+            },
+          },
+        ]);
+        mb.tray.popUpContextMenu(contextMenu);
+      });
 
-          resolve();
-        });
-      } catch (e) {
-        reject(e);
-      }
+      resolve();
     });
   }
 
@@ -160,6 +155,7 @@ const createAsync = () => {
     titleBarStyle: 'hidden',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
     autoHideMenuBar: getPreference('hideMenuBar'),
+    show: false,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -169,14 +165,25 @@ const createAsync = () => {
 
   mainWindowState.manage(win);
 
-  win.loadURL(REACT_PATH);
+  const { wasOpenedAsHidden } = app.getLoginItemSettings();
+  win.once('ready-to-show', () => {
+    if (!wasOpenedAsHidden) {
+      win.show();
+    }
+  });
 
   win.on('closed', () => {
     win = null;
   });
 
-  return Promise.resolve();
-};
+  // ensure redux is loaded first
+  // if not, redux might not be able catch changes sent from ipcMain
+  win.webContents.once('did-stop-loading', () => {
+    resolve();
+  });
+
+  win.loadURL(REACT_PATH);
+});
 
 const show = () => {
   if (attachToMenubar) {
