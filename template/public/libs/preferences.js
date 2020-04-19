@@ -46,6 +46,7 @@ const defaultPreferences = {
   hibernateUnusedWorkspacesAtLaunch: false,
   hideMenuBar: false,
   jsCodeInjection: null,
+  preloadJSCodeInjection: null,
   lastCheckForUpdates: 0,
   navigationBar: false,
   pauseNotifications: null,

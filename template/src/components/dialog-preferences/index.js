@@ -162,6 +162,7 @@ const Preferences = ({
   isDefaultMailClient,
   isDefaultWebBrowser,
   jsCodeInjection,
+  preloadJSCodeInjection,
   navigationBar,
   onUpdateIsDefaultMailClient,
   onUpdateIsDefaultWebBrowser,
@@ -1038,6 +1039,10 @@ const Preferences = ({
               <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
               <ChevronRightIcon color="action" />
             </ListItem>
+            <ListItem button onClick={() => requestShowCodeInjectionWindow('preloadJS')}>
+              <ListItemText primary="Preload JS Code Injection" secondary={preloadJSCodeInjection ? 'Set' : 'Not set'} />
+              <ChevronRightIcon color="action" />
+            </ListItem>
             <Divider />
             <ListItem button onClick={() => requestShowCodeInjectionWindow('css')}>
               <ListItemText primary="CSS Code Injection" secondary={cssCodeInjection ? 'Set' : 'Not set'} />
@@ -1124,6 +1129,7 @@ Preferences.defaultProps = {
   cssCodeInjection: null,
   customUserAgent: null,
   jsCodeInjection: null,
+  preloadJSCodeInjection: null,
 };
 
 Preferences.propTypes = {
@@ -1146,6 +1152,7 @@ Preferences.propTypes = {
   isDefaultMailClient: PropTypes.bool.isRequired,
   isDefaultWebBrowser: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
+  preloadJSCodeInjection: PropTypes.string,
   navigationBar: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   onUpdateIsDefaultWebBrowser: PropTypes.func.isRequired,
@@ -1184,6 +1191,7 @@ const mapStateToProps = (state) => ({
   isDefaultMailClient: state.general.isDefaultMailClient,
   isDefaultWebBrowser: state.general.isDefaultWebBrowser,
   jsCodeInjection: state.preferences.jsCodeInjection,
+  preloadJSCodeInjection: state.preferences.preloadJSCodeInjection,
   navigationBar: state.preferences.navigationBar,
   openAtLogin: state.systemPreferences.openAtLogin,
   pauseNotificationsBySchedule: state.preferences.pauseNotificationsBySchedule,

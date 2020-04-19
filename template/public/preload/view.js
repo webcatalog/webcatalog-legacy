@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const jsCodeInjection = ipcRenderer.sendSync('get-preference', 'jsCodeInjection');
+  const preloadJSCodeInjection = ipcRenderer.sendSync('get-preference', 'preloadJSCodeInjection');
   const cssCodeInjection = ipcRenderer.sendSync('get-preference', 'cssCodeInjection');
 
   if (jsCodeInjection && jsCodeInjection.trim().length > 0) {
@@ -51,6 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const node = document.createElement('script');
       node.innerHTML = jsCodeInjection;
       document.body.appendChild(node);
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    }
+  }
+
+  if (preloadJSCodeInjection && preloadJSCodeInjection.trim().length > 0) {
+    try {
+      // eslint-disable-next-line no-new-func
+      Function(
+        'require',
+        `"use strict";${preloadJSCodeInjection}`,
+      )(require);
     } catch (err) {
       /* eslint-disable no-console */
       console.log(err);
