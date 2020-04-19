@@ -34,7 +34,7 @@ const EmptyState = (props) => {
 
   return (
     <div className={classes.root}>
-      <Icon className={classes.icon} color="textPrimary" />
+      <Icon className={classes.icon} color="action" />
       <br />
       {title && (
         <Typography
