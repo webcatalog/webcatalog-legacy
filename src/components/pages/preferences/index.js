@@ -545,7 +545,10 @@ const Preferences = ({
                   id="installLocation"
                   buttonElement={(
                     <ListItem button>
-                      <ListItemText primary="Installation path" secondary={`${installationPath} ${requireAdmin ? '(require sudo)' : ''}`} />
+                      <ListItemText
+                        primary="Installation path"
+                        secondary={`${installationPath} ${requireAdmin && installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps' ? '(require sudo)' : ''}`}
+                      />
                       <ChevronRightIcon color="action" />
                     </ListItem>
                   )}
