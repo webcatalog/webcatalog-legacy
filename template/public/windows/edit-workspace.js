@@ -23,7 +23,6 @@ const create = (id) => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
-    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -31,6 +30,7 @@ const create = (id) => {
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });
+  win.removeMenu();
 
   win.loadURL(REACT_PATH);
 

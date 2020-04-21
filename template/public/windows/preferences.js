@@ -23,13 +23,13 @@ const create = (scrollTo) => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
-    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'preferences.js'),
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });
+  win.removeMenu();
 
   win.loadURL(REACT_PATH);
 

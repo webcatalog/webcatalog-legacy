@@ -21,13 +21,13 @@ const create = () => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
-    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'go-to-url.js'),
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });
+  win.removeMenu();
 
   win.loadURL(REACT_PATH);
 

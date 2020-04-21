@@ -28,6 +28,7 @@ const create = () => {
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });
+  win.removeMenu();
 
   win.loadURL(REACT_PATH);
 
