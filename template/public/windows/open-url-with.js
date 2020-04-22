@@ -2,17 +2,12 @@ const { BrowserWindow } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 let win;
 
 const get = () => win;
 
 const create = (url) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   global.incomingUrl = url;
 
   win = new BrowserWindow({
@@ -28,7 +23,6 @@ const create = (url) => {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'open-url-with.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
   win.setMenuBarVisibility(false);
 

@@ -2,17 +2,12 @@ const { BrowserWindow } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 let win;
 
 const get = () => win;
 
 const create = () => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   win = new BrowserWindow({
     backgroundColor: '#FFF',
     width: 400,
@@ -27,7 +22,6 @@ const create = () => {
       webSecurity: false,
       preload: path.join(__dirname, '..', 'preload', 'about.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
   win.setMenuBarVisibility(false);
 
