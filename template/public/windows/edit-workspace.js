@@ -2,17 +2,12 @@ const { BrowserWindow } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 let win;
 
 const get = () => win;
 
 const create = (id) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   global.editWorkspaceId = id;
 
   win = new BrowserWindow({
@@ -29,7 +24,6 @@ const create = (id) => {
       webSecurity: false,
       preload: path.join(__dirname, '..', 'preload', 'edit-workspace.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
   win.setMenuBarVisibility(false);
 

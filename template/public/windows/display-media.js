@@ -2,17 +2,12 @@ const { BrowserWindow, BrowserView, ipcMain } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 let win;
 
 const get = () => win;
 
 const create = (viewId) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   global.displayMediaRequestedViewId = viewId;
 
   win = new BrowserWindow({
@@ -28,7 +23,6 @@ const create = (viewId) => {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'display-media.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
   win.setMenuBarVisibility(false);
 

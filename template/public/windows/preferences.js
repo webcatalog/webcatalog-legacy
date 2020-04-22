@@ -3,16 +3,11 @@ const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
 
-const mainWindow = require('./main');
-const { getPreference } = require('../libs/preferences');
-
 let win;
 
 const get = () => win;
 
 const create = (scrollTo) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   global.preferencesScrollTo = scrollTo;
 
   win = new BrowserWindow({
@@ -28,7 +23,6 @@ const create = (scrollTo) => {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'preferences.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
   win.setMenuBarVisibility(false);
 
