@@ -119,13 +119,15 @@ const createAsync = () => new Promise((resolve) => {
     titleBarStyle: 'hidden',
     show: false,
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'dock-icon.png') : null,
-    autoHideMenuBar: getPreference('hideMenuBar'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       preload: path.join(__dirname, '..', 'preload', 'main.js'),
     },
   });
+  if (getPreference('hideMenuBar')) {
+    win.setMenuBarVisibility(false);
+  }
 
   mainWindowState.manage(win);
 
