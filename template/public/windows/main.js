@@ -148,7 +148,7 @@ const createAsync = () => new Promise((resolve) => {
 
   // Hide window instead closing on macos
   win.on('close', (e) => {
-    if (process.platform === 'darwin' && !win.forceClose) {
+    if (process.platform === 'darwin' && win && !win.forceClose) {
       e.preventDefault();
       win.hide();
     }
