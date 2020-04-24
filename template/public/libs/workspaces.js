@@ -128,6 +128,12 @@ const setWorkspace = (id, opts) => {
   settings.set(`workspaces.${v}.${id}`, workspace);
 };
 
+const setWorkspaces = (newWorkspaces) => {
+  workspaces = newWorkspaces;
+  sendToAllWindows('set-workspaces', getWorkspaces());
+  settings.set(`workspaces.${v}`, workspaces);
+};
+
 const setWorkspacePicture = (id, sourcePicturePath) => {
   const workspace = getWorkspace(id);
   const pictureId = uuidv1();
@@ -197,6 +203,7 @@ module.exports = {
   removeWorkspace,
   setActiveWorkspace,
   setWorkspace,
+  setWorkspaces,
   setWorkspacePicture,
   removeWorkspacePicture,
 };
