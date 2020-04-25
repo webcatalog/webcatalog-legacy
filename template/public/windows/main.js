@@ -98,6 +98,7 @@ const createAsync = () => new Promise((resolve) => {
 
       resolve();
     });
+    return;
   }
 
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
