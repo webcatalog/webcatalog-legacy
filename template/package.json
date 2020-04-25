@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "8.7.0",
+  "version": "8.8.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -36,7 +36,7 @@
     "node-fetch": "2.6.0",
     "proxy-agent": "3.1.1",
     "semver": "7.3.2",
-    "tmp": "0.1.0",
+    "tmp": "0.2.0",
     "uuid": "7.0.3"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "classnames": "2.2.6",
-    "concurrently": "5.1.0",
+    "concurrently": "5.2.0",
     "cross-env": "7.0.2",
     "date-fns": "2.12.0",
     "eslint": "6.8.0",

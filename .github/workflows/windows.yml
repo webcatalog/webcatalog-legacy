@@ -28,6 +28,7 @@ jobs:
     - run: yarn lint
     - name: Get tag name
       run: echo ::set-env name=CI_BUILD_TAG::${GITHUB_REF/refs\/tags\//}
+      shell: bash
       if: startsWith(github.ref, 'refs/tags/')
     - run: yarn dist
       env:
