@@ -59,6 +59,8 @@ function createMenu() {
           click: () => {
             const win = mainWindow.get();
             if (win) {
+              win.webContents.focus();
+
               win.send('open-find-in-page');
 
               const contentSize = win.getContentSize();
