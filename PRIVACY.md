@@ -19,6 +19,7 @@ Our websites use:
 * [Basin](https://usebasin.com/privacy) for form submissions.
 * [Cloudflare](https://www.cloudflare.com/privacypolicy/) for CDN and domain management.
 * [Font Awesome](https://fontawesome.com/privacy) for icon font.
+* [Google Fonts](https://support.google.com/analytics/answer/6004245?hl=en) for web fonts.
 * [Google Tag Manager](https://support.google.com/analytics/answer/6004245?hl=en) and [Google Analytics](https://support.google.com/analytics/answer/6004245?hl=en) for analytics.
 * [Mailchimp](https://mailchimp.com/) for newsletter.
 
