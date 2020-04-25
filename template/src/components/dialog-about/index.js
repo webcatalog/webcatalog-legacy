@@ -59,7 +59,7 @@ const About = (props) => {
   const versions = [
     { name: 'Electron Version', version: window.process.versions.electron },
     { name: 'Node Version', version: window.process.versions.node },
-    { name: 'Chromium Version', version: window.process.versions.chrome },
+    { name: 'Chrome Version', version: window.process.versions.chrome },
   ];
 
   return (
