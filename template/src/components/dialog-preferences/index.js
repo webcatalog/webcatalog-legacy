@@ -179,6 +179,7 @@ const Preferences = ({
   themeSource,
   titleBar,
   unreadCountBadge,
+  useHardwareAcceleration,
 }) => {
   const { remote } = window.require('electron');
   const appJson = remote.getGlobal('appJson');
@@ -485,7 +486,7 @@ const Preferences = ({
             <Divider />
             <ListItem>
               <ListItemText
-                primary="Create dark themes for any websites on the fly"
+                primary="Create dark themes for web apps on the fly"
                 secondary={(
                   <>
                     <span>Powered by </span>
@@ -1010,6 +1011,23 @@ const Preferences = ({
           <List disablePadding dense>
             <ListItem>
               <ListItemText
+                primary="Use hardware acceleration when available"
+              />
+              <ListItemSecondaryAction>
+                <Switch
+                  edge="end"
+                  color="primary"
+                  checked={useHardwareAcceleration}
+                  onChange={(e) => {
+                    requestSetPreference('useHardwareAcceleration', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
                 primary="Hibernate unused workspaces at app launch"
                 secondary="Hibernate all workspaces at launch, except the last active workspace."
               />
@@ -1163,6 +1181,7 @@ Preferences.propTypes = {
   themeSource: PropTypes.string.isRequired,
   titleBar: PropTypes.bool.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
+  useHardwareAcceleration: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -1199,6 +1218,7 @@ const mapStateToProps = (state) => ({
   themeSource: state.preferences.themeSource,
   titleBar: state.preferences.titleBar,
   unreadCountBadge: state.preferences.unreadCountBadge,
+  useHardwareAcceleration: state.preferences.useHardwareAcceleration,
 });
 
 const actionCreators = {

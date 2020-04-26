@@ -6,6 +6,8 @@ const {
   session,
   nativeTheme,
 } = require('electron');
+const fs = require('fs');
+const settings = require('electron-settings');
 
 const loadListeners = require('./listeners');
 
@@ -43,6 +45,18 @@ if (!gotTheLock) {
   // eslint-disable-next-line
   app.quit();
 } else {
+  // make sure "Settings" file exists
+  // if not, ignore this chunk of code
+  // as using electron-settings before app.on('ready') and "Settings" is created
+  // would return error
+  // https://github.com/nathanbuchar/electron-settings/issues/111
+  if (fs.existsSync(settings.file())) {
+    const useHardwareAcceleration = getPreference('useHardwareAcceleration');
+    if (!useHardwareAcceleration) {
+      app.disableHardwareAcceleration();
+    }
+  }
+
   // mock app.whenReady
   let trulyReady = false;
   ipcMain.once('truly-ready', () => { trulyReady = true; });
