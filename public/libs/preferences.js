@@ -37,6 +37,7 @@ const defaultPreferences = {
   registered: false,
   requireAdmin: false,
   themeSource: 'system',
+  useHardwareAcceleration: true,
 };
 
 let cachedPreferences = null;
