@@ -190,6 +190,7 @@ const Preferences = ({
   themeSource,
   updaterInfo,
   updaterStatus,
+  useHardwareAcceleration,
 }) => {
   const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
     if (appCount > 0) {
@@ -625,6 +626,23 @@ const Preferences = ({
               <ListItem button onClick={requestOpenInstallLocation}>
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
               </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Use hardware acceleration when available"
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={useHardwareAcceleration}
+                    onChange={(e) => {
+                      requestSetPreference('useHardwareAcceleration', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
             </List>
           </Paper>
 
@@ -737,6 +755,7 @@ Preferences.propTypes = {
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
+  useHardwareAcceleration: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -757,6 +776,7 @@ const mapStateToProps = (state) => ({
   themeSource: state.preferences.themeSource,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,
+  useHardwareAcceleration: state.preferences.useHardwareAcceleration,
 });
 
 const actionCreators = {

@@ -5333,10 +5333,10 @@ electron-builder@22.5.1:
     update-notifier "^4.1.0"
     yargs "^15.3.1"
 
-electron-context-menu@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-1.0.0.tgz#ddf01999e51506dabd84ae3c7f0dab7dea6ef4fe"
-  integrity sha512-Vg20fMnUv/DQjcTg1F2pFVsufE+t5RhRDLbxMaPG5x7KOcevT7iWnNrenGPgAdPzezVMf/S2blin8jhUxJilcA==
+electron-context-menu@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-2.0.0.tgz#ea4d389b950425fe689e169eae9085187fe1f1b6"
+  integrity sha512-z6OQlUDgcu6wQ34JHEF1Y6QNXkEzOuEXdM4Tew853/4DsaCthKBbAo2BH+4y+49f89WjG9WOUTwGhEO4tY5mUw==
   dependencies:
     cli-truncate "^2.0.0"
     electron-dl "^3.0.0"
@@ -8948,10 +8948,10 @@ memory-fs@^0.5.0:
     errno "^0.1.3"
     readable-stream "^2.0.1"
 
-menubar@8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/menubar/-/menubar-8.0.1.tgz#bbc945df6c8540772f656601b1f292be28cb6025"
-  integrity sha512-TbQMIhc+3g97RU2pd4LeXCA6oZKLDz9fxLu5d+iWugwT5AqZQudWEghMf3A/jL01a/37nuQUeiEnK3rQ2KN57A==
+menubar@8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/menubar/-/menubar-8.0.2.tgz#551b94febc01bf5e97bf83699e7c4907fe55d693"
+  integrity sha512-yGJMHddKCDZHLkLaUNms8AEfMxYucQ0xkYpQqbQaO3P4snjPEfyqBKu8J/jBA0t3Z+KjkLP3isMVtBUhFWEnhw==
   dependencies:
     electron-positioner "^4.1.0"
 
