@@ -15,8 +15,6 @@ const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
 
 const getViewBounds = require('./get-view-bounds');
-const { getPreference } = require('./preferences');
-
 
 const {
   getWorkspaces,
@@ -121,10 +119,10 @@ function createMenu() {
         // same behavior as BrowserWindow with autoHideMenuBar: true
         // but with addition to readjust BrowserView so it won't cover the menu bar
         {
-          label: 'Toggle menu bar',
+          label: 'Toggle Menu Bar',
           visible: false,
           accelerator: 'Alt+M',
-          enabled: process.platform === 'win32' && getPreference('hideMenuBar'),
+          enabled: process.platform === 'win32',
           click: (menuItem, browserWindow) => {
             // if back is called in popup window
             // open menu bar in the popup window instead
