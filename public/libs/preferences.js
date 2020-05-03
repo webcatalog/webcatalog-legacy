@@ -1,4 +1,5 @@
 const path = require('path');
+const semver = require('semver');
 const settings = require('electron-settings');
 const { app, nativeTheme, ipcMain } = require('electron');
 
@@ -21,7 +22,7 @@ const getDefaultInstallationPath = () => {
 };
 
 const defaultPreferences = {
-  allowPrerelease: false,
+  allowPrerelease: Boolean(semver.prerelease(app.getVersion())),
   attachToMenubar: false,
   createDesktopShortcut: true,
   createStartMenuShortcut: true,
