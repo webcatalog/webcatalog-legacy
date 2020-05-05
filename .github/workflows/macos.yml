@@ -54,6 +54,7 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     - name: Check prerelease
+      run: echo ::set-env name=PRERELEASE::$(node -p -e "Boolean(require('semver').prerelease(require('./package.json').version))")
     - name: Update Homebrew Cask
       # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
       # So `brew update` needs to be run manually
