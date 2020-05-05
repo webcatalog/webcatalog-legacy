@@ -9,6 +9,14 @@ on:
     paths-ignore:
       - 'catalog/**'
       - 'docs/**'
+  pull_request:
+    branches:
+      - master
+      - next
+    paths-ignore:
+      - 'catalog/**'
+      - 'docs/**'
+
 
 jobs:
   build:
@@ -45,6 +53,7 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    - name: Check prerelease
     - name: Update Homebrew Cask
       # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
       # So `brew update` needs to be run manually
@@ -60,4 +69,4 @@ jobs:
         # to access quanglam2807/homebrew-cask
         # https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master' && env.PRERELEASE == 'false'
