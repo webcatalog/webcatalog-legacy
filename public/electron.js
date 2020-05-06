@@ -4,11 +4,13 @@ const {
   session,
   nativeTheme,
 } = require('electron');
+const fs = require('fs');
+const settings = require('electron-settings');
 const { autoUpdater } = require('electron-updater');
 
 const createMenu = require('./libs/create-menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
-const { getPreferences } = require('./libs/preferences');
+const { getPreference, getPreferences } = require('./libs/preferences');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
@@ -33,6 +35,18 @@ app.on('second-instance', () => {
 if (!gotTheLock) {
   app.quit();
 } else {
+  // make sure "Settings" file exists
+  // if not, ignore this chunk of code
+  // as using electron-settings before app.on('ready') and "Settings" is created
+  // would return error
+  // https://github.com/nathanbuchar/electron-settings/issues/111
+  if (fs.existsSync(settings.file())) {
+    const useHardwareAcceleration = getPreference('useHardwareAcceleration');
+    if (!useHardwareAcceleration) {
+      app.disableHardwareAcceleration();
+    }
+  }
+
   loadListeners();
 
   app.on('ready', () => {
@@ -80,6 +94,7 @@ if (!gotTheLock) {
   });
 
   app.on('activate', () => {
-    mainWindow.show();
+    app.whenReady()
+      .then(() => mainWindow.show());
   });
 }

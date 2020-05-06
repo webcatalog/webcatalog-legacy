@@ -39,10 +39,6 @@ const createMenu = () => {
       label: 'View',
       submenu: [
         { role: 'togglefullscreen' },
-        { type: 'separator' },
-        {
-          role: 'toggledevtools',
-        },
       ],
     },
     {
@@ -74,6 +70,11 @@ const createMenu = () => {
         {
           label: 'Learn More...',
           click: () => shell.openExternal('https://webcatalogapp.com'),
+        },
+        { type: 'separator' },
+        {
+          role: 'toggledevtools',
+          accelerator: '',
         },
       ],
     },

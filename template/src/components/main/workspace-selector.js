@@ -26,6 +26,9 @@ const styles = (theme) => ({
     borderLeft: '4px solid',
     borderColor: 'transparent',
   },
+  rootHibernate: {
+    opacity: 0.4,
+  },
   rootActive: {
     borderColor: theme.palette.type === 'dark' ? theme.palette.common.white : theme.palette.common.black,
     opacity: 1,
@@ -85,6 +88,7 @@ const WorkspaceSelector = ({
   active,
   badgeCount,
   classes,
+  hibernated,
   id,
   name,
   onClick,
@@ -95,7 +99,11 @@ const WorkspaceSelector = ({
 }) => (
   <div
     role="button"
-    className={classNames(classes.root, active && classes.rootActive)}
+    className={classNames(
+      classes.root,
+      hibernated && classes.rootHibernate,
+      active && classes.rootActive,
+    )}
     onClick={onClick}
     onKeyDown={null}
     onContextMenu={onContextMenu}
@@ -126,6 +134,7 @@ const WorkspaceSelector = ({
 WorkspaceSelector.defaultProps = {
   active: false,
   badgeCount: 0,
+  hibernated: false,
   name: null,
   onContextMenu: null,
   order: 0,
@@ -137,6 +146,7 @@ WorkspaceSelector.propTypes = {
   active: PropTypes.bool,
   badgeCount: PropTypes.number,
   classes: PropTypes.object.isRequired,
+  hibernated: PropTypes.bool,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   onClick: PropTypes.func.isRequired,

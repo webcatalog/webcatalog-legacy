@@ -2,9 +2,6 @@ const { BrowserWindow } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 let win;
 let activeType = null;
@@ -12,27 +9,25 @@ let activeType = null;
 const get = () => win;
 
 const create = (type) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   activeType = type;
 
   global.codeInjectionType = type;
 
   win = new BrowserWindow({
     backgroundColor: '#FFF',
-    width: 400,
-    height: 350,
+    width: 640,
+    height: 560,
     resizable: false,
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'code-injection.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
+  win.setMenuBarVisibility(false);
 
   win.loadURL(REACT_PATH);
 

@@ -98,6 +98,7 @@ const createAsync = () => new Promise((resolve) => {
 
       resolve();
     });
+    return;
   }
 
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
@@ -119,13 +120,15 @@ const createAsync = () => new Promise((resolve) => {
     titleBarStyle: 'hidden',
     show: false,
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'dock-icon.png') : null,
-    autoHideMenuBar: getPreference('hideMenuBar'),
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       preload: path.join(__dirname, '..', 'preload', 'main.js'),
     },
   });
+  if (getPreference('hideMenuBar')) {
+    win.setMenuBarVisibility(false);
+  }
 
   mainWindowState.manage(win);
 
@@ -146,7 +149,7 @@ const createAsync = () => new Promise((resolve) => {
 
   // Hide window instead closing on macos
   win.on('close', (e) => {
-    if (process.platform === 'darwin' && !win.forceClose) {
+    if (process.platform === 'darwin' && win && !win.forceClose) {
       e.preventDefault();
       win.hide();
     }
@@ -167,6 +170,12 @@ const createAsync = () => new Promise((resolve) => {
     if (!wasOpenedAsHidden) {
       win.show();
     }
+
+    // calling this to redundantly setBounds BrowserView
+    // after the UI is fully loaded
+    // if not, BrowserView mouseover event won't work correctly
+    // https://github.com/atomery/webcatalog/issues/812
+    ipcMain.emit('request-realign-active-workspace');
   });
 
   win.on('enter-full-screen', () => win.webContents.send('is-fullscreen-updated', true));

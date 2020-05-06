@@ -89,6 +89,7 @@ class SearchBox extends React.Component {
 
   handleFocusSearch() {
     this.inputBox.focus();
+    this.inputBox.select();
   }
 
   render() {

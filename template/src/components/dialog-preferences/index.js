@@ -24,6 +24,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import LanguageIcon from '@material-ui/icons/Language';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
@@ -180,6 +181,7 @@ const Preferences = ({
   themeSource,
   titleBar,
   unreadCountBadge,
+  useHardwareAcceleration,
 }) => {
   const { remote } = window.require('electron');
   const appJson = remote.getGlobal('appJson');
@@ -225,14 +227,19 @@ const Preferences = ({
       Icon: BuildIcon,
       ref: useRef(),
     },
-    updates: {
-      text: 'Updates',
-      Icon: SystemUpdateAltIcon,
+    developers: {
+      text: 'Developers',
+      Icon: CodeIcon,
       ref: useRef(),
     },
     advanced: {
       text: 'Advanced',
-      Icon: CodeIcon,
+      Icon: PowerIcon,
+      ref: useRef(),
+    },
+    updates: {
+      text: 'Updates',
+      Icon: SystemUpdateAltIcon,
       ref: useRef(),
     },
     reset: {
@@ -354,8 +361,8 @@ const Preferences = ({
                     <Switch
                       edge="end"
                       color="primary"
-                      checked={!attachToMenubar && !sidebar && !navigationBar ? true : titleBar}
-                      disabled={!attachToMenubar && !sidebar && !navigationBar}
+                      checked={attachToMenubar ? false : titleBar}
+                      disabled={attachToMenubar}
                       onChange={(e) => {
                         requestSetPreference('titleBar', e.target.checked);
                         requestRealignActiveWorkspace();
@@ -371,7 +378,7 @@ const Preferences = ({
                 <ListItem>
                   <ListItemText
                     primary="Hide menu bar"
-                    secondary="Hide the menu bar unless the Alt key is pressed."
+                    secondary="Hide the menu bar unless the Alt+M is pressed."
                   />
                   <ListItemSecondaryAction>
                     <Switch
@@ -406,41 +413,6 @@ const Preferences = ({
                 />
               </ListItemSecondaryAction>
             </ListItem>
-            {window.process.platform === 'darwin' && (
-              <>
-                <Divider />
-                <ListItem>
-                  <ListItemText
-                    primary="Swipe to navigate"
-                    secondary={(
-                      <>
-                        <span>Navigate between pages with 3-finger gestures.</span>
-                        <br />
-                        <span>To enable it, you also need to change </span>
-                        <b>
-                          macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
-                        </b>
-                        <span> to </span>
-                        <b>Swipe with three fingers</b>
-                        <span> or </span>
-                        <b>Swipe with two or three fingers.</b>
-                      </>
-                    )}
-                  />
-                  <ListItemSecondaryAction>
-                    <Switch
-                      edge="end"
-                      color="primary"
-                      checked={swipeToNavigate}
-                      onChange={(e) => {
-                        requestSetPreference('swipeToNavigate', e.target.checked);
-                        requestShowRequireRestartDialog();
-                      }}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </>
-            )}
           </List>
         </Paper>
 
@@ -486,7 +458,7 @@ const Preferences = ({
             <Divider />
             <ListItem>
               <ListItemText
-                primary="Create dark themes for any websites on the fly"
+                primary="Create dark themes for web apps on the fly"
                 secondary={(
                   <>
                     <span>Powered by </span>
@@ -764,6 +736,32 @@ const Preferences = ({
               />
               <ChevronRightIcon color="action" />
             </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                secondary={(
+                  <>
+                    <span>WebCatalog supports notifications out of the box. </span>
+                    <span>But for some web apps, to receive notifications, </span>
+                    <span>you will need to manually configure additional </span>
+                    <span>web app settings. </span>
+                    <span
+                      role="link"
+                      tabIndex={0}
+                      className={classes.link}
+                      onClick={() => requestOpenInBrowser('https://github.com/atomery/webcatalog/wiki/How-to-Enable-Notifications-in-Web-Apps')}
+                      onKeyDown={(e) => {
+                        if (e.key !== 'Enter') return;
+                        requestOpenInBrowser('https://github.com/atomery/webcatalog/wiki/How-to-Enable-Notifications-in-Web-Apps');
+                      }}
+                    >
+                      Learn more
+                    </span>
+                    <span>.</span>
+                  </>
+                )}
+              />
+            </ListItem>
           </List>
         </Paper>
 
@@ -973,33 +971,28 @@ const Preferences = ({
           </List>
         </Paper>
 
-        <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.updates.ref}>
-          Updates
+        <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.developers.ref}>
+          Developers
         </Typography>
         <Paper elevation={0} className={classes.paper}>
           <List disablePadding dense>
-            <ListItem
-              button
-              onClick={requestCheckForUpdates}
-            >
+            <ListItem button onClick={requestShowCustomUserAgentWindow}>
               <ListItemText
-                primary="Check for Updates"
+                primary="Custom User Agent"
+                secondary={customUserAgent || 'Not set'}
+                classes={{ secondary: classes.secondaryEllipsis }}
               />
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />
-            <ListItem>
-              <ListItemText primary="Check for updates automatically" />
-              <ListItemSecondaryAction>
-                <Switch
-                  edge="end"
-                  color="primary"
-                  checked={autoCheckForUpdates}
-                  onChange={(e) => {
-                    requestSetPreference('autoCheckForUpdates', e.target.checked);
-                  }}
-                />
-              </ListItemSecondaryAction>
+            <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
+              <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => requestShowCodeInjectionWindow('css')}>
+              <ListItemText primary="CSS Code Injection" secondary={cssCodeInjection ? 'Set' : 'Not set'} />
+              <ChevronRightIcon color="action" />
             </ListItem>
           </List>
         </Paper>
@@ -1025,18 +1018,74 @@ const Preferences = ({
                 />
               </ListItemSecondaryAction>
             </ListItem>
+            {window.process.platform === 'darwin' && (
+              <>
+                <Divider />
+                <ListItem>
+                  <ListItemText
+                    primary="Swipe with three fingers to navigate"
+                    secondary={(
+                      <>
+                        <span>Navigate between pages with 3-finger gestures. </span>
+                        <span>Swipe left to go back or swipe right to go forward.</span>
+                        <br />
+                        <span>To enable it, you also need to change </span>
+                        <b>
+                          macOS Preferences &gt; Trackpad &gt; More Gestures &gt; Swipe between page
+                        </b>
+                        <span> to </span>
+                        <b>Swipe with three fingers</b>
+                        <span> or </span>
+                        <b>Swipe with two or three fingers.</b>
+                      </>
+                    )}
+                  />
+                  <ListItemSecondaryAction>
+                    <Switch
+                      edge="end"
+                      color="primary"
+                      checked={swipeToNavigate}
+                      onChange={(e) => {
+                        requestSetPreference('swipeToNavigate', e.target.checked);
+                        requestShowRequireRestartDialog();
+                      }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </>
+            )}
             <Divider />
-            <ListItem button onClick={requestShowCustomUserAgentWindow}>
+            <ListItem>
               <ListItemText
-                primary="Custom User Agent"
-                secondary={customUserAgent || 'Not set'}
-                classes={{ secondary: classes.secondaryEllipsis }}
+                primary="Use hardware acceleration when available"
               />
-              <ChevronRightIcon color="action" />
+              <ListItemSecondaryAction>
+                <Switch
+                  edge="end"
+                  color="primary"
+                  checked={useHardwareAcceleration}
+                  onChange={(e) => {
+                    requestSetPreference('useHardwareAcceleration', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                />
+              </ListItemSecondaryAction>
             </ListItem>
-            <Divider />
-            <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
-              <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
+          </List>
+        </Paper>
+
+        <Typography variant="subtitle2" className={classes.sectionTitle} ref={sections.updates.ref}>
+          Updates
+        </Typography>
+        <Paper elevation={0} className={classes.paper}>
+          <List disablePadding dense>
+            <ListItem
+              button
+              onClick={requestCheckForUpdates}
+            >
+              <ListItemText
+                primary="Check for Updates"
+              />
               <ChevronRightIcon color="action" />
             </ListItem>
             <ListItem button onClick={() => requestShowCodeInjectionWindow('preloadJS')}>
@@ -1044,9 +1093,18 @@ const Preferences = ({
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => requestShowCodeInjectionWindow('css')}>
-              <ListItemText primary="CSS Code Injection" secondary={cssCodeInjection ? 'Set' : 'Not set'} />
-              <ChevronRightIcon color="action" />
+            <ListItem>
+              <ListItemText primary="Check for updates automatically" />
+              <ListItemSecondaryAction>
+                <Switch
+                  edge="end"
+                  color="primary"
+                  checked={autoCheckForUpdates}
+                  onChange={(e) => {
+                    requestSetPreference('autoCheckForUpdates', e.target.checked);
+                  }}
+                />
+              </ListItemSecondaryAction>
             </ListItem>
           </List>
         </Paper>
@@ -1170,6 +1228,7 @@ Preferences.propTypes = {
   themeSource: PropTypes.string.isRequired,
   titleBar: PropTypes.bool.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
+  useHardwareAcceleration: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -1207,6 +1266,7 @@ const mapStateToProps = (state) => ({
   themeSource: state.preferences.themeSource,
   titleBar: state.preferences.titleBar,
   unreadCountBadge: state.preferences.unreadCountBadge,
+  useHardwareAcceleration: state.preferences.useHardwareAcceleration,
 });
 
 const actionCreators = {

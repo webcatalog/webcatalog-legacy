@@ -6,6 +6,7 @@ export const SET_PREFERENCE = 'SET_PREFERENCE';
 
 // Workspaces
 export const SET_WORKSPACE = 'SET_WORKSPACE';
+export const SET_WORKSPACES = 'SET_WORKSPACES';
 
 // Edit Workspace
 export const DIALOG_EDIT_WORKSPACE_INIT = 'DIALOG_EDIT_WORKSPACE_INIT';

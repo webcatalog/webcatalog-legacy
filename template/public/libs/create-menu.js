@@ -57,6 +57,8 @@ function createMenu() {
           click: () => {
             const win = mainWindow.get();
             if (win) {
+              win.webContents.focus();
+
               win.send('open-find-in-page');
 
               const contentSize = win.getContentSize();
@@ -107,10 +109,30 @@ function createMenu() {
         {
           label: (!global.sidebar && !global.navigationBar) || global.titleBar ? 'Hide Title Bar' : 'Show Title Bar',
           accelerator: 'CmdOrCtrl+Alt+T',
-          enabled: global.sidebar || global.navigationBar,
+          enabled: process.platform === 'darwin',
           visible: process.platform === 'darwin',
           click: () => {
             ipcMain.emit('request-set-preference', null, 'titleBar', !global.titleBar);
+            ipcMain.emit('request-realign-active-workspace');
+          },
+        },
+        // same behavior as BrowserWindow with autoHideMenuBar: true
+        // but with addition to readjust BrowserView so it won't cover the menu bar
+        {
+          label: 'Toggle Menu Bar',
+          visible: false,
+          accelerator: 'Alt+M',
+          enabled: process.platform === 'win32',
+          click: (menuItem, browserWindow) => {
+            // if back is called in popup window
+            // open menu bar in the popup window instead
+            if (browserWindow && browserWindow.isPopup) {
+              browserWindow.setMenuBarVisibility(!browserWindow.isMenuBarVisible());
+              return;
+            }
+
+            const win = mainWindow.get();
+            win.setMenuBarVisibility(!win.isMenuBarVisible());
             ipcMain.emit('request-realign-active-workspace');
           },
         },
@@ -182,18 +204,42 @@ function createMenu() {
         {
           label: 'Back',
           accelerator: 'CmdOrCtrl+[',
-          click: () => ipcMain.emit('request-go-back'),
+          click: (menuItem, browserWindow) => {
+            // if back is called in popup window
+            // navigate in the popup window instead
+            if (browserWindow && browserWindow.isPopup) {
+              browserWindow.webContents.goBack();
+              return;
+            }
+            ipcMain.emit('request-go-back');
+          },
         },
         {
           label: 'Forward',
           accelerator: 'CmdOrCtrl+]',
-          click: () => ipcMain.emit('request-go-forward'),
+          click: (menuItem, browserWindow) => {
+            // if back is called in popup window
+            // navigate in the popup window instead
+            if (browserWindow && browserWindow.isPopup) {
+              browserWindow.webContents.goBack();
+              return;
+            }
+            ipcMain.emit('request-go-forward');
+          },
         },
         { type: 'separator' },
         {
           label: 'Copy URL',
           accelerator: 'CmdOrCtrl+L',
-          click: () => {
+          click: (menuItem, browserWindow) => {
+            // if back is called in popup window
+            // copy the popup window URL instead
+            if (browserWindow && browserWindow.isPopup) {
+              const url = browserWindow.webContents.getURL();
+              clipboard.writeText(url);
+              return;
+            }
+
             const win = mainWindow.get();
 
             if (win != null) {

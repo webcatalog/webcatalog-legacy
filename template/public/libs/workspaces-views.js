@@ -10,6 +10,7 @@ const {
   removeWorkspace,
   setActiveWorkspace,
   setWorkspace,
+  setWorkspaces,
 } = require('./workspaces');
 
 const {
@@ -33,6 +34,12 @@ const createWorkspaceView = () => {
 
 const setWorkspaceView = (id, opts) => {
   setWorkspace(id, opts);
+  setViewsAudioPref();
+  setViewsNotificationsPref();
+};
+
+const setWorkspaceViews = (workspaces) => {
+  setWorkspaces(workspaces);
   setViewsAudioPref();
   setViewsNotificationsPref();
 };
@@ -93,7 +100,10 @@ const loadURL = (url, id) => {
   }
 
   const v = mainWindow.get().getBrowserView();
-  if (v) v.webContents.loadURL(url);
+  if (v) {
+    v.webContents.focus();
+    v.webContents.loadURL(url);
+  }
 };
 
 module.exports = {
@@ -104,5 +114,6 @@ module.exports = {
   removeWorkspaceView,
   setActiveWorkspaceView,
   setWorkspaceView,
+  setWorkspaceViews,
   wakeUpWorkspaceView,
 };

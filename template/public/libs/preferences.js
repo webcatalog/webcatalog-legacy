@@ -67,6 +67,7 @@ const defaultPreferences = {
   themeSource: 'system',
   titleBar: false,
   unreadCountBadge: true,
+  useHardwareAcceleration: true,
 };
 
 let cachedPreferences = null;

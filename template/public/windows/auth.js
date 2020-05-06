@@ -2,9 +2,6 @@ const { BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
-const { getPreference } = require('../libs/preferences');
-
-const mainWindow = require('./main');
 
 const wins = {};
 const emitted = {};
@@ -12,8 +9,6 @@ const emitted = {};
 const get = (id) => wins[id];
 
 const create = (id) => {
-  const attachToMenubar = getPreference('attachToMenubar');
-
   emitted[id] = false;
 
   wins[id] = new BrowserWindow({
@@ -24,13 +19,13 @@ const create = (id) => {
     maximizable: false,
     minimizable: false,
     fullscreenable: false,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '..', 'preload', 'auth.js'),
     },
-    parent: attachToMenubar ? null : mainWindow.get(),
   });
+  wins[id].setMenuBarVisibility(false);
 
   wins[id].loadURL(REACT_PATH);
 

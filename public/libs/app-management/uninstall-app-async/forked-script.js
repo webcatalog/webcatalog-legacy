@@ -2,6 +2,7 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
+const { exec } = require('child_process');
 
 const {
   appDataPath,
@@ -11,9 +12,13 @@ const {
   id,
   installationPath,
   name,
-  requireAdmin,
   username,
 } = argv;
+
+// ignore requireAdmin if installationPath is not custom
+const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
+|| installationPath === '/Applications/WebCatalog Apps';
+const requireAdmin = isStandardInstallationPath ? false : argv.requireAdmin;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {
@@ -40,11 +45,40 @@ const checkExistsAndRemoveWithSudo = (dirPath) => fsExtra.exists(dirPath)
     return null;
   });
 
+const execAsync = (cmd) => new Promise((resolve, reject) => {
+  exec(cmd, (e, stdout, stderr) => {
+    if (e instanceof Error) {
+      reject(e);
+      return;
+    }
+
+    if (stderr) {
+      reject(new Error(stderr));
+      return;
+    }
+
+    resolve(stdout);
+  });
+});
+
 const dotAppPath = process.platform === 'darwin'
   ? path.join(installationPath.replace('~', homePath), `${name}.app`)
   : path.join(installationPath.replace('~', homePath), `${name}`);
 
 Promise.resolve()
+  .then(async () => {
+    // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
+    // need to correct to user to install apps without sudo
+    if (installationPath === '/Applications/WebCatalog Apps') {
+      // https://unix.stackexchange.com/a/7732
+      const installationPathOwner = await execAsync("ls -ld '/Applications/WebCatalog Apps' | awk '{print $3}'");
+      if (installationPathOwner.trim() === 'root') {
+        // https://askubuntu.com/questions/6723/change-folder-permissions-and-ownership
+        // https://stackoverflow.com/questions/23714097/sudo-chown-command-not-found
+        await sudoAsync(`/usr/sbin/chown -R ${username} '/Applications/WebCatalog Apps'`);
+      }
+    }
+  })
   .then(() => {
     if (requireAdmin === 'true') {
       return checkExistsAndRemoveWithSudo(dotAppPath);

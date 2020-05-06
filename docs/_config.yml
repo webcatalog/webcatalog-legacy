@@ -18,7 +18,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://webcatalogapp.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Custom
-webcatalog_version: 20.5.2
+webcatalog_version: 20.12.2
 
 # Build settings
 markdown: kramdown

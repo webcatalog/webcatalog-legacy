@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const {
   BrowserView,
   BrowserWindow,
@@ -169,16 +170,16 @@ const addView = (browserWindow, workspace) => {
     // https://github.com/atomery/webcatalog/issues/455
     // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
     const fakedEdgeUaStr = `${commonUaStr} Edge/18.18875`;
-    adjustUserAgentByUrl = (url) => {
+    adjustUserAgentByUrl = (contents, url) => {
       const navigatedDomain = extractDomain(url);
-      const currentUaStr = view.webContents.userAgent;
+      const currentUaStr = contents.userAgent;
       if (navigatedDomain === 'accounts.google.com') {
         if (currentUaStr !== fakedEdgeUaStr) {
-          view.webContents.userAgent = fakedEdgeUaStr;
+          contents.userAgent = fakedEdgeUaStr;
           return true;
         }
       } else if (currentUaStr !== commonUaStr) {
-        view.webContents.userAgent = commonUaStr;
+        contents.userAgent = commonUaStr;
         return true;
       }
       return false;
@@ -186,7 +187,7 @@ const addView = (browserWindow, workspace) => {
   }
 
   view.webContents.on('will-navigate', (e, url) => {
-    adjustUserAgentByUrl(url);
+    adjustUserAgentByUrl(e.sender.webContents, url);
   });
 
   view.webContents.on('did-start-loading', () => {
@@ -195,8 +196,10 @@ const addView = (browserWindow, workspace) => {
         didFailLoad[workspace.id] = false;
         // show browserView again when reloading after error
         // see did-fail-load event
-        const contentSize = browserWindow.getContentSize();
-        view.setBounds(getViewBounds(contentSize));
+        if (browserWindow && !browserWindow.isDestroyed()) { // fix https://github.com/atomery/singlebox/issues/228
+          const contentSize = browserWindow.getContentSize();
+          view.setBounds(getViewBounds(contentSize));
+        }
       }
       sendToAllWindows('update-did-fail-load', false);
       sendToAllWindows('update-is-loading', true);
@@ -233,10 +236,12 @@ const addView = (browserWindow, workspace) => {
       didFailLoad[workspace.id] = true;
       if (getWorkspace(workspace.id).active) {
         sendToAllWindows('update-loading', false);
-        const contentSize = browserWindow.getContentSize();
-        view.setBounds(
-          getViewBounds(contentSize, false, 0, 0),
-        ); // hide browserView to show error message
+        if (browserWindow && !browserWindow.isDestroyed()) { // fix https://github.com/atomery/singlebox/issues/228
+          const contentSize = browserWindow.getContentSize();
+          view.setBounds(
+            getViewBounds(contentSize, false, 0, 0),
+          ); // hide browserView to show error message
+        }
         sendToAllWindows('update-did-fail-load', true);
       }
     }
@@ -255,7 +260,7 @@ const addView = (browserWindow, workspace) => {
     // so user agent to needed to be double check here
     // not the best solution as page will be unexpectedly reloaded
     // but it won't happen very often
-    if (adjustUserAgentByUrl(url)) {
+    if (adjustUserAgentByUrl(view.webContents, url)) {
       view.webContents.reload();
     }
 
@@ -292,18 +297,44 @@ const addView = (browserWindow, workspace) => {
       e.preventDefault();
       const newOptions = {
         ...options,
-        parent: browserWindow,
       };
       const popupWin = new BrowserWindow(newOptions);
+      // WebCatalog internal value to determine whether BrowserWindow is popup
+      popupWin.isPopup = true;
+      popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
+
+      // fix Google prevents signing in because of security concerns
+      // https://github.com/atomery/webcatalog/issues/455
+      // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
+      // will-navigate doesn't trigger for loadURL, goBack, goForward
+      // so user agent to needed to be double check here
+      // not the best solution as page will be unexpectedly reloaded
+      // but it won't happen very often
+      popupWin.webContents.on('will-navigate', (ee, url) => {
+        adjustUserAgentByUrl(ee.sender.webContents, url);
+      });
+      popupWin.webContents.on('did-navigate', (ee, url) => {
+        if (adjustUserAgentByUrl(ee.sender.webContents, url)) {
+          ee.sender.webContents.reload();
+        }
+      });
+
       e.newGuest = popupWin;
     };
 
     // Conditions are listed by order of priority
 
     // if global.forceNewWindow = true
+    // or regular new-window event
+    // or if in Google Drive app, open Google Docs files internally https://github.com/atomery/webcatalog/issues/800
     // the next external link request will be opened in new window
-    if (global.forceNewWindow) {
+    if (
+      global.forceNewWindow
+      || disposition === 'new-window'
+      || disposition === 'default'
+      || (appDomain === 'drive.google.com' && nextDomain === 'docs.google.com')
+    ) {
       global.forceNewWindow = false;
       openInNewWindow();
       return;
@@ -313,12 +344,13 @@ const addView = (browserWindow, workspace) => {
     if (
       // Google: Switch account
       nextDomain === 'accounts.google.com'
-      // https://github.com/atomery/webcatalog/issues/315
+      /* https://github.com/atomery/webcatalog/issues/315 START */
       || ((appDomain.includes('asana.com') || currentDomain.includes('asana.com')) && nextDomain.includes('asana.com'))
       || (disposition === 'foreground-tab' && isInternalUrl(nextUrl, [appUrl, currentUrl]))
+      /* https://github.com/atomery/webcatalog/issues/315 END */
     ) {
       e.preventDefault();
-      adjustUserAgentByUrl(nextUrl);
+      adjustUserAgentByUrl(e.sender.webContents, nextUrl);
       e.sender.loadURL(nextUrl);
       return;
     }
@@ -326,6 +358,31 @@ const addView = (browserWindow, workspace) => {
     // open new window if the link is internal
     if (isInternalUrl(nextUrl, [appUrl, currentUrl])) {
       openInNewWindow();
+      return;
+    }
+
+    // special case for Roam Research
+    // if popup window is not opened and loaded, Roam crashes (shows white page)
+    // https://github.com/atomery/webcatalog/issues/793
+    if (
+      appDomain === 'roamresearch.com'
+      && nextDomain != null
+      && (disposition === 'foreground-tab' || disposition === 'background-tab')
+    ) {
+      e.preventDefault();
+      shell.openExternal(nextUrl);
+
+      // mock window
+      // close as soon as it did-navigate
+      const newOptions = {
+        ...options,
+        show: false,
+      };
+      const popupWin = new BrowserWindow(newOptions);
+      popupWin.once('did-navigate', () => {
+        popupWin.close();
+      });
+      e.newGuest = popupWin;
       return;
     }
 
@@ -350,9 +407,11 @@ const addView = (browserWindow, workspace) => {
       const newOptions = {
         ...options,
         show: false,
-        parent: browserWindow,
       };
       const popupWin = new BrowserWindow(newOptions);
+      // WebCatalog internal value to determine whether BrowserWindow is popup
+      popupWin.isPopup = true;
+      popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
       popupWin.webContents.once('will-navigate', (_, url) => {
         // if the window is used for the current app, then use default behavior
@@ -457,7 +516,7 @@ const addView = (browserWindow, workspace) => {
 
   const initialUrl = (rememberLastPageVisited && workspace.lastUrl)
   || workspace.homeUrl || appJson.url;
-  adjustUserAgentByUrl(initialUrl);
+  adjustUserAgentByUrl(view.webContents, initialUrl);
   view.webContents.loadURL(initialUrl);
 };
 
