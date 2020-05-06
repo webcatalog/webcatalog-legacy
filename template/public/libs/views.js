@@ -255,9 +255,7 @@ const addView = (browserWindow, workspace) => {
   view.webContents.on('did-navigate', (e, url) => {
     // fix "Google Chat isn't supported on your current browser"
     // https://github.com/atomery/webcatalog/issues/820
-    console.log(url);
     if (url && url.indexOf('error/browser-not-supported') > -1 && url.startsWith('https://chat.google.com')) {
-      console.log('detected');
       const ref = new URL(url).searchParams.get('ref') || '';
       view.webContents.loadURL(`https://chat.google.com${ref}`);
     }
