@@ -166,7 +166,7 @@ const Main = ({
   workspaces,
 }) => {
   const workspacesList = getWorkspacesAsList(workspaces);
-  const showTitleBar = titleBar || (window.mode !== 'menubar' && !navigationBar && !sidebar);
+  const showTitleBar = window.process.platform === 'darwin' && titleBar;
 
   return (
     <div className={classes.outerRoot}>

@@ -107,7 +107,7 @@ function createMenu() {
           },
         },
         {
-          label: (!global.sidebar && !global.navigationBar) || global.titleBar ? 'Hide Title Bar' : 'Show Title Bar',
+          label: global.titleBar ? 'Hide Title Bar' : 'Show Title Bar',
           accelerator: 'CmdOrCtrl+Alt+T',
           enabled: process.platform === 'darwin',
           visible: process.platform === 'darwin',
