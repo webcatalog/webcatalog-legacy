@@ -144,6 +144,7 @@ const hasMailWorkspaceFunc = (workspaces) => {
 };
 
 const Preferences = ({
+  allowNodeInJsCodeInjection,
   askForDownloadPath,
   attachToMenubar,
   autoCheckForUpdates,
@@ -163,7 +164,6 @@ const Preferences = ({
   isDefaultMailClient,
   isDefaultWebBrowser,
   jsCodeInjection,
-  preloadJSCodeInjection,
   navigationBar,
   onUpdateIsDefaultMailClient,
   onUpdateIsDefaultWebBrowser,
@@ -986,7 +986,7 @@ const Preferences = ({
             </ListItem>
             <Divider />
             <ListItem button onClick={() => requestShowCodeInjectionWindow('js')}>
-              <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? 'Set' : 'Not set'} />
+              <ListItemText primary="JS Code Injection" secondary={jsCodeInjection ? `Set ${allowNodeInJsCodeInjection ? ' (with access to Node.JS & Electron APIs)' : ''}` : 'Not set'} />
               <ChevronRightIcon color="action" />
             </ListItem>
             <Divider />
@@ -1088,11 +1088,6 @@ const Preferences = ({
               />
               <ChevronRightIcon color="action" />
             </ListItem>
-            <ListItem button onClick={() => requestShowCodeInjectionWindow('preloadJS')}>
-              <ListItemText primary="Preload JS Code Injection" secondary={preloadJSCodeInjection ? 'Set' : 'Not set'} />
-              <ChevronRightIcon color="action" />
-            </ListItem>
-            <Divider />
             <ListItem>
               <ListItemText primary="Check for updates automatically" />
               <ListItemSecondaryAction>
@@ -1187,10 +1182,10 @@ Preferences.defaultProps = {
   cssCodeInjection: null,
   customUserAgent: null,
   jsCodeInjection: null,
-  preloadJSCodeInjection: null,
 };
 
 Preferences.propTypes = {
+  allowNodeInJsCodeInjection: PropTypes.bool.isRequired,
   askForDownloadPath: PropTypes.bool.isRequired,
   attachToMenubar: PropTypes.bool.isRequired,
   autoCheckForUpdates: PropTypes.bool.isRequired,
@@ -1210,7 +1205,6 @@ Preferences.propTypes = {
   isDefaultMailClient: PropTypes.bool.isRequired,
   isDefaultWebBrowser: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
-  preloadJSCodeInjection: PropTypes.string,
   navigationBar: PropTypes.bool.isRequired,
   onUpdateIsDefaultMailClient: PropTypes.func.isRequired,
   onUpdateIsDefaultWebBrowser: PropTypes.func.isRequired,
@@ -1232,6 +1226,7 @@ Preferences.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  allowNodeInJsCodeInjection: state.preferences.allowNodeInJsCodeInjection,
   askForDownloadPath: state.preferences.askForDownloadPath,
   attachToMenubar: state.preferences.attachToMenubar,
   autoCheckForUpdates: state.preferences.autoCheckForUpdates,
@@ -1250,7 +1245,6 @@ const mapStateToProps = (state) => ({
   isDefaultMailClient: state.general.isDefaultMailClient,
   isDefaultWebBrowser: state.general.isDefaultWebBrowser,
   jsCodeInjection: state.preferences.jsCodeInjection,
-  preloadJSCodeInjection: state.preferences.preloadJSCodeInjection,
   navigationBar: state.preferences.navigationBar,
   openAtLogin: state.systemPreferences.openAtLogin,
   pauseNotificationsBySchedule: state.preferences.pauseNotificationsBySchedule,
