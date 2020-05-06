@@ -29,6 +29,7 @@ const getDefaultPauseNotificationsByScheduleTo = () => {
 const v = '2018.2';
 
 const defaultPreferences = {
+  allowNodeInJsCodeInjection: false,
   askForDownloadPath: true,
   attachToMenubar: false,
   autoCheckForUpdates: true,
@@ -46,6 +47,7 @@ const defaultPreferences = {
   hibernateUnusedWorkspacesAtLaunch: false,
   hideMenuBar: false,
   jsCodeInjection: null,
+  preloadJSCodeInjection: null,
   lastCheckForUpdates: 0,
   navigationBar: false,
   pauseNotifications: null,
