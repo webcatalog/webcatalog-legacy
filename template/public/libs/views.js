@@ -160,7 +160,8 @@ const addView = (browserWindow, workspace) => {
     const uaStr = view.webContents.userAgent;
     const commonUaStr = uaStr
       // Fix WhatsApp requires Google Chrome 49+ bug
-      .replace(` ${app.name}/${app.getVersion()}`, '')
+      // App Name doesn't have white space in user agent. 'Google Chat' app > GoogleChat/8.1.1
+      .replace(` ${app.name.replace(/ /g, '')}/${app.getVersion()}`, '')
       // Hide Electron from UA to improve compatibility
       // https://github.com/atomery/webcatalog/issues/182
       .replace(` Electron/${process.versions.electron}`, '');
