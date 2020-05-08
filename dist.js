@@ -9,7 +9,7 @@ const { Arch, Platform } = builder;
 const { exec } = require('child_process');
 
 // sometimes, notarization works but *.app does not have a ticket stapled to it
-// this ensure the *.app has the notarized ticket
+// this ensure the *.app has the notarization ticket
 const verifyNotarizationAsync = (filePath) => new Promise((resolve, reject) => {
   // eslint-disable-next-line no-console
   console.log(`xcrun stapler validate ${filePath.replace(/ /g, '\\ ')}`);
