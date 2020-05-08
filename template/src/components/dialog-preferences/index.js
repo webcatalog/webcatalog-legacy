@@ -111,6 +111,9 @@ const styles = (theme) => ({
     '&:hover': {
       textDecoration: 'underline',
     },
+    '&:focus': {
+      textDecoration: 'underline',
+    },
   },
   sliderContainer: {
     paddingLeft: theme.spacing(5),
@@ -161,6 +164,7 @@ const Preferences = ({
   hasMailWorkspace,
   hibernateUnusedWorkspacesAtLaunch,
   hideMenuBar,
+  ignoreCertificateErrors,
   isDefaultMailClient,
   isDefaultWebBrowser,
   jsCodeInjection,
@@ -887,6 +891,41 @@ const Preferences = ({
               </ListItemSecondaryAction>
             </ListItem>
             <Divider />
+            <ListItem>
+              <ListItemText
+                primary="Ignore certificate errors"
+                secondary={(
+                  <>
+                    <span>Not recommended. </span>
+                    <span
+                      role="link"
+                      tabIndex={0}
+                      className={classes.link}
+                      onClick={() => requestOpenInBrowser('https://groups.google.com/a/chromium.org/d/msg/security-dev/mB2KJv_mMzM/ddMteO9RjXEJ')}
+                      onKeyDown={(e) => {
+                        if (e.key !== 'Enter') return;
+                        requestOpenInBrowser('https://groups.google.com/a/chromium.org/d/msg/security-dev/mB2KJv_mMzM/ddMteO9RjXEJ');
+                      }}
+                    >
+                      Learn more
+                    </span>
+                    .
+                  </>
+                )}
+              />
+              <ListItemSecondaryAction>
+                <Switch
+                  edge="end"
+                  color="primary"
+                  checked={ignoreCertificateErrors}
+                  onChange={(e) => {
+                    requestSetPreference('ignoreCertificateErrors', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider />
             <ListItem button onClick={requestClearBrowsingData}>
               <ListItemText primary="Clear browsing data" secondary="Clear cookies, cache, and more" />
               <ChevronRightIcon color="action" />
@@ -1087,6 +1126,7 @@ const Preferences = ({
               />
               <ChevronRightIcon color="action" />
             </ListItem>
+            <Divider />
             <ListItem>
               <ListItemText primary="Check for updates automatically" />
               <ListItemSecondaryAction>
@@ -1201,6 +1241,7 @@ Preferences.propTypes = {
   hasMailWorkspace: PropTypes.bool.isRequired,
   hibernateUnusedWorkspacesAtLaunch: PropTypes.bool.isRequired,
   hideMenuBar: PropTypes.bool.isRequired,
+  ignoreCertificateErrors: PropTypes.bool.isRequired,
   isDefaultMailClient: PropTypes.bool.isRequired,
   isDefaultWebBrowser: PropTypes.bool.isRequired,
   jsCodeInjection: PropTypes.string,
@@ -1241,6 +1282,7 @@ const mapStateToProps = (state) => ({
   hasMailWorkspace: hasMailWorkspaceFunc(state.workspaces),
   hibernateUnusedWorkspacesAtLaunch: state.preferences.hibernateUnusedWorkspacesAtLaunch,
   hideMenuBar: state.preferences.hideMenuBar,
+  ignoreCertificateErrors: state.preferences.ignoreCertificateErrors,
   isDefaultMailClient: state.general.isDefaultMailClient,
   isDefaultWebBrowser: state.general.isDefaultWebBrowser,
   jsCodeInjection: state.preferences.jsCodeInjection,
