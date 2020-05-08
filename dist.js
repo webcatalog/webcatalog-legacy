@@ -97,7 +97,7 @@ const opts = {
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH, TEMPLATE_ZIP_PATH],
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
-      const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
+      const shouldNotarize = true;
       if (!shouldNotarize) return null;
 
       console.log('Notarizing app...');
