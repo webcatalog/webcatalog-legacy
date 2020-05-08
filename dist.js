@@ -9,7 +9,7 @@ const { Arch, Platform } = builder;
 const { exec } = require('child_process');
 
 // sometimes, notarization works but *.app does not have a ticket stapled to it
-// this ensure the *.app has the notarized ticket
+// this ensure the *.app has the notarization ticket
 const verifyNotarizationAsync = (filePath) => new Promise((resolve, reject) => {
   // eslint-disable-next-line no-console
   console.log(`xcrun stapler validate ${filePath.replace(/ /g, '\\ ')}`);
@@ -97,7 +97,7 @@ const opts = {
     afterAllArtifactBuild: () => [TEMPLATE_JSON_PATH, TEMPLATE_ZIP_PATH],
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
-      const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
+      const shouldNotarize = true;
       if (!shouldNotarize) return null;
 
       console.log('Notarizing app...');
