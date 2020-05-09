@@ -30,7 +30,7 @@
     "email": "quang.lam2807@gmail.com"
   },
   "dependencies": {
-    "blueimp-md5": "2.14.0",
+    "blueimp-md5": "2.15.0",
     "cheerio": "1.0.0-rc.3",
     "command-exists": "1.2.9",
     "decompress": "4.2.1",

@@ -455,7 +455,7 @@ const addView = (browserWindow, workspace) => {
       // set preferred path for save dialog
       const opts = {
         ...item.getSaveDialogOptions(),
-        defaultPath: downloadPath,
+        defaultPath: path.join(downloadPath, item.getFilename()),
       };
       item.setSaveDialogOptions(opts);
     }
