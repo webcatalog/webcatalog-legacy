@@ -28,7 +28,15 @@ const getWorkspaces = () => {
     active: true,
   };
 
-  workspaces = settings.get(`workspaces.${v}`, defaultWorkspaces);
+  const storedWorkspaces = settings.get(`workspaces.${v}`, defaultWorkspaces);
+  // strip badgeCount values (accidentially saved) from workspace objects
+  // https://github.com/atomery/singlebox/issues/231#issuecomment-626198821
+  Object.keys(storedWorkspaces).forEach((id) => {
+    delete storedWorkspaces[id].badgeCount;
+  });
+  // keep workspace objects in memory
+  workspaces = storedWorkspaces;
+
   return workspaces;
 };
 
@@ -125,13 +133,23 @@ const setWorkspace = (id, opts) => {
   const workspace = { ...workspaces[id], ...opts };
   workspaces[id] = workspace;
   sendToAllWindows('set-workspace', id, workspace);
+  // strip badgeCount before saving to disk
+  // https://github.com/atomery/singlebox/issues/231#issuecomment-626198821
+  delete workspace.badgeCount;
   settings.set(`workspaces.${v}.${id}`, workspace);
 };
 
 const setWorkspaces = (newWorkspaces) => {
   workspaces = newWorkspaces;
-  sendToAllWindows('set-workspaces', getWorkspaces());
-  settings.set(`workspaces.${v}`, workspaces);
+  sendToAllWindows('set-workspaces', newWorkspaces);
+
+  // strip badgeCount before saving to disk
+  // https://github.com/atomery/singlebox/issues/231#issuecomment-626198821
+  const storedWorkspaces = { ...newWorkspaces };
+  Object.keys(storedWorkspaces).forEach((workspaceId) => {
+    delete storedWorkspaces[workspaceId].badgeCount;
+  });
+  settings.set(`workspaces.${v}`, storedWorkspaces);
 };
 
 const setWorkspacePicture = (id, sourcePicturePath) => {
