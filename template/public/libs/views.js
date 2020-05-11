@@ -331,7 +331,6 @@ const addView = (browserWindow, workspace) => {
   });
 
   const handleNewWindow = (e, nextUrl, frameName, disposition, options) => {
-    console.log(e);
     const appUrl = getWorkspace(workspace.id).homeUrl || appJson.url;
     const appDomain = extractDomain(appUrl);
     const currentUrl = e.sender.getURL();
