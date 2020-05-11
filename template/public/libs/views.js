@@ -132,15 +132,16 @@ const addView = (browserWindow, workspace) => {
     ses.setSpellCheckerLanguages(spellcheckLanguages);
   }
 
+  const sharedWebPreferences = {
+    spellcheck,
+    nativeWindowOpen: true,
+    nodeIntegration: false,
+    contextIsolation: true,
+    session: ses,
+    preload: path.join(__dirname, '..', 'preload', 'view.js'),
+  };
   const view = new BrowserView({
-    webPreferences: {
-      spellcheck,
-      nativeWindowOpen: true,
-      nodeIntegration: false,
-      contextIsolation: true,
-      session: ses,
-      preload: path.join(__dirname, '..', 'preload', 'view.js'),
-    },
+    webPreferences: sharedWebPreferences,
   });
   // background needs to explictly set
   // if not, by default, the background of BrowserView is transparent
@@ -330,6 +331,7 @@ const addView = (browserWindow, workspace) => {
   });
 
   const handleNewWindow = (e, nextUrl, frameName, disposition, options) => {
+    console.log(e);
     const appUrl = getWorkspace(workspace.id).homeUrl || appJson.url;
     const appDomain = extractDomain(appUrl);
     const currentUrl = e.sender.getURL();
@@ -339,14 +341,29 @@ const addView = (browserWindow, workspace) => {
     const openInNewWindow = () => {
       // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
       e.preventDefault();
-      const newOptions = {
-        ...options,
-      };
+
+      // if 'new-window' is triggered with Cmd+Click
+      // options is undefined
+      // https://github.com/atomery/webcatalog/issues/842
+      const cmdClick = Boolean(!options);
+      const newOptions = cmdClick ? {
+        show: true,
+        width: 800,
+        height: 600,
+        webPreferences: sharedWebPreferences,
+      } : options;
       const popupWin = new BrowserWindow(newOptions);
       // WebCatalog internal value to determine whether BrowserWindow is popup
       popupWin.isPopup = true;
       popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
+
+      // if 'new-window' is triggered with Cmd+Click
+      // url is not loaded automatically
+      // https://github.com/atomery/webcatalog/issues/842
+      if (cmdClick) {
+        popupWin.loadURL(nextUrl);
+      }
 
       // fix Google prevents signing in because of security concerns
       // https://github.com/atomery/webcatalog/issues/455
