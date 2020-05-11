@@ -36,6 +36,8 @@ import { updateApp } from '../../state/app-management/actions';
 import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
+import InstallationProgress from './installation-progress';
+
 const styles = (theme) => ({
   card: {
     width: 160,
@@ -133,14 +135,25 @@ const AppCard = (props) => {
       );
     }
 
+    let showProgress = false;
     let label = 'Install';
     if (status === INSTALLING && version) {
       if (cancelable) label = 'Queueing...';
-      else label = 'Updating...';
+      else {
+        label = 'Updating...';
+        showProgress = true;
+      }
     } else if (status === INSTALLING) {
       if (cancelable) label = 'Queueing...';
-      else label = 'Installing...';
+      else {
+        label = 'Installing...';
+        showProgress = true;
+      }
     } else if (status === UNINSTALLING) label = 'Uninstalling...';
+
+    if (showProgress) {
+      return (<InstallationProgress defaultDesc={label} />);
+    }
 
     return (
       <Button
@@ -273,6 +286,8 @@ const mapStateToProps = (state, ownProps) => {
     engine: app ? app.engine : null,
     version: app ? app.version : null,
     cancelable: Boolean(app ? app.cancelable : false),
+    progressPercent: state.general.installationProgress.percent,
+    progressDesc: state.general.installationProgress.desc,
   };
 };
 

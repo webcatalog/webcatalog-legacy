@@ -6,6 +6,7 @@ import {
   UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
   UPDATE_MOVING_ALL_APPS,
+  UPDATE_INSTALLATION_PROGRESS,
 } from '../../constants/actions';
 
 import {
@@ -49,10 +50,21 @@ const movingAllApps = (state = false, action) => {
   }
 };
 
+const installationProgress = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_INSTALLATION_PROGRESS: return {
+      percent: action.progress.percent || 0,
+      desc: action.progress.desc || null,
+    };
+    default: return state;
+  }
+};
+
 export default combineReducers({
   shouldUseDarkColors,
   isFullScreen,
   latestTemplateVersion,
   fetchingLatestTemplateVersion,
   movingAllApps,
+  installationProgress,
 });

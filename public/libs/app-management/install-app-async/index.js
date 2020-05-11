@@ -4,6 +4,7 @@ const { app } = require('electron');
 const tmp = require('tmp');
 
 const { getPreference } = require('../../preferences');
+const sendToAllWindows = require('../../send-to-all-windows');
 const isEngineInstalled = require('../../is-engine-installed');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
@@ -37,6 +38,11 @@ const installAppAsync = (
   engine, id, name, url, icon,
 ) => Promise.resolve()
   .then(() => {
+    sendToAllWindows('update-installation-progress', {
+      percent: 0,
+      desc: null,
+    });
+
     if (engine === 'electron') {
       return prepareTemplateAsync();
     }
@@ -173,12 +179,15 @@ const installAppAsync = (
 
     let err = null;
     child.on('message', (message) => {
-      if (message && message.error) {
+      if (message && message.progress) {
+        sendToAllWindows('update-installation-progress', message.progress);
+      } else if (message && message.error) {
         err = new Error(message.error.message);
         err.stack = message.error.stack;
         err.name = message.error.name;
+      } else {
+        console.log(message); // eslint-disable-line no-console
       }
-      console.log(message); // eslint-disable-line no-console
     });
 
     child.on('exit', (code) => {
@@ -196,6 +205,13 @@ const installAppAsync = (
       if (tmpPath) {
         lastUsedTmpPath = tmpPath;
       }
+
+      // installation done
+      sendToAllWindows('update-installation-progress', {
+        percent: 100,
+        desc: null,
+      });
+
       resolve();
     });
   }));
