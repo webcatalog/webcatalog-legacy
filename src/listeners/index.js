@@ -7,6 +7,7 @@ import { open as openDialogLicenseRegistration } from '../state/dialog-license-r
 import { updateUpdater } from '../state/updater/actions';
 import {
   updateShouldUseDarkColors,
+  updateInstallationProgress,
 } from '../state/general/actions';
 import {
   getShouldUseDarkColors,
@@ -56,6 +57,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('update-updater', (e, updaterObj) => {
     store.dispatch(updateUpdater(updaterObj));
+  });
+
+  ipcRenderer.on('update-installation-progress', (e, progress) => {
+    store.dispatch(updateInstallationProgress(progress));
   });
 };
 

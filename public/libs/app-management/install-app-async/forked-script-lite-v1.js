@@ -106,6 +106,13 @@ const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 
 
 Promise.resolve()
   .then(() => {
+    process.send({
+      progress: {
+        percent: 5, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (isUrl(icon)) {
       return downloadAsync(icon, iconPngPath);
     }
@@ -152,6 +159,13 @@ Promise.resolve()
       });
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 40, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (process.platform === 'darwin') {
       return Promise.resolve()
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
@@ -293,6 +307,13 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
     return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 95, // estimated
+        desc: 'Creating shortcuts...',
+      },
+    });
+
     // create desktop file for linux
     if (process.platform === 'linux') {
       const finalExecFilePath = path.join(finalPath, name);

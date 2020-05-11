@@ -30,6 +30,7 @@
     "email": "quang.lam2807@gmail.com"
   },
   "dependencies": {
+    "axios": "0.19.2",
     "blueimp-md5": "2.15.0",
     "cheerio": "1.0.0-rc.3",
     "command-exists": "1.2.9",

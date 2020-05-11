@@ -109,8 +109,14 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 Promise.resolve()
-  .then(() => fsExtra.exists(packageJsonPath))
   .then(() => {
+    process.send({
+      progress: {
+        percent: 85, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (isUrl(icon)) {
       return downloadAsync(icon, iconPngPath);
     }
@@ -212,6 +218,13 @@ Promise.resolve()
     return fsExtra.writeJSON(packageJsonPath, newPackageJson);
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 87, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     let optsIconPath = iconPngPath;
     if (process.platform === 'darwin') optsIconPath = iconIcnsPath;
     if (process.platform === 'win32') optsIconPath = iconIcoPath;
@@ -255,6 +268,13 @@ Promise.resolve()
         .then(() => Promise.reject(err)));
   })
   .then(async () => {
+    process.send({
+      progress: {
+        percent: 97, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
     }
@@ -272,6 +292,12 @@ Promise.resolve()
     return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 99, // estimated
+        desc: 'Creating shortcuts...',
+      },
+    });
     // create desktop file for linux
     if (process.platform === 'linux') {
       const execFilePath = path.join(finalPath, name);

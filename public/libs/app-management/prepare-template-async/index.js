@@ -2,6 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
+const sendToAllWindows = require('../../send-to-all-windows');
 const { getPreferences } = require('../../preferences');
 
 // force re-extract for first installation after launch
@@ -41,12 +42,15 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
 
   let err = null;
   child.on('message', (message) => {
-    if (message && message.error) {
+    if (message && message.progress) {
+      sendToAllWindows('update-installation-progress', message.progress);
+    } else if (message && message.error) {
       err = new Error(message.error.message);
       err.stack = message.error.stack;
       err.name = message.error.name;
+    } else {
+      console.log(message); // eslint-disable-line no-console
     }
-    console.log(message); // eslint-disable-line no-console
   });
 
   child.on('exit', (code) => {

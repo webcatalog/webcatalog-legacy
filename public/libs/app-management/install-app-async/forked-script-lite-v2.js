@@ -187,6 +187,13 @@ Promise.resolve()
     return null;
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 5, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (isUrl(icon)) {
       return downloadAsync(icon, iconPngPath);
     }
@@ -223,6 +230,13 @@ Promise.resolve()
       });
   })
   .then(() => {
+    process.send({
+      progress: {
+        percent: 40, // estimated
+        desc: 'Generating app...',
+      },
+    });
+
     if (process.platform === 'darwin') {
       return Promise.resolve()
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
