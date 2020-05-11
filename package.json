@@ -1,8 +1,8 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "20.14.0",
-  "templateVersion": "8.13.0",
+  "version": "20.15.0",
+  "templateVersion": "8.14.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -35,7 +35,7 @@
     "cheerio": "1.0.0-rc.3",
     "command-exists": "1.2.9",
     "decompress": "4.2.1",
-    "electron-context-menu": "2.0.0",
+    "electron-context-menu": "2.0.1",
     "electron-is-dev": "1.2.0",
     "electron-packager": "14.2.1",
     "electron-settings": "3.2.0",

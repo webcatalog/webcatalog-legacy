@@ -1,7 +1,7 @@
 {
   "name": "Juli",
   "description": "AppView template for WebCatalog",
-  "version": "8.13.0",
+  "version": "8.14.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -24,7 +24,7 @@
     "cheerio": "1.0.0-rc.3",
     "darkreader": "4.9.2",
     "electron": "8.2.5",
-    "electron-context-menu": "2.0.0",
+    "electron-context-menu": "2.0.1",
     "electron-is-dev": "1.2.0",
     "electron-settings": "3.2.0",
     "electron-window-state": "5.0.3",
