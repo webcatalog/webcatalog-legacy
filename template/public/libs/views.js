@@ -357,13 +357,6 @@ const addView = (browserWindow, workspace) => {
       popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
 
-      // if 'new-window' is triggered with Cmd+Click
-      // url is not loaded automatically
-      // https://github.com/atomery/webcatalog/issues/842
-      if (cmdClick) {
-        popupWin.loadURL(nextUrl);
-      }
-
       // fix Google prevents signing in because of security concerns
       // https://github.com/atomery/webcatalog/issues/455
       // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
@@ -379,6 +372,13 @@ const addView = (browserWindow, workspace) => {
           ee.sender.webContents.reload();
         }
       });
+
+      // if 'new-window' is triggered with Cmd+Click
+      // url is not loaded automatically
+      // https://github.com/atomery/webcatalog/issues/842
+      if (cmdClick) {
+        popupWin.loadURL(nextUrl);
+      }
 
       e.newGuest = popupWin;
     };

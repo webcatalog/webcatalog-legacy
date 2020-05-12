@@ -44,16 +44,15 @@ const AppCard = ({
         variant="static"
         value={progressPercent}
         className={classes.top}
-        size={32}
+        size={28}
         thickness={4}
       />
     </Tooltip>
     <CircularProgress
       variant="static"
       value={100}
-      disableShrink
       className={classes.bottom}
-      size={32}
+      size={28}
       thickness={4}
     />
   </div>
