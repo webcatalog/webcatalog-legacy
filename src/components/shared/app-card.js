@@ -163,7 +163,7 @@ const AppCard = (props) => {
         disabled={status !== null}
         onClick={() => onOpenDialogChooseEngine(id, name, url, icon)}
       >
-        <span>{label}</span>
+        {label}
       </Button>
     );
   };
