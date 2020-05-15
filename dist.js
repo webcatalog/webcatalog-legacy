@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const fs = require('fs-extra');
 const builder = require('electron-builder');
 const { notarize } = require('electron-notarize');
 
@@ -33,17 +32,6 @@ const verifyNotarizationAsync = (filePath) => new Promise((resolve, reject) => {
 });
 
 console.log(`Machine: ${process.platform}`);
-
-const PACKAGE_JSON_PATH = 'package.json';
-const TEMPLATE_PACKAGE_JSON_PATH = 'template/package.json';
-
-const packageJson = fs.readJSONSync(PACKAGE_JSON_PATH);
-const templatePackageJson = fs.readJSONSync(TEMPLATE_PACKAGE_JSON_PATH);
-
-if (packageJson.templateVersion !== templatePackageJson.version) {
-  console.log('templateVersion is not correctly updated.');
-  process.exit(1);
-}
 
 let targets;
 switch (process.platform) {
