@@ -24,7 +24,6 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn
-    - run: yarn template:install
     - run: yarn lint
     - name: Get tag name
       run: echo ::set-env name=CI_BUILD_TAG::${GITHUB_REF/refs\/tags\//}
