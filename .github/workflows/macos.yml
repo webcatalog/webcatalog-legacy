@@ -24,7 +24,6 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn
-    - run: yarn template:install
     - run: yarn lint
     - run: brew install p7zip
     - name: Get tag name
