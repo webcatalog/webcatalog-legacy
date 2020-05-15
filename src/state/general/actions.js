@@ -44,19 +44,15 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))
-    .then(() => window.fetch('https://api.github.com/repos/atomery/webcatalog/releases/latest'))
+    .then(() => window.fetch('https://api.github.com/repos/atomery/juli/releases/latest'))
     .then((res) => res.json())
-    .then((release) => {
-      const v = release.tag_name;
-      return window.fetch(`https://raw.githubusercontent.com/atomery/webcatalog/${v}/package.json`);
-    })
-    .then((res) => res.json())
-    .then((fetchedJson) => {
+    .then((release) => release.tag_name.substring(1))
+    .then((latestVersion) => {
       const globalTemplateVersion = remote.getGlobal('templateVersion');
-      if (globalTemplateVersion && semver.lt(fetchedJson.templateVersion, globalTemplateVersion)) {
+      if (globalTemplateVersion && semver.lt(latestVersion, globalTemplateVersion)) {
         dispatch(updateLatestTemplateVersion(globalTemplateVersion));
       } else {
-        dispatch(updateLatestTemplateVersion(fetchedJson.templateVersion));
+        dispatch(updateLatestTemplateVersion(latestVersion));
       }
       dispatch(updateFetchingLatestTemplateVersion(false));
     })

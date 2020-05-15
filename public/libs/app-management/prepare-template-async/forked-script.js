@@ -5,6 +5,7 @@ const decompress = require('decompress');
 const fs = require('fs-extra');
 const hasha = require('hasha');
 const path = require('path');
+const semver = require('semver');
 
 const customizedFetch = require('../../customized-fetch');
 const formatBytes = require('../../format-bytes');
@@ -17,26 +18,27 @@ const {
   arch,
 } = argv;
 
-let cachedFetchTemplateInfoAsync;
-const fetchTemplateInfoAsync = () => {
-  if (cachedFetchTemplateInfoAsync) {
-    return Promise.resolve(cachedFetchTemplateInfoAsync);
-  }
-
-  return customizedFetch(`https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${process.platform}-${process.arch}.json`)
-    .then((res) => res.json())
-    .then((fetchedJson) => {
-      cachedFetchTemplateInfoAsync = {
-        ...fetchedJson, // version, sha256
-        zipUrl: `https://github.com/atomery/webcatalog/releases/download/v${appVersion}/template-${platform}-${arch}.zip`,
-      };
-      return cachedFetchTemplateInfoAsync;
-    });
-};
+const fetchTemplateInfoAsync = () => customizedFetch('https://api.github.com/repos/atomery/juli/releases/latest')
+  .then((res) => res.json())
+  .then((release) => {
+    const tagName = release.tag_name;
+    return customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`);
+  })
+  .then((res) => res.json());
 
 fetchTemplateInfoAsync()
   .then((templateInfo) => Promise.resolve()
     .then(() => {
+      process.send({
+        versionInfo: {
+          version: templateInfo.version,
+        },
+      });
+
+      if (semver.lt(appVersion, templateInfo.minimumWebCatalogVersion)) {
+        return Promise.reject(new Error('WebCatalog is outdated. Please update WebCatalog first to continue.'));
+      }
+
       // return shouldDownload
       if (fs.pathExistsSync(templateZipPath)) {
         return hasha.fromFile(templateZipPath, { algorithm: 'sha256' })
@@ -65,7 +67,7 @@ fetchTemplateInfoAsync()
 
             return axios({
               method: 'get',
-              url: templateInfo.zipUrl,
+              url: templateInfo.downloadUrl,
               responseType: 'stream',
               httpsAgent: agent,
               httpAgent: agent,
@@ -101,7 +103,6 @@ fetchTemplateInfoAsync()
           })
           .then(() => hasha.fromFile(templateZipPath, { algorithm: 'sha256' }))
           .then((sha256) => {
-            console.log(sha256, templateInfo.sha256);
             if (sha256 !== templateInfo.sha256) {
               return Promise.reject(new Error('Downloaded template code zip is corrupted (validated with SHA256).'));
             }
@@ -128,8 +129,6 @@ fetchTemplateInfoAsync()
       return true;
     })
     .then((shouldExtract) => {
-      console.log('shouldExtract', shouldExtract);
-
       if (shouldExtract) {
         // when extraction is started, 80% (downloading) is already done
         process.send({

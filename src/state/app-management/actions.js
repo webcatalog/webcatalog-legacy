@@ -1,5 +1,3 @@
-import semver from 'semver';
-
 import { SET_APP, REMOVE_APP, CLEAN_APP_MANAGEMENT } from '../../constants/actions';
 
 import {
@@ -7,8 +5,6 @@ import {
   getAppCount,
   getOutdatedAppsAsList,
 } from './utils';
-
-import packageJson from '../../../package.json';
 
 import {
   requestShowMessageBox,
@@ -55,15 +51,7 @@ export const installApp = (engine, id, name, url, icon) => (dispatch, getState) 
   return null;
 };
 
-export const updateApp = (engine, id, name, url, icon) => (dispatch, getState) => {
-  const state = getState();
-
-  const { latestTemplateVersion } = state.general;
-
-  if (semver.lt(packageJson.templateVersion, latestTemplateVersion)) {
-    return requestShowMessageBox('WebCatalog is outdated. Please update WebCatalog first to continue.', 'error');
-  }
-
+export const updateApp = (engine, id, name, url, icon) => () => {
   // download icon when updating apps in the catalog
   const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
 
@@ -72,12 +60,6 @@ export const updateApp = (engine, id, name, url, icon) => (dispatch, getState) =
 
 export const updateAllApps = () => (dispatch, getState) => {
   const state = getState();
-
-  const { latestTemplateVersion } = state.general;
-
-  if (semver.lt(packageJson.templateVersion, latestTemplateVersion)) {
-    return requestShowMessageBox('WebCatalog is outdated. Please update WebCatalog first to continue.', 'error');
-  }
 
   const outdatedApps = getOutdatedAppsAsList(state);
 
