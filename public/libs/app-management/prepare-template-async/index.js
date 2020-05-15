@@ -9,6 +9,7 @@ const { getPreferences } = require('../../preferences');
 global.forceExtract = true;
 
 const prepareTemplateAsync = () => new Promise((resolve, reject) => {
+  let latestTemplateVersion = '0.0.0';
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
   const {
@@ -42,7 +43,9 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
 
   let err = null;
   child.on('message', (message) => {
-    if (message && message.progress) {
+    if (message && message.versionInfo) {
+      latestTemplateVersion = message.versionInfo.version;
+    } else if (message && message.progress) {
       sendToAllWindows('update-installation-progress', message.progress);
     } else if (message && message.error) {
       err = new Error(message.error.message);
@@ -62,7 +65,7 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
     // // extracting template code successful so need to re-extract next time
     global.forceExtract = false;
 
-    resolve();
+    resolve(latestTemplateVersion);
   });
 });
 

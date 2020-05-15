@@ -33,8 +33,6 @@ const createMenu = require('../libs/create-menu');
 
 const mainWindow = require('../windows/main');
 
-const packageJson = require('../../package.json');
-
 const loadListeners = () => {
   ipcMain.on('request-open-in-browser', (e, browserUrl) => {
     shell.openExternal(browserUrl);
@@ -219,14 +217,14 @@ const loadListeners = () => {
       });
 
       return installAppAsync(engine, id, name, url, icon)
-        .then(() => {
+        .then((version) => {
           e.sender.send('set-app', id, {
             engine,
             id,
             name,
             url,
             icon,
-            version: packageJson.templateVersion,
+            version,
             status: 'INSTALLED',
             registered: getPreference('registered'),
           });
@@ -270,9 +268,9 @@ const loadListeners = () => {
       });
 
       return installAppAsync(engine, id, name, url, icon)
-        .then(() => {
+        .then((version) => {
           e.sender.send('set-app', id, {
-            version: packageJson.templateVersion,
+            version,
             status: 'INSTALLED',
             registered: getPreference('registered'),
             // ensure fresh icon from the catalog is shown

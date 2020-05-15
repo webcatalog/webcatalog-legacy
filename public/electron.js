@@ -15,8 +15,6 @@ const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
 
-const packageJson = require('../package.json');
-
 require('./libs/updater');
 
 // see https://github.com/electron/electron/issues/18397
@@ -50,7 +48,6 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
-    global.templateVersion = packageJson.templateVersion;
     global.defaultIcon = path.join(app.getAppPath(), 'default-icon.png');
 
     const {
