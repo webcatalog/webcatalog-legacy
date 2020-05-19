@@ -38,12 +38,24 @@ const styles = (theme) => ({
 });
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updaterTimer = null;
+  }
+
   componentDidMount() {
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
     const { onFetchLatestTemplateVersionAsync } = this.props;
     onFetchLatestTemplateVersionAsync();
+    this.updaterTimer = setTimeout(() => {
+      onFetchLatestTemplateVersionAsync();
+    }, 15 * 60 * 1000); // recheck every 15 minutes
+  }
+
+  componentDidUnmount() {
+    clearTimeout(this.updaterTimer);
   }
 
   render() {
