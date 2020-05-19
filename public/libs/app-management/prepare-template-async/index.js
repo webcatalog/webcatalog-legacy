@@ -13,6 +13,7 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'forked-script.js');
 
   const {
+    allowPrerelease,
     proxyPacScript,
     proxyRules,
     proxyType,
@@ -29,6 +30,8 @@ const prepareTemplateAsync = () => new Promise((resolve, reject) => {
     process.platform,
     '--arch',
     process.arch,
+    '--allowPrerelease',
+    allowPrerelease.toString(),
   ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
