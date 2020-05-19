@@ -11,19 +11,28 @@ const customizedFetch = require('../../customized-fetch');
 const formatBytes = require('../../format-bytes');
 
 const {
+  allowPrerelease,
   appVersion,
+  arch,
+  platform,
   templatePath,
   templateZipPath,
-  platform,
-  arch,
 } = argv;
 
-const fetchTemplateInfoAsync = () => customizedFetch('https://api.github.com/repos/atomery/juli/releases/latest')
-  .then((res) => res.json())
-  .then((release) => {
-    const tagName = release.tag_name;
-    return customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`);
+const fetchTemplateInfoAsync = () => Promise.resolve()
+  .then(() => {
+    if (allowPrerelease === 'true') {
+      return customizedFetch('https://api.github.com/repos/atomery/juli/releases')
+        .then((res) => res.json())
+        .then((releases) => releases[0])
+        .then((release) => release.tag_name);
+    }
+
+    return customizedFetch('https://api.github.com/repos/atomery/juli/releases/latest')
+      .then((res) => res.json())
+      .then((release) => release.tag_name);
   })
+  .then((tagName) => customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`))
   .then((res) => res.json());
 
 fetchTemplateInfoAsync()

@@ -39,14 +39,24 @@ export const updateInstallationProgress = (progress) => ({
   progress,
 });
 
-export const fetchLatestTemplateVersionAsync = () => (dispatch) => {
+export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
+  const { allowPrerelease } = getState().preferences;
   const { remote } = window.require('electron');
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))
-    .then(() => window.fetch('https://api.github.com/repos/atomery/juli/releases/latest'))
-    .then((res) => res.json())
-    .then((release) => release.tag_name.substring(1))
+    .then(() => {
+      if (allowPrerelease) {
+        return window.fetch('https://api.github.com/repos/atomery/juli/releases')
+          .then((res) => res.json())
+          .then((releases) => releases[0])
+          .then((release) => release.tag_name.substring(1));
+      }
+
+      return window.fetch('https://api.github.com/repos/atomery/juli/releases/latest')
+        .then((res) => res.json())
+        .then((release) => release.tag_name.substring(1));
+    })
     .then((latestVersion) => {
       const globalTemplateVersion = remote.getGlobal('templateVersion');
       if (globalTemplateVersion && semver.lt(latestVersion, globalTemplateVersion)) {
