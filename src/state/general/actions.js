@@ -1,4 +1,5 @@
 import semver from 'semver';
+import xmlParser from 'fast-xml-parser';
 
 import {
   UPDATE_SHOULD_USE_DARK_COLORS,
@@ -45,17 +46,31 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))
-    .then(() => {
+    // avoid using GitHub API as it has rate limit (60 requests per hour)
+    .then(() => window.fetch('https://github.com/atomery/juli/releases.atom'))
+    .then((res) => res.text())
+    .then((xmlData) => {
+      const releases = xmlParser.parse(xmlData).feed.entry;
+
       if (allowPrerelease) {
-        return window.fetch('https://api.github.com/repos/atomery/juli/releases')
-          .then((res) => res.json())
-          .then((releases) => releases[0])
-          .then((release) => release.tag_name.substring(1));
+        // just return the first one
+        const tagName = releases[0].id.split('/').pop();
+        return tagName.substring(1);
       }
 
-      return window.fetch('https://api.github.com/repos/atomery/juli/releases/latest')
-        .then((res) => res.json())
-        .then((release) => release.tag_name.substring(1));
+      // find stable version
+      for (let i = 0; i < releases.length; i += 1) {
+        const release = releases[i];
+        // use id instead of title as it's computer-generated
+        // avoid human mistake
+        const tagName = release.id.split('/').pop();
+        const version = tagName.substring(1);
+        if (!semver.prerelease(version)) {
+          return version;
+        }
+      }
+
+      return Promise.reject(new Error('Server returns no valid updates.'));
     })
     .then((latestVersion) => {
       const globalTemplateVersion = remote.getGlobal('templateVersion');

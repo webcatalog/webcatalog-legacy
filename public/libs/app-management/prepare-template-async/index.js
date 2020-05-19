@@ -1,4 +1,6 @@
 const path = require('path');
+const semver = require('semver');
+const xmlParser = require('fast-xml-parser');
 const { fork } = require('child_process');
 const { app } = require('electron');
 
@@ -9,63 +11,31 @@ const { getPreference, getPreferences } = require('../../preferences');
 // force re-extract for first installation after launch
 global.forceExtract = true;
 
-// GitHub API has rate limit & node-fetch doesn't support caching out-of-the-box
-// Use caching and conditional request to ensure it's under limit
-// See https://developer.github.com/v3/#conditional-requests
-// Most responses return an ETag header.
-// Many responses also return a Last-Modified header.
-// You can use the values of these headers to make subsequent
-// requests to those resources using the If-None-Match
-// and If-Modified-Since headers, respectively.
-// If the resource has not changed, the server will return a 304 Not Modified.
-let cachedResponse = null;
-const getTagNameAsync = () => Promise.resolve()
-  .then(() => {
+// avoid using GitHub API as it has rate limit (60 requests per hour)
+const getTagNameAsync = () => customizedFetch('https://github.com/atomery/juli/releases.atom')
+  .then((res) => res.text())
+  .then((xmlData) => {
     const allowPrerelease = getPreference('allowPrerelease');
+    const releases = xmlParser.parse(xmlData).feed.entry;
 
-    const opts = {};
-    if (cachedResponse) {
-      opts.headers = {
-        'If-None-Match': cachedResponse.etag,
-      };
+    if (allowPrerelease) {
+      // just return the first one
+      const tagName = releases[0].id.split('/').pop();
+      return tagName;
     }
 
-    if (allowPrerelease === 'true') {
-      return customizedFetch('https://api.github.com/repos/atomery/juli/releases', opts)
-        .then((res) => {
-          if (res.status === 304) {
-            return null;
-          }
-
-          return res.json()
-            .then((releases) => releases[0])
-            .then((release) => release.tag_name)
-            .then((tagName) => {
-              cachedResponse = {
-                etag: res.headers.get('etag'),
-                tagName,
-              };
-            });
-        });
+    // find stable version
+    for (let i = 0; i < releases.length; i += 1) {
+      const release = releases[i];
+      const tagName = release.id.split('/').pop();
+      const version = tagName.substring(1);
+      if (!semver.prerelease(version)) {
+        return tagName;
+      }
     }
 
-    return customizedFetch('https://api.github.com/repos/atomery/juli/releases/latest', opts)
-      .then((res) => {
-        if (res.status === 304) {
-          return null;
-        }
-
-        return res.json()
-          .then((release) => release.tag_name)
-          .then((tagName) => {
-            cachedResponse = {
-              etag: res.headers.get('etag'),
-              tagName,
-            };
-          });
-      });
-  })
-  .then(() => cachedResponse.tagName);
+    return Promise.reject(new Error('Server returns no valid updates.'));
+  });
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   let latestTemplateVersion = '0.0.0';
