@@ -67,7 +67,6 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
       dispatch(updateFetchingLatestTemplateVersion(false));
     })
     .catch((err) => {
-      console.log(err);
       const globalTemplateVersion = remote.getGlobal('templateVersion');
       if (globalTemplateVersion) {
         dispatch(updateLatestTemplateVersion(globalTemplateVersion));
