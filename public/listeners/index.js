@@ -340,7 +340,7 @@ const loadListeners = () => {
         if (response === 0) {
           shell.openExternal('https://github.com/electron-userland/electron-builder/issues/4046');
         } else if (response === 1) {
-          shell.openExternal('http://getwebcatalog.com/');
+          shell.openExternal('http://webcatalogapp.com/');
         }
       }).catch(console.log); // eslint-disable-line
       return;
