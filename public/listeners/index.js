@@ -329,7 +329,7 @@ const loadListeners = () => {
     // https://github.com/atomery/webcatalog/issues/634
     // https://github.com/electron-userland/electron-builder/issues/4046
     // disable updater if user is using AppImageLauncher
-    if (process.platform === 'darwin' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
+    if (process.platform === 'linux' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
       dialog.showMessageBox(mainWindow.get(), {
         type: 'error',
         message: 'Updater is incompatible with AppImageLauncher. Please uninstall AppImageLauncher or download new updates manually from our website.',
