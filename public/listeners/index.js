@@ -324,7 +324,7 @@ const loadListeners = () => {
 
   ipcMain.on('request-check-for-updates', (e, isSilent) => {
     // https://github.com/electron-userland/electron-builder/issues/4028
-    // if (!autoUpdater.isUpdaterActive()) return;
+    if (!autoUpdater.isUpdaterActive()) return;
 
     // https://github.com/atomery/webcatalog/issues/634
     // https://github.com/electron-userland/electron-builder/issues/4046
