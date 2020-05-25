@@ -324,19 +324,26 @@ const loadListeners = () => {
 
   ipcMain.on('request-check-for-updates', (e, isSilent) => {
     // https://github.com/electron-userland/electron-builder/issues/4028
-    if (!autoUpdater.isUpdaterActive()) return;
+    // if (!autoUpdater.isUpdaterActive()) return;
 
     // https://github.com/atomery/webcatalog/issues/634
-    // HACK(mc, 2019-09-10): work around https://github.com/electron-userland/electron-builder/issues/4046
-    if (process.platform === 'linux' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
-      // remap temporary running AppImage to actual source
-      // THIS IS PROBABLY SUPER BRITTLE AND MAKES ME WANT TO STOP USING APPIMAGE
-      autoUpdater.logger.info('AppImageLauncher detected.');
-      autoUpdater.logger.info('rewriting $APPIMAGE', {
-        oldValue: process.env.APPIMAGE,
-        newValue: process.env.ARGV0,
-      });
-      process.env.APPIMAGE = process.env.ARGV0;
+    // https://github.com/electron-userland/electron-builder/issues/4046
+    // disable updater if user is using AppImageLauncher
+    if (process.platform === 'darwin' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
+      dialog.showMessageBox(mainWindow.get(), {
+        type: 'error',
+        message: 'Updater is incompatible with AppImageLauncher. Please uninstall AppImageLauncher or download new updates manually from our website.',
+        buttons: ['Learn More', 'Go to Website', 'OK'],
+        cancelId: 2,
+        defaultId: 2,
+      }).then(({ response }) => {
+        if (response === 0) {
+          shell.openExternal('https://github.com/electron-userland/electron-builder/issues/4046');
+        } else if (response === 1) {
+          shell.openExternal('http://getwebcatalog.com/');
+        }
+      }).catch(console.log); // eslint-disable-line
+      return;
     }
 
     // restart & apply updates
