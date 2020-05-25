@@ -309,7 +309,7 @@ const Preferences = ({
                   </ListItem>
                 )}
               >
-                {window.process.platform === 'darwin' && <MenuItem dense onClick={() => requestSetPreference('themeSource', 'system')}>System default</MenuItem>}
+                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'system')}>System default</MenuItem>
                 <MenuItem dense onClick={() => requestSetPreference('themeSource', 'light')}>Light</MenuItem>
                 <MenuItem dense onClick={() => requestSetPreference('themeSource', 'dark')}>Dark</MenuItem>
               </StatedMenu>
