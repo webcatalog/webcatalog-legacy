@@ -18,7 +18,11 @@ import DialogProxy from './dialogs/dialog-proxy';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
 
-import { ROUTE_PREFERENCES, ROUTE_INSTALLED } from '../constants/routes';
+import {
+  ROUTE_HOME,
+  ROUTE_PREFERENCES,
+  ROUTE_INSTALLED,
+} from '../constants/routes';
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
@@ -69,13 +73,14 @@ class App extends React.Component {
         pageContent = <Installed key="installed" />;
         break;
       default:
-        pageContent = <Home key="home" />;
+        pageContent = null;
     }
 
     return (
       <div className={classes.root}>
         {!isFullScreen && window.process.platform === 'darwin' && window.mode !== 'menubar' && <FakeTitleBar />}
         {pageContent}
+        <Home hidden={route !== ROUTE_HOME} />
         <DialogAbout />
         <DialogChooseEngine />
         <DialogCreateCustomApp />

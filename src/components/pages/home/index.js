@@ -1,6 +1,6 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -33,6 +33,9 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+  },
+  rootHidden: {
+    display: 'none',
   },
   scrollContainer: {
     flex: 1,
@@ -81,6 +84,7 @@ class Home extends React.Component {
       classes,
       currentQuery,
       hasFailed,
+      hidden,
       hits,
       isGetting,
       onGetHits,
@@ -170,7 +174,7 @@ class Home extends React.Component {
     };
 
     return (
-      <div className={classes.root}>
+      <div className={classNames(classes.root, hidden && classes.rootHidden)}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <SearchBox />
@@ -194,12 +198,14 @@ class Home extends React.Component {
 
 Home.defaultProps = {
   currentQuery: '',
+  hidden: false,
 };
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   currentQuery: PropTypes.string,
   hasFailed: PropTypes.bool.isRequired,
+  hidden: PropTypes.bool,
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   isGetting: PropTypes.bool.isRequired,
   onGetHits: PropTypes.func.isRequired,
