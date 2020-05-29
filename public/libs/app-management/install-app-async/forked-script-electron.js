@@ -7,8 +7,8 @@ const Jimp = require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
-const { exec } = require('child_process');
 
+const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
 
 const {
@@ -65,22 +65,6 @@ const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
-
-const execAsync = (cmd) => new Promise((resolve, reject) => {
-  exec(cmd, (e, stdout, stderr) => {
-    if (e instanceof Error) {
-      reject(e);
-      return;
-    }
-
-    if (stderr) {
-      reject(new Error(stderr));
-      return;
-    }
-
-    resolve(stdout);
-  });
-});
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
   const opts = {

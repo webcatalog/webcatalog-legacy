@@ -7,6 +7,7 @@ const {
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const commandExistsSync = require('command-exists').sync;
+const os = require('os');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
@@ -30,6 +31,9 @@ const {
 } = require('../libs/system-preferences');
 
 const createMenu = require('../libs/create-menu');
+
+const getNetFrameworkVersionAsync = require('../libs/get-net-framework-version-async');
+const getPowershellMajorVersionAsync = require('../libs/get-powershell-major-version-async');
 
 const mainWindow = require('../windows/main');
 
@@ -175,7 +179,7 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  const isUnzipInstalled = () => {
+  const checkCrossZipReadyAsync = async () => {
     // https://github.com/atomery/webcatalog/issues/614
     // unzip is used by electron-packager > cross-zip
     if (process.platform === 'linux' && !commandExistsSync('unzip')) {
@@ -194,111 +198,161 @@ const loadListeners = () => {
         .catch(console.log); // eslint-disable-line
       return false;
     }
+
+    // if the system is running Windows 7
+    // check if user has installed .NET Framework 4.5 & Powershell 3
+    // these packages are preinstalled on Windows 8+
+    // cross-zip requires these packages
+    // https://github.com/electron/electron-packager/issues/1018
+    // https://github.com/atomery/webcatalog/wiki/System-Requirements-on-Windows
+    // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
+    if (process.platform === 'win32' && os.release().startsWith('6.1')) {
+      const powershellMajorVersion = await getPowershellMajorVersionAsync();
+      const netFrameworkVersion = await getNetFrameworkVersionAsync();
+      if (powershellMajorVersion < 3 || netFrameworkVersion < 378389) {
+        const missingPackageNames = [];
+        if (netFrameworkVersion < 378389) {
+          missingPackageNames.push('.NET Framework 4.5 (or above)');
+        }
+        if (powershellMajorVersion < 3) {
+          missingPackageNames.push('Powershell 3 (or above)');
+        }
+
+        dialog.showMessageBox(mainWindow.get(), {
+          type: 'error',
+          message: `${missingPackageNames.join(' and ')} ${missingPackageNames.length > 1 ? 'are' : 'is'} not installed on your system. Please install the packages to continue.`,
+          buttons: ['OK', 'Learn more'],
+          cancelId: 0,
+          defaultId: 0,
+        })
+          .then(({ response }) => {
+            if (response === 1) {
+              shell.openExternal('https://github.com/atomery/webcatalog/wiki/System-Requirements-on-Windows');
+            }
+          })
+          .catch(console.log); // eslint-disable-line
+        return false;
+      }
+    }
     return true;
   };
 
   ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
-    if (!isUnzipInstalled()) return;
+    Promise.resolve()
+      .then(() => { // check if WebCatalog is ready to install app
+        if (engine === 'electron') return checkCrossZipReadyAsync();
+        return true;
+      })
+      .then((isReady) => {
+        if (!isReady) return;
 
-    e.sender.send('set-app', id, {
-      status: 'INSTALLING',
-      engine,
-      id,
-      name,
-      url,
-      icon,
-      cancelable: true,
-    });
+        e.sender.send('set-app', id, {
+          status: 'INSTALLING',
+          engine,
+          id,
+          name,
+          url,
+          icon,
+          cancelable: true,
+        });
 
-    promiseFuncMap[id] = () => {
-      // prevent canceling when installation has already started
-      e.sender.send('set-app', id, {
-        cancelable: false,
-      });
-
-      return installAppAsync(engine, id, name, url, icon)
-        .then((version) => {
+        promiseFuncMap[id] = () => {
+          // prevent canceling when installation has already started
           e.sender.send('set-app', id, {
-            engine,
-            id,
-            name,
-            url,
-            icon,
-            version,
-            status: 'INSTALLED',
-            registered: getPreference('registered'),
+            cancelable: false,
           });
-          delete promiseFuncMap[id];
-        })
-        .catch((error) => {
-          /* eslint-disable-next-line */
-          console.log(error);
-          dialog.showMessageBox(mainWindow.get(), {
-            type: 'error',
-            message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
-            buttons: ['OK'],
-            cancelId: 0,
-            defaultId: 0,
-          });
-          e.sender.send('remove-app', id);
-          delete promiseFuncMap[id];
-        }).catch(console.log); // eslint-disable-line
-    };
 
-    p = p.then(() => {
-      if (promiseFuncMap[id]) {
-        return promiseFuncMap[id]();
-      }
-      return null;
-    });
+          return installAppAsync(engine, id, name, url, icon)
+            .then((version) => {
+              e.sender.send('set-app', id, {
+                engine,
+                id,
+                name,
+                url,
+                icon,
+                version,
+                status: 'INSTALLED',
+                registered: getPreference('registered'),
+              });
+              delete promiseFuncMap[id];
+            })
+            .catch((error) => {
+              /* eslint-disable-next-line */
+              console.log(error);
+              dialog.showMessageBox(mainWindow.get(), {
+                type: 'error',
+                message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
+                buttons: ['OK'],
+                cancelId: 0,
+                defaultId: 0,
+              });
+              e.sender.send('remove-app', id);
+              delete promiseFuncMap[id];
+            }).catch(console.log); // eslint-disable-line
+        };
+
+        p = p.then(() => {
+          if (promiseFuncMap[id]) {
+            return promiseFuncMap[id]();
+          }
+          return null;
+        });
+      });
   });
 
   ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
-    if (!isUnzipInstalled()) return;
+    Promise.resolve()
+      .then(() => { // check if WebCatalog is ready to install app
+        if (engine === 'electron') return checkCrossZipReadyAsync();
+        return true;
+      })
+      .then((isReady) => {
+        if (!isReady) return;
 
-    e.sender.send('set-app', id, {
-      status: 'INSTALLING',
-      cancelable: true,
-    });
-
-    promiseFuncMap[id] = () => {
-      // prevent canceling when installation has already started
-      e.sender.send('set-app', id, {
-        cancelable: false,
-      });
-
-      return installAppAsync(engine, id, name, url, icon)
-        .then((version) => {
-          e.sender.send('set-app', id, {
-            version,
-            status: 'INSTALLED',
-            registered: getPreference('registered'),
-            // ensure fresh icon from the catalog is shown
-            icon: !id.startsWith('custom-') ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
-          });
-        })
-        .catch((error) => {
-          /* eslint-disable-next-line */
-          console.log(error);
-          dialog.showMessageBox(mainWindow.get(), {
-            type: 'error',
-            message: `Failed to update ${name}. (${error.message})`,
-            buttons: ['OK'],
-            cancelId: 0,
-            defaultId: 0,
-          }).catch(console.log); // eslint-disable-line
-          e.sender.send('set-app', id, {
-            status: 'INSTALLED',
-          });
+        e.sender.send('set-app', id, {
+          status: 'INSTALLING',
+          cancelable: true,
         });
-    };
 
-    p = p.then(() => {
-      if (promiseFuncMap[id]) {
-        return promiseFuncMap[id]();
-      }
-      return null;
-    });
+        promiseFuncMap[id] = () => {
+          // prevent canceling when installation has already started
+          e.sender.send('set-app', id, {
+            cancelable: false,
+          });
+
+          return installAppAsync(engine, id, name, url, icon)
+            .then((version) => {
+              e.sender.send('set-app', id, {
+                version,
+                status: 'INSTALLED',
+                registered: getPreference('registered'),
+                // ensure fresh icon from the catalog is shown
+                icon: !id.startsWith('custom-') ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
+              });
+            })
+            .catch((error) => {
+              /* eslint-disable-next-line */
+              console.log(error);
+              dialog.showMessageBox(mainWindow.get(), {
+                type: 'error',
+                message: `Failed to update ${name}. (${error.message})`,
+                buttons: ['OK'],
+                cancelId: 0,
+                defaultId: 0,
+              }).catch(console.log); // eslint-disable-line
+              e.sender.send('set-app', id, {
+                status: 'INSTALLED',
+              });
+            });
+        };
+
+        p = p.then(() => {
+          if (promiseFuncMap[id]) {
+            return promiseFuncMap[id]();
+          }
+          return null;
+        });
+      });
   });
 
   ipcMain.on('request-cancel-install-app', (e, id) => {
