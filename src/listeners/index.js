@@ -1,3 +1,5 @@
+import { batch } from 'react-redux';
+
 import { setApp, removeApp, clean as cleanAppManagement } from '../state/app-management/actions';
 import { changeRoute } from '../state/router/actions';
 import { setPreference } from '../state/preferences/actions';
@@ -29,6 +31,14 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('set-app', (e, id, app) => {
     store.dispatch(setApp(id, app));
+  });
+
+  ipcRenderer.on('set-app-batch', (e, apps) => {
+    batch(() => {
+      apps.forEach((app) => {
+        store.dispatch(setApp(app.id, app));
+      });
+    });
   });
 
   ipcRenderer.on('remove-app', (e, id) => store.dispatch(removeApp(id)));

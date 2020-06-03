@@ -34,43 +34,37 @@ export const getHits = () => (dispatch, getState) => {
     page: page + 1,
     hitsPerPage: 42,
   })
-    .then((res) => dispatch(homeGetSuccess({
-      hits: res.hits,
-      page: res.page,
-      totalPage: res.nbPages,
-    })))
-    .catch(() => dispatch(homeGetFailed()));
+    .then((res) => {
+      if (currentQuery !== getState().home.currentQuery) {
+        return;
+      }
+      dispatch(homeGetSuccess({
+        hits: res.hits,
+        page: res.page,
+        totalPage: res.nbPages,
+      }));
+    })
+    .catch(() => {
+      if (currentQuery !== getState().home.currentQuery) {
+        return;
+      }
+      dispatch(homeGetFailed());
+    });
 };
 
-export const resetThenGetHits = () => (dispatch, getState) => {
+export const resetThenGetHits = (forceClearCache) => (dispatch, getState) => {
   const state = getState();
   const { query } = state.home;
+
+  if (forceClearCache) {
+    client.clearCache();
+  }
 
   dispatch(homeReset());
   dispatch(homeUpdateCurrentQuery(query));
   dispatch(getHits());
 };
 
-let timeout = null;
-export const updateQuery = (query) => (dispatch, getState) => {
-  const state = getState();
-
-  const {
-    currentQuery,
-  } = state.home;
-
-  dispatch(homeUpdateQuery(query));
-
-  clearTimeout(timeout);
-  if (currentQuery !== query) {
-    if (query === '') {
-      dispatch(resetThenGetHits());
-    } else {
-      timeout = setTimeout(() => {
-        dispatch(resetThenGetHits());
-      }, 300);
-    }
-  }
-};
+export const updateQuery = (query) => homeUpdateQuery(query);
 
 export const updateScrollOffset = (scrollOffset) => homeUpdateScrollOffset(scrollOffset);
