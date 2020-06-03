@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -12,6 +12,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+import { FixedSizeGrid } from 'react-window';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -40,27 +42,25 @@ const styles = (theme) => ({
   },
   scrollContainer: {
     flex: 1,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(2),
-    overflow: 'auto',
-    boxSizing: 'border-box',
-  },
-  grid: {
-    minHeight: '100%',
   },
   divider: {
-    marginBottom: theme.spacing(1),
   },
   updateAllFlexRoot: {
     display: 'flex',
+    height: 36,
   },
   updateAllFlexLeft: {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
+    paddingLeft: theme.spacing(1),
+  },
+  updateAllFlexRight: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingRight: theme.spacing(1),
   },
   pendingUpdates: {
     paddingLeft: theme.spacing(1),
@@ -68,36 +68,78 @@ const styles = (theme) => ({
   updateAllButton: {
     marginLeft: theme.spacing(1),
   },
+  cardContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-const Installed = (props) => {
-  const {
-    apps,
-    cancelableAppsAsList,
-    classes,
-    fetchingLatestTemplateVersion,
-    onFetchLatestTemplateVersionAsync,
-    onUpdateAllApps,
-    outdatedAppCount,
-    query,
-  } = props;
+const Installed = ({
+  apps,
+  cancelableAppsAsList,
+  classes,
+  fetchingLatestTemplateVersion,
+  onFetchLatestTemplateVersionAsync,
+  onUpdateAllApps,
+  outdatedAppCount,
+  query,
+}) => {
+  const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
+  const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowSize = () => {
+      updateInnerHeight(window.innerHeight);
+      updateInnerWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', updateWindowSize);
+    return () => {
+      window.removeEventListener('resize', updateWindowSize);
+    };
+  }, []);
 
   const renderContent = () => {
     if (Object.keys(apps).length > 0) {
+      const appList = Object.values(apps);
+      appList.sort((x, y) => x.name.localeCompare(y.name));
+
+      const rowHeight = 150 + 16;
+      const columnCount = Math.floor(innerWidth / 176);
+      const rowCount = Math.ceil(appList.length / columnCount);
+      const columnWidth = Math.floor(innerWidth / columnCount);
+      const Cell = ({ columnIndex, rowIndex, style }) => {
+        const index = rowIndex * columnCount + columnIndex;
+        const app = appList[index];
+        return (
+          <div className={classes.cardContainer} style={style}>
+            <AppCard
+              key={app.id}
+              id={app.id}
+              name={app.name}
+              url={app.url}
+              icon={app.icon}
+            />
+          </div>
+        );
+      };
+      Cell.propTypes = {
+        columnIndex: PropTypes.number.isRequired,
+        rowIndex: PropTypes.number.isRequired,
+        style: PropTypes.object.isRequired,
+      };
+
       return (
-        <Grid container justify="center" spacing={2}>
-          {Object.values(apps)
-            .sort((x, y) => x.name.localeCompare(y.name))
-            .map((app) => (
-              <AppCard
-                key={app.id}
-                id={app.id}
-                name={app.name}
-                url={app.url}
-                icon={app.icon}
-              />
-            ))}
-        </Grid>
+        <FixedSizeGrid
+          columnCount={columnCount}
+          columnWidth={columnWidth}
+          height={innerHeight - 138} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
+          rowCount={rowCount}
+          rowHeight={rowHeight}
+          width={innerWidth}
+        >
+          {Cell}
+        </FixedSizeGrid>
       );
     }
 
@@ -137,68 +179,64 @@ const Installed = (props) => {
         </Grid>
       </Grid>
       <div className={classes.scrollContainer}>
-        <Grid spacing={1} container className={classes.grid}>
-          <Grid item xs={12}>
-            <div className={classes.updateAllFlexRoot}>
-              <div className={classes.updateAllFlexLeft}>
-                <Typography variant="body2" color="textPrimary" className={classes.pendingUpdates}>
-                  <span>{outdatedAppCount}</span>
-                  <span>&nbsp;Pending Updates</span>
-                </Typography>
-                <Button
-                  className={classes.updateAllButton}
-                  onClick={onUpdateAllApps}
-                  size="small"
-                  disabled={outdatedAppCount < 1}
-                >
-                  Update All
-                </Button>
-                {cancelableAppsAsList.length > 0 && (
-                  <Button
-                    className={classes.updateAllButton}
-                    onClick={() => {
-                      cancelableAppsAsList.forEach((app) => {
-                        if (app.version) return requestCancelUpdateApp(app.id);
-                        return requestCancelInstallApp(app.id);
-                      });
-                    }}
-                    size="small"
-                  >
-                    Cancel All
-                  </Button>
-                )}
-              </div>
+        <div className={classes.updateAllFlexRoot}>
+          <div className={classes.updateAllFlexLeft}>
+            <Typography variant="body2" color="textPrimary" className={classes.pendingUpdates}>
+              <span>{outdatedAppCount}</span>
+              <span>&nbsp;Pending Updates</span>
+            </Typography>
+            <Button
+              className={classes.updateAllButton}
+              onClick={onUpdateAllApps}
+              size="small"
+              disabled={outdatedAppCount < 1}
+            >
+              Update All
+            </Button>
+            {cancelableAppsAsList.length > 0 && (
+              <Button
+                className={classes.updateAllButton}
+                onClick={() => {
+                  cancelableAppsAsList.forEach((app) => {
+                    if (app.version) return requestCancelUpdateApp(app.id);
+                    return requestCancelInstallApp(app.id);
+                  });
+                }}
+                size="small"
+              >
+                Cancel All
+              </Button>
+            )}
+          </div>
 
-              <div>
-                <StatedMenu
-                  id="more-options"
-                  buttonElement={(
-                    <IconButton size="small" aria-label="More Options">
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                  )}
-                >
-                  <MenuItem
-                    dense
-                    disabled={fetchingLatestTemplateVersion}
-                    onClick={onFetchLatestTemplateVersionAsync}
-                  >
-                    {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
-                  </MenuItem>
-                  <Divider />
-                  <MenuItem
-                    dense
-                    onClick={requestGetInstalledApps}
-                  >
-                    Rescan for Installed Apps
-                  </MenuItem>
-                </StatedMenu>
-              </div>
-            </div>
-            <Divider className={classes.divider} />
-            {renderContent()}
-          </Grid>
-        </Grid>
+          <div className={classes.updateAllFlexRight}>
+            <StatedMenu
+              id="more-options"
+              buttonElement={(
+                <IconButton size="small" aria-label="More Options">
+                  <MoreVertIcon fontSize="small" />
+                </IconButton>
+              )}
+            >
+              <MenuItem
+                dense
+                disabled={fetchingLatestTemplateVersion}
+                onClick={onFetchLatestTemplateVersionAsync}
+              >
+                {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                dense
+                onClick={requestGetInstalledApps}
+              >
+                Rescan for Installed Apps
+              </MenuItem>
+            </StatedMenu>
+          </div>
+        </div>
+        <Divider className={classes.divider} />
+        {renderContent()}
       </div>
     </div>
   );
