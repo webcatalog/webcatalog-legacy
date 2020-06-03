@@ -105,7 +105,7 @@ class SearchBox extends React.Component {
       <IconButton
         color="default"
         size="small"
-        aria-label="Clear"
+        aria-label="Clear search"
         onClick={() => onUpdateQuery('')}
       >
         <CloseIcon fontSize="small" />
