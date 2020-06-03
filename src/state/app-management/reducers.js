@@ -31,6 +31,15 @@ const apps = (state = {}, action) => {
   }
 };
 
+const scanning = (state = true, action) => {
+  switch (action.type) {
+    case CLEAN_APP_MANAGEMENT: return true;
+    case SET_APP: return false;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   apps,
+  scanning,
 });
