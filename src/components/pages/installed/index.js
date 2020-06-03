@@ -249,6 +249,7 @@ const Installed = ({
                 </IconButton>
               )}
             >
+              {sortOptions.map((sortOption) => (
                 <MenuItem
                   key={sortOption.val}
                   dense
