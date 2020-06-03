@@ -6,13 +6,9 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SortIcon from '@material-ui/icons/Sort';
 
 import { FixedSizeGrid } from 'react-window';
 
@@ -20,19 +16,15 @@ import connectComponent from '../../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
-import StatedMenu from '../../shared/stated-menu';
 
 import SearchBox from './search-box';
 
-import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { updateAllApps } from '../../../state/app-management/actions';
 import { getCancelableAppsAsList, getOutdatedAppsAsList, filterApps } from '../../../state/app-management/utils';
 
 import {
   requestCancelInstallApp,
   requestCancelUpdateApp,
-  requestGetInstalledApps,
-  requestSetPreference,
 } from '../../../senders';
 
 const styles = (theme) => ({
@@ -50,19 +42,14 @@ const styles = (theme) => ({
   updateAllFlexRoot: {
     display: 'flex',
     height: 36,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
   },
   updateAllFlexLeft: {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingLeft: theme.spacing(1),
-  },
-  updateAllFlexRight: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingRight: theme.spacing(1),
   },
   pendingUpdates: {
     paddingLeft: theme.spacing(1),
@@ -81,8 +68,6 @@ const Installed = ({
   apps,
   cancelableAppsAsList,
   classes,
-  fetchingLatestTemplateVersion,
-  onFetchLatestTemplateVersionAsync,
   onUpdateAllApps,
   outdatedAppCount,
   query,
@@ -101,12 +86,6 @@ const Installed = ({
       window.removeEventListener('resize', updateWindowSize);
     };
   }, []);
-
-  const sortOptions = [
-    { val: 'name', name: 'Sort by Name (A-Z)' },
-    { val: 'name-desc', name: 'Sort by Name (Z-A)' },
-    { val: 'last-updated', name: 'Sort by Last Updated' },
-  ];
 
   const renderContent = () => {
     if (Object.keys(apps).length > 0) {
@@ -239,51 +218,6 @@ const Installed = ({
               </Button>
             )}
           </div>
-
-          <div className={classes.updateAllFlexRight}>
-            <StatedMenu
-              id="sort-options"
-              buttonElement={(
-                <IconButton size="small" aria-label="Sort by...">
-                  <SortIcon fontSize="small" />
-                </IconButton>
-              )}
-            >
-              {sortOptions.map((sortOption) => (
-                <MenuItem
-                  key={sortOption.val}
-                  dense
-                  onClick={() => requestSetPreference('sortInstalledAppBy', sortOption.val)}
-                  selected={sortOption.val === sortInstalledAppBy}
-                >
-                  {sortOption.name}
-                </MenuItem>
-              ))}
-            </StatedMenu>
-            <StatedMenu
-              id="more-options"
-              buttonElement={(
-                <IconButton size="small" aria-label="More Options">
-                  <MoreVertIcon fontSize="small" />
-                </IconButton>
-              )}
-            >
-              <MenuItem
-                dense
-                disabled={fetchingLatestTemplateVersion}
-                onClick={onFetchLatestTemplateVersionAsync}
-              >
-                {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
-              </MenuItem>
-              <Divider />
-              <MenuItem
-                dense
-                onClick={requestGetInstalledApps}
-              >
-                Rescan for Installed Apps
-              </MenuItem>
-            </StatedMenu>
-          </div>
         </div>
         <Divider className={classes.divider} />
         {renderContent()}
@@ -300,8 +234,6 @@ Installed.propTypes = {
   apps: PropTypes.object.isRequired,
   cancelableAppsAsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   classes: PropTypes.object.isRequired,
-  fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
-  onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
   query: PropTypes.string,
@@ -311,14 +243,12 @@ Installed.propTypes = {
 const mapStateToProps = (state) => ({
   apps: filterApps(state.appManagement.apps, state.installed.query),
   cancelableAppsAsList: getCancelableAppsAsList(state),
-  fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
   query: state.installed.query,
   sortInstalledAppBy: state.preferences.sortInstalledAppBy,
 });
 
 const actionCreators = {
-  fetchLatestTemplateVersionAsync,
   updateAllApps,
 };
 
