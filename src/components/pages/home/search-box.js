@@ -110,11 +110,11 @@ class SearchBox extends React.Component {
 
     const clearSearchAction = query.length > 0 ? (
       <>
-        <Tooltip title="Clear">
+        <Tooltip title="Clear search">
           <IconButton
             color="default"
             size="small"
-            aria-label="Clear"
+            aria-label="Clear search"
             onClick={() => onUpdateQuery('')}
           >
             <CloseIcon fontSize="small" />
