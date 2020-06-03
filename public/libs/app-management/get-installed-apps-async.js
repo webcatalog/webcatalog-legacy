@@ -34,9 +34,11 @@ const getInstalledAppsAsync = () => {
               let packageJson;
               let appJson;
               let icon;
+              let lastUpdated = null;
 
               if (fsExtra.pathExistsSync(packageJsonPath)) {
                 packageJson = fsExtra.readJSONSync(packageJsonPath);
+                lastUpdated = fsExtra.statSync(packageJsonPath).mtime.toString();
               } else {
                 return;
               }
@@ -64,6 +66,7 @@ const getInstalledAppsAsync = () => {
                 icon,
                 engine: appJson.engine || 'electron',
                 status: 'INSTALLED',
+                lastUpdated,
               });
               apps.push(appObj);
               sendToAllWindows('set-app', appObj.id, appObj);
