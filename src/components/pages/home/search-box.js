@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CloseIcon from '@material-ui/icons/Close';
+import SearchIcon from '@material-ui/icons/Search';
+import RefreshIcon from '@material-ui/icons/Refresh';
+
 import IconButton from '@material-ui/core/IconButton';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import Paper from '@material-ui/core/Paper';
-import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -104,25 +108,40 @@ class SearchBox extends React.Component {
       query,
     } = this.props;
 
-    const clearSearchAction = query.length > 0 && (
+    const clearSearchAction = query.length > 0 ? (
       <>
-        <IconButton
-          color="default"
-          size="small"
-          aria-label="Clear"
-          onClick={() => onUpdateQuery('')}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-        <IconButton
-          color="default"
-          size="small"
-          aria-label="Search"
-          onClick={onResetThenGetHits}
-        >
-          <KeyboardReturnIcon fontSize="small" />
-        </IconButton>
+        <Tooltip title="Clear">
+          <IconButton
+            color="default"
+            size="small"
+            aria-label="Clear"
+            onClick={() => onUpdateQuery('')}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Search">
+          <IconButton
+            color="default"
+            size="small"
+            aria-label="Search"
+            onClick={onResetThenGetHits}
+          >
+            <KeyboardReturnIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </>
+    ) : (
+      <Tooltip title="Refresh">
+        <IconButton
+          color="default"
+          size="small"
+          aria-label="Refresh"
+          onClick={() => onResetThenGetHits(true)}
+        >
+          <RefreshIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
     );
 
     return (
