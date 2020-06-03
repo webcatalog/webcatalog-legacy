@@ -114,12 +114,12 @@ const Installed = ({
 
       switch (sortInstalledAppBy) {
         case 'last-updated': {
-          appList
-            .sort((x, y) => new Date(
-              y.lastRequestedToUpdate || y.lastUpdated,
-            ) - new Date(
-              x.lastRequestedToUpdate || x.lastUpdated,
-            ));
+          // https://stackoverflow.com/a/10124053/5522263
+          appList.sort((x, y) => {
+            const dateX = x.lastRequestedToUpdate || x.lastUpdated || 0;
+            const dateY = y.lastRequestedToUpdate || y.lastUpdated || 0;
+            return dateY - dateX;
+          });
           break;
         }
         case 'name-desc': {

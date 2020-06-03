@@ -38,7 +38,7 @@ const getInstalledAppsAsync = () => {
 
               if (fsExtra.pathExistsSync(packageJsonPath)) {
                 packageJson = fsExtra.readJSONSync(packageJsonPath);
-                lastUpdated = fsExtra.statSync(packageJsonPath).mtime.toString();
+                lastUpdated = Math.floor(fsExtra.statSync(packageJsonPath).mtimeMs);
               } else {
                 return;
               }
