@@ -65,6 +65,13 @@ const styles = (theme) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2),
   },
+  centeringCircularProgress: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const Home = ({
@@ -113,6 +120,14 @@ const Home = ({
       );
     }
 
+    if (isGetting && hits.length < 1) {
+      return (
+        <div className={classes.centeringCircularProgress}>
+          <CircularProgress size={28} />
+        </div>
+      );
+    }
+
     if (!isGetting && currentQuery.length > 0 && hits.length < 1) {
       return (
         <EmptyState icon={SearchIcon} title="No Matching Results">
@@ -144,14 +159,6 @@ const Home = ({
       const index = rowIndex * columnCount + columnIndex;
 
       if (index === 0) {
-        if (hits.length === 0) {
-          return (
-            <div className={classes.cardContainer} style={style}>
-              <CircularProgress size={28} />
-            </div>
-          );
-        }
-
         return (
           <div className={classes.cardContainer} style={style}>
             <CreateCustomAppCard key="create-custom-app" />
@@ -159,7 +166,7 @@ const Home = ({
         );
       }
 
-      if (index === hits.length + 1 && hits.length > 0) {
+      if (index === hits.length + 1) {
         if (isGetting) {
           return (
             <div className={classes.cardContainer} style={style}>
@@ -175,7 +182,7 @@ const Home = ({
         );
       }
 
-      if (index === hits.length + 2 && hits.length > 0 && !isGetting) {
+      if (index === hits.length + 2 && !isGetting) {
         return (
           <div className={classes.cardContainer} style={style}>
             <div
