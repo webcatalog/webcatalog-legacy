@@ -7,6 +7,7 @@ import {
   homeReset,
   homeUpdateCurrentQuery,
   homeUpdateQuery,
+  homeUpdateScrollOffset,
 } from './action-creators';
 
 const client = algoliasearch('4TX8Z3FKMI', '57f6e815e97deb2cdf74f49c852bc232');
@@ -25,7 +26,7 @@ export const getHits = () => (dispatch, getState) => {
   if (isGetting) return;
 
   // If all pages have already been fetched, we stop
-  if (totalPage && page + 1 > totalPage) return;
+  if (totalPage && page + 1 >= totalPage) return;
 
   dispatch(homeGetRequest());
 
@@ -71,3 +72,5 @@ export const updateQuery = (query) => (dispatch, getState) => {
     }
   }
 };
+
+export const updateScrollOffset = (scrollOffset) => homeUpdateScrollOffset(scrollOffset);

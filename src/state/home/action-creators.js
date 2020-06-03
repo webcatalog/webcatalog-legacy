@@ -5,6 +5,7 @@ import {
   HOME_RESET,
   HOME_UPDATE_CURRENT_QUERY,
   HOME_UPDATE_QUERY,
+  HOME_UPDATE_SCROLL_OFFSET,
 } from '../../constants/actions';
 
 export const homeReset = () => ({
@@ -33,4 +34,9 @@ export const homeUpdateCurrentQuery = (currentQuery) => ({
 export const homeUpdateQuery = (query) => ({
   type: HOME_UPDATE_QUERY,
   query,
+});
+
+export const homeUpdateScrollOffset = (scrollOffset) => ({
+  type: HOME_UPDATE_SCROLL_OFFSET,
+  scrollOffset,
 });
