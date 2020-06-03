@@ -44,9 +44,6 @@ const styles = (theme) => ({
     flex: 1,
     position: 'relative',
   },
-  grid: {
-    marginBottom: theme.spacing(1),
-  },
   searchByAlgoliaContainer: {
     outline: 'none',
   },
