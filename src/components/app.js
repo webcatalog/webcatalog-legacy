@@ -58,7 +58,7 @@ class App extends React.Component {
     }, 15 * 60 * 1000); // recheck every 15 minutes
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     clearTimeout(this.updaterTimer);
   }
 

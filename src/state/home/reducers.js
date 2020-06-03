@@ -7,7 +7,15 @@ import {
   HOME_RESET,
   HOME_UPDATE_CURRENT_QUERY,
   HOME_UPDATE_QUERY,
+  HOME_UPDATE_SCROLL_OFFSET,
 } from '../../constants/actions';
+
+const initiated = (state = false, action) => {
+  switch (action.type) {
+    case HOME_GET_SUCCESS: return true;
+    default: return state;
+  }
+};
 
 const hasFailed = (state = false, action) => {
   switch (action.type) {
@@ -65,13 +73,21 @@ const totalPage = (state = 1, action) => {
   }
 };
 
+const scrollOffset = (state = 0, action) => {
+  switch (action.type) {
+    case HOME_UPDATE_SCROLL_OFFSET: return action.scrollOffset;
+    default: return state;
+  }
+};
 
 export default combineReducers({
   currentQuery,
   hasFailed,
   hits,
+  initiated,
   isGetting,
   page,
   query,
+  scrollOffset,
   totalPage,
 });
