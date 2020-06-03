@@ -62,6 +62,12 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  noConnectionContainer: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(2),
+  },
 });
 
 const Home = ({
@@ -102,9 +108,11 @@ const Home = ({
   const renderContent = () => {
     if (hasFailed) {
       return (
-        <NoConnection
-          onTryAgainButtonClick={onGetHits}
-        />
+        <div className={classes.noConnectionContainer}>
+          <NoConnection
+            onTryAgainButtonClick={onGetHits}
+          />
+        </div>
       );
     }
 
@@ -139,6 +147,14 @@ const Home = ({
       const index = rowIndex * columnCount + columnIndex;
 
       if (index === 0) {
+        if (hits.length === 0) {
+          return (
+            <div className={classes.cardContainer} style={style}>
+              <CircularProgress size={28} />
+            </div>
+          );
+        }
+
         return (
           <div className={classes.cardContainer} style={style}>
             <CreateCustomAppCard key="create-custom-app" />
@@ -146,7 +162,7 @@ const Home = ({
         );
       }
 
-      if (index === hits.length + 1) {
+      if (index === hits.length + 1 && hits.length > 0) {
         if (isGetting) {
           return (
             <div className={classes.cardContainer} style={style}>
@@ -155,13 +171,11 @@ const Home = ({
           );
         }
 
-        if (hits.length > 0) {
-          return (
-            <div className={classes.cardContainer} style={style}>
-              <SubmitAppCard key="submit-new-app" />
-            </div>
-          );
-        }
+        return (
+          <div className={classes.cardContainer} style={style}>
+            <SubmitAppCard key="submit-new-app" />
+          </div>
+        );
       }
 
       if (index === hits.length + 2 && hits.length > 0 && !isGetting) {
