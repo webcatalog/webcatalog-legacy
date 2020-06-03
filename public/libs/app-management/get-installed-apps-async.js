@@ -69,12 +69,15 @@ const getInstalledAppsAsync = () => {
                 lastUpdated,
               });
               apps.push(appObj);
-              sendToAllWindows('set-app', appObj.id, appObj);
             });
-          });
+          })
+          .then(() => apps);
       }
 
       return apps;
+    })
+    .then((apps) => {
+      sendToAllWindows('set-app-batch', apps);
     });
 };
 

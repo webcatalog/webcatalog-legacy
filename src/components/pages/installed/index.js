@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -75,6 +76,13 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  centeringCircularProgress: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const Installed = ({
@@ -86,6 +94,7 @@ const Installed = ({
   onUpdateAllApps,
   outdatedAppCount,
   query,
+  scanning,
   sortInstalledAppBy,
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
@@ -109,6 +118,14 @@ const Installed = ({
   ];
 
   const renderContent = () => {
+    if (scanning) {
+      return (
+        <div className={classes.centeringCircularProgress}>
+          <CircularProgress size={28} />
+        </div>
+      );
+    }
+
     if (Object.keys(apps).length > 0) {
       const appList = Object.values(apps);
 
@@ -305,6 +322,7 @@ Installed.propTypes = {
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
   query: PropTypes.string,
+  scanning: PropTypes.bool.isRequired,
   sortInstalledAppBy: PropTypes.string.isRequired,
 };
 
@@ -314,6 +332,7 @@ const mapStateToProps = (state) => ({
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
   query: state.installed.query,
+  scanning: state.appManagement.scanning,
   sortInstalledAppBy: state.preferences.sortInstalledAppBy,
 });
 
