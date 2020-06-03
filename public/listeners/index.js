@@ -248,6 +248,7 @@ const loadListeners = () => {
 
         e.sender.send('set-app', id, {
           status: 'INSTALLING',
+          lastRequestedToUpdate: new Date().getTime(),
           engine,
           id,
           name,
@@ -325,6 +326,7 @@ const loadListeners = () => {
               e.sender.send('set-app', id, {
                 version,
                 status: 'INSTALLED',
+                lastRequestedToUpdate: new Date().getTime(),
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
                 icon: !id.startsWith('custom-') ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
@@ -342,6 +344,7 @@ const loadListeners = () => {
               }).catch(console.log); // eslint-disable-line
               e.sender.send('set-app', id, {
                 status: 'INSTALLED',
+                lastRequestedToUpdate: null,
               });
             });
         };

@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SortIcon from '@material-ui/icons/Sort';
 
 import { FixedSizeGrid } from 'react-window';
 
@@ -31,6 +32,7 @@ import {
   requestCancelInstallApp,
   requestCancelUpdateApp,
   requestGetInstalledApps,
+  requestSetPreference,
 } from '../../../senders';
 
 const styles = (theme) => ({
@@ -84,6 +86,7 @@ const Installed = ({
   onUpdateAllApps,
   outdatedAppCount,
   query,
+  sortInstalledAppBy,
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
@@ -99,10 +102,35 @@ const Installed = ({
     };
   }, []);
 
+  const sortOptions = [
+    { val: 'name', name: 'Sort by Name (A-Z)' },
+    { val: 'name-desc', name: 'Sort by Name (Z-A)' },
+    { val: 'last-updated', name: 'Sort by Last Updated' },
+  ];
+
   const renderContent = () => {
     if (Object.keys(apps).length > 0) {
       const appList = Object.values(apps);
-      appList.sort((x, y) => x.name.localeCompare(y.name));
+
+      switch (sortInstalledAppBy) {
+        case 'last-updated': {
+          // https://stackoverflow.com/a/10124053/5522263
+          appList.sort((x, y) => {
+            const dateX = x.lastRequestedToUpdate || x.lastUpdated || 0;
+            const dateY = y.lastRequestedToUpdate || y.lastUpdated || 0;
+            return dateY - dateX;
+          });
+          break;
+        }
+        case 'name-desc': {
+          appList.sort((x, y) => y.name.localeCompare(x.name));
+          break;
+        }
+        case 'name':
+        default: {
+          appList.sort((x, y) => x.name.localeCompare(y.name));
+        }
+      }
 
       const rowHeight = 150 + 16;
       const columnCount = Math.floor(innerWidth / 176);
@@ -110,6 +138,9 @@ const Installed = ({
       const columnWidth = Math.floor(innerWidth / columnCount);
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
+
+        if (index >= appList.length) return <div style={style} />;
+
         const app = appList[index];
         return (
           <div className={classes.cardContainer} style={style}>
@@ -211,6 +242,25 @@ const Installed = ({
 
           <div className={classes.updateAllFlexRight}>
             <StatedMenu
+              id="sort-options"
+              buttonElement={(
+                <IconButton size="small" aria-label="Sort by...">
+                  <SortIcon fontSize="small" />
+                </IconButton>
+              )}
+            >
+              {sortOptions.map((sortOption) => (
+                <MenuItem
+                  key={sortOption.val}
+                  dense
+                  onClick={() => requestSetPreference('sortInstalledAppBy', sortOption.val)}
+                  selected={sortOption.val === sortInstalledAppBy}
+                >
+                  {sortOption.name}
+                </MenuItem>
+              ))}
+            </StatedMenu>
+            <StatedMenu
               id="more-options"
               buttonElement={(
                 <IconButton size="small" aria-label="More Options">
@@ -255,6 +305,7 @@ Installed.propTypes = {
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
   query: PropTypes.string,
+  sortInstalledAppBy: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -263,6 +314,7 @@ const mapStateToProps = (state) => ({
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
   query: state.installed.query,
+  sortInstalledAppBy: state.preferences.sortInstalledAppBy,
 });
 
 const actionCreators = {

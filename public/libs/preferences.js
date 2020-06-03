@@ -37,6 +37,7 @@ const defaultPreferences = {
   proxyType: 'none',
   registered: false,
   requireAdmin: false,
+  sortInstalledAppBy: 'last-updated',
   themeSource: 'system',
   useHardwareAcceleration: true,
 };
