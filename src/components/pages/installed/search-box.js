@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CloseIcon from '@material-ui/icons/Close';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SortIcon from '@material-ui/icons/Sort';
 
 import connectComponent from '../../../helpers/connect-component';
 
+import StatedMenu from '../../shared/stated-menu';
+
+import { updateQuery } from '../../../state/installed/actions';
+import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
+
 import {
-  updateQuery,
-} from '../../../state/installed/actions';
+  requestGetInstalledApps,
+  requestSetPreference,
+} from '../../../senders';
+
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
@@ -99,19 +111,73 @@ class SearchBox extends React.Component {
       classes,
       onUpdateQuery,
       query,
+      onFetchLatestTemplateVersionAsync,
+      fetchingLatestTemplateVersion,
+      sortInstalledAppBy,
     } = this.props;
 
-    const clearSearchAction = query.length > 0 && (
-      <IconButton
-        color="default"
-        size="small"
-        aria-label="Clear search"
-        onClick={() => onUpdateQuery('')}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    );
+    const sortOptions = [
+      { val: 'name', name: 'Sort by Name (A-Z)' },
+      { val: 'name-desc', name: 'Sort by Name (Z-A)' },
+      { val: 'last-updated', name: 'Sort by Last Updated' },
+    ];
 
+    const clearSearchAction = (
+      <>
+        <StatedMenu
+          id="sort-options"
+          buttonElement={(
+            <IconButton size="small" aria-label="Sort by...">
+              <SortIcon fontSize="small" />
+            </IconButton>
+          )}
+        >
+          {sortOptions.map((sortOption) => (
+            <MenuItem
+              key={sortOption.val}
+              dense
+              onClick={() => requestSetPreference('sortInstalledAppBy', sortOption.val)}
+              selected={sortOption.val === sortInstalledAppBy}
+            >
+              {sortOption.name}
+            </MenuItem>
+          ))}
+        </StatedMenu>
+        <StatedMenu
+          id="more-options"
+          buttonElement={(
+            <IconButton size="small" aria-label="More Options">
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          )}
+        >
+          <MenuItem
+            dense
+            disabled={fetchingLatestTemplateVersion}
+            onClick={onFetchLatestTemplateVersionAsync}
+          >
+            {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            dense
+            onClick={requestGetInstalledApps}
+          >
+            Rescan for Installed Apps
+          </MenuItem>
+        </StatedMenu>
+        {query.length > 0 && (
+          <IconButton
+            color="default"
+            size="small"
+            aria-label="Clear"
+            onClick={() => onUpdateQuery('')}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
+      </>
+    );
     return (
       <Paper elevation={1} className={classes.toolbarSearchContainer}>
         <div className={classes.toolbarSectionSearch}>
@@ -152,15 +218,21 @@ SearchBox.defaultProps = {
 
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
+  fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
+  onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
   onUpdateQuery: PropTypes.func.isRequired,
   query: PropTypes.string,
+  sortInstalledAppBy: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   query: state.installed.query,
+  fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
+  sortInstalledAppBy: state.preferences.sortInstalledAppBy,
 });
 
 const actionCreators = {
+  fetchLatestTemplateVersionAsync,
   updateQuery,
 };
 

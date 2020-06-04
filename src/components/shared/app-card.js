@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -79,6 +80,11 @@ const styles = (theme) => ({
     right: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
+  topLeft: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
 });
 
 const AppCard = (props) => {
@@ -94,7 +100,9 @@ const AppCard = (props) => {
     name,
     onOpenDialogChooseEngine,
     onOpenDialogCreateCustomApp,
+    onSelectedChange,
     onUpdateApp,
+    selected,
     status,
     url,
     version,
@@ -186,6 +194,17 @@ const AppCard = (props) => {
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
+        {onSelectedChange && (status === INSTALLED || (status === INSTALLING && cancelable)) && (
+          <div className={classes.topLeft}>
+            <Checkbox
+              checked={selected}
+              color="primary"
+              size="small"
+              disableRipple
+              onChange={onSelectedChange}
+            />
+          </div>
+        )}
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
@@ -254,6 +273,8 @@ AppCard.defaultProps = {
   engine: null,
   icon128: null,
   latestTemplateVersion: null,
+  onSelectedChange: null,
+  selected: false,
   status: null,
   version: null,
 };
@@ -270,7 +291,9 @@ AppCard.propTypes = {
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  onSelectedChange: PropTypes.func,
   onUpdateApp: PropTypes.func.isRequired,
+  selected: PropTypes.bool,
   status: PropTypes.string,
   url: PropTypes.string.isRequired,
   version: PropTypes.string,

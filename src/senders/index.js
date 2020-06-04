@@ -25,6 +25,7 @@ export const requestUpdateApp = (engine, id, name, url, icon) => ipcRenderer.sen
 export const requestCancelInstallApp = (id) => ipcRenderer.send('request-cancel-install-app', id);
 export const requestCancelUpdateApp = (id) => ipcRenderer.send('request-cancel-update-app', id);
 export const requestUninstallApp = (id, name, engine) => ipcRenderer.send('request-uninstall-app', id, name, engine);
+export const requestUninstallApps = (apps) => ipcRenderer.send('request-uninstall-apps', apps);
 export const requestOpenApp = (id, name) => ipcRenderer.send('request-open-app', id, name);
 
 // Native Theme

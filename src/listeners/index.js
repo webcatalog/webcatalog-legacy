@@ -1,6 +1,11 @@
 import { batch } from 'react-redux';
 
-import { setApp, removeApp, clean as cleanAppManagement } from '../state/app-management/actions';
+import {
+  setApp,
+  removeApp,
+  clean as cleanAppManagement,
+  setScanningForInstalled,
+} from '../state/app-management/actions';
 import { changeRoute } from '../state/router/actions';
 import { setPreference } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
@@ -71,6 +76,10 @@ const loadListeners = (store) => {
 
   ipcRenderer.on('update-installation-progress', (e, progress) => {
     store.dispatch(updateInstallationProgress(progress));
+  });
+
+  ipcRenderer.on('set-scanning-for-installed', (e, scanning) => {
+    store.dispatch(setScanningForInstalled(scanning));
   });
 };
 

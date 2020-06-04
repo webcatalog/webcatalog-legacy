@@ -78,6 +78,7 @@ const getInstalledAppsAsync = () => {
     })
     .then((apps) => {
       sendToAllWindows('set-app-batch', apps);
+      sendToAllWindows('set-scanning-for-installed', false);
     });
 };
 

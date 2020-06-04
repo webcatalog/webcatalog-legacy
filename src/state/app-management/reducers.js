@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
 
 import { INSTALLING } from '../../constants/app-statuses';
-import { SET_APP, REMOVE_APP, CLEAN_APP_MANAGEMENT } from '../../constants/actions';
+import {
+  SET_APP,
+  REMOVE_APP,
+  CLEAN_APP_MANAGEMENT,
+  SET_SCANNING_FOR_INSTALLED,
+} from '../../constants/actions';
 
 const apps = (state = {}, action) => {
   switch (action.type) {
@@ -34,7 +39,7 @@ const apps = (state = {}, action) => {
 const scanning = (state = true, action) => {
   switch (action.type) {
     case CLEAN_APP_MANAGEMENT: return true;
-    case SET_APP: return false;
+    case SET_SCANNING_FOR_INSTALLED: return action.scanning;
     default: return state;
   }
 };

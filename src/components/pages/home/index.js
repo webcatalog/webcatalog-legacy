@@ -1,7 +1,6 @@
 /* eslint-disable no-constant-condition */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
@@ -36,9 +35,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-  },
-  rootHidden: {
-    display: 'none',
   },
   scrollContainer: {
     flex: 1,
@@ -78,7 +74,6 @@ const Home = ({
   classes,
   currentQuery,
   hasFailed,
-  hidden,
   hits,
   initiated,
   isGetting,
@@ -292,7 +287,7 @@ const Home = ({
   };
 
   return (
-    <div className={classNames(classes.root, hidden && classes.rootHidden)}>
+    <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <SearchBox />
@@ -309,14 +304,12 @@ const Home = ({
 
 Home.defaultProps = {
   currentQuery: '',
-  hidden: false,
 };
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   currentQuery: PropTypes.string,
   hasFailed: PropTypes.bool.isRequired,
-  hidden: PropTypes.bool,
   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
   initiated: PropTypes.bool.isRequired,
   isGetting: PropTypes.bool.isRequired,
