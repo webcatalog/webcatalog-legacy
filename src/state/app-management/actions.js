@@ -1,4 +1,9 @@
-import { SET_APP, REMOVE_APP, CLEAN_APP_MANAGEMENT } from '../../constants/actions';
+import {
+  SET_APP,
+  REMOVE_APP,
+  CLEAN_APP_MANAGEMENT,
+  SET_SCANNING_FOR_INSTALLED,
+} from '../../constants/actions';
 
 import {
   isNameExisted,
@@ -58,6 +63,20 @@ export const updateApp = (engine, id, name, url, icon) => () => {
   return requestUpdateApp(engine, id, name, url, iconUrl);
 };
 
+export const updateApps = (apps) => () => {
+  apps.forEach((app) => {
+    const {
+      engine, id, name, url, icon,
+    } = app;
+
+    // download icon when updating apps in the catalog
+    const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
+
+    return requestUpdateApp(engine, id, name, url, iconUrl);
+  });
+};
+
+
 export const updateAllApps = () => (dispatch, getState) => {
   const state = getState();
 
@@ -76,3 +95,8 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   return null;
 };
+
+export const setScanningForInstalled = (scanning) => ({
+  type: SET_SCANNING_FOR_INSTALLED,
+  scanning,
+});

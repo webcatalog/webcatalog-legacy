@@ -1,7 +1,11 @@
 
 import semver from 'semver';
-import { INSTALLING } from '../../constants/app-statuses';
+import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 
+export const isInstalledApp = (id, state) => {
+  const { apps } = state.appManagement;
+  return (apps[id] && apps[id].status === INSTALLED);
+};
 
 export const isOutdatedApp = (id, state) => {
   const { apps } = state.appManagement;
