@@ -52,6 +52,7 @@ import {
 } from '../../../senders';
 
 import webcatalogLogo from '../../../assets/webcatalog-logo.svg';
+import translatiumLogo from '../../../assets/translatium-logo.svg';
 import singleboxLogo from '../../../assets/singlebox-logo.svg';
 
 const styles = (theme) => ({
@@ -674,6 +675,14 @@ const Preferences = ({
                 <ListItemText
                   primary={(<img src={singleboxLogo} alt="Singlebox" className={classes.logo} />)}
                   secondary="All Your Apps in One Single Window"
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://translatiumapp.com?utm_source=webcatalog_app')}>
+                <ListItemText
+                  primary={(<img src={translatiumLogo} alt="Translatium" className={classes.logo} />)}
+                  secondary="Translate Any Languages like a Pro"
                 />
                 <ChevronRightIcon color="action" />
               </ListItem>
