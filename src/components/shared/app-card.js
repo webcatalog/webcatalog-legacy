@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import StatedMenu from './stated-menu';
@@ -208,9 +209,11 @@ const AppCard = (props) => {
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
-            <IconButton size="small" aria-label="More Options" classes={{ root: classes.topRight }}>
-              <MoreVertIcon fontSize="small" />
-            </IconButton>
+            <Tooltip title="More" placement="right">
+              <IconButton size="small" aria-label="More" classes={{ root: classes.topRight }}>
+                <MoreVertIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           )}
         >
           {status === INSTALLING && cancelable && (
@@ -303,6 +306,9 @@ const mapStateToProps = (state, ownProps) => {
   const app = state.appManagement.apps[ownProps.id];
 
   return {
+    name: ownProps.name || app.name,
+    url: ownProps.url || app.url,
+    icon: ownProps.icon || app.icon,
     isOutdated: isOutdatedApp(ownProps.id, state),
     latestTemplateVersion: state.general.latestTemplateVersion,
     status: app ? app.status : null,

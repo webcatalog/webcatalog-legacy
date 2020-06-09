@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -20,10 +21,9 @@ import { getHits, updateScrollOffset } from '../../../state/home/actions';
 import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
 import EmptyState from '../../shared/empty-state';
-import CreateCustomAppCard from './create-custom-app-card';
-import SubmitAppCard from './submit-app-card';
 
 import SearchBox from './search-box';
+import Toolbar from './toolbar';
 
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
@@ -134,16 +134,12 @@ const Home = ({
             <b>{currentQuery}</b>
             &nbsp;- did not match any apps in the catalog.
           </Typography>
-          <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
-            <CreateCustomAppCard />
-            <SubmitAppCard />
-          </Grid>
         </EmptyState>
       );
     }
 
     const hasNextPage = page + 1 < totalPage;
-    const itemCount = hits.length + 3;
+    const itemCount = hits.length + 1;
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 150 + 16;
@@ -153,15 +149,7 @@ const Home = ({
     const Cell = ({ columnIndex, rowIndex, style }) => {
       const index = rowIndex * columnCount + columnIndex;
 
-      if (index === 0) {
-        return (
-          <div className={classes.cardContainer} style={style}>
-            <CreateCustomAppCard key="create-custom-app" />
-          </div>
-        );
-      }
-
-      if (index === hits.length + 1) {
+      if (index === hits.length) {
         if (isGetting) {
           return (
             <div className={classes.cardContainer} style={style}>
@@ -170,14 +158,6 @@ const Home = ({
           );
         }
 
-        return (
-          <div className={classes.cardContainer} style={style}>
-            <SubmitAppCard key="submit-new-app" />
-          </div>
-        );
-      }
-
-      if (index === hits.length + 2 && !isGetting) {
         return (
           <div className={classes.cardContainer} style={style}>
             <div
@@ -200,10 +180,9 @@ const Home = ({
         );
       }
 
-      const hitIndex = index - 1;
-      if (hitIndex >= hits.length) return <div style={style} />;
+      if (index >= hits.length) return <div style={style} />;
 
-      const app = hits[hitIndex];
+      const app = hits[index];
       return (
         <div className={classes.cardContainer} style={style}>
           <AppCard
@@ -267,14 +246,14 @@ const Home = ({
             <FixedSizeGrid
               columnCount={columnCount}
               columnWidth={columnWidth}
-              height={innerHeight - 102} // titlebar: 22, searchbox: 40, bottom nav: 40
+              height={innerHeight - 138} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
               rowCount={rowCount}
               rowHeight={rowHeight}
               width={innerWidth}
-              initialScrollOffset={scrollOffset}
+              initialScrollTop={scrollOffset}
               onItemsRendered={newItemsRendered}
               onScroll={(position) => {
-                onUpdateScrollOffset(position.scrollOffset || 0);
+                onUpdateScrollOffset(position.scrollTop || 0);
               }}
               ref={ref}
             >
@@ -296,6 +275,8 @@ const Home = ({
       <div
         className={classes.scrollContainer}
       >
+        <Toolbar />
+        <Divider />
         {renderContent()}
       </div>
     </div>

@@ -13,7 +13,6 @@ import validate from '../../helpers/validate';
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
-  getAppCount,
 } from '../app-management/utils';
 
 import {
@@ -29,7 +28,8 @@ export const close = () => ({
 export const open = (form) => (dispatch, getState) => {
   const state = getState();
 
-  const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
+  const shouldAskForLicense = !state.preferences.registered
+    && Object.keys(state.appManagement.apps).length > 1;
 
   if (shouldAskForLicense) {
     return dispatch(openDialogLicenseRegistration());

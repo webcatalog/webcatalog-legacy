@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 
 import {
+  INSTALLED_UPDATE_ACTIVE_QUERY,
   INSTALLED_UPDATE_QUERY,
-  INSTALLED_SELECT_APP_IDS,
-  INSTALLED_DESELECT_APP_IDS,
-  INSTALLED_DESELECT_ALL,
 } from '../../constants/actions';
 
 const query = (state = '', action) => {
@@ -14,33 +12,33 @@ const query = (state = '', action) => {
   }
 };
 
-const selectedAppIdObj = (state = {}, action) => {
+const activeQuery = (state = '', action) => {
   switch (action.type) {
-    case INSTALLED_SELECT_APP_IDS: {
-      const newObj = { ...state };
-      action.ids.forEach((id) => {
-        newObj[id] = true;
+    case INSTALLED_UPDATE_ACTIVE_QUERY: return action.activeQuery;
+    default: return state;
+  }
+};
+
+const filteredSortedAppIds = (state = null, action) => {
+  switch (action.type) {
+    case INSTALLED_UPDATE_ACTIVE_QUERY: {
+      if (!action.activeQuery) return null;
+      const processedQuery = action.activeQuery.trim().toLowerCase();
+      return action.sortedAppIds.filter((id) => {
+        const app = action.apps[id];
+        return (
+          app.name.toLowerCase().includes(processedQuery)
+          || app.url.toLowerCase().includes(processedQuery)
+        );
       });
-      return newObj;
-    }
-    case INSTALLED_DESELECT_APP_IDS: {
-      const newObj = { ...state };
-      action.ids.forEach((id) => {
-        delete newObj[id];
-      });
-      return newObj;
-    }
-    case INSTALLED_DESELECT_ALL: {
-      return {};
-    }
-    case INSTALLED_UPDATE_QUERY: {
-      return {};
     }
     default: return state;
   }
 };
 
+
 export default combineReducers({
+  activeQuery,
   query,
-  selectedAppIdObj,
+  filteredSortedAppIds,
 });

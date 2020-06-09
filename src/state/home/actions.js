@@ -32,10 +32,12 @@ export const getHits = () => (dispatch, getState) => {
 
   index.search(currentQuery, {
     page: page + 1,
-    hitsPerPage: 42,
+    hitsPerPage: 28,
   })
     .then((res) => {
-      if (currentQuery !== getState().home.currentQuery) {
+      // validate to make sure this request is not from older query
+      const currentHome = getState().home;
+      if (currentQuery !== currentHome.currentQuery || page !== currentHome.page) {
         return;
       }
       dispatch(homeGetSuccess({
@@ -45,7 +47,9 @@ export const getHits = () => (dispatch, getState) => {
       }));
     })
     .catch(() => {
-      if (currentQuery !== getState().home.currentQuery) {
+      // validate to make sure this request is not from older query
+      const currentHome = getState().home;
+      if (currentQuery !== currentHome.currentQuery || page !== currentHome.page) {
         return;
       }
       dispatch(homeGetFailed());
@@ -65,6 +69,14 @@ export const resetThenGetHits = (forceClearCache) => (dispatch, getState) => {
   dispatch(getHits());
 };
 
-export const updateQuery = (query) => homeUpdateQuery(query);
+let timeout;
+export const updateQuery = (query) => (dispatch) => {
+  dispatch(homeUpdateQuery(query));
+
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    dispatch(resetThenGetHits());
+  }, 500);
+};
 
 export const updateScrollOffset = (scrollOffset) => homeUpdateScrollOffset(scrollOffset);

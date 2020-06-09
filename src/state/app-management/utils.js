@@ -42,18 +42,21 @@ export const isCancelableApp = (id, state) => {
 };
 
 export const getOutdatedAppsAsList = (state) => {
-  const { apps } = state.appManagement;
-  return Object.values(apps).filter((app) => isOutdatedApp(app.id, state));
+  const { apps, sortedAppIds } = state.appManagement;
+  return sortedAppIds.map((id) => apps[id])
+    .filter((app) => isOutdatedApp(app.id, state));
 };
 
 export const getCancelableAppsAsList = (state) => {
-  const { apps } = state.appManagement;
-  return Object.values(apps).filter((app) => isCancelableApp(app.id, state));
+  const { apps, sortedAppIds } = state.appManagement;
+  return sortedAppIds.map((id) => apps[id])
+    .filter((app) => isCancelableApp(app.id, state));
 };
 
 export const getInstallingAppsAsList = (state) => {
-  const { apps } = state.appManagement;
-  return Object.values(apps).filter((app) => app.status !== 'INSTALLED');
+  const { apps, sortedAppIds } = state.appManagement;
+  return sortedAppIds.map((id) => apps[id])
+    .filter((app) => app.status !== 'INSTALLED');
 };
 
 export const getAppBadgeCount = (state) => {
@@ -71,28 +74,4 @@ export const isNameExisted = (name, state) => {
 
     return false;
   }));
-};
-
-export const getAppCount = (state) => {
-  const { apps } = state.appManagement;
-  return Object.values(apps).length;
-};
-
-export const filterApps = (apps, query) => {
-  if (query.length < 1) return apps;
-
-  const processedQuery = query.trim().toLowerCase();
-
-  const newApps = {};
-  const keys = Object.keys(apps);
-  for (let i = 0; i < keys.length; i += 1) {
-    const key = keys[i];
-    const app = apps[key];
-    if (app.name.toLowerCase().includes(processedQuery)
-    || app.url.toLowerCase().includes(processedQuery)) {
-      newApps[key] = app;
-    }
-  }
-
-  return newApps;
 };
