@@ -59,7 +59,6 @@ const Installed = ({
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
-  console.log('rerender');
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -83,9 +82,10 @@ const Installed = ({
 
     if (appIds.length > 0) {
       const rowHeight = 150 + 16;
-      const columnCount = Math.floor(innerWidth / 176);
+      const innerWidthMinurScrollbar = window.process.platform === 'win32' ? innerWidth - 20 : innerWidth;
+      const columnCount = Math.floor(innerWidthMinurScrollbar / 176);
       const rowCount = Math.ceil(appIds.length / columnCount);
-      const columnWidth = Math.floor(innerWidth / columnCount);
+      const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
@@ -111,7 +111,7 @@ const Installed = ({
         <FixedSizeGrid
           columnCount={columnCount}
           columnWidth={columnWidth}
-          height={innerHeight - 138} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
+          height={innerHeight - (window.process.platform === 'win32' ? 116 : 138)} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
           rowCount={rowCount}
           rowHeight={rowHeight}
           width={innerWidth}

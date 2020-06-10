@@ -143,9 +143,10 @@ const Home = ({
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 150 + 16;
-    const columnCount = Math.floor(innerWidth / 176);
+    const innerWidthMinurScrollbar = window.process.platform === 'win32' ? innerWidth - 20 : innerWidth;
+    const columnCount = Math.floor(innerWidthMinurScrollbar / 176); // leave 30px for scrollbar
     const rowCount = Math.ceil(itemCount / columnCount);
-    const columnWidth = Math.floor(innerWidth / columnCount);
+    const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
     const Cell = ({ columnIndex, rowIndex, style }) => {
       const index = rowIndex * columnCount + columnIndex;
 
@@ -246,7 +247,7 @@ const Home = ({
             <FixedSizeGrid
               columnCount={columnCount}
               columnWidth={columnWidth}
-              height={innerHeight - 138} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
+              height={innerHeight - (window.process.platform === 'win32' ? 116 : 138)} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
               rowCount={rowCount}
               rowHeight={rowHeight}
               width={innerWidth}
