@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -62,6 +62,7 @@ const Installed = ({
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -73,6 +74,12 @@ const Installed = ({
       window.removeEventListener('resize', updateWindowSize);
     };
   }, []);
+
+  useEffect(() => () => {
+    if (gridRef.current) {
+      onUpdateScrollOffset(gridRef.current.scrollTop);
+    }
+  }, [gridRef, onUpdateScrollOffset]);
 
   const renderContent = () => {
     if (scanning) {
@@ -119,9 +126,7 @@ const Installed = ({
           rowHeight={rowHeight}
           width={innerWidth}
           initialScrollTop={scrollOffset}
-          onScroll={(position) => {
-            onUpdateScrollOffset(position.scrollTop || 0);
-          }}
+          outerRef={gridRef}
         >
           {Cell}
         </FixedSizeGrid>
