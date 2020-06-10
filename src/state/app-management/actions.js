@@ -35,6 +35,7 @@ export const setApp = (id, app) => (dispatch, getState) => {
   const state = getState();
   const { sortInstalledAppBy } = state.preferences;
   const { apps } = state.appManagement;
+  const { activeQuery } = state.installed || '';
 
   dispatch({
     type: SET_APP,
@@ -42,6 +43,7 @@ export const setApp = (id, app) => (dispatch, getState) => {
     app,
     apps,
     sortInstalledAppBy,
+    activeQuery,
   });
 };
 

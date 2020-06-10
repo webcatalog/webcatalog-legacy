@@ -75,7 +75,6 @@ const sortedAppIds = (state = [], action) => {
         newState.splice(index, 0, action.id);
         return newState;
       }
-      console.log('changed');
       return state;
     }
     case REMOVE_APP: {
