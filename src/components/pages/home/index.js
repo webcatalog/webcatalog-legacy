@@ -1,5 +1,5 @@
 /* eslint-disable no-constant-condition */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -86,6 +86,7 @@ const Home = ({
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -103,6 +104,12 @@ const Home = ({
       onGetHits();
     }
   }, [initiated, onGetHits]);
+
+  useEffect(() => () => {
+    if (gridRef.current) {
+      onUpdateScrollOffset(gridRef.current.scrollTop);
+    }
+  }, [gridRef, onUpdateScrollOffset]);
 
   const renderContent = () => {
     if (hasFailed) {
@@ -253,10 +260,8 @@ const Home = ({
               width={innerWidth}
               initialScrollTop={scrollOffset}
               onItemsRendered={newItemsRendered}
-              onScroll={(position) => {
-                onUpdateScrollOffset(position.scrollTop || 0);
-              }}
               ref={ref}
+              outerRef={gridRef}
             >
               {Cell}
             </FixedSizeGrid>
