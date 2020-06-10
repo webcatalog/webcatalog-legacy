@@ -4,6 +4,7 @@ import { without, sortedIndexBy, orderBy } from 'lodash';
 import {
   INSTALLED_UPDATE_ACTIVE_QUERY,
   INSTALLED_UPDATE_QUERY,
+  INSTALLED_UPDATE_SCROLL_OFFSET,
   SET_APP,
   REMOVE_APP,
   CLEAN_APP_MANAGEMENT,
@@ -106,9 +107,16 @@ const filteredSortedAppIds = (state = null, action) => {
   }
 };
 
+const scrollOffset = (state = 0, action) => {
+  switch (action.type) {
+    case INSTALLED_UPDATE_SCROLL_OFFSET: return action.scrollOffset;
+    default: return state;
+  }
+};
 
 export default combineReducers({
   activeQuery,
   query,
   filteredSortedAppIds,
+  scrollOffset,
 });

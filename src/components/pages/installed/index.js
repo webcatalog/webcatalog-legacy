@@ -20,6 +20,8 @@ import EmptyState from '../../shared/empty-state';
 import SearchBox from './search-box';
 import Toolbar from './toolbar';
 
+import { updateScrollOffset } from '../../../state/installed/actions';
+
 const styles = (theme) => ({
   root: {
     flex: 1,
@@ -51,15 +53,15 @@ const styles = (theme) => ({
 });
 
 const Installed = ({
-  classes,
   activeQuery,
-  scanning,
   appIds,
-
+  classes,
+  onUpdateScrollOffset,
+  scanning,
+  scrollOffset,
 }) => {
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
-  console.log('rerender');
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -83,9 +85,10 @@ const Installed = ({
 
     if (appIds.length > 0) {
       const rowHeight = 150 + 16;
-      const columnCount = Math.floor(innerWidth / 176);
+      const innerWidthMinurScrollbar = window.process.platform === 'win32' ? innerWidth - 20 : innerWidth;
+      const columnCount = Math.floor(innerWidthMinurScrollbar / 176);
       const rowCount = Math.ceil(appIds.length / columnCount);
-      const columnWidth = Math.floor(innerWidth / columnCount);
+      const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
@@ -111,10 +114,14 @@ const Installed = ({
         <FixedSizeGrid
           columnCount={columnCount}
           columnWidth={columnWidth}
-          height={innerHeight - 138} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
+          height={innerHeight - (window.process.platform === 'win32' ? 116 : 138)} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
           rowCount={rowCount}
           rowHeight={rowHeight}
           width={innerWidth}
+          initialScrollTop={scrollOffset}
+          onScroll={(position) => {
+            onUpdateScrollOffset(position.scrollTop || 0);
+          }}
         >
           {Cell}
         </FixedSizeGrid>
@@ -170,22 +177,29 @@ Installed.defaultProps = {
 };
 
 Installed.propTypes = {
-  classes: PropTypes.object.isRequired,
   activeQuery: PropTypes.string,
-  scanning: PropTypes.bool.isRequired,
   appIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  classes: PropTypes.object.isRequired,
+  onUpdateScrollOffset: PropTypes.func.isRequired,
+  scanning: PropTypes.bool.isRequired,
+  scrollOffset: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  activeQuery: state.installed.activeQuery,
   appIds: state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds,
   outdatedAppCount: 0,
-  activeQuery: state.installed.activeQuery,
   scanning: state.appManagement.scanning,
+  scrollOffset: state.installed.scrollOffset,
 });
+
+const actionCreators = {
+  updateScrollOffset,
+};
 
 export default connectComponent(
   Installed,
   mapStateToProps,
-  null,
+  actionCreators,
   styles,
 );

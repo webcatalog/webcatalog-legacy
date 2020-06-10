@@ -1,6 +1,7 @@
 import {
   INSTALLED_UPDATE_QUERY,
   INSTALLED_UPDATE_ACTIVE_QUERY,
+  INSTALLED_UPDATE_SCROLL_OFFSET,
 } from '../../constants/actions';
 
 export const updateActiveQuery = (activeQuery) => (dispatch, getState) => {
@@ -26,3 +27,8 @@ export const updateQuery = (query) => (dispatch) => {
     dispatch(updateActiveQuery(query));
   }, 500);
 };
+
+export const updateScrollOffset = (scrollOffset) => ({
+  type: INSTALLED_UPDATE_SCROLL_OFFSET,
+  scrollOffset,
+});

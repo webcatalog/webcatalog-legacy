@@ -37,8 +37,9 @@ const hits = (state = [], action) => {
 const isGetting = (state = false, action) => {
   switch (action.type) {
     case HOME_GET_FAILED: return false;
-    case HOME_GET_REQUEST: return false;
+    case HOME_GET_REQUEST: return true;
     case HOME_GET_SUCCESS: return false;
+    case HOME_RESET: return false;
     default: return state;
   }
 };
