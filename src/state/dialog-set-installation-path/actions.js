@@ -9,8 +9,6 @@ import {
   requestSetPreference,
 } from '../../senders';
 
-import { getAppCount } from '../app-management/utils';
-
 export const close = () => ({
   type: DIALOG_SET_INSTALLATION_PATH_CLOSE,
 });
@@ -39,7 +37,7 @@ export const save = () => (dispatch, getState) => {
 
   const { installationPath, requireAdmin } = form;
 
-  const appCount = getAppCount(state);
+  const appCount = Object.keys(state.appManagement.apps).length;
 
   if (appCount > 0) {
     const { remote } = window.require('electron');

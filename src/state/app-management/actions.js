@@ -3,11 +3,11 @@ import {
   REMOVE_APP,
   CLEAN_APP_MANAGEMENT,
   SET_SCANNING_FOR_INSTALLED,
+  SORT_APPS,
 } from '../../constants/actions';
 
 import {
   isNameExisted,
-  getAppCount,
   getOutdatedAppsAsList,
 } from './utils';
 
@@ -21,15 +21,31 @@ import {
   open as openDialogLicenseRegistration,
 } from '../dialog-license-registration/actions';
 
-export const clean = () => ({
-  type: CLEAN_APP_MANAGEMENT,
-});
+export const clean = () => (dispatch, getState) => {
+  const state = getState();
+  const { apps } = state.appManagement;
 
-export const setApp = (id, app) => ({
-  type: SET_APP,
-  id,
-  app,
-});
+  dispatch({
+    type: CLEAN_APP_MANAGEMENT,
+    apps,
+  });
+};
+
+export const setApp = (id, app) => (dispatch, getState) => {
+  const state = getState();
+  const { sortInstalledAppBy } = state.preferences;
+  const { apps } = state.appManagement;
+  const { activeQuery } = state.installed || '';
+
+  dispatch({
+    type: SET_APP,
+    id,
+    app,
+    apps,
+    sortInstalledAppBy,
+    activeQuery,
+  });
+};
 
 export const removeApp = (id) => ({
   type: REMOVE_APP,
@@ -39,7 +55,8 @@ export const removeApp = (id) => ({
 export const installApp = (engine, id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
-  const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
+  const shouldAskForLicense = !state.preferences.registered
+    && Object.keys(state.appManagement.apps).length > 1;
 
   if (shouldAskForLicense) {
     dispatch(openDialogLicenseRegistration());
@@ -100,3 +117,15 @@ export const setScanningForInstalled = (scanning) => ({
   type: SET_SCANNING_FOR_INSTALLED,
   scanning,
 });
+
+export const sortApps = () => (dispatch, getState) => {
+  const state = getState();
+  const { sortInstalledAppBy } = state.preferences;
+  const { apps } = state.appManagement;
+
+  dispatch({
+    type: SORT_APPS,
+    apps,
+    sortInstalledAppBy,
+  });
+};

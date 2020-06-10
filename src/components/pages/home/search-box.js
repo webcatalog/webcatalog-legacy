@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 
 import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
-import RefreshIcon from '@material-ui/icons/Refresh';
 
 import IconButton from '@material-ui/core/IconButton';
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,10 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import {
-  resetThenGetHits,
-  updateQuery,
-} from '../../../state/home/actions';
+import { updateQuery } from '../../../state/home/actions';
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
@@ -103,45 +98,25 @@ class SearchBox extends React.Component {
   render() {
     const {
       classes,
-      onResetThenGetHits,
       onUpdateQuery,
       query,
     } = this.props;
 
-    const clearSearchAction = query.length > 0 ? (
+    const clearSearchAction = (
       <>
-        <Tooltip title="Clear search">
-          <IconButton
-            color="default"
-            size="small"
-            aria-label="Clear search"
-            onClick={() => onUpdateQuery('')}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Search">
-          <IconButton
-            color="default"
-            size="small"
-            aria-label="Search"
-            onClick={onResetThenGetHits}
-          >
-            <KeyboardReturnIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        {query.length > 0 && (
+          <Tooltip title="Clear search" placement="left">
+            <IconButton
+              color="default"
+              size="small"
+              aria-label="Clear search"
+              onClick={() => onUpdateQuery('')}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        )}
       </>
-    ) : (
-      <Tooltip title="Refresh">
-        <IconButton
-          color="default"
-          size="small"
-          aria-label="Refresh"
-          onClick={() => onResetThenGetHits(true)}
-        >
-          <RefreshIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
     );
 
     return (
@@ -165,9 +140,6 @@ class SearchBox extends React.Component {
                   e.target.blur();
                   onUpdateQuery('');
                 }
-                if (e.key === 'Enter' && query.length > 0) {
-                  onResetThenGetHits();
-                }
               }}
               placeholder="Search apps..."
               ref={(inputBox) => { this.inputBox = inputBox; }}
@@ -187,17 +159,16 @@ SearchBox.defaultProps = {
 
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
-  onResetThenGetHits: PropTypes.func.isRequired,
   onUpdateQuery: PropTypes.func.isRequired,
   query: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   query: state.home.query,
+  currentQuery: state.home.currentQuery,
 });
 
 const actionCreators = {
-  resetThenGetHits,
   updateQuery,
 };
 

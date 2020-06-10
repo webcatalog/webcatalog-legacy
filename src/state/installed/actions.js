@@ -1,25 +1,28 @@
 import {
   INSTALLED_UPDATE_QUERY,
-  INSTALLED_SELECT_APP_IDS,
-  INSTALLED_DESELECT_APP_IDS,
-  INSTALLED_DESELECT_ALL,
+  INSTALLED_UPDATE_ACTIVE_QUERY,
 } from '../../constants/actions';
 
-export const updateQuery = (query) => ({
-  type: INSTALLED_UPDATE_QUERY,
-  query,
-});
+export const updateActiveQuery = (activeQuery) => (dispatch, getState) => {
+  const state = getState();
+  const { apps, sortedAppIds } = state.appManagement;
+  dispatch({
+    type: INSTALLED_UPDATE_ACTIVE_QUERY,
+    activeQuery,
+    apps,
+    sortedAppIds,
+  });
+};
 
-export const selectAppIds = (ids) => ({
-  type: INSTALLED_SELECT_APP_IDS,
-  ids,
-});
+let timeout;
+export const updateQuery = (query) => (dispatch) => {
+  dispatch({
+    type: INSTALLED_UPDATE_QUERY,
+    query,
+  });
 
-export const deselectAppIds = (ids) => ({
-  type: INSTALLED_DESELECT_APP_IDS,
-  ids,
-});
-
-export const deselectAll = () => ({
-  type: INSTALLED_DESELECT_ALL,
-});
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    dispatch(updateActiveQuery(query));
+  }, 500);
+};

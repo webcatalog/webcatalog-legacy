@@ -30,7 +30,7 @@ import StatedMenu from '../../shared/stated-menu';
 import connectComponent from '../../../helpers/connect-component';
 import getEngineName from '../../../helpers/get-engine-name';
 
-import { getInstallingAppsAsList, getAppCount } from '../../../state/app-management/utils';
+import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
@@ -760,7 +760,7 @@ Preferences.propTypes = {
 
 const mapStateToProps = (state) => ({
   allowPrerelease: state.preferences.allowPrerelease,
-  appCount: getAppCount(state),
+  appCount: Object.keys(state.appManagement.apps).length,
   attachToMenubar: state.preferences.attachToMenubar,
   createDesktopShortcut: state.preferences.createDesktopShortcut,
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,

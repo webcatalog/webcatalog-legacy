@@ -8,7 +8,6 @@ import {
 import { installApp } from '../app-management/actions';
 import {
   isNameExisted,
-  getAppCount,
 } from '../app-management/utils';
 
 import {
@@ -49,7 +48,8 @@ export const create = () => (dispatch, getState) => {
 export const open = (id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
-  const shouldAskForLicense = !state.preferences.registered && getAppCount(state) > 1;
+  const shouldAskForLicense = !state.preferences.registered
+    && Object.keys(state.appManagement.apps).length > 1;
 
   if (shouldAskForLicense) {
     return dispatch(openDialogLicenseRegistration());
