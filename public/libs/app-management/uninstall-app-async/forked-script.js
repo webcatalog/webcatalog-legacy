@@ -3,6 +3,7 @@ const fsExtra = require('fs-extra');
 const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
 const { exec } = require('child_process');
+const registryInstaller = require('../registry-installer');
 
 const {
   appDataPath,
@@ -114,6 +115,9 @@ Promise.resolve()
 
       p.push(checkExistsAndRemove(startMenuShortcutPath));
       p.push(checkExistsAndRemove(desktopShortcutPath));
+      p.push(Promise.resolve().then(() => {
+        registryInstaller.uninstallAsync(`webcatalog-${id}`);
+      }));
     }
 
     return Promise.all(p);
