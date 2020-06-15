@@ -10,6 +10,7 @@ const ws = require('windows-shortcuts');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
+const registryInstaller = require('../registry-installer');
 
 const {
   appPath,
@@ -322,6 +323,8 @@ Terminal=false
         p.push(fsExtra.ensureDir(startMenuPath)
           .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
       }
+
+      p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
 
       return Promise.all(p);
     }
