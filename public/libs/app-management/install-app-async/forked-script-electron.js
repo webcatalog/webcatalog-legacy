@@ -324,9 +324,7 @@ Terminal=false
           .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
       }
 
-      p.push(Promise.resolve().then(() => {
-        registryInstaller.installAsync(`webcatalog-${id}`, name, exePath);
-      }));
+      p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
 
       return Promise.all(p);
     }

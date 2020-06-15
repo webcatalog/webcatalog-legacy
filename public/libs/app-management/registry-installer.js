@@ -29,7 +29,7 @@ const getRegistryConfig = (appId, appName, installPath) => ({
       type: 'REG_SZ',
     },
   },
-  [`HKCU\\Software\\Classes\\${appName}`]: {
+  [`HKCU\\Software\\Classes\\${appId}`]: {
     'default': {
       value: `${appName} Browser Document`,
       type: 'REG_DEFAULT',
@@ -87,17 +87,21 @@ const getRegistryConfig = (appId, appName, installPath) => ({
   */
   [`HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities\\StartMenu`]: {
     'StartMenuInternet': {
-      value: appName,
+      value: appId,
       type: 'REG_SZ',
     },
   },
   [`HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities\\URLAssociations`]: {
     'http': {
-      value: appName,
+      value: appId,
       type: 'REG_SZ',
     },
     'https': {
-      value: appName,
+      value: appId,
+      type: 'REG_SZ',
+    },
+    'mailto': {
+      value: appId,
       type: 'REG_SZ',
     },
   },

@@ -115,9 +115,7 @@ Promise.resolve()
 
       p.push(checkExistsAndRemove(startMenuShortcutPath));
       p.push(checkExistsAndRemove(desktopShortcutPath));
-      p.push(Promise.resolve().then(() => {
-        registryInstaller.uninstallAsync(`webcatalog-${id}`);
-      }));
+      p.push(registryInstaller.uninstallAsync(`webcatalog-${id}`));
     }
 
     return Promise.all(p);
