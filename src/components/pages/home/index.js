@@ -213,7 +213,7 @@ const Home = ({
       <InfiniteLoader
         isItemLoaded={isItemLoaded}
         itemCount={itemCount}
-        loadMoreItems={onGetHits}
+        loadMoreItems={() => onGetHits()}
       >
         {({ onItemsRendered, ref }) => {
           // https://stackoverflow.com/questions/57370902/react-window-fixedsizegrid-with-react-window-infinite-loader
