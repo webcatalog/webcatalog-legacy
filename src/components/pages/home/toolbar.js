@@ -20,7 +20,6 @@ import { requestOpenInBrowser } from '../../../senders';
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
 import { resetThenGetHits } from '../../../state/home/actions';
 
-
 const styles = (theme) => ({
   root: {
     display: 'flex',

@@ -38,7 +38,6 @@ import { open as openDialogProxy } from '../../../state/dialog-proxy/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
 
-
 import {
   requestCheckForUpdates,
   requestOpenInBrowser,

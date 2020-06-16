@@ -93,7 +93,6 @@ export const updateApps = (apps) => () => {
   });
 };
 
-
 export const updateAllApps = () => (dispatch, getState) => {
   const state = getState();
 

@@ -334,7 +334,6 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
             path.join(clonedBrowserContentsPath, 'Resources', 'app.icns'),
           ));
 
-
           // symlinks for other files & dirs
           fsExtra.readdirSync(browserContentsPath, { withFileTypes: true })
             .forEach((item) => {
