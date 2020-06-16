@@ -62,6 +62,11 @@ const opts = {
       '!docs/**/*',
       '!catalog/**/*',
       '!template/**/*',
+      // phantomjs binary is up to 50Mb but unused. Remove to bring down app size
+      '!node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs',
+      '!node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs.exe',
+      // heavy demo files
+      '!node_modules/image-q/demo/**/*',
     ],
     directories: {
       buildResources: 'build-resources',
