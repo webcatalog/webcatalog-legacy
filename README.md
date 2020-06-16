@@ -18,7 +18,7 @@ WebCatalog project consists of 3 repositories:
 
 ## Licensing
 ### Usage
-**WebCatalog is paid software.** You can install up to two apps for free or [pay just $14.99](https://webcatalog.onfastspring.com/webcatalog-lite) to install as many as you need.
+**WebCatalog is paid software.** You can install up to two apps for free or [pay just $19.99](https://webcatalog.onfastspring.com/webcatalog-lite) to install as many as you need.
 
 The license:
 - Lets you add unlimited apps and workspaces.

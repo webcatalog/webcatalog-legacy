@@ -57,7 +57,7 @@ const DialogLicenseRegistration = (props) => {
           You are currently running a trial version of WebCatalog which only
           lets you install up to two apps (with up to two workspaces per app).
           To remove the trial limitations, please purchase a
-          perpetual license key ($14.99) from our store.
+          perpetual license key ($19.99) from our store.
         </DialogContentText>
         <TextField
           autoFocus
