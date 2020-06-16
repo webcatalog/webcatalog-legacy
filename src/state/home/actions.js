@@ -4,7 +4,6 @@ import {
   homeGetFailed,
   homeGetRequest,
   homeGetSuccess,
-  homeReset,
   homeUpdateCurrentQuery,
   homeUpdateQuery,
   homeUpdateScrollOffset,
@@ -64,9 +63,8 @@ export const resetThenGetHits = (forceClearCache) => (dispatch, getState) => {
     client.clearCache();
   }
 
-  dispatch(homeReset());
   dispatch(homeUpdateCurrentQuery(query));
-  dispatch(getHits());
+  dispatch(getHits(query));
 };
 
 let timeout;

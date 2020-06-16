@@ -2,15 +2,10 @@ import {
   HOME_GET_FAILED,
   HOME_GET_REQUEST,
   HOME_GET_SUCCESS,
-  HOME_RESET,
   HOME_UPDATE_CURRENT_QUERY,
   HOME_UPDATE_QUERY,
   HOME_UPDATE_SCROLL_OFFSET,
 } from '../../constants/actions';
-
-export const homeReset = () => ({
-  type: HOME_RESET,
-});
 
 export const homeGetRequest = () => ({
   type: HOME_GET_REQUEST,
