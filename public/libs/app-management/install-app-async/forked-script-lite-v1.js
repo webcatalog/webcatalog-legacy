@@ -72,7 +72,6 @@ const createShortcutAsync = (shortcutPath, opts) => {
   });
 };
 
-
 const tmpObj = tmp.dirSync();
 const tmpPath = tmpObj.name;
 const appFolderPath = path.join(tmpPath, getAppFolderName());

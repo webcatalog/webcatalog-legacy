@@ -30,7 +30,6 @@ export const homeUpdateCurrentQuery = (currentQuery) => ({
   currentQuery,
 });
 
-
 export const homeUpdateQuery = (query) => ({
   type: HOME_UPDATE_QUERY,
   query,

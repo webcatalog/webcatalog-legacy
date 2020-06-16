@@ -28,7 +28,6 @@ import Toolbar from './toolbar';
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
 
-
 const styles = (theme) => ({
   root: {
     flex: 1,

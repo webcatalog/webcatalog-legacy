@@ -1,4 +1,3 @@
-
 import semver from 'semver';
 import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 
