@@ -95,7 +95,15 @@ const getWebsiteIconUrlAsync = (websiteURL) => customizedFetch(websiteURL)
     return lessPriorityCheck();
   })
   .then((icon) => {
-    if (icon) return icon;
+    if (icon) {
+      // try to download the icon to ensure it works
+      return customizedFetch(icon)
+        .then((res) => {
+          if (res.ok) return icon; // res.status >= 200 && res.status < 300
+          return undefined;
+        })
+        .catch(() => undefined);
+    }
 
     // try to get /apple-touch-icon.png
     // https://apple.stackexchange.com/questions/172204/how-apple-com-set-apple-touch-icon
