@@ -10,6 +10,8 @@ const sendToAllWindows = require('./send-to-all-windows');
 const { getPreference } = require('./preferences');
 const formatBytes = require('./format-bytes');
 
+const mainWindow = require('../windows/main');
+
 const createMenu = () => {
   const registered = getPreference('registered');
   const updaterEnabled = process.env.SNAP == null && !process.mas && !process.windowsStore;
@@ -139,7 +141,19 @@ const createMenu = () => {
     template[3].submenu = [
       { role: 'close' },
       { role: 'minimize' },
-      { role: 'zoom' },
+      // role: 'zoom' is only supported on macOS
+      process.platform === 'darwin1' ? {
+        role: 'zoom',
+      } : {
+        label: 'Zoom',
+        click: () => {
+          const win = mainWindow.get();
+
+          if (win != null) {
+            win.maximize();
+          }
+        },
+      },
       { type: 'separator' },
       { role: 'front' },
     ];
