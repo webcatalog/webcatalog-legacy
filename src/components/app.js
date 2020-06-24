@@ -13,6 +13,7 @@ import Preferences from './pages/preferences';
 import DialogAbout from './dialogs/dialog-about';
 import DialogChooseEngine from './dialogs/dialog-choose-engine';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
+import DialogEditApp from './dialogs/dialog-edit-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogProxy from './dialogs/dialog-proxy';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
@@ -82,6 +83,7 @@ class App extends React.Component {
         <DialogAbout />
         <DialogChooseEngine />
         <DialogCreateCustomApp />
+        <DialogEditApp />
         <DialogLicenseRegistration />
         <DialogProxy />
         <DialogSetInstallationPath />
