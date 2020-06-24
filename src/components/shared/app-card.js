@@ -37,6 +37,7 @@ import { isOutdatedApp } from '../../state/app-management/utils';
 import { updateApp } from '../../state/app-management/actions';
 import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
+import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
 
 import InstallationProgress from './installation-progress';
 
@@ -101,6 +102,7 @@ const AppCard = (props) => {
     name,
     onOpenDialogChooseEngine,
     onOpenDialogCreateCustomApp,
+    onOpenDialogEditApp,
     onSelectedChange,
     onUpdateApp,
     selected,
@@ -227,6 +229,20 @@ const AppCard = (props) => {
               {version ? 'Cancel Update' : 'Cancel Installation'}
             </MenuItem>
           )}
+          {status === INSTALLED && (
+            <MenuItem
+              dense
+              onClick={() => onOpenDialogEditApp({
+                engine,
+                id,
+                name,
+                url,
+                icon,
+              })}
+            >
+              Edit this App
+            </MenuItem>
+          )}
           {status === INSTALLED && isOutdated && (
             <MenuItem dense onClick={() => requestUninstallApp(id, name, engine)}>
               Uninstall
@@ -294,6 +310,7 @@ AppCard.propTypes = {
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  onOpenDialogEditApp: PropTypes.func.isRequired,
   onSelectedChange: PropTypes.func,
   onUpdateApp: PropTypes.func.isRequired,
   selected: PropTypes.bool,
@@ -323,6 +340,7 @@ const mapStateToProps = (state, ownProps) => {
 const actionCreators = {
   openDialogChooseEngine,
   openDialogCreateCustomApp,
+  openDialogEditApp,
   updateApp,
 };
 

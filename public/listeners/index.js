@@ -106,7 +106,7 @@ const loadListeners = () => {
     dialog.showMessageBox(mainWindow.get(), {
       type: 'question',
       buttons: ['Restart Now', 'Later'],
-      message: 'You need to restart the app for this change to take affect.',
+      message: 'You need to restart the app for this change to take effect.',
       cancelId: 1,
     }).then(({ response }) => {
       if (response === 0) {
@@ -362,6 +362,7 @@ const loadListeners = () => {
           return installAppAsync(engine, id, name, url, icon)
             .then((version) => {
               e.sender.send('set-app', id, {
+                url,
                 version,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
