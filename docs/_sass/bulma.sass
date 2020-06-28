@@ -6,6 +6,11 @@ $footer-background-color: #fff
 $weight-semibold: 500
 $family-sans-serif: "Roboto", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
 
+@import "./bulma/sass/utilities/derived-variables"
+
+$dropdown-item-active-background-color: $background
+$dropdown-item-active-color: $scheme-invert
+
 @import "./bulma/bulma.sass"
 
 html
@@ -46,10 +51,7 @@ main
     text-decoration: underline !important
 
 .app-icon
-  max-width: 96px
-
-.app-icon-small
-  max-width: 56px
+  max-width: 128px
 
 small.price-end
   font-size: 0.7em
@@ -69,3 +71,12 @@ small.price-end
     color: #000
     &:hover
       color: $blue
+
+.app-item
+  .image
+    img
+      max-height: unset
+  .media-content
+    height: 64px
+    display: flex
+    align-items: center
