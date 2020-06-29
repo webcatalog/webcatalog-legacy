@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-about/actions';
-import iconPng from '../../assets/icon.png';
+import iconPng from '../../assets/webcatalog-icon.png';
 
 import { requestOpenInBrowser } from '../../senders';
 
