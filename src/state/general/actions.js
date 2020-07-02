@@ -45,32 +45,28 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
   const { remote } = window.require('electron');
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
-    .then(() => new Promise((resolve) => setTimeout(resolve, 5 * 1000)))
-    // avoid using GitHub API as it has rate limit (60 requests per hour)
-    .then(() => window.fetch('https://github.com/atomery/juli/releases.atom'))
-    .then((res) => res.text())
-    .then((xmlData) => {
-      const releases = xmlParser.parse(xmlData).feed.entry;
-
+    .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
+    // use in-house API
+    // to avoid using GitHub API as it has rate limit (60 requests per hour)
+    // to avoid bugs with instead of https://github.com/atomery/juli/releases.atom
+    // https://github.com/atomery/webcatalog/issues/890
+    .then(() => {
+      // prerelease is not supported by in-house API
       if (allowPrerelease) {
-        // just return the first one
-        const tagName = releases[0].id.split('/').pop();
-        return tagName.substring(1);
+        return window.fetch('https://github.com/atomery/juli/releases.atom')
+          .then((res) => res.text())
+          .then((xmlData) => {
+            const releases = xmlParser.parse(xmlData).feed.entry;
+
+            // just return the first one
+            const tagName = releases[0].id.split('/').pop();
+            return tagName.substring(1);
+          });
       }
 
-      // find stable version
-      for (let i = 0; i < releases.length; i += 1) {
-        const release = releases[i];
-        // use id instead of title as it's computer-generated
-        // avoid human mistake
-        const tagName = release.id.split('/').pop();
-        const version = tagName.substring(1);
-        if (!semver.prerelease(version)) {
-          return version;
-        }
-      }
-
-      return Promise.reject(new Error('Server returns no valid updates.'));
+      return window.fetch('https://juli.webcatalogapp.com/releases/latest.json')
+        .then((res) => res.json())
+        .then((data) => data.version);
     })
     .then((latestVersion) => {
       const globalTemplateVersion = remote.getGlobal('templateVersion');
