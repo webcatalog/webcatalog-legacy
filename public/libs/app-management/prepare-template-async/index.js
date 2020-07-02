@@ -1,5 +1,4 @@
 const path = require('path');
-const semver = require('semver');
 const xmlParser = require('fast-xml-parser');
 const { fork } = require('child_process');
 const { app } = require('electron');
