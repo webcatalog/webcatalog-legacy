@@ -1,5 +1,4 @@
 const path = require('path');
-const semver = require('semver');
 const xmlParser = require('fast-xml-parser');
 const { fork } = require('child_process');
 const { app } = require('electron');
@@ -11,31 +10,29 @@ const { getPreference, getPreferences } = require('../../preferences');
 // force re-extract for first installation after launch
 global.forceExtract = true;
 
-// avoid using GitHub API as it has rate limit (60 requests per hour)
-const getTagNameAsync = () => customizedFetch('https://github.com/atomery/juli/releases.atom')
-  .then((res) => res.text())
-  .then((xmlData) => {
-    const allowPrerelease = getPreference('allowPrerelease');
-    const releases = xmlParser.parse(xmlData).feed.entry;
+// use in-house API
+// to avoid using GitHub API as it has rate limit (60 requests per hour)
+// to avoid bugs with instead of https://github.com/atomery/juli/releases.atom
+// https://github.com/atomery/webcatalog/issues/890
+const getTagNameAsync = () => {
+  const allowPrerelease = getPreference('allowPrerelease');
+  // prerelease is not supported by in-house API
+  if (allowPrerelease) {
+    return customizedFetch('https://github.com/atomery/juli/releases.atom')
+      .then((res) => res.text())
+      .then((xmlData) => {
+        const releases = xmlParser.parse(xmlData).feed.entry;
 
-    if (allowPrerelease) {
-      // just return the first one
-      const tagName = releases[0].id.split('/').pop();
-      return tagName;
-    }
-
-    // find stable version
-    for (let i = 0; i < releases.length; i += 1) {
-      const release = releases[i];
-      const tagName = release.id.split('/').pop();
-      const version = tagName.substring(1);
-      if (!semver.prerelease(version)) {
+        // just return the first one
+        const tagName = releases[0].id.split('/').pop();
         return tagName;
-      }
-    }
+      });
+  }
 
-    return Promise.reject(new Error('Server returns no valid updates.'));
-  });
+  return customizedFetch('https://juli.webcatalogapp.com/releases/latest.json')
+    .then((res) => res.json())
+    .then((data) => data.version);
+};
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   let latestTemplateVersion = '0.0.0';
