@@ -31,7 +31,7 @@ const getTagNameAsync = () => {
 
   return customizedFetch('https://juli.webcatalogapp.com/releases/latest.json')
     .then((res) => res.json())
-    .then((data) => data.version);
+    .then((data) => `v${data.version}`);
 };
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
