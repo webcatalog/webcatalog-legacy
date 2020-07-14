@@ -6,8 +6,6 @@ const {
   shell,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
-const commandExistsSync = require('command-exists').sync;
-const os = require('os');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
@@ -31,9 +29,6 @@ const {
 } = require('../libs/system-preferences');
 
 const createMenu = require('../libs/create-menu');
-
-const getNetFrameworkVersionAsync = require('../libs/get-net-framework-version-async');
-const getPowershellMajorVersionAsync = require('../libs/get-powershell-major-version-async');
 
 const mainWindow = require('../windows/main');
 
@@ -217,73 +212,9 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  const checkCrossZipReadyAsync = async () => {
-    // https://github.com/atomery/webcatalog/issues/614
-    // unzip is used by electron-packager > cross-zip
-    if (process.platform === 'linux' && !commandExistsSync('unzip')) {
-      dialog.showMessageBox(mainWindow.get(), {
-        type: 'error',
-        message: 'unzip package is not installed on your system. Please install the package to continue.',
-        buttons: ['OK', 'Learn more'],
-        cancelId: 0,
-        defaultId: 0,
-      })
-        .then(({ response }) => {
-          if (response === 1) {
-            shell.openExternal('https://pkgs.org/download/unzip');
-          }
-        })
-        .catch(console.log); // eslint-disable-line
-      return false;
-    }
-
-    // if the system is running Windows 7
-    // check if user has installed .NET Framework 4.5 & Powershell 3
-    // these packages are preinstalled on Windows 8+
-    // cross-zip requires these packages
-    // https://github.com/electron/electron-packager/issues/1018
-    // https://github.com/atomery/webcatalog/wiki/System-Requirements-on-Windows
-    // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
-    if (process.platform === 'win32' && os.release().startsWith('6.1')) {
-      const powershellMajorVersion = await getPowershellMajorVersionAsync();
-      const netFrameworkVersion = await getNetFrameworkVersionAsync();
-      if (powershellMajorVersion < 3 || netFrameworkVersion < 378389) {
-        const missingPackageNames = [];
-        if (netFrameworkVersion < 378389) {
-          missingPackageNames.push('.NET Framework 4.5 (or above)');
-        }
-        if (powershellMajorVersion < 3) {
-          missingPackageNames.push('Powershell 3 (or above)');
-        }
-
-        dialog.showMessageBox(mainWindow.get(), {
-          type: 'error',
-          message: `${missingPackageNames.join(' and ')} ${missingPackageNames.length > 1 ? 'are' : 'is'} not installed on your system. Please install the packages to continue.`,
-          buttons: ['OK', 'Learn more'],
-          cancelId: 0,
-          defaultId: 0,
-        })
-          .then(({ response }) => {
-            if (response === 1) {
-              shell.openExternal('https://github.com/atomery/webcatalog/wiki/System-Requirements-on-Windows');
-            }
-          })
-          .catch(console.log); // eslint-disable-line
-        return false;
-      }
-    }
-    return true;
-  };
-
   ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
     Promise.resolve()
-      .then(() => { // check if WebCatalog is ready to install app
-        if (engine === 'electron') return checkCrossZipReadyAsync();
-        return true;
-      })
-      .then((isReady) => {
-        if (!isReady) return;
-
+      .then(() => {
         e.sender.send('set-app', id, {
           status: 'INSTALLING',
           lastUpdated: new Date().getTime(),
@@ -341,13 +272,7 @@ const loadListeners = () => {
 
   ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
     Promise.resolve()
-      .then(() => { // check if WebCatalog is ready to install app
-        if (engine === 'electron') return checkCrossZipReadyAsync();
-        return true;
-      })
-      .then((isReady) => {
-        if (!isReady) return;
-
+      .then(() => {
         e.sender.send('set-app', id, {
           status: 'INSTALLING',
           cancelable: true,
