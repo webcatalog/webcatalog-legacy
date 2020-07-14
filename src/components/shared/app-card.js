@@ -2,15 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import HelpIcon from '@material-ui/icons/Help';
 
 import StatedMenu from './stated-menu';
 
@@ -38,6 +39,7 @@ import { updateApp } from '../../state/app-management/actions';
 import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
+import { open as openDialogContextAppHelp } from '../../state/dialog-context-app-help/actions';
 
 import InstallationProgress from './installation-progress';
 
@@ -84,8 +86,9 @@ const styles = (theme) => ({
   },
   topLeft: {
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: theme.spacing(1),
+    left: theme.spacing(1),
+    color: theme.palette.text.secondary,
   },
 });
 
@@ -101,11 +104,10 @@ const AppCard = (props) => {
     latestTemplateVersion,
     name,
     onOpenDialogChooseEngine,
+    onOpenDialogContextAppHelp,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
-    onSelectedChange,
     onUpdateApp,
-    selected,
     status,
     url,
     version,
@@ -191,22 +193,23 @@ const AppCard = (props) => {
           {name}
         </Typography>
         <Typography variant="body2" color="textSecondary" className={classes.appUrl}>
-          {extractHostname(url)}
+          {url ? extractHostname(url) : '-'}
         </Typography>
 
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
-        {onSelectedChange && (status === INSTALLED || (status === INSTALLING && cancelable)) && (
-          <div className={classes.topLeft}>
-            <Checkbox
-              checked={selected}
-              color="primary"
+        {!url && (
+          <Tooltip title="What is this?" placement="right">
+            <IconButton
               size="small"
-              disableRipple
-              onChange={onSelectedChange}
-            />
-          </div>
+              aria-label="What is this?"
+              classes={{ root: classes.topLeft }}
+              onClick={onOpenDialogContextAppHelp}
+            >
+              <HelpIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         )}
         <StatedMenu
           id={`more-menu-${id}`}
@@ -253,6 +256,7 @@ const AppCard = (props) => {
             onClick={() => onOpenDialogCreateCustomApp({
               name: `${name} 2`,
               url,
+              urlDisabled: Boolean(!url),
               icon,
             })}
           >
@@ -282,7 +286,6 @@ const AppCard = (props) => {
             ]
           )}
         </StatedMenu>
-
       </Paper>
     </Grid>
   );
@@ -292,9 +295,8 @@ AppCard.defaultProps = {
   engine: null,
   icon128: null,
   latestTemplateVersion: null,
-  onSelectedChange: null,
-  selected: false,
   status: null,
+  url: null,
   version: null,
 };
 
@@ -309,13 +311,12 @@ AppCard.propTypes = {
   latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
+  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
-  onSelectedChange: PropTypes.func,
   onUpdateApp: PropTypes.func.isRequired,
-  selected: PropTypes.bool,
   status: PropTypes.string,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   version: PropTypes.string,
 };
 
@@ -324,7 +325,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     name: ownProps.name || app.name,
-    url: ownProps.url || app.url,
+    url: ownProps.url || (app ? app.url : null),
     icon: ownProps.icon || app.icon,
     isOutdated: isOutdatedApp(ownProps.id, state),
     latestTemplateVersion: state.general.latestTemplateVersion,
@@ -339,6 +340,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const actionCreators = {
   openDialogChooseEngine,
+  openDialogContextAppHelp,
   openDialogCreateCustomApp,
   openDialogEditApp,
   updateApp,

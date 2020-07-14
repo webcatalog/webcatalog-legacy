@@ -142,7 +142,7 @@ const createMenu = () => {
       { role: 'close' },
       { role: 'minimize' },
       // role: 'zoom' is only supported on macOS
-      process.platform === 'darwin1' ? {
+      process.platform === 'darwin' ? {
         role: 'zoom',
       } : {
         label: 'Zoom',

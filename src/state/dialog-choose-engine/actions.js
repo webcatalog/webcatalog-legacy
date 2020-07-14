@@ -54,6 +54,19 @@ export const open = (id, name, url, icon) => (dispatch, getState) => {
     return dispatch(openDialogLicenseRegistration());
   }
 
+  // context app is only supported with Electron
+  if (!url) {
+    dispatch(updateForm({
+      engine: 'electron',
+      icon,
+      id,
+      name,
+      url,
+    }));
+
+    return dispatch(create());
+  }
+
   const { hideEnginePrompt } = state.preferences;
   if (hideEnginePrompt) {
     dispatch(updateForm({

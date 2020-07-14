@@ -28,6 +28,8 @@ const {
   registered,
 } = argv;
 
+console.log(typeof url);
+
 // ignore requireAdmin if installationPath is not custom
 const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
 || installationPath === '/Applications/WebCatalog Apps';
@@ -107,7 +109,7 @@ Promise.resolve()
     }
 
     // try to get fresh icon from catalog if possible
-    if (!id.startsWith('custom-')) {
+    if (!id.startsWith('custom-') && url) {
       const catalogIconUrl = `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
       return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
