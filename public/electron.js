@@ -48,7 +48,7 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
-    global.defaultIcon = path.join(app.getAppPath(), 'icons', 'default-icon.png');
+    global.defaultIcon = path.join(app.getAppPath(), 'default-app-icons', 'default-icon.png');
 
     const {
       allowPrerelease,
