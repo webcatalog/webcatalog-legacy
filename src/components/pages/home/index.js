@@ -28,6 +28,8 @@ import Toolbar from './toolbar';
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
 
+import CONTEXT_APPS from '../../../constants/context-apps';
+
 const styles = (theme) => ({
   root: {
     flex: 1,
@@ -145,7 +147,9 @@ const Home = ({
     }
 
     const hasNextPage = page + 1 < totalPage;
-    const itemCount = hits.length + 1;
+    // 3 additional special items (Work, School, Life) when not searching
+    const additionalItemCount = currentQuery.length === 0 ? CONTEXT_APPS.length : 0;
+    const itemCount = hits.length + additionalItemCount + 1;
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 150 + 16;
@@ -154,7 +158,23 @@ const Home = ({
     const rowCount = Math.ceil(itemCount / columnCount);
     const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
     const Cell = ({ columnIndex, rowIndex, style }) => {
-      const index = rowIndex * columnCount + columnIndex;
+      const index = rowIndex * columnCount + columnIndex - additionalItemCount;
+
+      if (index < 0) {
+        const contextAppIndex = index + additionalItemCount;
+        const contextApp = CONTEXT_APPS[contextAppIndex];
+        return (
+          <div className={classes.cardContainer} style={style}>
+            <AppCard
+              key={contextApp.id}
+              id={contextApp.id}
+              name={contextApp.name}
+              url={null}
+              icon={window.getContextAppIconPath(contextApp.id)}
+            />
+          </div>
+        );
+      }
 
       if (index === hits.length) {
         if (isGetting) {

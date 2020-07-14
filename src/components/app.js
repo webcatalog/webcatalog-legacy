@@ -18,6 +18,7 @@ import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogProxy from './dialogs/dialog-proxy';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
+import DialogContextAppHelp from './dialogs/dialog-context-app-help';
 
 import {
   ROUTE_PREFERENCES,
@@ -88,6 +89,7 @@ class App extends React.Component {
         <DialogProxy />
         <DialogSetInstallationPath />
         <DialogSetPreferredEngine />
+        <DialogContextAppHelp />
         <EnhancedBottomNavigation />
       </div>
     );

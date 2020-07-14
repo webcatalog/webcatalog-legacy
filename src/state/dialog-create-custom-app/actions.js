@@ -99,26 +99,29 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
     });
 };
 
-const getValidationRules = () => ({
+const getValidationRules = (urlDisabled) => ({
   name: {
     fieldName: 'Name',
     required: true,
     filePath: true,
   },
-  url: {
+  url: urlDisabled ? {
     fieldName: 'URL',
     required: true,
     lessStrictUrl: true,
-  },
+  } : undefined,
 });
 
 let timeout;
 export const updateForm = (changes) => (dispatch, getState) => {
-  const oldUrl = getState().dialogCreateCustomApp.form.url;
+  const {
+    url: oldUrl,
+    urlDisabled,
+  } = getState().dialogCreateCustomApp.form;
 
   dispatch({
     type: DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE,
-    changes: validate(changes, getValidationRules()),
+    changes: validate(changes, getValidationRules(urlDisabled)),
   });
 
   clearTimeout(timeout);
@@ -134,13 +137,13 @@ export const create = () => (dispatch, getState) => {
 
   const { form } = state.dialogCreateCustomApp;
 
-  const validatedChanges = validate(form, getValidationRules());
+  const validatedChanges = validate(form, getValidationRules(form.urlDisabled));
   if (hasErrors(validatedChanges)) {
     return dispatch(updateForm(validatedChanges));
   }
 
   const id = `custom-${Date.now().toString()}`;
-  const { name, url } = form;
+  const { name, url, urlDisabled } = form;
   const icon = form.icon || form.internetIcon || window.require('electron').remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
@@ -149,7 +152,7 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(openDialogChooseEngine(id, name, protocolledUrl, icon));
+  dispatch(openDialogChooseEngine(id, name, urlDisabled ? null : protocolledUrl, icon));
 
   dispatch(close());
   return null;

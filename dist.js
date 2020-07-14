@@ -57,7 +57,7 @@ const opts = {
     productName: 'WebCatalog',
     asar: false,
     files: [
-      'default-icon.png',
+      'icons',
       '!tests/**/*',
       '!docs/**/*',
       '!catalog/**/*',

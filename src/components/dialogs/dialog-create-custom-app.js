@@ -8,6 +8,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+
+import HelpIcon from '@material-ui/icons/Help';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -18,6 +26,7 @@ import {
   getIconFromInternet,
   updateForm,
 } from '../../state/dialog-create-custom-app/actions';
+import { open as openDialogContextAppHelp } from '../../state/dialog-context-app-help/actions';
 
 import defaultIcon from '../../assets/default-icon.png';
 
@@ -47,6 +56,10 @@ const styles = (theme) => ({
   caption: {
     display: 'block',
   },
+  helpButton: {
+    marginLeft: theme.spacing(1),
+    marginTop: -3,
+  },
 });
 
 const DialogCreateCustomApp = (props) => {
@@ -61,9 +74,11 @@ const DialogCreateCustomApp = (props) => {
     onClose,
     onCreate,
     onGetIconFromInternet,
+    onOpenDialogContextAppHelp,
     onUpdateForm,
     open,
     url,
+    urlDisabled,
     urlError,
   } = props;
 
@@ -103,8 +118,36 @@ const DialogCreateCustomApp = (props) => {
           helperText={urlError}
           margin="normal"
           onChange={(e) => onUpdateForm({ url: e.target.value })}
-          value={url}
+          value={urlDisabled ? 'No URL specified.' : url}
+          disabled={urlDisabled}
           error={Boolean(urlError)}
+        />
+        <FormControlLabel
+          control={(
+            <Checkbox
+              icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+              checkedIcon={<CheckBoxIcon fontSize="small" />}
+              onChange={(e) => {
+                onUpdateForm({ urlDisabled: e.target.checked });
+              }}
+              checked={urlDisabled}
+            />
+          )}
+          label={(
+            <>
+              <span>Don&apos;t specify an URL</span>
+              <Tooltip title="What is this?" placement="right">
+                <IconButton
+                  size="small"
+                  aria-label="What is this?"
+                  classes={{ root: classes.helpButton }}
+                  onClick={onOpenDialogContextAppHelp}
+                >
+                  <HelpIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
         />
         <Grid container spacing={1} className={classes.grid}>
           <Grid item xs={12} sm="auto">
@@ -168,7 +211,7 @@ const DialogCreateCustomApp = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          {hideEnginePrompt ? 'Install' : 'Continue'}
+          {(hideEnginePrompt || urlDisabled) ? 'Install' : 'Continue'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -195,9 +238,11 @@ DialogCreateCustomApp.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onGetIconFromInternet: PropTypes.func.isRequired,
+  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
+  urlDisabled: PropTypes.bool.isRequired,
   urlError: PropTypes.string,
 };
 
@@ -210,6 +255,7 @@ const mapStateToProps = (state) => {
       name,
       nameError,
       url,
+      urlDisabled,
       urlError,
       internetIcon,
     },
@@ -224,6 +270,7 @@ const mapStateToProps = (state) => {
     nameError,
     open,
     url,
+    urlDisabled,
     urlError,
   };
 };
@@ -232,6 +279,7 @@ const actionCreators = {
   close,
   create,
   getIconFromInternet,
+  openDialogContextAppHelp,
   updateForm,
 };
 

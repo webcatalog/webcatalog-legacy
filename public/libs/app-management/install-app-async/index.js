@@ -110,8 +110,6 @@ const installAppAsync = (
         id,
         '--name',
         name,
-        '--url',
-        url,
         '--icon',
         icon,
         '--homePath',
@@ -131,6 +129,11 @@ const installAppAsync = (
         '--registered',
         getPreference('registered'),
       ];
+
+      if (url != null) {
+        params.push('--url');
+        params.push(url);
+      }
 
       if (process.platform === 'win32' && engine === 'firefox') {
         params.push('--firefoxPath');

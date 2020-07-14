@@ -18,6 +18,7 @@ const open = (state = false, action) => {
 const formInitialState = {
   name: '',
   url: 'https://',
+  urlDisabled: false,
   icon: null,
 };
 const form = (state = formInitialState, action) => {
