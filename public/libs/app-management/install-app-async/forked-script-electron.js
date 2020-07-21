@@ -193,7 +193,7 @@ Promise.resolve()
       engine: 'electron',
       registered: registered === 'true',
     });
-    return fsExtra.writeFileSync(appJsonPath, appJson);
+    return fsExtra.writeFile(appJsonPath, appJson);
   })
   .then(() => fsExtra.readJSON(packageJsonPath))
   .then((packageJson) => {
@@ -289,7 +289,8 @@ Promise.resolve()
     if (process.platform === 'linux') {
       const execFilePath = path.join(finalPath, name);
       const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
-      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
+      const desktopDirPath = path.join(homePath, '.local', 'share', 'applications');
+      const desktopFilePath = path.join(desktopDirPath, `webcatalog-${id}.desktop`);
       // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
       // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
       const desktopFileContent = `[Desktop Entry]
@@ -301,7 +302,8 @@ Icon=${iconPath}
 Exec="${execFilePath}"
 Terminal=false
 `;
-      return fsExtra.writeFileSync(desktopFilePath, desktopFileContent);
+      return fsExtra.ensureDir(desktopDirPath)
+        .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
     }
 
     if (process.platform === 'win32') {
