@@ -238,18 +238,18 @@ cd Resources;
 
 cp -rf ~/Library/Application\\ Support/${addSlash(engineConstants[engine].userDataDir)}/NativeMessagingHosts ~/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}/NativeMessagingHosts
 
-pgrepResult=$(pgrep -f "$DIR/${id}.app")
+pgrepResult=$(pgrep -f "$DIR/${addSlash(name)}.app")
 numProc=$(echo "$pgrepResult" | wc -l)
 if [ $numProc -ge 2 ]
     then
     exit;
 fi
-pgrepResult=$(pgrep -f "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)})
+pgrepResult=$(pgrep -f "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)})
 if [ -n "$pgrepResult" ]; then
     exit
 fi
 
-exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           return fsExtra.outputFile(execFilePath, execFileContent)
             .then(() => fsExtra.chmod(execFilePath, '755'));
@@ -291,7 +291,7 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
         })
         .then(() => {
           // init cloned Chromium app
-          const clonedBrowserPath = path.join(resourcesPath, `${id}.app`);
+          const clonedBrowserPath = path.join(resourcesPath, `${name}.app`);
           const clonedBrowserContentsPath = path.join(clonedBrowserPath, 'Contents');
           const browserPath = path.join('/Applications', engineConstants[engine].appDir);
           const browserContentsPath = path.join(browserPath, 'Contents');
@@ -364,7 +364,7 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '2.0.0',
+      version: '2.1.0',
     });
     return fsExtra.writeFileSync(packageJsonPath, packageJson);
   })

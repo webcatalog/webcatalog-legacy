@@ -100,7 +100,7 @@ const installAppAsync = (
       if (scriptFileName === 'forked-script-lite-v1.js') {
         v = '1.0.0';
       } else if (scriptFileName === 'forked-script-lite-v2.js') {
-        v = '2.0.0';
+        v = '2.1.0';
       }
 
       const params = [
