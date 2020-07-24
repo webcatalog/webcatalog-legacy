@@ -65,30 +65,38 @@ const installAppAsync = (
             engineName = 'Mozilla Firefox';
             break;
           }
-          case 'chromium': {
+          case 'chromium':
+          case 'chromium/tabs': {
             engineName = 'Chromium';
             break;
           }
-          case 'brave': {
+          case 'brave':
+          case 'brave/tabs': {
             engineName = 'Brave';
             break;
           }
-          case 'vivaldi': {
+          case 'vivaldi':
+          case 'vivaldi/tabs': {
             engineName = 'Vivaldi';
             break;
           }
-          case 'edge': {
+          case 'edge':
+          case 'edge/tabs': {
             engineName = 'Microsoft Edge';
             break;
           }
-          case 'chromeCanary': {
+          case 'chromeCanary':
+          case 'chromeCanary/tabs': {
             engineName = 'Google Chrome Canary';
             break;
           }
-          default:
-          case 'chrome': {
+          case 'chrome':
+          case 'chrome/tabs': {
             engineName = 'Google Chrome';
             break;
+          }
+          default: {
+            engineName = 'Browser';
           }
         }
         reject(new Error(`${engineName} is not installed.`));
@@ -140,22 +148,22 @@ const installAppAsync = (
         params.push(getWin32FirefoxPaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'chrome') {
+      if (process.platform === 'win32' && engine.startsWith('chrome')) {
         params.push('--chromePath');
         params.push(getWin32ChromePaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'brave') {
+      if (process.platform === 'win32' && engine.startsWith('brave')) {
         params.push('--bravePath');
         params.push(getWin32BravePaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'vivaldi') {
+      if (process.platform === 'win32' && engine.startsWith('vivaldi')) {
         params.push('--vivaldiPath');
         params.push(getWin32VivaldiPaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'edge') {
+      if (process.platform === 'win32' && engine.startsWith('edge')) {
         params.push('--edgePath');
         params.push(getWin32EdgePaths()[0]);
       }

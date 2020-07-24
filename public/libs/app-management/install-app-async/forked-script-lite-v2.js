@@ -27,7 +27,7 @@ const isStandardInstallationPath = installationPath === '~/Applications/WebCatal
 || installationPath === '/Applications/WebCatalog Apps';
 const requireAdmin = isStandardInstallationPath ? false : argv.requireAdmin;
 
-const engineConstants = {
+const browserConstants = {
   brave: {
     appDir: 'Brave Browser.app',
     userDataDir: path.join('BraveSoftware', 'Brave-Browser'),
@@ -163,9 +163,12 @@ const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
 
+const browserId = engine.split('/')[0];
+const useTabs = engine.endsWith('/tabs');
+
 Promise.resolve()
   .then(() => {
-    if (!engineConstants[engine]) {
+    if (!browserConstants[browserId]) {
       return Promise.reject(new Error('Engine is not supported.'));
     }
     return null;
@@ -230,26 +233,53 @@ Promise.resolve()
           const execFilePath = process.platform === 'darwin'
             ? path.join(contentsPath, 'MacOS', 'webcatalog_root_app')
             : path.join(appFolderPath, name);
-          const execFileContent = `#!/bin/sh
+          const execFileContent = useTabs ? `#!/bin/sh
 DIR=$(dirname "$0");
-  cd "$DIR";
+cd "$DIR";
 cd ..;
 cd Resources;
 
-cp -rf ~/Library/Application\\ Support/${addSlash(engineConstants[engine].userDataDir)}/NativeMessagingHosts ~/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}/NativeMessagingHosts
+cp -rf ~/Library/Application\\ Support/${addSlash(browserConstants[browserId].userDataDir)}/NativeMessagingHosts ~/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}/NativeMessagingHosts
 
 pgrepResult=$(pgrep -f "$DIR/${addSlash(name)}.app")
 numProc=$(echo "$pgrepResult" | wc -l)
 if [ $numProc -ge 2 ]
-    then
-    exit;
+  then
+  exit;
 fi
-pgrepResult=$(pgrep -f "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)})
+pgrepResult=$(pgrep -f "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)})
 if [ -n "$pgrepResult" ]; then
-    exit
+  exit
 fi
 
-exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(engineConstants[engine].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+sed -i '' "s/\\"has_seen_welcome_page\\":false/\\"has_seen_welcome_page\\":true/g" "$HOME/Library/Application Support/WebCatalog/ChromiumProfiles/adobe-color/Default/Preferences"
+if (grep -q "\\"restore_on_startup\\":1" "$HOME/Library/Application Support/WebCatalog/ChromiumProfiles/adobe-color/Default/Secure Preferences") && [ -e "$HOME/Library/Application Support/WebCatalog/ChromiumProfiles/adobe-color/Default/Current Tabs" ]; then
+  Tabs=""
+else
+  Tabs="${url}"
+fi
+
+exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} --no-sandbox --test-type  --args $Tabs --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+` : `#!/bin/sh
+DIR=$(dirname "$0");
+cd "$DIR";
+cd ..;
+cd Resources;
+
+cp -rf ~/Library/Application\\ Support/${addSlash(browserConstants[browserId].userDataDir)}/NativeMessagingHosts ~/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}/NativeMessagingHosts
+
+pgrepResult=$(pgrep -f "$DIR/${addSlash(name)}.app")
+numProc=$(echo "$pgrepResult" | wc -l)
+if [ $numProc -ge 2 ]
+  then
+  exit;
+fi
+pgrepResult=$(pgrep -f "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)})
+if [ -n "$pgrepResult" ]; then
+  exit
+fi
+
+exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           return fsExtra.outputFile(execFilePath, execFileContent)
             .then(() => fsExtra.chmod(execFilePath, '755'));
@@ -293,7 +323,7 @@ exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(engineConstants[engi
           // init cloned Chromium app
           const clonedBrowserPath = path.join(resourcesPath, `${name}.app`);
           const clonedBrowserContentsPath = path.join(clonedBrowserPath, 'Contents');
-          const browserPath = path.join('/Applications', engineConstants[engine].appDir);
+          const browserPath = path.join('/Applications', browserConstants[browserId].appDir);
           const browserContentsPath = path.join(browserPath, 'Contents');
 
           const p = [];
