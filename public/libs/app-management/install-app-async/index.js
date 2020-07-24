@@ -12,6 +12,7 @@ const getWin32ChromePaths = require('../../get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
+const getWin32OperaPaths = require('../../get-win32-opera-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
 
@@ -171,6 +172,11 @@ const installAppAsync = (
       if (process.platform === 'win32' && engine.startsWith('edge')) {
         params.push('--edgePath');
         params.push(getWin32EdgePaths()[0]);
+      }
+
+      if (process.platform === 'win32' && engine.startsWith('opera')) {
+        params.push('--operaPath');
+        params.push(getWin32OperaPaths()[0]);
       }
 
       let tmpPath = null;
