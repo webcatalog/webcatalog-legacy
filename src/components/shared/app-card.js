@@ -45,8 +45,8 @@ import InstallationProgress from './installation-progress';
 
 const styles = (theme) => ({
   card: {
-    width: 160,
-    height: 150,
+    width: 168,
+    height: 158,
     boxSizing: 'border-box',
     borderRadius: 4,
     padding: theme.spacing(1),
@@ -68,8 +68,8 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
   },
   paperIcon: {
-    width: 48,
-    height: 48,
+    width: 56,
+    height: 56,
   },
   actionContainer: {
     marginTop: theme.spacing(1),

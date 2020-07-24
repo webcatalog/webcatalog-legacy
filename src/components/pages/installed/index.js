@@ -91,9 +91,9 @@ const Installed = ({
     }
 
     if (appIds.length > 0) {
-      const rowHeight = 150 + 16;
+      const rowHeight = 158 + 16;
       const innerWidthMinurScrollbar = window.process.platform === 'win32' ? innerWidth - 20 : innerWidth;
-      const columnCount = Math.floor(innerWidthMinurScrollbar / 176);
+      const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
       const rowCount = Math.ceil(appIds.length / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
       const Cell = ({ columnIndex, rowIndex, style }) => {

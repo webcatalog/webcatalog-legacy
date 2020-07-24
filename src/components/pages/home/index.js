@@ -152,9 +152,9 @@ const Home = ({
     const itemCount = hits.length + additionalItemCount + 1;
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
-    const rowHeight = 150 + 16;
+    const rowHeight = 158 + 16;
     const innerWidthMinurScrollbar = window.process.platform === 'win32' ? innerWidth - 20 : innerWidth;
-    const columnCount = Math.floor(innerWidthMinurScrollbar / 176); // leave 30px for scrollbar
+    const columnCount = Math.floor(innerWidthMinurScrollbar / 184); // leave 30px for scrollbar
     const rowCount = Math.ceil(itemCount / columnCount);
     const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
     const Cell = ({ columnIndex, rowIndex, style }) => {
