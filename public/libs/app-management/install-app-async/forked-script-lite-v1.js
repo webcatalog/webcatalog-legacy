@@ -306,7 +306,7 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
     }
     // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
     // need to correct to user to install apps without sudo
-    if (installationPath === '/Applications/WebCatalog Apps') {
+    if (process.platform === 'darwin' && installationPath === '/Applications/WebCatalog Apps') {
       // https://unix.stackexchange.com/a/7732
       const installationPathOwner = await execAsync("ls -ld '/Applications/WebCatalog Apps' | awk '{print $3}'");
       if (installationPathOwner.trim() === 'root') {
