@@ -8,7 +8,8 @@ const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('./get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('./get-win32-edge-paths');
 
-const isEngineInstalled = (browser) => {
+const isEngineInstalled = (engine) => {
+  const browser = engine.split('/')[0];
   switch (browser) {
     case 'firefox': {
       if (process.platform === 'darwin') {

@@ -65,30 +65,38 @@ const installAppAsync = (
             engineName = 'Mozilla Firefox';
             break;
           }
-          case 'chromium': {
+          case 'chromium':
+          case 'chromium/tabs': {
             engineName = 'Chromium';
             break;
           }
-          case 'brave': {
+          case 'brave':
+          case 'brave/tabs': {
             engineName = 'Brave';
             break;
           }
-          case 'vivaldi': {
+          case 'vivaldi':
+          case 'vivaldi/tabs': {
             engineName = 'Vivaldi';
             break;
           }
-          case 'edge': {
+          case 'edge':
+          case 'edge/tabs': {
             engineName = 'Microsoft Edge';
             break;
           }
-          case 'chromeCanary': {
+          case 'chromeCanary':
+          case 'chromeCanary/tabs': {
             engineName = 'Google Chrome Canary';
             break;
           }
-          default:
-          case 'chrome': {
+          case 'chrome':
+          case 'chrome/tabs': {
             engineName = 'Google Chrome';
             break;
+          }
+          default: {
+            engineName = 'Browser';
           }
         }
         reject(new Error(`${engineName} is not installed.`));
