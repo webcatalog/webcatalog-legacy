@@ -25,7 +25,6 @@ const getWin32OperaPaths = () => {
 
   prefixes.forEach((prefix) => suffixes.forEach((suffix) => {
     const chromePath = path.join(prefix, suffix);
-    console.log(chromePath);
     if (canAccess(chromePath)) {
       installations.push(chromePath);
     }
