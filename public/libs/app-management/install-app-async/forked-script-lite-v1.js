@@ -11,6 +11,7 @@ const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
 
 const downloadAsync = require('../../download-async');
+const execAsync = require('../../exec-async');
 
 const {
   engine,
@@ -299,9 +300,20 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
     });
     return fsExtra.writeFile(appJsonPath, appJson);
   })
-  .then(() => {
+  .then(async () => {
     if (requireAdmin === 'true') {
       return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${appFolderPath}" "${finalPath}"`);
+    }
+    // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
+    // need to correct to user to install apps without sudo
+    if (process.platform === 'darwin' && installationPath === '/Applications/WebCatalog Apps') {
+      // https://unix.stackexchange.com/a/7732
+      const installationPathOwner = await execAsync("ls -ld '/Applications/WebCatalog Apps' | awk '{print $3}'");
+      if (installationPathOwner.trim() === 'root') {
+        // https://askubuntu.com/questions/6723/change-folder-permissions-and-ownership
+        // https://stackoverflow.com/questions/23714097/sudo-chown-command-not-found
+        await sudoAsync(`/usr/sbin/chown -R ${username} '/Applications/WebCatalog Apps'`);
+      }
     }
     return fsExtra.move(appFolderPath, finalPath, { overwrite: true });
   })

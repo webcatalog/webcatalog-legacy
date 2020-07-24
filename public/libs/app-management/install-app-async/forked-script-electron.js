@@ -28,8 +28,6 @@ const {
   registered,
 } = argv;
 
-console.log(typeof url);
-
 // ignore requireAdmin if installationPath is not custom
 const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
 || installationPath === '/Applications/WebCatalog Apps';
