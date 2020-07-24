@@ -122,6 +122,10 @@ const isEngineInstalled = (engine) => {
         return fs.existsSync(chromePath);
       }
 
+      if (process.platform === 'linux') {
+        return commandExistsSync('opera');
+      }
+
       if (process.platform === 'win32') {
         const chromePaths = getWin32OperaPaths();
         return chromePaths.length > 0;
