@@ -31,6 +31,7 @@ const {
   bravePath,
   vivaldiPath,
   edgePath,
+  operaPath,
   registered,
 } = argv;
 
@@ -230,6 +231,11 @@ Promise.resolve()
 /Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
+            case 'opera/tabs': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Opera.app/Contents/MacOS/Opera --user-data-dir="${chromiumDataPath}" "${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -309,6 +315,11 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
             case 'vivaldi/tabs': {
               execFileContent = `#!/bin/sh -ue
 vivaldi --user-data-dir="${chromiumDataPath}" "${url}";`;
+              break;
+            }
+            case 'opera/tabs': {
+              execFileContent = `#!/bin/sh -ue
+opera --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             default: {
@@ -422,6 +433,9 @@ Terminal=false
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'edge/tabs') {
         browserPath = edgePath;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
+      } else if (engine === 'opera/tabs') {
+        browserPath = operaPath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));

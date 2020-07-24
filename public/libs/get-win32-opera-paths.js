@@ -21,10 +21,11 @@ const getWin32OperaPaths = () => {
   const suffixes = [
     `${path.sep}Opera${path.sep}launcher.exe`,
   ];
-  const prefixes = [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']].filter(Boolean);
+  const prefixes = [path.join(process.env.LOCALAPPDATA, 'Programs'), process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']].filter(Boolean);
 
   prefixes.forEach((prefix) => suffixes.forEach((suffix) => {
     const chromePath = path.join(prefix, suffix);
+    console.log(chromePath);
     if (canAccess(chromePath)) {
       installations.push(chromePath);
     }
