@@ -7,6 +7,7 @@ const getWin32ChromePaths = require('./get-win32-chrome-paths');
 const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('./get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('./get-win32-edge-paths');
+const getWin32OperaPaths = require('./get-win32-opera-paths');
 
 const isEngineInstalled = (engine) => {
   const browser = engine.split('/')[0];
@@ -110,6 +111,23 @@ const isEngineInstalled = (engine) => {
 
       if (process.platform === 'win32') {
         const chromePaths = getWin32EdgePaths();
+        return chromePaths.length > 0;
+      }
+
+      return false;
+    }
+    case 'opera': {
+      if (process.platform === 'darwin') {
+        const chromePath = path.join('/Applications', 'Opera.app');
+        return fs.existsSync(chromePath);
+      }
+
+      if (process.platform === 'linux') {
+        return commandExistsSync('opera');
+      }
+
+      if (process.platform === 'win32') {
+        const chromePaths = getWin32OperaPaths();
         return chromePaths.length > 0;
       }
 
