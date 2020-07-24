@@ -28,10 +28,11 @@ import {
 } from '../../constants/app-statuses';
 
 import {
-  requestOpenApp,
-  requestUninstallApp,
   requestCancelInstallApp,
   requestCancelUpdateApp,
+  requestOpenApp,
+  requestOpenInBrowser,
+  requestUninstallApp,
 } from '../../senders';
 
 import { isOutdatedApp } from '../../state/app-management/utils';
@@ -266,6 +267,15 @@ const AppCard = (props) => {
           {engine && (
             [
               <Divider key={`menu-divider-${id}`} />,
+              engine === 'electron' && (
+                <MenuItem
+                  key="release-notes"
+                  dense
+                  onClick={() => requestOpenInBrowser('https://github.com/atomery/juli/releases')}
+                >
+                  Release Notes
+                </MenuItem>
+              ),
               <MenuItem dense key={`menu-engine-${id}`} onClick={null} disabled>
                 Installed with&nbsp;
                 {getEngineName(engine)}
