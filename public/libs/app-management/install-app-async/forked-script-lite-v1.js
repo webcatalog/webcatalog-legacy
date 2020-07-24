@@ -187,7 +187,7 @@ Promise.resolve()
             }
             case 'chromium/tabs': {
               execFileContent = `#!/usr/bin/env bash
-/Applications/Chromium.app/Contents/MacOS/Chromium --class ${id} --user-data-dir="${chromiumDataPath}" "${url}"`;
+/Applications/Chromium.app/Contents/MacOS/Chromium --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             case 'chrome': {
@@ -197,7 +197,7 @@ Promise.resolve()
             }
             case 'chrome/tabs': {
               execFileContent = `#!/usr/bin/env bash
-/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --class ${id} --user-data-dir="${chromiumDataPath}" "${url}"`;
+/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             case 'brave': {
@@ -207,7 +207,7 @@ Promise.resolve()
             }
             case 'brave/tabs': {
               execFileContent = `#!/usr/bin/env bash
-/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --class ${id} --user-data-dir="${chromiumDataPath}" "${url}"`;
+/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             case 'vivaldi': {
@@ -217,7 +217,7 @@ Promise.resolve()
             }
             case 'vivaldi/tabs': {
               execFileContent = `#!/usr/bin/env bash
-/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --class ${id} --user-data-dir="${chromiumDataPath}" "${url}"`;
+/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             case 'edge': {
@@ -227,7 +227,7 @@ Promise.resolve()
             }
             case 'edge/tabs': {
               execFileContent = `#!/usr/bin/env bash
-/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --class ${id} --user-data-dir="${chromiumDataPath}" "${url}"`;
+/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             default: {
@@ -278,7 +278,7 @@ chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="
             }
             case 'chromium/tabs': {
               execFileContent = `#!/bin/sh -ue
-chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" "${url}";`;
+chromium-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             case 'chrome': {
@@ -288,7 +288,7 @@ google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${u
             }
             case 'chrome/tabs': {
               execFileContent = `#!/bin/sh -ue
-google-chrome --class "${name}" --user-data-dir="${chromiumDataPath}" "${url}";`;
+google-chrome --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             case 'brave': {
@@ -298,7 +298,7 @@ brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${u
             }
             case 'brave/tabs': {
               execFileContent = `#!/bin/sh -ue
-brave-browser --class "${name}" --user-data-dir="${chromiumDataPath}" "${url}";`;
+brave-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             case 'vivaldi': {
@@ -308,7 +308,7 @@ vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`
             }
             case 'vivaldi/tabs': {
               execFileContent = `#!/bin/sh -ue
-vivaldi --class "${name}" --user-data-dir="${chromiumDataPath}" "${url}";`;
+vivaldi --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             default: {
@@ -404,25 +404,25 @@ Terminal=false
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'chrome/tabs') {
         browserPath = chromePath;
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" "${url}"`;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'brave') {
         browserPath = bravePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'brave/tabs') {
         browserPath = bravePath;
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" "${url}"`;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'vivaldi') {
         browserPath = vivaldiPath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'vivaldi/tabs') {
         browserPath = vivaldiPath;
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" "${url}"`;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'edge') {
         browserPath = edgePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'edge/tabs') {
         browserPath = edgePath;
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" "${url}"`;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));
       }

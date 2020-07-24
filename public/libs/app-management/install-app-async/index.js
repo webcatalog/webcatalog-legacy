@@ -148,22 +148,22 @@ const installAppAsync = (
         params.push(getWin32FirefoxPaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'chrome') {
+      if (process.platform === 'win32' && engine.startsWith('chrome')) {
         params.push('--chromePath');
         params.push(getWin32ChromePaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'brave') {
+      if (process.platform === 'win32' && engine.startsWith('brave')) {
         params.push('--bravePath');
         params.push(getWin32BravePaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'vivaldi') {
+      if (process.platform === 'win32' && engine.startsWith('vivaldi')) {
         params.push('--vivaldiPath');
         params.push(getWin32VivaldiPaths()[0]);
       }
 
-      if (process.platform === 'win32' && engine === 'edge') {
+      if (process.platform === 'win32' && engine.startsWith('edge')) {
         params.push('--edgePath');
         params.push(getWin32EdgePaths()[0]);
       }
