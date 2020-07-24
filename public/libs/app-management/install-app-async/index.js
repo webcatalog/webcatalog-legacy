@@ -95,6 +95,11 @@ const installAppAsync = (
             engineName = 'Google Chrome';
             break;
           }
+          case 'opera':
+          case 'opera/tabs': {
+            engineName = 'Opera';
+            break;
+          }
           default: {
             engineName = 'Browser';
           }

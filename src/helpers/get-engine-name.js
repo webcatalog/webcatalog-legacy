@@ -42,6 +42,9 @@ const getEngineName = (engine) => {
     case 'edge/tabs': {
       return 'Microsoft Edge (with tabs)';
     }
+    case 'opera/tabs': {
+      return 'Opera (with tabs)';
+    }
     default: {
       throw new Error('Engine is not supported');
     }

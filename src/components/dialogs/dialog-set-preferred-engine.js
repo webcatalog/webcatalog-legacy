@@ -13,13 +13,14 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
 import braveIcon from '../../assets/brave.png';
-import chromeIcon from '../../assets/chrome.png';
 import chromeCanaryIcon from '../../assets/chrome-canary.png';
+import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
+import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/electron.png';
 import firefoxIcon from '../../assets/firefox.png';
+import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
-import edgeIcon from '../../assets/edge.png';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -255,6 +256,20 @@ const DialogSetPreferredEngine = (props) => {
             <ListItemText
               primary="Mozilla Firefox"
               secondary="This option creates Firefox-based app with normal browser user interface and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify but requires advanced configurations."
+            />
+          </ListItem>
+          <ListItem
+            alignItems="flex-start"
+            button
+            onClick={() => onUpdateForm({ engine: 'opera/tabs' })}
+            selected={engine === 'opera/tabs'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Vivaldi" src={operaIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Opera (with tabs)"
+              secondary="This option creates full-feature Opera-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
             />
           </ListItem>
           <ListItem

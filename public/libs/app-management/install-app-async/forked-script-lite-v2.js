@@ -45,18 +45,23 @@ const browserConstants = {
   },
   chromium: {
     appDir: 'Chromium.app',
-    userDataDir: path.join('Chromium'),
+    userDataDir: 'Chromium',
     execFile: 'Chromium',
   },
   edge: {
     appDir: 'Microsoft Edge.app',
-    userDataDir: path.join('Microsoft Edge'),
+    userDataDir: 'Microsoft Edge',
     execFile: 'Microsoft Edge',
   },
   vivaldi: {
     appDir: 'Vivaldi.app',
-    userDataDir: path.join('Vivaldi'),
+    userDataDir: 'Vivaldi',
     execFile: 'Vivaldi',
+  },
+  opera: {
+    appDir: 'Opera.app',
+    userDataDir: 'com.operasoftware.Opera',
+    execFile: 'Opera',
   },
 };
 
