@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+
+import HelpIcon from '@material-ui/icons/Help';
 
 import braveIcon from '../../assets/brave.png';
 import chromeCanaryIcon from '../../assets/chrome-canary.png';
@@ -17,13 +26,47 @@ import firefoxIcon from '../../assets/firefox.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
 
+import HelpTooltip from './help-tooltip';
+
+const CustomHelpIcon = withStyles(() => ({
+  fontSizeSmall: {
+    marginTop: 4,
+  },
+}))(HelpIcon);
+
+const getDesc = (engineCode, browserName) => {
+  if (engineCode === 'electron') {
+    return `This option creates ${browserName}-based app with many exclusive features such as workspaces, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
+  }
+
+  if (engineCode === 'firefox') {
+    return `This option creates ${browserName}-based app with traditional browser user interface, tab and WebExtension support.`;
+  }
+
+  const standardDesc = `This option creates bare-bone ${browserName}-based app with WebExtension support.`;
+  const tabbedDesc = `This option creates ${browserName}-based app with traditional browser user interface, tab and WebExtension support.`;
+  if (engineCode === 'opera') {
+    return tabbedDesc;
+  }
+
+  return (
+    <>
+      <strong>Standard: </strong>
+      {standardDesc}
+      <br />
+      <br />
+      <strong>Tabbed: </strong>
+      {tabbedDesc}
+    </>
+  );
+};
+
 const EngineList = ({
   engine,
   onEngineSelected,
 }) => (
-  <List>
+  <List dense>
     <ListItem
-      alignItems="flex-start"
       button
       onClick={() => onEngineSelected('electron')}
       selected={engine === 'electron'}
@@ -32,164 +75,302 @@ const EngineList = ({
         <Avatar alt="Electron" src={electronIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Electron (highly recommended)"
-        secondary="This option creates Electron-based app with many exclusive features such as workspaces, notifications, badges and email handling. It takes more disk space (up to 200 MB per app), needs to be updated manually and doesn't support DRM-protected apps such as Netflix or Spotify."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Electron
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Default" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Recommended" color="secondary" />
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('electron', 'Electron')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
     </ListItem>
     <ListItem
-      alignItems="flex-start"
       button
-      onClick={() => onEngineSelected('brave')}
-      selected={engine === 'brave'}
+      onClick={() => {
+        if (engine.startsWith('brave')) return;
+        onEngineSelected('brave');
+      }}
+      selected={engine.startsWith('brave')}
     >
       <ListItemAvatar>
         <Avatar alt="Brave" src={braveIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Brave"
-        secondary="This option creates bare-bone Brave-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Brave
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('brave', 'Brave')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="brave">
+            Standard
+          </ToggleButton>
+          <ToggleButton value="brave/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
     </ListItem>
     <ListItem
-      alignItems="flex-start"
       button
-      onClick={() => onEngineSelected('brave/tabs')}
-      selected={engine === 'brave/tabs'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Brave" src={braveIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary="Brave (with tabs)"
-        secondary="This option creates full-feature Brave-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-      />
-    </ListItem>
-    <ListItem
-      alignItems="flex-start"
-      button
-      onClick={() => onEngineSelected('chrome')}
-      selected={engine === 'chrome'}
+      onClick={() => {
+        if (engine.startsWith('chrome')) return;
+        onEngineSelected('chrome');
+      }}
+      selected={engine === 'chrome' || engine.startsWith('chrome/')}
     >
       <ListItemAvatar>
         <Avatar alt="Google Chrome" src={chromeIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Google Chrome"
-        secondary="This option creates bare-bone Google Chrome-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Google Chrome
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('chrome', 'Google Chrome')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
-    </ListItem>
-    <ListItem
-      alignItems="flex-start"
-      button
-      onClick={() => onEngineSelected('chrome/tabs')}
-      selected={engine === 'chrome/tabs'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Google Chrome" src={chromeIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary="Google Chrome (with tabs)"
-        secondary="This option creates full-feature Google Chrome-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-      />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="chrome">
+            Standard
+          </ToggleButton>
+          <ToggleButton value="chrome/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
     </ListItem>
     {window.process.platform === 'darwin' && (
       <ListItem
-        alignItems="flex-start"
         button
-        onClick={() => onEngineSelected('chromeCanary')}
-        selected={engine === 'chromeCanary'}
+        onClick={() => {
+          if (engine.startsWith('chromeCanary')) return;
+          onEngineSelected('chromeCanary');
+        }}
+        selected={engine.startsWith('chromeCanary')}
       >
         <ListItemAvatar>
           <Avatar alt="Google Chrome Canary" src={chromeCanaryIcon} />
         </ListItemAvatar>
         <ListItemText
-          primary="Google Chrome Canary"
-          secondary="This option creates bare-bone Google Chrome Canary-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  Google Chrome Canary
+                </Typography>
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('chromeCanary', 'Google Chrome Canary')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
         />
-      </ListItem>
-    )}
-    {window.process.platform === 'darwin' && (
-      <ListItem
-        alignItems="flex-start"
-        button
-        onClick={() => onEngineSelected('chromeCanary/tabs')}
-        selected={engine === 'chromeCanary/tabs'}
-      >
-        <ListItemAvatar>
-          <Avatar alt="Google Chrome Canary" src={chromeCanaryIcon} />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Google Chrome Canary (with tabs)"
-          secondary="This option creates full-feature Google Chrome Canary-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-        />
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="chromeCanary">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="chromeCanary/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
       </ListItem>
     )}
     {window.process.platform !== 'win32' && (
       <ListItem
-        alignItems="flex-start"
         button
-        onClick={() => onEngineSelected('chromium')}
-        selected={engine === 'chromium'}
+        onClick={() => {
+          if (engine.startsWith('chromium')) return;
+          onEngineSelected('chromium');
+        }}
+        selected={engine.startsWith('chromium')}
       >
         <ListItemAvatar>
           <Avatar alt="Chromium" src={chromiumIcon} />
         </ListItemAvatar>
         <ListItemText
-          primary="Chromium"
-          secondary="This option creates bare-bone Chromium-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  Chromium
+                </Typography>
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('chromium', 'Chromium')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
         />
-      </ListItem>
-    )}
-    {window.process.platform !== 'win32' && (
-      <ListItem
-        alignItems="flex-start"
-        button
-        onClick={() => onEngineSelected('chromium/tabs')}
-        selected={engine === 'chromium/tabs'}
-      >
-        <ListItemAvatar>
-          <Avatar alt="Chromium" src={chromiumIcon} />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Chromium (with tabs)"
-          secondary="This option creates full-feature Chromium-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-        />
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="chromium">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="chromium/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
       </ListItem>
     )}
     {window.process.platform !== 'linux' && (
       <ListItem
-        alignItems="flex-start"
+
         button
-        onClick={() => onEngineSelected('edge')}
-        selected={engine === 'edge'}
+        onClick={() => {
+          if (engine.startsWith('edge')) return;
+          onEngineSelected('edge');
+        }}
+        selected={engine.startsWith('edge')}
       >
         <ListItemAvatar>
           <Avatar alt="Microsoft Edge" src={edgeIcon} />
         </ListItemAvatar>
         <ListItemText
-          primary="Microsoft Edge"
-          secondary="This option creates bare-bone Microsoft Edge (Chromium)-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  Microsoft Edge
+                </Typography>
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('edge', 'Microsoft Edge')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
         />
-      </ListItem>
-    )}
-    {window.process.platform !== 'linux' && (
-      <ListItem
-        alignItems="flex-start"
-        button
-        onClick={() => onEngineSelected('edge/tabs')}
-        selected={engine === 'edge/tabs'}
-      >
-        <ListItemAvatar>
-          <Avatar alt="Microsoft Edge" src={edgeIcon} />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Microsoft Edge (with tabs)"
-          secondary="This option creates full-feature Microsoft Edge (Chromium)-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-        />
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="edge">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="edge/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
       </ListItem>
     )}
     <ListItem
-      alignItems="flex-start"
       button
       onClick={() => onEngineSelected('firefox')}
       selected={engine === 'firefox'}
@@ -198,57 +379,116 @@ const EngineList = ({
         <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Mozilla Firefox"
-        secondary="This option creates Firefox-based app with normal browser user interface and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify but requires advanced configurations."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Mozilla Firefox
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('firefox', 'Mozilla Firefox')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
     </ListItem>
     <ListItem
-      alignItems="flex-start"
       button
       onClick={() => onEngineSelected('opera/tabs')}
       selected={engine === 'opera/tabs'}
     >
       <ListItemAvatar>
-        <Avatar alt="Vivaldi" src={operaIcon} />
+        <Avatar alt="Opera" src={operaIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Opera (with tabs)"
-        secondary="This option creates full-feature Opera-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Opera
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('opera', 'Opera')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
     </ListItem>
     <ListItem
-      alignItems="flex-start"
       button
-      onClick={() => onEngineSelected('vivaldi')}
-      selected={engine === 'vivaldi'}
+      onClick={() => {
+        if (engine.startsWith('vivaldi')) return;
+        onEngineSelected('vivaldi');
+      }}
+      selected={engine.startsWith('vivaldi')}
     >
       <ListItemAvatar>
         <Avatar alt="Vivaldi" src={vivaldiIcon} />
       </ListItemAvatar>
       <ListItemText
-        primary="Vivaldi"
-        secondary="This option creates bare-bone Vivaldi-based app with WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Vivaldi
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('vivaldi', 'Vivaldi')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
       />
-    </ListItem>
-    <ListItem
-      alignItems="flex-start"
-      button
-      onClick={() => onEngineSelected('vivaldi/tabs')}
-      selected={engine === 'vivaldi/tabs'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Vivaldi" src={vivaldiIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary="Vivaldi (with tabs)"
-        secondary="This option creates full-feature Vivaldi-based browser app with tabs and WebExtension support. It takes less disk space (less than 2 MB per app) and works with most apps, including DRM-protected apps such as Netflix or Spotify."
-      />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="vivaldi">
+            Standard
+          </ToggleButton>
+          <ToggleButton value="vivaldi/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
     </ListItem>
   </List>
 );
 
 EngineList.defaultProps = {
-  engine: null,
+  engine: '',
 };
 
 EngineList.propTypes = {

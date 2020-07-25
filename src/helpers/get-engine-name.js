@@ -10,40 +10,40 @@ const getEngineName = (engine) => {
       return 'Chromium';
     }
     case 'chromium/tabs': {
-      return 'Chromium (with tabs)';
+      return 'Chromium (tabbed)';
     }
     case 'chrome': {
       return 'Google Chrome';
     }
     case 'chrome/tabs': {
-      return 'Google Chrome (with tabs)';
+      return 'Google Chrome (tabbed)';
     }
     case 'chromeCanary': {
       return 'Google Chrome Canary';
     }
     case 'chromeCanary/tabs': {
-      return 'Google Chrome Canary (with tabs)';
+      return 'Google Chrome Canary (tabbed)';
     }
     case 'brave': {
       return 'Brave';
     }
     case 'brave/tabs': {
-      return 'Brave (with tabs)';
+      return 'Brave (tabbed)';
     }
     case 'vivaldi': {
       return 'Vivaldi';
     }
     case 'vivaldi/tabs': {
-      return 'Vivaldi (with tabs)';
+      return 'Vivaldi (tabbed)';
     }
     case 'edge': {
       return 'Microsoft Edge';
     }
     case 'edge/tabs': {
-      return 'Microsoft Edge (with tabs)';
+      return 'Microsoft Edge (tabbed)';
     }
     case 'opera/tabs': {
-      return 'Opera (with tabs)';
+      return 'Opera';
     }
     default: {
       throw new Error('Engine is not supported');

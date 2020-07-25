@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import Grid from '@material-ui/core/Grid';
+
+import HelpIcon from '@material-ui/icons/Help';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -17,14 +20,11 @@ import {
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import EngineList from '../shared/engine-list';
+import HelpTooltip from '../shared/help-tooltip';
 
 const styles = (theme) => ({
   grid: {
     marginTop: theme.spacing(1),
-  },
-  tip: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
@@ -33,6 +33,10 @@ const styles = (theme) => ({
   },
   inline: {
     display: 'inline',
+  },
+  content: {
+    paddingLeft: 0,
+    paddingRight: 0,
   },
 });
 
@@ -53,16 +57,29 @@ const DialogSetPreferredEngine = (props) => {
       onClose={onClose}
       open={open}
     >
-      <EnhancedDialogTitle onClose={onClose}>
-        Choose Preferred Browser Engine
+      <EnhancedDialogTitle onClose={onClose} disableTypography>
+        <Grid container direction="row" alignItems="center" spacing={1}>
+          <Grid item>
+            <Typography variant="subtitle1">
+              Choose Preferred Browser Engine
+            </Typography>
+          </Grid>
+          <Grid item>
+            <HelpTooltip
+              title={(
+                <Typography variant="body2" color="textPrimary">
+                  WebCatalog lets you pick your preferrred browser engine to power your apps.
+                  After you install an app,
+                  you will have to uninstall and then reinstall to change its engine of an app.
+                </Typography>
+              )}
+            >
+              <HelpIcon color="disabled" />
+            </HelpTooltip>
+          </Grid>
+        </Grid>
       </EnhancedDialogTitle>
-      <DialogContent>
-        <Typography component="span" className={classes.tip} color="textPrimary">
-          WebCatalog lets you pick your preferrred browser engine to power your apps.
-          After you install an app,
-          you will have to uninstall and then reinstall to change the engine.
-        </Typography>
-
+      <DialogContent className={classes.content}>
         <EngineList
           onEngineSelected={(selectedEngine) => onUpdateForm({ engine: selectedEngine })}
           engine={engine}

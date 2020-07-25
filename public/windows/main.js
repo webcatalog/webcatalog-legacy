@@ -31,7 +31,7 @@ const createAsync = () => new Promise((resolve) => {
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
       file: 'window-state-menubar.json',
-      defaultWidth: 415,
+      defaultWidth: 480,
       defaultHeight: 500,
     });
 
@@ -54,7 +54,7 @@ const createAsync = () => new Promise((resolve) => {
         y: menubarWindowState.y,
         width: menubarWindowState.width,
         height: menubarWindowState.height,
-        minWidth: 415,
+        minWidth: 480,
         minHeight: 500,
         webPreferences: {
           nodeIntegration: true,
@@ -162,7 +162,7 @@ const createAsync = () => new Promise((resolve) => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 415,
+    minWidth: 480,
     minHeight: 500,
     titleBarStyle: 'hidden',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
