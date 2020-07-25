@@ -173,6 +173,7 @@ const DialogCreateCustomApp = (props) => {
                   })
                   .catch(console.log); // eslint-disable-line
               }}
+              disabled={downloadingIcon}
             >
               Select Local Image...
             </Button>
@@ -183,7 +184,7 @@ const DialogCreateCustomApp = (props) => {
               variant="outlined"
               size="small"
               className={classes.buttonBot}
-              disabled={Boolean(!url || urlError || downloadingIcon)}
+              disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
               onClick={() => onGetIconFromInternet(true)}
             >
               {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
@@ -193,7 +194,7 @@ const DialogCreateCustomApp = (props) => {
               variant="outlined"
               size="small"
               className={classes.buttonBot}
-              disabled={!(icon || internetIcon)}
+              disabled={!(icon || internetIcon) || downloadingIcon}
               onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
             >
               Reset to Default
