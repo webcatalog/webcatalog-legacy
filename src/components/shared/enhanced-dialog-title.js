@@ -26,9 +26,16 @@ const styles = (theme) => ({
   },
 });
 
-const EnhancedDialogTitle = ({ children, classes, onClose }) => (
+const EnhancedDialogTitle = ({
+  children,
+  classes,
+  disableTypography,
+  onClose,
+}) => (
   <MuiDialogTitle disableTypography className={classes.root}>
-    <Typography variant="subtitle1">{children}</Typography>
+    {disableTypography ? children : (
+      <Typography variant="subtitle1">{children}</Typography>
+    )}
     {onClose ? (
       <IconButton size="small" aria-label="Close" className={classes.closeButton} onClick={onClose}>
         <CloseIcon fontSize="small" />
@@ -37,9 +44,14 @@ const EnhancedDialogTitle = ({ children, classes, onClose }) => (
   </MuiDialogTitle>
 );
 
+EnhancedDialogTitle.defaultProps = {
+  disableTypography: false,
+};
+
 EnhancedDialogTitle.propTypes = {
-  classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  classes: PropTypes.object.isRequired,
+  disableTypography: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
 };
 
