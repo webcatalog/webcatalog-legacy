@@ -25,6 +25,7 @@ import electronIcon from '../../assets/electron.png';
 import firefoxIcon from '../../assets/firefox.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
+import yandexIcon from '../../assets/yandex.png';
 
 import HelpTooltip from './help-tooltip';
 
@@ -479,6 +480,58 @@ const EngineList = ({
             Standard
           </ToggleButton>
           <ToggleButton value="vivaldi/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
+    </ListItem>
+    <ListItem
+      button
+      onClick={() => {
+        if (engine.startsWith('yandex')) return;
+        onEngineSelected('yandex');
+      }}
+      selected={engine.startsWith('yandex')}
+    >
+      <ListItemAvatar>
+        <Avatar alt="Yandex" src={yandexIcon} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Yandex Browser
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('yandex', 'Yandex Browser')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
+      />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="yandex">
+            Standard
+          </ToggleButton>
+          <ToggleButton value="yandex/tabs">
             Tabbed
           </ToggleButton>
         </ToggleButtonGroup>

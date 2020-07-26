@@ -13,6 +13,7 @@ const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 const getWin32OperaPaths = require('../../get-win32-opera-paths');
+const getWin32YandexPaths = require('../../get-win32-yandex-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
 
@@ -101,6 +102,11 @@ const installAppAsync = (
             engineName = 'Opera';
             break;
           }
+          case 'yandex':
+          case 'yandex/tabs': {
+            engineName = 'Yandex Browser';
+            break;
+          }
           default: {
             engineName = 'Browser';
           }
@@ -149,34 +155,29 @@ const installAppAsync = (
         params.push(url);
       }
 
-      if (process.platform === 'win32' && engine === 'firefox') {
-        params.push('--firefoxPath');
-        params.push(getWin32FirefoxPaths()[0]);
-      }
-
-      if (process.platform === 'win32' && engine.startsWith('chrome')) {
-        params.push('--chromePath');
-        params.push(getWin32ChromePaths()[0]);
-      }
-
-      if (process.platform === 'win32' && engine.startsWith('brave')) {
-        params.push('--bravePath');
-        params.push(getWin32BravePaths()[0]);
-      }
-
-      if (process.platform === 'win32' && engine.startsWith('vivaldi')) {
-        params.push('--vivaldiPath');
-        params.push(getWin32VivaldiPaths()[0]);
-      }
-
-      if (process.platform === 'win32' && engine.startsWith('edge')) {
-        params.push('--edgePath');
-        params.push(getWin32EdgePaths()[0]);
-      }
-
-      if (process.platform === 'win32' && engine.startsWith('opera')) {
-        params.push('--operaPath');
-        params.push(getWin32OperaPaths()[0]);
+      if (process.platform === 'win32') {
+        if (engine === 'firefox') {
+          params.push('--browserPath');
+          params.push(getWin32FirefoxPaths()[0]);
+        } else if (engine.startsWith('chrome')) {
+          params.push('--browserPath');
+          params.push(getWin32ChromePaths()[0]);
+        } else if (engine.startsWith('brave')) {
+          params.push('--browserPath');
+          params.push(getWin32BravePaths()[0]);
+        } else if (engine.startsWith('vivaldi')) {
+          params.push('--browserPath');
+          params.push(getWin32VivaldiPaths()[0]);
+        } else if (engine.startsWith('edge')) {
+          params.push('--browserPath');
+          params.push(getWin32EdgePaths()[0]);
+        } else if (engine.startsWith('opera')) {
+          params.push('--browserPath');
+          params.push(getWin32OperaPaths()[0]);
+        } else if (engine.startsWith('yandex')) {
+          params.push('--browserPath');
+          params.push(getWin32YandexPaths()[0]);
+        }
       }
 
       let tmpPath = null;

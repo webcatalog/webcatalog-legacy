@@ -26,12 +26,7 @@ const {
   createStartMenuShortcut,
   requireAdmin,
   username,
-  firefoxPath,
-  chromePath,
-  bravePath,
-  vivaldiPath,
-  edgePath,
-  operaPath,
+  browserPath,
   registered,
 } = argv;
 
@@ -407,38 +402,27 @@ Terminal=false
 
     if (process.platform === 'win32') {
       const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-      let browserPath;
       let args;
 
       if (engine === 'firefox') {
-        browserPath = firefoxPath;
         args = `--class ${id} --P ${id} "${url}"`;
       } else if (engine === 'chrome') {
-        browserPath = chromePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'chrome/tabs') {
-        browserPath = chromePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'brave') {
-        browserPath = bravePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'brave/tabs') {
-        browserPath = bravePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'vivaldi') {
-        browserPath = vivaldiPath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'vivaldi/tabs') {
-        browserPath = vivaldiPath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'edge') {
-        browserPath = edgePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'edge/tabs') {
-        browserPath = edgePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'opera/tabs') {
-        browserPath = operaPath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));

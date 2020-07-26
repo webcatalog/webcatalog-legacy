@@ -45,8 +45,14 @@ const getEngineName = (engine) => {
     case 'opera/tabs': {
       return 'Opera';
     }
+    case 'yandex': {
+      return 'Yandex Browser';
+    }
+    case 'yandex/tabs': {
+      return 'Yandex Browser (tabbed)';
+    }
     default: {
-      throw new Error('Engine is not supported');
+      return 'Unknown Engine';
     }
   }
 };
