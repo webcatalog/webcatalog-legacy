@@ -50,9 +50,9 @@ export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => 
 });
 
 let requestCount = 0;
-export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
-  const { form: { icon, url, urlError } } = getState().dialogEditApp;
-  if ((!forceOverwrite && icon) || !url || urlError) return;
+export const getIconFromInternet = () => (dispatch, getState) => {
+  const { form: { url, urlDisabled, urlError } } = getState().dialogEditApp;
+  if (!url || urlDisabled || urlError) return;
 
   dispatch({
     type: DIALOG_EDIT_APP_DOWNLOADING_ICON_UPDATE,
@@ -65,14 +65,13 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
       const { form } = getState().dialogEditApp;
       if (form.url === url) {
         const changes = { internetIcon: iconUrl || form.internetIcon };
-        if (forceOverwrite) changes.icon = null;
         dispatch(({
           type: DIALOG_EDIT_APP_FORM_UPDATE,
           changes,
         }));
       }
 
-      if (forceOverwrite && !iconUrl) {
+      if (!iconUrl) {
         const { remote } = window.require('electron');
         return remote.dialog.showMessageBox(remote.getCurrentWindow(), {
           message: 'Unable to find a suitable icon from the Internet.',

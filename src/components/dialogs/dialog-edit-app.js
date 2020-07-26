@@ -149,7 +149,7 @@ const DialogEditApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={Boolean(!id.startsWith('custom-') || !url || urlError || downloadingIcon)}
-              onClick={() => onGetIconFromInternet(true)}
+              onClick={() => onGetIconFromInternet()}
             >
               {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
             </Button>
