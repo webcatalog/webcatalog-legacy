@@ -14,6 +14,7 @@ const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 const getWin32OperaPaths = require('../../get-win32-opera-paths');
 const getWin32YandexPaths = require('../../get-win32-yandex-paths');
+const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
 
@@ -182,6 +183,9 @@ const installAppAsync = (
         } else if (engine.startsWith('yandex')) {
           params.push('--browserPath');
           params.push(getWin32YandexPaths()[0]);
+        } else if (engine.startsWith('coccoc')) {
+          params.push('--browserPath');
+          params.push(getWin32CoccocPaths()[0]);
         }
       }
 

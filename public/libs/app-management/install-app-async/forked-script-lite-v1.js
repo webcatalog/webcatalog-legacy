@@ -168,77 +168,11 @@ Promise.resolve()
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
         .then(() => fsExtra.copy(iconIcnsPath, publicIconIcnsPath))
         .then(() => {
-          const chromiumDataPath = path.join('$HOME', '.webcatalog', 'chromium-data', id);
           let execFileContent = '';
           switch (engine) {
             case 'firefox': {
               execFileContent = `#!/usr/bin/env bash
 /Applications/Firefox.app/Contents/MacOS/Firefox --class ${id} --P ${id} "${url}"`;
-              break;
-            }
-            case 'chromium': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Chromium.app/Contents/MacOS/Chromium --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'chromium/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Chromium.app/Contents/MacOS/Chromium --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'chrome': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'chrome/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'brave': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'brave/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'vivaldi': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'vivaldi/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Vivaldi.app/Contents/MacOS/Vivaldi --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'edge': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'edge/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'opera/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Opera.app/Contents/MacOS/Opera --user-data-dir="${chromiumDataPath}" "${url}"`;
-              break;
-            }
-            case 'yandex': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Yandex.app/Contents/MacOS/Yandex --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-              break;
-            }
-            case 'yandex/tabs': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Yandex.app/Contents/MacOS/Yandex --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
             default: {
@@ -421,35 +355,19 @@ Terminal=false
     }
 
     if (process.platform === 'win32') {
+      if (!browserPath) {
+        return Promise.reject(new Error('Engine is not supporterd.'));
+      }
+
       const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
       let args;
 
       if (engine === 'firefox') {
         args = `--class ${id} --P ${id} "${url}"`;
-      } else if (engine === 'chrome') {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      } else if (engine === 'chrome/tabs') {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else if (engine === 'brave') {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      } else if (engine === 'brave/tabs') {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else if (engine === 'vivaldi') {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      } else if (engine === 'vivaldi/tabs') {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else if (engine === 'edge') {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      } else if (engine === 'edge/tabs') {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else if (engine === 'opera/tabs') {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else if (engine === 'yandex') {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      } else if (engine === 'yandex/tabs') {
+      } else if (engine.endsWith('/tabs')) {
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
-        return Promise.reject(new Error('Engine is not supporterd.'));
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       }
 
       const opts = {

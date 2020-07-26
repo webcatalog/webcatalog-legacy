@@ -19,7 +19,7 @@ const canAccess = (file) => {
 const getWin32CoccocPaths = () => {
   const installations = [];
   const suffixes = [
-    `${path.sep}Yandex${path.sep}YandexBrowser${path.sep}Application${path.sep}browser.exe`,
+    `${path.sep}CocCoc${path.sep}Browser${path.sep}Application${path.sep}browser.exe`,
   ];
   const prefixes = [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']].filter(Boolean);
 
