@@ -158,7 +158,7 @@ const DialogEditApp = (props) => {
               variant="outlined"
               size="small"
               className={classes.buttonBot}
-              disabled={!id.startsWith('custom-') || !(icon || internetIcon)}
+              disabled={!id.startsWith('custom-') || !(icon || internetIcon) || downloadingIcon}
               onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
             >
               Reset to Default
