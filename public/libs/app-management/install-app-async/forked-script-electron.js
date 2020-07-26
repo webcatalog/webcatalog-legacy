@@ -37,14 +37,15 @@ const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
-const appJsonPath = path.join(appPath, 'build', 'app.json');
-const publicIconPngPath = path.join(appPath, 'build', 'icon.png');
-const publicIconIcoPath = path.join(appPath, 'build', 'icon.ico');
-const packageJsonPath = path.join(appPath, 'package.json');
+const appAsarUnpackedPath = path.join(appPath, 'app.asar.unpacked');
+const appJsonPath = path.join(appAsarUnpackedPath, 'build', 'app.json');
+const publicIconPngPath = path.join(appAsarUnpackedPath, 'build', 'icon.png');
+const publicIconIcoPath = path.join(appAsarUnpackedPath, 'build', 'icon.ico');
+const rootPackageJsonPath = path.join(appPath, 'package.json');
+const packageJsonPath = path.join(appAsarUnpackedPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
-
-const menubarIconPath = path.join(appPath, 'build', 'menubar-icon.png');
-const menubarIcon2xPath = path.join(appPath, 'build', 'menubar-icon@2x.png');
+const menubarIconPath = path.join(appAsarUnpackedPath, 'build', 'menubar-icon.png');
+const menubarIcon2xPath = path.join(appAsarUnpackedPath, 'build', 'menubar-icon@2x.png');
 
 const getDotAppPath = () => {
   if (process.platform === 'darwin') {
@@ -200,7 +201,10 @@ Promise.resolve()
       main: 'build/electron.js',
       devDependencies: {},
     });
-    return fsExtra.writeJSON(packageJsonPath, newPackageJson);
+    return Promise.all([
+      fsExtra.writeJSON(rootPackageJsonPath, newPackageJson),
+      fsExtra.writeJSON(packageJsonPath, newPackageJson),
+    ]);
   })
   .then(() => {
     process.send({
@@ -226,9 +230,7 @@ Promise.resolve()
       osxSign: false,
       darwinDarkModeSupport: true,
       tmpdir: false,
-      asar: {
-        unpack: '{app.json,icon.png,icon.ico,package.json,manifest.json}',
-      },
+      prebuiltAsar: path.join(appPath, 'app.asar'),
     };
 
     opts.protocols = [
@@ -251,6 +253,14 @@ Promise.resolve()
       // so remove it
       .catch((err) => fsExtra.remove(appPath)
         .then(() => Promise.reject(err)));
+  })
+  .then(() => {
+    // copy app.asar.unpacked
+    const resourcesPath = process.platform === 'darwin'
+      ? path.join(dotAppPath, 'Contents', 'Resources')
+      : path.join(dotAppPath, 'resources');
+    const outputAppAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
+    return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
   })
   .then(async () => {
     process.send({
