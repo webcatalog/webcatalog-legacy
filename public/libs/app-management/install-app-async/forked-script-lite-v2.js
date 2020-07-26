@@ -63,6 +63,11 @@ const browserConstants = {
     userDataDir: 'com.operasoftware.Opera',
     execFile: 'Opera',
   },
+  yandex: {
+    appDir: 'Yandex.app',
+    userDataDir: 'Yandex',
+    execFile: 'Yandex',
+  },
 };
 
 const unescapeString = (str) => str.replace(/\\"/gmi, '"');

@@ -26,12 +26,7 @@ const {
   createStartMenuShortcut,
   requireAdmin,
   username,
-  firefoxPath,
-  chromePath,
-  bravePath,
-  vivaldiPath,
-  edgePath,
-  operaPath,
+  browserPath,
   registered,
 } = argv;
 
@@ -236,6 +231,16 @@ Promise.resolve()
 /Applications/Opera.app/Contents/MacOS/Opera --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
+            case 'yandex': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Yandex.app/Contents/MacOS/Yandex --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
+            case 'yandex/tabs': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Yandex.app/Contents/MacOS/Yandex --user-data-dir="${chromiumDataPath}" "${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -320,6 +325,16 @@ vivaldi --user-data-dir="${chromiumDataPath}" "${url}";`;
             case 'opera/tabs': {
               execFileContent = `#!/bin/sh -ue
 opera --user-data-dir="${chromiumDataPath}" "${url}";`;
+              break;
+            }
+            case 'yandex': {
+              execFileContent = `#!/bin/sh -ue
+yandex-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            case 'yandex/tabs': {
+              execFileContent = `#!/bin/sh -ue
+yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             default: {
@@ -407,38 +422,31 @@ Terminal=false
 
     if (process.platform === 'win32') {
       const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-      let browserPath;
       let args;
 
       if (engine === 'firefox') {
-        browserPath = firefoxPath;
         args = `--class ${id} --P ${id} "${url}"`;
       } else if (engine === 'chrome') {
-        browserPath = chromePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'chrome/tabs') {
-        browserPath = chromePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'brave') {
-        browserPath = bravePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'brave/tabs') {
-        browserPath = bravePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'vivaldi') {
-        browserPath = vivaldiPath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'vivaldi/tabs') {
-        browserPath = vivaldiPath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'edge') {
-        browserPath = edgePath;
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
       } else if (engine === 'edge/tabs') {
-        browserPath = edgePath;
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'opera/tabs') {
-        browserPath = operaPath;
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
+      } else if (engine === 'yandex') {
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'yandex/tabs') {
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));
