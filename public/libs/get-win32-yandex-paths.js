@@ -19,7 +19,7 @@ const canAccess = (file) => {
 const getWin32YandexPaths = () => {
   const installations = [];
   const suffixes = [
-    `${path.sep}Yandex${path.sep}YandexBrowser${path.sep}yandex.exe`,
+    `${path.sep}Yandex${path.sep}YandexBrowser${path.sep}Application${path.sep}browser.exe`,
   ];
   const prefixes = [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']].filter(Boolean);
 

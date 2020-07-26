@@ -231,6 +231,16 @@ Promise.resolve()
 /Applications/Opera.app/Contents/MacOS/Opera --user-data-dir="${chromiumDataPath}" "${url}"`;
               break;
             }
+            case 'yandex': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Yandex.app/Contents/MacOS/Yandex --class ${id} --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+              break;
+            }
+            case 'yandex/tabs': {
+              execFileContent = `#!/usr/bin/env bash
+/Applications/Yandex.app/Contents/MacOS/Yandex --user-data-dir="${chromiumDataPath}" "${url}"`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -315,6 +325,16 @@ vivaldi --user-data-dir="${chromiumDataPath}" "${url}";`;
             case 'opera/tabs': {
               execFileContent = `#!/bin/sh -ue
 opera --user-data-dir="${chromiumDataPath}" "${url}";`;
+              break;
+            }
+            case 'yandex': {
+              execFileContent = `#!/bin/sh -ue
+yandex-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+              break;
+            }
+            case 'yandex/tabs': {
+              execFileContent = `#!/bin/sh -ue
+yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
             default: {
@@ -423,6 +443,10 @@ Terminal=false
       } else if (engine === 'edge/tabs') {
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else if (engine === 'opera/tabs') {
+        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
+      } else if (engine === 'yandex') {
+        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+      } else if (engine === 'yandex/tabs') {
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         return Promise.reject(new Error('Engine is not supporterd.'));
