@@ -141,7 +141,7 @@ const isEngineInstalled = (engine) => {
       }
 
       if (process.platform === 'linux') {
-        return commandExistsSync('yandex');
+        return commandExistsSync('yandex-browser');
       }
 
       if (process.platform === 'win32') {
