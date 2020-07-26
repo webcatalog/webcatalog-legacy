@@ -9,30 +9,16 @@ import hasErrors from '../../helpers/has-errors';
 import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
 
-import {
-  open as openDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
 import { updateApp } from '../app-management/actions';
 
 export const close = () => ({
   type: DIALOG_EDIT_APP_CLOSE,
 });
 
-export const open = (form) => (dispatch, getState) => {
-  const state = getState();
-
-  const shouldAskForLicense = !state.preferences.registered
-    && Object.keys(state.appManagement.apps).length > 1;
-
-  if (shouldAskForLicense) {
-    return dispatch(openDialogLicenseRegistration());
-  }
-
-  return dispatch({
-    type: DIALOG_EDIT_APP_OPEN,
-    form,
-  });
-};
+export const open = (form) => ({
+  type: DIALOG_EDIT_APP_OPEN,
+  form,
+});
 
 // to be replaced with invoke (electron 7+)
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
