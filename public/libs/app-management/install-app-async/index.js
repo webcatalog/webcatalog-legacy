@@ -107,6 +107,11 @@ const installAppAsync = (
             engineName = 'Yandex Browser';
             break;
           }
+          case 'coccoc':
+          case 'coccoc/tabs': {
+            engineName = 'Cốc Cốc';
+            break;
+          }
           default: {
             engineName = 'Browser';
           }

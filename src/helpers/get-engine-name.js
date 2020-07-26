@@ -51,6 +51,12 @@ const getEngineName = (engine) => {
     case 'yandex/tabs': {
       return 'Yandex Browser (tabbed)';
     }
+    case 'coccoc': {
+      return 'Cốc Cốc';
+    }
+    case 'coccoc/tabs': {
+      return 'Cốc Cốc (tabbed)';
+    }
     default: {
       return 'Unknown Engine';
     }
