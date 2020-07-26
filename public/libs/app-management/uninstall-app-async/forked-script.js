@@ -14,6 +14,7 @@ const {
   installationPath,
   name,
   username,
+  webcatalogUserDataPath,
 } = argv;
 
 // ignore requireAdmin if installationPath is not custom
@@ -91,15 +92,15 @@ Promise.resolve()
     // remove userData
     // userData The directory for storing your app's configuration files,
     // which by default it is the appData directory appended with your app's name.
-    if (process.platform === 'darwin') {
-      if (engine === 'electron') {
-        const userDataPath = path.join(appDataPath, name);
-        p.push(checkExistsAndRemove(userDataPath));
-      } else if (engine !== 'firefox') { // chromium-based browsers
-        // forked-script-lite-v1
-        p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));
-        // forked-script-lite-v2
-        p.push(checkExistsAndRemove(path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id)));
+    if (engine === 'electron') {
+      const userDataPath = path.join(appDataPath, name);
+      p.push(checkExistsAndRemove(userDataPath));
+    } else if (engine !== 'firefox') { // chromium-based browsers
+      // forked-script-lite-v1
+      p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));
+      // forked-script-lite-v2
+      if (process.platform === 'darwin') {
+        p.push(checkExistsAndRemove(path.join(webcatalogUserDataPath, 'ChromiumProfiles', id)));
       }
     }
 
