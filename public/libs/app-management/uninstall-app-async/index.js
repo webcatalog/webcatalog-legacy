@@ -30,6 +30,8 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
     app.getPath('desktop'),
     '--installationPath',
     installationPath,
+    '--webcatalogUserDataPath',
+    app.getPath('userData'),
     '--requireAdmin',
     requireAdmin.toString(),
     '--username',
