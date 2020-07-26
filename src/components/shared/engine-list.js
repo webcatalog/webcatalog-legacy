@@ -159,7 +159,7 @@ const EngineList = ({
     <ListItem
       button
       onClick={() => {
-        if (engine.startsWith('chrome')) return;
+        if (engine === 'chrome' || engine.startsWith('chrome/')) return;
         onEngineSelected('chrome');
       }}
       selected={engine === 'chrome' || engine.startsWith('chrome/')}
