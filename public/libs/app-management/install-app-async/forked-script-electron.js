@@ -194,13 +194,15 @@ Promise.resolve()
     });
     return fsExtra.writeFile(appJsonPath, appJson);
   })
-  .then(() => fsExtra.readJSON(packageJsonPath))
+  // do not use packageJsonPath
+  // it does not have devDependencies
+  .then(() => fsExtra.readJSON(rootPackageJsonPath))
   .then((packageJson) => {
-    const newPackageJson = Object.assign(packageJson, {
+    const newPackageJson = {
+      ...packageJson,
       name,
       main: 'build/electron.js',
-      devDependencies: {},
-    });
+    };
     return Promise.all([
       fsExtra.writeJSON(rootPackageJsonPath, newPackageJson),
       fsExtra.writeJSON(packageJsonPath, newPackageJson),
