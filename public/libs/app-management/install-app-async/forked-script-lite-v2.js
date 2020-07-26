@@ -68,6 +68,11 @@ const browserConstants = {
     userDataDir: 'Yandex',
     execFile: 'Yandex',
   },
+  coccoc: {
+    appDir: 'Cốc Cốc.app',
+    userDataDir: 'Coccoc',
+    execFile: 'CocCoc',
+  },
 };
 
 const unescapeString = (str) => str.replace(/\\"/gmi, '"');

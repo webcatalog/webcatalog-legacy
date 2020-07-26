@@ -20,6 +20,7 @@ import braveIcon from '../../assets/brave.png';
 import chromeCanaryIcon from '../../assets/chrome-canary.png';
 import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
+import coccocIcon from '../../assets/coccoc.png';
 import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/electron.png';
 import firefoxIcon from '../../assets/firefox.png';
@@ -310,6 +311,60 @@ const EngineList = ({
               Standard
             </ToggleButton>
             <ToggleButton value="chromium/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      </ListItem>
+    )}
+    {window.process.platform !== 'linux' && (
+      <ListItem
+        button
+        onClick={() => {
+          if (engine.startsWith('coccoc')) return;
+          onEngineSelected('coccoc');
+        }}
+        selected={engine.startsWith('coccoc')}
+      >
+        <ListItemAvatar>
+          <Avatar alt="Cốc Cốc" src={coccocIcon} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  Cốc Cốc
+                </Typography>
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('coccoc', 'Cốc Cốc')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
+        />
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="coccoc">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="coccoc/tabs">
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
