@@ -2,6 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 const tmp = require('tmp');
+const semver = require('semver');
 
 const { getPreference } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
@@ -22,25 +23,11 @@ let lastUsedTmpPath = null;
 
 const { getPreferences } = require('../../preferences');
 
-const getScriptFileName = (engine) => {
-  if (engine === 'electron') {
-    return 'forked-script-electron.js';
-  }
-
-  // use v2 script for Chrome & Chromium-based browsers on Mac
-  if (process.platform === 'darwin'
-    && engine !== 'firefox'
-  ) {
-    return 'forked-script-lite-v2.js';
-  }
-
-  return 'forked-script-lite-v1.js';
-};
-
 const installAppAsync = (
   engine, id, name, url, icon,
 ) => {
   let v = '0.0.0'; // app version
+  let scriptFileName;
   return Promise.resolve()
     .then(() => {
       sendToAllWindows('update-installation-progress', {
@@ -52,8 +39,25 @@ const installAppAsync = (
         return prepareTemplateAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
+            if (semver.gte(v, '9.0.0-alpha')) {
+              scriptFileName = 'forked-script-electron-v2.js';
+            } else {
+              scriptFileName = 'forked-script-electron-v1.js';
+            }
           });
       }
+
+      if (process.platform === 'darwin'
+        && engine !== 'firefox'
+      ) {
+        // use v2 script for Chrome & Chromium-based browsers on Mac
+        scriptFileName = 'forked-script-lite-v2.js';
+        v = '2.1.0';
+      } else {
+        scriptFileName = 'forked-script-lite-v1.js';
+        v = '1.0.0';
+      }
+
       return null;
     })
     .then(() => new Promise((resolve, reject) => {
@@ -119,14 +123,6 @@ const installAppAsync = (
         }
         reject(new Error(`${engineName} is not installed.`));
         return;
-      }
-
-      const scriptFileName = getScriptFileName(engine);
-      const scriptPath = path.join(__dirname, scriptFileName);
-      if (scriptFileName === 'forked-script-lite-v1.js') {
-        v = '1.0.0';
-      } else if (scriptFileName === 'forked-script-lite-v2.js') {
-        v = '2.1.0';
       }
 
       const params = [
@@ -209,6 +205,7 @@ const installAppAsync = (
         proxyType,
       } = getPreferences();
 
+      const scriptPath = path.join(__dirname, scriptFileName);
       const child = fork(scriptPath, params, {
         env: {
           ELECTRON_RUN_AS_NODE: 'true',

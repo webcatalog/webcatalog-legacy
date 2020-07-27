@@ -2,7 +2,7 @@ const path = require('path');
 const xmlParser = require('fast-xml-parser');
 const { fork } = require('child_process');
 const { app } = require('electron');
-
+const NodeCache = require('node-cache');
 const customizedFetch = require('../../customized-fetch');
 const sendToAllWindows = require('../../send-to-all-windows');
 const { getPreference, getPreferences } = require('../../preferences');
@@ -10,28 +10,42 @@ const { getPreference, getPreferences } = require('../../preferences');
 // force re-extract for first installation after launch
 global.forceExtract = true;
 
+const cache = new NodeCache();
+
 // use in-house API
 // to avoid using GitHub API as it has rate limit (60 requests per hour)
 // to avoid bugs with instead of https://github.com/atomery/juli/releases.atom
 // https://github.com/atomery/webcatalog/issues/890
 const getTagNameAsync = () => {
-  const allowPrerelease = getPreference('allowPrerelease');
-  // prerelease is not supported by in-house API
-  if (allowPrerelease) {
-    return customizedFetch('https://github.com/atomery/juli/releases.atom')
-      .then((res) => res.text())
-      .then((xmlData) => {
-        const releases = xmlParser.parse(xmlData).feed.entry;
-
-        // just return the first one
-        const tagName = releases[0].id.split('/').pop();
-        return tagName;
-      });
+  const cachedTagName = cache.get('tagName');
+  if (cachedTagName) {
+    return Promise.resolve(cachedTagName);
   }
 
-  return customizedFetch('https://juli.webcatalogapp.com/releases/latest.json')
-    .then((res) => res.json())
-    .then((data) => `v${data.version}`);
+  return Promise.resolve()
+    .then(() => {
+      const allowPrerelease = getPreference('allowPrerelease');
+      // prerelease is not supported by in-house API
+      if (allowPrerelease) {
+        return customizedFetch('https://github.com/atomery/juli/releases.atom')
+          .then((res) => res.text())
+          .then((xmlData) => {
+            const releases = xmlParser.parse(xmlData).feed.entry;
+
+            // just return the first one
+            const tagName = releases[0].id.split('/').pop();
+            return tagName;
+          });
+      }
+
+      return customizedFetch('https://juli.webcatalogapp.com/releases/latest.json')
+        .then((res) => res.json())
+        .then((data) => `v${data.version}`);
+    })
+    .then((tagName) => {
+      cache.set('tagName', tagName, 60); // cache for 1 hour
+      return tagName;
+    });
 };
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
@@ -44,7 +58,7 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
     proxyType,
   } = getPreferences();
 
-  const child = fork(scriptPath, [
+  const args = [
     '--appVersion',
     app.getVersion(),
     '--templatePath',
@@ -57,7 +71,15 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
     process.arch,
     '--tagName',
     tagName,
-  ], {
+  ];
+
+  const cachedTemplateInfoJson = cache.get(`templateInfoJson.${tagName}`);
+  if (cachedTemplateInfoJson) {
+    args.push('--templateInfoJson');
+    args.push(cachedTemplateInfoJson);
+  }
+
+  const child = fork(scriptPath, args, {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
@@ -71,8 +93,10 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
 
   let err = null;
   child.on('message', (message) => {
-    if (message && message.versionInfo) {
-      latestTemplateVersion = message.versionInfo.version;
+    if (message && message.templateInfo) {
+      latestTemplateVersion = message.templateInfo.version;
+      // cache template info for the tag name indefinitely (until app is quitted)
+      cache.set(`templateInfoJson.${tagName}`, JSON.stringify(message.templateInfo));
     } else if (message && message.progress) {
       sendToAllWindows('update-installation-progress', message.progress);
     } else if (message && message.error) {

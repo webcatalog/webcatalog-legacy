@@ -1,3 +1,5 @@
+// legacy code
+// DO NOT MODIFY
 const argv = require('yargs-parser')(process.argv.slice(1));
 const packager = require('electron-packager');
 const path = require('path');

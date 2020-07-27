@@ -17,16 +17,22 @@ const {
   tagName,
   templatePath,
   templateZipPath,
+  templateInfoJson,
 } = argv;
 
-customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`)
-  .then((res) => res.json())
+Promise.resolve()
+  .then(() => {
+    if (templateInfoJson) {
+      return JSON.parse(templateInfoJson);
+    }
+
+    return customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`)
+      .then((res) => res.json());
+  })
   .then((templateInfo) => Promise.resolve()
     .then(() => {
       process.send({
-        versionInfo: {
-          version: templateInfo.version,
-        },
+        templateInfo,
       });
 
       if (semver.lt(appVersion, templateInfo.minimumWebCatalogVersion)) {
