@@ -74,10 +74,7 @@ export const installApp = (engine, id, name, url, icon) => (dispatch, getState) 
 };
 
 export const updateApp = (engine, id, name, url, icon) => () => {
-  // download icon when updating apps in the catalog
-  const iconUrl = id.startsWith('custom-') ? icon : `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
-
-  return requestUpdateApp(engine, id, name, url, iconUrl);
+  requestUpdateApp(engine, id, name, url, icon);
 };
 
 export const updateApps = (apps) => () => {
