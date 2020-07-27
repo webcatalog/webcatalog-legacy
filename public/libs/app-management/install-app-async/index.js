@@ -40,6 +40,7 @@ const getScriptFileName = (engine) => {
 const installAppAsync = (
   engine, id, name, url, icon,
 ) => {
+  const startTime = new Date();
   let v = '0.0.0'; // app version
   return Promise.resolve()
     .then(() => {
@@ -257,7 +258,12 @@ const installAppAsync = (
 
         resolve(v);
       });
-    }));
+    }))
+    .then((v) => {
+      const endTime = new Date();
+      console.log('Took', endTime - startTime);
+      return v;
+    });
 };
 
 module.exports = installAppAsync;
