@@ -39,8 +39,25 @@ const installAppAsync = (
         return prepareTemplateAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
+            if (semver.gte(v, '9.0.0-alpha')) {
+              scriptFileName = 'forked-script-electron-v2.js';
+            } else {
+              scriptFileName = 'forked-script-electron-v1.js';
+            }
           });
       }
+
+      if (process.platform === 'darwin'
+        && engine !== 'firefox'
+      ) {
+        // use v2 script for Chrome & Chromium-based browsers on Mac
+        scriptFileName = 'forked-script-lite-v2.js';
+        v = '2.1.0';
+      } else {
+        scriptFileName = 'forked-script-lite-v1.js';
+        v = '1.0.0';
+      }
+
       return null;
     })
     .then(() => new Promise((resolve, reject) => {
@@ -106,23 +123,6 @@ const installAppAsync = (
         }
         reject(new Error(`${engineName} is not installed.`));
         return;
-      }
-
-      if (engine === 'electron') {
-        if (semver.gte(v, '9.0.0-alpha')) {
-          scriptFileName = 'forked-script-electron-v2.js';
-        } else {
-          scriptFileName = 'forked-script-electron-v1.js';
-        }
-      } else if (process.platform === 'darwin'
-        && engine !== 'firefox'
-      ) {
-        // use v2 script for Chrome & Chromium-based browsers on Mac
-        scriptFileName = 'forked-script-lite-v2.js';
-        v = '2.1.0';
-      } else {
-        scriptFileName = 'forked-script-lite-v1.js';
-        v = '1.0.0';
       }
 
       const params = [
