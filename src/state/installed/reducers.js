@@ -62,7 +62,7 @@ const filteredSortedAppIds = (state = null, action) => {
       const currentApp = { ...action.apps[action.id], ...action.app };
       if (!(
         currentApp.name.toLowerCase().includes(processedQuery)
-        || currentApp.url.toLowerCase().includes(processedQuery)
+        || (currentApp.url && currentApp.url.toLowerCase().includes(processedQuery))
       )) {
         return state;
       }
