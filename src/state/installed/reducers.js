@@ -5,6 +5,7 @@ import {
   INSTALLED_UPDATE_ACTIVE_QUERY,
   INSTALLED_UPDATE_QUERY,
   INSTALLED_UPDATE_SCROLL_OFFSET,
+  INSTALLED_SET_IS_SEARCHING,
   SET_APP,
   REMOVE_APP,
   CLEAN_APP_MANAGEMENT,
@@ -12,6 +13,13 @@ import {
 } from '../../constants/actions';
 
 import { INSTALLING } from '../../constants/app-statuses';
+
+const isSearching = (state = false, action) => {
+  switch (action.type) {
+    case INSTALLED_SET_IS_SEARCHING: return action.isSearching;
+    default: return state;
+  }
+};
 
 const query = (state = '', action) => {
   switch (action.type) {
@@ -37,15 +45,7 @@ const iterateeFunc = (app, sortInstalledAppBy) => {
 const filteredSortedAppIds = (state = null, action) => {
   switch (action.type) {
     case INSTALLED_UPDATE_ACTIVE_QUERY: {
-      if (!action.activeQuery) return null;
-      const processedQuery = action.activeQuery.trim().toLowerCase();
-      return action.sortedAppIds.filter((id) => {
-        const app = action.apps[id];
-        return (
-          app.name.toLowerCase().includes(processedQuery)
-          || app.url.toLowerCase().includes(processedQuery)
-        );
-      });
+      return action.sortedAppIds;
     }
     case CLEAN_APP_MANAGEMENT: {
       // keep apps which are in installing/updating state
@@ -116,7 +116,8 @@ const scrollOffset = (state = 0, action) => {
 
 export default combineReducers({
   activeQuery,
-  query,
   filteredSortedAppIds,
+  isSearching,
+  query,
   scrollOffset,
 });
