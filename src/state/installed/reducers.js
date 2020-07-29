@@ -43,7 +43,7 @@ const filteredSortedAppIds = (state = null, action) => {
         const app = action.apps[id];
         return (
           app.name.toLowerCase().includes(processedQuery)
-          || app.url.toLowerCase().includes(processedQuery)
+          || (app.url && app.url.toLowerCase().includes(processedQuery))
         );
       });
     }
@@ -62,7 +62,7 @@ const filteredSortedAppIds = (state = null, action) => {
       const currentApp = { ...action.apps[action.id], ...action.app };
       if (!(
         currentApp.name.toLowerCase().includes(processedQuery)
-        || currentApp.url.toLowerCase().includes(processedQuery)
+        || (currentApp.url && currentApp.url.toLowerCase().includes(processedQuery))
       )) {
         return state;
       }
