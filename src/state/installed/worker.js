@@ -6,7 +6,7 @@ async function filterApps(apps, sortedAppIds, query) {
     const app = apps[id];
     return (
       app.name.toLowerCase().includes(processedQuery)
-      || app.url.toLowerCase().includes(processedQuery)
+      || (app.url && app.url.toLowerCase().includes(processedQuery))
     );
   });
 }

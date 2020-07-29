@@ -8,42 +8,48 @@ import {
   INSTALLED_UPDATE_QUERY,
   INSTALLED_UPDATE_ACTIVE_QUERY,
   INSTALLED_UPDATE_SCROLL_OFFSET,
+  INSTALLED_UPDATE_SORTED_APP_IDS,
   INSTALLED_SET_IS_SEARCHING,
 } from '../../constants/actions';
 
 export const updateActiveQuery = (activeQuery) => (dispatch, getState) => Promise.resolve()
   .then(async () => {
-    dispatch({
-      type: INSTALLED_SET_IS_SEARCHING,
-      isSearching: true,
+    batch(() => {
+      dispatch({
+        type: INSTALLED_SET_IS_SEARCHING,
+        isSearching: true,
+      });
+      dispatch({
+        type: INSTALLED_UPDATE_ACTIVE_QUERY,
+        activeQuery,
+      });
     });
 
     const { apps, sortedAppIds } = getState().appManagement;
-
     let newSortedAppIds = null;
 
-    const worker = new Worker();
-    const filterApps = Comlink.wrap(worker);
-
     if (activeQuery) {
+      const worker = new Worker();
+      const filterApps = Comlink.wrap(worker);
       newSortedAppIds = await filterApps(apps, sortedAppIds, activeQuery);
-      console.log(newSortedAppIds);
+      worker.terminate();
     }
 
     if (getState().installed.query !== activeQuery) return;
-    console.log('wtf');
     batch(() => {
       dispatch({
         type: INSTALLED_SET_IS_SEARCHING,
         isSearching: false,
       });
       dispatch({
-        type: INSTALLED_UPDATE_ACTIVE_QUERY,
-        activeQuery,
-        apps,
+        type: INSTALLED_UPDATE_SORTED_APP_IDS,
         sortedAppIds: newSortedAppIds,
       });
     });
+  })
+  .catch((err) => {
+    // eslint-disable-next-line no-console
+    console.log(err);
   });
 
 let timeout;

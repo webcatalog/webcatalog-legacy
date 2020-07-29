@@ -56,6 +56,7 @@ const Installed = ({
   activeQuery,
   appIds,
   classes,
+  isSearching,
   onUpdateScrollOffset,
   scanning,
   scrollOffset,
@@ -82,7 +83,7 @@ const Installed = ({
   }, [gridRef, onUpdateScrollOffset]);
 
   const renderContent = () => {
-    if (scanning) {
+    if (scanning || isSearching) {
       return (
         <div className={classes.centeringCircularProgress}>
           <CircularProgress size={28} />
@@ -179,12 +180,14 @@ const Installed = ({
 
 Installed.defaultProps = {
   activeQuery: '',
+  isSearching: false,
 };
 
 Installed.propTypes = {
   activeQuery: PropTypes.string,
   appIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   classes: PropTypes.object.isRequired,
+  isSearching: PropTypes.bool,
   onUpdateScrollOffset: PropTypes.func.isRequired,
   scanning: PropTypes.bool.isRequired,
   scrollOffset: PropTypes.number.isRequired,
@@ -193,6 +196,7 @@ Installed.propTypes = {
 const mapStateToProps = (state) => ({
   activeQuery: state.installed.activeQuery,
   appIds: state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds,
+  isSearching: state.installed.isSearching,
   outdatedAppCount: 0,
   scanning: state.appManagement.scanning,
   scrollOffset: state.installed.scrollOffset,
