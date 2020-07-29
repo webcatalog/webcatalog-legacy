@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import { updateQuery, updateActiveQuery } from '../../../state/installed/actions';
+import { updateQuery } from '../../../state/installed/actions';
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
@@ -166,7 +166,6 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  updateActiveQuery,
   updateQuery,
 };
 
