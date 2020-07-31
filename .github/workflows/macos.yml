@@ -70,4 +70,4 @@ jobs:
         # to access quanglam2807/homebrew-cask
         # https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      # if: github.event_name == 'push' && github.ref == 'refs/heads/master'
