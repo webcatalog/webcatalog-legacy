@@ -683,7 +683,7 @@ const Preferences = ({
             <List disablePadding dense>
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://webcatalogapp.com?webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -706,7 +706,7 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://singleboxapp.com?webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -729,7 +729,7 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://translatiumapp.com?webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://translatiumapp.com?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
