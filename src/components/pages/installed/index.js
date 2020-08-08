@@ -93,7 +93,7 @@ const Installed = ({
 
     if (appIds.length > 0) {
       const rowHeight = 158 + 16;
-      const innerWidthMinurScrollbar = window.process.platform === 'darwin' ? innerWidth : innerWidth - 20;
+      const innerWidthMinurScrollbar = window.process.platform === 'darwin' ? innerWidth - 10 : innerWidth - 20;
       const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
       const rowCount = Math.ceil(appIds.length / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
