@@ -1,4 +1,0 @@
-[submodule "docs/_sass/bulma"]
-	path = docs/_sass/bulma
-	url = https://github.com/jgthms/bulma
-	shallow = true
