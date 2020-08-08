@@ -83,7 +83,7 @@ const About = (props) => {
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog?utm_source=webcatalog_app')}
         >
           Website
         </Button>

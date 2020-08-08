@@ -360,7 +360,7 @@ const loadListeners = () => {
         if (response === 0) {
           shell.openExternal('https://github.com/electron-userland/electron-builder/issues/4046');
         } else if (response === 1) {
-          shell.openExternal('http://webcatalogapp.com/');
+          shell.openExternal('https://atomery.com/webcatalog?utm_source=webcatalog_app');
         }
       }).catch(console.log); // eslint-disable-line
       return;

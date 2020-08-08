@@ -684,7 +684,7 @@ const Preferences = ({
             <List disablePadding dense>
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -707,7 +707,7 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://atomery.com/singlebox?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -730,7 +730,7 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://switchbarapp.com?utm_source=webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://atomery.com/switchbar?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -753,7 +753,7 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://translatiumapp.com?utm_source=webcatalog_app')}
+                onClick={() => requestOpenInBrowser('https://atomery.com/translatium?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
@@ -786,7 +786,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalogapp.com?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog?utm_source=webcatalog_app')}>
                 <ListItemText primary="Website" />
                 <ChevronRightIcon color="action" />
               </ListItem>

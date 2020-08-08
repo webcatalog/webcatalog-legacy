@@ -58,10 +58,10 @@ const DialogContextAppHelp = ({
         <span>If you are familiar with </span>
         <span
           className={classes.link}
-          onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://atomery.com/singlebox?utm_source=webcatalog_app')}
           onKeyDown={(e) => {
             if (e.key !== 'Enter') return;
-            requestOpenInBrowser('https://singleboxapp.com?utm_source=webcatalog_app');
+            requestOpenInBrowser('https://atomery.com/singlebox?utm_source=webcatalog_app');
           }}
           role="link"
           tabIndex="0"
