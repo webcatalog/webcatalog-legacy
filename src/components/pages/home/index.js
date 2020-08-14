@@ -69,6 +69,9 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fixedSizeGrid: {
+    overflowX: 'hidden !important',
+  },
 });
 
 const Home = ({
@@ -153,7 +156,7 @@ const Home = ({
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 158 + 16;
-    const innerWidthMinurScrollbar = window.process.platform === 'darwin' ? innerWidth - 10 : innerWidth - 20;
+    const innerWidthMinurScrollbar = window.process.platform === 'darwin' ? innerWidth : innerWidth - 20;
     const columnCount = Math.floor(innerWidthMinurScrollbar / 184); // leave 30px for scrollbar
     const rowCount = Math.ceil(itemCount / columnCount);
     const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
@@ -281,6 +284,7 @@ const Home = ({
               onItemsRendered={newItemsRendered}
               ref={ref}
               outerRef={gridRef}
+              className={classes.fixedSizeGrid}
             >
               {Cell}
             </FixedSizeGrid>

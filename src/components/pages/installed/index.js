@@ -50,6 +50,9 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fixedSizeGrid: {
+    overflowX: 'hidden !important',
+  },
 });
 
 const Installed = ({
@@ -128,6 +131,7 @@ const Installed = ({
           width={innerWidth}
           initialScrollTop={scrollOffset}
           outerRef={gridRef}
+          className={classes.fixedSizeGrid}
         >
           {Cell}
         </FixedSizeGrid>
