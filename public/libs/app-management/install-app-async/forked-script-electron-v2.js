@@ -109,7 +109,7 @@ Promise.resolve()
 
     // try to get fresh icon from catalog if possible
     if (!id.startsWith('custom-') && url) {
-      const catalogIconUrl = `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png`;
+      const catalogIconUrl = `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
       return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
     }

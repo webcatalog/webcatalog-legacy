@@ -279,7 +279,7 @@ const loadListeners = () => {
                 lastUpdated: new Date().getTime(),
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
-                icon: !id.startsWith('custom-') && url ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
+                icon: !id.startsWith('custom-') && url ? `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png` : icon,
               });
             })
             .catch((error) => {
