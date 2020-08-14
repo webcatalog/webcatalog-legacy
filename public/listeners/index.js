@@ -113,7 +113,7 @@ const loadListeners = () => {
 
   ipcMain.on('request-open-install-location', () => {
     const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
-    shell.openItem(installationPath);
+    shell.openPath(installationPath);
   });
 
   // App Management
@@ -350,7 +350,7 @@ const loadListeners = () => {
     // https://github.com/electron-userland/electron-builder/issues/4046
     // disable updater if user is using AppImageLauncher
     if (process.platform === 'linux' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
-      dialog.showMessageBox(mainWindow.get(), {
+      dialog.showMessageBox({
         type: 'error',
         message: 'Updater is incompatible with AppImageLauncher. Please uninstall AppImageLauncher or download new updates manually from our website.',
         buttons: ['Learn More', 'Go to Website', 'OK'],

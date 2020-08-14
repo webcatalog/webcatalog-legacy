@@ -1,8 +1,9 @@
 const path = require('path');
 const {
   app,
-  session,
   nativeTheme,
+  protocol,
+  session,
 } = require('electron');
 const fs = require('fs');
 const settings = require('electron-settings');
@@ -16,9 +17,6 @@ const loadListeners = require('./listeners');
 const mainWindow = require('./windows/main');
 
 require('./libs/updater');
-
-// see https://github.com/electron/electron/issues/18397
-app.allowRendererProcessReuse = true;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -48,6 +46,12 @@ if (!gotTheLock) {
   loadListeners();
 
   app.on('ready', () => {
+    // https://github.com/electron/electron/issues/23757
+    protocol.registerFileProtocol('file', (request, callback) => {
+      const pathname = decodeURI(request.url.replace('file:///', ''));
+      callback(pathname);
+    });
+
     global.defaultIcon = path.join(app.getAppPath(), 'default-app-icons', 'default-icon.png');
 
     const {
