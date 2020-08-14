@@ -37,6 +37,7 @@ const defaultPreferences = {
   proxyType: 'none',
   registered: false,
   requireAdmin: false,
+  sentry: true,
   sortInstalledAppBy: 'last-updated',
   themeSource: 'system',
   useHardwareAcceleration: true,
@@ -49,11 +50,18 @@ const initCachedPreferences = () => {
 };
 
 const getPreferences = () => {
-  // store in memory to boost performance
-  if (cachedPreferences == null) {
-    initCachedPreferences();
+  // trigger electron-settings before app ready might fail
+  // so catch with default pref as fallback
+  // https://github.com/nathanbuchar/electron-settings/issues/111
+  try {
+    // store in memory to boost performance
+    if (cachedPreferences == null) {
+      initCachedPreferences();
+    }
+    return cachedPreferences;
+  } catch {
+    return defaultPreferences;
   }
-  return cachedPreferences;
 };
 
 const setPreference = (name, value) => {
@@ -71,27 +79,34 @@ const setPreference = (name, value) => {
 };
 
 const getPreference = (name) => {
-  // ensure compatiblity with old version
-  if (process.platform === 'darwin' && (name === 'installationPath' || name === 'requireAdmin')) {
-    // old pref, home or root
-    if (settings.get('preferences.2018.installLocation') === 'root') {
-      settings.delete('preferences.2018.installLocation');
+  // trigger electron-settings before app ready might fail
+  // so catch with default pref as fallback
+  // https://github.com/nathanbuchar/electron-settings/issues/111
+  try {
+    // ensure compatiblity with old version
+    if (process.platform === 'darwin' && (name === 'installationPath' || name === 'requireAdmin')) {
+      // old pref, home or root
+      if (settings.get('preferences.2018.installLocation') === 'root') {
+        settings.delete('preferences.2018.installLocation');
 
-      setPreference('installationPath', '/Applications/WebCatalog Apps');
-      setPreference('requireAdmin', true);
+        setPreference('installationPath', '/Applications/WebCatalog Apps');
+        setPreference('requireAdmin', true);
 
-      if (name === 'installationPath') {
-        return '/Applications/WebCatalog Apps';
+        if (name === 'installationPath') {
+          return '/Applications/WebCatalog Apps';
+        }
+        return true;
       }
-      return true;
     }
-  }
 
-  // store in memory to boost performance
-  if (cachedPreferences == null) {
-    initCachedPreferences();
+    // store in memory to boost performance
+    if (cachedPreferences == null) {
+      initCachedPreferences();
+    }
+    return cachedPreferences[name];
+  } catch {
+    return defaultPreferences[name];
   }
-  return cachedPreferences[name];
 };
 
 const resetPreferences = () => {

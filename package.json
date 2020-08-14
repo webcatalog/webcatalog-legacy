@@ -15,7 +15,7 @@
     "start": "react-scripts start",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\" -k",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
-    "dist-local": "yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js"
+    "dist-dev": "yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js"
   },
   "repository": "https://github.com/atomery/webcatalog",
   "author": {
@@ -23,6 +23,7 @@
     "email": "quang.lam2807@gmail.com"
   },
   "dependencies": {
+    "@sentry/electron": "2.0.0",
     "axios": "0.19.2",
     "blueimp-md5": "2.17.0",
     "cheerio": "1.0.0-rc.3",
