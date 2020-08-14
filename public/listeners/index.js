@@ -7,6 +7,8 @@ const {
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
+const { captureException } = require('@sentry/electron');
+
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
 
@@ -149,17 +151,11 @@ const loadListeners = () => {
         uninstallAppAsync(id, name, engine)
           .then(() => {
             e.sender.send('remove-app', id);
+            e.sender.send('enqueue-snackbar', `Uninstalled ${name} successfully.`, 'success');
           })
           .catch((error) => {
-            /* eslint-disable-next-line */
-            console.log(error);
-            dialog.showMessageBox(mainWindow.get(), {
-              type: 'error',
-              message: `Failed to uninstall ${name}. (${error.stack})`,
-              buttons: ['OK'],
-              cancelId: 0,
-              defaultId: 0,
-            });
+            captureException(error);
+            e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
             e.sender.send('set-app', id, {
               status: 'INSTALLED',
             });
@@ -186,17 +182,11 @@ const loadListeners = () => {
           uninstallAppAsync(id, name, engine)
             .then(() => {
               e.sender.send('remove-app', id);
+              e.sender.send('enqueue-snackbar', `Uninstalled ${name} successfully.`, 'success');
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to uninstall ${name}. (${error.stack})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              });
+              captureException(error);
+              e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
               e.sender.send('set-app', id, {
                 status: 'INSTALLED',
               });
@@ -244,18 +234,17 @@ const loadListeners = () => {
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
+              e.sender.send('enqueue-snackbar', `Installed ${name} successfully.`, 'success');
               delete promiseFuncMap[id];
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              });
+              const isBrowserNotInstalledErr = error.message.includes('is not installed');
+              if (isBrowserNotInstalledErr) {
+                e.sender.send('enqueue-snackbar', error.message, 'error');
+              } else {
+                captureException(error);
+                e.sender.send('enqueue-snackbar', `Failed to install ${name}.`, 'error');
+              }
               e.sender.send('remove-app', id);
               delete promiseFuncMap[id];
             }).catch(console.log); // eslint-disable-line
@@ -295,17 +284,11 @@ const loadListeners = () => {
                 // ensure fresh icon from the catalog is shown
                 icon: !id.startsWith('custom-') && url ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
               });
+              e.sender.send('enqueue-snackbar', `Updated ${name} successfully.`, 'success');
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to update ${name}. (${error.message})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              }).catch(console.log); // eslint-disable-line
+              captureException(error);
+              e.sender.send('enqueue-snackbar', `Failed to update ${name}.`, 'error');
               e.sender.send('set-app', id, {
                 status: 'INSTALLED',
               });

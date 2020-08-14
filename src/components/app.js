@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { SnackbarProvider } from 'notistack';
+import Button from '@material-ui/core/Button';
+
 import connectComponent from '../helpers/connect-component';
 
 import FakeTitleBar from './root/fake-title-bar';
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
+import SnackbarTrigger from './root/snackbar-trigger';
 
 import Installed from './pages/installed';
 import Home from './pages/home';
@@ -39,6 +43,9 @@ const styles = (theme) => ({
     overflow: 'hidden',
     width: '100vw',
     background: theme.palette.background.default,
+  },
+  notistackContainerRoot: {
+    marginTop: 64,
   },
 });
 
@@ -77,21 +84,47 @@ class App extends React.Component {
         pageContent = <Home key="home" />;
     }
 
+    const notistackRef = React.createRef();
+    const onClickDismiss = (key) => () => {
+      notistackRef.current.closeSnackbar(key);
+    };
+
     return (
-      <div className={classes.root}>
-        {!isFullScreen && window.process.platform === 'darwin' && window.mode !== 'menubar' && <FakeTitleBar />}
-        {pageContent}
-        <DialogAbout />
-        <DialogChooseEngine />
-        <DialogCreateCustomApp />
-        <DialogEditApp />
-        <DialogLicenseRegistration />
-        <DialogProxy />
-        <DialogSetInstallationPath />
-        <DialogSetPreferredEngine />
-        <DialogContextAppHelp />
-        <EnhancedBottomNavigation />
-      </div>
+      <SnackbarProvider
+        ref={notistackRef}
+        maxSnack={3}
+        autoHideDuration={2000}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        dense
+        preventDuplicate
+        classes={{
+          containerRoot: classes.notistackContainerRoot,
+        }}
+        action={(key) => (
+          <Button color="inherit" onClick={onClickDismiss(key)}>
+            Dismiss
+          </Button>
+        )}
+      >
+        <div className={classes.root}>
+          {!isFullScreen && window.process.platform === 'darwin' && window.mode !== 'menubar' && <FakeTitleBar />}
+          {pageContent}
+          <DialogAbout />
+          <DialogChooseEngine />
+          <DialogCreateCustomApp />
+          <DialogEditApp />
+          <DialogLicenseRegistration />
+          <DialogProxy />
+          <DialogSetInstallationPath />
+          <DialogSetPreferredEngine />
+          <DialogContextAppHelp />
+          <EnhancedBottomNavigation />
+          <SnackbarTrigger />
+        </div>
+      </SnackbarProvider>
     );
   }
 }
