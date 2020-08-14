@@ -78,15 +78,13 @@ class SearchBox extends React.Component {
   }
 
   componentDidMount() {
-    const { ipcRenderer } = window.require('electron');
-    ipcRenderer.on('focus-search', this.handleFocusSearch);
+    window.ipcRenderer.on('focus-search', this.handleFocusSearch);
 
     this.inputBox.focus();
   }
 
   componentWillUnmount() {
-    const { ipcRenderer } = window.require('electron');
-    ipcRenderer.removeListener('focus-search', this.handleFocusSearch);
+    window.ipcRenderer.removeListener('focus-search', this.handleFocusSearch);
   }
 
   handleFocusSearch() {

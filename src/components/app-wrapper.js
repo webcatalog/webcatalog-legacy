@@ -21,15 +21,13 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
-    const { remote } = window.require('electron');
-    remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
-    remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
+    window.remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
+    window.remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
   }
 
   componentWillUnmount() {
-    const { remote } = window.require('electron');
-    remote.getCurrentWindow().removeListener('enter-full-screen', this.handleEnterFullScreen);
-    remote.getCurrentWindow().removeListener('leave-full-screen', this.handleLeaveFullScreen);
+    window.remote.getCurrentWindow().removeListener('enter-full-screen', this.handleEnterFullScreen);
+    window.remote.getCurrentWindow().removeListener('leave-full-screen', this.handleLeaveFullScreen);
   }
 
   handleEnterFullScreen() {
