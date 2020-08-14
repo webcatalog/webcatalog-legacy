@@ -151,7 +151,6 @@ const loadListeners = () => {
         uninstallAppAsync(id, name, engine)
           .then(() => {
             e.sender.send('remove-app', id);
-            e.sender.send('enqueue-snackbar', `Uninstalled ${name} successfully.`, 'success');
           })
           .catch((error) => {
             captureException(error);
@@ -182,7 +181,6 @@ const loadListeners = () => {
           uninstallAppAsync(id, name, engine)
             .then(() => {
               e.sender.send('remove-app', id);
-              e.sender.send('enqueue-snackbar', `Uninstalled ${name} successfully.`, 'success');
             })
             .catch((error) => {
               captureException(error);
@@ -234,7 +232,6 @@ const loadListeners = () => {
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
-              e.sender.send('enqueue-snackbar', `Installed ${name} successfully.`, 'success');
               delete promiseFuncMap[id];
             })
             .catch((error) => {
@@ -284,7 +281,6 @@ const loadListeners = () => {
                 // ensure fresh icon from the catalog is shown
                 icon: !id.startsWith('custom-') && url ? `https://s3.getwebcatalog.com/apps/${id}/${id}-icon.png` : icon,
               });
-              e.sender.send('enqueue-snackbar', `Updated ${name} successfully.`, 'success');
             })
             .catch((error) => {
               captureException(error);
