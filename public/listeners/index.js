@@ -7,6 +7,8 @@ const {
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
+const { captureException } = require('@sentry/electron');
+
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
 
@@ -151,15 +153,8 @@ const loadListeners = () => {
             e.sender.send('remove-app', id);
           })
           .catch((error) => {
-            /* eslint-disable-next-line */
-            console.log(error);
-            dialog.showMessageBox(mainWindow.get(), {
-              type: 'error',
-              message: `Failed to uninstall ${name}. (${error.stack})`,
-              buttons: ['OK'],
-              cancelId: 0,
-              defaultId: 0,
-            });
+            captureException(error);
+            e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
             e.sender.send('set-app', id, {
               status: 'INSTALLED',
             });
@@ -188,15 +183,8 @@ const loadListeners = () => {
               e.sender.send('remove-app', id);
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to uninstall ${name}. (${error.stack})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              });
+              captureException(error);
+              e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
               e.sender.send('set-app', id, {
                 status: 'INSTALLED',
               });
@@ -247,15 +235,13 @@ const loadListeners = () => {
               delete promiseFuncMap[id];
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to install ${name}. (${error.message.includes('is not installed') ? error.message : error.stack})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              });
+              const isBrowserNotInstalledErr = error.message.includes('is not installed');
+              if (isBrowserNotInstalledErr) {
+                e.sender.send('enqueue-snackbar', error.message, 'error');
+              } else {
+                captureException(error);
+                e.sender.send('enqueue-snackbar', `Failed to install ${name}.`, 'error');
+              }
               e.sender.send('remove-app', id);
               delete promiseFuncMap[id];
             }).catch(console.log); // eslint-disable-line
@@ -297,15 +283,8 @@ const loadListeners = () => {
               });
             })
             .catch((error) => {
-              /* eslint-disable-next-line */
-              console.log(error);
-              dialog.showMessageBox(mainWindow.get(), {
-                type: 'error',
-                message: `Failed to update ${name}. (${error.message})`,
-                buttons: ['OK'],
-                cancelId: 0,
-                defaultId: 0,
-              }).catch(console.log); // eslint-disable-line
+              captureException(error);
+              e.sender.send('enqueue-snackbar', `Failed to update ${name}.`, 'error');
               e.sender.send('set-app', id, {
                 status: 'INSTALLED',
               });
