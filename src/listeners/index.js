@@ -23,22 +23,20 @@ import {
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
 const loadListeners = (store) => {
-  const { ipcRenderer } = window.require('electron');
-
-  ipcRenderer.on('log', (e, message) => {
+  window.ipcRenderer.on('log', (e, message) => {
     // eslint-disable-next-line
     if (message) console.log(message);
   });
 
-  ipcRenderer.on('clean-app-management', () => {
+  window.ipcRenderer.on('clean-app-management', () => {
     store.dispatch(cleanAppManagement());
   });
 
-  ipcRenderer.on('set-app', (e, id, app) => {
+  window.ipcRenderer.on('set-app', (e, id, app) => {
     store.dispatch(setApp(id, app));
   });
 
-  ipcRenderer.on('set-app-batch', (e, apps) => {
+  window.ipcRenderer.on('set-app-batch', (e, apps) => {
     batch(() => {
       apps.forEach((app) => {
         store.dispatch(setApp(app.id, app));
@@ -46,39 +44,39 @@ const loadListeners = (store) => {
     });
   });
 
-  ipcRenderer.on('remove-app', (e, id) => store.dispatch(removeApp(id)));
+  window.ipcRenderer.on('remove-app', (e, id) => store.dispatch(removeApp(id)));
 
-  ipcRenderer.on('set-preference', (e, name, value) => {
+  window.ipcRenderer.on('set-preference', (e, name, value) => {
     store.dispatch(setPreference(name, value));
   });
 
-  ipcRenderer.on('set-system-preference', (e, name, value) => {
+  window.ipcRenderer.on('set-system-preference', (e, name, value) => {
     store.dispatch(setSystemPreference(name, value));
   });
 
-  ipcRenderer.on('go-to-preferences', () => store.dispatch(changeRoute(ROUTE_PREFERENCES)));
+  window.ipcRenderer.on('go-to-preferences', () => store.dispatch(changeRoute(ROUTE_PREFERENCES)));
 
-  ipcRenderer.on('open-license-registration-dialog', () => {
+  window.ipcRenderer.on('open-license-registration-dialog', () => {
     store.dispatch(openDialogLicenseRegistration());
   });
 
-  ipcRenderer.on('open-dialog-about', () => {
+  window.ipcRenderer.on('open-dialog-about', () => {
     store.dispatch(openDialogAbout());
   });
 
-  ipcRenderer.on('native-theme-updated', () => {
+  window.ipcRenderer.on('native-theme-updated', () => {
     store.dispatch(updateShouldUseDarkColors(getShouldUseDarkColors()));
   });
 
-  ipcRenderer.on('update-updater', (e, updaterObj) => {
+  window.ipcRenderer.on('update-updater', (e, updaterObj) => {
     store.dispatch(updateUpdater(updaterObj));
   });
 
-  ipcRenderer.on('update-installation-progress', (e, progress) => {
+  window.ipcRenderer.on('update-installation-progress', (e, progress) => {
     store.dispatch(updateInstallationProgress(progress));
   });
 
-  ipcRenderer.on('set-scanning-for-installed', (e, scanning) => {
+  window.ipcRenderer.on('set-scanning-for-installed', (e, scanning) => {
     store.dispatch(setScanningForInstalled(scanning));
   });
 };

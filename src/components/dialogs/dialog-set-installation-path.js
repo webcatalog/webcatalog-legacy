@@ -70,8 +70,7 @@ const DialogSetInstallationPath = (props) => {
               <InputAdornment position="end">
                 <Button
                   onClick={() => {
-                    const { remote } = window.require('electron');
-                    remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+                    window.remote.dialog.showOpenDialog(window.remote.getCurrentWindow(), {
                       properties: ['openDirectory'],
                     })
                       .then(({ canceled, filePaths }) => {

@@ -42,7 +42,6 @@ export const updateInstallationProgress = (progress) => ({
 
 export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
   const { allowPrerelease } = getState().preferences;
-  const { remote } = window.require('electron');
   dispatch(updateFetchingLatestTemplateVersion(true));
   return Promise.resolve()
     .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
@@ -69,7 +68,7 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
         .then((data) => data.version);
     })
     .then((latestVersion) => {
-      const globalTemplateVersion = remote.getGlobal('templateVersion');
+      const globalTemplateVersion = window.remote.getGlobal('templateVersion');
       if (globalTemplateVersion && semver.lt(latestVersion, globalTemplateVersion)) {
         dispatch(updateLatestTemplateVersion(globalTemplateVersion));
       } else {
@@ -78,7 +77,7 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
       dispatch(updateFetchingLatestTemplateVersion(false));
     })
     .catch((err) => {
-      const globalTemplateVersion = remote.getGlobal('templateVersion');
+      const globalTemplateVersion = window.remote.getGlobal('templateVersion');
       if (globalTemplateVersion) {
         dispatch(updateLatestTemplateVersion(globalTemplateVersion));
       }

@@ -213,8 +213,7 @@ const Preferences = ({
 }) => {
   const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
     if (appCount > 0) {
-      const { remote } = window.require('electron');
-      remote.dialog.showMessageBox(remote.getCurrentWindow(), {
+      window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
         title: 'Uninstall all of WebCatalog apps first',
         message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
         buttons: ['OK'],
@@ -275,8 +274,6 @@ const Preferences = ({
       ref: useRef(),
     },
   };
-
-  const { remote } = window.require('electron');
 
   return (
     <div className={classes.root}>
@@ -536,7 +533,7 @@ const Preferences = ({
                 >
                   {window.process.platform === 'win32' && (
                     [
-                      (installationPath !== `${remote.app.getPath('home')}\\WebCatalog Apps`) && (
+                      (installationPath !== `${window.remote.app.getPath('home')}\\WebCatalog Apps`) && (
                         <MenuItem dense key="installation-path-menu-item">
                           {installationPath}
                         </MenuItem>
@@ -545,10 +542,10 @@ const Preferences = ({
                         dense
                         key="default-installation-path-menu-item"
                         onClick={() => {
-                          handleUpdateInstallationPath(`${remote.app.getPath('home')}\\WebCatalog Apps`, false);
+                          handleUpdateInstallationPath(`${window.remote.app.getPath('home')}\\WebCatalog Apps`, false);
                         }}
                       >
-                        {`${remote.app.getPath('home')}\\WebCatalog Apps`}
+                        {`${window.remote.app.getPath('home')}\\WebCatalog Apps`}
                       </MenuItem>,
                     ]
                   )}

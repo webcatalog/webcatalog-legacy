@@ -121,7 +121,7 @@ const DialogEditApp = (props) => {
               variant="outlined"
               size="small"
               onClick={() => {
-                window.require('electron').remote.dialog.showOpenDialog({
+                window.remote.dialog.showOpenDialog({
                   filters: [
                     { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                   ],

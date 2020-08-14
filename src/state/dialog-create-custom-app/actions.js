@@ -44,12 +44,11 @@ export const open = (form) => (dispatch, getState) => {
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
 export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => {
   try {
-    const { ipcRenderer } = window.require('electron');
     const id = Date.now().toString();
-    ipcRenderer.once(id, (e, uurl) => {
+    window.ipcRenderer.once(id, (e, uurl) => {
       resolve(uurl);
     });
-    ipcRenderer.send('request-get-website-icon-url', id, url);
+    window.ipcRenderer.send('request-get-website-icon-url', id, url);
   } catch (err) {
     reject(err);
   }
@@ -78,8 +77,7 @@ export const getIconFromInternet = () => (dispatch, getState) => {
       }
 
       if (!iconUrl) {
-        const { remote } = window.require('electron');
-        return remote.dialog.showMessageBox(remote.getCurrentWindow(), {
+        return window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
           message: 'Unable to find a suitable icon from the Internet.',
           buttons: ['OK'],
           cancelId: 0,
@@ -132,7 +130,7 @@ export const create = () => (dispatch, getState) => {
 
   const id = `custom-${Date.now().toString()}`;
   const { name, url, urlDisabled } = form;
-  const icon = form.icon || form.internetIcon || window.require('electron').remote.getGlobal('defaultIcon');
+  const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
   if (isNameExisted(name, state)) {

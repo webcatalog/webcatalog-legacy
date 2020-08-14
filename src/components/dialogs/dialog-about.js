@@ -61,7 +61,7 @@ const About = (props) => {
     open,
   } = props;
 
-  const appVersion = window.require('electron').remote.app.getVersion();
+  const appVersion = window.remote.app.getVersion();
 
   return (
     <Dialog
