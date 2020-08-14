@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/atomery/catalog/issues
     about: Submit new app to catalog
   - name: Email
-    url: https://atomery.com/support?app=webcatalog
+    url: https://atomery.com/support/webcatalog
     about: Contact the developer directly via email
