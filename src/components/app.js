@@ -45,7 +45,8 @@ const styles = (theme) => ({
     background: theme.palette.background.default,
   },
   notistackContainerRoot: {
-    marginTop: 64,
+    // substract 22px of FakeTitleBar
+    marginTop: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 42,
   },
 });
 
