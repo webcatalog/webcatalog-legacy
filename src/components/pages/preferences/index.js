@@ -206,6 +206,7 @@ const Preferences = ({
   preferredEngine,
   registered,
   requireAdmin,
+  sentry,
   themeSource,
   updaterInfo,
   updaterStatus,
@@ -410,6 +411,24 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
+              <ListItem>
+                <ListItemText
+                  primary="Allow the app to send bug and crash reports on your behalf"
+                  secondary="Help us quickly diagnose and fix bugs in the app."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={sentry}
+                    onChange={(e) => {
+                      requestSetPreference('sentry', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/privacy?app=webcatalog&utm_source=webcatalog_app')}>
                 <ListItemText primary="Privacy Policy" />
               </ListItem>
@@ -836,6 +855,7 @@ Preferences.propTypes = {
   preferredEngine: PropTypes.string.isRequired,
   registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
+  sentry: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
@@ -857,6 +877,7 @@ const mapStateToProps = (state) => ({
   preferredEngine: state.preferences.preferredEngine,
   registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
+  sentry: state.preferences.sentry,
   themeSource: state.preferences.themeSource,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,

@@ -8,10 +8,18 @@ const {
 const fs = require('fs');
 const settings = require('electron-settings');
 const { autoUpdater } = require('electron-updater');
+const isDev = require('electron-is-dev');
+
+const { getPreference, getPreferences } = require('./libs/preferences');
+
+// Activate the Sentry Electron SDK as early as possible in every process.
+if (!isDev && getPreference('sentry')) {
+  // eslint-disable-next-line global-require
+  require('./libs/sentry');
+}
 
 const createMenu = require('./libs/create-menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
-const { getPreference, getPreferences } = require('./libs/preferences');
 const loadListeners = require('./listeners');
 
 const mainWindow = require('./windows/main');
