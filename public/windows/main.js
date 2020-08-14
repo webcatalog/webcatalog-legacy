@@ -9,6 +9,7 @@ const {
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
+const isDev = require('electron-is-dev');
 
 const sendToAllWindows = require('../libs/send-to-all-windows');
 const { getPreference } = require('../libs/preferences');
@@ -57,8 +58,9 @@ const createAsync = () => new Promise((resolve) => {
         minWidth: 480,
         minHeight: 500,
         webPreferences: {
+          enableRemoteModule: true,
           nodeIntegration: true,
-          webSecurity: false,
+          webSecurity: !isDev,
           preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
         },
       },
@@ -165,12 +167,13 @@ const createAsync = () => new Promise((resolve) => {
     minWidth: 480,
     minHeight: 500,
     titleBarStyle: 'hidden',
-    icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : null,
+    icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : undefined,
     autoHideMenuBar: getPreference('hideMenuBar'),
     show: false,
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true,
-      webSecurity: false,
+      webSecurity: !isDev,
       preload: path.join(__dirname, '..', 'preload', 'main.js'),
     },
   });

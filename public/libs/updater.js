@@ -20,7 +20,7 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', (info) => {
   if (!global.updateSilent) {
-    dialog.showMessageBox(mainWindow.get(), {
+    dialog.showMessageBox({
       title: 'An Update is Available',
       message: 'There is an available update. It is being downloaded. We will let you know when it is ready.',
       buttons: ['OK'],
@@ -40,7 +40,7 @@ autoUpdater.on('update-available', (info) => {
 
 autoUpdater.on('update-not-available', (info) => {
   if (!global.updateSilent) {
-    dialog.showMessageBox(mainWindow.get(), {
+    dialog.showMessageBox({
       title: 'No Updates',
       message: 'There are currently no updates available.',
       buttons: ['OK'],
@@ -60,7 +60,7 @@ autoUpdater.on('update-not-available', (info) => {
 
 autoUpdater.on('error', (err) => {
   if (!global.updateSilent) {
-    dialog.showMessageBox(mainWindow.get(), {
+    dialog.showMessageBox({
       title: 'Failed to Check for Updates',
       message: 'Failed to check for updates. Please check your Internet connection.',
       buttons: ['OK'],
@@ -112,7 +112,7 @@ autoUpdater.on('update-downloaded', (info) => {
     cancelId: 1,
   };
 
-  dialog.showMessageBox(mainWindow.get(), dialogOpts)
+  dialog.showMessageBox(dialogOpts)
     .then(({ response }) => {
       if (response === 0) {
         // Fix autoUpdater.quitAndInstall() does not quit immediately
