@@ -1,0 +1,39 @@
+name: Cask
+
+on:
+  push:
+    branches:
+      - master # trigger CI whenever a new commit is pushed to master branch
+  pull_request:
+    branches:
+      - master
+      - next
+    paths:
+      - '.github/workflows/cask.yml'
+
+jobs:
+  publish:
+    runs-on: macos-latest # run CI with latest available macOS version
+
+    steps:
+    - uses: actions/checkout@v2 # clone the reposity
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Set up SSH Agent
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ "{{" %}} secrets.SSH_PRIVATE_KEY }}
+    - name: Update Cask
+      # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
+      # So `brew update` needs to be run manually
+      run: |
+        brew update
+        brew install vitorgalvao/tiny-scripts/cask-repair
+        git config --global user.email "quang.lam@atomery.com"
+        git config --global user.name "Quang Lam (GitHub Actions)"
+        (cd $(brew --repository) && hub issue)
+        cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
+      env:
+        GITHUB_TOKEN: ${{ "{{" %}} secrets.MASTER_GITHUB_TOKEN }}
