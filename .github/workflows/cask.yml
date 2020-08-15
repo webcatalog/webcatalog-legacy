@@ -36,4 +36,5 @@ jobs:
         (cd $(brew --repository) && hub issue)
         cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
+        GITHUB_USER: quanglam2807
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
