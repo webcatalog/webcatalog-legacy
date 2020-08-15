@@ -53,26 +53,3 @@ jobs:
         CSC_LINK: ${{ secrets.CSC_LINK }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
-    - name: Set up SSH Agent
-      uses: webfactory/ssh-agent@v0.2.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    - name: Update Homebrew Cask
-      # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
-      # So `brew update` needs to be run manually
-      run: |
-        brew update
-        brew install vitorgalvao/tiny-scripts/cask-repair
-        git config --global user.email "quang.lam@atomery.com"
-        git config --global user.name "Quang Lam (GitHub Actions)"
-        (cd $(brew --repository) && hub issue)
-        cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
-      env:
-        GITHUB_USER: quanglam2807
-        # GitHub Actions secrets.GITHUB_TOKEN only has access to this repo.
-        # Use standard access token (https://github.com/settings/tokens)
-        # to access quanglam2807/homebrew-cask
-        # https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
-        GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
