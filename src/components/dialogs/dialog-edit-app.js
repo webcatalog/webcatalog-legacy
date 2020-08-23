@@ -205,7 +205,7 @@ DialogEditApp.defaultProps = {
   id: '',
   internetIcon: null,
   name: '',
-  saveable: false,
+  savable: false,
   url: '',
   urlDisabled: false,
   urlError: null,
