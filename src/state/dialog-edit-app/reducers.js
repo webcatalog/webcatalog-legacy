@@ -25,7 +25,6 @@ const formInitialState = {
 const form = (state = formInitialState, action) => {
   switch (action.type) {
     case DIALOG_EDIT_APP_OPEN: return { ...formInitialState, ...action.form };
-    case DIALOG_EDIT_APP_CLOSE: return formInitialState;
     case DIALOG_EDIT_APP_FORM_UPDATE: {
       const { changes } = action;
       return { ...state, ...changes };

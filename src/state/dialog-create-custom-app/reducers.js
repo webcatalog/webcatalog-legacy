@@ -24,7 +24,6 @@ const formInitialState = {
 const form = (state = formInitialState, action) => {
   switch (action.type) {
     case DIALOG_CREATE_CUSTOM_APP_OPEN: return { ...formInitialState, ...action.form };
-    case DIALOG_CREATE_CUSTOM_APP_CLOSE: return formInitialState;
     case DIALOG_CREATE_CUSTOM_APP_FORM_UPDATE: {
       const { changes } = action;
       return { ...state, ...changes };
