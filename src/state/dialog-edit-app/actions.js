@@ -89,22 +89,10 @@ const getValidationRules = () => ({
   },
 });
 
-let timeout;
-export const updateForm = (changes) => (dispatch, getState) => {
-  const oldUrl = getState().dialogEditApp.form.url;
-
-  dispatch({
-    type: DIALOG_EDIT_APP_FORM_UPDATE,
-    changes: validate(changes, getValidationRules()),
-  });
-
-  clearTimeout(timeout);
-  if (getState().dialogEditApp.form.url === oldUrl) return; // url didn't change
-  if (changes.internetIcon === null) return; // user explictly want to get rid of icon
-  timeout = setTimeout(() => {
-    dispatch(getIconFromInternet());
-  }, 300);
-};
+export const updateForm = (changes) => ({
+  type: DIALOG_EDIT_APP_FORM_UPDATE,
+  changes: validate(changes, getValidationRules()),
+});
 
 export const save = () => (dispatch, getState) => {
   const state = getState();
