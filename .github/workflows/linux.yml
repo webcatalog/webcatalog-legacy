@@ -56,3 +56,13 @@ jobs:
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
+    - name: Create Sentry Release
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        curl -sL https://sentry.io/get-cli/ | bash
+        VERSION=$(node -p -e "require('./package.json').version")
+        sentry-cli releases new $VERSION
+        sentry-cli releases set-commits --auto $VERSION
+        sentry-cli releases finalize $VERSION
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
