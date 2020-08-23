@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "24.0.0",
+  "version": "24.1.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -31,7 +31,7 @@
     "decompress": "4.2.1",
     "electron-context-menu": "2.3.0",
     "electron-is-dev": "1.2.0",
-    "electron-packager": "15.0.0",
+    "electron-packager": "15.1.0",
     "electron-settings": "3.2.0",
     "electron-updater": "4.3.5",
     "electron-window-state": "5.0.3",
@@ -75,7 +75,7 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "1.7.0",
-    "notistack": "0.9.17",
+    "notistack": "1.0.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -87,7 +87,7 @@
     "redux-thunk": "2.3.0",
     "typeface-roboto": "0.0.75",
     "wait-on": "5.2.0",
-    "worker-loader": "3.0.1"
+    "worker-loader": "3.0.2"
   },
   "homepage": "./",
   "private": true,
