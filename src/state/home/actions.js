@@ -1,5 +1,4 @@
-import algoliasearch from 'algoliasearch';
-
+import { client, appsIndex } from '../../algolia';
 import {
   homeGetFailed,
   homeGetRequest,
@@ -8,9 +7,6 @@ import {
   homeUpdateQuery,
   homeUpdateScrollOffset,
 } from './action-creators';
-
-const client = algoliasearch('4TX8Z3FKMI', '57f6e815e97deb2cdf74f49c852bc232');
-const index = client.initIndex('apps');
 
 export const getHits = () => (dispatch, getState) => {
   const state = getState();
@@ -29,7 +25,7 @@ export const getHits = () => (dispatch, getState) => {
 
   dispatch(homeGetRequest());
 
-  index.search(currentQuery, {
+  appsIndex.search(currentQuery, {
     page: page + 1,
     hitsPerPage: 28,
   })

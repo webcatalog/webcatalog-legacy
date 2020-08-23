@@ -15,10 +15,6 @@ import { requestOpenInBrowser } from '../../senders';
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 const styles = (theme) => ({
-  icon: {
-    height: 96,
-    width: 96,
-  },
   dialogContent: {
     minWidth: 320,
     paddingBottom: theme.spacing(2),

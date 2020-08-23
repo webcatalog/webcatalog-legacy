@@ -41,6 +41,7 @@ import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
 import { open as openDialogContextAppHelp } from '../../state/dialog-context-app-help/actions';
+import { open as openDialogCatalogAppDetails } from '../../state/dialog-catalog-app-details/actions';
 
 import InstallationProgress from './installation-progress';
 
@@ -108,6 +109,7 @@ const AppCard = (props) => {
     onOpenDialogContextAppHelp,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
+    onOpenDialogCatalogAppDetails,
     onUpdateApp,
     status,
     url,
@@ -277,6 +279,15 @@ const AppCard = (props) => {
           {engine && (
             [
               <Divider key={`menu-divider-${id}`} />,
+              process.env.NODE_ENV === 'development' && !id.startsWith('custom-') && url && (
+                <MenuItem
+                  key="app-info"
+                  dense
+                  onClick={() => onOpenDialogCatalogAppDetails(id)}
+                >
+                  Test App Info Dialog (dev only)
+                </MenuItem>
+              ),
               engine === 'electron' && (
                 <MenuItem
                   key="release-notes"
@@ -286,6 +297,7 @@ const AppCard = (props) => {
                   Release Notes
                 </MenuItem>
               ),
+              engine === 'electron' && <Divider key={`menu-divider-2-${id}`} />,
               <MenuItem dense key={`menu-engine-${id}`} onClick={null} disabled>
                 Installed with&nbsp;
                 {getEngineName(engine)}
@@ -331,6 +343,7 @@ AppCard.propTypes = {
   latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
+  onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
   onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
@@ -359,6 +372,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const actionCreators = {
+  openDialogCatalogAppDetails,
   openDialogChooseEngine,
   openDialogContextAppHelp,
   openDialogCreateCustomApp,

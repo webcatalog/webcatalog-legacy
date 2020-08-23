@@ -1,6 +1,7 @@
 const path = require('path');
 const {
   app,
+  ipcMain,
   nativeTheme,
   protocol,
   session,
@@ -9,6 +10,7 @@ const fs = require('fs');
 const settings = require('electron-settings');
 const { autoUpdater } = require('electron-updater');
 const isDev = require('electron-is-dev');
+const url = require('url');
 
 const { getPreference, getPreferences } = require('./libs/preferences');
 
@@ -51,7 +53,23 @@ if (!gotTheLock) {
     }
   }
 
+  // Register protocol
+  app.setAsDefaultProtocolClient('webcatalog');
+
   loadListeners();
+
+  // mock app.whenReady
+  let trulyReady = false;
+  ipcMain.once('truly-ready', () => { trulyReady = true; });
+  const whenTrulyReady = () => {
+    if (trulyReady) return Promise.resolve();
+    return new Promise((resolve) => {
+      ipcMain.once('truly-ready', () => {
+        trulyReady = true;
+        resolve();
+      });
+    });
+  };
 
   app.on('ready', () => {
     // https://github.com/electron/electron/issues/23757
@@ -86,7 +104,12 @@ if (!gotTheLock) {
 
     nativeTheme.themeSource = themeSource;
 
-    mainWindow.createAsync();
+    mainWindow.createAsync()
+      .then(() => {
+        // trigger whenFullyReady
+        ipcMain.emit('truly-ready');
+      });
+
     createMenu();
 
     nativeTheme.addListener('updated', () => {
@@ -105,5 +128,25 @@ if (!gotTheLock) {
   app.on('activate', () => {
     app.whenReady()
       .then(() => mainWindow.show());
+  });
+
+  app.on('open-url', (e, urlStr) => {
+    e.preventDefault();
+
+    whenTrulyReady()
+      .then(() => {
+        if (urlStr.startsWith('webcatalog://catalog/')) {
+          let appId;
+          try {
+            appId = url.parse(urlStr).path.substring(1);
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log(err);
+          }
+          if (appId) {
+            mainWindow.send('open-dialog-catalog-app-details', appId);
+          }
+        }
+      });
   });
 }

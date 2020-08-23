@@ -23,6 +23,7 @@ import DialogProxy from './dialogs/dialog-proxy';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
 import DialogContextAppHelp from './dialogs/dialog-context-app-help';
+import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
 
 import {
   ROUTE_PREFERENCES,
@@ -122,6 +123,7 @@ class App extends React.Component {
           <DialogSetInstallationPath />
           <DialogSetPreferredEngine />
           <DialogContextAppHelp />
+          <DialogCatalogAppDetails />
           <EnhancedBottomNavigation />
           <SnackbarTrigger />
         </div>
