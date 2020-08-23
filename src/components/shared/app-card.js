@@ -250,6 +250,7 @@ const AppCard = (props) => {
                 id,
                 name,
                 url,
+                urlDisabled: Boolean(!url),
                 icon,
               })}
             >
