@@ -71,6 +71,10 @@ const opts = {
     directories: {
       buildResources: 'build-resources',
     },
+    protocols: {
+      name: 'WebCatalog',
+      schemes: ['webcatalog'],
+    },
     mac: {
       category: 'public.app-category.utilities',
       hardenedRuntime: true,
