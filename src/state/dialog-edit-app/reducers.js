@@ -19,6 +19,7 @@ const formInitialState = {
   engine: 'electron',
   name: '',
   url: 'https://',
+  urlDisabled: false,
   icon: null,
 };
 const form = (state = formInitialState, action) => {
@@ -41,8 +42,18 @@ const downloadingIcon = (state = false, action) => {
   }
 };
 
+const savable = (state = false, action) => {
+  switch (action.type) {
+    case DIALOG_EDIT_APP_OPEN: return false;
+    case DIALOG_EDIT_APP_FORM_UPDATE: return true;
+    case DIALOG_EDIT_APP_CLOSE: return false;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   downloadingIcon,
   form,
   open,
+  savable,
 });

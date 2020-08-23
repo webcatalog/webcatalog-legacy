@@ -67,7 +67,9 @@ const DialogEditApp = (props) => {
     onSave,
     onUpdateForm,
     open,
+    savable,
     url,
+    urlDisabled,
     urlError,
   } = props;
 
@@ -100,70 +102,82 @@ const DialogEditApp = (props) => {
           value={name}
           disabled
         />
-        <TextField
-          fullWidth
-          id="url"
-          label="URL"
-          helperText={urlError}
-          margin="normal"
-          onChange={(e) => onUpdateForm({ url: e.target.value })}
-          value={url}
-          error={Boolean(urlError)}
-        />
+        {!urlDisabled && (
+          <TextField
+            fullWidth
+            id="url"
+            label="URL"
+            helperText={urlError}
+            margin="normal"
+            onChange={(e) => onUpdateForm({ url: e.target.value })}
+            value={url}
+            error={Boolean(urlError)}
+          />
+        )}
         <Grid container spacing={1} className={classes.grid}>
           <Grid item xs={12} sm="auto">
             <div className={classes.iconContainer}>
               <img src={iconPath} alt={name} className={classes.icon} />
             </div>
           </Grid>
-          <Grid item xs={12} sm="auto">
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                window.remote.dialog.showOpenDialog({
-                  filters: [
-                    { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
-                  ],
-                  properties: ['openFile'],
-                })
-                  .then(({ canceled, filePaths }) => {
-                    if (!canceled && filePaths && filePaths.length > 0) {
-                      onUpdateForm({ icon: filePaths[0] });
-                    }
+          {!id.startsWith('custom-') ? (
+            <Grid item xs={12} sm="auto">
+              <Typography
+                variant="body2"
+                className={classNames(classes.caption, classes.captionDisabled)}
+              >
+                This app icon is managed by WebCatalog and is not editable.
+              </Typography>
+            </Grid>
+          ) : (
+            <Grid item xs={12} sm="auto">
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  window.remote.dialog.showOpenDialog({
+                    filters: [
+                      { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
+                    ],
+                    properties: ['openFile'],
                   })
-                  .catch(console.log); // eslint-disable-line
-              }}
-              disabled={!id.startsWith('custom-')}
-            >
-              Select Local Image...
-            </Button>
-            <Typography
-              variant="caption"
-              className={classNames(classes.caption, !id.startsWith('custom-') && classes.captionDisabled)}
-            >
-              PNG, JPEG, GIF, TIFF or BMP.
-            </Typography>
-            <Button
-              variant="outlined"
-              size="small"
-              className={classes.buttonBot}
-              disabled={Boolean(!id.startsWith('custom-') || !url || urlError || downloadingIcon)}
-              onClick={() => onGetIconFromInternet()}
-            >
-              {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
-            </Button>
-            <br />
-            <Button
-              variant="outlined"
-              size="small"
-              className={classes.buttonBot}
-              disabled={!id.startsWith('custom-') || !(icon || internetIcon) || downloadingIcon}
-              onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
-            >
-              Reset to Default
-            </Button>
-          </Grid>
+                    .then(({ canceled, filePaths }) => {
+                      if (!canceled && filePaths && filePaths.length > 0) {
+                        onUpdateForm({ icon: filePaths[0] });
+                      }
+                    })
+                    .catch(console.log); // eslint-disable-line
+                }}
+              >
+                Select Local Image...
+              </Button>
+              <Typography
+                variant="caption"
+                className={classes.caption}
+              >
+                PNG, JPEG, GIF, TIFF or BMP.
+              </Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.buttonBot}
+                disabled={Boolean(!url || urlError || downloadingIcon)}
+                onClick={() => onGetIconFromInternet()}
+              >
+                {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
+              </Button>
+              <br />
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.buttonBot}
+                disabled={!(icon || internetIcon) || downloadingIcon}
+                onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
+              >
+                Reset to Default
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
@@ -176,6 +190,7 @@ const DialogEditApp = (props) => {
           <Button
             color="primary"
             onClick={onSave}
+            disabled={!savable}
           >
             Save
           </Button>
@@ -190,7 +205,9 @@ DialogEditApp.defaultProps = {
   id: '',
   internetIcon: null,
   name: '',
+  savable: false,
   url: '',
+  urlDisabled: false,
   urlError: null,
 };
 
@@ -206,7 +223,9 @@ DialogEditApp.propTypes = {
   onSave: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  savable: PropTypes.bool,
   url: PropTypes.string,
+  urlDisabled: PropTypes.bool,
   urlError: PropTypes.string,
 };
 
@@ -214,14 +233,16 @@ const mapStateToProps = (state) => {
   const {
     downloadingIcon,
     open,
+    savable,
     form: {
-      id,
       icon,
+      id,
+      internetIcon,
       name,
       nameError,
       url,
+      urlDisabled,
       urlError,
-      internetIcon,
     },
   } = state.dialogEditApp;
 
@@ -234,7 +255,9 @@ const mapStateToProps = (state) => {
     name,
     nameError,
     open,
+    savable,
     url,
+    urlDisabled,
     urlError,
   };
 };
