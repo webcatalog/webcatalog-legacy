@@ -29,6 +29,14 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(1),
   },
+  link: {
+    fontWeight: 600,
+    cursor: 'pointer',
+    outline: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 });
 
 const DialogLicenseRegistration = (props) => {
@@ -54,10 +62,23 @@ const DialogLicenseRegistration = (props) => {
       </EnhancedDialogTitle>
       <DialogContent>
         <DialogContentText className={classes.dialogContentText}>
-          You are currently running a trial version of WebCatalog which only
-          lets you install up to two apps (with up to two workspaces per app).
-          To remove the trial limitations, please purchase a
-          perpetual license key ($19.99) from our store.
+          You are currently running the free version of WebCatalog which
+          does not include&nbsp;
+          <span
+            onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/pricing?utm_source=webcatalog_app')}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter') return;
+              requestOpenInBrowser('https://atomery.com/webcatalog/pricing?utm_source=webcatalog_app');
+            }}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            premium features
+          </span>
+          &nbsp;such as creating custom apps,
+          blocking ads & trackers and more.
+          To remove the limitations, please purchase the full version ($19.99) from our store.
         </DialogContentText>
         <TextField
           autoFocus
@@ -79,6 +100,11 @@ const DialogLicenseRegistration = (props) => {
             onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite?utm_source=webcatalog_app')}
           >
             Visit Store...
+          </Button>
+          <Button
+            onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/pricing?utm_source=webcatalog_app')}
+          >
+            Learn More...
           </Button>
         </div>
         <Button
