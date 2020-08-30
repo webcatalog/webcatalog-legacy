@@ -9,10 +9,6 @@ import {
   isNameExisted,
 } from '../app-management/utils';
 
-import {
-  open as openDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
-
 import { requestShowMessageBox, getPreference } from '../../senders';
 
 export const close = () => ({
@@ -46,13 +42,6 @@ export const create = () => (dispatch, getState) => {
 
 export const open = (id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
-
-  const shouldAskForLicense = !state.preferences.registered
-    && Object.keys(state.appManagement.apps).length > 1;
-
-  if (shouldAskForLicense) {
-    return dispatch(openDialogLicenseRegistration());
-  }
 
   // context app is only supported with Electron
   if (!url) {

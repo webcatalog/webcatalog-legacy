@@ -17,10 +17,6 @@ import {
   requestUpdateApp,
 } from '../../senders';
 
-import {
-  open as openDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
-
 export const clean = () => (dispatch, getState) => {
   const state = getState();
   const { apps } = state.appManagement;
@@ -54,14 +50,6 @@ export const removeApp = (id) => ({
 
 export const installApp = (engine, id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
-
-  const shouldAskForLicense = !state.preferences.registered
-    && Object.keys(state.appManagement.apps).length > 1;
-
-  if (shouldAskForLicense) {
-    dispatch(openDialogLicenseRegistration());
-    return null;
-  }
 
   const sanitizedName = name.trim();
   if (isNameExisted(sanitizedName, state)) {

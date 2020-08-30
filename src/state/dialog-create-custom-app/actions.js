@@ -27,8 +27,7 @@ export const close = () => ({
 export const open = (form) => (dispatch, getState) => {
   const state = getState();
 
-  const shouldAskForLicense = !state.preferences.registered
-    && Object.keys(state.appManagement.apps).length > 1;
+  const shouldAskForLicense = !state.preferences.registered;
 
   if (shouldAskForLicense) {
     return dispatch(openDialogLicenseRegistration());

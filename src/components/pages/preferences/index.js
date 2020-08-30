@@ -470,7 +470,16 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={onOpenDialogSetPreferredEngine}>
+              <ListItem
+                button
+                onClick={() => {
+                  if (!registered) {
+                    onOpenDialogLicenseRegistration();
+                    return;
+                  }
+                  onOpenDialogSetPreferredEngine();
+                }}
+              >
                 <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
                 <ChevronRightIcon color="action" />
               </ListItem>
@@ -485,6 +494,11 @@ const Preferences = ({
                     color="primary"
                     checked={!hideEnginePrompt}
                     onChange={(e) => {
+                      if (!registered) {
+                        onOpenDialogLicenseRegistration();
+                        return;
+                      }
+
                       requestSetPreference('hideEnginePrompt', !e.target.checked);
                     }}
                   />

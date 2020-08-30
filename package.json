@@ -41,7 +41,7 @@
     "hasha": "5.2.0",
     "icon-gen": "2.0.0",
     "is-url": "1.2.4",
-    "jimp": "0.16.0",
+    "jimp": "0.16.1",
     "menubar": "9.0.1",
     "node-cache": "5.1.2",
     "node-fetch": "2.6.0",
@@ -52,7 +52,7 @@
     "sudo-prompt": "9.2.1",
     "tmp": "0.2.1",
     "windows-shortcuts": "0.1.6",
-    "yargs-parser": "19.0.1"
+    "yargs-parser": "19.0.4"
   },
   "devDependencies": {
     "@material-ui/core": "4.11.0",
