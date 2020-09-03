@@ -135,7 +135,7 @@ const DialogCreateCustomApp = (props) => {
           )}
           label={(
             <>
-              <span>Don&apos;t specify an URL</span>
+              <span>Don&apos;t specify a URL</span>
               <Tooltip title="What is this?" placement="right">
                 <IconButton
                   size="small"
