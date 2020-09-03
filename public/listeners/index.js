@@ -325,26 +325,6 @@ const loadListeners = () => {
     // https://github.com/electron-userland/electron-builder/issues/4028
     if (!autoUpdater.isUpdaterActive()) return;
 
-    // https://github.com/atomery/webcatalog/issues/634
-    // https://github.com/electron-userland/electron-builder/issues/4046
-    // disable updater if user is using AppImageLauncher
-    if (process.platform === 'linux' && process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {
-      dialog.showMessageBox({
-        type: 'error',
-        message: 'Updater is incompatible with AppImageLauncher. Please uninstall AppImageLauncher or download new updates manually from our website.',
-        buttons: ['Learn More', 'Go to Website', 'OK'],
-        cancelId: 2,
-        defaultId: 2,
-      }).then(({ response }) => {
-        if (response === 0) {
-          shell.openExternal('https://github.com/electron-userland/electron-builder/issues/4046');
-        } else if (response === 1) {
-          shell.openExternal('https://atomery.com/webcatalog?utm_source=webcatalog_app');
-        }
-      }).catch(console.log); // eslint-disable-line
-      return;
-    }
-
     // restart & apply updates
     if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
       setImmediate(() => {
