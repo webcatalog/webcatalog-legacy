@@ -93,9 +93,9 @@ const Toolbar = ({
       >
         <MenuItem
           dense
-          onClick={() => requestOpenInBrowser('https://github.com/atomery/catalog/issues')}
+          onClick={() => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9')}
         >
-          Submit New App
+          Submit New App to Catalog
         </MenuItem>
         <Divider />
         <MenuItem

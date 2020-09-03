@@ -9,11 +9,9 @@
 
 **master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
 
-WebCatalog project consists of 3 repositories:
+WebCatalog project consists of 2 open-source repositories:
 - [atomery/webcatalog](https://github.com/atomery/webcatalog) - WebCatalog.app
 - [atomery/juli](https://github.com/atomery/juli) - Template Electron app that WebCatalog uses under the hood to generate Electron-based apps.
-- [atomery/catalog](https://github.com/atomery/catalog) - Web app catalog, used by WebCatalog & [Singlebox](https://atomery.com/singlebox).
-
 ---
 
 ## Licensing
