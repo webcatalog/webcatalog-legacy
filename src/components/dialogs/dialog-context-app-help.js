@@ -82,7 +82,7 @@ const DialogContextAppHelp = ({
       <br />
       <Typography variant="body1">
         <b>Is it possible to create custom context apps?</b>
-        <span>&nbsp;Yes, it is possible. When creating custom apps, just check the box &quot;Don&apos;t specify an URL&quot;.</span>
+        <span>&nbsp;Yes, it is possible. When creating custom apps, just check the box &quot;Don&apos;t specify a URL&quot;.</span>
       </Typography>
       <br />
       <Typography variant="body2">
