@@ -24,6 +24,7 @@ import EmptyState from '../../shared/empty-state';
 
 import SearchBox from './search-box';
 import Toolbar from './toolbar';
+import SubmitAppCard from './submit-app-card';
 
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
@@ -145,6 +146,9 @@ const Home = ({
             <b>{currentQuery}</b>
             &nbsp;- did not match any apps in the catalog.
           </Typography>
+          <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
+            <SubmitAppCard />
+          </Grid>
         </EmptyState>
       );
     }
@@ -152,7 +156,7 @@ const Home = ({
     const hasNextPage = page + 1 < totalPage;
     // 3 additional special items (Work, School, Life) when not searching
     const additionalItemCount = currentQuery.length === 0 ? CONTEXT_APPS.length : 0;
-    const itemCount = hits.length + additionalItemCount + 1;
+    const itemCount = hits.length + additionalItemCount + 2;
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 158 + 16;
@@ -188,6 +192,17 @@ const Home = ({
           );
         }
 
+        return (
+          <div className={classes.cardContainer} style={style}>
+            <SubmitAppCard />
+          </div>
+        );
+      }
+
+      if (index === hits.length + 1) {
+        if (isGetting) {
+          return <div style={style} />;
+        }
         return (
           <div className={classes.cardContainer} style={style}>
             <div

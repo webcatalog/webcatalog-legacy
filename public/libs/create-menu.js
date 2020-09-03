@@ -71,7 +71,7 @@ const createMenu = () => {
         },
         {
           label: 'Submit New App to Catalog...',
-          click: () => shell.openExternal('https://github.com/atomery/catalog/issues'),
+          click: () => shell.openExternal('https://forms.gle/redZCVMwkuhvuDtb9'),
         },
         {
           label: 'Learn More...',
