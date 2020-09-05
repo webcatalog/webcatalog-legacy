@@ -14,7 +14,7 @@ on:
 jobs:
   publish:
     runs-on: macos-latest # run CI with latest available macOS version
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2 # clone the reposity
@@ -27,14 +27,15 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Update Cask
+      # GitHub Actions set =1 by default
+      # So `brew update` needs to be run manually
       run: |
+        brew update
         brew install vitorgalvao/tiny-scripts/cask-repair
         git config --global user.email "quang.lam@atomery.com"
         git config --global user.name "Quang Lam (GitHub Actions)"
         (cd $(brew --repository) && hub issue)
         cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
-        # GitHub Actions set =1 by default
-        HOMEBREW_NO_AUTO_UPDATE: 0
         GITHUB_USER: quanglam2807
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
