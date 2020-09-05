@@ -31,7 +31,7 @@ jobs:
       # So `brew update` needs to be run manually
       run: |
         mkdir homebrew-cache
-        export HOMEBREW_CACHE=./homebrew-cache
+        export HOMEBREW_CACHE=$PWD/homebrew-cache
         brew update
         brew install vitorgalvao/tiny-scripts/cask-repair
         git config --global user.email "quang.lam@atomery.com"
