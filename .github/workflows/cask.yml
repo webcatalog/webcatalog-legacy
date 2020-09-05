@@ -30,7 +30,8 @@ jobs:
       # GitHub Actions set HOMEBREW_NO_AUTO_UPDATE=1 by default
       # So `brew update` needs to be run manually
       run: |
-        mkdir -p ~/Library/Caches/Homebrew/downloads
+        mkdir homebrew-cache
+        export HOMEBREW_CACHE=./homebrew-cache
         brew update
         brew install vitorgalvao/tiny-scripts/cask-repair
         git config --global user.email "quang.lam@atomery.com"
