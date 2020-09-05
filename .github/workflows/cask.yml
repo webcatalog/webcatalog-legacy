@@ -34,6 +34,6 @@ jobs:
         cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       env:
         # GitHub Actions set =1 by default
-        HOMEBREW_NO_AUTO_UPDATE: 1
+        HOMEBREW_NO_AUTO_UPDATE: 0
         GITHUB_USER: quanglam2807
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
