@@ -67,6 +67,10 @@ const createAsync = () => new Promise((resolve) => {
     });
 
     mb.on('after-create-window', () => {
+      // Fix menubar preloadWindow option makes dock icon always shows on macOS
+      // Ref: https://github.com/maxogden/menubar/issues/296
+      app.dock.hide();
+
       menubarWindowState.manage(mb.window);
 
       mb.window.on('focus', () => {
