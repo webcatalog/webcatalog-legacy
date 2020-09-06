@@ -37,7 +37,8 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    - run: yarn --prefer-offline
+    # https://github.com/mui-org/material-ui/issues/12432
+    - run: yarn --prefer-offline --network-timeout 600000
     - run: yarn lint
     - run: brew install p7zip
     - name: Get tag name
