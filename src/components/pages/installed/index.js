@@ -100,6 +100,8 @@ const Installed = ({
       const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
       const rowCount = Math.ceil(appIds.length / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
+      // total window height - (titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40)
+      const scrollHeight = innerHeight - 116 - (process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
@@ -125,7 +127,7 @@ const Installed = ({
         <FixedSizeGrid
           columnCount={columnCount}
           columnWidth={columnWidth}
-          height={innerHeight - (window.process.platform === 'darwin' ? 138 : 116)} // titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40
+          height={scrollHeight}
           rowCount={rowCount}
           rowHeight={rowHeight}
           width={innerWidth}

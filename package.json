@@ -25,7 +25,7 @@
   "dependencies": {
     "@sentry/electron": "2.0.0",
     "axios": "0.20.0",
-    "blueimp-md5": "2.17.0",
+    "blueimp-md5": "2.18.0",
     "cheerio": "1.0.0-rc.3",
     "command-exists": "1.2.9",
     "decompress": "4.2.1",
@@ -44,7 +44,7 @@
     "jimp": "0.16.1",
     "menubar": "9.0.1",
     "node-cache": "5.1.2",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "proxy-agent": "3.1.1",
     "read-chunk": "3.2.0",
     "regedit": "3.0.3",
