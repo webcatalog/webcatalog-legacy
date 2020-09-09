@@ -1,8 +1,8 @@
 const path = require('path');
-const xmlParser = require('fast-xml-parser');
+const semver = require('semver');
+const NodeCache = require('node-cache');
 const { fork } = require('child_process');
 const { app } = require('electron');
-const NodeCache = require('node-cache');
 const customizedFetch = require('../../customized-fetch');
 const sendToAllWindows = require('../../send-to-all-windows');
 const { getPreference, getPreferences } = require('../../preferences');
@@ -14,39 +14,41 @@ const cache = new NodeCache();
 
 // use in-house API
 // to avoid using GitHub API as it has rate limit (60 requests per hour)
-// to avoid bugs with instead of https://github.com/atomery/juli/releases.atom
 // https://github.com/atomery/webcatalog/issues/890
-const getTagNameAsync = () => {
-  const cachedTagName = cache.get('tagName');
-  if (cachedTagName) {
-    return Promise.resolve(cachedTagName);
-  }
+const getTagNameAsync = () => Promise.resolve()
+  .then(() => {
+    const allowPrerelease = getPreference('allowPrerelease');
 
-  return Promise.resolve()
-    .then(() => {
-      const allowPrerelease = getPreference('allowPrerelease');
-      // prerelease is not supported by in-house API
-      if (allowPrerelease) {
-        return customizedFetch('https://github.com/atomery/juli/releases.atom')
-          .then((res) => res.text())
-          .then((xmlData) => {
-            const releases = xmlParser.parse(xmlData).feed.entry;
+    // check both prerelease and stable channels
+    // return the newer version
+    if (allowPrerelease) {
+      return Promise.resolve()
+        .then(() => {
+          let stableVersion;
+          let prereleaseVersion;
+          const p = [
+            customizedFetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+              .then((res) => res.json())
+              .then((data) => { stableVersion = data.version; }),
+            customizedFetch('https://atomery.com/webcatalog/juli/releases/prerelease.json')
+              .then((res) => res.json())
+              .then((data) => { prereleaseVersion = data.version; }),
+          ];
+          return Promise.all(p)
+            .then(() => {
+              if (semver.gt(stableVersion, prereleaseVersion)) {
+                return stableVersion;
+              }
+              return prereleaseVersion;
+            });
+        })
+        .then((version) => `v${version}`);
+    }
 
-            // just return the first one
-            const tagName = releases[0].id.split('/').pop();
-            return tagName;
-          });
-      }
-
-      return customizedFetch('https://juli.webcatalogapp.com/releases/latest.json')
-        .then((res) => res.json())
-        .then((data) => `v${data.version}`);
-    })
-    .then((tagName) => {
-      cache.set('tagName', tagName, 60); // cache for 1 hour
-      return tagName;
-    });
-};
+    return customizedFetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+      .then((res) => res.json())
+      .then((data) => `v${data.version}`);
+  });
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   let latestTemplateVersion = '0.0.0';

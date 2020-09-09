@@ -1,5 +1,4 @@
 import semver from 'semver';
-import xmlParser from 'fast-xml-parser';
 
 import {
   UPDATE_SHOULD_USE_DARK_COLORS,
@@ -52,18 +51,29 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
     .then(() => {
       // prerelease is not supported by in-house API
       if (allowPrerelease) {
-        return window.fetch('https://github.com/atomery/juli/releases.atom')
-          .then((res) => res.text())
-          .then((xmlData) => {
-            const releases = xmlParser.parse(xmlData).feed.entry;
-
-            // just return the first one
-            const tagName = releases[0].id.split('/').pop();
-            return tagName.substring(1);
+        return Promise.resolve()
+          .then(() => {
+            let stableVersion;
+            let prereleaseVersion;
+            const p = [
+              window.fetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+                .then((res) => res.json())
+                .then((data) => { stableVersion = data.version; }),
+              window.fetch('https://atomery.com/webcatalog/juli/releases/prerelease.json')
+                .then((res) => res.json())
+                .then((data) => { prereleaseVersion = data.version; }),
+            ];
+            return Promise.all(p)
+              .then(() => {
+                if (semver.gt(stableVersion, prereleaseVersion)) {
+                  return stableVersion;
+                }
+                return prereleaseVersion;
+              });
           });
       }
 
-      return window.fetch('https://juli.webcatalogapp.com/releases/latest.json')
+      return window.fetch('https://atomery.com/webcatalog/juli/releases/latest.json')
         .then((res) => res.json())
         .then((data) => data.version);
     })
