@@ -35,7 +35,6 @@
     "electron-settings": "3.2.0",
     "electron-updater": "4.3.5",
     "electron-window-state": "5.0.3",
-    "fast-xml-parser": "3.17.4",
     "follow-redirects": "1.13.0",
     "fs-extra": "9.0.1",
     "hasha": "5.2.0",
