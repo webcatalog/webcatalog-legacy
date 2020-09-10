@@ -70,7 +70,7 @@ const DialogSetPreferredEngine = (props) => {
                 <Typography variant="body2" color="textPrimary">
                   WebCatalog lets you pick your preferrred browser engine to power your apps.
                   After you install an app,
-                  you will have to uninstall and then reinstall to change its engine of an app.
+                  you will have to uninstall and then reinstall the app to change its engine.
                 </Typography>
               )}
             >
