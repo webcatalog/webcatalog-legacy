@@ -34,6 +34,13 @@ const createMenu = require('../libs/create-menu');
 
 const mainWindow = require('../windows/main');
 
+const send = (webContents, ...args) => {
+  // check to make sure webContents is not destroyed
+  if (webContents && !webContents.isDestroyed()) {
+    webContents.send(...args);
+  }
+};
+
 const loadListeners = () => {
   ipcMain.on('request-open-in-browser', (e, browserUrl) => {
     shell.openExternal(browserUrl);
@@ -144,18 +151,18 @@ const loadListeners = () => {
       cancelId: 1,
     }).then(({ response }) => {
       if (response === 0) {
-        e.sender.send('set-app', id, {
+        send(e.sender, 'set-app', id, {
           status: 'UNINSTALLING',
         });
 
         uninstallAppAsync(id, name, engine)
           .then(() => {
-            e.sender.send('remove-app', id);
+            send(e.sender, 'remove-app', id);
           })
           .catch((error) => {
             captureException(error);
-            e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
-            e.sender.send('set-app', id, {
+            send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
+            send(e.sender, 'set-app', id, {
               status: 'INSTALLED',
             });
           });
@@ -172,7 +179,7 @@ const loadListeners = () => {
       cancelId: 1,
     }).then(({ response }) => {
       if (response === 0) {
-        e.sender.send('set-app-batch', apps.map((a) => ({
+        send(e.sender, 'set-app-batch', apps.map((a) => ({
           id: a.id,
           status: 'UNINSTALLING',
         })));
@@ -180,12 +187,12 @@ const loadListeners = () => {
         apps.forEach(({ id, name, engine }) => {
           uninstallAppAsync(id, name, engine)
             .then(() => {
-              e.sender.send('remove-app', id);
+              send(e.sender, 'remove-app', id);
             })
             .catch((error) => {
               captureException(error);
-              e.sender.send('enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
-              e.sender.send('set-app', id, {
+              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
+              send(e.sender, 'set-app', id, {
                 status: 'INSTALLED',
               });
             });
@@ -203,7 +210,7 @@ const loadListeners = () => {
   ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
     Promise.resolve()
       .then(() => {
-        e.sender.send('set-app', id, {
+        send(e.sender, 'set-app', id, {
           status: 'INSTALLING',
           lastUpdated: new Date().getTime(),
           engine,
@@ -216,13 +223,13 @@ const loadListeners = () => {
 
         promiseFuncMap[id] = () => {
           // prevent canceling when installation has already started
-          e.sender.send('set-app', id, {
+          send(e.sender, 'set-app', id, {
             cancelable: false,
           });
 
           return installAppAsync(engine, id, name, url, icon)
             .then((version) => {
-              e.sender.send('set-app', id, {
+              send(e.sender, 'set-app', id, {
                 engine,
                 id,
                 name,
@@ -237,12 +244,12 @@ const loadListeners = () => {
             .catch((error) => {
               const isBrowserNotInstalledErr = error.message.includes('is not installed');
               if (isBrowserNotInstalledErr) {
-                e.sender.send('enqueue-snackbar', error.message, 'error');
+                send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
                 captureException(error);
-                e.sender.send('enqueue-snackbar', `Failed to install ${name}.`, 'error');
+                send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error');
               }
-              e.sender.send('remove-app', id);
+              send(e.sender, 'remove-app', id);
               delete promiseFuncMap[id];
             }).catch(console.log); // eslint-disable-line
         };
@@ -259,20 +266,20 @@ const loadListeners = () => {
   ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
     Promise.resolve()
       .then(() => {
-        e.sender.send('set-app', id, {
+        send(e.sender, 'set-app', id, {
           status: 'INSTALLING',
           cancelable: true,
         });
 
         promiseFuncMap[id] = () => {
           // prevent canceling when installation has already started
-          e.sender.send('set-app', id, {
+          send(e.sender, 'set-app', id, {
             cancelable: false,
           });
 
           return installAppAsync(engine, id, name, url, icon)
             .then((version) => {
-              e.sender.send('set-app', id, {
+              send(e.sender, 'set-app', id, {
                 url,
                 version,
                 status: 'INSTALLED',
@@ -284,8 +291,8 @@ const loadListeners = () => {
             })
             .catch((error) => {
               captureException(error);
-              e.sender.send('enqueue-snackbar', `Failed to update ${name}.`, 'error');
-              e.sender.send('set-app', id, {
+              send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
+              send(e.sender, 'set-app', id, {
                 status: 'INSTALLED',
               });
             });
@@ -302,14 +309,14 @@ const loadListeners = () => {
 
   ipcMain.on('request-cancel-install-app', (e, id) => {
     if (promiseFuncMap[id]) {
-      e.sender.send('remove-app', id);
+      send(e.sender, 'remove-app', id);
       delete promiseFuncMap[id];
     }
   });
 
   ipcMain.on('request-cancel-update-app', (e, id) => {
     if (promiseFuncMap[id]) {
-      e.sender.send('set-app', id, {
+      send(e.sender, 'set-app', id, {
         status: 'INSTALLED',
         cancelable: false,
       });
