@@ -165,7 +165,7 @@ const Home = ({
     const rowCount = Math.ceil(itemCount / columnCount);
     const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
     // total window height - (titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40)
-    const scrollHeight = innerHeight - 116 - (process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
+    const scrollHeight = innerHeight - 116 - (window.process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
     const Cell = ({ columnIndex, rowIndex, style }) => {
       const index = rowIndex * columnCount + columnIndex - additionalItemCount;
 
