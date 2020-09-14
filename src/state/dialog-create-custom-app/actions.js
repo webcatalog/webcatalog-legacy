@@ -101,7 +101,7 @@ const getValidationRules = (urlDisabled) => ({
     required: true,
     filePath: true,
   },
-  url: urlDisabled ? {
+  url: !urlDisabled ? {
     fieldName: 'URL',
     required: true,
     lessStrictUrl: true,
