@@ -242,8 +242,7 @@ const loadListeners = () => {
               delete promiseFuncMap[id];
             })
             .catch((error) => {
-              const isBrowserNotInstalledErr = error.message.includes('is not installed');
-              if (isBrowserNotInstalledErr) {
+              if (error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
                 captureException(error);
@@ -290,8 +289,16 @@ const loadListeners = () => {
               });
             })
             .catch((error) => {
-              captureException(error);
-              send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
+              console.log(error);
+              if (error.message.includes('is not installed')) {
+                send(e.sender, 'enqueue-snackbar', error.message, 'error');
+              } else if (error.message === 'Application is in use.') {
+                send(e.sender, 'enqueue-snackbar', `Failed to update ${name} as the application is in use.`, 'error');
+              } else {
+                console.log(error);
+                send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
+                captureException(error);
+              }
               send(e.sender, 'set-app', id, {
                 status: 'INSTALLED',
               });

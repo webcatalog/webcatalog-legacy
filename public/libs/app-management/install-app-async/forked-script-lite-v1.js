@@ -12,6 +12,7 @@ const sudo = require('sudo-prompt');
 
 const downloadAsync = require('../../download-async');
 const execAsync = require('../../exec-async');
+const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const {
   engine,
@@ -101,6 +102,13 @@ const finalPath = process.platform === 'darwin'
 const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
 
 Promise.resolve()
+  .then(() => checkPathInUseAsync(finalPath))
+  .then((inUse) => {
+    if (inUse) {
+      return Promise.reject(new Error('Application is in use.'));
+    }
+    return null;
+  })
   .then(() => {
     process.send({
       progress: {

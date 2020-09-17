@@ -11,6 +11,7 @@ const ws = require('windows-shortcuts');
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
 const registryInstaller = require('../registry-installer');
+const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const {
   appPath,
@@ -95,6 +96,13 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 Promise.resolve()
+  .then(() => checkPathInUseAsync(finalPath))
+  .then((inUse) => {
+    if (inUse) {
+      return Promise.reject(new Error('Application is in use.'));
+    }
+    return null;
+  })
   .then(() => {
     process.send({
       progress: {

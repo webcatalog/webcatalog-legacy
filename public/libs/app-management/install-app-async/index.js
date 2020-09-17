@@ -2,7 +2,6 @@ const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 const tmp = require('tmp');
-const semver = require('semver');
 
 const { getPreference } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
@@ -39,11 +38,7 @@ const installAppAsync = (
         return prepareTemplateAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
-            if (semver.gte(v, '9.0.0-alpha')) {
-              scriptFileName = 'forked-script-electron-v2.js';
-            } else {
-              scriptFileName = 'forked-script-electron-v1.js';
-            }
+            scriptFileName = 'forked-script-electron-v2.js';
           });
       }
 

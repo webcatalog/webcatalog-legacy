@@ -7,6 +7,7 @@ export const isInstalledApp = (id, state) => {
 };
 
 export const isOutdatedApp = (id, state) => {
+  return true;
   const { apps } = state.appManagement;
   const { registered } = state.preferences;
 
