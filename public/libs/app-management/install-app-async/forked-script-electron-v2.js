@@ -176,7 +176,7 @@ Promise.resolve()
               .clone()
               .resize(64 * zoom, 64 * zoom)
               .quality(100)
-              .write(path.join(appPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`), resolve);
+              .write(path.join(appAsarUnpackedPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`), resolve);
           }));
           return Promise.all(pp);
         }
