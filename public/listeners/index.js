@@ -242,6 +242,7 @@ const loadListeners = () => {
               delete promiseFuncMap[id];
             })
             .catch((error) => {
+              console.log(error);
               if (error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
@@ -250,7 +251,7 @@ const loadListeners = () => {
               }
               send(e.sender, 'remove-app', id);
               delete promiseFuncMap[id];
-            }).catch(console.log); // eslint-disable-line
+            });
         };
 
         p = p.then(() => {
