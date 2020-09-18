@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import clsx from 'clsx';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -72,6 +73,12 @@ const styles = (theme) => ({
   paperIcon: {
     width: 56,
     height: 56,
+  },
+  paperIconCatalogWindows: {
+    width: 48,
+    height: 48,
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+    borderRadius: 12,
   },
   actionContainer: {
     marginTop: theme.spacing(1),
@@ -189,7 +196,11 @@ const AppCard = (props) => {
       <Paper elevation={0} className={classes.card}>
         <img
           alt={name}
-          className={classes.paperIcon}
+          className={clsx(
+            classes.paperIcon,
+            // special styling for catalog app icons on Windows (unplated icons)
+            window.process.platform === 'win32' && !id.startsWith('custom-') && classes.paperIconCatalogWindows
+          )}
           src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
         />
         <Typography
