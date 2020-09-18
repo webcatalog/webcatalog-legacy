@@ -111,15 +111,18 @@ Promise.resolve()
       },
     });
 
-    if (isUrl(icon)) {
-      return downloadAsync(icon, iconPngPath);
-    }
-
     // try to get fresh icon from catalog if possible
     if (!id.startsWith('custom-') && url) {
-      const catalogIconUrl = `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
+      // use unplated icon on Windows
+      const catalogIconUrl = process.platform === 'win32'
+        ? `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon-unplated.png`
+        : `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
       return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
+    }
+
+    if (isUrl(icon)) {
+      return downloadAsync(icon, iconPngPath);
     }
 
     return fsExtra.copy(icon, iconPngPath);
