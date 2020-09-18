@@ -78,7 +78,12 @@ if (!gotTheLock) {
       callback(pathname);
     });
 
-    global.defaultIcon = path.join(app.getAppPath(), 'default-app-icons', 'default-icon.png');
+    global.defaultIcon = path.join(
+      app.getAppPath(),
+      'default-app-icons',
+      // use unplated icon on Windows
+      process.platform === 'win32' ? 'default-icon-unplated.png' : 'default-icon.png',
+    );
 
     const {
       allowPrerelease,
