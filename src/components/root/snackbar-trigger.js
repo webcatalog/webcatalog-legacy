@@ -8,7 +8,7 @@ const SnackbarTrigger = () => {
   useEffect(() => {
     window.ipcRenderer.removeAllListeners('enqueue-snackbar');
     window.ipcRenderer.on('enqueue-snackbar', (_, message, variant) => {
-      enqueueSnackbar(message, { variant });
+      enqueueSnackbar(message, { variant, autoHideDuration: 10000 });
     });
     return () => {
       window.ipcRenderer.removeAllListeners('enqueue-snackbar');

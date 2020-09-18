@@ -9,6 +9,7 @@ const sudo = require('sudo-prompt');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
+const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const {
   engine,
@@ -182,6 +183,13 @@ const browserId = engine.split('/')[0];
 const useTabs = engine.endsWith('/tabs');
 
 Promise.resolve()
+  .then(() => checkPathInUseAsync(finalPath))
+  .then((inUse) => {
+    if (inUse) {
+      return Promise.reject(new Error('Application is in use.'));
+    }
+    return null;
+  })
   .then(() => {
     if (!browserConstants[browserId]) {
       return Promise.reject(new Error('Engine is not supported.'));

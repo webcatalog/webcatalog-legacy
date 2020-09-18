@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
-const execAsync = (cmd) => new Promise((resolve, reject) => {
-  exec(cmd, (e, stdout, stderr) => {
+const execAsync = (cmd, opts = {}) => new Promise((resolve, reject) => {
+  exec(cmd, opts, (e, stdout, stderr) => {
     if (e instanceof Error) {
       reject(e);
       return;
