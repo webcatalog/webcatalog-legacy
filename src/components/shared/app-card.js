@@ -74,9 +74,11 @@ const styles = (theme) => ({
     width: 56,
     height: 56,
   },
-  paperIconCatalogWindows: {
+  paperIconWindows: {
     width: 48,
     height: 48,
+  },
+  paperIconCatalogWindows: {
     boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
     borderRadius: 12,
   },
@@ -199,6 +201,7 @@ const AppCard = (props) => {
           className={clsx(
             classes.paperIcon,
             // special styling for catalog app icons on Windows (unplated icons)
+            window.process.platform === 'win32' && classes.paperIconWindows,
             window.process.platform === 'win32' && !id.startsWith('custom-') && classes.paperIconCatalogWindows
           )}
           src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
