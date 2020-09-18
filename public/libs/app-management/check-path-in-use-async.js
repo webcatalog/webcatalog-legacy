@@ -13,14 +13,14 @@ const checkPathInUseAsync = (path) => {
           return true;
         }
         return false;
-      })
-  };
+      });
+  }
 
   // https://stackoverflow.com/questions/10814293/how-to-check-if-another-instance-of-the-app-binary-is-already-running
   // https://www.cyberciti.biz/tips/grepping-ps-output-without-getting-grep.html
   // https://superuser.com/questions/103309/how-can-i-know-the-absolute-path-of-a-running-process
 
-  // by default, grep EXIT STATUS The exit status is 0 
+  // by default, grep EXIT STATUS The exit status is 0
   // if selected lines are found, and 1 if not found
   // "|| true" to force exit code 0
   // https://stackoverflow.com/a/42251542
