@@ -179,7 +179,10 @@ const Home = ({
               id={contextApp.id}
               name={contextApp.name}
               url={null}
-              icon={window.getContextAppIconPath(contextApp.id)}
+              icon={window.process.platform === 'win32' // use unplated icon for Windows
+                ? `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-unplated.png`
+                : `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon.png`}
+              icon128={`https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-256.png`}
             />
           </div>
         );
@@ -237,7 +240,8 @@ const Home = ({
             id={app.id}
             name={app.name}
             url={app.url}
-            icon={app.icon}
+            icon={window.process.platform === 'win32' // use unplated icon for Windows
+              ? app.iconUnplated : app.icon}
             icon128={app.icon128}
           />
         </div>
