@@ -202,7 +202,7 @@ const AppCard = (props) => {
             classes.paperIcon,
             // special styling for catalog app icons on Windows (unplated icons)
             window.process.platform === 'win32' && classes.paperIconWindows,
-            window.process.platform === 'win32' && !id.startsWith('custom-') && classes.paperIconCatalogWindows
+            window.process.platform === 'win32' && !id.startsWith('custom-') && classes.paperIconCatalogWindows,
           )}
           src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
         />
