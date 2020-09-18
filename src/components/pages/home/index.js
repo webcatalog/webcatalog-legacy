@@ -182,7 +182,9 @@ const Home = ({
               icon={window.process.platform === 'win32' // use unplated icon for Windows
                 ? `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-unplated.png`
                 : `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon.png`}
-              icon128={`https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-256.png`}
+              icon128={window.process.platform === 'win32' // use unplated icon for Windows
+                ? `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-unplated-128.webp`
+                : `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-128.webp`}
             />
           </div>
         );
@@ -242,7 +244,8 @@ const Home = ({
             url={app.url}
             icon={window.process.platform === 'win32' // use unplated icon for Windows
               ? app.iconUnplated : app.icon}
-            icon128={app.icon128}
+            icon128={window.process.platform === 'win32' // use unplated icon for Windows
+              ? app.iconUnplated128 : app.icon128}
           />
         </div>
       );
