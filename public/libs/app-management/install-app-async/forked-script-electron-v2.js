@@ -96,7 +96,15 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 Promise.resolve()
-  .then(() => checkPathInUseAsync(finalPath))
+  .then(() => {
+    if (process.platform === 'win32') {
+      return checkPathInUseAsync(finalPath);
+    }
+    // skip this check on Mac & Linux
+    // as on Unix, it's possible to replace files even when running
+    // https://askubuntu.com/questions/44339/how-does-updating-running-application-binaries-during-an-upgrade-work
+    return false;
+  })
   .then((inUse) => {
     if (inUse) {
       return Promise.reject(new Error('Application is in use.'));
