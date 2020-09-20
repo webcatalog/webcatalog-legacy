@@ -43,11 +43,11 @@ const DialogContextAppHelp = ({
     open={open}
   >
     <EnhancedDialogTitle onClose={onClose}>
-      What is Context App?
+      What is Multisite App?
     </EnhancedDialogTitle>
     <DialogContent className={classes.dialogContent}>
       <Typography variant="body1">
-        Context apps, such as Work, School, and Life, are special apps that are not tied to any specific web apps/websites. They let you run multiple web apps in a single well-organized window as independent workspaces which you can switch between easily using keyboard shortcuts. Each workspace is sandboxed, protecting you from cross-website trackers and preserving your privacy.
+        Multisite apps, such as Work, School, and Life, are special apps that are not tied to any specific web apps/websites. They let you run multiple web apps in a single well-organized window as independent workspaces which you can switch between easily using keyboard shortcuts. Each workspace is sandboxed, protecting you from cross-website trackers and preserving your privacy.
       </Typography>
       <br />
       <Typography variant="body1">
@@ -77,16 +77,16 @@ const DialogContextAppHelp = ({
         >
           Atomery
         </span>
-        <span>, in fact, each context app works similarly to an independent Singlebox instance.</span>
+        <span>, in fact, each multisite app works similarly to an independent Singlebox instance.</span>
       </Typography>
       <br />
       <Typography variant="body1">
-        <b>Is it possible to create custom context apps?</b>
-        <span>&nbsp;Yes, it is possible. When creating custom apps, just check the box &quot;Don&apos;t specify a URL&quot;.</span>
+        <b>Is it possible to create custom multisite apps?</b>
+        <span>&nbsp;Yes, it is possible. Simply choose Create Custom App &gt; Create Multisite App.</span>
       </Typography>
       <br />
       <Typography variant="body2">
-        Context apps always use Electron browser engine regardless of your preference.
+        Multisite apps always use Electron browser engine regardless of your preference.
       </Typography>
     </DialogContent>
   </Dialog>

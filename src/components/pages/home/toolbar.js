@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import AddIcon from '@material-ui/icons/Add';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import HelpIcon from '@material-ui/icons/Help';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -18,6 +19,7 @@ import StatedMenu from '../../shared/stated-menu';
 import { requestOpenInBrowser } from '../../../senders';
 
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
+import { open as openDialogContextAppHelp } from '../../../state/dialog-context-app-help/actions';
 import { resetThenGetHits } from '../../../state/home/actions';
 
 const styles = (theme) => ({
@@ -49,12 +51,16 @@ const styles = (theme) => ({
   actionButton: {
     marginLeft: theme.spacing(1),
   },
+  helpButton: {
+    marginLeft: theme.spacing(1),
+  },
 });
 
 const Toolbar = ({
   classes,
   currentQuery,
   onOpenDialogCreateCustomApp,
+  onOpenDialogContextAppHelp,
   onResetThenGetHits,
 }) => (
   <div className={classes.root}>
@@ -69,14 +75,45 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
-      <Button
-        className={classes.actionButton}
-        size="small"
-        startIcon={<AddIcon />}
-        onClick={onOpenDialogCreateCustomApp}
+      <StatedMenu
+        id="more-options"
+        buttonElement={(
+          <Button
+            className={classes.actionButton}
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Create Custom App
+          </Button>
+        )}
       >
-        Create Custom App
-      </Button>
+        <MenuItem
+          dense
+          onClick={() => onOpenDialogCreateCustomApp()}
+        >
+          Create Standard App
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          dense
+          onClick={() => onOpenDialogCreateCustomApp({ urlDisabled: true })}
+        >
+          Create Multisite App
+          <Tooltip title="What is this?" placement="right">
+            <IconButton
+              size="small"
+              aria-label="What is this?"
+              classes={{ root: classes.helpButton }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenDialogContextAppHelp();
+              }}
+            >
+              <HelpIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </MenuItem>
+      </StatedMenu>
       <StatedMenu
         id="more-options"
         buttonElement={(
@@ -116,12 +153,14 @@ Toolbar.defaultProps = {
 Toolbar.propTypes = {
   classes: PropTypes.object.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onResetThenGetHits: PropTypes.func.isRequired,
   currentQuery: PropTypes.string,
 };
 
 const actionCreators = {
   openDialogCreateCustomApp,
+  openDialogContextAppHelp,
   resetThenGetHits,
 };
 

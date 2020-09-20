@@ -43,7 +43,7 @@ export const create = () => (dispatch, getState) => {
 export const open = (id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
-  // context app is only supported with Electron
+  // multisite app is only supported with Electron
   if (!url) {
     dispatch(updateForm({
       engine: 'electron',

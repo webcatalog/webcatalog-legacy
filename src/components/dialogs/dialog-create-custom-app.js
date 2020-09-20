@@ -8,14 +8,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 
 import HelpIcon from '@material-ui/icons/Help';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -98,7 +94,19 @@ const DialogCreateCustomApp = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Create Custom App
+        {`Create Custom ${urlDisabled ? 'Multisite App' : 'App'}`}
+        {urlDisabled && (
+          <Tooltip title="What is this?" placement="right">
+            <IconButton
+              size="small"
+              aria-label="What is this?"
+              classes={{ root: classes.helpButton }}
+              onClick={onOpenDialogContextAppHelp}
+            >
+              <HelpIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        )}
       </EnhancedDialogTitle>
       <DialogContent>
         <TextField
@@ -111,44 +119,19 @@ const DialogCreateCustomApp = (props) => {
           value={name}
           error={Boolean(nameError)}
         />
-        <TextField
-          fullWidth
-          id="url"
-          label="URL"
-          helperText={urlError}
-          margin="normal"
-          onChange={(e) => onUpdateForm({ url: e.target.value })}
-          value={urlDisabled ? 'No URL specified.' : url}
-          disabled={urlDisabled}
-          error={Boolean(urlError)}
-        />
-        <FormControlLabel
-          control={(
-            <Checkbox
-              icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-              checkedIcon={<CheckBoxIcon fontSize="small" />}
-              onChange={(e) => {
-                onUpdateForm({ urlDisabled: e.target.checked });
-              }}
-              checked={urlDisabled}
-            />
-          )}
-          label={(
-            <>
-              <span>Don&apos;t specify a URL</span>
-              <Tooltip title="What is this?" placement="right">
-                <IconButton
-                  size="small"
-                  aria-label="What is this?"
-                  classes={{ root: classes.helpButton }}
-                  onClick={onOpenDialogContextAppHelp}
-                >
-                  <HelpIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </>
-          )}
-        />
+        {!urlDisabled && (
+          <TextField
+            fullWidth
+            id="url"
+            label="URL"
+            helperText={urlError}
+            margin="normal"
+            onChange={(e) => onUpdateForm({ url: e.target.value })}
+            value={urlDisabled ? 'No URL specified.' : url}
+            disabled={urlDisabled}
+            error={Boolean(urlError)}
+          />
+        )}
         <Grid container spacing={1} className={classes.grid}>
           <Grid item xs={12} sm="auto">
             <div className={classes.iconContainer}>
