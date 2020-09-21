@@ -28,7 +28,6 @@ export const getHits = () => (dispatch, getState) => {
   appsIndex.search(currentQuery, {
     page: page + 1,
     hitsPerPage: 28,
-    filters: 'type:standard',
   })
     .then((res) => {
       // validate to make sure this request is not from older query
