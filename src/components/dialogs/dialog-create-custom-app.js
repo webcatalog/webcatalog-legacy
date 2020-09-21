@@ -17,12 +17,15 @@ import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 
 import {
+  requestOpenInBrowser,
+} from '../../senders';
+
+import {
   close,
   create,
   getIconFromInternet,
   updateForm,
 } from '../../state/dialog-create-custom-app/actions';
-import { open as openDialogContextAppHelp } from '../../state/dialog-context-app-help/actions';
 
 import defaultIcon from '../../assets/default-icon.png';
 
@@ -70,7 +73,6 @@ const DialogCreateCustomApp = (props) => {
     onClose,
     onCreate,
     onGetIconFromInternet,
-    onOpenDialogContextAppHelp,
     onUpdateForm,
     open,
     url,
@@ -101,7 +103,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               aria-label="What is this?"
               classes={{ root: classes.helpButton }}
-              onClick={onOpenDialogContextAppHelp}
+              onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps')}
             >
               <HelpIcon fontSize="small" />
             </IconButton>
@@ -222,7 +224,6 @@ DialogCreateCustomApp.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onGetIconFromInternet: PropTypes.func.isRequired,
-  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
@@ -263,7 +264,6 @@ const actionCreators = {
   close,
   create,
   getIconFromInternet,
-  openDialogContextAppHelp,
   updateForm,
 };
 
