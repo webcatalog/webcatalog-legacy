@@ -5,7 +5,6 @@ import appManagement from './app-management/reducers';
 import dialogAbout from './dialog-about/reducers';
 import dialogCatalogAppDetails from './dialog-catalog-app-details/reducers';
 import dialogChooseEngine from './dialog-choose-engine/reducers';
-import dialogContextAppHelp from './dialog-context-app-help/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogEditApp from './dialog-edit-app/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
@@ -25,7 +24,6 @@ const rootReducer = combineReducers({
   dialogAbout,
   dialogCatalogAppDetails,
   dialogChooseEngine,
-  dialogContextAppHelp,
   dialogCreateCustomApp,
   dialogEditApp,
   dialogLicenseRegistration,

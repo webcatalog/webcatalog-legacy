@@ -41,7 +41,6 @@ import { updateApp } from '../../state/app-management/actions';
 import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
-import { open as openDialogContextAppHelp } from '../../state/dialog-context-app-help/actions';
 import { open as openDialogCatalogAppDetails } from '../../state/dialog-catalog-app-details/actions';
 
 import InstallationProgress from './installation-progress';
@@ -115,7 +114,6 @@ const AppCard = (props) => {
     latestTemplateVersion,
     name,
     onOpenDialogChooseEngine,
-    onOpenDialogContextAppHelp,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
     onOpenDialogCatalogAppDetails,
@@ -219,7 +217,7 @@ const AppCard = (props) => {
           title={url}
           variant="body2"
         >
-          {url ? extractHostname(url) : '-'}
+          {url ? extractHostname(url) : 'Multisite App'}
         </Typography>
 
         <div className={classes.actionContainer}>
@@ -231,7 +229,7 @@ const AppCard = (props) => {
               size="small"
               aria-label="What is this?"
               classes={{ root: classes.topLeft }}
-              onClick={onOpenDialogContextAppHelp}
+              onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps')}
             >
               <HelpIcon fontSize="small" />
             </IconButton>
@@ -358,7 +356,6 @@ AppCard.propTypes = {
   name: PropTypes.string.isRequired,
   onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
-  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
@@ -388,7 +385,6 @@ const mapStateToProps = (state, ownProps) => {
 const actionCreators = {
   openDialogCatalogAppDetails,
   openDialogChooseEngine,
-  openDialogContextAppHelp,
   openDialogCreateCustomApp,
   openDialogEditApp,
   updateApp,

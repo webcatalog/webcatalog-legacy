@@ -19,7 +19,6 @@ import StatedMenu from '../../shared/stated-menu';
 import { requestOpenInBrowser } from '../../../senders';
 
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
-import { open as openDialogContextAppHelp } from '../../../state/dialog-context-app-help/actions';
 import { resetThenGetHits } from '../../../state/home/actions';
 
 const styles = (theme) => ({
@@ -60,7 +59,6 @@ const Toolbar = ({
   classes,
   currentQuery,
   onOpenDialogCreateCustomApp,
-  onOpenDialogContextAppHelp,
   onResetThenGetHits,
 }) => (
   <div className={classes.root}>
@@ -106,7 +104,7 @@ const Toolbar = ({
               classes={{ root: classes.helpButton }}
               onClick={(e) => {
                 e.stopPropagation();
-                onOpenDialogContextAppHelp();
+                requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps');
               }}
             >
               <HelpIcon fontSize="small" />
@@ -153,14 +151,12 @@ Toolbar.defaultProps = {
 Toolbar.propTypes = {
   classes: PropTypes.object.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
-  onOpenDialogContextAppHelp: PropTypes.func.isRequired,
   onResetThenGetHits: PropTypes.func.isRequired,
   currentQuery: PropTypes.string,
 };
 
 const actionCreators = {
   openDialogCreateCustomApp,
-  openDialogContextAppHelp,
   resetThenGetHits,
 };
 
