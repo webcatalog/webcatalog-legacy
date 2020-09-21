@@ -29,8 +29,6 @@ import SubmitAppCard from './submit-app-card';
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
 
-import CONTEXT_APPS from '../../../constants/context-apps';
-
 const styles = (theme) => ({
   root: {
     flex: 1,
@@ -154,9 +152,7 @@ const Home = ({
     }
 
     const hasNextPage = page + 1 < totalPage;
-    // 3 additional special items (Work, School, Life) when not searching
-    const additionalItemCount = currentQuery.length === 0 ? CONTEXT_APPS.length : 0;
-    const itemCount = hits.length + additionalItemCount + 2;
+    const itemCount = hits.length + 2;
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     const rowHeight = 158 + 16;
@@ -167,28 +163,7 @@ const Home = ({
     // total window height - (titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40)
     const scrollHeight = innerHeight - 116 - (window.process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
     const Cell = ({ columnIndex, rowIndex, style }) => {
-      const index = rowIndex * columnCount + columnIndex - additionalItemCount;
-
-      if (index < 0) {
-        const contextAppIndex = index + additionalItemCount;
-        const contextApp = CONTEXT_APPS[contextAppIndex];
-        return (
-          <div className={classes.cardContainer} style={style}>
-            <AppCard
-              key={contextApp.id}
-              id={contextApp.id}
-              name={contextApp.name}
-              url={null}
-              icon={window.process.platform === 'win32' // use unplated icon for Windows
-                ? `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-unplated.png`
-                : `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon.png`}
-              icon128={window.process.platform === 'win32' // use unplated icon for Windows
-                ? `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-unplated-128.webp`
-                : `https://storage.atomery.com/webcatalog/catalog/${contextApp.id}/${contextApp.id}-icon-128.webp`}
-            />
-          </div>
-        );
-      }
+      const index = rowIndex * columnCount + columnIndex;
 
       if (index === hits.length) {
         if (isGetting) {
