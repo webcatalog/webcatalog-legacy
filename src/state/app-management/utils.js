@@ -22,7 +22,7 @@ export const isOutdatedApp = (id, state) => {
 
   // check if lite app is installed using forked-script-lite-v1 (outdated)
   if (apps[id].engine !== 'firefox'
-    && window.process.platform === 'darwin' && semver.lt(v, '2.1.0')) {
+    && window.process.platform === 'darwin' && semver.lt(v, '2.2.0')) {
     return true;
   }
 
