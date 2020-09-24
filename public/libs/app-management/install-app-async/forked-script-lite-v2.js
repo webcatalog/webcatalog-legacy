@@ -320,7 +320,7 @@ if [ -n "$pgrepResult" ]; then
   exit
 fi
 
-exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type  --args --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           return fsExtra.outputFile(execFilePath, execFileContent)
             .then(() => fsExtra.chmod(execFilePath, '755'));
@@ -435,7 +435,7 @@ exec "$PWD"/${addSlash(name)}.app/Contents/MacOS/${addSlash(browserConstants[bro
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '2.1.0',
+      version: '2.2.0',
     });
     return fsExtra.writeFileSync(packageJsonPath, packageJson);
   })
