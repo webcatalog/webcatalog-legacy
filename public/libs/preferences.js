@@ -30,6 +30,7 @@ const defaultPreferences = {
   hideEnginePrompt: true,
   hideMenuBar: false,
   installationPath: getDefaultInstallationPath(),
+  licenseKey: null,
   preferredEngine: 'electron',
   proxyBypassRules: '',
   proxyPacScript: '',
