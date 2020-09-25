@@ -373,7 +373,6 @@ const EngineList = ({
     )}
     {window.process.platform !== 'linux' && (
       <ListItem
-
         button
         onClick={() => {
           if (engine.startsWith('edge')) return;
