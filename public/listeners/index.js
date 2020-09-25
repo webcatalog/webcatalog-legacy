@@ -160,8 +160,12 @@ const loadListeners = () => {
             send(e.sender, 'remove-app', id);
           })
           .catch((error) => {
-            captureException(error);
-            send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
+            if (error.message === 'Application is in use.') {
+              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name} as the application is in use.`, 'error');
+            } else {
+              captureException(error);
+              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
+            }
             send(e.sender, 'set-app', id, {
               status: 'INSTALLED',
             });

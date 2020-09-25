@@ -23,7 +23,7 @@
     "email": "quang.lam@atomery.com"
   },
   "dependencies": {
-    "@sentry/electron": "2.0.0",
+    "@sentry/electron": "2.0.1",
     "axios": "0.20.0",
     "blueimp-md5": "2.18.0",
     "cheerio": "1.0.0-rc.3",
@@ -72,7 +72,7 @@
     "eslint-config-airbnb": "18.2.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jsx-a11y": "6.3.1",
-    "eslint-plugin-react": "7.20.6",
+    "eslint-plugin-react": "7.21.2",
     "eslint-plugin-react-hooks": "1.7.0",
     "notistack": "1.0.0",
     "prop-types": "15.7.2",
@@ -86,7 +86,7 @@
     "redux-thunk": "2.3.0",
     "typeface-roboto": "0.0.75",
     "wait-on": "5.2.0",
-    "worker-loader": "3.0.2"
+    "worker-loader": "3.0.3"
   },
   "homepage": "./",
   "private": true,
