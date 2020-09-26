@@ -378,12 +378,10 @@ const loadListeners = () => {
   // Register an event listener.
   // When ipcRenderer sends mouse click co-ordinates, show menu at that position.
   // https://dev.to/saisandeepvaddi/creating-a-custom-menu-bar-in-electron-1pi3
-  ipcMain.on('request-show-menu', (e, args) => {
-    if (process.platform === 'win32') {
-      const win = mainWindow.get();
-      if (win) {
-        showMenu(win, args.x, args.y);
-      }
+  ipcMain.on('request-show-app-menu', (e, x, y) => {
+    const win = mainWindow.get();
+    if (win) {
+      showMenu(win, x, y);
     }
   });
 };

@@ -16,7 +16,7 @@ import HelpIcon from '@material-ui/icons/Help';
 
 import StatedMenu from '../../shared/stated-menu';
 
-import { requestOpenInBrowser } from '../../../senders';
+import { requestOpenInBrowser, requestShowAppMenu } from '../../../senders';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -58,7 +58,19 @@ const DefinedAppBar = ({
 }) => (
   <AppBar position="static" className={classes.appBar}>
     <Toolbar variant="dense" className={classes.toolbar}>
-      <div className={classes.left} />
+      <div className={classes.left}>
+        <Tooltip title="Menu">
+          <IconButton
+            size="small"
+            color="inherit"
+            aria-label="More"
+            className={classes.actionButton}
+            onClick={(e) => requestShowAppMenu(e.x, e.y)}
+          >
+            <MoreVertIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </div>
       <div className={classes.center}>
         <SearchBox />
       </div>
