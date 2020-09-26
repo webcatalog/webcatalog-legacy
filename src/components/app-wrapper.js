@@ -45,6 +45,8 @@ class AppWrapper extends React.Component {
 
     const themeObj = {
       typography: {
+        /* System Fonts as used by Medium and WordPress */
+        fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
         fontSize: 13.5,
       },
       palette: {

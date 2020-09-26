@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import 'typeface-roboto/index.css';
-
 import './index.css';
 
 import store from './state';

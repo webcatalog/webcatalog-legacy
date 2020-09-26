@@ -84,7 +84,6 @@
     "react-window-infinite-loader": "1.0.5",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "typeface-roboto": "0.0.75",
     "wait-on": "5.2.0",
     "worker-loader": "3.0.3"
   },
