@@ -22,8 +22,8 @@ import AppCard from '../../shared/app-card';
 import NoConnection from '../../shared/no-connection';
 import EmptyState from '../../shared/empty-state';
 
-import SearchBox from './search-box';
-import Toolbar from './toolbar';
+import DefinedAppBar from './defined-app-bar';
+import InfoBar from './info-bar';
 import SubmitAppCard from './submit-app-card';
 
 import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
@@ -70,6 +70,13 @@ const styles = (theme) => ({
   },
   fixedSizeGrid: {
     overflowX: 'hidden !important',
+  },
+  appBar: {
+    WebkitAppRegion: 'drag',
+    WebkitUserSelect: 'none',
+  },
+  toolbar: {
+    minHeight: 40,
   },
 });
 
@@ -160,8 +167,8 @@ const Home = ({
     const columnCount = Math.floor(innerWidthMinurScrollbar / 184); // leave 30px for scrollbar
     const rowCount = Math.ceil(itemCount / columnCount);
     const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
-    // total window height - (titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40)
-    const scrollHeight = innerHeight - 116 - (window.process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
+    // total window height - (searchbox: 40, toolbar: 36, bottom nav: 40)
+    const scrollHeight = innerHeight - 80 - (currentQuery.length > 0 ? 36 : 0);
     const Cell = ({ columnIndex, rowIndex, style }) => {
       const index = rowIndex * columnCount + columnIndex;
 
@@ -295,15 +302,11 @@ const Home = ({
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <SearchBox />
-        </Grid>
-      </Grid>
+      <DefinedAppBar />
       <div
         className={classes.scrollContainer}
       >
-        <Toolbar />
+        <InfoBar />
         <Divider />
         {renderContent()}
       </div>

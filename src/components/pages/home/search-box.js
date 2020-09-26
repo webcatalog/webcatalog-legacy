@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import { fade } from '@material-ui/core/styles';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -15,18 +16,21 @@ import { updateQuery } from '../../../state/home/actions';
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
-    flex: 1,
     zIndex: 10,
     position: 'relative',
-    borderRadius: 0,
+    borderRadius: 6,
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
+    backgroundColor: theme.palette.primary.dark,
+    color: fade(theme.palette.common.white, 0.88),
+    maxWidth: 480,
+    margin: '0 auto',
   },
   toolbarSectionSearch: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    height: 40,
+    height: 28,
     margin: '0 auto',
   },
   searchBarText: {
@@ -48,20 +52,18 @@ const styles = (theme) => ({
     whiteSpace: 'normal',
     background: 'none',
     margin: 0,
-    color: theme.palette.text.primary,
+    color: 'inherit',
     width: '100%',
     '&:focus': {
       outline: 0,
     },
     '&::placeholder': {
-      color: theme.palette.text.secondary,
+      color: fade(theme.palette.common.white, 0.3),
     },
   },
   searchIcon: {
     paddingRight: 6,
-    fill: theme.palette.text.primary,
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
+    fill: theme.palette.common.white,
   },
   searchButton: {
     [theme.breakpoints.up('md')]: {
@@ -104,7 +106,7 @@ class SearchBox extends React.Component {
         {query.length > 0 && (
           <Tooltip title="Clear search" placement="left">
             <IconButton
-              color="default"
+              color="inherit"
               size="small"
               aria-label="Clear search"
               onClick={() => onUpdateQuery('')}
@@ -117,7 +119,7 @@ class SearchBox extends React.Component {
     );
 
     return (
-      <Paper elevation={1} className={classes.toolbarSearchContainer}>
+      <Paper elevation={0} className={classes.toolbarSearchContainer}>
         <div className={classes.toolbarSectionSearch}>
           <SearchIcon
             className={classes.searchIcon}

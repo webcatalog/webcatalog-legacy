@@ -32,7 +32,7 @@ const createAsync = () => new Promise((resolve) => {
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
       file: 'window-state-menubar.json',
-      defaultWidth: 480,
+      defaultWidth: 600,
       defaultHeight: 500,
     });
 
@@ -55,7 +55,7 @@ const createAsync = () => new Promise((resolve) => {
         y: menubarWindowState.y,
         width: menubarWindowState.width,
         height: menubarWindowState.height,
-        minWidth: 480,
+        minWidth: 600,
         minHeight: 500,
         webPreferences: {
           enableRemoteModule: true,
@@ -164,9 +164,9 @@ const createAsync = () => new Promise((resolve) => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 480,
+    minWidth: 600,
     minHeight: 500,
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : undefined,
     autoHideMenuBar: getPreference('hideMenuBar'),
     show: false,

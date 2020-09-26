@@ -53,8 +53,8 @@ class AppWrapper extends React.Component {
         type: shouldUseDarkColors ? 'dark' : 'light',
         primary: {
           light: blue[300],
-          main: blue[600],
-          dark: blue[800],
+          main: blue[700],
+          dark: blue[900],
         },
         secondary: {
           light: red[300],

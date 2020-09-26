@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 
 import connectComponent from '../helpers/connect-component';
 
-import FakeTitleBar from './root/fake-title-bar';
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
 import SnackbarTrigger from './root/snackbar-trigger';
 
@@ -72,7 +71,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, isFullScreen, route } = this.props;
+    const { classes, route } = this.props;
     let pageContent;
     switch (route) {
       case ROUTE_PREFERENCES:
@@ -111,7 +110,6 @@ class App extends React.Component {
         )}
       >
         <div className={classes.root}>
-          {!isFullScreen && window.process.platform === 'darwin' && window.mode !== 'menubar' && <FakeTitleBar />}
           {pageContent}
           <DialogAbout />
           <DialogChooseEngine />
@@ -132,7 +130,6 @@ class App extends React.Component {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  isFullScreen: PropTypes.bool.isRequired,
   route: PropTypes.string.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
 };

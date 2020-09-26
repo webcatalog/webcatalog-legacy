@@ -18,6 +18,8 @@ const FakeTitleBar = (props) => {
     color,
   } = props;
 
+  return null;
+
   return (
     <div
       className={classes.root}
