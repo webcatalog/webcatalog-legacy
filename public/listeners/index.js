@@ -30,7 +30,7 @@ const {
   setSystemPreference,
 } = require('../libs/system-preferences');
 
-const createMenu = require('../libs/create-menu');
+const { createMenu, showMenu } = require('../libs/create-menu');
 
 const mainWindow = require('../windows/main');
 
@@ -373,6 +373,18 @@ const loadListeners = () => {
   // Native Theme
   ipcMain.on('get-should-use-dark-colors', (e) => {
     e.returnValue = nativeTheme.shouldUseDarkColors;
+  });
+
+  // Register an event listener.
+  // When ipcRenderer sends mouse click co-ordinates, show menu at that position.
+  // https://dev.to/saisandeepvaddi/creating-a-custom-menu-bar-in-electron-1pi3
+  ipcMain.on('display-app-menu', (e, args) => {
+    if (process.platform === 'win32') {
+      const win = mainWindow.get();
+      if (win) {
+        showMenu(win, args.x, args.y);
+      }
+    }
   });
 };
 

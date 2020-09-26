@@ -2,7 +2,7 @@ const { app, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const sendToAllWindows = require('./send-to-all-windows');
-const createMenu = require('./create-menu');
+const { createMenu } = require('./create-menu');
 
 const mainWindow = require('../windows/main');
 
