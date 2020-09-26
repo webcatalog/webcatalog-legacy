@@ -27,7 +27,7 @@ import SearchBox from './search-box';
 
 const styles = (theme) => ({
   appBar: {
-    appRegion: 'drag',
+    WebkitAppRegion: 'drag',
     userSelect: 'none',
   },
   toolbar: {
@@ -49,6 +49,9 @@ const styles = (theme) => ({
     width: 200,
     textAlign: 'right',
   },
+  button: {
+    WebkitAppRegion: 'no-drag',
+  },
 });
 
 const DefinedAppBar = ({
@@ -64,7 +67,7 @@ const DefinedAppBar = ({
             size="small"
             color="inherit"
             aria-label="More"
-            className={classes.actionButton}
+            className={classes.button}
             onClick={(e) => requestShowAppMenu(e.x, e.y)}
           >
             <MoreVertIcon fontSize="small" />
@@ -79,7 +82,7 @@ const DefinedAppBar = ({
           id="more-options"
           buttonElement={(
             <Button
-              className={classes.actionButton}
+              className={classes.button}
               color="inherit"
               size="small"
               startIcon={<AddIcon />}
