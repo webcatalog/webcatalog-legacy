@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -61,7 +60,7 @@ const styles = (theme) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(2),
   },
-  centeringCircularProgress: {
+  centeringLoading: {
     height: '100%',
     width: '100%',
     display: 'flex',
@@ -134,8 +133,14 @@ const Home = ({
 
     if (isGetting && hits.length < 1) {
       return (
-        <div className={classes.centeringCircularProgress}>
-          <CircularProgress size={28} />
+        <div className={classes.centeringLoading}>
+          <Typography
+            variant="body2"
+            align="center"
+            color="textSecondary"
+          >
+            Loading...
+          </Typography>
         </div>
       );
     }
@@ -176,7 +181,13 @@ const Home = ({
         if (isGetting) {
           return (
             <div className={classes.cardContainer} style={style}>
-              <CircularProgress size={28} />
+              <Typography
+                variant="body2"
+                align="center"
+                color="textSecondary"
+              >
+                Loading...
+              </Typography>
             </div>
           );
         }

@@ -49,9 +49,6 @@ const styles = (theme) => ({
     width: 200,
     textAlign: 'right',
   },
-  actionButton: {
-    cursor: 'pointer',
-  },
 });
 
 const DefinedAppBar = ({
@@ -73,6 +70,7 @@ const DefinedAppBar = ({
               className={classes.actionButton}
               color="inherit"
               size="small"
+              startIcon={<AddIcon />}
             >
               Create Custom App
             </Button>
