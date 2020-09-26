@@ -21,10 +21,11 @@ const styles = (theme) => ({
     borderRadius: 6,
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : theme.palette.primary.dark,
     color: fade(theme.palette.common.white, 0.88),
     maxWidth: 480,
     margin: '0 auto',
+    WebkitAppRegion: 'no-drag',
   },
   toolbarSectionSearch: {
     alignItems: 'center',

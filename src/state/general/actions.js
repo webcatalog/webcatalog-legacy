@@ -1,13 +1,19 @@
 import semver from 'semver';
 
 import {
-  UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_IS_FULL_SCREEN,
-  UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
-  UPDATE_MOVING_ALL_APPS,
   UPDATE_INSTALLATION_PROGRESS,
+  UPDATE_IS_FULL_SCREEN,
+  UPDATE_IS_MAXIMIZED,
+  UPDATE_LATEST_TEMPLATE_VERSION,
+  UPDATE_MOVING_ALL_APPS,
+  UPDATE_SHOULD_USE_DARK_COLORS,
 } from '../../constants/actions';
+
+export const updateIsMaximized = (isMaximized) => ({
+  type: UPDATE_IS_MAXIMIZED,
+  isMaximized,
+});
 
 export const updateIsFullScreen = (isFullScreen) => ({
   type: UPDATE_IS_FULL_SCREEN,

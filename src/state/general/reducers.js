@@ -1,19 +1,29 @@
 import { combineReducers } from 'redux';
 
 import {
-  UPDATE_SHOULD_USE_DARK_COLORS,
-  UPDATE_IS_FULL_SCREEN,
-  UPDATE_LATEST_TEMPLATE_VERSION,
   UPDATE_FETCHING_LATEST_TEMPLATE_VERSION,
-  UPDATE_MOVING_ALL_APPS,
   UPDATE_INSTALLATION_PROGRESS,
+  UPDATE_IS_FULL_SCREEN,
+  UPDATE_IS_MAXIMIZED,
+  UPDATE_LATEST_TEMPLATE_VERSION,
+  UPDATE_MOVING_ALL_APPS,
+  UPDATE_SHOULD_USE_DARK_COLORS,
 } from '../../constants/actions';
 
 import {
   getShouldUseDarkColors,
 } from '../../senders';
 
-const isFullScreen = (state = window.remote.getCurrentWindow().isFullScreen(), action) => {
+const win = window.remote.getCurrentWindow();
+
+const isMaximized = (state = win.isMaximized(), action) => {
+  switch (action.type) {
+    case UPDATE_IS_MAXIMIZED: return action.isMaximized;
+    default: return state;
+  }
+};
+
+const isFullScreen = (state = win.isFullScreen(), action) => {
   switch (action.type) {
     case UPDATE_IS_FULL_SCREEN: return action.isFullScreen;
     default: return state;
@@ -59,10 +69,11 @@ const installationProgress = (state = {}, action) => {
 };
 
 export default combineReducers({
-  shouldUseDarkColors,
-  isFullScreen,
-  latestTemplateVersion,
   fetchingLatestTemplateVersion,
-  movingAllApps,
   installationProgress,
+  isFullScreen,
+  isMaximized,
+  latestTemplateVersion,
+  movingAllApps,
+  shouldUseDarkColors,
 });

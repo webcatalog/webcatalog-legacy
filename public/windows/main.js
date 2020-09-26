@@ -192,6 +192,20 @@ const createAsync = () => new Promise((resolve) => {
     win = null;
   });
 
+  win.on('enter-full-screen', () => {
+    win.webContents.send('set-is-full-screen', true);
+  });
+  win.on('leave-full-screen', () => {
+    win.webContents.send('set-is-full-screen', false);
+  });
+
+  win.on('maximize', () => {
+    win.webContents.send('set-is-maximized', true);
+  });
+  win.on('unmaximize', () => {
+    win.webContents.send('set-is-maximized', false);
+  });
+
   // ensure redux is loaded first
   // if not, redux might not be able catch changes sent from ipcMain
   win.webContents.once('did-stop-loading', () => {

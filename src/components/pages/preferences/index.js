@@ -51,7 +51,7 @@ import {
 import webcatalogIconPng from '../../../assets/webcatalog-icon.png';
 import translatiumIconPng from '../../../assets/translatium-icon.png';
 import singleboxIconPng from '../../../assets/singlebox-icon.png';
-import switchbarIconPng from '../../../assets/switchbar-icon.png';
+// import switchbarIconPng from '../../../assets/switchbar-icon.png';
 
 import DefinedAppBar from './defined-app-bar';
 
@@ -738,6 +738,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              {/*
               <ListItem
                 button
                 onClick={() => requestOpenInBrowser('https://atomery.com/switchbar?utm_source=webcatalog_app')}
@@ -761,6 +762,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              */}
               <ListItem
                 button
                 onClick={() => requestOpenInBrowser('https://atomery.com/translatium?utm_source=webcatalog_app')}
