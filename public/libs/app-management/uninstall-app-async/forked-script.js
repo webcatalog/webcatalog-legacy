@@ -4,6 +4,7 @@ const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
 const { exec } = require('child_process');
 const registryInstaller = require('../registry-installer');
+const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const {
   appDataPath,
@@ -68,6 +69,15 @@ const dotAppPath = process.platform === 'darwin'
   : path.join(installationPath.replace('~', homePath), `${name}`);
 
 Promise.resolve()
+  .then(() => {
+    if (process.platform === 'win32') {
+      return checkPathInUseAsync(dotAppPath);
+    }
+    // skip this check on Mac & Linux
+    // as on Unix, it's possible to replace files even when running
+    // https://askubuntu.com/questions/44339/how-does-updating-running-application-binaries-during-an-upgrade-work
+    return false;
+  })
   .then(async () => {
     // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
     // need to correct to user to install apps without sudo
