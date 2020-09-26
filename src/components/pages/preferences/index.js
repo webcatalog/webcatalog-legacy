@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import BuildIcon from '@material-ui/icons/Build';
@@ -55,6 +53,8 @@ import translatiumIconPng from '../../../assets/translatium-icon.png';
 import singleboxIconPng from '../../../assets/singlebox-icon.png';
 import switchbarIconPng from '../../../assets/switchbar-icon.png';
 
+import DefinedAppBar from './defined-app-bar';
+
 const styles = (theme) => ({
   root: {
     flex: 1,
@@ -63,18 +63,6 @@ const styles = (theme) => ({
     overflow: 'hidden',
     WebkitAppRegion: 'drag',
     WebkitUserSelect: 'none',
-  },
-  appBar: {
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
-  },
-  toolbar: {
-    minHeight: 40,
-  },
-  title: {
-    flex: 1,
-    textAlign: 'center',
-    color: theme.palette.text.primary,
   },
   scrollContainer: {
     flex: 1,
@@ -278,15 +266,7 @@ const Preferences = ({
 
   return (
     <div className={classes.root}>
-      {window.process.platform === 'darwin' && window.mode !== 'menubar' && (
-      <AppBar position="static" className={classes.appBar} elevation={1} color="inherit">
-        <Toolbar variant="dense" className={classes.toolbar}>
-          <Typography variant="subtitle1" color="inherit" className={classes.title}>
-            Preferences
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      )}
+      <DefinedAppBar />
       <div className={classes.scrollContainer}>
         <div className={classes.sidebar}>
           <List dense>
