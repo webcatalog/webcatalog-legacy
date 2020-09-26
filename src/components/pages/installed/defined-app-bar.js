@@ -27,8 +27,8 @@ import SearchBox from './search-box';
 
 const styles = (theme) => ({
   appBar: {
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
+    appRegion: 'drag',
+    userSelect: 'none',
   },
   toolbar: {
     minHeight: 40,

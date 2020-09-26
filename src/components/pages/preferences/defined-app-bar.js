@@ -12,8 +12,8 @@ import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions'
 
 const styles = (theme) => ({
   appBar: {
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
+    appRegion: 'drag',
+    userSelect: 'none',
   },
   toolbar: {
     minHeight: 40,
