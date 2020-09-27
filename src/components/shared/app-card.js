@@ -60,7 +60,7 @@ const styles = (theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    lineHeight: 1,
+    lineHeight: 'normal',
     marginTop: theme.spacing(1),
     fontWeight: 500,
   },
