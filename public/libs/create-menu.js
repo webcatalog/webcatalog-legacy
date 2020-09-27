@@ -12,7 +12,7 @@ const formatBytes = require('./format-bytes');
 
 const mainWindow = require('../windows/main');
 
-let menu = 0;
+let menu;
 
 const createMenu = () => {
   const registered = getPreference('registered');
