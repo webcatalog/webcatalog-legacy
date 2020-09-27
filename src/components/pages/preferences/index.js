@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -9,6 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
@@ -87,12 +89,12 @@ const styles = (theme) => ({
     [theme.breakpoints.between(800, 928)]: {
       margin: 0,
       float: 'right',
-      maxWidth: 'calc(100% - 220px)',
+      maxWidth: 'calc(100% - 224px)',
     },
   },
   sidebar: {
     position: 'fixed',
-    width: 200,
+    width: 204,
     color: theme.palette.text.primary,
     [theme.breakpoints.down(800)]: {
       display: 'none',
@@ -120,19 +122,21 @@ const styles = (theme) => ({
   appIcon: {
     height: 64,
   },
+  selectRoot: {
+    borderRadius: theme.spacing(0.5),
+    fontSize: '0.84375rem',
+  },
+  selectRootExtraMargin: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  select: {
+    paddingTop: theme.spacing(1),
+    paddingRight: 26,
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1.5),
+  },
 });
-
-const getThemeString = (theme) => {
-  if (theme === 'light') return 'Light';
-  if (theme === 'dark') return 'Dark';
-  return 'System default';
-};
-
-const getOpenAtLoginString = (openAtLogin) => {
-  if (openAtLogin === 'yes-hidden') return 'Yes, but minimized';
-  if (openAtLogin === 'yes') return 'Yes';
-  return 'No';
-};
 
 const getFileManagerName = () => {
   if (window.process.platform === 'darwin') return 'Finder';
@@ -297,19 +301,24 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <StatedMenu
-                id="themeSource"
-                buttonElement={(
-                  <ListItem button>
-                    <ListItemText primary="Theme" secondary={getThemeString(themeSource)} />
-                    <ChevronRightIcon color="action" />
-                  </ListItem>
-                )}
-              >
-                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'system')}>System default</MenuItem>
-                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'light')}>Light</MenuItem>
-                <MenuItem dense onClick={() => requestSetPreference('themeSource', 'dark')}>Dark</MenuItem>
-              </StatedMenu>
+              <ListItem>
+                <ListItemText primary="Theme" />
+                <Select
+                  value={themeSource}
+                  onChange={(e) => requestSetPreference('themeSource', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classNames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="system">System default</MenuItem>
+                  <MenuItem dense value="light">Light</MenuItem>
+                  <MenuItem dense value="dark">Dark</MenuItem>
+                </Select>
+              </ListItem>
               {window.process.platform !== 'darwin' && (
                 <>
                   <Divider />
@@ -427,19 +436,26 @@ const Preferences = ({
               </Typography>
               <Paper elevation={0} className={classes.paper}>
                 <List disablePadding dense>
-                  <StatedMenu
-                    id="openAtLogin"
-                    buttonElement={(
-                      <ListItem button>
-                        <ListItemText primary="Open at login" secondary={getOpenAtLoginString(openAtLogin)} />
-                        <ChevronRightIcon color="action" />
-                      </ListItem>
-                    )}
-                  >
-                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes')}>Yes</MenuItem>
-                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'yes-hidden')}>Yes, but minimized</MenuItem>
-                    <MenuItem dense onClick={() => requestSetSystemPreference('openAtLogin', 'no')}>No</MenuItem>
-                  </StatedMenu>
+                  {window.process.platform !== 'linux' && (
+                    <ListItem>
+                      <ListItemText primary="Open at login" />
+                      <Select
+                        value={openAtLogin}
+                        onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
+                        variant="filled"
+                        disableUnderline
+                        margin="dense"
+                        classes={{
+                          root: classes.select,
+                        }}
+                        className={classNames(classes.selectRoot, classes.selectRootExtraMargin)}
+                      >
+                        <MenuItem dense value="yes">Yes</MenuItem>
+                        <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                        <MenuItem dense value="no">No</MenuItem>
+                      </Select>
+                    </ListItem>
+                  )}
                 </List>
               </Paper>
             </>
