@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -17,7 +16,7 @@ import connectComponent from '../../../helpers/connect-component';
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 
-import SearchBox from './search-box';
+import DefinedAppBar from './defined-app-bar';
 import Toolbar from './toolbar';
 
 import { updateScrollOffset } from '../../../state/installed/actions';
@@ -100,8 +99,8 @@ const Installed = ({
       const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
       const rowCount = Math.ceil(appIds.length / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
-      // total window height - (titlebar: 22, searchbox: 40, toolbar: 36, bottom nav: 40)
-      const scrollHeight = innerHeight - 116 - (window.process.platform === 'darwin' && window.mode !== 'menubar' ? 22 : 0);
+      // total window height - (searchbox: 40, toolbar: 36, bottom nav: 40)
+      const scrollHeight = innerHeight - 80 - (activeQuery.length > 0 ? 36 : 0);
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
@@ -170,11 +169,7 @@ const Installed = ({
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <SearchBox />
-        </Grid>
-      </Grid>
+      <DefinedAppBar />
       <div className={classes.scrollContainer}>
         <Toolbar />
         <Divider />

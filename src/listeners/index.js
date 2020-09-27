@@ -14,8 +14,10 @@ import { open as openDialogLicenseRegistration } from '../state/dialog-license-r
 import { open as openDialogCatalogAppDetails } from '../state/dialog-catalog-app-details/actions';
 import { updateUpdater } from '../state/updater/actions';
 import {
-  updateShouldUseDarkColors,
   updateInstallationProgress,
+  updateIsFullScreen,
+  updateIsMaximized,
+  updateShouldUseDarkColors,
 } from '../state/general/actions';
 import {
   getShouldUseDarkColors,
@@ -83,6 +85,14 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('open-dialog-catalog-app-details', (e, appId) => {
     store.dispatch(openDialogCatalogAppDetails(appId));
+  });
+
+  window.ipcRenderer.on('set-is-full-screen', (e, isFullScreen) => {
+    store.dispatch(updateIsFullScreen(isFullScreen));
+  });
+
+  window.ipcRenderer.on('set-is-maximized', (e, isMaximized) => {
+    store.dispatch(updateIsMaximized(isMaximized));
   });
 };
 

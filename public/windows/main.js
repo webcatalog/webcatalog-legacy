@@ -32,7 +32,7 @@ const createAsync = () => new Promise((resolve) => {
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
       file: 'window-state-menubar.json',
-      defaultWidth: 480,
+      defaultWidth: 600,
       defaultHeight: 500,
     });
 
@@ -55,7 +55,7 @@ const createAsync = () => new Promise((resolve) => {
         y: menubarWindowState.y,
         width: menubarWindowState.width,
         height: menubarWindowState.height,
-        minWidth: 480,
+        minWidth: 600,
         minHeight: 500,
         webPreferences: {
           enableRemoteModule: true,
@@ -164,12 +164,13 @@ const createAsync = () => new Promise((resolve) => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 480,
+    minWidth: 600,
     minHeight: 500,
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : undefined,
     autoHideMenuBar: getPreference('hideMenuBar'),
     show: false,
+    frame: process.platform === 'darwin',
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
@@ -189,6 +190,20 @@ const createAsync = () => new Promise((resolve) => {
 
   win.on('closed', () => {
     win = null;
+  });
+
+  win.on('enter-full-screen', () => {
+    win.webContents.send('set-is-full-screen', true);
+  });
+  win.on('leave-full-screen', () => {
+    win.webContents.send('set-is-full-screen', false);
+  });
+
+  win.on('maximize', () => {
+    win.webContents.send('set-is-maximized', true);
+  });
+  win.on('unmaximize', () => {
+    win.webContents.send('set-is-maximized', false);
   });
 
   // ensure redux is loaded first
