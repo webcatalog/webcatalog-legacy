@@ -41,6 +41,9 @@ const styles = (theme) => ({
     textAlign: 'right',
     boxSizing: 'border-box',
   },
+  noDrag: {
+    WebkitAppRegion: 'no-drag',
+  },
   // https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/src/themebar.ts#L404
   windowsControl: {
     verticalAlign: 'middle',
