@@ -169,6 +169,7 @@ const createMenu = () => {
       label: 'File',
       submenu: [
         {
+          label: 'About',
           click: () => sendToAllWindows('open-dialog-about'),
         },
         { type: 'separator' },

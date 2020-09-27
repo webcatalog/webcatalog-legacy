@@ -18,14 +18,28 @@ const LEFT_RIGHT_WIDTH = window.process.platform === 'win32' ? 160 : 100;
 
 const styles = (theme) => ({
   appBar: {
+    // leave space for resizing cursor
+    // https://github.com/electron/electron/issues/3022
+    padding: 4,
+  },
+  toolbar: {
+    minHeight: 32,
+    paddingLeft: theme.spacing(1) - 6,
+    paddingRight: theme.spacing(1) - 6,
+    display: 'flex',
+    zIndex: 1000,
     WebkitAppRegion: 'drag',
     userSelect: 'none',
   },
-  toolbar: {
-    minHeight: 40,
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    display: 'flex',
+  // https://github.com/electron/electron/issues/3022#issuecomment-543146976
+  dragRegion: {
+    top: 6,
+    left: 6,
+    display: 'block',
+    position: 'absolute',
+    width: 'calc(100% - 12px)',
+    height: 'calc(100% - 6px)',
+    zIndex: -1,
   },
   left: {
     width: LEFT_RIGHT_WIDTH,
@@ -48,7 +62,7 @@ const styles = (theme) => ({
   windowsControl: {
     verticalAlign: 'middle',
     display: 'inline-block',
-    height: 30,
+    height: 32,
     marginLeft: theme.spacing(2),
   },
   windowsIconBg: {
