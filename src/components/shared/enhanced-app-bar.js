@@ -105,85 +105,110 @@ const EnhancedAppBar = ({
   classes,
   isMaximized,
   shouldUseDarkColors,
-}) => (
-  <AppBar
-    position="static"
-    className={classes.appBar}
-    color={shouldUseDarkColors ? 'default' : 'primary'}
-  >
-    <Toolbar variant="dense" className={classes.toolbar}>
-      <div className={classes.left}>
-        {(window.process.platform === 'darwin' && window.mode !== 'menubar') ? null : (
-          <Tooltip title="Menu">
-            <IconButton
-              size="small"
-              color="inherit"
-              aria-label="More"
-              className={classes.noDrag}
-              onClick={(e) => requestShowAppMenu(e.x, e.y)}
-            >
-              <MenuIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-      <div className={classes.center}>
-        {center}
-      </div>
-      <div className={classes.right}>
-        {window.process.platform === 'win32' && (
-          <div className={classes.windowsControl}>
-            <button
-              className={classes.windowsIconBg}
-              type="button"
-              aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
-              onClick={() => {
-                const browserWindow = window.remote.getCurrentWindow();
-                browserWindow.minimize();
-              }}
-            >
-              <div className={classNames(classes.windowsIcon, classes.windowsIconMinimize)} />
-            </button>
-            <button
-              className={classes.windowsIconBg}
-              type="button"
-              aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
-              onClick={() => {
-                const browserWindow = window.remote.getCurrentWindow();
-                if (browserWindow.isMaximized()) {
-                  browserWindow.unmaximize();
-                } else {
-                  browserWindow.maximize();
-                }
-              }}
-            >
-              <div
-                className={classNames(
-                  classes.windowsIcon,
-                  isMaximized && classes.windowsIconUnmaximize,
-                  !isMaximized && classes.windowsIconMaximize,
-                )}
-              />
-            </button>
-            <button
-              className={classes.windowsIconBg}
-              type="button"
-              aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
-              onClick={() => {
-                const browserWindow = window.remote.getCurrentWindow();
-                browserWindow.close();
-              }}
-            >
-              <div
-                className={classNames(classes.windowsIcon, classes.windowsIconClose)}
-              />
-            </button>
-          </div>
-        )}
-      </div>
-    </Toolbar>
-  </AppBar>
-);
+}) => {
+  const onDoubleClick = (e) => {
+    // feature: double click on title bar to expand #656
+    // https://github.com/atomery/webcatalog/issues/656
+    // https://stackoverflow.com/questions/10554446/no-onclick-when-child-is-clicked
+    if (e.target === e.currentTarget) {
+      const win = window.require('electron').remote.getCurrentWindow();
+      if (win.isMaximized()) {
+        win.unmaximize();
+      } else {
+        win.maximize();
+      }
+    }
+  };
+
+  return (
+    <AppBar
+      position="static"
+      className={classes.appBar}
+      color={shouldUseDarkColors ? 'default' : 'primary'}
+    >
+      <Toolbar
+        variant="dense"
+        className={classes.toolbar}
+      >
+        <div className={classes.left} onDoubleClick={onDoubleClick}>
+          {(window.process.platform === 'darwin' && window.mode !== 'menubar') ? null : (
+            <Tooltip title="Menu">
+              <IconButton
+                size="small"
+                color="inherit"
+                aria-label="More"
+                className={classes.noDrag}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  requestShowAppMenu(e.x, e.y);
+                }}
+              >
+                <MenuIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+        <div className={classes.center} onDoubleClick={onDoubleClick}>
+          {center}
+        </div>
+        <div className={classes.right} onDoubleClick={onDoubleClick}>
+          {window.process.platform === 'win32' && (
+            <div className={classes.windowsControl}>
+              <button
+                className={classes.windowsIconBg}
+                type="button"
+                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const browserWindow = window.remote.getCurrentWindow();
+                  browserWindow.minimize();
+                }}
+              >
+                <div className={classNames(classes.windowsIcon, classes.windowsIconMinimize)} />
+              </button>
+              <button
+                className={classes.windowsIconBg}
+                type="button"
+                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const browserWindow = window.remote.getCurrentWindow();
+                  if (browserWindow.isMaximized()) {
+                    browserWindow.unmaximize();
+                  } else {
+                    browserWindow.maximize();
+                  }
+                }}
+              >
+                <div
+                  className={classNames(
+                    classes.windowsIcon,
+                    isMaximized && classes.windowsIconUnmaximize,
+                    !isMaximized && classes.windowsIconMaximize,
+                  )}
+                />
+              </button>
+              <button
+                className={classes.windowsIconBg}
+                type="button"
+                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const browserWindow = window.remote.getCurrentWindow();
+                  browserWindow.close();
+                }}
+              >
+                <div
+                  className={classNames(classes.windowsIcon, classes.windowsIconClose)}
+                />
+              </button>
+            </div>
+          )}
+        </div>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 EnhancedAppBar.defaultProps = {
   center: null,
