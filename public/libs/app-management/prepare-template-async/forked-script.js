@@ -120,6 +120,9 @@ Promise.resolve()
 
       if (fs.pathExistsSync(templatePath)) {
         const templateJsonPath = path.join(templatePath, 'package.json');
+        if (!fs.pathExistsSync(templateJsonPath)) {
+          return true;
+        }
         const templatePackageJson = fs.readJsonSync(templateJsonPath);
         // redundant check as the previous step already wipes out template dir
         // but check anyway to be certain
