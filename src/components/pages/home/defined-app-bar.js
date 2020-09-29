@@ -67,13 +67,13 @@ const DefinedAppBar = ({
             dense
             onClick={() => onOpenDialogCreateCustomApp()}
           >
-            Create Standard App
+            Create Custom Standard App
           </MenuItem>
           <MenuItem
             dense
             onClick={() => onOpenDialogCreateCustomApp({ urlDisabled: true })}
           >
-            Create Multisite App
+            Create Custom Multisite App
             <Tooltip title="What is this?" placement="right">
               <IconButton
                 size="small"
