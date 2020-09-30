@@ -27,10 +27,10 @@ const getTagNameAsync = () => Promise.resolve()
           let stableVersion;
           let prereleaseVersion;
           const p = [
-            customizedFetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+            customizedFetch('https://webcatalog.app/juli/releases/latest.json')
               .then((res) => res.json())
               .then((data) => { stableVersion = data.version; }),
-            customizedFetch('https://atomery.com/webcatalog/juli/releases/prerelease.json')
+            customizedFetch('https://webcatalog.app/juli/releases/prerelease.json')
               .then((res) => res.json())
               .then((data) => { prereleaseVersion = data.version; }),
           ];
@@ -45,7 +45,7 @@ const getTagNameAsync = () => Promise.resolve()
         .then((version) => `v${version}`);
     }
 
-    return customizedFetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+    return customizedFetch('https://webcatalog.app/juli/releases/latest.json')
       .then((res) => res.json())
       .then((data) => `v${data.version}`);
   });

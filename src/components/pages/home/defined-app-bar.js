@@ -81,7 +81,7 @@ const DefinedAppBar = ({
                 classes={{ root: classNames(classes.helpButton, classes.noDrag) }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps');
+                  requestOpenInBrowser('https://webcatalog.app/multisite-apps');
                 }}
               >
                 <HelpIcon fontSize="small" />

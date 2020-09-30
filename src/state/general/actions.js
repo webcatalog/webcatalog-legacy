@@ -62,10 +62,10 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
             let stableVersion;
             let prereleaseVersion;
             const p = [
-              window.fetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+              window.fetch('https://webcatalog.app/juli/releases/latest.json')
                 .then((res) => res.json())
                 .then((data) => { stableVersion = data.version; }),
-              window.fetch('https://atomery.com/webcatalog/juli/releases/prerelease.json')
+              window.fetch('https://webcatalog.app/juli/releases/prerelease.json')
                 .then((res) => res.json())
                 .then((data) => { prereleaseVersion = data.version; }),
             ];
@@ -79,7 +79,7 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
           });
       }
 
-      return window.fetch('https://atomery.com/webcatalog/juli/releases/latest.json')
+      return window.fetch('https://webcatalog.app/juli/releases/latest.json')
         .then((res) => res.json())
         .then((data) => data.version);
     })

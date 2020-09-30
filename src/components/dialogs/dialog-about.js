@@ -83,34 +83,16 @@ const About = (props) => {
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app')}
         >
           Website
         </Button>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/support&utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.app/support&utm_source=webcatalog_app')}
         >
           Support
         </Button>
-
-        <Typography variant="body2" className={classes.madeBy}>
-          <span>Made with </span>
-          <span role="img" aria-label="love">❤</span>
-          <span> by </span>
-          <span
-            onClick={() => requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app')}
-            onKeyDown={(e) => {
-              if (e.key !== 'Enter') return;
-              requestOpenInBrowser('https://atomery.com?utm_source=webcatalog_app');
-            }}
-            role="link"
-            tabIndex="0"
-            className={classes.link}
-          >
-            Atomery
-          </span>
-        </Typography>
       </DialogContent>
     </Dialog>
   );

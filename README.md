@@ -5,7 +5,7 @@
 |[![GitHub Actions macOS Build Status](https://github.com/atomery/webcatalog/workflows/macOS/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3AmacOS)|[![GitHub Actions Linux Build Status](https://github.com/atomery/webcatalog/workflows/Linux/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3ALinux)|[![GitHub Actions Windows Build Status](https://github.com/atomery/webcatalog/workflows/Windows/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3AWindows)|
 
 
-**[WebCatalog](https://atomery.com/webcatalog)** - Run Web Apps like Real Apps.
+**[WebCatalog](https://webcatalog.app)** - Run Web Apps like Real Apps.
 
 **master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
 
