@@ -13,7 +13,9 @@ const checkPathInUseAsync = (path) => {
           return true;
         }
         return false;
-      });
+      })
+      // if the check fails, let's just assume the path is not in use
+      .catch(() => false);
   }
 
   // https://stackoverflow.com/questions/10814293/how-to-check-if-another-instance-of-the-app-binary-is-already-running
@@ -32,7 +34,9 @@ const checkPathInUseAsync = (path) => {
         return true;
       }
       return false;
-    });
+    })
+    // if the check fails, let's just assume the path is not in use
+    .catch(() => false);
 };
 
 module.exports = checkPathInUseAsync;
