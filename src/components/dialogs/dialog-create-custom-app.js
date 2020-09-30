@@ -103,7 +103,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               aria-label="What is this?"
               classes={{ root: classes.helpButton }}
-              onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps')}
+              onClick={() => requestOpenInBrowser('https://webcatalog.app/multisite-apps')}
             >
               <HelpIcon fontSize="small" />
             </IconButton>

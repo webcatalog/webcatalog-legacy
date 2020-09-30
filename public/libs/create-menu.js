@@ -61,7 +61,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'WebCatalog Support',
-          click: () => shell.openExternal('https://atomery.com/webcatalog/support?utm_source=webcatalog_app'),
+          click: () => shell.openExternal('https://webcatalog.app/support?utm_source=webcatalog_app'),
         },
         {
           label: 'Report a Bug via GitHub...',
@@ -77,7 +77,7 @@ const createMenu = () => {
         },
         {
           label: 'Learn More...',
-          click: () => shell.openExternal('https://atomery.com/webcatalog?utm_source=webcatalog_app'),
+          click: () => shell.openExternal('https://webcatalog.app?utm_source=webcatalog_app'),
         },
         { type: 'separator' },
         {

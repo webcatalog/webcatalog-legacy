@@ -230,7 +230,7 @@ const AppCard = (props) => {
               size="small"
               aria-label="What is this?"
               classes={{ root: classes.topLeft }}
-              onClick={() => requestOpenInBrowser('https://atomery.com/webcatalog/multisite-apps')}
+              onClick={() => requestOpenInBrowser('https://webcatalog.app/multisite-apps')}
             >
               <HelpIcon fontSize="small" />
             </IconButton>

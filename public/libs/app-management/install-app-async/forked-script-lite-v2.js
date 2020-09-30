@@ -383,7 +383,7 @@ open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type  --args --app=
                 // overwrite values
                 strings.CFBundleName = name;
                 strings.CFBundleDisplayName = name;
-                strings.CFBundleGetInfoString = 'The app is created with WebCatalog (https://atomery.com/webcatalog). Copyright 2020 Google LLC. All rights reserved.';
+                strings.CFBundleGetInfoString = 'The app is created with WebCatalog (https://webcatalog.app). Copyright 2020 Google LLC. All rights reserved.';
 
                 const clonedStringsPath = path.join(clonedBrowserContentsPath, 'Resources', itemName, 'InfoPlist.strings');
                 fsExtra.ensureFileSync(clonedStringsPath);
