@@ -30,7 +30,8 @@ jobs:
       # So `brew update` needs to be run manually
       run: |
         brew update
-        brew install vitorgalvao/tiny-scripts/cask-repair
+        brew tap vitorgalvao/tiny-scripts
+        brew install cask-repair
         git config --global user.email "quang.lam@webcatalog.app"
         git config --global user.name "Quang Lam (GitHub Actions)"
         (cd $(brew --repository) && hub issue)
