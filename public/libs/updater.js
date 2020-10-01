@@ -98,7 +98,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 autoUpdater.on('update-downloaded', (info) => {
   // workaround for AppImageLauncher
-  // https://github.com/atomery/webcatalog/issues/634
+  // https://github.com/webcatalog/webcatalog-app/issues/634
   // https://github.com/electron-userland/electron-builder/issues/4046
   // https://github.com/electron-userland/electron-builder/issues/4046#issuecomment-670367840
   if (process.env.DESKTOPINTEGRATION === 'AppImageLauncher') {

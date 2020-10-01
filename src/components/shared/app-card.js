@@ -305,7 +305,7 @@ const AppCard = (props) => {
                 <MenuItem
                   key="release-notes"
                   dense
-                  onClick={() => requestOpenInBrowser('https://github.com/atomery/juli/releases')}
+                  onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog-engine/releases')}
                 >
                   Release Notes
                 </MenuItem>

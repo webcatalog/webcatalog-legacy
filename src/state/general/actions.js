@@ -52,8 +52,8 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
     .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
     // use in-house API
     // to avoid using GitHub API as it has rate limit (60 requests per hour)
-    // to avoid bugs with instead of https://github.com/atomery/juli/releases.atom
-    // https://github.com/atomery/webcatalog/issues/890
+    // to avoid bugs with instead of https://github.com/webcatalog/webcatalog-engine/releases.atom
+    // https://github.com/webcatalog/webcatalog-app/issues/890
     .then(() => {
       // prerelease is not supported by in-house API
       if (allowPrerelease) {

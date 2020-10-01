@@ -2,27 +2,17 @@
 
 |macOS|Linux|Windows|
 |---|---|---|
-|[![GitHub Actions macOS Build Status](https://github.com/atomery/webcatalog/workflows/macOS/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3AmacOS)|[![GitHub Actions Linux Build Status](https://github.com/atomery/webcatalog/workflows/Linux/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3ALinux)|[![GitHub Actions Windows Build Status](https://github.com/atomery/webcatalog/workflows/Windows/badge.svg)](https://github.com/atomery/webcatalog/actions?query=workflow%3AWindows)|
+|[![GitHub Actions macOS Build Status](https://github.com/webcatalog/webcatalog-app/workflows/macOS/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3AmacOS)|[![GitHub Actions Linux Build Status](https://github.com/webcatalog/webcatalog-app/workflows/Linux/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3ALinux)|[![GitHub Actions Windows Build Status](https://github.com/webcatalog/webcatalog-app/workflows/Windows/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3AWindows)|
 
 
-**[WebCatalog](https://webcatalog.app)** - Run Web Apps like Real Apps.
+**[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
 
 **master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
-
-WebCatalog project consists of 2 open-source repositories:
-- [atomery/webcatalog](https://github.com/atomery/webcatalog) - WebCatalog.app
-- [atomery/juli](https://github.com/atomery/juli) - Template Electron app that WebCatalog uses under the hood to generate Electron-based apps.
 ---
 
 ## Licensing
 ### Usage
-**WebCatalog is paid software.** You can install up to two apps for free or [pay just $19.99](https://webcatalog.onfastspring.com/webcatalog-lite) to install as many as you need.
-
-The license:
-- Lets you add unlimited apps and workspaces.
-- Has no time limit and never expires.
-- Works with all versions (including major updates).
-- Permits uses on all of the devices you own (regardless of platforms or operating systems).
+**WebCatalog is paid software.** [Learn more about  our pricing](https://webcatalog.app).
 
 ### Source Code
 On the other hand, **the source code is freely available** for use, modification and distribution under the permissions, limitations and conditions listed in the [Mozilla Public License 2.0](LICENSE).
@@ -32,7 +22,7 @@ On the other hand, **the source code is freely available** for use, modification
 ## Development
 ```
 # First, clone the project:
-git clone https://github.com/atomery/webcatalog.git
+git clone https://github.com/webcatalog/webcatalog-app.git
 cd webcatalog
 
 # install the dependencies
