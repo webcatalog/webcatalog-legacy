@@ -3,7 +3,6 @@ const contextMenu = require('electron-context-menu');
 const isDev = require('electron-is-dev');
 const machineId = require('node-machine-id');
 
-
 // Activate the Sentry Electron SDK as early as possible in every process.
 if (!isDev && ipcRenderer.sendSync('get-preference', 'sentry')) {
   // eslint-disable-next-line global-require
