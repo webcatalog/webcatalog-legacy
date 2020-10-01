@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable quote-props */
 // modified from https://github.com/minbrowser/min/blob/master/main/registryConfig.js
-// fix https://github.com/atomery/webcatalog/issues/784
+// fix https://github.com/webcatalog/webcatalog-app/issues/784
 
 const regedit = require('regedit');
 

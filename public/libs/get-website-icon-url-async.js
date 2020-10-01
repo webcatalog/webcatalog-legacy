@@ -24,7 +24,7 @@ const getWebsiteIconUrlAsync = (websiteURL) => customizedFetch(websiteURL)
         // check if type is PNG
         // also check to make sure links doesn't end with .ico
         // as some websites specify icon type wrong
-        // see https://github.com/atomery/webcatalog/issues/630 for more details
+        // see https://github.com/webcatalog/webcatalog-app/issues/630 for more details
         if ((elm.attr('type') === 'image/png' && !elm.attr('href').endsWith('.ico'))
           || elm.attr('href').endsWith('.png')) { // if type is not specified but link ends with .png then assumes that the icon is PNG
           const size = elm.attr('sizes') ? parseInt(elm.attr('sizes').split('x'), 10) : 0;

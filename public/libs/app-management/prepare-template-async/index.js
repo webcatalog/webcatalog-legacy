@@ -14,7 +14,7 @@ const cache = new NodeCache();
 
 // use in-house API
 // to avoid using GitHub API as it has rate limit (60 requests per hour)
-// https://github.com/atomery/webcatalog/issues/890
+// https://github.com/webcatalog/webcatalog-app/issues/890
 const getTagNameAsync = () => Promise.resolve()
   .then(() => {
     const allowPrerelease = getPreference('allowPrerelease');

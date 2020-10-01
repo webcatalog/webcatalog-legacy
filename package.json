@@ -17,7 +17,7 @@
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
     "dist-dev": "yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js"
   },
-  "repository": "https://github.com/atomery/webcatalog",
+  "repository": "https://github.com/webcatalog/webcatalog-app",
   "author": {
     "name": "Quang Lam",
     "email": "quang.lam@atomery.com"

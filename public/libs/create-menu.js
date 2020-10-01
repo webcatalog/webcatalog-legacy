@@ -65,11 +65,11 @@ const createMenu = () => {
         },
         {
           label: 'Report a Bug via GitHub...',
-          click: () => shell.openExternal('https://github.com/atomery/webcatalog/issues'),
+          click: () => shell.openExternal('https://github.com/webcatalog/webcatalog-app/issues'),
         },
         {
           label: 'Request a New Feature via GitHub...',
-          click: () => shell.openExternal('https://github.com/atomery/webcatalog/issues/new?template=feature.md&title=feature%3A+'),
+          click: () => shell.openExternal('https://github.com/webcatalog/webcatalog-app/issues/new?template=feature.md&title=feature%3A+'),
         },
         {
           label: 'Submit New App to Catalog...',

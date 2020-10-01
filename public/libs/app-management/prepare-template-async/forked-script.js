@@ -26,7 +26,7 @@ Promise.resolve()
       return JSON.parse(templateInfoJson);
     }
 
-    return customizedFetch(`https://github.com/atomery/juli/releases/download/${tagName}/template-${platform}-${arch}.json`)
+    return customizedFetch(`https://github.com/webcatalog/webcatalog-engine/releases/download/${tagName}/template-${platform}-${arch}.json`)
       .then((res) => res.json());
   })
   .then((templateInfo) => Promise.resolve()

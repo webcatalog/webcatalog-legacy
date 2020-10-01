@@ -108,7 +108,7 @@ const EnhancedAppBar = ({
 }) => {
   const onDoubleClick = (e) => {
     // feature: double click on title bar to expand #656
-    // https://github.com/atomery/webcatalog/issues/656
+    // https://github.com/webcatalog/webcatalog-app/issues/656
     // https://stackoverflow.com/questions/10554446/no-onclick-when-child-is-clicked
     if (e.target === e.currentTarget) {
       const win = window.require('electron').remote.getCurrentWindow();
