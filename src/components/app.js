@@ -8,6 +8,7 @@ import connectComponent from '../helpers/connect-component';
 
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
 import SnackbarTrigger from './root/snackbar-trigger';
+import TelemetryManager from './root/telemetry-manager';
 
 import Installed from './pages/installed';
 import Home from './pages/home';
@@ -34,8 +35,6 @@ import {
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 
-import amplitude from '../amplitude';
-
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -58,8 +57,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    amplitude.getInstance().logEvent('start app');
-
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
@@ -126,6 +123,7 @@ class App extends React.Component {
           <DialogCatalogAppDetails />
           <EnhancedBottomNavigation />
           <SnackbarTrigger />
+          <TelemetryManager />
         </div>
       </SnackbarProvider>
     );
