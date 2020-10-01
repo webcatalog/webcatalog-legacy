@@ -455,6 +455,21 @@ const EngineList = ({
           </Grid>
         )}
       />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="firefox">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
     </ListItem>
     <ListItem
       button
@@ -486,6 +501,21 @@ const EngineList = ({
           </Grid>
         )}
       />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="opera/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
     </ListItem>
     <ListItem
       button
