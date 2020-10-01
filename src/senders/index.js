@@ -1,3 +1,5 @@
+import amplitude from '../amplitude';
+
 export const requestOpenInBrowser = (url) => window.ipcRenderer.send('request-open-in-browser', url);
 export const requestShowMessageBox = (message, type) => window.ipcRenderer.send('request-show-message-box', message, type);
 export const requestQuit = () => window.ipcRenderer.send('request-quit');
@@ -19,12 +21,33 @@ export const requestSetSystemPreference = (name, value) => window.ipcRenderer.se
 
 // App Management
 export const requestGetInstalledApps = () => window.ipcRenderer.send('request-get-installed-apps');
-export const requestInstallApp = (engine, id, name, url, icon) => window.ipcRenderer.send('request-install-app', engine, id, name, url, icon);
-export const requestUpdateApp = (engine, id, name, url, icon) => window.ipcRenderer.send('request-update-app', engine, id, name, url, icon);
+export const requestInstallApp = (engine, id, name, url, icon) => {
+  // only log engine & app type to protect privacy
+  amplitude.getInstance().logEvent('install app', {
+    engine,
+    multisiteApp: url == null,
+  });
+
+  window.ipcRenderer.send('request-install-app', engine, id, name, url, icon);
+};
+export const requestUpdateApp = (engine, id, name, url, icon) => {
+  // only log engine & app type to protect privacy
+  amplitude.getInstance().logEvent('update app', {
+    engine,
+    multisiteApp: url == null,
+  });
+
+  window.ipcRenderer.send('request-update-app', engine, id, name, url, icon);
+};
 export const requestCancelInstallApp = (id) => window.ipcRenderer.send('request-cancel-install-app', id);
 export const requestCancelUpdateApp = (id) => window.ipcRenderer.send('request-cancel-update-app', id);
-export const requestUninstallApp = (id, name, engine) => window.ipcRenderer.send('request-uninstall-app', id, name, engine);
-export const requestUninstallApps = (apps) => window.ipcRenderer.send('request-uninstall-apps', apps);
+export const requestUninstallApp = (id, name, engine) => {
+  // only log engine o protect privacy
+  amplitude.getInstance().logEvent('uninstall app', {
+    engine,
+  });
+  window.ipcRenderer.send('request-uninstall-app', id, name, engine);
+};
 export const requestOpenApp = (id, name) => window.ipcRenderer.send('request-open-app', id, name);
 
 // Native Theme

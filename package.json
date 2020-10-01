@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@sentry/electron": "2.0.1",
+    "amplitude-js": "7.2.2",
     "axios": "0.20.0",
     "blueimp-md5": "2.18.0",
     "cheerio": "1.0.0-rc.3",

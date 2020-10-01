@@ -34,6 +34,8 @@ import {
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 
+import amplitude from '../amplitude';
+
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -56,6 +58,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    amplitude.getInstance().logEvent('start app');
+
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 

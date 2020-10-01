@@ -14,3 +14,4 @@ contextMenu({
 
 window.remote = remote;
 window.ipcRenderer = ipcRenderer;
+window.optOutTelemetry = !ipcRenderer.sendSync('get-preference', 'telemetry');
