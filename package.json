@@ -20,7 +20,7 @@
   "repository": "https://github.com/webcatalog/webcatalog-app",
   "author": {
     "name": "Quang Lam",
-    "email": "quang.lam@atomery.com"
+    "email": "quang.lam@webcatalog.app"
   },
   "dependencies": {
     "@sentry/electron": "2.0.1",
