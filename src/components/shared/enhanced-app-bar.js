@@ -27,19 +27,8 @@ const styles = (theme) => ({
     paddingLeft: theme.spacing(1) - 6,
     paddingRight: theme.spacing(1) - 6,
     display: 'flex',
-    zIndex: 1000,
     WebkitAppRegion: 'drag',
     userSelect: 'none',
-  },
-  // https://github.com/electron/electron/issues/3022#issuecomment-543146976
-  dragRegion: {
-    top: 6,
-    left: 6,
-    display: 'block',
-    position: 'absolute',
-    width: 'calc(100% - 12px)',
-    height: 'calc(100% - 6px)',
-    zIndex: -1,
   },
   left: {
     width: LEFT_RIGHT_WIDTH,
@@ -76,6 +65,9 @@ const styles = (theme) => ({
     padding: 0,
     margin: 0,
     '&:hover': {
+      backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
+    },
+    '&:focus': {
       backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
     },
   },
