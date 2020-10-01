@@ -193,6 +193,7 @@ const Preferences = ({
   registered,
   requireAdmin,
   sentry,
+  telemetry,
   themeSource,
   updaterInfo,
   updaterStatus,
@@ -391,8 +392,26 @@ const Preferences = ({
             <List disablePadding dense>
               <ListItem>
                 <ListItemText
-                  primary="Allow the app to send bug and crash reports on your behalf"
+                  primary="Allow the app to send anonymous crash reports"
                   secondary="Help us quickly diagnose and fix bugs in the app."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={telemetry}
+                    onChange={(e) => {
+                      requestSetPreference('telemetry', e.target.checked);
+                      requestShowRequireRestartDialog();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Allow the app to send anonymous usage data"
+                  secondary="Help us understand how to improve the product."
                 />
                 <ListItemSecondaryAction>
                   <Switch
@@ -756,6 +775,7 @@ Preferences.propTypes = {
   registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
+  telemetry: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
@@ -778,6 +798,7 @@ const mapStateToProps = (state) => ({
   registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
+  telemetry: state.preferences.telemetry,
   themeSource: state.preferences.themeSource,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,

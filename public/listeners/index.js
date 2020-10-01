@@ -175,37 +175,6 @@ const loadListeners = () => {
     .catch(console.log); // eslint-disable-line
   });
 
-  ipcMain.on('request-uninstall-apps', (e, apps) => {
-    dialog.showMessageBox(mainWindow.get(), {
-      type: 'question',
-      buttons: ['Uninstall', 'Cancel'],
-      message: `Are you sure you want to uninstall these ${apps.length} apps? This action cannot be undone.`,
-      cancelId: 1,
-    }).then(({ response }) => {
-      if (response === 0) {
-        send(e.sender, 'set-app-batch', apps.map((a) => ({
-          id: a.id,
-          status: 'UNINSTALLING',
-        })));
-
-        apps.forEach(({ id, name, engine }) => {
-          uninstallAppAsync(id, name, engine)
-            .then(() => {
-              send(e.sender, 'remove-app', id);
-            })
-            .catch((error) => {
-              captureException(error);
-              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
-              send(e.sender, 'set-app', id, {
-                status: 'INSTALLED',
-              });
-            });
-        });
-      }
-    })
-    .catch(console.log); // eslint-disable-line
-  });
-
   // Chain app installing promises
   let p = Promise.resolve();
 

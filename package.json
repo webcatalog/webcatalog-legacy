@@ -44,6 +44,7 @@
     "menubar": "9.0.1",
     "node-cache": "5.1.2",
     "node-fetch": "2.6.1",
+    "node-machine-id": "1.1.12",
     "proxy-agent": "3.1.1",
     "read-chunk": "3.2.0",
     "regedit": "3.0.3",
@@ -58,6 +59,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.56",
     "algoliasearch": "4.5.1",
+    "amplitude-js": "7.2.2",
     "babel-eslint": "10.1.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
@@ -84,6 +86,7 @@
     "react-window-infinite-loader": "1.0.5",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
+    "uuid": "8.3.0",
     "wait-on": "5.2.0",
     "worker-loader": "3.0.3"
   },

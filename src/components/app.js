@@ -8,6 +8,7 @@ import connectComponent from '../helpers/connect-component';
 
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
 import SnackbarTrigger from './root/snackbar-trigger';
+import TelemetryManager from './root/telemetry-manager';
 
 import Installed from './pages/installed';
 import Home from './pages/home';
@@ -122,6 +123,7 @@ class App extends React.Component {
           <DialogCatalogAppDetails />
           <EnhancedBottomNavigation />
           <SnackbarTrigger />
+          <TelemetryManager />
         </div>
       </SnackbarProvider>
     );

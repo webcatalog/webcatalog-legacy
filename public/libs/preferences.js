@@ -40,6 +40,7 @@ const defaultPreferences = {
   requireAdmin: false,
   sentry: true,
   sortInstalledAppBy: 'last-updated',
+  telemetry: true,
   themeSource: 'system',
   useHardwareAcceleration: true,
 };
