@@ -726,7 +726,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.app/support?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}>
                 <ListItemText primary="Support" />
                 <ChevronRightIcon color="action" />
               </ListItem>
