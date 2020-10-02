@@ -160,7 +160,7 @@ const loadListeners = () => {
             send(e.sender, 'remove-app', id);
           })
           .catch((error) => {
-            if (error.message === 'Application is in use.') {
+            if (error.message.startsWith('EBUSY') && error.message === 'Application is in use.') {
               send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name} as the application is in use.`, 'error');
             } else {
               captureException(error);
@@ -264,7 +264,7 @@ const loadListeners = () => {
             .catch((error) => {
               if (error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
-              } else if (error.message === 'Application is in use.') {
+              } else if (error.message.startsWith('EBUSY') && error.message === 'Application is in use.') {
                 send(e.sender, 'enqueue-snackbar', `Failed to update ${name} as the application is in use.`, 'error');
               } else {
                 send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
