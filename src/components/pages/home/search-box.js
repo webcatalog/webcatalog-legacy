@@ -12,8 +12,6 @@ import { fade } from '@material-ui/core/styles';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import { updateQuery } from '../../../state/home/actions';
-
 const styles = (theme) => ({
   toolbarSearchContainer: {
     zIndex: 10,
@@ -97,19 +95,19 @@ class SearchBox extends React.Component {
   render() {
     const {
       classes,
-      onUpdateQuery,
-      query,
+      searchTerm,
+      setSearchTerm,
     } = this.props;
 
     const clearSearchAction = (
       <>
-        {query.length > 0 && (
+        {searchTerm.length > 0 && (
           <Tooltip title="Clear search" placement="left">
             <IconButton
               color="inherit"
               size="small"
               aria-label="Clear search"
-              onClick={() => onUpdateQuery('')}
+              onClick={() => setSearchTerm('')}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
@@ -132,17 +130,17 @@ class SearchBox extends React.Component {
           >
             <input
               className={classes.input}
-              onChange={(e) => onUpdateQuery(e.target.value)}
-              onInput={(e) => onUpdateQuery(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onInput={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Escape') {
                   e.target.blur();
-                  onUpdateQuery('');
+                  setSearchTerm('');
                 }
               }}
               placeholder="Search apps..."
               ref={(inputBox) => { this.inputBox = inputBox; }}
-              value={query}
+              value={searchTerm}
             />
           </Typography>
           {clearSearchAction}
@@ -153,27 +151,18 @@ class SearchBox extends React.Component {
 }
 
 SearchBox.defaultProps = {
-  query: '',
+  searchTerm: '',
 };
 
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
-  onUpdateQuery: PropTypes.func.isRequired,
-  query: PropTypes.string,
-};
-
-const mapStateToProps = (state) => ({
-  query: state.home.query,
-  currentQuery: state.home.currentQuery,
-});
-
-const actionCreators = {
-  updateQuery,
+  searchTerm: PropTypes.string,
+  setSearchTerm: PropTypes.func.isRequired,
 };
 
 export default connectComponent(
   SearchBox,
-  mapStateToProps,
-  actionCreators,
+  null,
+  null,
   styles,
 );

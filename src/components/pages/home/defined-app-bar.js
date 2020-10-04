@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { WithSearch } from '@elastic/react-search-ui';
+
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -47,7 +49,19 @@ const DefinedAppBar = ({
   <EnhancedAppBar
     center={(
       <div className={classes.centerContainer}>
-        <SearchBox />
+        <WithSearch
+          mapContextToProps={({ searchTerm, setSearchTerm }) => ({
+            searchTerm,
+            setSearchTerm,
+          })}
+        >
+          {({ searchTerm, setSearchTerm }) => (
+            <SearchBox
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+        </WithSearch>
         <StatedMenu
           id="more-options"
           buttonElement={(
