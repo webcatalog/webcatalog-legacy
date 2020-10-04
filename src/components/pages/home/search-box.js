@@ -1,5 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import {
+  WithSearch,
+  SearchBox as SwiftypeSearchBox,
+} from '@elastic/react-search-ui';
 
 import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
@@ -54,13 +60,14 @@ const styles = (theme) => ({
     width: '100%',
     '&:focus': {
       outline: 0,
+      border: 0,
+      boxShadow: 'none',
     },
     '&::placeholder': {
       color: fade(theme.palette.common.white, 0.3),
     },
   },
   searchIcon: {
-    paddingRight: 6,
     fill: theme.palette.common.white,
   },
   searchButton: {
@@ -95,26 +102,7 @@ class SearchBox extends React.Component {
   render() {
     const {
       classes,
-      searchTerm,
-      setSearchTerm,
     } = this.props;
-
-    const clearSearchAction = (
-      <>
-        {searchTerm.length > 0 && (
-          <Tooltip title="Clear search" placement="left">
-            <IconButton
-              color="inherit"
-              size="small"
-              aria-label="Clear search"
-              onClick={() => setSearchTerm('')}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      </>
-    );
 
     return (
       <Paper elevation={0} className={classes.toolbarSearchContainer}>
@@ -128,36 +116,53 @@ class SearchBox extends React.Component {
             color="inherit"
             variant="subtitle1"
           >
-            <input
-              className={classes.input}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onInput={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Escape') {
-                  e.target.blur();
-                  setSearchTerm('');
-                }
-              }}
-              placeholder="Search apps..."
-              ref={(inputBox) => { this.inputBox = inputBox; }}
-              value={searchTerm}
+            <SwiftypeSearchBox
+              searchAsYouType
+              debounceLength={300}
+              inputView={({ getAutocomplete, getInputProps }) => (
+                <>
+                  <div className="sui-search-box__wrapper">
+                    <input
+                      {...getInputProps({
+                        className: classes.input,
+                        placeholder: 'Search apps...',
+                        ref: (inputBox) => { this.inputBox = inputBox; },
+                      })}
+                    />
+                    {getAutocomplete()}
+                  </div>
+                </>
+              )}
             />
           </Typography>
-          {clearSearchAction}
+          <WithSearch
+            mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+          >
+            {({ searchTerm, setSearchTerm }) => (
+              <>
+                {searchTerm.length > 0 && (
+                  <Tooltip title="Clear search" placement="left">
+                    <IconButton
+                      color="inherit"
+                      size="small"
+                      aria-label="Clear search"
+                      onClick={() => setSearchTerm('', { refresh: true, debounce: 0 })}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            )}
+          </WithSearch>
         </div>
       </Paper>
     );
   }
 }
 
-SearchBox.defaultProps = {
-  searchTerm: '',
-};
-
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
-  searchTerm: PropTypes.string,
-  setSearchTerm: PropTypes.func.isRequired,
 };
 
 export default connectComponent(

@@ -12,7 +12,6 @@ import dialogProxy from './dialog-proxy/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
 import dialogSetPreferredEngine from './dialog-set-preferred-engine/reducers';
 import general from './general/reducers';
-import home from './home/reducers';
 import installed from './installed/reducers';
 import preferences from './preferences/reducers';
 import router from './router/reducers';
@@ -31,7 +30,6 @@ const rootReducer = combineReducers({
   dialogSetInstallationPath,
   dialogSetPreferredEngine,
   general,
-  home,
   installed,
   preferences,
   router,

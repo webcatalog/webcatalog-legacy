@@ -56,7 +56,8 @@ const styles = (theme) => ({
 });
 
 const sortOptions = [
-  { val: 'name', name: 'Sort by Name' },
+  { val: 'name', name: 'Sort by Name (A-Z)' },
+  { val: 'name/desc', name: 'Sort by Name (Z-A)' },
   { val: 'last-updated', name: 'Sort by Last Updated' },
 ];
 
@@ -72,7 +73,7 @@ const Toolbar = ({
   <div className={classes.root}>
     <div className={classes.left}>
       {activeQuery.length > 0 ? (
-        <Typography variant="body2" color="textPrimary" className={classes.statusText}>
+        <Typography variant="body2" color="textSecondary" className={classes.statusText}>
           Search results for
           &quot;
           {activeQuery}
@@ -80,7 +81,7 @@ const Toolbar = ({
         </Typography>
       ) : (
         <>
-          <Typography variant="body2" color="textPrimary" className={classes.statusText}>
+          <Typography variant="body2" color="textSecondary" className={classes.statusText}>
             <span>{outdatedAppCount}</span>
             <span>&nbsp;Pending Updates</span>
           </Typography>

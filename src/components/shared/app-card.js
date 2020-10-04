@@ -289,7 +289,7 @@ const AppCard = (props) => {
             Create Custom App from&nbsp;
             {name}
           </MenuItem>
-          {engine && (
+          {(
             [
               <Divider key={`menu-divider-${id}`} />,
               process.env.NODE_ENV === 'development' && !id.startsWith('custom-') && url && (
