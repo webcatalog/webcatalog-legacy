@@ -1,6 +1,13 @@
 /* eslint-disable no-constant-condition */
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
+import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
+import {
+  SearchProvider, WithSearch, Paging, Facet,
+} from '@elastic/react-search-ui';
+import { MultiCheckboxFacet } from '@elastic/react-search-ui-views';
+import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -8,25 +15,22 @@ import Divider from '@material-ui/core/Divider';
 
 import SearchIcon from '@material-ui/icons/Search';
 
-import InfiniteLoader from 'react-window-infinite-loader';
-import { FixedSizeGrid } from 'react-window';
-
 import connectComponent from '../../../helpers/connect-component';
 
-import { requestOpenInBrowser } from '../../../senders';
-
-import { getHits, updateScrollOffset } from '../../../state/home/actions';
-
-import AppCard from '../../shared/app-card';
-import NoConnection from '../../shared/no-connection';
 import EmptyState from '../../shared/empty-state';
+import NoConnection from '../../shared/no-connection';
 
 import DefinedAppBar from './defined-app-bar';
-import InfoBar from './info-bar';
+import SecondaryToolbar from './toolbar';
 import SubmitAppCard from './submit-app-card';
 
-import searchByAlgoliaLightSvg from '../../../assets/search-by-algolia-light.svg';
-import searchByAlgoliaDarkSvg from '../../../assets/search-by-algolia-dark.svg';
+import AppCard from '../../shared/app-card';
+
+const connector = new AppSearchAPIConnector({
+  searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
+  engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
+  hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
+});
 
 const styles = (theme) => ({
   root: {
@@ -38,332 +42,179 @@ const styles = (theme) => ({
   scrollContainer: {
     flex: 1,
     position: 'relative',
+    overflow: 'auto',
+    padding: theme.spacing(1),
   },
-  searchByAlgoliaContainer: {
-    outline: 'none',
-  },
-  searchByAlgolia: {
-    height: 20,
-    cursor: 'pointer',
+  loading: {
+    marginTop: theme.spacing(2),
   },
   noMatchingResultOpts: {
     marginTop: theme.spacing(4),
   },
-  cardContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noConnectionContainer: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(2),
-  },
-  centeringLoading: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  fixedSizeGrid: {
-    overflowX: 'hidden !important',
-  },
-  appBar: {
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
-  },
-  toolbar: {
-    minHeight: 40,
+  facet: {
+    paddingRight: theme.spacing(2),
+    color: theme.palette.text.primary,
   },
 });
 
 const Home = ({
   classes,
-  currentQuery,
-  hasFailed,
-  hits,
-  initiated,
-  isGetting,
-  onGetHits,
-  onUpdateScrollOffset,
-  page,
-  scrollOffset,
-  shouldUseDarkColors,
-  totalPage,
-}) => {
-  const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
-  const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
-  const gridRef = useRef(null);
-
-  useEffect(() => {
-    const updateWindowSize = () => {
-      updateInnerHeight(window.innerHeight);
-      updateInnerWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', updateWindowSize);
-    return () => {
-      window.removeEventListener('resize', updateWindowSize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!initiated) {
-      onGetHits();
-    }
-  }, [initiated, onGetHits]);
-
-  useEffect(() => () => {
-    if (gridRef.current) {
-      onUpdateScrollOffset(gridRef.current.scrollTop);
-    }
-  }, [gridRef, onUpdateScrollOffset]);
-
-  const renderContent = () => {
-    if (hasFailed) {
-      return (
-        <div className={classes.noConnectionContainer}>
-          <NoConnection
-            onTryAgainButtonClick={onGetHits}
-          />
-        </div>
-      );
-    }
-
-    if (isGetting && hits.length < 1) {
-      return (
-        <div className={classes.centeringLoading}>
-          <Typography
-            variant="body2"
-            align="center"
-            color="textSecondary"
-          >
-            Loading...
-          </Typography>
-        </div>
-      );
-    }
-
-    if (!isGetting && currentQuery.length > 0 && hits.length < 1) {
-      return (
-        <EmptyState icon={SearchIcon} title="No Matching Results">
-          <Typography
-            variant="subtitle1"
-            align="center"
-          >
-            Your search -&nbsp;
-            <b>{currentQuery}</b>
-            &nbsp;- did not match any apps in the catalog.
-          </Typography>
-          <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
-            <SubmitAppCard />
-          </Grid>
-        </EmptyState>
-      );
-    }
-
-    const hasNextPage = page + 1 < totalPage;
-    const itemCount = hits.length + 2;
-    // Every row is loaded except for our loading indicator row.
-    const isItemLoaded = (index) => !hasNextPage || index < hits.length;
-    const rowHeight = 158 + 16;
-    const innerWidthMinurScrollbar = window.process.platform === 'darwin' ? innerWidth : innerWidth - 20;
-    const columnCount = Math.floor(innerWidthMinurScrollbar / 184); // leave 30px for scrollbar
-    const rowCount = Math.ceil(itemCount / columnCount);
-    const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
-    // total window height - (searchbox: 40, toolbar: 36, bottom nav: 40)
-    const scrollHeight = innerHeight - 80 - (currentQuery.length > 0 ? 36 : 0);
-    const Cell = ({ columnIndex, rowIndex, style }) => {
-      const index = rowIndex * columnCount + columnIndex;
-
-      if (index === hits.length) {
-        if (isGetting) {
-          return (
-            <div className={classes.cardContainer} style={style}>
-              <Typography
-                variant="body2"
-                align="center"
-                color="textSecondary"
-              >
-                Loading...
-              </Typography>
-            </div>
-          );
-        }
-
-        return (
-          <div className={classes.cardContainer} style={style}>
-            <SubmitAppCard />
-          </div>
-        );
-      }
-
-      if (index === hits.length + 1) {
-        if (isGetting) {
-          return <div style={style} />;
-        }
-        return (
-          <div className={classes.cardContainer} style={style}>
-            <div
-              onKeyDown={(e) => {
-                if (e.key !== 'Enter') return;
-                requestOpenInBrowser('https://algolia.com');
-              }}
-              onClick={() => requestOpenInBrowser('https://algolia.com')}
-              role="link"
-              tabIndex="0"
-              className={classes.searchByAlgoliaContainer}
-            >
-              <img
-                src={shouldUseDarkColors ? searchByAlgoliaDarkSvg : searchByAlgoliaLightSvg}
-                alt="Search by Algolia"
-                className={classes.searchByAlgolia}
-              />
-            </div>
-          </div>
-        );
-      }
-
-      if (index >= hits.length) return <div style={style} />;
-
-      const app = hits[index];
-      return (
-        <div className={classes.cardContainer} style={style}>
-          <AppCard
-            key={app.id}
-            id={app.id}
-            name={app.name}
-            url={app.url}
-            icon={window.process.platform === 'win32' // use unplated icon for Windows
-              ? app.iconUnplated : app.icon}
-            icon128={window.process.platform === 'win32' // use unplated icon for Windows
-              ? app.iconUnplated128 : app.icon128}
-          />
-        </div>
-      );
-    };
-    Cell.propTypes = {
-      columnIndex: PropTypes.number.isRequired,
-      rowIndex: PropTypes.number.isRequired,
-      style: PropTypes.object.isRequired,
-    };
-
-    return (
-      <InfiniteLoader
-        isItemLoaded={isItemLoaded}
-        itemCount={itemCount}
-        loadMoreItems={() => onGetHits()}
-      >
-        {({ onItemsRendered, ref }) => {
-          // https://stackoverflow.com/questions/57370902/react-window-fixedsizegrid-with-react-window-infinite-loader
-          const newItemsRendered = (gridData) => {
-            const useOverscanForLoading = true;
-            const {
-              visibleRowStartIndex,
-              visibleRowStopIndex,
-              visibleColumnStopIndex,
-              overscanRowStartIndex,
-              overscanRowStopIndex,
-              overscanColumnStopIndex,
-            } = gridData;
-
-            const endCol = (useOverscanForLoading || true
-              ? overscanColumnStopIndex
-              : visibleColumnStopIndex) + 1;
-
-            const startRow = useOverscanForLoading || true
-              ? overscanRowStartIndex
-              : visibleRowStartIndex;
-            const endRow = useOverscanForLoading || true
-              ? overscanRowStopIndex
-              : visibleRowStopIndex;
-
-            const visibleStartIndex = startRow * endCol;
-            const visibleStopIndex = endRow * endCol;
-
-            onItemsRendered({
-              // call onItemsRendered from InfiniteLoader so it can load more if needed
-              visibleStartIndex,
-              visibleStopIndex,
-            });
-          };
-
-          return (
-            <FixedSizeGrid
-              columnCount={columnCount}
-              columnWidth={columnWidth}
-              height={scrollHeight}
-              rowCount={rowCount}
-              rowHeight={rowHeight}
-              width={innerWidth}
-              initialScrollTop={scrollOffset}
-              onItemsRendered={newItemsRendered}
-              ref={ref}
-              outerRef={gridRef}
-              className={classes.fixedSizeGrid}
-            >
-              {Cell}
-            </FixedSizeGrid>
-          );
-        }}
-      </InfiniteLoader>
-    );
-  };
-
-  return (
+}) => (
+  <SearchProvider
+    config={{
+      apiConnector: connector,
+      initialState: {
+        resultsPerPage: 60,
+        sortField: 'name',
+        sortDirection: 'asc',
+      },
+      alwaysSearchOnInitialLoad: true,
+      searchQuery: {
+        disjunctiveFacets: ['type', 'category'],
+        result_fields: {
+          id: { raw: {} },
+          name: { raw: {} },
+          url: { raw: {} },
+          icon: window.process.platform === 'win32' ? undefined : { raw: {} },
+          icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
+          icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
+          icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
+        },
+        facets: {
+          type: { type: 'value', size: 2 },
+          category: { type: 'value', size: 30 },
+        },
+      },
+    }}
+  >
     <div className={classes.root}>
       <DefinedAppBar />
-      <div
-        className={classes.scrollContainer}
-      >
-        <InfoBar />
-        <Divider />
-        {renderContent()}
+      <SecondaryToolbar />
+      <Divider />
+      <div className={classes.scrollContainer}>
+        <Grid container>
+          <Grid item>
+            <Facet
+              className={classes.facet}
+              field="type"
+              label="Types"
+              view={MultiCheckboxFacet}
+              show={2}
+              filterType="any"
+            />
+            <Facet
+              className={classes.facet}
+              field="category"
+              label="Categories"
+              view={MultiCheckboxFacet}
+              show={30}
+              filterType="any"
+            />
+          </Grid>
+          <Grid item xs container spacing={1} justify="space-evenly">
+            <WithSearch
+              mapContextToProps={({
+                error,
+                isLoading,
+                results,
+                searchTerm,
+                setSearchTerm,
+                wasSearched,
+              }) => ({
+                error,
+                isLoading,
+                results,
+                searchTerm,
+                setSearchTerm,
+                wasSearched,
+              })}
+            >
+              {({
+                error,
+                isLoading,
+                results,
+                searchTerm,
+                setSearchTerm,
+                wasSearched,
+              }) => {
+                if (error) {
+                  return (
+                    <div className={classes.noConnectionContainer}>
+                      <NoConnection
+                        onTryAgainButtonClick={() => {
+                          setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
+                        }}
+                      />
+                    </div>
+                  );
+                }
+
+                if (isLoading && results.length < 1) {
+                  return (
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        color="textSecondary"
+                        className={classes.loading}
+                      >
+                        Loading...
+                      </Typography>
+                    </Grid>
+                  );
+                }
+
+                if (wasSearched && results.length < 1) {
+                  return (
+                    <EmptyState icon={SearchIcon} title="No Matching Results">
+                      <Typography
+                        variant="subtitle1"
+                        align="center"
+                      >
+                        Your query did not match any apps in our database.
+                      </Typography>
+                      <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
+                        <SubmitAppCard />
+                      </Grid>
+                    </EmptyState>
+                  );
+                }
+
+                return (
+                  <>
+                    {results.map((app) => (
+                      <AppCard
+                        key={app.id.raw}
+                        id={app.id.raw}
+                        name={app.name.raw}
+                        url={app.url.raw}
+                        icon={window.process.platform === 'win32' // use unplated icon for Windows
+                          ? app.icon_unplated.raw : app.icon.raw}
+                        icon128={window.process.platform === 'win32' // use unplated icon for Windows
+                          ? app.icon_unplated_128.raw : app.icon_128.raw}
+                      />
+                    ))}
+                    <Grid item xs={12} container justify="center">
+                      <Paging />
+                    </Grid>
+                  </>
+                );
+              }}
+            </WithSearch>
+          </Grid>
+        </Grid>
       </div>
     </div>
-  );
-};
-
-Home.defaultProps = {
-  currentQuery: '',
-};
+  </SearchProvider>
+);
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentQuery: PropTypes.string,
-  hasFailed: PropTypes.bool.isRequired,
-  hits: PropTypes.arrayOf(PropTypes.object).isRequired,
-  initiated: PropTypes.bool.isRequired,
-  isGetting: PropTypes.bool.isRequired,
-  onGetHits: PropTypes.func.isRequired,
-  onUpdateScrollOffset: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  scrollOffset: PropTypes.number.isRequired,
-  shouldUseDarkColors: PropTypes.bool.isRequired,
-  totalPage: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  currentQuery: state.home.currentQuery,
-  hasFailed: state.home.hasFailed,
-  hits: state.home.hits,
-  initiated: state.home.initiated,
-  isGetting: state.home.isGetting,
-  page: state.home.page,
-  scrollOffset: state.home.scrollOffset,
-  shouldUseDarkColors: state.general.shouldUseDarkColors,
-  totalPage: state.home.totalPage,
-});
-
-const actionCreators = {
-  getHits,
-  updateScrollOffset,
 };
 
 export default connectComponent(
   Home,
-  mapStateToProps,
-  actionCreators,
+  null,
+  null,
   styles,
 );

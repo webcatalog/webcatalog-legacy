@@ -24,6 +24,7 @@ const appId = (state = null, action) => {
 
 const details = (state = null, action) => {
   switch (action.type) {
+    case DIALOG_CATALOG_APP_DETAILS_OPEN: return null;
     case DIALOG_CATALOG_APP_DETAILS_UPDATE_DETAILS: return action.details;
     default: return state;
   }

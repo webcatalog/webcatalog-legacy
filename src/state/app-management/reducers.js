@@ -38,8 +38,8 @@ const apps = (state = {}, action) => {
   }
 };
 
-const iterateeFunc = (app, sortInstalledAppBy) => {
-  if (sortInstalledAppBy === 'name') {
+const iterateeFunc = (app, key) => {
+  if (key === 'name') {
     return app.name;
   }
   // action.sortInstalledAppBy === 'last-updated'
@@ -82,10 +82,13 @@ const sortedAppIds = (state = [], action) => {
     }
     case SORT_APPS: {
       // resort
+      const parts = action.sortInstalledAppBy.split('/');
+      const key = parts[0];
+      const order = parts.length > 0 ? parts[1] : 'asc';
       return orderBy(state, (id) => {
         const app = action.apps[id];
-        return iterateeFunc(app, action.sortInstalledAppBy);
-      });
+        return iterateeFunc(app, key);
+      }, [order]);
     }
     default: return state;
   }

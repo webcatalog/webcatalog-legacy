@@ -1,5 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import {
+  WithSearch,
+  SearchBox as SwiftypeSearchBox,
+} from '@elastic/react-search-ui';
 
 import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
@@ -11,8 +17,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { fade } from '@material-ui/core/styles';
 
 import connectComponent from '../../../helpers/connect-component';
-
-import { updateQuery } from '../../../state/home/actions';
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
@@ -56,13 +60,14 @@ const styles = (theme) => ({
     width: '100%',
     '&:focus': {
       outline: 0,
+      border: 0,
+      boxShadow: 'none',
     },
     '&::placeholder': {
       color: fade(theme.palette.common.white, 0.3),
     },
   },
   searchIcon: {
-    paddingRight: 6,
     fill: theme.palette.common.white,
   },
   searchButton: {
@@ -97,26 +102,7 @@ class SearchBox extends React.Component {
   render() {
     const {
       classes,
-      onUpdateQuery,
-      query,
     } = this.props;
-
-    const clearSearchAction = (
-      <>
-        {query.length > 0 && (
-          <Tooltip title="Clear search" placement="left">
-            <IconButton
-              color="inherit"
-              size="small"
-              aria-label="Clear search"
-              onClick={() => onUpdateQuery('')}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      </>
-    );
 
     return (
       <Paper elevation={0} className={classes.toolbarSearchContainer}>
@@ -130,50 +116,58 @@ class SearchBox extends React.Component {
             color="inherit"
             variant="subtitle1"
           >
-            <input
-              className={classes.input}
-              onChange={(e) => onUpdateQuery(e.target.value)}
-              onInput={(e) => onUpdateQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Escape') {
-                  e.target.blur();
-                  onUpdateQuery('');
-                }
-              }}
-              placeholder="Search apps..."
-              ref={(inputBox) => { this.inputBox = inputBox; }}
-              value={query}
+            <SwiftypeSearchBox
+              searchAsYouType
+              debounceLength={300}
+              inputView={({ getAutocomplete, getInputProps }) => (
+                <>
+                  <div className="sui-search-box__wrapper">
+                    <input
+                      {...getInputProps({
+                        className: classes.input,
+                        placeholder: 'Search apps...',
+                        ref: (inputBox) => { this.inputBox = inputBox; },
+                      })}
+                    />
+                    {getAutocomplete()}
+                  </div>
+                </>
+              )}
             />
           </Typography>
-          {clearSearchAction}
+          <WithSearch
+            mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+          >
+            {({ searchTerm, setSearchTerm }) => (
+              <>
+                {searchTerm.length > 0 && (
+                  <Tooltip title="Clear search" placement="left">
+                    <IconButton
+                      color="inherit"
+                      size="small"
+                      aria-label="Clear search"
+                      onClick={() => setSearchTerm('', { refresh: true, debounce: 0 })}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            )}
+          </WithSearch>
         </div>
       </Paper>
     );
   }
 }
 
-SearchBox.defaultProps = {
-  query: '',
-};
-
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
-  onUpdateQuery: PropTypes.func.isRequired,
-  query: PropTypes.string,
-};
-
-const mapStateToProps = (state) => ({
-  query: state.home.query,
-  currentQuery: state.home.currentQuery,
-});
-
-const actionCreators = {
-  updateQuery,
 };
 
 export default connectComponent(
   SearchBox,
-  mapStateToProps,
-  actionCreators,
+  null,
+  null,
   styles,
 );

@@ -1,4 +1,4 @@
-import { appsIndex } from '../../algolia';
+import * as ElasticAppSearch from '@elastic/app-search-javascript';
 
 import {
   DIALOG_CATALOG_APP_DETAILS_CLOSE,
@@ -18,9 +18,30 @@ const updateDetails = (details) => ({
 export const getDetailsAsync = () => (dispatch, getState) => {
   const { appId } = getState().dialogCatalogAppDetails;
   if (!appId) return;
-  appsIndex.getObject(appId)
-    .then((details) => {
-      dispatch(updateDetails(details));
+
+  const client = ElasticAppSearch.createClient({
+    searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
+    engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
+    hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
+  });
+
+  client
+    .search('', {
+      filters: {
+        id: [appId],
+      },
+    })
+    .then((res) => {
+      const app = res.rawResults[0];
+      dispatch(updateDetails({
+        id: app.id.raw,
+        name: app.name.raw,
+        url: app.url.raw,
+        icon: window.process.platform === 'win32' // use unplated icon for Windows
+          ? app.icon_unplated.raw : app.icon.raw,
+        icon128: window.process.platform === 'win32' // use unplated icon for Windows
+          ? app.icon_unplated_128.raw : app.icon_128.raw,
+      }));
     })
     .catch((err) => {
       dispatch(updateDetails({

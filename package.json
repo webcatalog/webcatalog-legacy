@@ -55,10 +55,12 @@
     "yargs-parser": "19.0.4"
   },
   "devDependencies": {
+    "@elastic/app-search-javascript": "7.8.0",
+    "@elastic/react-search-ui": "1.4.1",
+    "@elastic/search-ui-app-search-connector": "1.4.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.56",
-    "algoliasearch": "4.5.1",
     "amplitude-js": "7.2.2",
     "babel-eslint": "10.1.0",
     "babel-preset-env": "1.7.0",
