@@ -64,7 +64,7 @@ const Home = ({
     config={{
       apiConnector: connector,
       initialState: {
-        resultsPerPage: 56,
+        resultsPerPage: 60,
         sortField: 'name',
         sortDirection: 'asc',
       },
