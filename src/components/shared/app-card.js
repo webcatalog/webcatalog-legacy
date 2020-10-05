@@ -289,35 +289,33 @@ const AppCard = (props) => {
             Create Custom App from&nbsp;
             {name}
           </MenuItem>
-          {(
+          {process.env.NODE_ENV === 'development' && !id.startsWith('custom-') && url && (
             [
-              <Divider key={`menu-divider-${id}`} />,
-              process.env.NODE_ENV === 'development' && !id.startsWith('custom-') && url && (
-                <MenuItem
-                  key="app-info"
-                  dense
-                  onClick={() => onOpenDialogCatalogAppDetails(id)}
-                >
-                  Test App Info Dialog (dev only)
-                </MenuItem>
-              ),
+              <Divider key="menu-divider-app-info" />,
+              <MenuItem
+                key="app-info"
+                dense
+                onClick={() => onOpenDialogCatalogAppDetails(id)}
+              >
+                Test App Info Dialog (dev only)
+              </MenuItem>,
+            ]
+          )}
+          {engine && (
+            [
+              <Divider key="menu-divider-engine" />,
               engine === 'electron' && (
                 <MenuItem
                   key="release-notes"
                   dense
-                  onClick={() => requestOpenInBrowser('https://github.com/webcatalog/webcatalog-engine/releases')}
+                  onClick={() => requestOpenInBrowser('https://webcatalog.app/release-notes')}
                 >
-                  Release Notes
+                  {'What\'s New'}
                 </MenuItem>
               ),
-              engine === 'electron' && <Divider key={`menu-divider-2-${id}`} />,
-              <MenuItem dense key={`menu-engine-${id}`} onClick={null} disabled>
-                Installed with&nbsp;
-                {getEngineName(engine)}
-              </MenuItem>,
-              engine === 'electron' && version && (
-                <MenuItem dense key={`menu-version-${id}`} onClick={null} disabled>
-                  Version&nbsp;
+              engine === 'electron' && version ? (
+                <MenuItem dense key="menu-version" onClick={null} disabled>
+                  Powered by WebCatalog Engine&nbsp;
                   {version}
                   {isOutdated && (
                     <span>
@@ -326,6 +324,11 @@ const AppCard = (props) => {
                       )
                     </span>
                   )}
+                </MenuItem>
+              ) : (
+                <MenuItem dense key="menu-version" onClick={null} disabled>
+                  Powered by&nbsp;
+                  {getEngineName(engine)}
                 </MenuItem>
               ),
             ]
