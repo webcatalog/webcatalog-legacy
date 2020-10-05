@@ -54,3 +54,5 @@ jobs:
         REACT_APP_SWIFTYPE_HOST_ID: ${{ secrets.REACT_APP_SWIFTYPE_HOST_ID }}
         REACT_APP_SWIFTYPE_SEARCH_KEY: ${{ secrets.REACT_APP_SWIFTYPE_SEARCH_KEY }}
         REACT_APP_SWIFTYPE_ENGINE_NAME: ${{ secrets.REACT_APP_SWIFTYPE_ENGINE_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')
+
