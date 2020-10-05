@@ -57,8 +57,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    WebkitAppRegion: 'drag',
-    WebkitUserSelect: 'none',
   },
   scrollContainer: {
     flex: 1,
