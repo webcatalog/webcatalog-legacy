@@ -325,6 +325,7 @@ Promise.resolve()
       const desktopFilePath = path.join(desktopDirPath, `webcatalog-${id}.desktop`);
       // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
       // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
+      // https://github.com/webcatalog/webcatalog-app/issues/1068
       const desktopFileContent = `[Desktop Entry]
 Version=1.0
 Type=Application
@@ -333,6 +334,7 @@ GenericName=${name}
 Icon=${iconPath}
 Exec="${execFilePath}"
 Terminal=false
+StartupWMClass=${name.toLowerCase()}
 `;
       return fsExtra.ensureDir(desktopDirPath)
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
