@@ -3,9 +3,6 @@ const getEngineName = (engine) => {
     case 'electron': {
       return 'WebCatalog Engine';
     }
-    case 'firefox': {
-      return 'Mozilla Firefox';
-    }
     case 'chromium': {
       return 'Chromium';
     }

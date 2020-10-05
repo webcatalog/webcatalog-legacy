@@ -78,19 +78,16 @@ const contentsPath = path.join(appFolderPath, 'Contents');
 const resourcesPath = process.platform === 'darwin'
   ? path.join(contentsPath, 'Resources')
   : path.join(appFolderPath, 'resources');
-const infoPlistPath = path.join(contentsPath, 'Info.plist');
 const execFilePath = process.platform === 'darwin'
   ? path.join(contentsPath, 'Executable')
   : path.join(appFolderPath, name);
 const appAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
 const packageJsonPath = path.join(appAsarUnpackedPath, 'package.json');
 const appJsonPath = path.join(appAsarUnpackedPath, 'build', 'app.json');
-const publicIconIcnsPath = path.join(resourcesPath, 'icon.icns');
 const publicIconPngPath = path.join(appAsarUnpackedPath, 'build', 'icon.png');
 const publicIconIcoPath = path.join(appAsarUnpackedPath, 'build', 'icon.ico');
 
 const buildResourcesPath = path.join(tmpPath, 'build-resources');
-const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
 
@@ -189,44 +186,7 @@ Promise.resolve()
     });
 
     if (process.platform === 'darwin') {
-      return Promise.resolve()
-        .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
-        .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
-        .then(() => fsExtra.copy(iconIcnsPath, publicIconIcnsPath))
-        .then(() => {
-          let execFileContent = '';
-          switch (engine) {
-            case 'firefox': {
-              execFileContent = `#!/usr/bin/env bash
-/Applications/Firefox.app/Contents/MacOS/Firefox --class ${id} --P ${id} "${url}"`;
-              break;
-            }
-            default: {
-              return Promise.reject(new Error('Engine is not supported'));
-            }
-          }
-          return fsExtra.outputFile(execFilePath, execFileContent);
-        })
-        .then(() => fsExtra.chmod(execFilePath, '755'))
-        .then(() => {
-          const infoPlistContent = `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-  <dict>
-    <key>CFBundleExecutable</key>
-    <string>Executable</string>
-    <key>CFBundleGetInfoString</key>
-    <string>${name}</string>
-    <key>CFBundleIconFile</key>
-    <string>icon.icns</string>
-    <key>CFBundleName</key>
-    <string>${name}</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-  </dict>
-</plist>`;
-          return fsExtra.outputFile(infoPlistPath, infoPlistContent);
-        });
+      return Promise.reject(new Error('Platform is not supported'));
     }
 
     if (process.platform === 'linux') {
@@ -237,11 +197,6 @@ Promise.resolve()
           const chromiumDataPath = path.join('$HOME', '.webcatalog', 'chromium-data', id);
           let execFileContent = '';
           switch (engine) {
-            case 'firefox': {
-              execFileContent = `#!/bin/sh -ue
-firefox --class ${id} --P ${id} "${url}";`;
-              break;
-            }
             case 'chromium': {
               execFileContent = `#!/bin/sh -ue
 chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
@@ -388,9 +343,7 @@ Terminal=false
       const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
       let args;
 
-      if (engine === 'firefox') {
-        args = `--class ${id} --P ${id} "${url}"`;
-      } else if (engine.endsWith('/tabs')) {
+      if (engine.endsWith('/tabs')) {
         args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
       } else {
         args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;

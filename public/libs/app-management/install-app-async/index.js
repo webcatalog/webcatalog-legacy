@@ -9,7 +9,6 @@ const isEngineInstalled = require('../../is-engine-installed');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
-const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 const getWin32OperaPaths = require('../../get-win32-opera-paths');
@@ -42,10 +41,8 @@ const installAppAsync = (
           });
       }
 
-      if (process.platform === 'darwin'
-        && engine !== 'firefox'
-      ) {
-        // use v2 script for Chrome & Chromium-based browsers on Mac
+      if (process.platform === 'darwin') {
+        // use v2 script on Mac
         scriptFileName = 'forked-script-lite-v2.js';
         v = '2.2.0';
       } else {
@@ -61,10 +58,6 @@ const installAppAsync = (
         switch (engine) {
           case 'electron': {
             engineName = 'Electron';
-            break;
-          }
-          case 'firefox': {
-            engineName = 'Mozilla Firefox';
             break;
           }
           case 'chromium':
@@ -153,10 +146,7 @@ const installAppAsync = (
       }
 
       if (process.platform === 'win32') {
-        if (engine === 'firefox') {
-          params.push('--browserPath');
-          params.push(getWin32FirefoxPaths()[0]);
-        } else if (engine.startsWith('chrome')) {
+        if (engine.startsWith('chrome')) {
           params.push('--browserPath');
           params.push(getWin32ChromePaths()[0]);
         } else if (engine.startsWith('brave')) {
