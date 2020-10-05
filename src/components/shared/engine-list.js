@@ -81,7 +81,7 @@ const EngineList = ({
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
               <Typography variant="body2" noWrap>
-                Electron
+                WebCatalog Engine
               </Typography>
             </Grid>
             <Grid item>
@@ -94,7 +94,7 @@ const EngineList = ({
               <HelpTooltip
                 title={(
                   <Typography variant="body2" color="textPrimary">
-                    {getDesc('electron', 'Electron')}
+                    {getDesc('electron', 'WebCatalog Engine')}
                   </Typography>
                 )}
               >

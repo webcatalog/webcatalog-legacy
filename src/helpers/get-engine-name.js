@@ -1,7 +1,7 @@
 const getEngineName = (engine) => {
   switch (engine) {
     case 'electron': {
-      return 'Electron';
+      return 'WebCatalog Engine';
     }
     case 'firefox': {
       return 'Mozilla Firefox';
