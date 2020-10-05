@@ -87,6 +87,7 @@ const Toolbar = ({
             )}
           >
             {[
+              { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
               { name: 'Sort by Name (A-Z)', sortField: 'name', sortDirection: 'asc' },
               { name: 'Sort by Name (Z-A)', sortField: 'name', sortDirection: 'desc' },
               { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },

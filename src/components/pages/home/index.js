@@ -65,12 +65,21 @@ const Home = ({
       apiConnector: connector,
       initialState: {
         resultsPerPage: 60,
-        sortField: 'name',
-        sortDirection: 'asc',
+        sortField: '',
+        sortDirection: '',
       },
       alwaysSearchOnInitialLoad: true,
       searchQuery: {
         disjunctiveFacets: ['type', 'category'],
+        search_fields: {
+          name: {
+            weight: 10,
+          },
+          url: {},
+          description: {},
+          category: {},
+          type: {},
+        },
         result_fields: {
           id: { raw: {} },
           name: { raw: {} },
