@@ -330,6 +330,7 @@ GenericName=${name}
 Icon=${iconPath}
 Exec="${finalExecFilePath}"
 Terminal=false
+StartupWMClass=${name.toLowerCase()}
 `;
       return fsExtra.ensureDir(desktopDirPath)
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
