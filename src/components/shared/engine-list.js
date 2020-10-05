@@ -23,7 +23,6 @@ import chromiumIcon from '../../assets/chromium.png';
 import coccocIcon from '../../assets/coccoc.png';
 import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/electron.png';
-import firefoxIcon from '../../assets/firefox.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
 import yandexIcon from '../../assets/yandex.png';
@@ -39,10 +38,6 @@ const CustomHelpIcon = withStyles(() => ({
 const getDesc = (engineCode, browserName) => {
   if (engineCode === 'electron') {
     return `This option creates ${browserName}-based app with many exclusive features such as workspaces, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
-  }
-
-  if (engineCode === 'firefox') {
-    return `This option creates ${browserName}-based app with traditional browser user interface, tab and WebExtension support.`;
   }
 
   const standardDesc = `This option creates bare-bone ${browserName}-based app with WebExtension support.`;
@@ -425,52 +420,6 @@ const EngineList = ({
         </ListItemSecondaryAction>
       </ListItem>
     )}
-    <ListItem
-      button
-      onClick={() => onEngineSelected('firefox')}
-      selected={engine === 'firefox'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={(
-          <Grid container direction="row" alignItems="center" spacing={1}>
-            <Grid item>
-              <Typography variant="body2" noWrap>
-                Mozilla Firefox
-              </Typography>
-            </Grid>
-            <Grid item>
-              <HelpTooltip
-                title={(
-                  <Typography variant="body2" color="textPrimary">
-                    {getDesc('firefox', 'Mozilla Firefox')}
-                  </Typography>
-                )}
-              >
-                <CustomHelpIcon fontSize="small" color="disabled" />
-              </HelpTooltip>
-            </Grid>
-          </Grid>
-        )}
-      />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="firefox">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
-    </ListItem>
     <ListItem
       button
       onClick={() => onEngineSelected('opera/tabs')}

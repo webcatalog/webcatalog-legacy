@@ -105,7 +105,7 @@ Promise.resolve()
     if (engine === 'electron') {
       const userDataPath = path.join(appDataPath, name);
       p.push(checkExistsAndRemove(userDataPath));
-    } else if (engine !== 'firefox') { // chromium-based browsers
+    } else { // chromium-based browsers
       // forked-script-lite-v1
       p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));
       // forked-script-lite-v2

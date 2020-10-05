@@ -49,6 +49,12 @@ let cachedPreferences = null;
 
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.get(`preferences.${v}`) };
+
+  // firefox is no longer supported
+  // switch to electron
+  if (cachedPreferences.preferredEngine === 'firefox') {
+    cachedPreferences.preferredEngine = 'electron';
+  }
 };
 
 const getPreferences = () => {

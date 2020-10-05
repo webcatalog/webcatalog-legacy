@@ -4,7 +4,6 @@ const commandExistsSync = require('command-exists').sync;
 
 const getWin32BravePaths = require('./get-win32-brave-paths');
 const getWin32ChromePaths = require('./get-win32-chrome-paths');
-const getWin32FirefoxPaths = require('./get-win32-firefox-paths');
 const getWin32VivaldiPaths = require('./get-win32-vivaldi-paths');
 const getWin32EdgePaths = require('./get-win32-edge-paths');
 const getWin32OperaPaths = require('./get-win32-opera-paths');
@@ -14,23 +13,6 @@ const getWin32CoccocPaths = require('./get-win32-coccoc-paths');
 const isEngineInstalled = (engine) => {
   const browser = engine.split('/')[0];
   switch (browser) {
-    case 'firefox': {
-      if (process.platform === 'darwin') {
-        const firefoxPath = path.join('/Applications', 'Firefox.app');
-        return fs.existsSync(firefoxPath);
-      }
-
-      if (process.platform === 'win32') {
-        const firefoxPaths = getWin32FirefoxPaths();
-        return firefoxPaths.length > 0;
-      }
-
-      if (process.platform === 'linux') {
-        return commandExistsSync('firefox');
-      }
-
-      return false;
-    }
     case 'electron': {
       return true;
     }
