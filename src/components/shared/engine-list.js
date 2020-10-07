@@ -22,7 +22,7 @@ import chromeIcon from '../../assets/chrome.png';
 import chromiumIcon from '../../assets/chromium.png';
 import coccocIcon from '../../assets/coccoc.png';
 import edgeIcon from '../../assets/edge.png';
-import electronIcon from '../../assets/electron.png';
+import electronIcon from '../../assets/default-icon.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
 import yandexIcon from '../../assets/yandex.png';

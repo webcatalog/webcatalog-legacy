@@ -46,7 +46,7 @@ const EnhancedBottomNavigation = ({
       classes={{ root: classes.bottomNavigation }}
     >
       <BottomNavigationAction
-        label="Home"
+        label="Discover"
         icon={<HomeIcon />}
         value={ROUTE_HOME}
         classes={{
