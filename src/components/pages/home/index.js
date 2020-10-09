@@ -23,6 +23,7 @@ import NoConnection from '../../shared/no-connection';
 import DefinedAppBar from './defined-app-bar';
 import SecondaryToolbar from './toolbar';
 import SubmitAppCard from './submit-app-card';
+import CreateCustomAppCard from './create-custom-app-card';
 
 import AppCard from '../../shared/app-card';
 
@@ -64,7 +65,7 @@ const Home = ({
     config={{
       apiConnector: connector,
       initialState: {
-        resultsPerPage: 60,
+        resultsPerPage: 58,
         sortField: '',
         sortDirection: '',
       },
@@ -175,6 +176,7 @@ const Home = ({
                       </Typography>
                       <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
                         <SubmitAppCard />
+                        <CreateCustomAppCard />
                       </Grid>
                     </EmptyState>
                   );
@@ -194,6 +196,8 @@ const Home = ({
                           ? app.icon_unplated_128.raw : app.icon_128.raw}
                       />
                     ))}
+                    {results.length > 0 && <SubmitAppCard />}
+                    {results.length > 0 && <CreateCustomAppCard />}
                     <Grid item xs={12} container justify="center">
                       <Paging />
                     </Grid>
