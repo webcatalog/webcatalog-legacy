@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -124,7 +124,7 @@ const DialogEditApp = (props) => {
             <Grid item xs={12} sm="auto">
               <Typography
                 variant="body2"
-                className={classNames(classes.caption, classes.captionDisabled)}
+                className={classnames(classes.caption, classes.captionDisabled)}
               >
                 This app icon is managed by WebCatalog and is not editable.
               </Typography>

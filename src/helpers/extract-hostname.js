@@ -1,5 +1,7 @@
 /* eslint-disable prefer-destructuring */
 const extractHostname = (url) => {
+  if (!url) return '';
+
   let hostname = url.trim();
 
   // find & remove protocol (http, ftp, etc.) and get hostname

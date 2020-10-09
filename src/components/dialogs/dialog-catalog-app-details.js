@@ -1,32 +1,42 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
 
+import extractHostname from '../../helpers/extract-hostname';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-catalog-app-details/actions';
+
+import {
+  requestOpenInBrowser,
+} from '../../senders';
 
 import AppCard from '../shared/app-card';
 
 const styles = (theme) => ({
   dialogContent: {
-    padding: '0 !important',
-  },
-  link: {
-    fontWeight: 600,
-    cursor: 'pointer',
-    outline: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
+    paddingTop: theme.spacing(4),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
   },
   status: {
     textAlign: 'center',
-    padding: theme.spacing(4),
+  },
+  appDesc: {
+    width: '100%',
+  },
+  appDescSection: {
+    paddingTop: theme.spacing(2),
   },
 });
 
@@ -49,13 +59,38 @@ const DialogCatalogAppDetails = ({
               Failed to Load App Information.
             </Typography>
           ) : (
-            <AppCard
-              id={details.id}
-              name={details.name}
-              url={details.url}
-              icon={details.icon}
-              icon128={details.icon128}
-            />
+            <>
+              <Grid container>
+                <AppCard
+                  id={details.id}
+                  name={details.name}
+                  url={details.url}
+                  icon={details.icon}
+                  icon128={details.icon128}
+                  inDetailsDialog
+                />
+              </Grid>
+              <div className={classes.appDesc}>
+                <Typography variant="body2" className={classes.appDescSection}>
+                  {details.description}
+                </Typography>
+
+                {details.url && (
+                  <Typography variant="body2" className={classes.appDescSection}>
+                    <span>Website: </span>
+                    <Link
+                      component="button"
+                      variant="body2"
+                      onClick={() => {
+                        requestOpenInBrowser(details.url);
+                      }}
+                    >
+                      {extractHostname(details.url)}
+                    </Link>
+                  </Typography>
+                )}
+              </div>
+            </>
           )}
         </>
       ) : (
@@ -64,6 +99,11 @@ const DialogCatalogAppDetails = ({
         </Typography>
       )}
     </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>
+        Close
+      </Button>
+    </DialogActions>
   </Dialog>
 );
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
@@ -56,7 +56,7 @@ const DefinedAppBar = ({
                 size="small"
                 color="inherit"
                 aria-label="Create..."
-                className={classNames(classes.noDrag, classes.addButton)}
+                className={classnames(classes.noDrag, classes.addButton)}
               >
                 <AddIcon fontSize="small" />
               </IconButton>
@@ -78,7 +78,7 @@ const DefinedAppBar = ({
               <IconButton
                 size="small"
                 aria-label="What is this?"
-                classes={{ root: classNames(classes.helpButton, classes.noDrag) }}
+                classes={{ root: classnames(classes.helpButton, classes.noDrag) }}
                 onClick={(e) => {
                   e.stopPropagation();
                   requestOpenInBrowser('https://webcatalog.app/multisite-apps');

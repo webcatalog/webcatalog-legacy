@@ -93,7 +93,7 @@ const Toolbar = ({
               { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },
             ].map((sortOption) => (
               <MenuItem
-                key={sortOption.val}
+                key={sortOption.name}
                 dense
                 onClick={() => setSort(sortOption.sortField, sortOption.sortDirection)}
                 selected={sortOption.sortField === sortField
