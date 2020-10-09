@@ -1,9 +1,10 @@
 // Adapted from legacy bash scripts of WebCatalog
+require('source-map-support').install();
 
-const argv = require('yargs-parser')(process.argv.slice(1));
+const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const ws = require('windows-shortcuts');
 const icongen = require('icon-gen');
-const Jimp = require('jimp');
+const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 const path = require('path');
 const tmp = require('tmp');
 const fsExtra = require('fs-extra');
@@ -14,6 +15,7 @@ const downloadAsync = require('../../download-async');
 const execAsync = require('../../exec-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
+const argv = yargsParser(process.argv.slice(1));
 const {
   engine,
   id,

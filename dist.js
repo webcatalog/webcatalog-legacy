@@ -57,7 +57,7 @@ const opts = {
     productName: 'WebCatalog',
     asar: true,
     asarUnpack: [
-      '**/libs/**/*.js',
+      '**/libs/**/*forked-script*',
     ],
     files: [
       'default-app-icons',

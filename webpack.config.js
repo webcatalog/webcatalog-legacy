@@ -3,7 +3,9 @@
 
 const path = require('path');
 
+// https://jlongster.com/Backend-Apps-with-Webpack--Part-I
 module.exports = {
+  mode: 'production',
   entry: {
     'libs/app-management/install-app-async/forked-script-electron-v2.js': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'forked-script-electron-v2.js'),
     'libs/app-management/install-app-async/forked-script-lite-v1.js': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'forked-script-lite-v1.js'),
@@ -14,7 +16,7 @@ module.exports = {
   target: 'node',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: '[name].js',
+    filename: '[name]',
   },
   devtool: 'source-map',
 };
