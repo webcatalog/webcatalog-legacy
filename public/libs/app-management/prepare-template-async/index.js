@@ -52,7 +52,8 @@ const getTagNameAsync = () => Promise.resolve()
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   let latestTemplateVersion = '0.0.0';
-  const scriptPath = path.join(__dirname, 'forked-script.js');
+  const scriptPath = path.join(__dirname, 'forked-script.js')
+    .replace('app.asar', 'app.asar.unpacked');
 
   const {
     proxyPacScript,

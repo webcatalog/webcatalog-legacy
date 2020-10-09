@@ -5,7 +5,8 @@ const { app } = require('electron');
 const { getPreferences } = require('../../preferences');
 
 const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js');
+  const scriptPath = path.join(__dirname, 'forked-script.js')
+    .replace('app.asar', 'app.asar.unpacked');
 
   const {
     installationPath,
