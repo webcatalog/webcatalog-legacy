@@ -17,6 +17,7 @@ class StatedMenu extends React.Component {
   }
 
   handleClick(event) {
+    event.stopPropagation();
     this.setState({ open: true, anchorEl: event.currentTarget });
   }
 

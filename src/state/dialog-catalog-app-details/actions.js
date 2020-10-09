@@ -41,6 +41,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
           ? app.icon_unplated.raw : app.icon.raw,
         icon128: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated_128.raw : app.icon_128.raw,
+        description: app.description.raw,
       }));
     })
     .catch((err) => {

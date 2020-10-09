@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -24,7 +24,7 @@ import StatedMenu from '../../shared/stated-menu';
 const styles = (theme) => ({
   card: {
     width: 168,
-    height: 158,
+    height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
     padding: theme.spacing(1),
@@ -89,7 +89,7 @@ const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
           <IconButton
             size="small"
             aria-label="What is this?"
-            classes={{ root: classNames(classes.helpButton, classes.noDrag) }}
+            classes={{ root: classnames(classes.helpButton, classes.noDrag) }}
             onClick={(e) => {
               e.stopPropagation();
               requestOpenInBrowser('https://webcatalog.app/multisite-apps');

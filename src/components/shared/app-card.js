@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import clsx from 'clsx';
+import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -12,15 +12,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import HelpIcon from '@material-ui/icons/Help';
 
 import StatedMenu from './stated-menu';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
-
-import extractHostname from '../../helpers/extract-hostname';
 
 import {
   INSTALLED,
@@ -48,13 +45,23 @@ import InstallationProgress from './installation-progress';
 const styles = (theme) => ({
   card: {
     width: 168,
-    height: 158,
+    height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
     padding: theme.spacing(1),
     textAlign: 'center',
     position: 'relative',
-    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
+    boxShadow: theme.palette.type === 'dark' ? 'none' : '0 0 0 1px rgba(0, 0, 0, 0.12)',
+    transition: 'all 0.2s ease-in-out',
+  },
+  cardClickable: {
+    cursor: 'pointer',
+    '&:hover': {
+      boxShadow: theme.shadows[3],
+    },
+  },
+  cardFrameless: {
+    boxShadow: 'none',
   },
   appName: {
     overflow: 'hidden',
@@ -62,6 +69,7 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
     lineHeight: 'normal',
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     fontWeight: 500,
   },
   appUrl: {
@@ -111,13 +119,14 @@ const AppCard = (props) => {
     icon,
     icon128,
     id,
+    inDetailsDialog,
     isOutdated,
     latestTemplateVersion,
     name,
+    onOpenDialogCatalogAppDetails,
     onOpenDialogChooseEngine,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
-    onOpenDialogCatalogAppDetails,
     onUpdateApp,
     status,
     url,
@@ -131,7 +140,10 @@ const AppCard = (props) => {
           <Button
             className={classes.actionButton}
             size="medium"
-            onClick={() => requestOpenApp(id, name)}
+            onClick={(e) => {
+              e.stopPropagation();
+              requestOpenApp(id, name);
+            }}
           >
             Open
           </Button>
@@ -140,7 +152,10 @@ const AppCard = (props) => {
               className={classes.actionButton}
               color="primary"
               size="medium"
-              onClick={() => onUpdateApp(engine, id, name, url, icon)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onUpdateApp(engine, id, name, url, icon);
+              }}
             >
               Update
             </Button>
@@ -150,7 +165,10 @@ const AppCard = (props) => {
               className={classes.actionButton}
               color="secondary"
               size="medium"
-              onClick={() => requestUninstallApp(id, name, engine)}
+              onClick={(e) => {
+                e.stopPropagation();
+                requestUninstallApp(id, name, engine);
+              }}
             >
               Uninstall
             </Button>
@@ -180,24 +198,41 @@ const AppCard = (props) => {
     }
 
     return (
-      <Button
-        className={classes.actionButton}
-        color="primary"
-        size="medium"
-        disabled={status !== null}
-        onClick={() => onOpenDialogChooseEngine(id, name, url, icon)}
-      >
-        {label}
-      </Button>
+      <>
+        <Button
+          className={classes.actionButton}
+          color="primary"
+          size="medium"
+          disabled={status !== null}
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenDialogChooseEngine(id, name, url, icon);
+          }}
+        >
+          {label}
+        </Button>
+      </>
     );
   };
 
+  const clickable = !inDetailsDialog && !id.startsWith('custom-');
+
   return (
     <Grid item>
-      <Paper elevation={0} className={classes.card}>
+      <Paper
+        elevation={0}
+        className={classnames(
+          classes.card,
+          clickable && classes.cardClickable,
+          inDetailsDialog && classes.cardFrameless,
+        )}
+        onClick={clickable ? () => {
+          onOpenDialogCatalogAppDetails(id);
+        } : null}
+      >
         <img
           alt={name}
-          className={clsx(
+          className={classnames(
             classes.paperIcon,
             // special styling for catalog app icons on Windows (unplated icons)
             window.process.platform === 'win32' && classes.paperIconWindows,
@@ -212,30 +247,9 @@ const AppCard = (props) => {
         >
           {name}
         </Typography>
-        <Typography
-          className={classes.appUrl}
-          color="textSecondary"
-          title={url}
-          variant="body2"
-        >
-          {url ? extractHostname(url) : 'Multisite App'}
-        </Typography>
-
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
-        {!url && (
-          <Tooltip title="What is this?" placement="right">
-            <IconButton
-              size="small"
-              aria-label="What is this?"
-              classes={{ root: classes.topLeft }}
-              onClick={() => requestOpenInBrowser('https://webcatalog.app/multisite-apps')}
-            >
-              <HelpIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
@@ -277,6 +291,18 @@ const AppCard = (props) => {
               Uninstall
             </MenuItem>
           )}
+          {!id.startsWith('custom-') && !inDetailsDialog && (
+            [
+              status === INSTALLED && <Divider key="menu-divider-app-info" />,
+              <MenuItem
+                key="app-info"
+                dense
+                onClick={() => onOpenDialogCatalogAppDetails(id)}
+              >
+                View Details
+              </MenuItem>,
+            ]
+          )}
           <MenuItem
             dense
             onClick={() => onOpenDialogCreateCustomApp({
@@ -289,18 +315,6 @@ const AppCard = (props) => {
             Create Custom App from&nbsp;
             {name}
           </MenuItem>
-          {process.env.NODE_ENV === 'development' && !id.startsWith('custom-') && url && (
-            [
-              <Divider key="menu-divider-app-info" />,
-              <MenuItem
-                key="app-info"
-                dense
-                onClick={() => onOpenDialogCatalogAppDetails(id)}
-              >
-                Test App Info Dialog (dev only)
-              </MenuItem>,
-            ]
-          )}
           {engine && (
             [
               <Divider key="menu-divider-engine" />,
@@ -342,6 +356,7 @@ const AppCard = (props) => {
 AppCard.defaultProps = {
   engine: null,
   icon128: null,
+  inDetailsDialog: false,
   latestTemplateVersion: null,
   status: null,
   url: null,
@@ -355,11 +370,12 @@ AppCard.propTypes = {
   icon128: PropTypes.string,
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  inDetailsDialog: PropTypes.bool,
   isOutdated: PropTypes.bool.isRequired,
   latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
-  onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
+  onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,

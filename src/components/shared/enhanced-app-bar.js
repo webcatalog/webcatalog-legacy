@@ -1,7 +1,7 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -156,7 +156,7 @@ const EnhancedAppBar = ({
                   browserWindow.minimize();
                 }}
               >
-                <div className={classNames(classes.windowsIcon, classes.windowsIconMinimize)} />
+                <div className={classnames(classes.windowsIcon, classes.windowsIconMinimize)} />
               </button>
               <button
                 className={classes.windowsIconBg}
@@ -173,7 +173,7 @@ const EnhancedAppBar = ({
                 }}
               >
                 <div
-                  className={classNames(
+                  className={classnames(
                     classes.windowsIcon,
                     isMaximized && classes.windowsIconUnmaximize,
                     !isMaximized && classes.windowsIconMaximize,
@@ -191,7 +191,7 @@ const EnhancedAppBar = ({
                 }}
               >
                 <div
-                  className={classNames(classes.windowsIcon, classes.windowsIconClose)}
+                  className={classnames(classes.windowsIcon, classes.windowsIconClose)}
                 />
               </button>
             </div>

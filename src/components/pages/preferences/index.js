@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -300,7 +300,7 @@ const Preferences = ({
                   classes={{
                     root: classes.select,
                   }}
-                  className={classNames(classes.selectRoot, classes.selectRootExtraMargin)}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
                 >
                   <MenuItem dense value="system">System default</MenuItem>
                   <MenuItem dense value="light">Light</MenuItem>
@@ -454,7 +454,7 @@ const Preferences = ({
                         classes={{
                           root: classes.select,
                         }}
-                        className={classNames(classes.selectRoot, classes.selectRootExtraMargin)}
+                        className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
                       >
                         <MenuItem dense value="yes">Yes</MenuItem>
                         <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
