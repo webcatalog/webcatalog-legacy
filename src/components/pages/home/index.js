@@ -192,7 +192,7 @@ const Home = ({
                         url={app.url.raw}
                         icon={window.process.platform === 'win32' // use unplated icon for Windows
                           ? app.icon_unplated.raw : app.icon.raw}
-                        icon128={window.process.platform === 'win32' // use unplated icon for Windows
+                        iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
                           ? app.icon_unplated_128.raw : app.icon_128.raw}
                       />
                     ))}

@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Dialog from '@material-ui/core/Dialog';
@@ -60,16 +59,14 @@ const DialogCatalogAppDetails = ({
             </Typography>
           ) : (
             <>
-              <Grid container>
-                <AppCard
-                  id={details.id}
-                  name={details.name}
-                  url={details.url}
-                  icon={details.icon}
-                  icon128={details.icon128}
-                  inDetailsDialog
-                />
-              </Grid>
+              <AppCard
+                id={details.id}
+                name={details.name}
+                url={details.url}
+                icon={details.icon}
+                iconThumbnail={details.icon256}
+                inDetailsDialog
+              />
               <div className={classes.appDesc}>
                 <Typography variant="body2" className={classes.appDescSection}>
                   {details.description}

@@ -62,6 +62,8 @@ const styles = (theme) => ({
   },
   cardFrameless: {
     boxShadow: 'none',
+    width: '100%',
+    height: '100%',
   },
   appName: {
     overflow: 'hidden',
@@ -78,24 +80,25 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
   },
   paperIcon: {
-    width: 56,
-    height: 56,
+    width: window.process.platform === 'win32' ? 48 : 56,
+    height: window.process.platform === 'win32' ? 48 : 56,
+    paddingTop: window.process.platform === 'win32' ? 4 : 0,
+    paddingBottom: window.process.platform === 'win32' ? 4 : 0,
   },
-  paperIconWindows: {
-    width: 48,
-    height: 48,
-  },
-  paperIconCatalogWindows: {
-    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-    borderRadius: 12,
-    marginBottom: theme.spacing(1),
+  paperIconLarge: {
+    width: window.process.platform === 'win32' ? 96 : 128,
+    height: window.process.platform === 'win32' ? 96 : 128,
+    paddingTop: window.process.platform === 'win32' ? 16 : 0,
+    paddingBottom: window.process.platform === 'win32' ? 16 : 0,
   },
   actionContainer: {
     marginTop: theme.spacing(1),
   },
   actionButton: {
     minWidth: 'auto',
-    fontSize: '0.8em',
+    '&:not(:first-child)': {
+      marginLeft: theme.spacing(1),
+    },
   },
   topRight: {
     position: 'absolute',
@@ -117,7 +120,7 @@ const AppCard = (props) => {
     classes,
     engine,
     icon,
-    icon128,
+    iconThumbnail,
     id,
     inDetailsDialog,
     isOutdated,
@@ -133,13 +136,19 @@ const AppCard = (props) => {
     version,
   } = props;
 
+  const clickable = !inDetailsDialog && !id.startsWith('custom-');
+  const buttonSize = inDetailsDialog ? 'large' : 'medium';
+  const buttonVariant = inDetailsDialog ? 'contained' : 'text';
+
   const renderActionsElement = () => {
     if (status === INSTALLED) {
       return (
         <div>
           <Button
             className={classes.actionButton}
-            size="medium"
+            size={buttonSize}
+            variant={buttonVariant}
+            disableElevation
             onClick={(e) => {
               e.stopPropagation();
               requestOpenApp(id, name);
@@ -151,7 +160,9 @@ const AppCard = (props) => {
             <Button
               className={classes.actionButton}
               color="primary"
-              size="medium"
+              size={buttonSize}
+              variant={buttonVariant}
+              disableElevation
               onClick={(e) => {
                 e.stopPropagation();
                 onUpdateApp(engine, id, name, url, icon);
@@ -164,7 +175,9 @@ const AppCard = (props) => {
             <Button
               className={classes.actionButton}
               color="secondary"
-              size="medium"
+              variant={buttonVariant}
+              size={buttonSize}
+              disableElevation
               onClick={(e) => {
                 e.stopPropagation();
                 requestUninstallApp(id, name, engine);
@@ -202,7 +215,9 @@ const AppCard = (props) => {
         <Button
           className={classes.actionButton}
           color="primary"
-          size="medium"
+          size={buttonSize}
+          variant={buttonVariant}
+          disableElevation
           disabled={status !== null}
           onClick={(e) => {
             e.stopPropagation();
@@ -214,8 +229,6 @@ const AppCard = (props) => {
       </>
     );
   };
-
-  const clickable = !inDetailsDialog && !id.startsWith('custom-');
 
   return (
     <Grid item>
@@ -234,16 +247,14 @@ const AppCard = (props) => {
           alt={name}
           className={classnames(
             classes.paperIcon,
-            // special styling for catalog app icons on Windows (unplated icons)
-            window.process.platform === 'win32' && classes.paperIconWindows,
-            window.process.platform === 'win32' && !id.startsWith('custom-') && classes.paperIconCatalogWindows,
+            inDetailsDialog && classes.paperIconLarge,
           )}
-          src={icon128 || (isUrl(icon) ? icon : `file://${icon}`)}
+          src={iconThumbnail || (isUrl(icon) ? icon : `file://${icon}`)}
         />
         <Typography
           className={classes.appName}
           title={name}
-          variant="subtitle2"
+          variant={inDetailsDialog ? 'h5' : 'subtitle2'}
         >
           {name}
         </Typography>
@@ -355,7 +366,7 @@ const AppCard = (props) => {
 
 AppCard.defaultProps = {
   engine: null,
-  icon128: null,
+  iconThumbnail: null,
   inDetailsDialog: false,
   latestTemplateVersion: null,
   status: null,
@@ -367,7 +378,7 @@ AppCard.propTypes = {
   cancelable: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string,
-  icon128: PropTypes.string,
+  iconThumbnail: PropTypes.string,
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   inDetailsDialog: PropTypes.bool,

@@ -30,6 +30,16 @@ export const getDetailsAsync = () => (dispatch, getState) => {
       filters: {
         id: [appId],
       },
+      result_fields: {
+        id: { raw: {} },
+        name: { raw: {} },
+        url: { raw: {} },
+        description: { raw: {} },
+        icon: window.process.platform === 'win32' ? undefined : { raw: {} },
+        icon_256: window.process.platform === 'win32' ? undefined : { raw: {} },
+        icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
+        icon_unplated_256: window.process.platform === 'win32' ? { raw: {} } : undefined,
+      },
     })
     .then((res) => {
       const app = res.rawResults[0];
@@ -39,8 +49,8 @@ export const getDetailsAsync = () => (dispatch, getState) => {
         url: app.url.raw,
         icon: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated.raw : app.icon.raw,
-        icon128: window.process.platform === 'win32' // use unplated icon for Windows
-          ? app.icon_unplated_128.raw : app.icon_128.raw,
+        icon256: window.process.platform === 'win32' // use unplated icon for Windows
+          ? app.icon_unplated_256.raw : app.icon_256.raw,
         description: app.description.raw,
       }));
     })
