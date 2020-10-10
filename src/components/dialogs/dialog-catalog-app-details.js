@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
+import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import extractHostname from '../../helpers/extract-hostname';
 import connectComponent from '../../helpers/connect-component';
@@ -23,13 +22,13 @@ import AppCard from '../shared/app-card';
 
 const styles = (theme) => ({
   dialogContent: {
-    paddingTop: theme.spacing(4),
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
   status: {
     textAlign: 'center',
+    paddingTop: theme.spacing(4),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
   },
   appDesc: {
     width: '100%',
@@ -50,6 +49,9 @@ const DialogCatalogAppDetails = ({
     onClose={onClose}
     open={open}
   >
+    <EnhancedDialogTitle onClose={onClose}>
+      -
+    </EnhancedDialogTitle>
     <DialogContent className={classes.dialogContent}>
       {details ? (
         <>
@@ -96,11 +98,6 @@ const DialogCatalogAppDetails = ({
         </Typography>
       )}
     </DialogContent>
-    <DialogActions>
-      <Button onClick={onClose}>
-        Close
-      </Button>
-    </DialogActions>
   </Dialog>
 );
 
