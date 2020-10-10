@@ -5,6 +5,7 @@ export const requestShowMessageBox = (message, type) => window.ipcRenderer.send(
 export const requestQuit = () => window.ipcRenderer.send('request-quit');
 export const requestCheckForUpdates = (isSilent) => window.ipcRenderer.send('request-check-for-updates', isSilent);
 export const requestShowAppMenu = (x, y) => window.ipcRenderer.send('request-show-app-menu', x, y);
+export const requestShowAppTrialWindow = (id, url, name) => window.ipcRenderer.send('request-show-app-trial-window', id, url, name);
 
 // Preferences
 export const getPreference = (name) => window.ipcRenderer.sendSync('get-preference', name);
