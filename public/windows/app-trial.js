@@ -14,9 +14,11 @@ const create = (id, url, name) => {
     show: true,
     title: name,
     webPreferences: {
+      partition: `try-${id}`,
       enableRemoteModule: false,
       nodeIntegration: false,
       webSecurity: true,
+      scrollBounce: true,
     },
   });
   win.setMenuBarVisibility(false);
