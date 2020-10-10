@@ -9,6 +9,7 @@ import connectComponent from '../../helpers/connect-component';
 const styles = (theme) => ({
   root: {
     position: 'relative',
+    height: 28,
   },
   top: {
     color: theme.palette.primary.main,
