@@ -424,7 +424,7 @@ const Preferences = ({
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://atomery.com/privacy?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.app/privacy?utm_source=webcatalog_app')}>
                 <ListItemText primary="Privacy Policy" />
               </ListItem>
             </List>
@@ -725,7 +725,7 @@ const Preferences = ({
               </ListItem>
               <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}>
-                <ListItemText primary="Support" />
+                <ListItemText primary="Help" />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />

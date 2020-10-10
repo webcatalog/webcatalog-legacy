@@ -72,7 +72,7 @@ export const updateApps = (apps) => () => {
     } = app;
 
     // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
+    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
 
     return requestUpdateApp(engine, id, name, url, iconUrl);
   });
@@ -89,7 +89,7 @@ export const updateAllApps = () => (dispatch, getState) => {
     } = app;
 
     // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
+    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
 
     return requestUpdateApp(engine, id, name, url, iconUrl);
   });
