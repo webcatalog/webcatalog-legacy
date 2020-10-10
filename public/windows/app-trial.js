@@ -18,6 +18,7 @@ const create = (id, url, name) => {
       enableRemoteModule: false,
       nodeIntegration: false,
       webSecurity: true,
+      scrollBounce: true,
     },
   });
   win.setMenuBarVisibility(false);
