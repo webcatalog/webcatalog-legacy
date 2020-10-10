@@ -9,6 +9,7 @@
   "scripts": {
     "postinstall": "npx patch-package && electron-builder install-app-deps",
     "build": "react-scripts build",
+    "webpack": "webpack",
     "eject": "react-scripts eject",
     "lint": "eslint ./public ./src ./dist.js --ext js",
     "lint:fix": "eslint ./public ./src ./dist.js --ext js --fix",
@@ -90,6 +91,8 @@
     "redux-thunk": "2.3.0",
     "uuid": "8.3.1",
     "wait-on": "5.2.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "4.0.0",
     "worker-loader": "3.0.4"
   },
   "homepage": "./",
