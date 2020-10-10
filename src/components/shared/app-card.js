@@ -227,7 +227,7 @@ const AppCard = (props) => {
         >
           {label}
         </Button>
-        {url && (
+        {url && label === 'Install' && (
           <Button
             className={classes.actionButton}
             color="default"

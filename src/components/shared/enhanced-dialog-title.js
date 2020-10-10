@@ -17,6 +17,11 @@ const styles = (theme) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
+  subtitle1: {
+    // https://stackoverflow.com/questions/19347988/make-empty-div-of-one-line-height
+    // ensure height when text is empty
+    height: '1.75rem',
+  },
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
@@ -34,7 +39,7 @@ const EnhancedDialogTitle = ({
 }) => (
   <MuiDialogTitle disableTypography className={classes.root}>
     {disableTypography ? children : (
-      <Typography variant="subtitle1">{children}</Typography>
+      <Typography variant="subtitle1" className={classes.subtitle1}>{children}</Typography>
     )}
     {onClose ? (
       <IconButton size="small" aria-label="Close" className={classes.closeButton} onClick={onClose}>
@@ -45,11 +50,12 @@ const EnhancedDialogTitle = ({
 );
 
 EnhancedDialogTitle.defaultProps = {
+  children: null,
   disableTypography: false,
 };
 
 EnhancedDialogTitle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   disableTypography: PropTypes.bool,
   onClose: PropTypes.func.isRequired,

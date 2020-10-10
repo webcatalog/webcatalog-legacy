@@ -59,9 +59,7 @@ const DialogCatalogAppDetails = ({
       open={open}
       fullWidth
     >
-      <EnhancedDialogTitle onClose={onClose}>
-        -
-      </EnhancedDialogTitle>
+      <EnhancedDialogTitle onClose={onClose} />
       <DialogContent className={classes.dialogContent}>
         {details ? (
           <>
