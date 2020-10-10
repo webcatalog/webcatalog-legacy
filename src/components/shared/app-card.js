@@ -82,14 +82,14 @@ const styles = (theme) => ({
   paperIcon: {
     width: window.process.platform === 'win32' ? 48 : 56,
     height: window.process.platform === 'win32' ? 48 : 56,
-    paddingTop: window.process.platform === 'win32' ? 4 : 0,
-    paddingBottom: window.process.platform === 'win32' ? 4 : 0,
+    marginTop: window.process.platform === 'win32' ? 4 : 0,
+    marginBottom: window.process.platform === 'win32' ? 4 : 0,
   },
   paperIconLarge: {
     width: window.process.platform === 'win32' ? 96 : 128,
     height: window.process.platform === 'win32' ? 96 : 128,
-    paddingTop: window.process.platform === 'win32' ? 16 : 0,
-    paddingBottom: window.process.platform === 'win32' ? 16 : 0,
+    marginTop: window.process.platform === 'win32' ? 16 : 0,
+    marginBottom: window.process.platform === 'win32' ? 16 : 0,
   },
   actionContainer: {
     marginTop: theme.spacing(1),
