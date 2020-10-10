@@ -30,6 +30,7 @@ import {
   requestCancelUpdateApp,
   requestOpenApp,
   requestOpenInBrowser,
+  requestShowAppTrialWindow,
   requestUninstallApp,
 } from '../../senders';
 
@@ -211,7 +212,7 @@ const AppCard = (props) => {
     }
 
     return (
-      <>
+      <div>
         <Button
           className={classes.actionButton}
           color="primary"
@@ -226,7 +227,22 @@ const AppCard = (props) => {
         >
           {label}
         </Button>
-      </>
+        {url && (
+          <Button
+            className={classes.actionButton}
+            color="default"
+            size={buttonSize}
+            variant={buttonVariant}
+            disableElevation
+            onClick={(e) => {
+              e.stopPropagation();
+              requestShowAppTrialWindow(id, url, name);
+            }}
+          >
+            Try
+          </Button>
+        )}
+      </div>
     );
   };
 
