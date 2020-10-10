@@ -8,6 +8,7 @@
 **[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
 
 **master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
+
 ---
 
 ## Licensing
