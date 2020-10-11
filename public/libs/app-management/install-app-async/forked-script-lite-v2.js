@@ -1,8 +1,6 @@
-require('source-map-support').install();
-
-const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
+const argv = require('yargs-parser')(process.argv.slice(1));
 const icongen = require('icon-gen');
-const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
+const Jimp = require('jimp');
 const path = require('path');
 const tmp = require('tmp');
 const fsExtra = require('fs-extra');
@@ -13,7 +11,6 @@ const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
-const argv = yargsParser(process.argv.slice(1));
 const {
   engine,
   id,

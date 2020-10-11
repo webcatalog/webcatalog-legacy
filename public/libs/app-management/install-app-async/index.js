@@ -190,8 +190,7 @@ const installAppAsync = (
         proxyType,
       } = getPreferences();
 
-      const scriptPath = path.join(__dirname, scriptFileName)
-        .replace('app.asar', 'app.asar.unpacked');
+      const scriptPath = path.join(__dirname, scriptFileName);
       const child = fork(scriptPath, params, {
         env: {
           ELECTRON_RUN_AS_NODE: 'true',

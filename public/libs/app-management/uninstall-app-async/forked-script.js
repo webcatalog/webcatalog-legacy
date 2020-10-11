@@ -1,15 +1,11 @@
-require('source-map-support').install();
-
 const path = require('path');
 const fsExtra = require('fs-extra');
+const argv = require('yargs-parser')(process.argv.slice(1));
 const sudo = require('sudo-prompt');
 const { exec } = require('child_process');
-const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
-
 const registryInstaller = require('../registry-installer');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
-const argv = yargsParser(process.argv.slice(1));
 const {
   appDataPath,
   desktopPath,

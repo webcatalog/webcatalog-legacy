@@ -1,7 +1,5 @@
-require('source-map-support').install();
-
 const ProxyAgent = require('proxy-agent');
-const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
+const argv = require('yargs-parser')(process.argv.slice(1));
 const axios = require('axios');
 const decompress = require('decompress');
 const fs = require('fs-extra');
@@ -12,7 +10,6 @@ const semver = require('semver');
 const customizedFetch = require('../../customized-fetch');
 const formatBytes = require('../../format-bytes');
 
-const argv = yargsParser(process.argv.slice(1));
 const {
   appVersion,
   arch,
@@ -44,9 +41,8 @@ Promise.resolve()
 
       // return shouldDownload
       if (fs.pathExistsSync(templateZipPath)) {
-        // do not use hasha.fromFile as it uses worker which is incompatible with webpack setup
-        const localSha256 = hasha.fromFileSync(templateZipPath, { algorithm: 'sha256' });
-        return localSha256 !== templateInfo.sha256;
+        return hasha.fromFile(templateZipPath, { algorithm: 'sha256' })
+          .then((localSha256) => localSha256 !== templateInfo.sha256);
       }
 
       return true;
@@ -105,8 +101,7 @@ Promise.resolve()
               });
             }));
           })
-          // do not use hasha.fromFile as it uses worker which is incompatible with webpack setup
-          .then(() => hasha.fromFileSync(templateZipPath, { algorithm: 'sha256' }))
+          .then(() => hasha.fromFile(templateZipPath, { algorithm: 'sha256' }))
           .then((sha256) => {
             if (sha256 !== templateInfo.sha256) {
               return Promise.reject(new Error('Downloaded template code zip is corrupted (validated with SHA256).'));
