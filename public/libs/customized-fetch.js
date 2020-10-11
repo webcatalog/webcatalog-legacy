@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = process.env.NODE_ENV === 'production' ? require('node-fetch').default : require('node-fetch');
 const ProxyAgent = require('proxy-agent');
 
 // somehow, ELECTRON_RUN_AS_NODE is set to '1' instead of 'true' as specified
