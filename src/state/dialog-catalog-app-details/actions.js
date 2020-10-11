@@ -34,6 +34,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
         id: { raw: {} },
         name: { raw: {} },
         url: { raw: {} },
+        category: { raw: {} },
         description: { raw: {} },
         icon: window.process.platform === 'win32' ? undefined : { raw: {} },
         icon_256: window.process.platform === 'win32' ? undefined : { raw: {} },
@@ -47,11 +48,12 @@ export const getDetailsAsync = () => (dispatch, getState) => {
         id: app.id.raw,
         name: app.name.raw,
         url: app.url.raw,
+        category: app.category.raw,
+        description: app.description.raw,
         icon: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated.raw : app.icon.raw,
         icon256: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated_256.raw : app.icon_256.raw,
-        description: app.description.raw,
       }));
     })
     .catch((err) => {
