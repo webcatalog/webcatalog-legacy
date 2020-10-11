@@ -49,7 +49,8 @@ class StatedMenu extends React.Component {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           {React.Children.map(children, (child) => child && React.cloneElement(child, {
-            onClick: () => {
+            onClick: (e) => {
+              e.stopPropagation();
               if (child.props.onClick) child.props.onClick();
               this.handleRequestClose();
             },
