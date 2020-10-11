@@ -1,9 +1,12 @@
-const argv = require('yargs-parser')(process.argv.slice(1));
+require('source-map-support').install();
+require('source-map-support').install();
+
+const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const packager = require('electron-packager');
 const path = require('path');
 const fsExtra = require('fs-extra');
 const icongen = require('icon-gen');
-const Jimp = require('jimp');
+const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
 const ws = require('windows-shortcuts');
@@ -13,6 +16,7 @@ const downloadAsync = require('../../download-async');
 const registryInstaller = require('../registry-installer');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
+const argv = yargsParser(process.argv.slice(1));
 const {
   appPath,
   id,
