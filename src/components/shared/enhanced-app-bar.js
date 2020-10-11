@@ -14,7 +14,7 @@ import { requestShowAppMenu } from '../../senders';
 
 import connectComponent from '../../helpers/connect-component';
 
-const LEFT_RIGHT_WIDTH = window.process.platform === 'win32' ? 160 : 100;
+const LEFT_RIGHT_WIDTH = window.process.platform !== 'darwin' ? 160 : 100;
 
 const styles = (theme) => ({
   appBar: {
@@ -144,7 +144,7 @@ const EnhancedAppBar = ({
           {center}
         </div>
         <div className={classes.right} onDoubleClick={onDoubleClick}>
-          {window.process.platform === 'win32' && (
+          {window.process.platform !== 'darwin' && (
             <div className={classes.windowsControl}>
               <button
                 className={classes.windowsIconBg}
