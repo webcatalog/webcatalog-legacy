@@ -42,6 +42,9 @@ const styles = (theme) => ({
   shareInput: {
     marginTop: theme.spacing(4),
   },
+  appInfoName: {
+    color: theme.palette.text.secondary,
+  },
 });
 
 const DialogCatalogAppDetails = ({
@@ -82,20 +85,26 @@ const DialogCatalogAppDetails = ({
                     {details.description}
                   </Typography>
 
-                  {details.url && (
-                    <Typography variant="body2" className={classes.appDescSection}>
-                      <span>Website: </span>
-                      <Link
-                        component="button"
-                        variant="body2"
-                        onClick={() => {
-                          requestOpenInBrowser(details.url);
-                        }}
-                      >
-                        {extractHostname(details.url)}
-                      </Link>
+                  <div className={classes.appDescSection}>
+                    {details.url && (
+                      <Typography variant="body2">
+                        <span className={classes.appInfoName}>Website: </span>
+                        <Link
+                          component="button"
+                          variant="body2"
+                          onClick={() => {
+                            requestOpenInBrowser(details.url);
+                          }}
+                        >
+                          {extractHostname(details.url)}
+                        </Link>
+                      </Typography>
+                    )}
+                    <Typography variant="body2">
+                      <span className={classes.appInfoName}>Category: </span>
+                      {details.category}
                     </Typography>
-                  )}
+                  </div>
 
                   <TextField
                     variant="filled"

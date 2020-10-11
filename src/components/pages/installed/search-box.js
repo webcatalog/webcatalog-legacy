@@ -55,6 +55,7 @@ const styles = (theme) => ({
     margin: 0,
     color: 'inherit',
     width: '100%',
+    padding: 16,
     '&:focus': {
       outline: 0,
     },
@@ -63,7 +64,6 @@ const styles = (theme) => ({
     },
   },
   searchIcon: {
-    paddingRight: 6,
     fill: theme.palette.common.white,
   },
   searchButton: {
