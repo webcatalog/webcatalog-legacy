@@ -13,14 +13,28 @@ const getKeysToCreate = (appId) => [
   `HKCU\\Software\\Classes\\${appId}`,
   `HKCU\\Software\\Classes\\${appId}\\Application`,
   `HKCU\\Software\\Classes\\${appId}\\DefaulIcon`,
+  `HKCU\\Software\\Classes\\${appId}\\shell`,
+  `HKCU\\Software\\Classes\\${appId}\\shell\\open`,
   `HKCU\\Software\\Classes\\${appId}\\shell\\open\\command`,
+  `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}`,
+  `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities\\FileAssociations`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities\\StartMenu`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\Capabilities\\URLAssociations`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\DefaultIcon`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\InstallInfo`,
+  `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\shell`,
+  `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\shell\\open`,
   `HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\shell\\open\\command`,
 ];
+
+const getKeysToDelete = (appId) => {
+  const keys = getKeysToCreate(appId);
+  // reverse (delete from lower level first)
+  // if not, it will return "access is denied"
+  keys.reverse();
+  return keys;
+};
 
 const getRegistryConfig = (appId, appName, installPath) => ({
   'HKCU\\Software\\RegisteredApplications': {
@@ -125,6 +139,18 @@ const getRegistryConfig = (appId, appName, installPath) => ({
   },
 });
 
+const deleteKeyAsync = (key) => new Promise((resolve, reject) => {
+  regedit.deleteKey(key, (err) => {
+    if (err) {
+      // registry path does not exist
+      if (err.code === 2) { resolve(); }
+      reject(err);
+    } else {
+      resolve();
+    }
+  });
+});
+
 const registryInstaller = {
   installAsync: (appId, appName, installPath) => new Promise((resolve, reject) => {
     regedit.createKey(getKeysToCreate(appId), (err) => {
@@ -137,15 +163,16 @@ const registryInstaller = {
       });
     });
   }),
-  uninstallAsync: (appId) => new Promise((resolve, reject) => {
-    regedit.deleteKey(getKeysToCreate(appId), (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
+  uninstallAsync: (appId) => {
+    // delete one by one from lower level to upper level
+    // to avoid "access is denied"
+    let promise = Promise.resolve();
+    const keys = getKeysToDelete(appId);
+    keys.forEach((key) => {
+      promise = promise.then(() => deleteKeyAsync(key));
     });
-  }),
+    return promise;
+  },
 };
 
 module.exports = registryInstaller;
