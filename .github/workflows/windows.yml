@@ -47,6 +47,8 @@ jobs:
       env:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
+        CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
         REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
