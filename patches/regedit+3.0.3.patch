@@ -1,0 +1,12 @@
+diff --git a/node_modules/regedit/index.js b/node_modules/regedit/index.js
+index 039bdea..96242b4 100644
+--- a/node_modules/regedit/index.js
++++ b/node_modules/regedit/index.js
+@@ -355,6 +355,7 @@ function baseCommand(cmd, arch) {
+ 		scriptPath = externalVBSFolderLocation
+ 	} else {
+ 		scriptPath = path.join(__dirname, 'vbs')
++		  .replace('app.asar', 'app.asar.unpacked')
+ 	}
+ 
+ 	return ['//Nologo', path.join(scriptPath, cmd), arch]
