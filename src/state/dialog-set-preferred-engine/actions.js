@@ -8,14 +8,26 @@ import {
   requestSetPreference,
 } from '../../senders';
 
+import {
+  open as openDialogLicenseRegistration,
+} from '../dialog-license-registration/actions';
+
 export const close = () => ({
   type: DIALOG_SET_PREFERRED_ENGINE_CLOSE,
 });
 
-export const updateForm = (changes) => ({
-  type: DIALOG_SET_PREFERRED_ENGINE_FORM_UPDATE,
-  changes,
-});
+export const updateForm = (changes) => (dispatch, getState) => {
+  const { registered } = getState().preferences;
+  if (!registered) {
+    dispatch(openDialogLicenseRegistration());
+    return;
+  }
+
+  dispatch({
+    type: DIALOG_SET_PREFERRED_ENGINE_FORM_UPDATE,
+    changes,
+  });
+};
 
 export const save = () => (dispatch, getState) => {
   const state = getState();
@@ -29,12 +41,13 @@ export const save = () => (dispatch, getState) => {
   requestSetPreference('preferredEngine', engine);
 
   dispatch(close());
-  return null;
 };
 
 export const open = () => (dispatch, getState) => {
+  const { registered, preferredEngine } = getState().preferences;
+
   dispatch({
     type: DIALOG_SET_PREFERRED_ENGINE_OPEN,
-    engine: getState().preferences.preferredEngine,
+    engine: registered ? preferredEngine : 'electron',
   });
 };
