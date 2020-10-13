@@ -1,9 +1,12 @@
+/* eslint-disable prefer-destructuring */
 const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
 const tmp = require('tmp');
+const ws = require('windows-shortcuts');
+const fsExtra = require('fs-extra');
 
-const { getPreference } = require('../../preferences');
+const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
 const isEngineInstalled = require('../../is-engine-installed');
 
@@ -19,13 +22,52 @@ const prepareTemplateAsync = require('../prepare-template-async');
 
 let lastUsedTmpPath = null;
 
-const { getPreferences } = require('../../preferences');
+const createShortcutAsync = (shortcutPath, opts) => {
+  if (process.platform !== 'win32') {
+    return Promise.reject(new Error('Platform is not supported'));
+  }
+
+  return new Promise((resolve, reject) => {
+    ws.create(shortcutPath, opts, (err) => {
+      if (err) { return reject(err); }
+      return resolve();
+    });
+  });
+};
 
 const installAppAsync = (
   engine, id, name, url, icon,
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
+
+  let browserPath;
+  if (process.platform === 'win32') {
+    if (engine.startsWith('chrome')) {
+      browserPath = getWin32ChromePaths()[0];
+    } else if (engine.startsWith('brave')) {
+      browserPath = getWin32BravePaths()[0];
+    } else if (engine.startsWith('vivaldi')) {
+      browserPath = getWin32VivaldiPaths()[0];
+    } else if (engine.startsWith('edge')) {
+      browserPath = getWin32EdgePaths()[0];
+    } else if (engine.startsWith('opera')) {
+      browserPath = getWin32OperaPaths()[0];
+    } else if (engine.startsWith('yandex')) {
+      browserPath = getWin32YandexPaths()[0];
+    } else if (engine.startsWith('coccoc')) {
+      browserPath = getWin32CoccocPaths()[0];
+    }
+  }
+
+  const {
+    installationPath,
+    requireAdmin,
+    createDesktopShortcut,
+    createStartMenuShortcut,
+    registered,
+  } = getPreferences();
+
   return Promise.resolve()
     .then(() => {
       sendToAllWindows('update-installation-progress', {
@@ -124,20 +166,14 @@ const installAppAsync = (
         icon,
         '--homePath',
         app.getPath('home'),
-        '--desktopPath',
-        app.getPath('desktop'),
         '--installationPath',
-        getPreference('installationPath'),
+        installationPath,
         '--requireAdmin',
-        getPreference('requireAdmin').toString(),
+        requireAdmin.toString(),
         '--username',
         process.env.USER, // required by sudo-prompt,
-        '--createDesktopShortcut',
-        getPreference('createDesktopShortcut'),
-        '--createStartMenuShortcut',
-        getPreference('createStartMenuShortcut'),
         '--registered',
-        getPreference('registered'),
+        registered,
       ];
 
       if (url != null) {
@@ -145,29 +181,9 @@ const installAppAsync = (
         params.push(url);
       }
 
-      if (process.platform === 'win32') {
-        if (engine.startsWith('chrome')) {
-          params.push('--browserPath');
-          params.push(getWin32ChromePaths()[0]);
-        } else if (engine.startsWith('brave')) {
-          params.push('--browserPath');
-          params.push(getWin32BravePaths()[0]);
-        } else if (engine.startsWith('vivaldi')) {
-          params.push('--browserPath');
-          params.push(getWin32VivaldiPaths()[0]);
-        } else if (engine.startsWith('edge')) {
-          params.push('--browserPath');
-          params.push(getWin32EdgePaths()[0]);
-        } else if (engine.startsWith('opera')) {
-          params.push('--browserPath');
-          params.push(getWin32OperaPaths()[0]);
-        } else if (engine.startsWith('yandex')) {
-          params.push('--browserPath');
-          params.push(getWin32YandexPaths()[0]);
-        } else if (engine.startsWith('coccoc')) {
-          params.push('--browserPath');
-          params.push(getWin32CoccocPaths()[0]);
-        }
+      if (browserPath) {
+        params.push('--browserPath');
+        params.push(browserPath);
       }
 
       let tmpPath = null;
@@ -237,9 +253,53 @@ const installAppAsync = (
           desc: null,
         });
 
-        resolve(v);
+        resolve();
       });
-    }));
+    }))
+    .then(() => {
+      if (process.platform === 'win32') {
+        let args;
+
+        if (engine !== 'electron') {
+          const chromiumDataPath = path.join(app.getPath('home'), '.webcatalog', 'chromium-data', id);
+          if (engine.endsWith('/tabs')) {
+            args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
+          } else {
+            args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
+          }
+        }
+
+        const allAppsPath = installationPath.replace('~', app.getPath('home'));
+        const finalPath = path.join(allAppsPath, name);
+        const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
+
+        const opts = {
+          target: engine === 'electron' ? path.join(finalPath, `${name}.exe`) : browserPath,
+          args,
+          icon: finalIconIcoPath,
+        };
+        const coreShortcutPath = path.join(finalPath, `${name}.lnk`);
+        const startMenuPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+        const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
+        const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
+
+        const p = [createShortcutAsync(coreShortcutPath, opts)];
+
+        if (createDesktopShortcut) {
+          p.push(createShortcutAsync(desktopShortcutPath, opts));
+        }
+
+        if (createStartMenuShortcut) {
+          p.push(fsExtra.ensureDir(startMenuPath)
+            .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+        }
+
+        return Promise.all(p);
+      }
+
+      return null;
+    })
+    .then(() => v);
 };
 
 module.exports = installAppAsync;

@@ -6,7 +6,6 @@ const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
-const ws = require('windows-shortcuts');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
@@ -20,11 +19,8 @@ const {
   url,
   icon,
   homePath,
-  desktopPath,
   installationPath,
   username,
-  createDesktopShortcut,
-  createStartMenuShortcut,
   tmpPath,
   registered,
 } = argv;
@@ -81,19 +77,6 @@ const sudoAsync = (prompt) => new Promise((resolve, reject) => {
     return resolve(stdout, stderr);
   });
 });
-
-const createShortcutAsync = (shortcutPath, opts) => {
-  if (process.platform !== 'win32') {
-    return Promise.reject(new Error('Platform is not supported'));
-  }
-
-  return new Promise((resolve, reject) => {
-    ws.create(shortcutPath, opts, (err) => {
-      if (err) { return reject(err); }
-      return resolve();
-    });
-  });
-};
 
 Promise.resolve()
   .then(() => {
@@ -342,25 +325,7 @@ StartupWMClass=${name.toLowerCase()}
 
     if (process.platform === 'win32') {
       const exePath = path.join(finalPath, `${name}.exe`);
-      const opts = {
-        target: exePath,
-        args: '',
-        icon: path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico'),
-      };
-      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-
       const p = [];
-
-      if (createDesktopShortcut === 'true') {
-        p.push(createShortcutAsync(desktopShortcutPath, opts));
-      }
-
-      if (createStartMenuShortcut === 'true') {
-        p.push(fsExtra.ensureDir(startMenuPath)
-          .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
-      }
 
       p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
 

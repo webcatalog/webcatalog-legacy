@@ -1,7 +1,6 @@
 // Adapted from legacy bash scripts of WebCatalog
 
 const argv = require('yargs-parser')(process.argv.slice(1));
-const ws = require('windows-shortcuts');
 const icongen = require('icon-gen');
 const Jimp = require('jimp');
 const path = require('path');
@@ -21,13 +20,9 @@ const {
   url,
   icon,
   homePath,
-  desktopPath,
   installationPath,
-  createDesktopShortcut,
-  createStartMenuShortcut,
   requireAdmin,
   username,
-  browserPath,
   registered,
 } = argv;
 
@@ -57,19 +52,6 @@ const getAppFolderName = () => {
   throw Error('Unsupported platform');
 };
 
-const createShortcutAsync = (shortcutPath, opts) => {
-  if (process.platform !== 'win32') {
-    return Promise.reject(new Error('Platform is not supported'));
-  }
-
-  return new Promise((resolve, reject) => {
-    ws.create(shortcutPath, opts, (err) => {
-      if (err) { return reject(err); }
-      return resolve();
-    });
-  });
-};
-
 const tmpObj = tmp.dirSync();
 const tmpPath = tmpObj.name;
 const appFolderPath = path.join(tmpPath, getAppFolderName());
@@ -95,8 +77,6 @@ const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
-
-const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
 
 Promise.resolve()
   .then(() => {
@@ -336,43 +316,6 @@ StartupWMClass=${name.toLowerCase()}
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
     }
 
-    if (process.platform === 'win32') {
-      if (!browserPath) {
-        return Promise.reject(new Error('Engine is not supporterd.'));
-      }
-
-      const chromiumDataPath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-      let args;
-
-      if (engine.endsWith('/tabs')) {
-        args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-      } else {
-        args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-      }
-
-      const opts = {
-        target: browserPath,
-        args,
-        icon: finalIconIcoPath,
-      };
-      const coreShortcutPath = path.join(finalPath, `${name}.lnk`);
-      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-
-      const p = [createShortcutAsync(coreShortcutPath, opts)];
-
-      if (createDesktopShortcut === 'true') {
-        p.push(createShortcutAsync(desktopShortcutPath, opts));
-      }
-
-      if (createStartMenuShortcut === 'true') {
-        p.push(fsExtra.ensureDir(startMenuPath)
-          .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
-      }
-
-      return Promise.all(p);
-    }
     return null;
   })
   .then(() => {
