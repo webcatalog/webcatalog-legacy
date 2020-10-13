@@ -40,7 +40,7 @@ switch (process.platform) {
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['dir'], Arch.x64);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
     break;
   }
   default:
@@ -57,7 +57,6 @@ const opts = {
     productName: 'WebCatalog',
     asar: true,
     asarUnpack: [
-      // 'node_modules/rcedit/**/*',
       '**/libs/**/rcedit*.exe',
       '**/libs/**/*forked-script*',
     ],

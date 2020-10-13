@@ -4,6 +4,20 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const plugins = [];
+if (process.platform === 'win32') {
+  plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
+          to: path.join(__dirname, 'build', 'libs', 'app-management', 'bin', 'rcedit-x64.exe'),
+        },
+      ],
+    }),
+  );
+}
+
 // https://jlongster.com/Backend-Apps-with-Webpack--Part-I
 module.exports = {
   mode: 'production',
@@ -25,14 +39,5 @@ module.exports = {
     filename: '[name]',
   },
   devtool: 'source-map',
-  plugins: [
-    new CopyPlugin({
-      patterns: process.platform === 'win32' ? [
-        {
-          from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
-          to: path.join(__dirname, 'build', 'libs', 'app-management', 'bin', 'rcedit-x64.exe'),
-        },
-      ] : [],
-    }),
-  ],
+  plugins,
 };
