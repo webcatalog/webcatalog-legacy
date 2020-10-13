@@ -178,7 +178,6 @@ const Preferences = ({
   createStartMenuShortcut,
   defaultHome,
   hideEnginePrompt,
-  hideMenuBar,
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
@@ -307,28 +306,6 @@ const Preferences = ({
                   <MenuItem dense value="dark">Dark</MenuItem>
                 </Select>
               </ListItem>
-              {window.process.platform !== 'darwin' && (
-                <>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText
-                      primary="Hide menu bar"
-                      secondary="Hide the menu bar unless the Alt key is pressed."
-                    />
-                    <ListItemSecondaryAction>
-                      <Switch
-                        edge="end"
-                        color="primary"
-                        checked={hideMenuBar}
-                        onChange={(e) => {
-                          requestSetPreference('hideMenuBar', e.target.checked);
-                          requestShowRequireRestartDialog();
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </>
-              )}
               <Divider />
               <ListItem>
                 <ListItemText
@@ -760,7 +737,6 @@ Preferences.propTypes = {
   createStartMenuShortcut: PropTypes.bool.isRequired,
   defaultHome: PropTypes.string.isRequired,
   hideEnginePrompt: PropTypes.bool.isRequired,
-  hideMenuBar: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
@@ -788,7 +764,6 @@ const mapStateToProps = (state) => ({
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,
   defaultHome: state.preferences.defaultHome,
   hideEnginePrompt: state.preferences.hideEnginePrompt,
-  hideMenuBar: state.preferences.hideMenuBar,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
