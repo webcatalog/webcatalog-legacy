@@ -168,7 +168,6 @@ const createAsync = () => new Promise((resolve) => {
     minHeight: 500,
     titleBarStyle: 'hiddenInset',
     icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : undefined,
-    autoHideMenuBar: getPreference('hideMenuBar'),
     show: false,
     frame: process.platform === 'darwin',
     webPreferences: {

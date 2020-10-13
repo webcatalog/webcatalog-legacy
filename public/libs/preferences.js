@@ -28,7 +28,6 @@ const defaultPreferences = {
   createStartMenuShortcut: true,
   defaultHome: 'home',
   hideEnginePrompt: true,
-  hideMenuBar: false,
   installationPath: getDefaultInstallationPath(),
   licenseKey: null,
   preferredEngine: 'electron',
