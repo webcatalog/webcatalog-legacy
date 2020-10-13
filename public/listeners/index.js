@@ -165,6 +165,8 @@ const loadListeners = () => {
             send(e.sender, 'remove-app', id);
           })
           .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
             if (error.message.startsWith('EBUSY') || error.message === 'Application is in use.') {
               send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name} as the application is in use.`, 'error');
             } else {
@@ -220,6 +222,8 @@ const loadListeners = () => {
               delete promiseFuncMap[id];
             })
             .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.log(error);
               if (error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
@@ -267,6 +271,8 @@ const loadListeners = () => {
               });
             })
             .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.log(error);
               if (error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else if (error.message.startsWith('EBUSY') || error.message === 'Application is in use.') {

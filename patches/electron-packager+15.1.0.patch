@@ -1,0 +1,35 @@
+diff --git a/node_modules/electron-packager/src/index.js b/node_modules/electron-packager/src/index.js
+index e132383..28fb0fd 100644
+--- a/node_modules/electron-packager/src/index.js
++++ b/node_modules/electron-packager/src/index.js
+@@ -86,7 +86,7 @@ class Packager {
+     debug(`Creating ${buildDir}`)
+     await fs.ensureDir(buildDir)
+     await this.extractElectronZip(comboOpts, zipPath, buildDir)
+-    const os = require(targets.osModules[comboOpts.platform])
++    const os = targets.osModules[comboOpts.platform]
+     const app = new os.App(comboOpts, buildDir)
+     return app.create()
+   }
+diff --git a/node_modules/electron-packager/src/targets.js b/node_modules/electron-packager/src/targets.js
+index edb36d1..181438e 100644
+--- a/node_modules/electron-packager/src/targets.js
++++ b/node_modules/electron-packager/src/targets.js
+@@ -29,12 +29,12 @@ const buildVersions = {
+   }
+ }
+ 
+-// Maps to module filename for each platform (lazy-required if used)
++// Maps to module filename for each platform
+ const osModules = {
+-  darwin: './mac',
+-  linux: './linux',
+-  mas: './mac', // map to darwin
+-  win32: './win32'
++  darwin: require('./mac'),
++  linux: require('./linux'),
++  mas: require('./mac'), // map to darwin
++  win32: require('./win32'),
+ }
+ 
+ const supported = {

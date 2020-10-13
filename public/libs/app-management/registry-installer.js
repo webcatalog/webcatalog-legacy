@@ -140,7 +140,7 @@ const registryInstaller = {
   uninstallAsync: (appId) => new Promise((resolve, reject) => {
     regedit.deleteKey(getKeysToCreate(appId), (err) => {
       if (err) {
-        reject();
+        reject(err);
       } else {
         resolve();
       }

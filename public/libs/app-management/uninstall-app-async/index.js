@@ -4,8 +4,11 @@ const { app } = require('electron');
 
 const { getPreferences } = require('../../preferences');
 
+const registryInstaller = require('../registry-installer');
+
 const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) => {
-  const scriptPath = path.join(__dirname, 'forked-script.js');
+  const scriptPath = path.join(__dirname, 'forked-script.js')
+    .replace('app.asar', 'app.asar.unpacked');
 
   const {
     installationPath,
@@ -64,6 +67,12 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
 
     resolve();
   });
-});
+})
+  .then(() => {
+    if (process.platform === 'win32') {
+      return registryInstaller.uninstallAsync(`webcatalog-${id}`);
+    }
+    return null;
+  });
 
 module.exports = uninstallAppAsync;
