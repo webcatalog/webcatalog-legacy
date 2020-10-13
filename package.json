@@ -42,8 +42,10 @@
     "node-fetch": "2.6.1",
     "node-machine-id": "1.1.12",
     "proxy-agent": "3.1.1",
+    "regedit": "3.0.3",
     "semver": "7.3.2",
-    "tmp": "0.2.1"
+    "tmp": "0.2.1",
+    "windows-shortcuts": "0.1.6"
   },
   "devDependencies": {
     "@elastic/app-search-javascript": "7.8.0",
@@ -59,6 +61,7 @@
     "classnames": "2.2.6",
     "comlink": "4.3.0",
     "concurrently": "5.3.0",
+    "copy-webpack-plugin": "6.2.1",
     "cross-env": "7.0.2",
     "decompress": "4.2.1",
     "electron": "9.3.2",
@@ -85,14 +88,12 @@
     "react-window-infinite-loader": "1.0.5",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "regedit": "3.0.3",
     "source-map-support": "0.5.19",
     "sudo-prompt": "9.2.1",
     "uuid": "8.3.1",
     "wait-on": "5.2.0",
     "webpack": "4.42.0",
     "webpack-cli": "4.0.0",
-    "windows-shortcuts": "0.1.6",
     "worker-loader": "3.0.4",
     "yargs-parser": "19.0.4"
   },

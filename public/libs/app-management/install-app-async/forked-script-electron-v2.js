@@ -12,7 +12,6 @@ const sudo = require('sudo-prompt');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
-const registryInstaller = require('../registry-installer');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const argv = yargsParser(process.argv.slice(1));
@@ -327,14 +326,6 @@ StartupWMClass=${name.toLowerCase()}
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
     }
 
-    if (process.platform === 'win32') {
-      const exePath = path.join(finalPath, `${name}.exe`);
-      const p = [];
-
-      p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
-
-      return Promise.all(p);
-    }
     return null;
   })
   .then(() => {

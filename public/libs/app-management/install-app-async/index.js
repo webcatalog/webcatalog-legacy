@@ -19,6 +19,7 @@ const getWin32YandexPaths = require('../../get-win32-yandex-paths');
 const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
+const registryInstaller = require('../registry-installer');
 
 let lastUsedTmpPath = null;
 
@@ -273,9 +274,10 @@ const installAppAsync = (
         const allAppsPath = installationPath.replace('~', app.getPath('home'));
         const finalPath = path.join(allAppsPath, name);
         const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
+        const exePath = path.join(finalPath, `${name}.exe`);
 
         const opts = {
-          target: engine === 'electron' ? path.join(finalPath, `${name}.exe`) : browserPath,
+          target: engine === 'electron' ? exePath : browserPath,
           args,
           icon: finalIconIcoPath,
         };
@@ -293,6 +295,10 @@ const installAppAsync = (
         if (createStartMenuShortcut) {
           p.push(fsExtra.ensureDir(startMenuPath)
             .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+        }
+
+        if (engine === 'electron') {
+          // p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
         }
 
         return Promise.all(p);
