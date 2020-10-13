@@ -341,6 +341,11 @@ const Preferences = ({
                     color="primary"
                     checked={attachToMenubar}
                     onChange={(e) => {
+                      console.log(e.target.checked, registered);
+                      if (e.target.checked && !registered) {
+                        onOpenDialogLicenseRegistration();
+                        return;
+                      }
                       requestSetPreference('attachToMenubar', e.target.checked);
                       requestShowRequireRestartDialog();
                     }}
@@ -475,14 +480,10 @@ const Preferences = ({
               <ListItem
                 button
                 onClick={() => {
-                  if (!registered) {
-                    onOpenDialogLicenseRegistration();
-                    return;
-                  }
                   onOpenDialogSetPreferredEngine();
                 }}
               >
-                <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
+                <ListItemText primary="Preferred browser engine" secondary={registered ? getEngineName(preferredEngine) : getEngineName('electron')} />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
@@ -496,7 +497,7 @@ const Preferences = ({
                     color="primary"
                     checked={!hideEnginePrompt}
                     onChange={(e) => {
-                      if (!registered) {
+                      if (!registered && e.target.checked) {
                         onOpenDialogLicenseRegistration();
                         return;
                       }
