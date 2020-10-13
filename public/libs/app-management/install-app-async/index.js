@@ -298,7 +298,7 @@ const installAppAsync = (
         }
 
         if (engine === 'electron') {
-          // p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
+          p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
         }
 
         return Promise.all(p);

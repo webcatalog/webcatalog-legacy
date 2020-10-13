@@ -57,6 +57,7 @@ const opts = {
     productName: 'WebCatalog',
     asar: true,
     asarUnpack: [
+      '**/node_modules/regedit/**/*',
       '**/libs/**/rcedit*.exe',
       '**/libs/**/*forked-script*',
     ],

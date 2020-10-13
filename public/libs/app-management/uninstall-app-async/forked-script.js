@@ -6,7 +6,6 @@ const sudo = require('sudo-prompt');
 const { exec } = require('child_process');
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 
-const registryInstaller = require('../registry-installer');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
 const argv = yargsParser(process.argv.slice(1));
@@ -130,7 +129,6 @@ Promise.resolve()
 
       p.push(checkExistsAndRemove(startMenuShortcutPath));
       p.push(checkExistsAndRemove(desktopShortcutPath));
-      p.push(registryInstaller.uninstallAsync(`webcatalog-${id}`));
     }
 
     return Promise.all(p);
