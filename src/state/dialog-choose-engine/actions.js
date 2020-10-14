@@ -56,10 +56,10 @@ export const open = (id, name, url, icon) => (dispatch, getState) => {
     return dispatch(create());
   }
 
-  const { hideEnginePrompt } = state.preferences;
-  if (hideEnginePrompt) {
+  const { registered, hideEnginePrompt } = state.preferences;
+  if (!registered || hideEnginePrompt) {
     dispatch(updateForm({
-      engine: getPreference('preferredEngine'),
+      engine: registered ? getPreference('preferredEngine') : 'electron',
       icon,
       id,
       name,
