@@ -2,9 +2,14 @@
 // as in production, with asar, node_modules are not accessible in forked scripts
 
 const path = require('path');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const plugins = [];
+const plugins = [
+  new webpack.optimize.LimitChunkCountPlugin({
+    maxChunks: 1,
+  }),
+];
 if (process.platform === 'win32') {
   plugins.push(
     new CopyPlugin({
