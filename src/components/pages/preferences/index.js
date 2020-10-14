@@ -318,7 +318,6 @@ const Preferences = ({
                     color="primary"
                     checked={attachToMenubar}
                     onChange={(e) => {
-                      console.log(e.target.checked, registered);
                       if (e.target.checked && !registered) {
                         onOpenDialogLicenseRegistration();
                         return;
