@@ -101,6 +101,10 @@ const DialogCatalogAppDetails = ({
                         </Link>
                       </Typography>
                     )}
+                    <Typography variant="body2">
+                      <span className={classes.appInfoName}>Type: </span>
+                      {details.url ? 'Standard' : 'Multisite'}
+                    </Typography>
                     {details.category && (
                       <Typography variant="body2">
                         <span className={classes.appInfoName}>Category: </span>
