@@ -57,12 +57,13 @@ const opts = {
     productName: 'WebCatalog',
     asar: true,
     asarUnpack: [
+      'default-app-icons/**/*',
       '**/node_modules/regedit/**/*',
       '**/libs/**/rcedit*.exe',
       '**/libs/**/*forked-script*',
     ],
     files: [
-      'default-app-icons',
+      'default-app-icons/**/*',
       '!tests/**/*',
       '!docs/**/*',
       '!catalog/**/*',

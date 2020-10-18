@@ -83,7 +83,7 @@ if (!gotTheLock) {
       'default-app-icons',
       // use unplated icon on Windows
       process.platform === 'win32' ? 'default-icon-unplated.png' : 'default-icon.png',
-    );
+    ).replace('app.asar', 'app.asar.unpacked');
 
     const {
       allowPrerelease,
