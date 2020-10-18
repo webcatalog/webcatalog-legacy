@@ -19,6 +19,21 @@ export const getDetailsAsync = () => (dispatch, getState) => {
   const { appId } = getState().dialogCatalogAppDetails;
   if (!appId) return;
 
+  if (appId.startsWith('custom-')) {
+    const { apps } = getState().appManagement;
+    const appObj = apps[appId];
+    dispatch(updateDetails({
+      id: appId,
+      name: appObj.name,
+      url: appObj.url,
+      category: null,
+      description: null,
+      icon: appObj.icon,
+      icon256: appObj.icon,
+    }));
+    return;
+  }
+
   const client = ElasticAppSearch.createClient({
     searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
     engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
