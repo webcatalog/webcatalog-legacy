@@ -102,20 +102,19 @@ export const save = () => (dispatch, getState) => {
   const state = getState();
 
   const { form } = state.dialogEditApp;
-  const { urlDisabled } = form;
+  const {
+    engine, id, name, url, urlDisabled,
+  } = form;
 
   const validatedChanges = validate(form, getValidationRules(urlDisabled));
   if (hasErrors(validatedChanges)) {
     return dispatch(updateForm(validatedChanges));
   }
 
-  const {
-    engine, id, name, url,
-  } = form;
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  dispatch(updateApp(engine, id, name, protocolledUrl, icon));
+  dispatch(updateApp(engine, id, name, urlDisabled ? null : protocolledUrl, icon));
 
   dispatch(close());
   return null;
