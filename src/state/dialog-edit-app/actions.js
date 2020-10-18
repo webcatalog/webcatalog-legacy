@@ -76,30 +76,35 @@ export const getIconFromInternet = () => (dispatch, getState) => {
     });
 };
 
-const getValidationRules = () => ({
+const getValidationRules = (urlDisabled) => ({
   name: {
     fieldName: 'Name',
     required: true,
     filePath: true,
   },
-  url: {
+  url: !urlDisabled ? {
     fieldName: 'URL',
     required: true,
     lessStrictUrl: true,
-  },
+  } : undefined,
 });
 
-export const updateForm = (changes) => ({
-  type: DIALOG_EDIT_APP_FORM_UPDATE,
-  changes: validate(changes, getValidationRules()),
-});
+export const updateForm = (changes) => (dispatch, getState) => {
+  const { urlDisabled } = getState().dialogEditApp.form;
+
+  dispatch({
+    type: DIALOG_EDIT_APP_FORM_UPDATE,
+    changes: validate(changes, getValidationRules(urlDisabled)),
+  });
+};
 
 export const save = () => (dispatch, getState) => {
   const state = getState();
 
   const { form } = state.dialogEditApp;
+  const { urlDisabled } = form;
 
-  const validatedChanges = validate(form, getValidationRules());
+  const validatedChanges = validate(form, getValidationRules(urlDisabled));
   if (hasErrors(validatedChanges)) {
     return dispatch(updateForm(validatedChanges));
   }
