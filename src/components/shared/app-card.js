@@ -18,6 +18,7 @@ import StatedMenu from './stated-menu';
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
+import generateUrlWithRef from '../../helpers/generate-url-with-ref';
 
 import {
   INSTALLED,
@@ -236,7 +237,7 @@ const AppCard = (props) => {
             disableElevation
             onClick={(e) => {
               e.stopPropagation();
-              requestShowAppTrialWindow(id, url, name);
+              requestShowAppTrialWindow(id, generateUrlWithRef(url), name);
             }}
           >
             Try
