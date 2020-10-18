@@ -7,13 +7,13 @@
 
 **[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
 
-**master** branch only includes the source code of WebCatalog 13 & up. For older versions, check out the **legacy-** branches.
+**master** branch only includes the source code of WebCatalog 13 and above. For older versions, check out the **legacy-** branches.
 
 ---
 
 ## Licensing
 ### Usage
-**WebCatalog is paid software.** [Learn more about  our pricing](https://webcatalog.app).
+**WebCatalog is a commercial product.** [Learn more about  our pricing](https://webcatalog.app).
 
 ### Source Code
 On the other hand, **the source code is freely available** for use, modification and distribution under the permissions, limitations and conditions listed in the [Mozilla Public License 2.0](LICENSE).
