@@ -31,6 +31,9 @@ const styles = (theme) => ({
     marginRight: 'auto',
     zIndex: 1,
   },
+  tooltip: {
+    maxWidth: 400,
+  },
 });
 
 const AppCard = ({
@@ -40,7 +43,14 @@ const AppCard = ({
   progressPercent,
 }) => (
   <div className={classes.root}>
-    <Tooltip title={progressDesc || defaultDesc} aria-label={progressDesc || defaultDesc} placement="right">
+    <Tooltip
+      title={progressDesc || defaultDesc}
+      aria-label={progressDesc || defaultDesc}
+      placement="right"
+      classes={{
+        tooltip: classes.tooltip,
+      }}
+    >
       <CircularProgress
         variant="static"
         value={progressPercent}
