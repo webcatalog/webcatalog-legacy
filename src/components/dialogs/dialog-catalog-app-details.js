@@ -14,6 +14,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import extractHostname from '../../helpers/extract-hostname';
 import connectComponent from '../../helpers/connect-component';
+import isUrl from '../../helpers/is-url';
 
 import { close } from '../../state/dialog-catalog-app-details/actions';
 
@@ -77,7 +78,7 @@ const DialogCatalogAppDetails = ({
                   name={details.name}
                   url={details.url}
                   icon={details.icon}
-                  iconThumbnail={details.icon256}
+                  iconThumbnail={isUrl(details.icon256) ? details.icon256 : `file://${details.icon256}`}
                   inDetailsDialog
                 />
                 <div className={classes.appDesc}>
@@ -101,33 +102,45 @@ const DialogCatalogAppDetails = ({
                       </Typography>
                     )}
                     <Typography variant="body2">
-                      <span className={classes.appInfoName}>Category: </span>
-                      {details.category}
+                      <span className={classes.appInfoName}>Type: </span>
+                      {details.url ? 'Standard' : 'Multisite'}
+                    </Typography>
+                    {details.category && (
+                      <Typography variant="body2">
+                        <span className={classes.appInfoName}>Category: </span>
+                        {details.category}
+                      </Typography>
+                    )}
+                    <Typography variant="body2">
+                      <span className={classes.appInfoName}>ID: </span>
+                      {details.id}
                     </Typography>
                   </div>
 
-                  <TextField
-                    variant="filled"
-                    label="Share this app"
-                    value={shareUrl}
-                    className={classes.shareInput}
-                    fullWidth
-                    InputProps={{
-                      endAdornment: (
-                        <Button
-                          color="primary"
-                          size="large"
-                          variant="contained"
-                          disableElevation
-                          onClick={() => {
-                            window.remote.clipboard.writeText(shareUrl);
-                          }}
-                        >
-                          Copy
-                        </Button>
-                      ),
-                    }}
-                  />
+                  {!details.id.startsWith('custom-') && (
+                    <TextField
+                      variant="filled"
+                      label="Share this app"
+                      value={shareUrl}
+                      className={classes.shareInput}
+                      fullWidth
+                      InputProps={{
+                        endAdornment: (
+                          <Button
+                            color="primary"
+                            size="large"
+                            variant="contained"
+                            disableElevation
+                            onClick={() => {
+                              window.remote.clipboard.writeText(shareUrl);
+                            }}
+                          >
+                            Copy
+                          </Button>
+                        ),
+                      }}
+                    />
+                  )}
                 </div>
               </>
             )}

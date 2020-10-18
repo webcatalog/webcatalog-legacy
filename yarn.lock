@@ -2764,10 +2764,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amplitude-js@7.2.2:
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-7.2.2.tgz#f708f22d38d0d6e8ae49c747e3620800e2beb6c1"
-  integrity sha512-Y1/kw/NaxMdqwBnkbjPywpjPbSmuVuszFLQ9tw56P6YraljvbMC93afHQvLC/3zG5SImDnykbg/8HxrWFDhsLg==
+amplitude-js@7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-7.3.0.tgz#26b75ecf6de68e87b7741a6ddc98095a9aaad718"
+  integrity sha512-FI3ziFNfV4kqpLYHLo6t+E7cbZZ1n8VRCNt214Z1CuDbEzPcc/TenmkCwPoYJA5FQibamqZL9qiKtdMTZhSsUg==
   dependencies:
     "@amplitude/ua-parser-js" "0.7.24"
     blueimp-md5 "^2.10.0"
@@ -15762,10 +15762,10 @@ worker-farm@^1.7.0:
   dependencies:
     errno "~0.1.7"
 
-worker-loader@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-3.0.4.tgz#bbc0af0af7e2d972c1105001ab215497c00b98ca"
-  integrity sha512-puFIebctLf/xB5Vex9QTX4Zr+wR6hQZqgVEg7QeUTA0I8XzTmGr620ryvY8E448C/hJ+eE+NKiIX9xyFcQNFbQ==
+worker-loader@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-3.0.5.tgz#6e13a583c4120ba419eece8e4f2e098b014311bf"
+  integrity sha512-cOh4UqTtvT8eHpyuuTK2C66Fg/G5Pb7g11bwtKm7uyD0vj2hCGY1APlSzVD75V9ciYZt44VPbFPiSFTSLxkQ+w==
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"

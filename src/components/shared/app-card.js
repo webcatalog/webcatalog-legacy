@@ -137,7 +137,7 @@ const AppCard = (props) => {
     version,
   } = props;
 
-  const clickable = !inDetailsDialog && !id.startsWith('custom-');
+  const clickable = !inDetailsDialog;
   const buttonSize = inDetailsDialog ? 'large' : 'medium';
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
 
@@ -318,7 +318,7 @@ const AppCard = (props) => {
               Uninstall
             </MenuItem>
           )}
-          {!id.startsWith('custom-') && !inDetailsDialog && (
+          {!inDetailsDialog && (
             [
               status === INSTALLED && <Divider key="menu-divider-app-info" />,
               <MenuItem
