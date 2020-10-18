@@ -208,7 +208,7 @@ const AppCard = (props) => {
     } else if (status === UNINSTALLING) label = 'Uninstalling...';
 
     if (showProgress) {
-      return (<InstallationProgress defaultDesc={label} />);
+      return (<InstallationProgress defaultDesc="Checking requirements..." />);
     }
 
     return (

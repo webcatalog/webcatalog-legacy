@@ -100,7 +100,7 @@ Promise.resolve()
     process.send({
       progress: {
         percent: 5, // estimated
-        desc: 'Generating app...',
+        desc: 'Installing...',
       },
     });
 
@@ -163,7 +163,7 @@ Promise.resolve()
     process.send({
       progress: {
         percent: 40, // estimated
-        desc: 'Generating app...',
+        desc: 'Installing...',
       },
     });
 

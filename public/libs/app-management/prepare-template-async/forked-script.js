@@ -89,7 +89,7 @@ Promise.resolve()
                   process.send({
                     progress: {
                       percent: Math.round((downloadedLength / totalLength) * 80),
-                      desc: `Downloading additional files (${formatBytes(downloadedLength)}/${formatBytes(totalLength)})...`,
+                      desc: `Downloading WebCatalog Engine ${templateInfo.version} (${formatBytes(downloadedLength)}/${formatBytes(totalLength)})...`,
                     },
                   });
                   lastUpdated = currentTime;
@@ -142,7 +142,7 @@ Promise.resolve()
         process.send({
           progress: {
             percent: 80,
-            desc: 'Extracting additional files...',
+            desc: 'Preparing...',
           },
         });
         console.log(`Extracting template code to ${templatePath}...`); // eslint-disable-line no-console
