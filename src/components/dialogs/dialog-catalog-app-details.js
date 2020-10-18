@@ -15,6 +15,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import extractHostname from '../../helpers/extract-hostname';
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
+import generateUrlWithRef from '../../helpers/generate-url-with-ref';
 
 import { close } from '../../state/dialog-catalog-app-details/actions';
 
@@ -94,7 +95,7 @@ const DialogCatalogAppDetails = ({
                           component="button"
                           variant="body2"
                           onClick={() => {
-                            requestOpenInBrowser(details.url);
+                            requestOpenInBrowser(generateUrlWithRef(details.url));
                           }}
                         >
                           {extractHostname(details.url)}
