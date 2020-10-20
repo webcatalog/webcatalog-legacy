@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -15,6 +14,8 @@ import { requestShowAppMenu } from '../../senders';
 import connectComponent from '../../helpers/connect-component';
 
 const LEFT_RIGHT_WIDTH = window.process.platform !== 'darwin' ? 160 : 100;
+const TOOLBAR_HEIGHT = 32;
+const BUTTON_WIDTH = 46;
 
 const styles = (theme) => ({
   appBar: {
@@ -51,14 +52,14 @@ const styles = (theme) => ({
   windowsControl: {
     verticalAlign: 'middle',
     display: 'inline-block',
-    height: 32,
+    height: TOOLBAR_HEIGHT,
     marginLeft: theme.spacing(2),
   },
   windowsIconBg: {
     display: 'inline-block',
     WebkitAppRegion: 'no-drag',
     height: '100%',
-    width: 46,
+    width: BUTTON_WIDTH,
     background: 'none',
     border: 'none',
     outline: 'none',
@@ -89,6 +90,11 @@ const styles = (theme) => ({
   },
   windowsIconMinimize: {
     mask: "url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='11' height='11' viewBox='0 0 11 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 4.399V5.5H0V4.399h11z' fill='%23000'/%3E%3C/svg%3E\") no-repeat 50% 50%",
+  },
+  iconButton: {
+    width: BUTTON_WIDTH,
+    borderRadius: 0,
+    height: TOOLBAR_HEIGHT,
   },
 });
 
@@ -124,20 +130,19 @@ const EnhancedAppBar = ({
       >
         <div className={classes.left} onDoubleClick={onDoubleClick}>
           {(window.process.platform === 'darwin' && window.mode !== 'menubar') ? null : (
-            <Tooltip title="Menu">
-              <IconButton
-                size="small"
-                color="inherit"
-                aria-label="More"
-                className={classes.noDrag}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  requestShowAppMenu(e.x, e.y);
-                }}
-              >
-                <MenuIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            <IconButton
+              size="small"
+              color="inherit"
+              aria-label="Menu"
+              className={classnames(classes.iconButton, classes.noDrag)}
+              onClick={(e) => {
+                e.stopPropagation();
+                requestShowAppMenu(e.x, e.y);
+              }}
+              disableRipple
+            >
+              <MenuIcon fontSize="small" />
+            </IconButton>
           )}
         </div>
         <div className={classes.center} onDoubleClick={onDoubleClick}>
@@ -149,7 +154,7 @@ const EnhancedAppBar = ({
               <button
                 className={classes.windowsIconBg}
                 type="button"
-                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                aria-label="Minimize"
                 onClick={(e) => {
                   e.stopPropagation();
                   const browserWindow = window.remote.getCurrentWindow();
@@ -158,42 +163,46 @@ const EnhancedAppBar = ({
               >
                 <div className={classnames(classes.windowsIcon, classes.windowsIconMinimize)} />
               </button>
-              <button
-                className={classes.windowsIconBg}
-                type="button"
-                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const browserWindow = window.remote.getCurrentWindow();
-                  if (browserWindow.isMaximized()) {
-                    browserWindow.unmaximize();
-                  } else {
-                    browserWindow.maximize();
-                  }
-                }}
-              >
-                <div
-                  className={classnames(
-                    classes.windowsIcon,
-                    isMaximized && classes.windowsIconUnmaximize,
-                    !isMaximized && classes.windowsIconMaximize,
-                  )}
-                />
-              </button>
-              <button
-                className={classes.windowsIconBg}
-                type="button"
-                aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const browserWindow = window.remote.getCurrentWindow();
-                  browserWindow.close();
-                }}
-              >
-                <div
-                  className={classnames(classes.windowsIcon, classes.windowsIconClose)}
-                />
-              </button>
+              {window.mode !== 'menubar' && (
+                <button
+                  className={classes.windowsIconBg}
+                  type="button"
+                  aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const browserWindow = window.remote.getCurrentWindow();
+                    if (browserWindow.isMaximized()) {
+                      browserWindow.unmaximize();
+                    } else {
+                      browserWindow.maximize();
+                    }
+                  }}
+                >
+                  <div
+                    className={classnames(
+                      classes.windowsIcon,
+                      isMaximized && classes.windowsIconUnmaximize,
+                      !isMaximized && classes.windowsIconMaximize,
+                    )}
+                  />
+                </button>
+              )}
+              {window.mode !== 'menubar' && (
+                <button
+                  className={classes.windowsIconBg}
+                  type="button"
+                  aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const browserWindow = window.remote.getCurrentWindow();
+                    browserWindow.close();
+                  }}
+                >
+                  <div
+                    className={classnames(classes.windowsIcon, classes.windowsIconClose)}
+                  />
+                </button>
+              )}
             </div>
           )}
         </div>
