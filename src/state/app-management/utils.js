@@ -27,7 +27,7 @@ export const isOutdatedApp = (id, state) => {
       return semver.lt(v, '2.3.0');
     }
     // check if app is installed with the latest version of forked-script-v1.js
-    return semver.lt(v, '1.0.0');
+    return semver.lt(v, '1.1.0');
   }
 
   // check version

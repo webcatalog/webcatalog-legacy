@@ -294,7 +294,7 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '1.0.0',
+      version: '1.1.0',
     });
     return fsExtra.writeFile(packageJsonPath, packageJson);
   })

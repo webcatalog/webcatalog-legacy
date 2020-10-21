@@ -93,7 +93,7 @@ const installAppAsync = (
         v = '2.3.0';
       } else {
         scriptFileName = 'forked-script-lite-v1.js';
-        v = '1.0.0';
+        v = '1.1.0';
       }
 
       return null;
