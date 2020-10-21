@@ -101,61 +101,63 @@ const EngineList = ({
         )}
       />
     </ListItem>
-    <ListItem
-      button
-      onClick={() => {
-        if (engine === 'firefox' || engine.startsWith('firefox/')) return;
-        onEngineSelected('firefox');
-      }}
-      selected={engine === 'firefox' || engine.startsWith('firefox/')}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={(
-          <Grid container direction="row" alignItems="center" spacing={1}>
-            <Grid item>
-              <Typography variant="body2" noWrap>
-                Mozilla Firefox
-              </Typography>
+    {window.process.platform !== 'linux' && (
+      <ListItem
+        button
+        onClick={() => {
+          if (engine === 'firefox' || engine.startsWith('firefox/')) return;
+          onEngineSelected('firefox');
+        }}
+        selected={engine === 'firefox' || engine.startsWith('firefox/')}
+      >
+        <ListItemAvatar>
+          <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  Mozilla Firefox
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('firefox', 'Mozilla Firefox')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <HelpTooltip
-                title={(
-                  <Typography variant="body2" color="textPrimary">
-                    {getDesc('firefox', 'Mozilla Firefox')}
-                  </Typography>
-                )}
-              >
-                <CustomHelpIcon fontSize="small" color="disabled" />
-              </HelpTooltip>
-            </Grid>
-          </Grid>
-        )}
-      />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="firefox">
-            Standard
-          </ToggleButton>
-          <ToggleButton value="firefox/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
-    </ListItem>
+          )}
+        />
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="firefox">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="firefox/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      </ListItem>
+    )}
     <ListItem
       button
       onClick={() => {
