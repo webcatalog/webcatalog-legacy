@@ -35,7 +35,7 @@ const defaultPreferences = {
   proxyPacScript: '',
   proxyRules: '',
   proxyType: 'none',
-  registered: false,
+  registered: true,
   requireAdmin: false,
   sentry: true,
   sortInstalledAppBy: 'last-updated',
@@ -48,12 +48,6 @@ let cachedPreferences = null;
 
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.get(`preferences.${v}`) };
-
-  // firefox is no longer supported
-  // switch to electron
-  if (cachedPreferences.preferredEngine === 'firefox') {
-    cachedPreferences.preferredEngine = 'electron';
-  }
 };
 
 const getPreferences = () => {

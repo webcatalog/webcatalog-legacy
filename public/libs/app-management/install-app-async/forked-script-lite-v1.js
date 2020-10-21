@@ -26,6 +26,7 @@ const {
   requireAdmin,
   username,
   registered,
+  browserPath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -80,6 +81,8 @@ const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
 
+const firefoxProfileId = `webcatalog-${id}`;
+
 Promise.resolve()
   .then(() => {
     if (process.platform === 'win32') {
@@ -112,8 +115,8 @@ Promise.resolve()
     if (!id.startsWith('custom-')) {
       // use unplated icon on Windows
       const catalogIconUrl = process.platform === 'win32'
-        ? `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon-unplated.png`
-        : `https://storage.atomery.com/webcatalog/catalog/${id}/${id}-icon.png`;
+        ? `https://storage.webcatalog.app/catalog/${id}/${id}-icon-unplated.png`
+        : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
       return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
     }
@@ -234,17 +237,53 @@ yandex-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${
 yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
+            case 'firefox': {
+              execFileContent = `#!/bin/sh -ue
+firefox -new-instance -P "webcatalog-${id}" --ssb="${url}";`;
+              break;
+            }
+            case 'firefox/tabs': {
+              execFileContent = `#!/bin/sh -ue
+firefox -new-instance -P "webcatalog-${id}" "${url}";`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
           }
           return fsExtra.outputFile(execFilePath, execFileContent);
         })
-        .then(() => fsExtra.chmod(execFilePath, '755'));
+        .then(() => fsExtra.chmod(execFilePath, '755'))
+        // create firefox profile
+        .then(() => execAsync(`DISPLAY=:0.0 firefox -CreateProfile "${firefoxProfileId}"`))
+        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+        .then(() => {
+          const profilesPath = path.join(homePath, '.mozilla', 'firefox');
+          const profileFullId = fsExtra.readdirSync(profilesPath)
+            .find((itemName) => itemName.endsWith(firefoxProfileId));
+          const profilePath = path.join(profilesPath, profileFullId);
+          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+          // http://kb.mozillazine.org/User.js_file
+          const userJsPath = path.join(profilePath, 'user.js');
+          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+        });
     }
 
     if (process.platform === 'win32') {
       return Promise.resolve()
+        // create firefox profile
+        .then(() => execAsync(`"${browserPath}" -CreateProfile "${firefoxProfileId}"`))
+        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+        .then(() => {
+          const profilesPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox', 'Profiles');
+          const profileFullId = fsExtra.readdirSync(profilesPath)
+            .find((itemName) => itemName.endsWith(firefoxProfileId));
+          const profilePath = path.join(profilesPath, profileFullId);
+          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+          // http://kb.mozillazine.org/User.js_file
+          const userJsPath = path.join(profilePath, 'user.js');
+          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+        })
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
         .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
@@ -309,7 +348,7 @@ Version=1.0
 Type=Application
 Name=${name}
 GenericName=${name}
-Icon=${iconPath}
+Icon=${iconPath}c
 Exec="${finalExecFilePath}"
 Terminal=false
 StartupWMClass=${name.toLowerCase()}

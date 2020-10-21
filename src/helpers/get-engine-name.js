@@ -54,6 +54,12 @@ const getEngineName = (engine) => {
     case 'coccoc/tabs': {
       return 'Cốc Cốc (tabbed)';
     }
+    case 'firefox': {
+      return 'Mozilla Firefox';
+    }
+    case 'firefox/tabs': {
+      return 'Mozilla Firefox (tabbed)';
+    }
     default: {
       return 'Unknown Engine';
     }

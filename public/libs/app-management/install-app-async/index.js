@@ -17,6 +17,7 @@ const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 const getWin32OperaPaths = require('../../get-win32-opera-paths');
 const getWin32YandexPaths = require('../../get-win32-yandex-paths');
 const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
+const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
 const registryInstaller = require('../registry-installer');
@@ -58,6 +59,8 @@ const installAppAsync = (
       browserPath = getWin32YandexPaths()[0];
     } else if (engine.startsWith('coccoc')) {
       browserPath = getWin32CoccocPaths()[0];
+    } else if (engine.startsWith('firefox')) {
+      browserPath = getWin32FirefoxPaths()[0];
     }
   }
 
@@ -87,7 +90,7 @@ const installAppAsync = (
       if (process.platform === 'darwin') {
         // use v2 script on Mac
         scriptFileName = 'forked-script-lite-v2.js';
-        v = '2.2.0';
+        v = '2.3.0';
       } else {
         scriptFileName = 'forked-script-lite-v1.js';
         v = '1.0.0';
@@ -146,6 +149,11 @@ const installAppAsync = (
           case 'coccoc':
           case 'coccoc/tabs': {
             engineName = 'Cốc Cốc';
+            break;
+          }
+          case 'firefox':
+          case 'firefox/tabs': {
+            engineName = 'Mozilla Firefox';
             break;
           }
           default: {
@@ -262,7 +270,13 @@ const installAppAsync = (
       if (process.platform === 'win32') {
         let args;
 
-        if (engine !== 'electron') {
+        if (engine.startsWith('firefox')) {
+          if (engine.endsWith('/tabs')) {
+            args = `-P "webcatalog-${id}" "${url}"`;
+          } else {
+            args = `-P "webcatalog-${id}" --ssb="${url}"`;
+          }
+        } else if (engine !== 'electron') {
           const chromiumDataPath = path.join(app.getPath('home'), '.webcatalog', 'chromium-data', id);
           if (engine.endsWith('/tabs')) {
             args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
