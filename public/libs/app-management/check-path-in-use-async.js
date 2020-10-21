@@ -1,12 +1,17 @@
+const os = require('os');
 const execAsync = require('../exec-async');
 
 // return true if path is in use
 // return false if path is NOT in use
 const checkPathInUseAsync = (path) => {
   if (process.platform === 'win32') {
+    // skip this check on Windows older than 10
+    // child_process never stops - powershell - windows 7
+    // https://github.com/nodejs/node/issues/25645
+
     // https://stackoverflow.com/a/9476987
     // https://stackoverflow.com/a/61219838
-    return execAsync(` get-wmiobject win32_process | ? { $_.Path -ne $null } | ? { $_.Path.Indexof('${path}') -ge 0 } | measure-object | % { $_.Count }`, { shell: 'powershell.exe' })
+    return execAsync(`get-wmiobject win32_process | ? { $_.Path -ne $null } | ? { $_.Path.Indexof('${path}') -ge 0 } | measure-object | % { $_.Count }`, { shell: 'powershell.exe' })
       .then((stdout) => {
         const processCount = parseInt(stdout, 10);
         if (processCount > 0) {
