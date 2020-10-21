@@ -35,7 +35,7 @@ const defaultPreferences = {
   proxyPacScript: '',
   proxyRules: '',
   proxyType: 'none',
-  registered: false,
+  registered: true,
   requireAdmin: false,
   sentry: true,
   sortInstalledAppBy: 'last-updated',

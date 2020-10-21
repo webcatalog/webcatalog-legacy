@@ -239,12 +239,12 @@ yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
             }
             case 'firefox': {
               execFileContent = `#!/bin/sh -ue
-firefox -P "webcatalog-${id}" --ssb="${url}";`;
+firefox -new-instance -P "webcatalog-${id}" --ssb="${url}";`;
               break;
             }
             case 'firefox/tabs': {
               execFileContent = `#!/bin/sh -ue
-firefox -P "webcatalog-${id}" "${url}";`;
+firefox -new-instance -P "webcatalog-${id}" "${url}";`;
               break;
             }
             default: {
@@ -253,7 +253,20 @@ firefox -P "webcatalog-${id}" "${url}";`;
           }
           return fsExtra.outputFile(execFilePath, execFileContent);
         })
-        .then(() => fsExtra.chmod(execFilePath, '755'));
+        .then(() => fsExtra.chmod(execFilePath, '755'))
+        // create firefox profile
+        .then(() => execAsync(`DISPLAY=:0.0 firefox -CreateProfile "${firefoxProfileId}"`))
+        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+        .then(() => {
+          const profilesPath = path.join(homePath, '.mozilla', 'firefox');
+          const profileFullId = fsExtra.readdirSync(profilesPath)
+            .find((itemName) => itemName.endsWith(firefoxProfileId));
+          const profilePath = path.join(profilesPath, profileFullId);
+          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+          // http://kb.mozillazine.org/User.js_file
+          const userJsPath = path.join(profilePath, 'user.js');
+          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+        });
     }
 
     if (process.platform === 'win32') {
@@ -335,7 +348,7 @@ Version=1.0
 Type=Application
 Name=${name}
 GenericName=${name}
-Icon=${iconPath}
+Icon=${iconPath}c
 Exec="${finalExecFilePath}"
 Terminal=false
 StartupWMClass=${name.toLowerCase()}

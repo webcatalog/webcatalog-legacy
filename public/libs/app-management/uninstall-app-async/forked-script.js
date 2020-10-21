@@ -119,6 +119,10 @@ Promise.resolve()
           firefoxUserDataPath = path.join(homePath, 'Library', 'Application Support', 'Firefox');
           break;
         }
+        case 'linux': {
+          firefoxUserDataPath = path.join(homePath, '.mozilla', 'firefox');
+          break;
+        }
         case 'win32':
         default: {
           firefoxUserDataPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox');
