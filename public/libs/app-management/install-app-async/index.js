@@ -5,6 +5,7 @@ const { app } = require('electron');
 const tmp = require('tmp');
 const ws = require('windows-shortcuts');
 const fsExtra = require('fs-extra');
+const { captureException } = require('@sentry/electron');
 
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
@@ -315,7 +316,17 @@ const installAppAsync = (
         }
 
         if (engine === 'electron') {
-          p.push(registryInstaller.installAsync(`webcatalog-${id}`, name, exePath));
+          // this step fails randomly on some Windows computers
+          // but since this is not very essential
+          // so temporarily just collect the bug report and ignore it if the bug occurs
+          p.push(
+            registryInstaller.installAsync(`webcatalog-${id}`, name, exePath)
+              .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+                captureException(e);
+              }),
+          );
         }
 
         return Promise.all(p);
