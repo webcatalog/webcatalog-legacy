@@ -59,6 +59,12 @@ export const getInstallingAppsAsList = (state) => {
     .filter((app) => app.status !== 'INSTALLED');
 };
 
+export const getInstalledAppsAsList = (state) => {
+  const { apps, sortedAppIds } = state.appManagement;
+  return sortedAppIds.map((id) => apps[id])
+    .filter((app) => app.status === 'INSTALLED');
+};
+
 export const getAppBadgeCount = (state) => {
   const { apps } = state.appManagement;
   return Object.values(apps)
