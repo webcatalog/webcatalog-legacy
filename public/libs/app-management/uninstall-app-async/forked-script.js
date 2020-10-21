@@ -125,7 +125,7 @@ Promise.resolve()
         }
         case 'win32':
         default: {
-          firefoxUserDataPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox');
+          firefoxUserDataPath = path.join(appDataPath, 'Mozilla', 'Firefox');
         }
       }
       const profilesIniPath = path.join(firefoxUserDataPath, 'profiles.ini');
