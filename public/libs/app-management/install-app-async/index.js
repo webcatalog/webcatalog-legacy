@@ -44,25 +44,6 @@ const installAppAsync = (
   let scriptFileName;
 
   let browserPath;
-  if (process.platform === 'win32') {
-    if (engine.startsWith('chrome')) {
-      browserPath = getWin32ChromePaths()[0];
-    } else if (engine.startsWith('brave')) {
-      browserPath = getWin32BravePaths()[0];
-    } else if (engine.startsWith('vivaldi')) {
-      browserPath = getWin32VivaldiPaths()[0];
-    } else if (engine.startsWith('edge')) {
-      browserPath = getWin32EdgePaths()[0];
-    } else if (engine.startsWith('opera')) {
-      browserPath = getWin32OperaPaths()[0];
-    } else if (engine.startsWith('yandex')) {
-      browserPath = getWin32YandexPaths()[0];
-    } else if (engine.startsWith('coccoc')) {
-      browserPath = getWin32CoccocPaths()[0];
-    } else if (engine.startsWith('firefox')) {
-      browserPath = getWin32FirefoxPaths()[0];
-    }
-  }
 
   const {
     installationPath,
@@ -162,6 +143,26 @@ const installAppAsync = (
         }
         reject(new Error(`${engineName} is not installed.`));
         return;
+      }
+
+      if (process.platform === 'win32') {
+        if (engine.startsWith('chrome')) {
+          browserPath = getWin32ChromePaths()[0];
+        } else if (engine.startsWith('brave')) {
+          browserPath = getWin32BravePaths()[0];
+        } else if (engine.startsWith('vivaldi')) {
+          browserPath = getWin32VivaldiPaths()[0];
+        } else if (engine.startsWith('edge')) {
+          browserPath = getWin32EdgePaths()[0];
+        } else if (engine.startsWith('opera')) {
+          browserPath = getWin32OperaPaths()[0];
+        } else if (engine.startsWith('yandex')) {
+          browserPath = getWin32YandexPaths()[0];
+        } else if (engine.startsWith('coccoc')) {
+          browserPath = getWin32CoccocPaths()[0];
+        } else if (engine.startsWith('firefox')) {
+          browserPath = getWin32FirefoxPaths()[0];
+        }
       }
 
       const params = [

@@ -255,35 +255,47 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
           return fsExtra.outputFile(execFilePath, execFileContent);
         })
         .then(() => fsExtra.chmod(execFilePath, '755'))
-        // create firefox profile
-        .then(() => execAsync(`DISPLAY=:0.0 firefox -CreateProfile "${firefoxProfileId}"`))
-        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
         .then(() => {
-          const profilesPath = path.join(homePath, '.mozilla', 'firefox');
-          const profileFullId = fsExtra.readdirSync(profilesPath)
-            .find((itemName) => itemName.endsWith(firefoxProfileId));
-          const profilePath = path.join(profilesPath, profileFullId);
-          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
-          // http://kb.mozillazine.org/User.js_file
-          const userJsPath = path.join(profilePath, 'user.js');
-          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+          // create firefox profile
+          if (engine.startsWith('firefox')) {
+            return Promise.resolve()
+              .then(() => execAsync(`DISPLAY=:0.0 firefox -CreateProfile "${firefoxProfileId}"`))
+              // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+              .then(() => {
+                const profilesPath = path.join(homePath, '.mozilla', 'firefox');
+                const profileFullId = fsExtra.readdirSync(profilesPath)
+                  .find((itemName) => itemName.endsWith(firefoxProfileId));
+                const profilePath = path.join(profilesPath, profileFullId);
+                // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+                // http://kb.mozillazine.org/User.js_file
+                const userJsPath = path.join(profilePath, 'user.js');
+                return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+              });
+          }
+          return null;
         });
     }
 
     if (process.platform === 'win32') {
       return Promise.resolve()
-        // create firefox profile
-        .then(() => execAsync(`"${browserPath}" -CreateProfile "${firefoxProfileId}"`))
-        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
         .then(() => {
-          const profilesPath = path.join(appDataPath, 'Mozilla', 'Firefox', 'Profiles');
-          const profileFullId = fsExtra.readdirSync(profilesPath)
-            .find((itemName) => itemName.endsWith(firefoxProfileId));
-          const profilePath = path.join(profilesPath, profileFullId);
-          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
-          // http://kb.mozillazine.org/User.js_file
-          const userJsPath = path.join(profilePath, 'user.js');
-          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+          if (engine.startsWith('firefox')) {
+            // create firefox profile
+            return Promise.resolve()
+              .then(() => execAsync(`"${browserPath}" -CreateProfile "${firefoxProfileId}"`))
+              // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+              .then(() => {
+                const profilesPath = path.join(appDataPath, 'Mozilla', 'Firefox', 'Profiles');
+                const profileFullId = fsExtra.readdirSync(profilesPath)
+                  .find((itemName) => itemName.endsWith(firefoxProfileId));
+                const profilePath = path.join(profilesPath, profileFullId);
+                // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+                // http://kb.mozillazine.org/User.js_file
+                const userJsPath = path.join(profilePath, 'user.js');
+                return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+              });
+          }
+          return null;
         })
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
