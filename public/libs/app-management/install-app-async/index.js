@@ -87,7 +87,7 @@ const installAppAsync = (
       if (process.platform === 'darwin') {
         // use v2 script on Mac
         scriptFileName = 'forked-script-lite-v2.js';
-        v = '2.2.0';
+        v = '2.3.0';
       } else {
         scriptFileName = 'forked-script-lite-v1.js';
         v = '1.0.0';
@@ -146,6 +146,11 @@ const installAppAsync = (
           case 'coccoc':
           case 'coccoc/tabs': {
             engineName = 'Cốc Cốc';
+            break;
+          }
+          case 'firefox':
+          case 'firefox/tabs': {
+            engineName = 'Mozilla Firefox';
             break;
           }
           default: {

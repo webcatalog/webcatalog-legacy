@@ -23,6 +23,7 @@ import chromiumIcon from '../../assets/chromium.png';
 import coccocIcon from '../../assets/coccoc.png';
 import edgeIcon from '../../assets/edge.png';
 import electronIcon from '../../assets/default-icon.png';
+import firefoxIcon from '../../assets/firefox.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
 import yandexIcon from '../../assets/yandex.png';
@@ -40,7 +41,7 @@ const getDesc = (engineCode, browserName) => {
     return `This option creates ${browserName}-based app with many exclusive features such as workspaces, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
   }
 
-  const standardDesc = `This option creates bare-bone ${browserName}-based app with WebExtension support.`;
+  const standardDesc = `This option creates bare-bone ${browserName}-based app${engineCode !== 'firefox' ? ' with WebExtension support' : ''}.`;
   const tabbedDesc = `This option creates ${browserName}-based app with traditional browser user interface, tab and WebExtension support.`;
   if (engineCode === 'opera') {
     return tabbedDesc;
@@ -103,27 +104,30 @@ const EngineList = ({
     <ListItem
       button
       onClick={() => {
-        if (engine.startsWith('brave')) return;
-        onEngineSelected('brave');
+        if (engine === 'firefox' || engine.startsWith('firefox/')) return;
+        onEngineSelected('firefox');
       }}
-      selected={engine.startsWith('brave')}
+      selected={engine === 'firefox' || engine.startsWith('firefox/')}
     >
       <ListItemAvatar>
-        <Avatar alt="Brave" src={braveIcon} />
+        <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
       </ListItemAvatar>
       <ListItemText
         primary={(
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
               <Typography variant="body2" noWrap>
-                Brave
+                Mozilla Firefox
               </Typography>
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
                 title={(
                   <Typography variant="body2" color="textPrimary">
-                    {getDesc('brave', 'Brave')}
+                    {getDesc('firefox', 'Mozilla Firefox')}
                   </Typography>
                 )}
               >
@@ -143,10 +147,10 @@ const EngineList = ({
           }}
           size="small"
         >
-          <ToggleButton value="brave">
+          <ToggleButton value="firefox">
             Standard
           </ToggleButton>
-          <ToggleButton value="brave/tabs">
+          <ToggleButton value="firefox/tabs">
             Tabbed
           </ToggleButton>
         </ToggleButtonGroup>
@@ -199,6 +203,58 @@ const EngineList = ({
             Standard
           </ToggleButton>
           <ToggleButton value="chrome/tabs">
+            Tabbed
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItemSecondaryAction>
+    </ListItem>
+    <ListItem
+      button
+      onClick={() => {
+        if (engine.startsWith('brave')) return;
+        onEngineSelected('brave');
+      }}
+      selected={engine.startsWith('brave')}
+    >
+      <ListItemAvatar>
+        <Avatar alt="Brave" src={braveIcon} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={(
+          <Grid container direction="row" alignItems="center" spacing={1}>
+            <Grid item>
+              <Typography variant="body2" noWrap>
+                Brave
+              </Typography>
+            </Grid>
+            <Grid item>
+              <HelpTooltip
+                title={(
+                  <Typography variant="body2" color="textPrimary">
+                    {getDesc('brave', 'Brave')}
+                  </Typography>
+                )}
+              >
+                <CustomHelpIcon fontSize="small" color="disabled" />
+              </HelpTooltip>
+            </Grid>
+          </Grid>
+        )}
+      />
+      <ListItemSecondaryAction>
+        <ToggleButtonGroup
+          value={engine}
+          exclusive
+          onChange={(_, val) => {
+            if (!val) return;
+            onEngineSelected(val);
+          }}
+          size="small"
+        >
+          <ToggleButton value="brave">
+            Standard
+          </ToggleButton>
+          <ToggleButton value="brave/tabs">
             Tabbed
           </ToggleButton>
         </ToggleButtonGroup>

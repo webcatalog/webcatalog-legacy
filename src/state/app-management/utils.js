@@ -20,14 +20,15 @@ export const isOutdatedApp = (id, state) => {
 
   const v = apps[id].version;
 
-  // check if lite app is installed using forked-script-lite-v1 (outdated)
-  if (apps[id].engine !== 'firefox'
-    && window.process.platform === 'darwin' && semver.lt(v, '2.2.0')) {
-    return true;
+  // check if app is non-Electron-based
+  if (apps[id].engine !== 'electron') {
+    // check if app is installed with the latest version of forked-script-v2.js
+    if (window.process.platform === 'darwin') {
+      return semver.lt(v, '2.3.0');
+    }
+    // check if app is installed with the latest version of forked-script-v1.js
+    return semver.lt(v, '1.0.0');
   }
-
-  // check if app is Electron-based
-  if (apps[id].engine !== 'electron') return false;
 
   // check version
   const latestV = state.general.latestTemplateVersion;
