@@ -198,7 +198,6 @@ const mapStateToProps = (state) => ({
   activeQuery: state.installed.activeQuery,
   appIds: state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds,
   isSearching: state.installed.isSearching,
-  outdatedAppCount: 0,
   scanning: state.appManagement.scanning,
   scrollOffset: state.installed.scrollOffset,
 });
