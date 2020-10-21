@@ -17,6 +17,7 @@ const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
 const getWin32OperaPaths = require('../../get-win32-opera-paths');
 const getWin32YandexPaths = require('../../get-win32-yandex-paths');
 const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
+const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const prepareTemplateAsync = require('../prepare-template-async');
 const registryInstaller = require('../registry-installer');
@@ -58,6 +59,8 @@ const installAppAsync = (
       browserPath = getWin32YandexPaths()[0];
     } else if (engine.startsWith('coccoc')) {
       browserPath = getWin32CoccocPaths()[0];
+    } else if (engine.startsWith('firefox')) {
+      browserPath = getWin32FirefoxPaths()[0];
     }
   }
 
@@ -267,7 +270,13 @@ const installAppAsync = (
       if (process.platform === 'win32') {
         let args;
 
-        if (engine !== 'electron') {
+        if (engine.startsWith('firefox')) {
+          if (engine.endsWith('/tabs')) {
+            args = `-P "webcatalog-${id}" "${url}"`;
+          } else {
+            args = `-P "webcatalog-${id}" --ssb="${url}"`;
+          }
+        } else if (engine !== 'electron') {
           const chromiumDataPath = path.join(app.getPath('home'), '.webcatalog', 'chromium-data', id);
           if (engine.endsWith('/tabs')) {
             args = `--user-data-dir="${chromiumDataPath}" "${url}"`;

@@ -4,6 +4,8 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 const sudo = require('sudo-prompt');
 const { exec } = require('child_process');
+const os = require('os');
+
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 
 const checkPathInUseAsync = require('../check-path-in-use-async');
@@ -111,60 +113,69 @@ Promise.resolve()
     } if (engine.startsWith('firefox')) {
       const profileId = `webcatalog-${id}`;
 
-      const firefoxUserDataPath = path.join(homePath, 'Library', 'Application Support', 'Firefox');
+      let firefoxUserDataPath;
+      switch (process.platform) {
+        case 'darwin': {
+          firefoxUserDataPath = path.join(homePath, 'Library', 'Application Support', 'Firefox');
+          break;
+        }
+        case 'win32':
+        default: {
+          firefoxUserDataPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox');
+        }
+      }
       const profilesIniPath = path.join(firefoxUserDataPath, 'profiles.ini');
 
-      if (process.platform === 'darwin') {
-        p.push(
-          fsExtra.pathExists(profilesIniPath)
-            .then((exists) => {
-              // If user has never opened Firefox app
-              // profiles.ini doesn't exist
-              if (!exists) return;
-              const profilesIniContent = fsExtra.readFileSync(profilesIniPath, 'utf-8');
+      p.push(
+        fsExtra.pathExists(profilesIniPath)
+          .then((exists) => {
+            // If user has never opened Firefox app
+            // profiles.ini doesn't exist
+            if (!exists) return;
+            const profilesIniContent = fsExtra.readFileSync(profilesIniPath, 'utf-8');
 
-              // get profile path and delete it
-              const entries = profilesIniContent.split('\n\n').map((entryText) => {
-                /*
-                [Profile0]
-                Name=facebook
-                IsRelative=1
-                Path=Profiles/8kv8728b.facebook
-                Default=1
-                */
-                const lines = entryText.split('\n');
+            // get profile path and delete it
+            // https://coderwall.com/p/mrio6w/split-lines-cross-platform-in-node-js
+            const entries = profilesIniContent.split(`${os.EOL}${os.EOL}`).map((entryText) => {
+              /*
+              [Profile0]
+              Name=facebook
+              IsRelative=1
+              Path=Profiles/8kv8728b.facebook
+              Default=1
+              */
+              const lines = entryText.split(os.EOL);
 
-                const entry = {};
-                lines.forEach((line, i) => {
-                  if (i === 0) {
-                    // eslint-disable-next-line dot-notation
-                    entry.Header = line;
-                    return;
-                  }
-                  const parts = line.split(/=(.+)/);
-                  // eslint-disable-next-line prefer-destructuring
-                  entry[parts[0]] = parts[1];
-                });
-
-                return entry;
+              const entry = {};
+              lines.forEach((line, i) => {
+                if (i === 0) {
+                  // eslint-disable-next-line dot-notation
+                  entry.Header = line;
+                  return;
+                }
+                const parts = line.split(/=(.+)/);
+                // eslint-disable-next-line prefer-destructuring
+                entry[parts[0]] = parts[1];
               });
 
-              const profileDetails = entries.find((entry) => entry.Name === profileId);
-              if (profileDetails && profileDetails.Path) {
-                const profileDataPath = path.join(firefoxUserDataPath, profileDetails.Path);
-                fsExtra.removeSync(profileDataPath);
-              }
+              return entry;
+            });
 
-              // remove entry from profiles.init
-              const modifiedProfilesIniContent = profilesIniContent
-                .split('\n\n')
-                .filter((x) => !x.includes(`Name=${profileId}`))
-                .join('\n\n');
+            const profileDetails = entries.find((entry) => entry.Name === profileId);
+            if (profileDetails && profileDetails.Path) {
+              const profileDataPath = path.join(firefoxUserDataPath, profileDetails.Path);
+              fsExtra.removeSync(profileDataPath);
+            }
 
-              fsExtra.writeFileSync(profilesIniPath, modifiedProfilesIniContent);
-            }),
-        );
-      }
+            // remove entry from profiles.init
+            const modifiedProfilesIniContent = profilesIniContent
+              .split(`${os.EOL}${os.EOL}`)
+              .filter((x) => !x.includes(`Name=${profileId}`))
+              .join(`${os.EOL}${os.EOL}`);
+
+            fsExtra.writeFileSync(profilesIniPath, modifiedProfilesIniContent);
+          }),
+      );
     } else { // chromium-based browsers
       // forked-script-lite-v1
       p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));

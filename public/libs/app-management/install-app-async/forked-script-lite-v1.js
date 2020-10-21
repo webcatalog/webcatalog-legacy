@@ -26,6 +26,7 @@ const {
   requireAdmin,
   username,
   registered,
+  browserPath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -79,6 +80,8 @@ const allAppsPath = installationPath.replace('~', homePath);
 const finalPath = process.platform === 'darwin'
   ? path.join(allAppsPath, `${name}.app`)
   : path.join(allAppsPath, name);
+
+const firefoxProfileId = `webcatalog-${id}`;
 
 Promise.resolve()
   .then(() => {
@@ -234,6 +237,16 @@ yandex-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${
 yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
               break;
             }
+            case 'firefox': {
+              execFileContent = `#!/bin/sh -ue
+firefox -P "webcatalog-${id}" --ssb="${url}";`;
+              break;
+            }
+            case 'firefox/tabs': {
+              execFileContent = `#!/bin/sh -ue
+firefox -P "webcatalog-${id}" "${url}";`;
+              break;
+            }
             default: {
               return Promise.reject(new Error('Engine is not supported'));
             }
@@ -245,6 +258,19 @@ yandex-browser --user-data-dir="${chromiumDataPath}" "${url}";`;
 
     if (process.platform === 'win32') {
       return Promise.resolve()
+        // create firefox profile
+        .then(() => execAsync(`"${browserPath}" -CreateProfile "${firefoxProfileId}"`))
+        // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
+        .then(() => {
+          const profilesPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox', 'Profiles');
+          const profileFullId = fsExtra.readdirSync(profilesPath)
+            .find((itemName) => itemName.endsWith(firefoxProfileId));
+          const profilePath = path.join(profilesPath, profileFullId);
+          // https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
+          // http://kb.mozillazine.org/User.js_file
+          const userJsPath = path.join(profilePath, 'user.js');
+          return fsExtra.writeFile(userJsPath, 'user_pref("browser.ssb.enabled", true);');
+        })
         .then(() => fsExtra.ensureDir(appAsarUnpackedPath))
         .then(() => fsExtra.copy(iconPngPath, publicIconPngPath))
         .then(() => fsExtra.copy(iconIcoPath, publicIconIcoPath));
