@@ -93,7 +93,7 @@ const installAppAsync = (
         v = '2.3.0';
       } else {
         scriptFileName = 'forked-script-lite-v1.js';
-        v = '1.0.0';
+        v = '1.1.0';
       }
 
       return null;
@@ -175,6 +175,8 @@ const installAppAsync = (
         icon,
         '--homePath',
         app.getPath('home'),
+        '--appDataPath',
+        app.getPath('appData'),
         '--installationPath',
         installationPath,
         '--requireAdmin',
@@ -296,7 +298,7 @@ const installAppAsync = (
           icon: finalIconIcoPath,
         };
         const coreShortcutPath = path.join(finalPath, `${name}.lnk`);
-        const startMenuPath = path.join(app.getPath('home'), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
+        const startMenuPath = path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
         const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
         const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
 

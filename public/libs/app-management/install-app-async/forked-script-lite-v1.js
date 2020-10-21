@@ -27,6 +27,7 @@ const {
   username,
   registered,
   browserPath,
+  appDataPath,
 } = argv;
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
@@ -275,7 +276,7 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
         .then(() => execAsync(`"${browserPath}" -CreateProfile "${firefoxProfileId}"`))
         // enable flag for ssb (site-specific-browser) (Firefox experimental feature)
         .then(() => {
-          const profilesPath = path.join(homePath, 'AppData', 'Roaming', 'Mozilla', 'Firefox', 'Profiles');
+          const profilesPath = path.join(appDataPath, 'Mozilla', 'Firefox', 'Profiles');
           const profileFullId = fsExtra.readdirSync(profilesPath)
             .find((itemName) => itemName.endsWith(firefoxProfileId));
           const profilePath = path.join(profilesPath, profileFullId);
@@ -293,7 +294,7 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '1.0.0',
+      version: '1.1.0',
     });
     return fsExtra.writeFile(packageJsonPath, packageJson);
   })
