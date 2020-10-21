@@ -5,9 +5,13 @@ const execAsync = require('../exec-async');
 // return false if path is NOT in use
 const checkPathInUseAsync = (path) => {
   if (process.platform === 'win32') {
-    // skip this check on Windows older than 10
+    // skip this check on Windows older than 10 (NT 6.x)
     // child_process never stops - powershell - windows 7
     // https://github.com/nodejs/node/issues/25645
+    // https://stackoverflow.com/questions/42524606/how-to-get-windows-version-using-node-js
+    if (os.release().startsWith('6.')) {
+      return Promise.resolve(false);
+    }
 
     // https://stackoverflow.com/a/9476987
     // https://stackoverflow.com/a/61219838
