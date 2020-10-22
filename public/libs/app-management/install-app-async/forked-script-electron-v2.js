@@ -49,13 +49,13 @@ const menubarIcon2xPath = path.join(appAsarUnpackedPath, 'build', 'menubar-icon@
 
 const getDotAppPath = () => {
   if (process.platform === 'darwin') {
-    return path.join(outputPath, `${name}-darwin-x64`, `${name}.app`);
+    return path.join(outputPath, `${name}-darwin-${process.arch}`, `${name}.app`);
   }
   if (process.platform === 'linux') {
-    return path.join(outputPath, `${name}-linux-x64`);
+    return path.join(outputPath, `${name}-linux-${process.arch}`);
   }
   if (process.platform === 'win32') {
-    return path.join(outputPath, `${name}-win32-x64`);
+    return path.join(outputPath, `${name}-win32-${process.arch}`);
   }
   throw Error('Unsupported platform');
 };
