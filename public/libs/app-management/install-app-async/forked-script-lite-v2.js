@@ -188,7 +188,7 @@ const finalPath = process.platform === 'darwin'
   : path.join(allAppsPath, name);
 
 const browserId = engine.split('/')[0];
-const useTabs = engine.endsWith('/tabs');
+const useTabs = !url || engine.endsWith('/tabs'); // if no url is defined (multisite) then always use tabs option
 
 const firefoxProfileId = `webcatalog-${id}`;
 
@@ -287,7 +287,10 @@ Promise.resolve()
 
           let execFileContent = '';
           if (browserId === 'firefox') {
-            const urlParam = useTabs ? `"${url}"` : `--ssb="${url}"`;
+            let urlParam = '';
+            if (url) {
+              urlParam = useTabs ? `"${url}"` : `--ssb="${url}"`;
+            }
             execFileContent = `#!/bin/sh
 DIR=$(dirname "$0");
 cd "$DIR";
@@ -322,7 +325,7 @@ sed -i '' "s/\\"has_seen_welcome_page\\":false/\\"has_seen_welcome_page\\":true/
 if (grep -q "\\"restore_on_startup\\":1" "$HOME/Library/Application Support/WebCatalog/ChromiumProfiles/adobe-color/Default/Secure Preferences") && [ -e "$HOME/Library/Application Support/WebCatalog/ChromiumProfiles/adobe-color/Default/Current Tabs" ]; then
   Tabs=""
 else
-  Tabs="${url}"
+  Tabs="${url || ''}"
 fi
 
 exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}

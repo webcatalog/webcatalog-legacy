@@ -54,6 +54,7 @@ const DialogChooseEngine = (props) => {
     onUpdateForm,
     open,
     hideEnginePrompt,
+    url,
   } = props;
 
   return (
@@ -91,6 +92,7 @@ const DialogChooseEngine = (props) => {
         <EngineList
           onEngineSelected={(selectedEngine) => onUpdateForm({ engine: selectedEngine })}
           engine={engine}
+          isMultisite={!url}
         />
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
@@ -120,11 +122,16 @@ const DialogChooseEngine = (props) => {
   );
 };
 
+DialogChooseEngine.defaultProps = {
+  url: null,
+};
+
 DialogChooseEngine.propTypes = {
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string.isRequired,
   hideEnginePrompt: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
+  url: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
@@ -136,6 +143,7 @@ const mapStateToProps = (state) => {
     open,
     form: {
       name,
+      url,
       engine,
     },
   } = state.dialogChooseEngine;
@@ -147,6 +155,7 @@ const mapStateToProps = (state) => {
   return {
     engine,
     name,
+    url,
     open,
     hideEnginePrompt,
   };

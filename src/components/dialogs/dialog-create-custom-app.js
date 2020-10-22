@@ -230,7 +230,7 @@ const DialogCreateCustomApp = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          {(hideEnginePrompt || urlDisabled) ? 'Install' : 'Continue'}
+          {(hideEnginePrompt) ? 'Install' : 'Continue'}
         </Button>
       </DialogActions>
     </Dialog>
