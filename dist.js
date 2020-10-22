@@ -51,7 +51,7 @@ switch (process.platform) {
 }
 
 const opts = {
-  targets: Platform.LINUX.createTarget(['AppImage'], Arch.x64, Arch.arm64),
+  targets,
   config: {
     appId: 'com.webcatalog.jordan',
     productName: 'WebCatalog',
