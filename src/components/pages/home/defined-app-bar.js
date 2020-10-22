@@ -49,7 +49,7 @@ const DefinedAppBar = ({
       <div className={classes.centerContainer}>
         <SearchBox />
         <StatedMenu
-          id="more-options"
+          id="create"
           buttonElement={(
             <Tooltip title="Create...">
               <IconButton
@@ -67,26 +67,7 @@ const DefinedAppBar = ({
             dense
             onClick={() => onOpenDialogCreateCustomApp()}
           >
-            Create Custom Standard App
-          </MenuItem>
-          <MenuItem
-            dense
-            onClick={() => onOpenDialogCreateCustomApp({ urlDisabled: true })}
-          >
-            Create Custom Multisite App
-            <Tooltip title="What is this?" placement="right">
-              <IconButton
-                size="small"
-                aria-label="What is this?"
-                classes={{ root: classnames(classes.helpButton, classes.noDrag) }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  requestOpenInBrowser('https://webcatalog.app/multisite-apps');
-                }}
-              >
-                <HelpIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            Create Custom App
           </MenuItem>
           <Divider />
           <MenuItem

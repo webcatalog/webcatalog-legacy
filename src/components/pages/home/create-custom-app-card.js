@@ -58,48 +58,18 @@ const styles = (theme) => ({
 
 const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
   <Grid item>
-    <StatedMenu
-      id="more-options"
-      buttonElement={(
-        <Paper
-          className={classes.card}
-          elevation={0}
-          role="link"
-          tabIndex="0"
-        >
-          <BrushIcon className={classes.icon} />
-          <Typography variant="subtitle2" className={classes.desc}>
-            Create Custom App
-          </Typography>
-        </Paper>
-      )}
+    <Paper
+      className={classes.card}
+      elevation={0}
+      role="link"
+      tabIndex="0"
+      onClick={() => onOpenDialogCreateCustomApp()}
     >
-      <MenuItem
-        dense
-        onClick={() => onOpenDialogCreateCustomApp()}
-      >
-        Create Custom Standard App
-      </MenuItem>
-      <MenuItem
-        dense
-        onClick={() => onOpenDialogCreateCustomApp({ urlDisabled: true })}
-      >
-        Create Custom Multisite App
-        <Tooltip title="What is this?" placement="right">
-          <IconButton
-            size="small"
-            aria-label="What is this?"
-            classes={{ root: classnames(classes.helpButton, classes.noDrag) }}
-            onClick={(e) => {
-              e.stopPropagation();
-              requestOpenInBrowser('https://webcatalog.app/multisite-apps');
-            }}
-          >
-            <HelpIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </MenuItem>
-    </StatedMenu>
+      <BrushIcon className={classes.icon} />
+      <Typography variant="subtitle2" className={classes.desc}>
+        Create Custom App
+      </Typography>
+    </Paper>
   </Grid>
 );
 
