@@ -62,6 +62,7 @@ const getDesc = (engineCode, browserName) => {
 const EngineList = ({
   engine,
   onEngineSelected,
+  isMultisite,
 }) => (
   <List dense>
     <ListItem
@@ -138,24 +139,26 @@ const EngineList = ({
             </Grid>
           )}
         />
-        <ListItemSecondaryAction>
-          <ToggleButtonGroup
-            value={engine}
-            exclusive
-            onChange={(_, val) => {
-              if (!val) return;
-              onEngineSelected(val);
-            }}
-            size="small"
-          >
-            <ToggleButton value="firefox">
-              Standard
-            </ToggleButton>
-            <ToggleButton value="firefox/tabs">
-              Tabbed
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItemSecondaryAction>
+        {!isMultisite && (
+          <ListItemSecondaryAction>
+            <ToggleButtonGroup
+              value={engine}
+              exclusive
+              onChange={(_, val) => {
+                if (!val) return;
+                onEngineSelected(val);
+              }}
+              size="small"
+            >
+              <ToggleButton value="firefox">
+                Standard
+              </ToggleButton>
+              <ToggleButton value="firefox/tabs">
+                Tabbed
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     )}
     <ListItem
@@ -191,24 +194,26 @@ const EngineList = ({
           </Grid>
         )}
       />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="chrome">
-            Standard
-          </ToggleButton>
-          <ToggleButton value="chrome/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
+      {!isMultisite && (
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="chrome">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="chrome/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
     <ListItem
       button
@@ -243,24 +248,26 @@ const EngineList = ({
           </Grid>
         )}
       />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="brave">
-            Standard
-          </ToggleButton>
-          <ToggleButton value="brave/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
+      {!isMultisite && (
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="brave">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="brave/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
     {window.process.platform === 'darwin' && (
       <ListItem
@@ -296,24 +303,26 @@ const EngineList = ({
             </Grid>
           )}
         />
-        <ListItemSecondaryAction>
-          <ToggleButtonGroup
-            value={engine}
-            exclusive
-            onChange={(_, val) => {
-              if (!val) return;
-              onEngineSelected(val);
-            }}
-            size="small"
-          >
-            <ToggleButton value="chromeCanary">
-              Standard
-            </ToggleButton>
-            <ToggleButton value="chromeCanary/tabs">
-              Tabbed
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItemSecondaryAction>
+        {!isMultisite && (
+          <ListItemSecondaryAction>
+            <ToggleButtonGroup
+              value={engine}
+              exclusive
+              onChange={(_, val) => {
+                if (!val) return;
+                onEngineSelected(val);
+              }}
+              size="small"
+            >
+              <ToggleButton value="chromeCanary">
+                Standard
+              </ToggleButton>
+              <ToggleButton value="chromeCanary/tabs">
+                Tabbed
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     )}
     {window.process.platform !== 'win32' && (
@@ -350,24 +359,26 @@ const EngineList = ({
             </Grid>
           )}
         />
-        <ListItemSecondaryAction>
-          <ToggleButtonGroup
-            value={engine}
-            exclusive
-            onChange={(_, val) => {
-              if (!val) return;
-              onEngineSelected(val);
-            }}
-            size="small"
-          >
-            <ToggleButton value="chromium">
-              Standard
-            </ToggleButton>
-            <ToggleButton value="chromium/tabs">
-              Tabbed
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItemSecondaryAction>
+        {!isMultisite && (
+          <ListItemSecondaryAction>
+            <ToggleButtonGroup
+              value={engine}
+              exclusive
+              onChange={(_, val) => {
+                if (!val) return;
+                onEngineSelected(val);
+              }}
+              size="small"
+            >
+              <ToggleButton value="chromium">
+                Standard
+              </ToggleButton>
+              <ToggleButton value="chromium/tabs">
+                Tabbed
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     )}
     {window.process.platform !== 'linux' && (
@@ -404,24 +415,26 @@ const EngineList = ({
             </Grid>
           )}
         />
-        <ListItemSecondaryAction>
-          <ToggleButtonGroup
-            value={engine}
-            exclusive
-            onChange={(_, val) => {
-              if (!val) return;
-              onEngineSelected(val);
-            }}
-            size="small"
-          >
-            <ToggleButton value="coccoc">
-              Standard
-            </ToggleButton>
-            <ToggleButton value="coccoc/tabs">
-              Tabbed
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItemSecondaryAction>
+        {!isMultisite && (
+          <ListItemSecondaryAction>
+            <ToggleButtonGroup
+              value={engine}
+              exclusive
+              onChange={(_, val) => {
+                if (!val) return;
+                onEngineSelected(val);
+              }}
+              size="small"
+            >
+              <ToggleButton value="coccoc">
+                Standard
+              </ToggleButton>
+              <ToggleButton value="coccoc/tabs">
+                Tabbed
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     )}
     {window.process.platform !== 'linux' && (
@@ -458,24 +471,26 @@ const EngineList = ({
             </Grid>
           )}
         />
-        <ListItemSecondaryAction>
-          <ToggleButtonGroup
-            value={engine}
-            exclusive
-            onChange={(_, val) => {
-              if (!val) return;
-              onEngineSelected(val);
-            }}
-            size="small"
-          >
-            <ToggleButton value="edge">
-              Standard
-            </ToggleButton>
-            <ToggleButton value="edge/tabs">
-              Tabbed
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItemSecondaryAction>
+        {!isMultisite && (
+          <ListItemSecondaryAction>
+            <ToggleButtonGroup
+              value={engine}
+              exclusive
+              onChange={(_, val) => {
+                if (!val) return;
+                onEngineSelected(val);
+              }}
+              size="small"
+            >
+              <ToggleButton value="edge">
+                Standard
+              </ToggleButton>
+              <ToggleButton value="edge/tabs">
+                Tabbed
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     )}
     <ListItem
@@ -508,21 +523,23 @@ const EngineList = ({
           </Grid>
         )}
       />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="opera/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
+      {!isMultisite && (
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="opera/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
     <ListItem
       button
@@ -557,24 +574,26 @@ const EngineList = ({
           </Grid>
         )}
       />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="vivaldi">
-            Standard
-          </ToggleButton>
-          <ToggleButton value="vivaldi/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
+      {!isMultisite && (
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="vivaldi">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="vivaldi/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
     <ListItem
       button
@@ -609,35 +628,39 @@ const EngineList = ({
           </Grid>
         )}
       />
-      <ListItemSecondaryAction>
-        <ToggleButtonGroup
-          value={engine}
-          exclusive
-          onChange={(_, val) => {
-            if (!val) return;
-            onEngineSelected(val);
-          }}
-          size="small"
-        >
-          <ToggleButton value="yandex">
-            Standard
-          </ToggleButton>
-          <ToggleButton value="yandex/tabs">
-            Tabbed
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </ListItemSecondaryAction>
+      {!isMultisite && (
+        <ListItemSecondaryAction>
+          <ToggleButtonGroup
+            value={engine}
+            exclusive
+            onChange={(_, val) => {
+              if (!val) return;
+              onEngineSelected(val);
+            }}
+            size="small"
+          >
+            <ToggleButton value="yandex">
+              Standard
+            </ToggleButton>
+            <ToggleButton value="yandex/tabs">
+              Tabbed
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ListItemSecondaryAction>
+      )}
     </ListItem>
   </List>
 );
 
 EngineList.defaultProps = {
   engine: '',
+  isMultisite: false,
 };
 
 EngineList.propTypes = {
   engine: PropTypes.string,
   onEngineSelected: PropTypes.func.isRequired,
+  isMultisite: PropTypes.bool,
 };
 
 export default EngineList;

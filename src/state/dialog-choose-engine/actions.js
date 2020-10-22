@@ -43,19 +43,6 @@ export const create = () => (dispatch, getState) => {
 export const open = (id, name, url, icon) => (dispatch, getState) => {
   const state = getState();
 
-  // multisite app is only supported with Electron
-  if (!url) {
-    dispatch(updateForm({
-      engine: 'electron',
-      icon,
-      id,
-      name,
-      url,
-    }));
-
-    return dispatch(create());
-  }
-
   const { registered, hideEnginePrompt } = state.preferences;
   if (!registered || hideEnginePrompt) {
     dispatch(updateForm({
