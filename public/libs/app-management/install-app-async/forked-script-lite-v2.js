@@ -287,7 +287,10 @@ Promise.resolve()
 
           let execFileContent = '';
           if (browserId === 'firefox') {
-            const urlParam = useTabs ? `"${url}"` : `--ssb="${url}"`;
+            let urlParam = '';
+            if (url) {
+              urlParam = useTabs ? `"${url}"` : `--ssb="${url}"`;
+            }
             execFileContent = `#!/bin/sh
 DIR=$(dirname "$0");
 cd "$DIR";

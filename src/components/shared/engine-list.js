@@ -181,6 +181,9 @@ const EngineList = ({
               </Typography>
             </Grid>
             <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
+            </Grid>
+            <Grid item>
               <HelpTooltip
                 title={(
                   <Typography variant="body2" color="textPrimary">
@@ -233,6 +236,9 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Brave
               </Typography>
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -288,6 +294,9 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Google Chrome Canary
                 </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -346,6 +355,9 @@ const EngineList = ({
                 </Typography>
               </Grid>
               <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
+              </Grid>
+              <Grid item>
                 <HelpTooltip
                   title={(
                     <Typography variant="body2" color="textPrimary">
@@ -400,6 +412,9 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Cốc Cốc
                 </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -458,6 +473,9 @@ const EngineList = ({
                 </Typography>
               </Grid>
               <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
+              </Grid>
+              <Grid item>
                 <HelpTooltip
                   title={(
                     <Typography variant="body2" color="textPrimary">
@@ -510,6 +528,9 @@ const EngineList = ({
               </Typography>
             </Grid>
             <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
+            </Grid>
+            <Grid item>
               <HelpTooltip
                 title={(
                   <Typography variant="body2" color="textPrimary">
@@ -559,6 +580,9 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Vivaldi
               </Typography>
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -613,6 +637,9 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Yandex Browser
               </Typography>
+            </Grid>
+            <Grid item>
+              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
