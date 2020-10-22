@@ -1,25 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classnames from 'classnames';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import BrushIcon from '@material-ui/icons/Brush';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import HelpIcon from '@material-ui/icons/Help';
-
 import connectComponent from '../../../helpers/connect-component';
 
-import { requestOpenInBrowser } from '../../../senders';
-
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
-
-import StatedMenu from '../../shared/stated-menu';
 
 const styles = (theme) => ({
   card: {

@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import AddIcon from '@material-ui/icons/Add';
-import HelpIcon from '@material-ui/icons/Help';
 
 import StatedMenu from '../../shared/stated-menu';
 
