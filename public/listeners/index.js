@@ -226,6 +226,8 @@ const loadListeners = () => {
               console.log(error);
               if (error && error.message && error.message.includes('is not installed')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
+              } else if (error && error.message && error.message.startsWith('WebCatalog is outdated')) {
+                send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
                 captureException(error);
                 send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error');
@@ -277,6 +279,8 @@ const loadListeners = () => {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else if (error && error.message && (error.message.startsWith('EBUSY') || error.message === 'Application is in use.')) {
                 send(e.sender, 'enqueue-snackbar', `Failed to update ${name} as the application is in use.`, 'error');
+              } else if (error && error.message && error.message.startsWith('WebCatalog is outdated')) {
+                send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
                 send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
                 captureException(error);
