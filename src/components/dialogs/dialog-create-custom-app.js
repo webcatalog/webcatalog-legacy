@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +11,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Link from '@material-ui/core/Link';
 
 import HelpIcon from '@material-ui/icons/Help';
 
@@ -59,6 +66,9 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(1),
     marginTop: -3,
   },
+  link: {
+    cursor: 'pointer',
+  },
 });
 
 const DialogCreateCustomApp = (props) => {
@@ -96,7 +106,7 @@ const DialogCreateCustomApp = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        {`Create Custom ${urlDisabled ? 'Multisite App' : 'App'}`}
+        Create Custom App
         {urlDisabled && (
           <Tooltip title="What is this?" placement="right">
             <IconButton
@@ -120,7 +130,29 @@ const DialogCreateCustomApp = (props) => {
           onChange={(e) => onUpdateForm({ name: e.target.value })}
           value={name}
           error={Boolean(nameError)}
+          variant="outlined"
         />
+        <FormControl variant="outlined" fullWidth margin="normal">
+          <InputLabel id="input-type-label">Type</InputLabel>
+          <Select
+            id="input-type"
+            labelId="input-type-label"
+            value={urlDisabled}
+            onChange={(event) => onUpdateForm({ urlDisabled: event.target.value })}
+            label="Type"
+          >
+            <MenuItem value={false}>Singlesite</MenuItem>
+            <MenuItem value>Multisite</MenuItem>
+          </Select>
+          <FormHelperText>
+            <Link
+              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+              className={classes.link}
+            >
+              What is the difference between singlesite apps and multisite apps?
+            </Link>
+          </FormHelperText>
+        </FormControl>
         {!urlDisabled && (
           <TextField
             fullWidth
@@ -132,6 +164,7 @@ const DialogCreateCustomApp = (props) => {
             value={urlDisabled ? 'No URL specified.' : url}
             disabled={urlDisabled}
             error={Boolean(urlError)}
+            variant="outlined"
           />
         )}
         <Grid container spacing={1} className={classes.grid}>
