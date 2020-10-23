@@ -299,7 +299,7 @@ cd Resources;
 
 cp "$PWD"/icon.icns "$PWD"/${addSlash(name)}.app/Contents/Resources/firefox.icns
 
-exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} --args ${urlParam} -P ${firefoxProfileId}
+open "$PWD"/${addSlash(name)}.app --args ${urlParam} -P ${firefoxProfileId}
 `;
           } else if (useTabs) {
             execFileContent = `#!/bin/sh
@@ -328,7 +328,7 @@ else
   Tabs="${url || ''}"
 fi
 
-exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open "$PWD"/${addSlash(name)}.app --args $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           } else {
             execFileContent = `#!/bin/sh
@@ -350,7 +350,7 @@ if [ -n "$pgrepResult" ]; then
   exit
 fi
 
-exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].execFile)} --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           }
           return fsExtra.outputFile(execFilePath, execFileContent)
@@ -362,12 +362,14 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].exec
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CFBundleExecutable</key>
-  <string>webcatalog_root_app</string>
-  <key>CFBundleIconFile</key>
-  <string>icon.icns</string>
-  <key>CFBundleIdentifier</key>
-  <string>com.webcatalog.${engine}.${id}</string>
+<key>CFBundleExecutable</key>
+<string>webcatalog_root_app</string>
+<key>CFBundleIconFile</key>
+<string>icon.icns</string>
+<key>CFBundleIdentifier</key>
+<string>com.webcatalog.${engine}.${id}</string>
+<key>LSUIElement</key>
+<true/>
 </dict>
 </plist>
 `;
