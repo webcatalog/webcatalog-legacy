@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
@@ -24,6 +22,7 @@ import {
 } from '../../senders';
 
 import AppCard from '../shared/app-card';
+import LinkSharing from '../shared/link-sharing';
 
 const styles = (theme) => ({
   dialogContent: {
@@ -119,28 +118,7 @@ const DialogCatalogAppDetails = ({
                   </div>
 
                   {!details.id.startsWith('custom-') && (
-                    <TextField
-                      variant="filled"
-                      label="Share this app"
-                      value={shareUrl}
-                      className={classes.shareInput}
-                      fullWidth
-                      InputProps={{
-                        endAdornment: (
-                          <Button
-                            color="primary"
-                            size="large"
-                            variant="contained"
-                            disableElevation
-                            onClick={() => {
-                              window.remote.clipboard.writeText(shareUrl);
-                            }}
-                          >
-                            Copy
-                          </Button>
-                        ),
-                      }}
-                    />
+                    <LinkSharing url={shareUrl} className={classes.shareInput} />
                   )}
                 </div>
               </>

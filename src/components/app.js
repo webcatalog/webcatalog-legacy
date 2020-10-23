@@ -15,14 +15,15 @@ import Home from './pages/home';
 import Preferences from './pages/preferences';
 
 import DialogAbout from './dialogs/dialog-about';
+import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
 import DialogChooseEngine from './dialogs/dialog-choose-engine';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogProxy from './dialogs/dialog-proxy';
+import DialogReferral from './dialogs/dialog-referral';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
-import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
 
 import {
   ROUTE_PREFERENCES,
@@ -121,6 +122,7 @@ class App extends React.Component {
           <DialogSetInstallationPath />
           <DialogSetPreferredEngine />
           <DialogCatalogAppDetails />
+          <DialogReferral />
           <EnhancedBottomNavigation />
           <SnackbarTrigger />
           <TelemetryManager />

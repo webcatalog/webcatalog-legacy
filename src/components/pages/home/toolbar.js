@@ -6,11 +6,14 @@ import { WithSearch } from '@elastic/react-search-ui';
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import SortIcon from '@material-ui/icons/Sort';
 
 import connectComponent from '../../../helpers/connect-component';
+
+import { open as openDialogReferral } from '../../../state/dialog-referral/actions';
 
 import StatedMenu from '../../shared/stated-menu';
 
@@ -44,6 +47,7 @@ const styles = (theme) => ({
 
 const Toolbar = ({
   classes,
+  onOpenDialogReferral,
 }) => (
   <WithSearch
     mapContextToProps={({
@@ -76,6 +80,9 @@ const Toolbar = ({
           )}
         </div>
         <div className={classes.right}>
+          <Button variant="text" onClick={onOpenDialogReferral}>
+            Share your Love
+          </Button>
           <StatedMenu
             id="sort-options"
             buttonElement={(
@@ -111,11 +118,16 @@ const Toolbar = ({
 
 Toolbar.propTypes = {
   classes: PropTypes.object.isRequired,
+  onOpenDialogReferral: PropTypes.func.isRequired,
+};
+
+const actionCreators = {
+  openDialogReferral,
 };
 
 export default connectComponent(
   Toolbar,
   null,
-  null,
+  actionCreators,
   styles,
 );
