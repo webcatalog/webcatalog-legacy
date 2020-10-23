@@ -117,8 +117,14 @@ const createMenu = () => {
         },
         { type: 'separator' },
         {
-          label: registered ? 'Registered' : 'Registration...',
-          enabled: !registered,
+          label: registered ? 'WebCatalog Plus' : 'WebCatalog Basic',
+          visible: true,
+          enabled: false,
+          click: null,
+        },
+        {
+          label: 'Upgrade...',
+          visible: !registered,
           click: registered ? null : () => sendToAllWindows('open-license-registration-dialog'),
         },
         {
@@ -174,8 +180,14 @@ const createMenu = () => {
         },
         { type: 'separator' },
         {
-          label: registered ? 'Registered' : 'Registration...',
-          enabled: !registered,
+          label: registered ? 'WebCatalog Plus' : 'WebCatalog Basic',
+          visible: true,
+          enabled: false,
+          click: null,
+        },
+        {
+          label: 'Upgrade...',
+          visible: !registered,
           click: registered ? null : () => sendToAllWindows('open-license-registration-dialog'),
         },
         {
