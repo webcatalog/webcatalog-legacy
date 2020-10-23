@@ -492,7 +492,7 @@ exec "$PWD"/${id}.app/Contents/MacOS/${addSlash(browserConstants[browserId].exec
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '2.3.0',
+      version: '2.4.0',
     });
     return fsExtra.writeFileSync(packageJsonPath, packageJson);
   })
