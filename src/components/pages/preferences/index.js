@@ -23,6 +23,7 @@ import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import StatedMenu from '../../shared/stated-menu';
 
@@ -212,6 +213,11 @@ const Preferences = ({
   };
 
   const sections = {
+    account: {
+      text: 'Account',
+      Icon: AccountCircleIcon,
+      ref: useRef(),
+    },
     general: {
       text: 'General',
       Icon: WidgetsIcon,
@@ -283,6 +289,27 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
+            Account
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem button onClick={onOpenDialogLicenseRegistration} disabled>
+                <ListItemText primary={registered ? 'WebCatalog Plus' : 'WebCatalog Basic'} />
+              </ListItem>
+              {!registered && (
+                <ListItem button onClick={onOpenDialogLicenseRegistration}>
+                  <ListItemText primary="Upgrade to WebCatalog Plus" />
+                  <ChevronRightIcon color="action" />
+                </ListItem>
+              )}
+              <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/RqwYdQo8PM67Mmvc9')}>
+                <ListItemText primary="Join WebCatalog Pro Waitlist" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            </List>
+          </Paper>
+
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
           </Typography>
@@ -703,11 +730,6 @@ const Preferences = ({
               <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}>
                 <ListItemText primary="Help" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={registered}>
-                <ListItemText primary="License Registration" secondary={registered ? 'Registered. Thank you for supporting the development of WebCatalog.' : null} />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />

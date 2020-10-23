@@ -117,8 +117,17 @@ const createAsync = () => new Promise((resolve) => {
             },
           },
           {
-            label: registered ? 'Registered' : 'Registration...',
-            enabled: !registered,
+            type: 'separator',
+          },
+          {
+            label: registered ? 'WebCatalog Plus' : 'WebCatalog Basic',
+            visible: true,
+            enabled: false,
+            click: null,
+          },
+          {
+            label: 'Upgrade...',
+            visible: !registered,
             click: registered ? null : () => {
               sendToAllWindows('open-license-registration-dialog');
               mb.showWindow();
