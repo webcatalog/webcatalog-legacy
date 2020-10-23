@@ -298,11 +298,15 @@ const Preferences = ({
                 <ListItemText primary={registered ? 'WebCatalog Plus' : 'WebCatalog Basic'} />
               </ListItem>
               {!registered && (
-                <ListItem button onClick={onOpenDialogLicenseRegistration}>
-                  <ListItemText primary="Upgrade to WebCatalog Plus" />
-                  <ChevronRightIcon color="action" />
-                </ListItem>
+                <>
+                  <Divider />
+                  <ListItem button onClick={onOpenDialogLicenseRegistration}>
+                    <ListItemText primary="Upgrade to WebCatalog Plus" />
+                    <ChevronRightIcon color="action" />
+                  </ListItem>
+                </>
               )}
+              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/RqwYdQo8PM67Mmvc9')}>
                 <ListItemText primary="Join WebCatalog Pro Waitlist" />
                 <ChevronRightIcon color="action" />
