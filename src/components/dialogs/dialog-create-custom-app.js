@@ -9,16 +9,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Link from '@material-ui/core/Link';
-
-import HelpIcon from '@material-ui/icons/Help';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -62,10 +58,6 @@ const styles = (theme) => ({
   caption: {
     display: 'block',
   },
-  helpButton: {
-    marginLeft: theme.spacing(1),
-    marginTop: -3,
-  },
   link: {
     cursor: 'pointer',
   },
@@ -107,18 +99,6 @@ const DialogCreateCustomApp = (props) => {
     >
       <EnhancedDialogTitle onClose={onClose}>
         Create Custom App
-        {urlDisabled && (
-          <Tooltip title="What is this?" placement="right">
-            <IconButton
-              size="small"
-              aria-label="What is this?"
-              classes={{ root: classes.helpButton }}
-              onClick={() => requestOpenInBrowser('https://webcatalog.app/multisite-apps')}
-            >
-              <HelpIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
       </EnhancedDialogTitle>
       <DialogContent>
         <TextField
