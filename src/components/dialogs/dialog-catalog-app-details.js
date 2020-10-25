@@ -7,6 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+
+import HelpIcon from '@material-ui/icons/Help';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
@@ -45,6 +49,10 @@ const styles = (theme) => ({
   },
   appInfoName: {
     color: theme.palette.text.secondary,
+  },
+  helpButton: {
+    marginLeft: theme.spacing(0.5),
+    marginTop: -3,
   },
 });
 
@@ -104,6 +112,17 @@ const DialogCatalogAppDetails = ({
                     <Typography variant="body2">
                       <span className={classes.appInfoName}>Type: </span>
                       {details.url ? 'Singlesite' : 'Multisite'}
+
+                      <Tooltip title="What is this?" placement="right">
+                        <IconButton
+                          size="small"
+                          aria-label="What is this?"
+                          classes={{ root: classes.helpButton }}
+                          onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+                        >
+                          <HelpIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
                     </Typography>
                     {details.category && (
                       <Typography variant="body2">

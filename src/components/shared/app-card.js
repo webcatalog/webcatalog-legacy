@@ -12,8 +12,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import HelpIcon from '@material-ui/icons/Help';
 
 import StatedMenu from './stated-menu';
+import HelpTooltip from './help-tooltip';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -278,6 +280,24 @@ const AppCard = (props) => {
         <div className={classes.actionContainer}>
           {renderActionsElement()}
         </div>
+        {!url && !inDetailsDialog && (
+          <HelpTooltip
+            title={(
+              <Typography variant="body2" color="textPrimary">
+                {`${name} is a multisite app which lets you run and organize multiple web apps in a single place as independent workspaces and switch between them easily using keyboard shortcuts.`}
+              </Typography>
+            )}
+          >
+            <IconButton
+              size="small"
+              aria-label="What is this?"
+              classes={{ root: classes.topLeft }}
+              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+            >
+              <HelpIcon fontSize="small" />
+            </IconButton>
+          </HelpTooltip>
+        )}
         <StatedMenu
           id={`more-menu-${id}`}
           buttonElement={(
