@@ -56,19 +56,23 @@ export const getCancelableAppsAsList = (state) => {
 export const getInstallingAppsAsList = (state) => {
   const { apps, sortedAppIds } = state.appManagement;
   return sortedAppIds.map((id) => apps[id])
-    .filter((app) => app.status !== 'INSTALLED');
+    .filter((app) => app.status !== INSTALLED);
 };
 
-export const getInstalledAppsAsList = (state) => {
+export const getInstalledAppCount = (state) => {
   const { apps, sortedAppIds } = state.appManagement;
-  return sortedAppIds.map((id) => apps[id])
-    .filter((app) => app.status === 'INSTALLED');
+  return sortedAppIds
+    .filter((id) => {
+      const app = apps[id];
+      return app.status === INSTALLED || (app.status === INSTALLING && app.version);
+    })
+    .length;
 };
 
 export const getAppBadgeCount = (state) => {
   const { apps } = state.appManagement;
   return Object.values(apps)
-    .filter((app) => isOutdatedApp(app.id, state) || app.status !== 'INSTALLED').length;
+    .filter((app) => isOutdatedApp(app.id, state) || app.status !== INSTALLED).length;
 };
 
 export const isNameExisted = (name, state) => {

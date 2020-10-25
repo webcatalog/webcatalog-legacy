@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import connectComponent from '../../helpers/connect-component';
 
 import amplitude from '../../amplitude';
-import { getInstalledAppsAsList } from '../../state/app-management/utils';
+import { getInstalledAppCount } from '../../state/app-management/utils';
 
 const TelemetryManager = ({
   installedAppCount,
@@ -41,7 +41,7 @@ TelemetryManager.propTypes = {
 
 const mapStateToProps = (state) => ({
   registered: state.preferences.registered,
-  installedAppCount: state.appManagement.scanning ? -1 : getInstalledAppsAsList(state).length,
+  installedAppCount: state.appManagement.scanning ? -1 : getInstalledAppCount(state),
 });
 
 export default connectComponent(
