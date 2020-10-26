@@ -1,10 +1,10 @@
-import * as ElasticAppSearch from '@elastic/app-search-javascript';
-
 import {
   DIALOG_CATALOG_APP_DETAILS_CLOSE,
   DIALOG_CATALOG_APP_DETAILS_UPDATE_DETAILS,
   DIALOG_CATALOG_APP_DETAILS_OPEN,
 } from '../../constants/actions';
+
+import swiftype from '../../swiftype';
 
 export const close = () => ({
   type: DIALOG_CATALOG_APP_DETAILS_CLOSE,
@@ -34,13 +34,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
     return;
   }
 
-  const client = ElasticAppSearch.createClient({
-    searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
-    engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
-    hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
-  });
-
-  client
+  swiftype
     .search('', {
       filters: {
         id: [appId],
