@@ -74,9 +74,11 @@ export const getWebsiteIconUrlAsync = (url, name) => getWebsiteIconUrlFromMainPr
         page: { size: 1 },
       })
       .then((res) => {
+        if (res.rawResults.length < 1) return null;
         const app = res.rawResults[0];
         return window.process.platform === 'win32' ? app.icon_unplated.raw : app.icon.raw;
-      });
+      })
+      .catch(() => null);
   });
 
 let requestCount = 0;
