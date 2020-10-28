@@ -42,7 +42,10 @@ const styles = (theme) => ({
     width: '100%',
   },
   appDescSection: {
-    paddingTop: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  },
+  legal: {
+    marginTop: theme.spacing(1),
   },
   shareInput: {
     marginTop: theme.spacing(4),
@@ -63,6 +66,7 @@ const DialogCatalogAppDetails = ({
   details,
 }) => {
   const shareUrl = details && !details.err ? `https://webcatalog.app/catalog/${details.id}` : '';
+  const hostname = details ? extractHostname(details.url) : null;
 
   return (
     <Dialog
@@ -94,18 +98,25 @@ const DialogCatalogAppDetails = ({
                     {details.description}
                   </Typography>
 
+                  {(details.url || details.id.startsWith('group-')) && (
+                    <Typography variant="body2" color="textSecondary" className={classes.legal}>
+                      {`We are not affiliated, associated, authorized, endorsed by or in any way officially connected to ${details.name}${hostname ? ` (${hostname})` : ''}, except for the fact that we use their websites to develop and provide you this app. All product names, logos, and brands are property of their respective owners.`}
+                    </Typography>
+                  )}
+
                   <div className={classes.appDescSection}>
                     {details.url && (
                       <Typography variant="body2">
                         <span className={classes.appInfoName}>Website: </span>
                         <Link
-                          component="button"
+                          href="#"
                           variant="body2"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             requestOpenInBrowser(generateUrlWithRef(details.url));
                           }}
                         >
-                          {extractHostname(details.url)}
+                          {hostname}
                         </Link>
                       </Typography>
                     )}
