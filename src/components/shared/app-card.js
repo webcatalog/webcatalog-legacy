@@ -265,7 +265,7 @@ const AppCard = (props) => {
           <HelpTooltip
             title={(
               <Typography variant="body2" color="textPrimary">
-                {`${name} is a multisite app which lets you run and organize multiple web apps in a single place as independent workspaces and switch between them easily using keyboard shortcuts.`}
+                {`${name} is a multisite app which lets you run and organize multiple web apps in a single place and switch between them easily.`}
               </Typography>
             )}
           >
