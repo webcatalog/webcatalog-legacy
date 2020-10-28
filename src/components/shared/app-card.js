@@ -20,7 +20,6 @@ import HelpTooltip from './help-tooltip';
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
-import generateUrlWithRef from '../../helpers/generate-url-with-ref';
 
 import {
   INSTALLED,
@@ -33,7 +32,6 @@ import {
   requestCancelUpdateApp,
   requestOpenApp,
   requestOpenInBrowser,
-  requestShowAppTrialWindow,
   requestUninstallApp,
 } from '../../senders';
 
@@ -215,37 +213,20 @@ const AppCard = (props) => {
     }
 
     return (
-      <div>
-        <Button
-          className={classes.actionButton}
-          color="primary"
-          size={buttonSize}
-          variant={buttonVariant}
-          disableElevation
-          disabled={status !== null}
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpenDialogChooseEngine(id, name, url, icon);
-          }}
-        >
-          {label}
-        </Button>
-        {url && label === 'Install' && (
-          <Button
-            className={classes.actionButton}
-            color="default"
-            size={buttonSize}
-            variant={buttonVariant}
-            disableElevation
-            onClick={(e) => {
-              e.stopPropagation();
-              requestShowAppTrialWindow(id, generateUrlWithRef(url), name);
-            }}
-          >
-            Try
-          </Button>
-        )}
-      </div>
+      <Button
+        className={classes.actionButton}
+        color="primary"
+        size={buttonSize}
+        variant={buttonVariant}
+        disableElevation
+        disabled={status !== null}
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpenDialogChooseEngine(id, name, url, icon);
+        }}
+      >
+        {label}
+      </Button>
     );
   };
 

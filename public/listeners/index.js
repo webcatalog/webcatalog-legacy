@@ -33,7 +33,6 @@ const {
 const { createMenu, showMenu } = require('../libs/create-menu');
 
 const mainWindow = require('../windows/main');
-const appTrialWindow = require('../windows/app-trial');
 
 const send = (webContents, ...args) => {
   // check to make sure webContents is not destroyed
@@ -55,10 +54,6 @@ const loadListeners = () => {
       cancelId: 0,
       defaultId: 0,
     }).catch(console.log); // eslint-disable-line
-  });
-
-  ipcMain.on('request-show-app-trial-window', (e, id, url, name) => {
-    appTrialWindow.show(id, url, name);
   });
 
   // Preferences
