@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import HelpIcon from '@material-ui/icons/Help';
 
+import ReactMarkdown from 'react-markdown';
+
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import extractHostname from '../../helpers/extract-hostname';
@@ -95,7 +97,9 @@ const DialogCatalogAppDetails = ({
                 />
                 <div className={classes.appDesc}>
                   <Typography variant="body2" className={classes.appDescSection}>
-                    {details.description}
+                    <ReactMarkdown>
+                      {details.description}
+                    </ReactMarkdown>
                   </Typography>
 
                   {(details.url || details.id.startsWith('group-')) && (
