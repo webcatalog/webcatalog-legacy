@@ -73,7 +73,7 @@ const browserConstants = {
     execFile: 'Yandex',
   },
   coccoc: {
-    appDir: 'Cốc Cốc.app',
+    appDir: 'CocCoc.app',
     userDataDir: 'Coccoc',
     execFile: 'CocCoc',
   },
