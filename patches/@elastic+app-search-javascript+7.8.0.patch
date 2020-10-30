@@ -1,0 +1,35 @@
+diff --git a/node_modules/@elastic/app-search-javascript/dist/elastic_app_search.umd.js b/node_modules/@elastic/app-search-javascript/dist/elastic_app_search.umd.js
+index 82430e5..82f7229 100644
+--- a/node_modules/@elastic/app-search-javascript/dist/elastic_app_search.umd.js
++++ b/node_modules/@elastic/app-search-javascript/dist/elastic_app_search.umd.js
+@@ -282,6 +282,11 @@
+       classCallCheck(this, QueryCache);
+ 
+       this.cache = {};
++
++      // clear cache every 10 minutes
++      setInterval(() => {
++        this.cache = {};
++      }, 10 * 60 * 1000);
+     }
+ 
+     createClass(QueryCache, [{
+@@ -299,11 +304,18 @@
+       value: function retrieve(key) {
+         return this.cache[key];
+       }
++    }, {
++      key: "clear",
++      value: function clear() {
++        this.cache = {};
++      }
+     }]);
+     return QueryCache;
+   }();
+ 
+   var cache = new QueryCache();
++  // expose cache object
++  window.elasticAppSearchQueryCache = cache;
+ 
+   function request(searchKey, apiEndpoint, path, params, cacheResponses) {
+     var _ref = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {},

@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import SortIcon from '@material-ui/icons/Sort';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -56,12 +57,16 @@ const Toolbar = ({
       setSort,
       sortDirection,
       sortField,
+      searchTerm,
+      setSearchTerm,
     }) => ({
       isLoading,
       results,
       setSort,
       sortDirection,
       sortField,
+      searchTerm,
+      setSearchTerm,
     })}
   >
     {({
@@ -70,6 +75,8 @@ const Toolbar = ({
       setSort,
       sortDirection,
       sortField,
+      searchTerm,
+      setSearchTerm,
     }) => (
       <div className={classes.root}>
         <div className={classes.left}>
@@ -83,6 +90,22 @@ const Toolbar = ({
           <Button variant="text" onClick={onOpenDialogReferral}>
             Share your Love
           </Button>
+          <Tooltip title="Refresh">
+            <IconButton
+              size="small"
+              aria-label="Refresh"
+              onClick={() => {
+                // clear cache first
+                if (window.elasticAppSearchQueryCache) {
+                  window.elasticAppSearchQueryCache.clear();
+                }
+                setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
+              }}
+              disabled={isLoading}
+            >
+              <RefreshIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
           <StatedMenu
             id="sort-options"
             buttonElement={(
