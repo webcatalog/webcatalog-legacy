@@ -154,7 +154,7 @@ const isEngineInstalled = (engine) => {
     }
     case 'coccoc': {
       if (process.platform === 'darwin') {
-        const chromePath = path.join('/Applications', 'Cốc Cốc.app');
+        const chromePath = path.join('/Applications', 'CocCoc.app');
         return fs.existsSync(chromePath);
       }
 
