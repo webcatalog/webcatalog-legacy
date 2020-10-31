@@ -100,7 +100,7 @@ const Installed = ({
       const rowCount = Math.ceil(appIds.length / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
       // total window height - (searchbox: 40, toolbar: 36, bottom nav: 40)
-      const scrollHeight = innerHeight - 80 - (activeQuery.length > 0 ? 36 : 0);
+      const scrollHeight = innerHeight - 116;
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
