@@ -30,14 +30,6 @@ require('./libs/updater');
 
 const gotTheLock = app.requestSingleInstanceLock();
 
-app.on('second-instance', () => {
-  const win = mainWindow.get();
-  if (win != null) {
-    if (win.isMinimized()) win.restore();
-    win.focus();
-  }
-});
-
 if (!gotTheLock) {
   app.quit();
 } else {
@@ -69,6 +61,32 @@ if (!gotTheLock) {
         resolve();
       });
     });
+  };
+
+  const handleOpenUrl = (urlStr) => {
+    whenTrulyReady()
+      .then(() => {
+        if (urlStr.startsWith('webcatalog://catalog/')) {
+          let appId;
+          try {
+            appId = url.parse(urlStr).path.substring(1);
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log(err);
+          }
+          if (appId) {
+            mainWindow.send('open-dialog-catalog-app-details', appId);
+          }
+        }
+      });
+  };
+
+  const handleArgv = (argv) => {
+    if (argv.length <= 1) return;
+    const urlStr = argv.find((a) => a.startsWith('webcatalog:'));
+    if (urlStr) {
+      handleOpenUrl(urlStr);
+    }
   };
 
   app.on('ready', () => {
@@ -113,6 +131,12 @@ if (!gotTheLock) {
       .then(() => {
         // trigger whenFullyReady
         ipcMain.emit('truly-ready');
+
+        // handle protocols on Windows & Linux
+        // on macOS, use 'open-url' event
+        if (process.platform !== 'darwin') {
+          handleArgv(process.argv);
+        }
       });
 
     createMenu();
@@ -138,20 +162,20 @@ if (!gotTheLock) {
   app.on('open-url', (e, urlStr) => {
     e.preventDefault();
 
-    whenTrulyReady()
-      .then(() => {
-        if (urlStr.startsWith('webcatalog://catalog/')) {
-          let appId;
-          try {
-            appId = url.parse(urlStr).path.substring(1);
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.log(err);
-          }
-          if (appId) {
-            mainWindow.send('open-dialog-catalog-app-details', appId);
-          }
-        }
-      });
+    handleOpenUrl(urlStr);
+  });
+
+  app.on('second-instance', (e, argv) => {
+    const win = mainWindow.get();
+    if (win != null) {
+      if (win.isMinimized()) win.restore();
+      win.focus();
+    }
+
+    // handle protocols on Windows & Linux
+    // on macOS, use 'open-url' event
+    if (process.platform !== 'darwin') {
+      handleArgv(argv);
+    }
   });
 }
