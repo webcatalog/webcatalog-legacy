@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const path = require('path');
 const builder = require('electron-builder');
 const { notarize } = require('electron-notarize');
 
@@ -45,7 +46,7 @@ switch (process.platform) {
   }
   default:
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64, Arch.arm64);
+    targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64);
     break;
   }
 }
@@ -91,7 +92,8 @@ const opts = {
     },
     linux: {
       category: 'Utility',
-      packageCategory: 'utils',
+      packageCategory: 'util',
+      // icon: path.join(__dirname, 'build-resources'),
     },
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
