@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const path = require('path');
 const builder = require('electron-builder');
 const { notarize } = require('electron-notarize');
 
@@ -93,7 +92,6 @@ const opts = {
     linux: {
       category: 'Utility',
       packageCategory: 'util',
-      // icon: path.join(__dirname, 'build-resources'),
     },
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
