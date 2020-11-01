@@ -91,7 +91,7 @@ const opts = {
     },
     linux: {
       category: 'Utility',
-      packageCategory: 'util',
+      packageCategory: 'utils',
     },
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
