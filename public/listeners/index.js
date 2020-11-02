@@ -30,7 +30,7 @@ const {
   setSystemPreference,
 } = require('../libs/system-preferences');
 
-const { createMenu, showMenu } = require('../libs/create-menu');
+const { createMenu, showMenu } = require('../libs/menu');
 
 const mainWindow = require('../windows/main');
 

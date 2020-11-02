@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -21,8 +19,6 @@ import {
   requestGetInstalledApps,
   requestSetPreference,
 } from '../../../senders';
-
-import StatedMenu from '../../shared/stated-menu';
 
 const styles = (theme) => ({
   root: {
@@ -54,12 +50,6 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(1),
   },
 });
-
-const sortOptions = [
-  { val: 'name', name: 'Sort by Name (A-Z)' },
-  { val: 'name/desc', name: 'Sort by Name (Z-A)' },
-  { val: 'last-updated', name: 'Sort by Last Updated' },
-];
 
 const Toolbar = ({
   activeQuery,
@@ -96,52 +86,54 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
-      <StatedMenu
-        id="sort-options"
-        buttonElement={(
-          <Tooltip title="Sort by...">
-            <IconButton size="small" aria-label="Sort by...">
-              <SortIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      >
-        {sortOptions.map((sortOption) => (
-          <MenuItem
-            key={sortOption.val}
-            dense
-            onClick={() => requestSetPreference('sortInstalledAppBy', sortOption.val)}
-            selected={sortOption.val === sortInstalledAppBy}
-          >
-            {sortOption.name}
-          </MenuItem>
-        ))}
-      </StatedMenu>
-      <StatedMenu
-        id="more-options"
-        buttonElement={(
-          <Tooltip title="More">
-            <IconButton size="small" aria-label="More">
-              <MoreVertIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      >
-        <MenuItem
-          dense
-          disabled={fetchingLatestTemplateVersion}
-          onClick={onFetchLatestTemplateVersionAsync}
+      <Tooltip title="Sort by...">
+        <IconButton
+          size="small"
+          aria-label="Sort by..."
+          onClick={() => {
+            const sortOptions = [
+              { val: 'name', name: 'Sort by Name (A-Z)' },
+              { val: 'name/desc', name: 'Sort by Name (Z-A)' },
+              { val: 'last-updated', name: 'Sort by Last Updated' },
+            ];
+
+            const template = sortOptions.map((sortOption) => ({
+              type: 'checkbox',
+              label: sortOption.name,
+              click: () => requestSetPreference('sortInstalledAppBy', sortOption.val),
+              checked: sortOption.val === sortInstalledAppBy,
+            }));
+            const menu = window.remote.Menu.buildFromTemplate(template);
+            menu.popup(window.remote.getCurrentWindow());
+          }}
         >
-          {fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates'}
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          dense
-          onClick={requestGetInstalledApps}
+          <SortIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="More">
+        <IconButton
+          size="small"
+          aria-label="More"
+          onClick={() => {
+            const template = [
+              {
+                label: fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates',
+                enabled: !fetchingLatestTemplateVersion,
+                click: onFetchLatestTemplateVersionAsync,
+              },
+              {
+                label: 'Rescan for Installed Apps',
+                click: requestGetInstalledApps,
+              },
+            ];
+
+            const menu = window.remote.Menu.buildFromTemplate(template);
+            menu.popup(window.remote.getCurrentWindow());
+          }}
         >
-          Rescan for Installed Apps
-        </MenuItem>
-      </StatedMenu>
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
     </div>
   </div>
 );

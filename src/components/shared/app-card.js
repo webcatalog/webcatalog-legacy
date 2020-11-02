@@ -3,18 +3,14 @@ import React from 'react';
 import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import HelpIcon from '@material-ui/icons/Help';
 
-import StatedMenu from './stated-menu';
 import HelpTooltip from './help-tooltip';
 
 import connectComponent from '../../helpers/connect-component';
@@ -75,6 +71,7 @@ const styles = (theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2),
     fontWeight: 500,
+    userSelect: 'none',
   },
   appUrl: {
     overflow: 'hidden',
@@ -86,6 +83,7 @@ const styles = (theme) => ({
     height: window.process.platform === 'win32' ? 48 : 56,
     marginTop: window.process.platform === 'win32' ? 4 : 0,
     marginBottom: window.process.platform === 'win32' ? 4 : 0,
+    userSelect: 'none',
   },
   paperIconLarge: {
     width: window.process.platform === 'win32' ? 96 : 128,
@@ -104,9 +102,11 @@ const styles = (theme) => ({
   },
   topRight: {
     position: 'absolute',
-    top: theme.spacing(1),
-    right: theme.spacing(1),
+    padding: 11, // 3 + theme.spacing(1),
+    top: 0,
+    right: 0,
     color: theme.palette.text.secondary,
+    borderRadius: 0,
   },
   topLeft: {
     position: 'absolute',
@@ -141,6 +141,75 @@ const AppCard = (props) => {
   const clickable = !inDetailsDialog;
   const buttonSize = inDetailsDialog ? 'large' : 'medium';
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
+
+  const showMenu = () => {
+    const template = [
+      {
+        label: version ? 'Cancel Update' : 'Cancel Installation',
+        visible: status === INSTALLING && cancelable,
+        click: () => {
+          if (version) return requestCancelUpdateApp(id);
+          return requestCancelInstallApp(id);
+        },
+      },
+      {
+        label: 'Edit',
+        visible: status === INSTALLED,
+        click: () => onOpenDialogEditApp({
+          engine,
+          id,
+          name,
+          url,
+          urlDisabled: Boolean(!url),
+          icon,
+        }),
+      },
+      {
+        label: 'Uninstall',
+        visible: status === INSTALLED && isOutdated,
+        click: () => requestUninstallApp(id, name, engine),
+      },
+      {
+        label: 'Clone',
+        click: () => onOpenDialogCreateCustomApp({
+          name: `${name} 2`,
+          url,
+          urlDisabled: Boolean(!url),
+          icon,
+        }),
+      },
+      {
+        type: 'separator',
+        visible: !inDetailsDialog,
+      },
+      {
+        label: 'View Details',
+        visible: !inDetailsDialog,
+        click: () => onOpenDialogCatalogAppDetails(id),
+      },
+      {
+        type: 'separator',
+        visible: Boolean(engine),
+      },
+      {
+        label: 'What\'s New',
+        visible: engine === 'electron',
+        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes'),
+      },
+      engine === 'electron' && version ? {
+        label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
+        enabled: false,
+        visible: Boolean(engine),
+      } : {
+        label: `Powered by ${getEngineName(engine)}`,
+        enabled: false,
+        visible: Boolean(engine),
+      },
+    ];
+
+    const menu = window.remote.Menu.buildFromTemplate(template);
+    menu.popup(window.remote.getCurrentWindow());
+  };
 
   const renderActionsElement = () => {
     if (status === INSTALLED) {
@@ -242,6 +311,9 @@ const AppCard = (props) => {
         onClick={clickable ? () => {
           onOpenDialogCatalogAppDetails(id);
         } : null}
+        onContextMenu={() => {
+          showMenu();
+        }}
       >
         <img
           alt={name}
@@ -279,104 +351,18 @@ const AppCard = (props) => {
             </IconButton>
           </HelpTooltip>
         )}
-        <StatedMenu
-          id={`more-menu-${id}`}
-          buttonElement={(
-            <Tooltip title="More" placement="right">
-              <IconButton size="small" aria-label="More" classes={{ root: classes.topRight }}>
-                <MoreVertIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          )}
+        <IconButton
+          size="small"
+          aria-label="More"
+          classes={{ root: classes.topRight }}
+          disableRipple
+          onClick={(e) => {
+            e.stopPropagation();
+            showMenu();
+          }}
         >
-          {status === INSTALLING && cancelable && (
-            <MenuItem
-              dense
-              onClick={() => {
-                if (version) return requestCancelUpdateApp(id);
-                return requestCancelInstallApp(id);
-              }}
-            >
-              {version ? 'Cancel Update' : 'Cancel Installation'}
-            </MenuItem>
-          )}
-          {status === INSTALLED && (
-            <MenuItem
-              dense
-              onClick={() => onOpenDialogEditApp({
-                engine,
-                id,
-                name,
-                url,
-                urlDisabled: Boolean(!url),
-                icon,
-              })}
-            >
-              Edit this App
-            </MenuItem>
-          )}
-          {status === INSTALLED && isOutdated && (
-            <MenuItem dense onClick={() => requestUninstallApp(id, name, engine)}>
-              Uninstall
-            </MenuItem>
-          )}
-          {!inDetailsDialog && (
-            [
-              status === INSTALLED && <Divider key="menu-divider-app-info" />,
-              <MenuItem
-                key="app-info"
-                dense
-                onClick={() => onOpenDialogCatalogAppDetails(id)}
-              >
-                View Details
-              </MenuItem>,
-            ]
-          )}
-          <MenuItem
-            dense
-            onClick={() => onOpenDialogCreateCustomApp({
-              name: `${name} 2`,
-              url,
-              urlDisabled: Boolean(!url),
-              icon,
-            })}
-          >
-            Create Custom App from&nbsp;
-            {name}
-          </MenuItem>
-          {engine && (
-            [
-              <Divider key="menu-divider-engine" />,
-              engine === 'electron' && (
-                <MenuItem
-                  key="release-notes"
-                  dense
-                  onClick={() => requestOpenInBrowser('https://webcatalog.app/release-notes')}
-                >
-                  {'What\'s New'}
-                </MenuItem>
-              ),
-              engine === 'electron' && version ? (
-                <MenuItem dense key="menu-version" onClick={null} disabled>
-                  Powered by WebCatalog Engine&nbsp;
-                  {version}
-                  {isOutdated && (
-                    <span>
-                      &nbsp;(Latest:&nbsp;
-                      {latestTemplateVersion}
-                      )
-                    </span>
-                  )}
-                </MenuItem>
-              ) : (
-                <MenuItem dense key="menu-version" onClick={null} disabled>
-                  Powered by&nbsp;
-                  {getEngineName(engine)}
-                </MenuItem>
-              ),
-            ]
-          )}
-        </StatedMenu>
+          <MoreVertIcon fontSize={inDetailsDialog ? 'medium' : 'small'} />
+        </IconButton>
       </Paper>
     </Grid>
   );

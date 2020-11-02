@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { WithSearch } from '@elastic/react-search-ui';
 
 import Tooltip from '@material-ui/core/Tooltip';
-import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -15,8 +14,6 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import connectComponent from '../../../helpers/connect-component';
 
 import { open as openDialogReferral } from '../../../state/dialog-referral/actions';
-
-import StatedMenu from '../../shared/stated-menu';
 
 const styles = (theme) => ({
   root: {
@@ -106,33 +103,31 @@ const Toolbar = ({
               <RefreshIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-          <StatedMenu
-            id="sort-options"
-            buttonElement={(
-              <Tooltip title="Sort by...">
-                <IconButton size="small" aria-label="Sort by...">
-                  <SortIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            )}
-          >
-            {[
-              { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
-              { name: 'Sort by Name (A-Z)', sortField: 'name', sortDirection: 'asc' },
-              { name: 'Sort by Name (Z-A)', sortField: 'name', sortDirection: 'desc' },
-              { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },
-            ].map((sortOption) => (
-              <MenuItem
-                key={sortOption.name}
-                dense
-                onClick={() => setSort(sortOption.sortField, sortOption.sortDirection)}
-                selected={sortOption.sortField === sortField
-                  && sortOption.sortDirection === sortDirection}
-              >
-                {sortOption.name}
-              </MenuItem>
-            ))}
-          </StatedMenu>
+          <Tooltip title="Sort by...">
+            <IconButton
+              size="small"
+              aria-label="Sort by..."
+              onClick={() => {
+                const template = [
+                  { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
+                  { name: 'Sort by Name (A-Z)', sortField: 'name', sortDirection: 'asc' },
+                  { name: 'Sort by Name (Z-A)', sortField: 'name', sortDirection: 'desc' },
+                  { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },
+                ].map((sortOption) => ({
+                  type: 'checkbox',
+                  label: sortOption.name,
+                  click: () => setSort(sortOption.sortField, sortOption.sortDirection),
+                  checked: sortOption.sortField === sortField
+                    && sortOption.sortDirection === sortDirection,
+                }));
+
+                const menu = window.remote.Menu.buildFromTemplate(template);
+                menu.popup(window.remote.getCurrentWindow());
+              }}
+            >
+              <SortIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     )}
