@@ -20,7 +20,7 @@ if (!isDev && getPreference('sentry')) {
   require('./libs/sentry');
 }
 
-const { createMenu } = require('./libs/create-menu');
+const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 const loadListeners = require('./listeners');
 

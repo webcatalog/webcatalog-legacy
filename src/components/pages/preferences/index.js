@@ -25,8 +25,6 @@ import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import StatedMenu from '../../shared/stated-menu';
-
 import connectComponent from '../../../helpers/connect-component';
 import getEngineName from '../../../helpers/get-engine-name';
 
@@ -46,7 +44,6 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestShowMessageBox,
   requestShowRequireRestartDialog,
 } from '../../../senders';
 
@@ -197,21 +194,6 @@ const Preferences = ({
   updaterStatus,
   useHardwareAcceleration,
 }) => {
-  const handleUpdateInstallationPath = (newInstallationPath, newRequireAdmin) => {
-    if (appCount > 0) {
-      window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
-        title: 'Uninstall all of WebCatalog apps first',
-        message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
-        buttons: ['OK'],
-        cancelId: 0,
-        defaultId: 0,
-      }).catch(console.log); // eslint-disable-line
-    } else {
-      requestSetPreference('requireAdmin', newRequireAdmin);
-      requestSetPreference('installationPath', newInstallationPath);
-    }
-  };
-
   const sections = {
     account: {
       text: 'Account',
@@ -551,41 +533,51 @@ const Preferences = ({
                   <Divider />
                 </>
               )}
-              {installingAppCount > 0 ? (
-                <ListItem
-                  button
-                  onClick={() => {
-                    requestShowMessageBox('This preference cannot be changed when installing or updating apps.');
+              <ListItem>
+                <ListItemText primary="Installation path" />
+                <Select
+                  value="-"
+                  renderValue={() => `${installationPath} ${requireAdmin && installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps' ? '(require sudo)' : ''}`}
+                  onChange={(e) => {
+                    const val = e.target.value;
+
+                    if (val == null) return;
+
+                    if (appCount > 0) {
+                      window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                        title: 'Uninstall all of WebCatalog apps first',
+                        message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
+                        buttons: ['OK'],
+                        cancelId: 0,
+                        defaultId: 0,
+                      }).catch(console.log); // eslint-disable-line
+                    } else {
+                      requestSetPreference('requireAdmin', val.requireAdmin);
+                      requestSetPreference('installationPath', val.installationPath);
+                    }
                   }}
-                >
-                  <ListItemText primary="Installation path" secondary={`${installationPath} ${requireAdmin ? '(require sudo)' : ''}`} />
-                  <ChevronRightIcon color="action" />
-                </ListItem>
-              ) : (
-                <StatedMenu
-                  id="installLocation"
-                  buttonElement={(
-                    <ListItem button>
-                      <ListItemText
-                        primary="Installation path"
-                        secondary={`${installationPath} ${requireAdmin && installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps' ? '(require sudo)' : ''}`}
-                      />
-                      <ChevronRightIcon color="action" />
-                    </ListItem>
-                  )}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                  disabled={installingAppCount > 0}
                 >
                   {window.process.platform === 'win32' && (
                     [
                       (installationPath !== `${window.remote.app.getPath('home')}\\WebCatalog Apps`) && (
-                        <MenuItem dense key="installation-path-menu-item">
+                        <MenuItem dense key="installation-path-menu-item" value={null}>
                           {installationPath}
                         </MenuItem>
                       ),
                       <MenuItem
                         dense
                         key="default-installation-path-menu-item"
-                        onClick={() => {
-                          handleUpdateInstallationPath(`${window.remote.app.getPath('home')}\\WebCatalog Apps`, false);
+                        value={{
+                          installationPath: `${window.remote.app.getPath('home')}\\WebCatalog Apps`,
+                          requireAdmin: false,
                         }}
                       >
                         {`${window.remote.app.getPath('home')}\\WebCatalog Apps`}
@@ -595,15 +587,16 @@ const Preferences = ({
                   {window.process.platform === 'darwin' && (
                     [
                       (installationPath !== '~/Applications/WebCatalog Apps' && installationPath !== '/Applications/WebCatalog Apps') && (
-                        <MenuItem dense key="installation-path-menu-item">
+                        <MenuItem dense key="installation-path-menu-item" value={null}>
                           {installationPath}
                         </MenuItem>
                       ),
                       <MenuItem
                         dense
                         key="default-installation-path-menu-item"
-                        onClick={() => {
-                          handleUpdateInstallationPath('~/Applications/WebCatalog Apps', false);
+                        value={{
+                          installationPath: '~/Applications/WebCatalog Apps',
+                          requireAdmin: false,
                         }}
                       >
                         ~/Applications/WebCatalog Apps (default)
@@ -611,8 +604,9 @@ const Preferences = ({
                       <MenuItem
                         dense
                         key="default-sudo-installation-path-menu-item"
-                        onClick={() => {
-                          handleUpdateInstallationPath('/Applications/WebCatalog Apps', false);
+                        value={{
+                          installationPath: '/Applications/WebCatalog Apps',
+                          requireAdmin: true,
                         }}
                       >
                         /Applications/WebCatalog Apps
@@ -629,8 +623,9 @@ const Preferences = ({
                       <MenuItem
                         dense
                         key="default-installation-path-menu-item"
-                        onClick={() => {
-                          handleUpdateInstallationPath('~/.webcatalog', false);
+                        value={{
+                          installationPath: '~/.webcatalog',
+                          requireAdmin: false,
                         }}
                       >
                         ~/.webcatalog (default)
@@ -640,8 +635,8 @@ const Preferences = ({
                   <MenuItem dense onClick={onOpenDialogSetInstallationPath}>
                     Custom
                   </MenuItem>
-                </StatedMenu>
-              )}
+                </Select>
+              </ListItem>
               <Divider />
               <ListItem button onClick={requestOpenInstallLocation}>
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />

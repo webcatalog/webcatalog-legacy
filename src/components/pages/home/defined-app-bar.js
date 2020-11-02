@@ -3,14 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import AddIcon from '@material-ui/icons/Add';
-
-import StatedMenu from '../../shared/stated-menu';
 
 import { requestOpenInBrowser } from '../../../senders';
 
@@ -47,35 +43,31 @@ const DefinedAppBar = ({
     center={(
       <div className={classes.centerContainer}>
         <SearchBox />
-        <StatedMenu
-          id="create"
-          buttonElement={(
-            <Tooltip title="Create...">
-              <IconButton
-                size="small"
-                color="inherit"
-                aria-label="Create..."
-                className={classnames(classes.noDrag, classes.addButton)}
-              >
-                <AddIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          )}
-        >
-          <MenuItem
-            dense
-            onClick={() => onOpenDialogCreateCustomApp()}
+        <Tooltip title="Create...">
+          <IconButton
+            size="small"
+            color="inherit"
+            aria-label="Create..."
+            className={classnames(classes.noDrag, classes.addButton)}
+            onClick={() => {
+              const template = [
+                {
+                  label: 'Create Custom App',
+                  click: () => onOpenDialogCreateCustomApp(),
+                },
+                {
+                  label: 'Submit New App to Catalog',
+                  click: () => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9'),
+                },
+              ];
+
+              const menu = window.remote.Menu.buildFromTemplate(template);
+              menu.popup(window.remote.getCurrentWindow());
+            }}
           >
-            Create Custom App
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            dense
-            onClick={() => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9')}
-          >
-            Submit New App to Catalog
-          </MenuItem>
-        </StatedMenu>
+            <AddIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </div>
     )}
   />
