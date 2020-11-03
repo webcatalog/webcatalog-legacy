@@ -48,6 +48,11 @@ let cachedPreferences = null;
 
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.get(`preferences.${v}`) };
+
+  // disable menu bar mode on Windows/Linux
+  if (process.platform !== 'darwin') {
+    cachedPreferences.attachToMenubar = false;
+  }
 };
 
 const getPreferences = () => {
