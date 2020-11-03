@@ -106,7 +106,7 @@ const DialogCreateCustomApp = (props) => {
           id="name"
           label="Name"
           helperText={nameError}
-          margin="normal"
+          margin="dense"
           onChange={(e) => onUpdateForm({ name: e.target.value })}
           value={name}
           error={Boolean(nameError)}
@@ -120,6 +120,7 @@ const DialogCreateCustomApp = (props) => {
             value={urlDisabled}
             onChange={(event) => onUpdateForm({ urlDisabled: event.target.value })}
             label="Type"
+            margin="dense"
           >
             <MenuItem value={false}>Singlesite</MenuItem>
             <MenuItem value>Multisite</MenuItem>
@@ -139,7 +140,7 @@ const DialogCreateCustomApp = (props) => {
             id="url"
             label="URL"
             helperText={urlError}
-            margin="normal"
+            margin="dense"
             onChange={(e) => onUpdateForm({ url: e.target.value })}
             value={urlDisabled ? 'No URL specified.' : url}
             disabled={urlDisabled}
