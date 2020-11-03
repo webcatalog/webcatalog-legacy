@@ -96,7 +96,7 @@ const DialogCatalogAppDetails = ({
                   inDetailsDialog
                 />
                 <div className={classes.appDesc}>
-                  <Typography variant="body2" className={classes.appDescSection}>
+                  <Typography variant="body2" className={classes.appDescSection} component="div">
                     <ReactMarkdown>
                       {details.description}
                     </ReactMarkdown>

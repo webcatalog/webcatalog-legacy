@@ -361,7 +361,7 @@ const AppCard = (props) => {
             showMenu();
           }}
         >
-          <MoreVertIcon fontSize={inDetailsDialog ? 'medium' : 'small'} />
+          <MoreVertIcon fontSize={inDetailsDialog ? 'default' : 'small'} />
         </IconButton>
       </Paper>
     </Grid>
