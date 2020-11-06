@@ -7,7 +7,7 @@ import {
   setScanningForInstalled,
 } from '../state/app-management/actions';
 import { changeRoute } from '../state/router/actions';
-import { setPreference } from '../state/preferences/actions';
+import { setPreference, setPreferences } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
@@ -51,6 +51,10 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('set-preference', (e, name, value) => {
     store.dispatch(setPreference(name, value));
+  });
+
+  window.ipcRenderer.on('set-preferences', (e, newState) => {
+    store.dispatch(setPreferences(newState));
   });
 
   window.ipcRenderer.on('set-system-preference', (e, name, value) => {

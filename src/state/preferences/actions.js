@@ -1,4 +1,4 @@
-import { SET_PREFERENCE } from '../../constants/actions';
+import { SET_PREFERENCE, SET_PREFERENCES } from '../../constants/actions';
 import { sortApps } from '../app-management/actions';
 
 export const setPreference = (name, value) => (dispatch) => {
@@ -10,4 +10,12 @@ export const setPreference = (name, value) => (dispatch) => {
   if (name === 'sortInstalledAppBy') {
     dispatch(sortApps());
   }
+};
+
+export const setPreferences = (newState) => (dispatch) => {
+  dispatch({
+    type: SET_PREFERENCES,
+    preferences: newState,
+  });
+  dispatch(sortApps());
 };

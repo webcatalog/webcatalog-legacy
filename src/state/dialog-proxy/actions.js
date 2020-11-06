@@ -9,7 +9,6 @@ import hasErrors from '../../helpers/has-errors';
 
 import {
   requestSetPreference,
-  requestShowRequireRestartDialog,
 } from '../../senders';
 
 export const close = () => ({
@@ -77,7 +76,6 @@ export const save = () => (dispatch, getState) => {
   requestSetPreference('proxyBypassRules', form.proxyBypassRules);
   requestSetPreference('proxyPacScript', form.proxyPacScript);
   requestSetPreference('proxyType', form.proxyType);
-  requestShowRequireRestartDialog();
 
   dispatch(close());
   return null;

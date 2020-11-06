@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { useSnackbar } from 'notistack';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -13,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -44,7 +46,7 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestShowRequireRestartDialog,
+  requestRestart,
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
@@ -194,6 +196,8 @@ const Preferences = ({
   updaterStatus,
   useHardwareAcceleration,
 }) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const sections = {
     account: {
       text: 'Account',
@@ -241,6 +245,24 @@ const Preferences = ({
       Icon: MoreHorizIcon,
       ref: useRef(),
     },
+  };
+
+  const showRequestRestartSnackbar = () => {
+    enqueueSnackbar('You need to restart the app for the changes to take effect.', {
+      variant: 'error',
+      preventDuplicate: true,
+      persist: true,
+      action: (key) => (
+        <>
+          <Button onClick={() => requestRestart()}>
+            Restart Now
+          </Button>
+          <Button onClick={() => closeSnackbar(key)}>
+            Later
+          </Button>
+        </>
+      ),
+    });
   };
 
   return (
@@ -333,7 +355,7 @@ const Preferences = ({
                         checked={attachToMenubar}
                         onChange={(e) => {
                           requestSetPreference('attachToMenubar', e.target.checked);
-                          requestShowRequireRestartDialog();
+                          showRequestRestartSnackbar();
                         }}
                       />
                     </ListItemSecondaryAction>
@@ -393,7 +415,7 @@ const Preferences = ({
                     checked={telemetry}
                     onChange={(e) => {
                       requestSetPreference('telemetry', e.target.checked);
-                      requestShowRequireRestartDialog();
+                      showRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -411,7 +433,7 @@ const Preferences = ({
                     checked={sentry}
                     onChange={(e) => {
                       requestSetPreference('sentry', e.target.checked);
-                      requestShowRequireRestartDialog();
+                      showRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -652,7 +674,7 @@ const Preferences = ({
                     checked={useHardwareAcceleration}
                     onChange={(e) => {
                       requestSetPreference('useHardwareAcceleration', e.target.checked);
-                      requestShowRequireRestartDialog();
+                      showRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -691,7 +713,7 @@ const Preferences = ({
                     checked={allowPrerelease}
                     onChange={(e) => {
                       requestSetPreference('allowPrerelease', e.target.checked);
-                      requestShowRequireRestartDialog();
+                      showRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -704,7 +726,24 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={requestResetPreferences}>
+              <ListItem
+                button
+                onClick={() => {
+                  window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                    type: 'question',
+                    buttons: ['Reset Now', 'Cancel'],
+                    message: 'Are you sure? All preferences will be restored to their original defaults. Browsing data won\'t be affected. This action cannot be undone.',
+                    cancelId: 1,
+                  }).then(({ response }) => {
+                    if (response === 0) {
+                      window.ipcRenderer.once('set-preferences', () => {
+                        showRequestRestartSnackbar();
+                      });
+                      requestResetPreferences();
+                    }
+                  }).catch(console.log); // eslint-disable-line
+                }}
+              >
                 <ListItemText primary="Restore preferences to their original defaults" />
                 <ChevronRightIcon color="action" />
               </ListItem>
