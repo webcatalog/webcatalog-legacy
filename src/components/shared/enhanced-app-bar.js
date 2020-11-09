@@ -68,9 +68,6 @@ const styles = (theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
     },
-    '&:focus': {
-      backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
-    },
   },
   windowsIcon: {
     height: '100%',
@@ -155,6 +152,7 @@ const EnhancedAppBar = ({
                 className={classes.windowsIconBg}
                 type="button"
                 aria-label="Minimize"
+                tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                 onClick={(e) => {
                   e.stopPropagation();
                   const browserWindow = window.remote.getCurrentWindow();
@@ -168,6 +166,7 @@ const EnhancedAppBar = ({
                   className={classes.windowsIconBg}
                   type="button"
                   aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                  tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                   onClick={(e) => {
                     e.stopPropagation();
                     const browserWindow = window.remote.getCurrentWindow();
@@ -192,6 +191,7 @@ const EnhancedAppBar = ({
                   className={classes.windowsIconBg}
                   type="button"
                   aria-label={isMaximized ? 'Unmaximize' : 'Maximize'}
+                  tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                   onClick={(e) => {
                     e.stopPropagation();
                     const browserWindow = window.remote.getCurrentWindow();
