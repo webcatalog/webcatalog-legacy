@@ -12,6 +12,7 @@ export const UPDATE_SHOULD_USE_DARK_COLORS = 'UPDATE_SHOULD_USE_DARK_COLORS';
 
 // Preferences
 export const SET_PREFERENCE = 'SET_PREFERENCE';
+export const SET_PREFERENCES = 'SET_PREFERENCES';
 
 // System Preferences
 export const SET_SYSTEM_PREFERENCE = 'SET_SYSTEM_PREFERENCE';

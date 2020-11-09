@@ -1,0 +1,1 @@
+export const RESTART_REQUIRED = 'RESTART_REQUIRED';

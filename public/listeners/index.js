@@ -91,33 +91,13 @@ const loadListeners = () => {
   });
 
   ipcMain.on('request-reset-preferences', () => {
-    dialog.showMessageBox(mainWindow.get(), {
-      type: 'question',
-      buttons: ['Reset Now', 'Cancel'],
-      message: 'Are you sure? All preferences will be restored to their original defaults. Browsing data won\'t be affected. This action cannot be undone.',
-      cancelId: 1,
-    }).then(({ response }) => {
-      if (response === 0) {
-        resetPreferences();
-        createMenu();
-
-        ipcMain.emit('request-show-require-restart-dialog');
-      }
-    }).catch(console.log); // eslint-disable-line
+    resetPreferences();
+    createMenu();
   });
 
-  ipcMain.on('request-show-require-restart-dialog', () => {
-    dialog.showMessageBox(mainWindow.get(), {
-      type: 'question',
-      buttons: ['Restart Now', 'Later'],
-      message: 'You need to restart the app for this change to take effect.',
-      cancelId: 1,
-    }).then(({ response }) => {
-      if (response === 0) {
-        app.relaunch();
-        app.exit(0);
-      }
-    }).catch(console.log); // eslint-disable-line
+  ipcMain.on('request-restart', () => {
+    app.relaunch();
+    app.exit(0);
   });
 
   ipcMain.on('request-open-install-location', () => {

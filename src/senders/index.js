@@ -5,13 +5,13 @@ export const requestShowMessageBox = (message, type) => window.ipcRenderer.send(
 export const requestQuit = () => window.ipcRenderer.send('request-quit');
 export const requestCheckForUpdates = (isSilent) => window.ipcRenderer.send('request-check-for-updates', isSilent);
 export const requestShowAppMenu = (x, y) => window.ipcRenderer.send('request-show-app-menu', x, y);
+export const requestRestart = () => window.ipcRenderer.send('request-restart');
 
 // Preferences
 export const getPreference = (name) => window.ipcRenderer.sendSync('get-preference', name);
 export const getPreferences = () => window.ipcRenderer.sendSync('get-preferences');
 export const requestSetPreference = (name, value) => window.ipcRenderer.send('request-set-preference', name, value);
 export const requestResetPreferences = () => window.ipcRenderer.send('request-reset-preferences');
-export const requestShowRequireRestartDialog = () => window.ipcRenderer.send('request-show-require-restart-dialog');
 export const requestOpenInstallLocation = () => window.ipcRenderer.send('request-open-install-location');
 
 // System Preferences

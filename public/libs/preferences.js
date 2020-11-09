@@ -120,9 +120,7 @@ const resetPreferences = () => {
   settings.deleteAll();
 
   const preferences = getPreferences();
-  Object.keys(preferences).forEach((name) => {
-    sendToAllWindows('set-preference', name, preferences[name]);
-  });
+  sendToAllWindows('set-preferences', preferences);
 };
 
 module.exports = {
