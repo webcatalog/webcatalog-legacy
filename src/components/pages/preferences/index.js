@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { useSnackbar } from 'notistack';
@@ -48,6 +48,10 @@ import {
   requestSetSystemPreference,
   requestRestart,
 } from '../../../senders';
+
+import {
+  RESTART_REQUIRED,
+} from '../../../constants/custom-events';
 
 import DefinedAppBar from './defined-app-bar';
 
@@ -247,23 +251,30 @@ const Preferences = ({
     },
   };
 
-  const showRequestRestartSnackbar = () => {
+  const showRequestRestartSnackbar = useCallback(() => {
     enqueueSnackbar('You need to restart the app for the changes to take effect.', {
       variant: 'error',
       preventDuplicate: true,
       persist: true,
       action: (key) => (
         <>
-          <Button onClick={() => requestRestart()}>
+          <Button color="inherit" onClick={() => requestRestart()}>
             Restart Now
           </Button>
-          <Button onClick={() => closeSnackbar(key)}>
+          <Button color="inherit" onClick={() => closeSnackbar(key)}>
             Later
           </Button>
         </>
       ),
     });
-  };
+  }, [enqueueSnackbar, closeSnackbar]);
+
+  useEffect(() => {
+    document.addEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
+    return () => {
+      document.removeEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
+    };
+  }, [showRequestRestartSnackbar]);
 
   return (
     <div className={classes.root}>
