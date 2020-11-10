@@ -13,7 +13,10 @@ const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parse
 
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
-const argv = yargsParser(process.argv.slice(1));
+// id, name, username might only contain numbers
+// causing yargsParser to parse them correctly as Number instead of String
+// so it's neccessary to explitcity state their types
+const argv = yargsParser(process.argv.slice(1), { string: ['id', 'name', 'username'] });
 const {
   appDataPath,
   desktopPath,
