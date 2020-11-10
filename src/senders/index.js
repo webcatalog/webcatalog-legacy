@@ -33,7 +33,10 @@ export const requestInstallApp = (engine, id, name, url, icon) => {
     multisiteApp: url == null,
   });
 
-  trackInstallAsync(amplitude.getInstance().options.deviceId, id);
+  // only track installs for apps in the catalog
+  if (!id.startsWith('custom-')) {
+    trackInstallAsync(amplitude.getInstance().options.deviceId, id);
+  }
 
   window.ipcRenderer.send('request-install-app', engine, id, name, url, icon);
 };
