@@ -3,6 +3,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import amplitude from '../amplitude';
 
+import { trackInstallAsync } from '../firebase/functions';
+
 export const requestOpenInBrowser = (url) => window.ipcRenderer.send('request-open-in-browser', url);
 export const requestShowMessageBox = (message, type) => window.ipcRenderer.send('request-show-message-box', message, type);
 export const requestQuit = () => window.ipcRenderer.send('request-quit');
@@ -30,6 +32,8 @@ export const requestInstallApp = (engine, id, name, url, icon) => {
     engine,
     multisiteApp: url == null,
   });
+
+  trackInstallAsync(amplitude.getInstance().options.deviceId, id);
 
   window.ipcRenderer.send('request-install-app', engine, id, name, url, icon);
 };
