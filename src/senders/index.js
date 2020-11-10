@@ -47,6 +47,11 @@ export const requestUpdateApp = (engine, id, name, url, icon) => {
     multisiteApp: url == null,
   });
 
+  // only track installs for apps in the catalog
+  if (!id.startsWith('custom-')) {
+    trackInstallAsync(amplitude.getInstance().options.deviceId, id);
+  }
+
   window.ipcRenderer.send('request-update-app', engine, id, name, url, icon);
 };
 export const requestCancelInstallApp = (id) => window.ipcRenderer.send('request-cancel-install-app', id);
