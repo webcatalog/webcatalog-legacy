@@ -781,6 +781,21 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://twitter.com/webcatalog_app')}>
+                <ListItemText primary="Twitter" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://www.linkedin.com/company/webcatalogapp')}>
+                <ListItemText primary="LinkedIn" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/webcatalog')}>
+                <ListItemText primary="GitHub" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
               <ListItem button onClick={requestQuit}>
                 <ListItemText primary="Quit" />
                 <ChevronRightIcon color="action" />
