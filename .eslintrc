@@ -5,7 +5,11 @@
     "window": true,
     "document": true
   },
+  "plugins": [
+    "header"
+  ],
   "rules": {
+    "header/header": [2, "build-resources/copyright.txt"],
     "import/no-extraneous-dependencies": [0],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "react/forbid-prop-types": [0],
