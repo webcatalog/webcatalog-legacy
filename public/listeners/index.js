@@ -240,6 +240,16 @@ const loadListeners = () => {
 
           return installAppAsync(engine, id, name, url, icon)
             .then((version) => {
+              let displayedIcon = icon;
+              // display latest icon from WebCatalog
+              if (!id.startsWith('custom-')) {
+                if (process.platform === 'win32') {
+                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon-unplated.png`;
+                } else {
+                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
+                }
+              }
+
               send(e.sender, 'set-app', id, {
                 url,
                 version,
@@ -247,7 +257,7 @@ const loadListeners = () => {
                 lastUpdated: new Date().getTime(),
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
-                icon: !id.startsWith('custom-') && url ? `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png` : icon,
+                icon: displayedIcon,
               });
             })
             .catch((error) => {
