@@ -52,6 +52,7 @@ const Toolbar = ({
 }) => (
   <WithSearch
     mapContextToProps={({
+      error,
       isLoading,
       results,
       setSort,
@@ -60,6 +61,7 @@ const Toolbar = ({
       searchTerm,
       setSearchTerm,
     }) => ({
+      error,
       isLoading,
       results,
       setSort,
@@ -70,6 +72,7 @@ const Toolbar = ({
     })}
   >
     {({
+      error,
       isLoading,
       results,
       setSort,
@@ -101,7 +104,7 @@ const Toolbar = ({
                 }
                 setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
               }}
-              disabled={isLoading}
+              disabled={isLoading && !error}
             >
               <RefreshIcon fontSize="small" />
             </IconButton>

@@ -38,7 +38,7 @@ const connector = new AppSearchAPIConnector({
 
 const styles = (theme) => ({
   root: {
-    flex: 1,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
@@ -153,7 +153,7 @@ const Home = ({
                   );
                 }
 
-                if (isLoading && results.length < 1) {
+                if (isLoading && !error && results.length < 1) {
                   return (
                     <Grid item xs={12}>
                       <Typography

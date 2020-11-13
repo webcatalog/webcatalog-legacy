@@ -26,7 +26,7 @@ import { updateScrollOffset } from '../../../state/installed/actions';
 
 const styles = (theme) => ({
   root: {
-    flex: 1,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',

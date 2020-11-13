@@ -48,6 +48,10 @@ const styles = (theme) => ({
     width: '100vw',
     background: theme.palette.background.default,
   },
+  content: {
+    flex: 1,
+    overflow: 'hidden',
+  },
   notistackContainerRoot: {
     // substract 22px of FakeTitleBar
     marginTop: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 42,
@@ -115,7 +119,14 @@ class App extends React.Component {
         )}
       >
         <div className={classes.root}>
-          {pageContent}
+          <div className={classes.content}>
+            {pageContent}
+          </div>
+          <EnhancedBottomNavigation />
+
+          <SnackbarTrigger />
+          <TelemetryManager />
+
           <DialogAbout />
           <DialogChooseEngine />
           <DialogCreateCustomApp />
@@ -126,9 +137,6 @@ class App extends React.Component {
           <DialogSetPreferredEngine />
           <DialogCatalogAppDetails />
           <DialogReferral />
-          <EnhancedBottomNavigation />
-          <SnackbarTrigger />
-          <TelemetryManager />
         </div>
       </SnackbarProvider>
     );
