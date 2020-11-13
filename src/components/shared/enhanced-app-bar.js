@@ -139,7 +139,6 @@ const EnhancedAppBar = ({
                 e.stopPropagation();
                 requestShowAppMenu(e.x, e.y);
               }}
-              disableRipple
             >
               <MenuIcon fontSize="small" />
             </IconButton>

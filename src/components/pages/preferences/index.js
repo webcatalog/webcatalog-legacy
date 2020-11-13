@@ -60,7 +60,7 @@ import DefinedAppBar from './defined-app-bar';
 
 const styles = (theme) => ({
   root: {
-    flex: 1,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',

@@ -25,6 +25,8 @@ import {
 const styles = {
   paper: {
     zIndex: 1,
+    alignSelf: 'flex-end',
+    width: '100%',
   },
   bottomNavigation: {
     height: 40,
