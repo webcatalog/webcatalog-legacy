@@ -140,6 +140,11 @@ if (!gotTheLock) {
         if (process.platform !== 'darwin') {
           handleArgv(process.argv);
         }
+
+        const win = mainWindow.get();
+        mainWindow.get().on('focus', () => {
+          win.send('log-focus');
+        });
       });
 
     createMenu();
