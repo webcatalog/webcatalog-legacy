@@ -21,12 +21,17 @@ const {
   arch,
   platform,
   tagName,
-  templatePath,
-  templateZipPath,
   templateInfoJson,
+  cacheRoot,
+  userDataPath,
 } = argv;
 
+const cachePath = path.join(cacheRoot, 'webcatalog-engine');
+const templatePath = path.join(cachePath, 'template');
+const templateZipPath = path.join(cachePath, 'template.zip');
+
 Promise.resolve()
+  .then(() => fs.ensureDir(cachePath))
   .then(() => {
     if (templateInfoJson) {
       return JSON.parse(templateInfoJson);
@@ -85,13 +90,13 @@ Promise.resolve()
               let lastUpdated = new Date().getTime();
               response.data.on('data', (chunk) => {
                 downloadedLength += chunk.length;
-                // downloading template takes about 80% of the total installation time
+                // downloading template takes about 20% of the total installation time
                 const currentTime = new Date().getTime();
-                // send every 1s to avoid too many rerendering
-                if (currentTime - lastUpdated > 1000) {
+                // send every 2s to avoid too many rerendering
+                if (currentTime - lastUpdated > 2000) {
                   process.send({
                     progress: {
-                      percent: Math.round((downloadedLength / totalLength) * 80),
+                      percent: Math.round((downloadedLength / totalLength) * 20),
                       desc: `Downloading WebCatalog Engine ${templateInfo.version} (${formatBytes(downloadedLength)}/${formatBytes(totalLength)})...`,
                     },
                   });
@@ -141,10 +146,10 @@ Promise.resolve()
     })
     .then((shouldExtract) => {
       if (shouldExtract) {
-        // when extraction is started, 80% (downloading) is already done
+        // when extraction is started, 20% (downloading) is already done
         process.send({
           progress: {
-            percent: 80,
+            percent: 20,
             desc: 'Preparing...',
           },
         });
@@ -154,6 +159,15 @@ Promise.resolve()
       }
       return null;
     }))
+  .then(() => {
+    // leftover files
+    // from WebCatalog < 26.x
+    const p = [
+      fs.remove(path.join(userDataPath, 'webcatalog-template')),
+      fs.remove(path.join(userDataPath, 'webcatalog-template.zip')),
+    ];
+    return Promise.all(p);
+  })
   .then(() => {
     process.exit(0);
   })

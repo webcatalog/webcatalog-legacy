@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 require('source-map-support').install();
-require('source-map-support').install();
 
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const packager = require('electron-packager');
@@ -12,6 +11,7 @@ const icongen = require('icon-gen');
 const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
+const ProxyAgent = require('proxy-agent');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
@@ -22,17 +22,21 @@ const checkPathInUseAsync = require('../check-path-in-use-async');
 // so it's neccessary to explitcity state their types
 const argv = yargsParser(process.argv.slice(1), { string: ['id', 'name', 'username'] });
 const {
-  appPath,
-  id,
-  name,
-  url,
-  icon,
+  cacheRoot,
   homePath,
+  icon,
+  id,
   installationPath,
-  username,
-  tmpPath,
+  name,
   registered,
+  tmpPath,
+  url,
+  username,
 } = argv;
+
+const electronCachePath = path.join(cacheRoot, 'electron');
+const webcatalogEngineCachePath = path.join(cacheRoot, 'webcatalog-engine');
+const templatePath = path.join(webcatalogEngineCachePath, 'template');
 
 // ignore requireAdmin if installationPath is not custom
 const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
@@ -43,17 +47,17 @@ const buildResourcesPath = path.join(tmpPath, 'build-resources');
 const iconIcnsPath = path.join(buildResourcesPath, 'e.icns');
 const iconPngPath = path.join(buildResourcesPath, 'e.png');
 const iconIcoPath = path.join(buildResourcesPath, 'e.ico');
-const appAsarUnpackedPath = path.join(appPath, 'app.asar.unpacked');
+const appAsarUnpackedPath = path.join(templatePath, 'app.asar.unpacked');
 const appJsonPath = path.join(appAsarUnpackedPath, 'build', 'app.json');
 const publicIconPngPath = path.join(appAsarUnpackedPath, 'build', 'icon.png');
 const publicIconIcoPath = path.join(appAsarUnpackedPath, 'build', 'icon.ico');
-const rootPackageJsonPath = path.join(appPath, 'package.json');
+const rootPackageJsonPath = path.join(templatePath, 'package.json');
 const packageJsonPath = path.join(appAsarUnpackedPath, 'package.json');
 const outputPath = path.join(tmpPath, 'dist');
 const menubarIconPath = path.join(appAsarUnpackedPath, 'build', 'menubar-icon.png');
 const menubarIcon2xPath = path.join(appAsarUnpackedPath, 'build', 'menubar-icon@2x.png');
 
-const getDotAppPath = () => {
+const getDottemplatePath = () => {
   if (process.platform === 'darwin') {
     return path.join(outputPath, `${name}-darwin-${process.arch}`, `${name}.app`);
   }
@@ -66,7 +70,7 @@ const getDotAppPath = () => {
   throw Error('Unsupported platform');
 };
 
-const dotAppPath = getDotAppPath();
+const dotTemplatePath = getDottemplatePath();
 
 const allAppsPath = installationPath.replace('~', homePath);
 
@@ -231,19 +235,44 @@ Promise.resolve()
     if (process.platform === 'darwin') optsIconPath = iconIcnsPath;
     if (process.platform === 'win32') optsIconPath = iconIcoPath;
 
+    const proxyPacScript = process.env.PROXY_PAC_SCRIPT;
+    const proxyRules = process.env.PROXY_RULES;
+    const proxyType = process.env.PROXY_TYPE;
+
+    // create proxy agent
+    let agent;
+    if (proxyType === 'rules') {
+      agent = new ProxyAgent(proxyRules);
+    } else if (proxyType === 'pacScript') {
+      agent = new ProxyAgent(`pac+${proxyPacScript}`);
+    }
+
     const opts = {
       name,
       appBundleId: `com.webcatalog.juli.${id}`,
       icon: optsIconPath,
       platform: process.platform,
-      dir: appPath,
+      dir: templatePath,
       out: outputPath,
       overwrite: true,
       prune: true,
       osxSign: false,
       darwinDarkModeSupport: true,
       tmpdir: false,
-      prebuiltAsar: path.join(appPath, 'app.asar'),
+      prebuiltAsar: path.join(templatePath, 'app.asar'),
+      download: {
+        cacheRoot: electronCachePath,
+        // it's unlikely that electron-packager will make requests
+        // as we have downloaded Electron with prepare-electron-async
+        // but we still configure proxy here just in case
+        downloadOptions: {
+          agent: agent ? {
+            http: agent,
+            http2: agent,
+            https: agent,
+          } : undefined,
+        },
+      },
     };
 
     opts.protocols = [
@@ -264,14 +293,14 @@ Promise.resolve()
     return packager(opts)
       // if packager fails, the template might be corrupt
       // so remove it
-      .catch((err) => fsExtra.remove(appPath)
+      .catch((err) => fsExtra.remove(templatePath)
         .then(() => Promise.reject(err)));
   })
   .then(() => {
     // copy app.asar.unpacked
     const resourcesPath = process.platform === 'darwin'
-      ? path.join(dotAppPath, 'Contents', 'Resources')
-      : path.join(dotAppPath, 'resources');
+      ? path.join(dotTemplatePath, 'Contents', 'Resources')
+      : path.join(dotTemplatePath, 'resources');
     const outputAppAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
   })
@@ -284,7 +313,7 @@ Promise.resolve()
     });
 
     if (requireAdmin === 'true') {
-      return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotAppPath}" "${finalPath}"`);
+      return sudoAsync(`mkdir -p "${allAppsPath}" && rm -rf "${finalPath}" && mv "${dotTemplatePath}" "${finalPath}"`);
     }
     // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
     // need to correct to user to install apps without sudo
@@ -300,7 +329,7 @@ Promise.resolve()
         await sudoAsync(`/usr/sbin/chown -R ${username} '/Applications/WebCatalog Apps'`);
       }
     }
-    return fsExtra.move(dotAppPath, finalPath, { overwrite: true });
+    return fsExtra.move(dotTemplatePath, finalPath, { overwrite: true });
   })
   .then(() => {
     process.send({
