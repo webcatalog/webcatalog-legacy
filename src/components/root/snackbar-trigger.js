@@ -11,10 +11,6 @@ import {
   requestRestart,
 } from '../../senders';
 
-import {
-  RESTART_REQUIRED,
-} from '../../constants/custom-events';
-
 const SnackbarTrigger = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -47,9 +43,10 @@ const SnackbarTrigger = () => {
   }, [enqueueSnackbar, closeSnackbar]);
 
   useEffect(() => {
-    document.addEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
+    window.ipcRenderer.removeAllListeners('enqueue-request-restart-snackbar');
+    window.ipcRenderer.on('enqueue-request-restart-snackbar', showRequestRestartSnackbar);
     return () => {
-      document.removeEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
+      window.ipcRenderer.removeAllListeners('enqueue-request-restart-snackbar');
     };
   }, [showRequestRestartSnackbar]);
 

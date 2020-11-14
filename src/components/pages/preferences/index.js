@@ -47,11 +47,8 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
+  enqueueRequestRestartSnackbar,
 } from '../../../senders';
-
-import {
-  RESTART_REQUIRED,
-} from '../../../constants/custom-events';
 
 import DefinedAppBar from './defined-app-bar';
 
@@ -249,12 +246,6 @@ const Preferences = ({
     },
   };
 
-  const triggerRequestRestartEvent = () => {
-    // trigger JS events to show require restart message
-    const event = new window.CustomEvent(RESTART_REQUIRED);
-    document.dispatchEvent(event);
-  };
-
   return (
     <div className={classes.root}>
       <DefinedAppBar />
@@ -345,7 +336,7 @@ const Preferences = ({
                         checked={attachToMenubar}
                         onChange={(e) => {
                           requestSetPreference('attachToMenubar', e.target.checked);
-                          triggerRequestRestartEvent();
+                          enqueueRequestRestartSnackbar();
                         }}
                       />
                     </ListItemSecondaryAction>
@@ -405,7 +396,7 @@ const Preferences = ({
                     checked={telemetry}
                     onChange={(e) => {
                       requestSetPreference('telemetry', e.target.checked);
-                      triggerRequestRestartEvent();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -423,7 +414,7 @@ const Preferences = ({
                     checked={sentry}
                     onChange={(e) => {
                       requestSetPreference('sentry', e.target.checked);
-                      triggerRequestRestartEvent();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -664,7 +655,7 @@ const Preferences = ({
                     checked={useHardwareAcceleration}
                     onChange={(e) => {
                       requestSetPreference('useHardwareAcceleration', e.target.checked);
-                      triggerRequestRestartEvent();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -703,7 +694,7 @@ const Preferences = ({
                     checked={allowPrerelease}
                     onChange={(e) => {
                       requestSetPreference('allowPrerelease', e.target.checked);
-                      triggerRequestRestartEvent();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -727,7 +718,7 @@ const Preferences = ({
                   }).then(({ response }) => {
                     if (response === 0) {
                       window.ipcRenderer.once('set-preferences', () => {
-                        triggerRequestRestartEvent();
+                        enqueueRequestRestartSnackbar();
                       });
                       requestResetPreferences();
                     }

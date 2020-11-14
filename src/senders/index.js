@@ -5,6 +5,8 @@ import amplitude from '../amplitude';
 
 import { trackInstallAsync } from '../firebase/functions';
 
+export const enqueueRequestRestartSnackbar = () => window.ipcRenderer.emit('enqueue-request-restart-snackbar');
+
 export const requestOpenInBrowser = (url) => window.ipcRenderer.send('request-open-in-browser', url);
 export const requestShowMessageBox = (message, type) => window.ipcRenderer.send('request-show-message-box', message, type);
 export const requestQuit = () => window.ipcRenderer.send('request-quit');
