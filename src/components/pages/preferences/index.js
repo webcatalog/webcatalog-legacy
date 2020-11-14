@@ -1,10 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { useSnackbar } from 'notistack';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -17,7 +16,6 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -49,12 +47,8 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
-  requestRestart,
+  enqueueRequestRestartSnackbar,
 } from '../../../senders';
-
-import {
-  RESTART_REQUIRED,
-} from '../../../constants/custom-events';
 
 import DefinedAppBar from './defined-app-bar';
 
@@ -203,8 +197,6 @@ const Preferences = ({
   updaterStatus,
   useHardwareAcceleration,
 }) => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
   const sections = {
     account: {
       text: 'Account',
@@ -253,31 +245,6 @@ const Preferences = ({
       ref: useRef(),
     },
   };
-
-  const showRequestRestartSnackbar = useCallback(() => {
-    enqueueSnackbar('You need to restart the app for the changes to take effect.', {
-      variant: 'error',
-      preventDuplicate: true,
-      persist: true,
-      action: (key) => (
-        <>
-          <Button color="inherit" onClick={() => requestRestart()}>
-            Restart Now
-          </Button>
-          <Button color="inherit" onClick={() => closeSnackbar(key)}>
-            Later
-          </Button>
-        </>
-      ),
-    });
-  }, [enqueueSnackbar, closeSnackbar]);
-
-  useEffect(() => {
-    document.addEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
-    return () => {
-      document.removeEventListener(RESTART_REQUIRED, showRequestRestartSnackbar);
-    };
-  }, [showRequestRestartSnackbar]);
 
   return (
     <div className={classes.root}>
@@ -369,7 +336,7 @@ const Preferences = ({
                         checked={attachToMenubar}
                         onChange={(e) => {
                           requestSetPreference('attachToMenubar', e.target.checked);
-                          showRequestRestartSnackbar();
+                          enqueueRequestRestartSnackbar();
                         }}
                       />
                     </ListItemSecondaryAction>
@@ -429,7 +396,7 @@ const Preferences = ({
                     checked={telemetry}
                     onChange={(e) => {
                       requestSetPreference('telemetry', e.target.checked);
-                      showRequestRestartSnackbar();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -447,7 +414,7 @@ const Preferences = ({
                     checked={sentry}
                     onChange={(e) => {
                       requestSetPreference('sentry', e.target.checked);
-                      showRequestRestartSnackbar();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -688,7 +655,7 @@ const Preferences = ({
                     checked={useHardwareAcceleration}
                     onChange={(e) => {
                       requestSetPreference('useHardwareAcceleration', e.target.checked);
-                      showRequestRestartSnackbar();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -727,7 +694,7 @@ const Preferences = ({
                     checked={allowPrerelease}
                     onChange={(e) => {
                       requestSetPreference('allowPrerelease', e.target.checked);
-                      showRequestRestartSnackbar();
+                      enqueueRequestRestartSnackbar();
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -751,7 +718,7 @@ const Preferences = ({
                   }).then(({ response }) => {
                     if (response === 0) {
                       window.ipcRenderer.once('set-preferences', () => {
-                        showRequestRestartSnackbar();
+                        enqueueRequestRestartSnackbar();
                       });
                       requestResetPreferences();
                     }
