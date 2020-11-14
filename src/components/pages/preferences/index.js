@@ -250,7 +250,7 @@ const Preferences = ({
   };
 
   const triggerRequestRestartEvent = () => {
-     // trigger JS events to show require restart message
+    // trigger JS events to show require restart message
     const event = new window.CustomEvent(RESTART_REQUIRED);
     document.dispatchEvent(event);
   };
