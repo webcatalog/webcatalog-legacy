@@ -8,7 +8,12 @@ const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parse
 const fs = require('fs-extra');
 const path = require('path');
 
-const { downloadArtifact } = require('@electron/get');
+// temporary fix by using cjs (require() instead dynamic import)
+// LimitChunkCountPlugin max chunks not working for dynamic import
+// @electron/get uses import
+// https://github.com/webpack/webpack/issues/11431
+// https://stackoverflow.com/questions/53575157/limit-the-number-of-chunks-in-webpack-4
+const { downloadArtifact } = require('@electron/get/dist/cjs');
 
 const formatBytes = require('../../format-bytes');
 
