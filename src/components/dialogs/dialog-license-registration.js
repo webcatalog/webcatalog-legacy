@@ -81,7 +81,7 @@ const DialogLicenseRegistration = (props) => {
           </span>
           &nbsp;such as creating custom apps,
           blocking ads & trackers and more.
-          To remove the limitations, please purchase the full version ($19.99) from our store.
+          To remove the limitations, please purchase WebCatalog Plus ($19.99) from our store.
         </DialogContentText>
         <TextField
           autoFocus
@@ -94,7 +94,7 @@ const DialogLicenseRegistration = (props) => {
           placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
           error={Boolean(licenseKeyError)}
           variant="outlined"
-          helperText={licenseKeyError || 'If you have already purchased WebCatalog from our store, you should have received a license key via email to enter above.'}
+          helperText={licenseKeyError || 'If you have already purchased WebCatalog Plus or Singlebox from our store, you should have received a license key via email to enter above.'}
         />
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
