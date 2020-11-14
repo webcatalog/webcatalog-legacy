@@ -6,6 +6,8 @@ const semver = require('semver');
 const NodeCache = require('node-cache');
 const { fork } = require('child_process');
 const { app } = require('electron');
+const envPaths = require('env-paths');
+
 const customizedFetch = require('../../customized-fetch');
 const sendToAllWindows = require('../../send-to-all-windows');
 const { getPreference, getPreferences } = require('../../preferences');
@@ -54,6 +56,10 @@ const getTagNameAsync = () => Promise.resolve()
   });
 
 const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
+  const cacheRoot = envPaths('webcatalog', {
+    suffix: '',
+  }).cache;
+
   let latestTemplateVersion = '0.0.0';
   const scriptPath = path.join(__dirname, 'forked-script.js')
     .replace('app.asar', 'app.asar.unpacked');
@@ -67,10 +73,10 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   const args = [
     '--appVersion',
     app.getVersion(),
-    '--templatePath',
-    path.join(app.getPath('userData'), 'webcatalog-template'),
-    '--templateZipPath',
-    path.join(app.getPath('userData'), 'webcatalog-template.zip'),
+    '--userDataPath',
+    app.getPath('userData'),
+    '--cacheRoot',
+    cacheRoot,
     '--platform',
     process.platform,
     '--arch',
@@ -127,7 +133,7 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   });
 });
 
-const prepareTemplateAsync = () => getTagNameAsync()
+const prepareEngineAsync = () => getTagNameAsync()
   .then((tagName) => downloadExtractTemplateAsync(tagName));
 
-module.exports = prepareTemplateAsync;
+module.exports = prepareEngineAsync;

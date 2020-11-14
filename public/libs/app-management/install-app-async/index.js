@@ -9,6 +9,7 @@ const tmp = require('tmp');
 const ws = require('windows-shortcuts');
 const fsExtra = require('fs-extra');
 const { captureException } = require('@sentry/electron');
+const envPaths = require('env-paths');
 
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
@@ -23,7 +24,8 @@ const getWin32YandexPaths = require('../../get-win32-yandex-paths');
 const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
 const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
-const prepareTemplateAsync = require('../prepare-template-async');
+const prepareEngineAsync = require('../prepare-engine-async');
+const prepareElectronAsync = require('../prepare-electron-async');
 const registryInstaller = require('../registry-installer');
 
 let lastUsedTmpPath = null;
@@ -57,6 +59,10 @@ const installAppAsync = (
     registered,
   } = getPreferences();
 
+  const cacheRoot = envPaths('webcatalog', {
+    suffix: '',
+  }).cache;
+
   return Promise.resolve()
     .then(() => {
       sendToAllWindows('update-installation-progress', {
@@ -65,10 +71,11 @@ const installAppAsync = (
       });
 
       if (engine === 'electron') {
-        return prepareTemplateAsync()
+        return prepareEngineAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
             scriptFileName = 'forked-script-electron-v2.js';
+            return prepareElectronAsync();
           });
       }
 
@@ -190,6 +197,8 @@ const installAppAsync = (
         process.env.USER, // required by sudo-prompt,
         '--registered',
         registered,
+        '--cacheRoot',
+        cacheRoot,
       ];
 
       if (url != null) {
@@ -204,11 +213,6 @@ const installAppAsync = (
 
       let tmpPath = null;
       if (engine === 'electron') {
-        params.push(
-          '--appPath',
-          path.join(app.getPath('userData'), 'webcatalog-template'),
-        );
-
         tmpPath = lastUsedTmpPath || tmp.dirSync().name;
         params.push(
           '--tmpPath',
