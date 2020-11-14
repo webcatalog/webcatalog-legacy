@@ -38,7 +38,6 @@ const TelemetryManager = ({
     // if not, we will miss usage data when users keep the app open and switch back later
     // instead of quitting and restarting the app
     const logFocus = () => {
-      console.log('focus-app');
       amplitude.getInstance().logEvent('focus app');
     };
     window.ipcRenderer.on('log-focus', logFocus);
