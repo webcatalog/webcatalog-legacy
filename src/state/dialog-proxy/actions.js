@@ -6,15 +6,12 @@ import {
   DIALOG_PROXY_FORM_UPDATE,
   DIALOG_PROXY_OPEN,
 } from '../../constants/actions';
-import {
-  RESTART_REQUIRED,
-} from '../../constants/custom-events';
-
 import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
 
 import {
   requestSetPreference,
+  enqueueRequestRestartSnackbar,
 } from '../../senders';
 
 export const close = () => ({
@@ -83,9 +80,7 @@ export const save = () => (dispatch, getState) => {
   requestSetPreference('proxyPacScript', form.proxyPacScript);
   requestSetPreference('proxyType', form.proxyType);
 
-  // trigger JS events to show require restart message
-  const event = new window.CustomEvent(RESTART_REQUIRED);
-  document.dispatchEvent(event);
+  enqueueRequestRestartSnackbar();
 
   dispatch(close());
   return null;

@@ -4,9 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SnackbarProvider } from 'notistack';
-import Button from '@material-ui/core/Button';
-
 import connectComponent from '../helpers/connect-component';
 
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
@@ -93,52 +90,27 @@ class App extends React.Component {
         pageContent = <Home key="home" />;
     }
 
-    const notistackRef = React.createRef();
-    const onClickDismiss = (key) => () => {
-      notistackRef.current.closeSnackbar(key);
-    };
-
     return (
-      <SnackbarProvider
-        ref={notistackRef}
-        maxSnack={3}
-        autoHideDuration={2000}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        dense
-        preventDuplicate
-        classes={{
-          containerRoot: classes.notistackContainerRoot,
-        }}
-        action={(key) => (
-          <Button color="inherit" onClick={onClickDismiss(key)}>
-            Dismiss
-          </Button>
-        )}
-      >
-        <div className={classes.root}>
-          <div className={classes.content}>
-            {pageContent}
-          </div>
-          <EnhancedBottomNavigation />
-
-          <SnackbarTrigger />
-          <TelemetryManager />
-
-          <DialogAbout />
-          <DialogChooseEngine />
-          <DialogCreateCustomApp />
-          <DialogEditApp />
-          <DialogLicenseRegistration />
-          <DialogProxy />
-          <DialogSetInstallationPath />
-          <DialogSetPreferredEngine />
-          <DialogCatalogAppDetails />
-          <DialogReferral />
+      <div className={classes.root}>
+        <div className={classes.content}>
+          {pageContent}
         </div>
-      </SnackbarProvider>
+        <EnhancedBottomNavigation />
+
+        <SnackbarTrigger />
+        <TelemetryManager />
+
+        <DialogAbout />
+        <DialogChooseEngine />
+        <DialogCreateCustomApp />
+        <DialogEditApp />
+        <DialogLicenseRegistration />
+        <DialogProxy />
+        <DialogSetInstallationPath />
+        <DialogSetPreferredEngine />
+        <DialogCatalogAppDetails />
+        <DialogReferral />
+      </div>
     );
   }
 }

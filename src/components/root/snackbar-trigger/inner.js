@@ -9,9 +9,9 @@ import { useSnackbar } from 'notistack';
 
 import {
   requestRestart,
-} from '../../senders';
+} from '../../../senders';
 
-const SnackbarTrigger = () => {
+const SnackbarTriggerInner = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -53,4 +53,4 @@ const SnackbarTrigger = () => {
   return null;
 };
 
-export default SnackbarTrigger;
+export default SnackbarTriggerInner;
