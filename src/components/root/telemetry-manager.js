@@ -37,13 +37,12 @@ const TelemetryManager = ({
     // this is important to track usage correctly
     // if not, we will miss usage data when users keep the app open and switch back later
     // instead of quitting and restarting the app
-    const win = window.remote.getCurrentWindow();
     const logFocus = () => {
       amplitude.getInstance().logEvent('focus app');
     };
-    win.on('focus', logFocus);
+    window.ipcRenderer.on('log-focus', logFocus);
     return () => {
-      win.removeListener('focus', logFocus);
+      window.ipcRenderer.removeListener('log-focus', logFocus);
     };
   }, []);
   return null;
