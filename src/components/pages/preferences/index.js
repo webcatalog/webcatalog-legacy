@@ -279,7 +279,7 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={onOpenDialogLicenseRegistration} disabled>
+              <ListItem button disabled>
                 <ListItemText primary={registered ? 'WebCatalog Plus' : 'WebCatalog Basic'} />
               </ListItem>
               {!registered && (

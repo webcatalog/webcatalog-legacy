@@ -11,8 +11,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import AddIcon from '@material-ui/icons/Add';
 
-import { requestOpenInBrowser } from '../../../senders';
-
 import connectComponent from '../../../helpers/connect-component';
 
 import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
@@ -46,27 +44,13 @@ const DefinedAppBar = ({
     center={(
       <div className={classes.centerContainer}>
         <SearchBox />
-        <Tooltip title="Create...">
+        <Tooltip title="Create Custom App...">
           <IconButton
             size="small"
             color="inherit"
-            aria-label="Create..."
+            aria-label="Create Custom App..."
             className={classnames(classes.noDrag, classes.addButton)}
-            onClick={() => {
-              const template = [
-                {
-                  label: 'Create Custom App',
-                  click: () => onOpenDialogCreateCustomApp(),
-                },
-                {
-                  label: 'Submit New App to Catalog',
-                  click: () => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9'),
-                },
-              ];
-
-              const menu = window.remote.Menu.buildFromTemplate(template);
-              menu.popup(window.remote.getCurrentWindow());
-            }}
+            onClick={() => onOpenDialogCreateCustomApp()}
           >
             <AddIcon fontSize="small" />
           </IconButton>

@@ -13,10 +13,13 @@ import Typography from '@material-ui/core/Typography';
 
 import SortIcon from '@material-ui/icons/Sort';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import { open as openDialogReferral } from '../../../state/dialog-referral/actions';
+
+import { requestOpenInBrowser } from '../../../senders';
 
 const styles = (theme) => ({
   root: {
@@ -90,8 +93,11 @@ const Toolbar = ({
           )}
         </div>
         <div className={classes.right}>
-          <Button variant="text" onClick={onOpenDialogReferral}>
-            Share your Love
+          <Button
+            variant="text"
+            onClick={() => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9')}
+          >
+            Submit New App
           </Button>
           <Tooltip title="Refresh">
             <IconButton
@@ -113,6 +119,8 @@ const Toolbar = ({
             <IconButton
               size="small"
               aria-label="Sort by..."
+              // // when searching, results are ALWAYS sorted by relevance
+              disabled={searchTerm.length > 0}
               onClick={() => {
                 const template = [
                   { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
@@ -132,6 +140,16 @@ const Toolbar = ({
               }}
             >
               <SortIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Share your Love">
+            <IconButton
+              size="small"
+              aria-label="Share your Love"
+              // // when searching, results are ALWAYS sorted by relevance
+              onClick={onOpenDialogReferral}
+            >
+              <FavoriteIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </div>
