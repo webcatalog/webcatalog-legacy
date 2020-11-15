@@ -26,7 +26,7 @@ const SnackbarTriggerInner = () => {
 
   const showRequestRestartSnackbar = useCallback(() => {
     enqueueSnackbar('You need to restart the app for the changes to take effect.', {
-      variant: 'error',
+      variant: 'default',
       preventDuplicate: true,
       persist: true,
       action: (key) => (

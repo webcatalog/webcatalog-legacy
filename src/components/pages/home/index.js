@@ -67,6 +67,15 @@ const Home = ({
   <SearchProvider
     config={{
       apiConnector: connector,
+      onSearch: (state, queryConfig, next) => {
+        const updatedState = { ...state };
+        // when searching, results should ALWAYS be listed by relevance
+        if (state.searchTerm.length > 0) {
+          updatedState.sortField = '';
+          updatedState.sortDirection = '';
+        }
+        return next(updatedState, queryConfig);
+      },
       initialState: {
         resultsPerPage: 58,
         sortField: '',

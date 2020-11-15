@@ -19,12 +19,10 @@ let menu;
 
 const createMenu = () => {
   const registered = getPreference('registered');
-  const updaterEnabled = process.env.SNAP == null && !process.mas && !process.windowsStore;
 
   const updaterMenuItem = {
     label: 'Check for Updates...',
     click: () => ipcMain.emit('request-check-for-updates'),
-    visible: updaterEnabled,
   };
   if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
     updaterMenuItem.label = 'Restart to Apply Updates...';
@@ -71,7 +69,6 @@ const createMenu = () => {
         },
         {
           type: 'separator',
-          visible: updaterEnabled,
         },
         updaterMenuItem,
         { type: 'separator' },
