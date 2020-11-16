@@ -1,0 +1,18 @@
+diff --git a/node_modules/@electron/get/dist/cjs/utils.js b/node_modules/@electron/get/dist/cjs/utils.js
+index 21d9743..51abf04 100644
+--- a/node_modules/@electron/get/dist/cjs/utils.js
++++ b/node_modules/@electron/get/dist/cjs/utils.js
+@@ -14,7 +14,12 @@ async function useAndRemoveDirectory(directory, fn) {
+     }
+     return result;
+ }
+-async function withTempDirectoryIn(parentDirectory = os.tmpdir(), fn) {
++// os.tmpdir() sometimes doesn't return real path
++// especially if user modifies TEMP/TMP env and add paths
++// causing bug: ENOENT: no such file or directory, mkdtemp 'C:\Users\username\AppData\Local\Temp;SystemDrive=C:\electron-download-XXXXXX'
++// see https://github.com/nodejs/node/issues/11422
++// see https://github.com/desktop/desktop/issues/3072
++async function withTempDirectoryIn(parentDirectory = os.tmpdir().split(';')[0], fn) {
+     const tempDirectoryPrefix = 'electron-download-';
+     const tempDirectory = await fs.mkdtemp(path.resolve(parentDirectory, tempDirectoryPrefix));
+     return useAndRemoveDirectory(tempDirectory, fn);
