@@ -1,8 +1,8 @@
 diff --git a/node_modules/@electron/get/dist/cjs/utils.js b/node_modules/@electron/get/dist/cjs/utils.js
-index 21d9743..51abf04 100644
+index 21d9743..5380d8e 100644
 --- a/node_modules/@electron/get/dist/cjs/utils.js
 +++ b/node_modules/@electron/get/dist/cjs/utils.js
-@@ -14,7 +14,12 @@ async function useAndRemoveDirectory(directory, fn) {
+@@ -14,7 +14,13 @@ async function useAndRemoveDirectory(directory, fn) {
      }
      return result;
  }
@@ -12,6 +12,7 @@ index 21d9743..51abf04 100644
 +// causing bug: ENOENT: no such file or directory, mkdtemp 'C:\Users\username\AppData\Local\Temp;SystemDrive=C:\electron-download-XXXXXX'
 +// see https://github.com/nodejs/node/issues/11422
 +// see https://github.com/desktop/desktop/issues/3072
++// see https://stackoverflow.com/questions/6521277/why-does-temp-resolve-to-a-non-deterministic-path-of-the-form-temp-digit
 +async function withTempDirectoryIn(parentDirectory = os.tmpdir().split(';')[0], fn) {
      const tempDirectoryPrefix = 'electron-download-';
      const tempDirectory = await fs.mkdtemp(path.resolve(parentDirectory, tempDirectoryPrefix));
