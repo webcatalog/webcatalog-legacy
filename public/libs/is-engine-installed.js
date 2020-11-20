@@ -44,7 +44,7 @@ const isEngineInstalled = (engine) => {
       }
 
       if (process.platform === 'linux') {
-        return commandExistsSync('chromium-browser');
+        return commandExistsSync('chromium') || commandExistsSync('chromium-browser');
       }
 
       return false;
