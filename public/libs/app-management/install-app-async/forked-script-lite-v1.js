@@ -12,6 +12,7 @@ const tmp = require('tmp');
 const fsExtra = require('fs-extra');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
+const commandExistsSync = require('command-exists').sync;
 
 const downloadAsync = require('../../download-async');
 const execAsync = require('../../exec-async');
@@ -190,8 +191,12 @@ Promise.resolve()
           let execFileContent = '';
           switch (engine) {
             case 'chromium': {
+              let binPath = 'chromium';
+              if (!commandExistsSync('chromium') && commandExistsSync('chromium-browser')) {
+                binPath = 'chromium-browser';
+              }
               execFileContent = `#!/bin/sh -ue
-chromium-browser --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
+${binPath} --class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}";`;
               break;
             }
             case 'chromium/tabs': {
