@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: 12.x
     - name: Set up SSH Agent
-      uses: webfactory/ssh-agent@v0.2.0
+      uses: webfactory/ssh-agent@v0.4.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Update Cask
