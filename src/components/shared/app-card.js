@@ -210,7 +210,7 @@ const AppCard = (props) => {
       },
     // visible doesn't work with type='separator'
     // https://github.com/electron/electron/issues/3494#issuecomment-455822039
-    ].filter(item => item.visible !== false);
+    ].filter((item) => item.visible !== false);
 
     const menu = window.remote.Menu.buildFromTemplate(template);
     menu.popup(window.remote.getCurrentWindow());
