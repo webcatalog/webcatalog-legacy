@@ -8,7 +8,7 @@ const { app } = require('electron');
 const tmp = require('tmp');
 const ws = require('windows-shortcuts');
 const fsExtra = require('fs-extra');
-const { addBreadcrumb } = require('@sentry/electron');
+const { captureException, addBreadcrumb } = require('@sentry/electron');
 const envPaths = require('env-paths');
 
 const { getPreferences } = require('../../preferences');

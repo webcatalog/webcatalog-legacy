@@ -25,6 +25,9 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
   addBreadcrumb({
     category: 'run-forked-script',
     message: 'uninstall-app-async',
+    data: {
+      engine,
+    },
   });
 
   const child = fork(scriptPath, [
