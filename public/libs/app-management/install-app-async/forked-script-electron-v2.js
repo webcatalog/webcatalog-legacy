@@ -3,6 +3,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 require('source-map-support').install();
 
+// set this event as soon as possible in the process
+process.on('uncaughtException', (e) => {
+  process.send({
+    error: {
+      name: e.name,
+      message: e.message,
+      stack: e.stack,
+    },
+  });
+  process.exit(1);
+});
+
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const packager = require('electron-packager');
 const path = require('path');
@@ -376,14 +388,3 @@ StartupWMClass=${name.toLowerCase()}
     });
     process.exit(1);
   });
-
-process.on('uncaughtException', (e) => {
-  process.send({
-    error: {
-      name: e.name,
-      message: e.message,
-      stack: e.stack,
-    },
-  });
-  process.exit(1);
-});
