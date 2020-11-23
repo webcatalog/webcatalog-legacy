@@ -8,7 +8,7 @@ const { app } = require('electron');
 const tmp = require('tmp');
 const ws = require('windows-shortcuts');
 const fsExtra = require('fs-extra');
-const { captureException } = require('@sentry/electron');
+const { captureException, addBreadcrumb } = require('@sentry/electron');
 const envPaths = require('env-paths');
 
 const { getPreferences } = require('../../preferences');
@@ -48,7 +48,6 @@ const installAppAsync = (
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
-
   let browserPath;
 
   const {
@@ -225,6 +224,18 @@ const installAppAsync = (
         proxyRules,
         proxyType,
       } = getPreferences();
+
+      addBreadcrumb({
+        category: 'run-forked-script',
+        message: 'install-app-async',
+        // avoid sending app name, app id to protect user privacy
+        data: {
+          engine,
+          cacheRoot,
+          installationPath,
+          requireAdmin,
+        },
+      });
 
       const scriptPath = path.join(__dirname, scriptFileName)
         .replace('app.asar', 'app.asar.unpacked');
