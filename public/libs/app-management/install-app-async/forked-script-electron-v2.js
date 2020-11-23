@@ -331,6 +331,9 @@ Promise.resolve()
       if (hasha.fromFileSync(destIcnsPath) !== hasha.fromFileSync(iconIcnsPath)) {
         return Promise.reject(new Error('electron.icns is corrupted when copying.'));
       }
+      if (fsExtra.statSync(destIcnsPath).size < 100) {
+        return Promise.reject(new Error('electron.icns is corrupted (file size is too small).'));
+      }
     }
     return null;
   })
