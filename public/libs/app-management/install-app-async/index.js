@@ -232,6 +232,8 @@ const installAppAsync = (
         data: {
           engine,
           cacheRoot,
+          installationPath,
+          requireAdmin,
         },
       });
 
