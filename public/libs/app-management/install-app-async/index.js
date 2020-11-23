@@ -48,7 +48,6 @@ const installAppAsync = (
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
-  let params;
   let browserPath;
 
   const {
@@ -176,7 +175,7 @@ const installAppAsync = (
         }
       }
 
-      params = [
+      const params = [
         '--engine',
         engine,
         '--id',
