@@ -28,8 +28,6 @@ const prepareEngineAsync = require('../prepare-engine-async');
 const prepareElectronAsync = require('../prepare-electron-async');
 const registryInstaller = require('../registry-installer');
 
-let lastUsedTmpPath = null;
-
 const createShortcutAsync = (shortcutPath, opts) => {
   if (process.platform !== 'win32') {
     return Promise.reject(new Error('Platform is not supported'));
@@ -210,12 +208,10 @@ const installAppAsync = (
         params.push(browserPath);
       }
 
-      let tmpPath = null;
       if (engine === 'electron') {
-        tmpPath = lastUsedTmpPath || tmp.dirSync().name;
         params.push(
           '--tmpPath',
-          tmpPath,
+          tmp.dirSync().name,
         );
       }
 
@@ -265,8 +261,6 @@ const installAppAsync = (
 
       child.on('exit', (code) => {
         if (code === 1) {
-          lastUsedTmpPath = null;
-
           // force reextracting template code to avoid bugs related to corrupted files
           if (engine === 'electron') {
             global.forceExtract = true;
@@ -274,9 +268,6 @@ const installAppAsync = (
 
           reject(err || new Error('Forked script failed to run correctly.'));
           return;
-        }
-        if (tmpPath) {
-          lastUsedTmpPath = tmpPath;
         }
 
         // installation done
