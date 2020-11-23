@@ -7,6 +7,7 @@ const NodeCache = require('node-cache');
 const { fork } = require('child_process');
 const { app } = require('electron');
 const envPaths = require('env-paths');
+const { addBreadcrumb } = require('@sentry/electron');
 
 const customizedFetch = require('../../customized-fetch');
 const sendToAllWindows = require('../../send-to-all-windows');
@@ -90,6 +91,14 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
     args.push('--templateInfoJson');
     args.push(cachedTemplateInfoJson);
   }
+
+  addBreadcrumb({
+    category: 'run-forked-script',
+    message: 'prepare-engine-async',
+    data: {
+      cacheRoot,
+    },
+  });
 
   const child = fork(scriptPath, args, {
     env: {
