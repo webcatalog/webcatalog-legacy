@@ -359,6 +359,8 @@ Promise.resolve()
       // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
       // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
       // https://github.com/webcatalog/webcatalog-app/issues/1068
+
+      // Categories must be defined, if not the app won't show up in Mate/Cinnamon application menu
       const desktopFileContent = `[Desktop Entry]
 Version=1.0
 Type=Application
@@ -368,6 +370,7 @@ Icon=${iconPath}
 Exec="${execFilePath}"
 Terminal=false
 StartupWMClass=${name.toLowerCase()}
+Categories=Network;WebBrowser
 `;
       return fsExtra.ensureDir(desktopDirPath)
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
