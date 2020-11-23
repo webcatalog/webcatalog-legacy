@@ -120,6 +120,9 @@ Promise.resolve()
     return null;
   })
   .then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Generating app at', tmpPath);
+
     process.send({
       progress: {
         percent: 85, // estimated
@@ -317,9 +320,11 @@ Promise.resolve()
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
   })
   .then(async () => {
+    // eslint-disable-next-line no-console
+    console.log('Moved app to', finalPath);
     process.send({
       progress: {
-        percent: 97, // estimated
+        percent: 90, // estimated
         desc: 'Installing...',
       },
     });
@@ -346,7 +351,7 @@ Promise.resolve()
   .then(() => {
     process.send({
       progress: {
-        percent: 99, // estimated
+        percent: 98, // estimated
         desc: 'Creating shortcuts...',
       },
     });
@@ -374,6 +379,20 @@ StartupWMClass=${name.toLowerCase()}
     }
 
     return null;
+  })
+  .then(() => {
+    process.send({
+      progress: {
+        percent: 99, // estimated
+        desc: 'Cleaning up...',
+      },
+    });
+    // attempt to clean tmp
+    return fsExtra.remove(tmpPath)
+      // eslint-disable-next-line no-console
+      .then(() => console.log('Removed', tmpPath))
+      // eslint-disable-next-line no-console
+      .catch((err) => console.log('failed to clean tmp:', tmpPath, err));
   })
   .then(() => {
     process.exit(0);
