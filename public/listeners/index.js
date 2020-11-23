@@ -244,9 +244,9 @@ const loadListeners = () => {
               // display latest icon from WebCatalog
               if (!id.startsWith('custom-')) {
                 if (process.platform === 'win32') {
-                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon-unplated.png`;
+                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon-unplated-128.webp`;
                 } else {
-                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
+                  displayedIcon = `https://storage.webcatalog.app/catalog/${id}/${id}-icon-128.webp`;
                 }
               }
 
@@ -257,7 +257,7 @@ const loadListeners = () => {
                 lastUpdated: new Date().getTime(),
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
-                icon: displayedIcon,
+                icon128: displayedIcon,
               });
             })
             .catch((error) => {
