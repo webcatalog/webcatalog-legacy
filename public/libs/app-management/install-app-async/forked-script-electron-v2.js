@@ -17,8 +17,6 @@ const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 
-x();
-
 // id, name, username might only contain numbers
 // causing yargsParser to parse them correctly as Number instead of String
 // so it's neccessary to explitcity state their types
