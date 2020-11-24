@@ -240,7 +240,7 @@ const loadListeners = () => {
 
           return installAppAsync(engine, id, name, url, icon)
             .then((version) => {
-              let displayedIcon = icon;
+              let displayedIcon;
               // display latest icon from WebCatalog
               if (!id.startsWith('custom-')) {
                 if (process.platform === 'win32') {
