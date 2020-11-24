@@ -34,19 +34,13 @@ const getInstalledAppsAsync = () => {
               const appJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'app.json');
               const iconPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'icon.png');
 
-              let packageJson;
+              let version = '0.0.0';
               let appJson;
               let icon;
-              let lastUpdated = null;
-
-              if (fsExtra.pathExistsSync(packageJsonPath)) {
-                packageJson = fsExtra.readJSONSync(packageJsonPath);
-                lastUpdated = Math.floor(fsExtra.statSync(packageJsonPath).mtimeMs);
-              } else {
-                return;
-              }
+              let lastUpdated = 0;
 
               if (fsExtra.pathExistsSync(appJsonPath)) {
+                lastUpdated = Math.floor(fsExtra.statSync(appJsonPath).mtimeMs);
                 appJson = fsExtra.readJSONSync(appJsonPath);
                 if (registered && appJson.engine === 'electron' && !appJson.registered) {
                   try {
@@ -57,7 +51,17 @@ const getInstalledAppsAsync = () => {
                   }
                 }
               } else {
+                // if app.json doesn't exist then skip the app
                 return;
+              }
+
+              if (fsExtra.pathExistsSync(packageJsonPath)) {
+                try {
+                  version = fsExtra.readJSONSync(packageJsonPath).version;
+                } catch (err) {
+                  // eslint-disable-next-line no-console
+                  console.log(err);
+                }
               }
 
               if (fsExtra.pathExistsSync(iconPath)) {
@@ -65,7 +69,7 @@ const getInstalledAppsAsync = () => {
               }
 
               const appObj = Object.assign(appJson, {
-                version: packageJson.version,
+                version,
                 icon,
                 engine: appJson.engine || 'electron',
                 status: 'INSTALLED',
