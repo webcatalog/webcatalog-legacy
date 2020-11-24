@@ -263,13 +263,11 @@ Promise.resolve()
       : [16, 24, 32, 48, 64, 128, 256];
 
     const p = (process.platform === 'darwin' || process.platform === 'win32')
-      ? sizes.map((size) => new Promise((resolve) => {
-        img
-          .clone()
-          .resize(size, size)
-          .quality(100)
-          .write(path.join(buildResourcesPath, `${size}.png`), resolve);
-      })) : [];
+      ? sizes.map((size) => img
+        .clone()
+        .resize(size, size)
+        .quality(100)
+        .writeAsync(path.join(buildResourcesPath, `${size}.png`))) : [];
 
     return Promise.all(p)
       .then(() => {

@@ -154,29 +154,23 @@ Promise.resolve()
       : [16, 24, 32, 48, 64, 128, 256];
 
     const p = (process.platform === 'darwin' || process.platform === 'win32')
-      ? sizes.map((size) => new Promise((resolve) => {
-        img
-          .clone()
-          .resize(size, size)
-          .quality(100)
-          .write(path.join(buildResourcesPath, `${size}.png`), resolve);
-      })) : [];
+      ? sizes.map((size) => img
+        .clone()
+        .resize(size, size)
+        .quality(100)
+        .writeAsync(path.join(buildResourcesPath, `${size}.png`))) : [];
 
     // menubar icon
-    p.push(new Promise((resolve) => {
-      img
-        .clone()
-        .resize(20, 20)
-        .quality(100)
-        .write(menubarIconPath, resolve);
-    }));
-    p.push(new Promise((resolve) => {
-      img
-        .clone()
-        .resize(40, 40)
-        .quality(100)
-        .write(menubarIcon2xPath, resolve);
-    }));
+    p.push(img
+      .clone()
+      .resize(20, 20)
+      .quality(100)
+      .writeAsync(menubarIconPath));
+    p.push(img
+      .clone()
+      .resize(40, 40)
+      .quality(100)
+      .writeAsync(menubarIcon2xPath));
 
     return Promise.all(p)
       .then(() => {
@@ -202,13 +196,11 @@ Promise.resolve()
         // dock icon for Linux
         // used in template/public/windows/main.png
         if (process.platform === 'linux') {
-          const pp = [1, 2, 3, 4, 5].map((zoom) => new Promise((resolve) => {
-            img
-              .clone()
-              .resize(64 * zoom, 64 * zoom)
-              .quality(100)
-              .write(path.join(appAsarUnpackedPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`), resolve);
-          }));
+          const pp = [1, 2, 3, 4, 5].map((zoom) => img
+            .clone()
+            .resize(64 * zoom, 64 * zoom)
+            .quality(100)
+            .writeAsync(path.join(appAsarUnpackedPath, 'build', `dock-icon${zoom > 1 ? `@${zoom}x` : ''}.png`)));
           return Promise.all(pp);
         }
         return null;
