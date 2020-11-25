@@ -121,12 +121,10 @@ const mapStateToProps = (state) => {
       engine,
     },
   } = state.dialogSetPreferredEngine;
-  const { registered } = state.preferences;
 
   return {
     engine,
     open,
-    registered,
   };
 };
 

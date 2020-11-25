@@ -474,7 +474,7 @@ const Preferences = ({
                   onOpenDialogSetPreferredEngine();
                 }}
               >
-                <ListItemText primary="Preferred browser engine" secondary={registered ? getEngineName(preferredEngine) : getEngineName('electron')} />
+                <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
@@ -488,11 +488,6 @@ const Preferences = ({
                     color="primary"
                     checked={!hideEnginePrompt}
                     onChange={(e) => {
-                      if (!registered && e.target.checked) {
-                        onOpenDialogLicenseRegistration();
-                        return;
-                      }
-
                       requestSetPreference('hideEnginePrompt', !e.target.checked);
                     }}
                   />

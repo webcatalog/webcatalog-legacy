@@ -17,10 +17,6 @@ import {
   isNameExisted,
 } from '../app-management/utils';
 
-import {
-  open as openDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
-
 import { requestShowMessageBox } from '../../senders';
 
 import swiftype from '../../swiftype';
@@ -29,20 +25,10 @@ export const close = () => ({
   type: DIALOG_CREATE_CUSTOM_APP_CLOSE,
 });
 
-export const open = (form) => (dispatch, getState) => {
-  const state = getState();
-
-  const shouldAskForLicense = !state.preferences.registered;
-
-  if (shouldAskForLicense) {
-    return dispatch(openDialogLicenseRegistration());
-  }
-
-  return dispatch({
-    type: DIALOG_CREATE_CUSTOM_APP_OPEN,
-    form,
-  });
-};
+export const open = (form) => ({
+  type: DIALOG_CREATE_CUSTOM_APP_OPEN,
+  form,
+});
 
 // to be replaced with invoke (electron 7+)
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args
