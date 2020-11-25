@@ -11,26 +11,14 @@ import {
   requestSetPreference,
 } from '../../senders';
 
-import {
-  open as openDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
-
 export const close = () => ({
   type: DIALOG_SET_PREFERRED_ENGINE_CLOSE,
 });
 
-export const updateForm = (changes) => (dispatch, getState) => {
-  const { registered } = getState().preferences;
-  if (!registered) {
-    dispatch(openDialogLicenseRegistration());
-    return;
-  }
-
-  dispatch({
-    type: DIALOG_SET_PREFERRED_ENGINE_FORM_UPDATE,
-    changes,
-  });
-};
+export const updateForm = (changes) => ({
+  type: DIALOG_SET_PREFERRED_ENGINE_FORM_UPDATE,
+  changes,
+});
 
 export const save = () => (dispatch, getState) => {
   const state = getState();

@@ -79,7 +79,7 @@ const DialogLicenseRegistration = (props) => {
           >
             premium features
           </span>
-          &nbsp;such as creating custom apps,
+          &nbsp;such as adding unlimited number of workspaces,
           blocking ads & trackers and more.
           To remove the limitations, please purchase WebCatalog Plus ($20) from our store.
         </DialogContentText>
