@@ -32,7 +32,7 @@ REACT_APP_SWIFTYPE_ENGINE_NAME=
 ```
 
 Then, run:
-```
+```bash
 # clone the project:
 git clone https://github.com/webcatalog/webcatalog-app.git
 cd webcatalog
