@@ -21,7 +21,7 @@ On the other hand, **the source code is freely available** for use, modification
 ---
 
 ## Development
-This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [WebCatalog Engine](https://help.webcatalog.app/article/23-what-is-webcatalog-engine), the core that powers the apps created witH WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
+This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [WebCatalog Engine](https://help.webcatalog.app/article/23-what-is-webcatalog-engine), the core that powers the apps created with WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
 
 For the app to be fully functional, set these environment variables:
 ```
@@ -35,7 +35,7 @@ Then, run:
 ```bash
 # clone the project:
 git clone https://github.com/webcatalog/webcatalog-app.git
-cd webcatalog
+cd webcatalog-app
 
 # install the dependencies
 yarn
