@@ -21,22 +21,28 @@ On the other hand, **the source code is freely available** for use, modification
 ---
 
 ## Development
+This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [WebCatalog Engine](https://help.webcatalog.app/article/23-what-is-webcatalog-engine), the core that powers the apps created witH WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
+
+For the app to be fully functional, set these environment variables:
 ```
-# First, clone the project:
+REACT_APP_AMPLITUDE_API_KEY=
+REACT_APP_SWIFTYPE_HOST_ID=
+REACT_APP_SWIFTYPE_SEARCH_KEY=
+REACT_APP_SWIFTYPE_ENGINE_NAME=
+```
+
+Then, run:
+```bash
+# clone the project:
 git clone https://github.com/webcatalog/webcatalog-app.git
 cd webcatalog
 
 # install the dependencies
 yarn
-yarn template:install
 
-# Run development mode of WebCatalog
+# run the app
 yarn electron-dev
 
-# Run development mode of the template app
-yarn template:electron-dev
-
 # Build for production
-yarn template:prepare
 yarn dist
 ```
