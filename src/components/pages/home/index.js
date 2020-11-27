@@ -43,6 +43,13 @@ const styles = (theme) => ({
     flexDirection: 'column',
     overflow: 'hidden',
   },
+  badConfigRoot: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    justifyContent: 'center',
+  },
   scrollContainer: {
     flex: 1,
     position: 'relative',
@@ -67,8 +74,7 @@ const Home = ({
   if (!connector) {
     return (
       <div
-        className={classes.root}
-        style={{ justifyContent: 'center' }}
+        className={classes.badConfigRoot}
       >
         <Typography
           variant="body1"
