@@ -33,17 +33,14 @@ REACT_APP_SWIFTYPE_ENGINE_NAME=
 
 Then, run:
 ```
-# First, clone the project:
+# clone the project:
 git clone https://github.com/webcatalog/webcatalog-app.git
 cd webcatalog
 
 # install the dependencies
 yarn
 
-# Run development mode of WebCatalog
-yarn electron-dev
-
-# Run development mode
+# run the app
 yarn electron-dev
 
 # Build for production
