@@ -50,7 +50,7 @@ const defaultPreferences = {
 let cachedPreferences = null;
 
 const initCachedPreferences = () => {
-  cachedPreferences = { ...defaultPreferences, ...settings.get(`preferences.${v}`) };
+  cachedPreferences = { ...defaultPreferences, ...settings.getSync(`preferences.${v}`) };
 
   // disable menu bar mode on Windows/Linux
   if (process.platform !== 'darwin') {
@@ -76,7 +76,7 @@ const getPreferences = () => {
 const setPreference = (name, value) => {
   sendToAllWindows('set-preference', name, value);
   cachedPreferences[name] = value;
-  Promise.resolve().then(() => settings.set(`preferences.${v}.${name}`, value));
+  Promise.resolve().then(() => settings.setSync(`preferences.${v}.${name}`, value));
 
   if (name === 'registered' && value === true) {
     ipcMain.emit('request-get-installed-apps');
@@ -95,8 +95,8 @@ const getPreference = (name) => {
     // ensure compatiblity with old version
     if (process.platform === 'darwin' && (name === 'installationPath' || name === 'requireAdmin')) {
       // old pref, home or root
-      if (settings.get('preferences.2018.installLocation') === 'root') {
-        settings.delete('preferences.2018.installLocation');
+      if (settings.getSync('preferences.2018.installLocation') === 'root') {
+        settings.unsetSync('preferences.2018.installLocation');
 
         setPreference('installationPath', '/Applications/WebCatalog Apps');
         setPreference('requireAdmin', true);
@@ -120,7 +120,7 @@ const getPreference = (name) => {
 
 const resetPreferences = () => {
   cachedPreferences = null;
-  settings.deleteAll();
+  settings.unsetSync();
 
   const preferences = getPreferences();
   sendToAllWindows('set-preferences', preferences);
