@@ -31,7 +31,7 @@
     "command-exists": "1.2.9",
     "electron-context-menu": "2.3.0",
     "electron-is-dev": "1.2.0",
-    "electron-settings": "3.2.0",
+    "electron-settings": "4.0.2",
     "electron-updater": "4.3.5",
     "electron-window-state": "5.0.3",
     "env-paths": "2.2.0",

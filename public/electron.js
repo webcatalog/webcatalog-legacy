@@ -9,10 +9,17 @@ const {
   protocol,
   session,
 } = require('electron');
-const fs = require('fs');
-const settings = require('electron-settings');
-const { autoUpdater } = require('electron-updater');
 const isDev = require('electron-is-dev');
+const fs = require('fs');
+
+const settings = require('electron-settings');
+
+settings.configure({
+  fileName: 'Settings', // backward compatible with electron-settings@3
+});
+
+const { autoUpdater } = require('electron-updater');
+
 const url = require('url');
 
 const { getPreference, getPreferences } = require('./libs/preferences');
