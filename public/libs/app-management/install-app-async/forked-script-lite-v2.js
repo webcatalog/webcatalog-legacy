@@ -315,7 +315,7 @@ cd Resources;
 
 cp "$PWD"/icon.icns "$PWD"/${addSlash(name)}.app/Contents/Resources/firefox.icns
 
-open "$PWD"/${addSlash(name)}.app --args ${urlParam} -P ${firefoxProfileId}
+open -n "$PWD"/${addSlash(name)}.app --args ${urlParam} -P ${firefoxProfileId}
 `;
           } else if (useTabs) {
             execFileContent = `#!/bin/sh
@@ -344,7 +344,7 @@ else
   Tabs="${url || ''}"
 fi
 
-open "$PWD"/${addSlash(name)}.app --args $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open -n "$PWD"/${addSlash(name)}.app --args $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           } else {
             execFileContent = `#!/bin/sh
@@ -366,7 +366,7 @@ if [ -n "$pgrepResult" ]; then
   exit
 fi
 
-open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           }
           return fsExtra.outputFile(execFilePath, execFileContent)
