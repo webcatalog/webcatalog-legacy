@@ -123,9 +123,12 @@ Promise.resolve()
   .then(() => {
     const p = [];
     if (engine === 'webkit') {
-      const userDataPath = path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`);
-      console.log(userDataPath);
-      p.push(checkExistsAndRemove(userDataPath));
+      p.push(checkExistsAndRemove(
+        path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`)
+      ));
+      p.push(checkExistsAndRemove(
+        path.join(homePath, 'Caches', `com.webcatalog.webkit.${id}`)
+      ));
     } else if (engine === 'electron') {
       // remove userData
       // userData The directory for storing your app's configuration files,
