@@ -110,6 +110,54 @@ const createMenu = () => {
       label: 'View',
       submenu: [
         { role: 'togglefullscreen' },
+        { type: 'separator' },
+        {
+          label: 'Actual Size',
+          accelerator: 'CmdOrCtrl+0',
+          click: (menuItem, browserWindow) => {
+            if (browserWindow != null) {
+              const contents = browserWindow.webContents;
+              contents.zoomFactor = 1;
+            }
+          },
+        },
+        // duplicate zooming in menuitem
+        // as it's not posible to set multiple accelerators
+        // https://github.com/webcatalog/webcatalog-app/issues/1015
+        {
+          label: 'Zoom In',
+          accelerator: 'CmdOrCtrl+=',
+          click: (menuItem, browserWindow) => {
+            if (browserWindow != null) {
+              const contents = browserWindow.webContents;
+              contents.zoomFactor += 0.1;
+            }
+          },
+          visible: false,
+        },
+        {
+          label: 'Zoom In',
+          accelerator: 'CmdOrCtrl+Plus',
+          click: (menuItem, browserWindow) => {
+            if (browserWindow != null) {
+              const contents = browserWindow.webContents;
+              contents.zoomFactor += 0.1;
+            }
+          },
+        },
+        {
+          label: 'Zoom Out',
+          accelerator: 'CmdOrCtrl+-',
+          click: (menuItem, browserWindow) => {
+            if (browserWindow != null) {
+              const contents = browserWindow.webContents;
+              // 'zoomFactor' must be a double greater than 0.0
+              if (contents.zoomFactor.toFixed(1) !== '0.1') {
+                contents.zoomFactor -= 0.1;
+              }
+            }
+          },
+        },
       ],
     },
     {
