@@ -510,7 +510,7 @@ open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${ur
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '2.5.0',
+      version: '2.6.0',
     });
     return fsExtra.writeFileSync(packageJsonPath, packageJson);
   })
