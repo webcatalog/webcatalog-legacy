@@ -168,6 +168,9 @@ const isEngineInstalled = (engine) => {
 
       return false;
     }
+    case 'webkit': {
+      return true;
+    }
     default: {
       return false;
     }

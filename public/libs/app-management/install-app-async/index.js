@@ -26,6 +26,7 @@ const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const prepareEngineAsync = require('../prepare-engine-async');
 const prepareElectronAsync = require('../prepare-electron-async');
+const prepareWebkitWrapperAsync = require('../prepare-webkit-wrapper-async');
 const registryInstaller = require('../registry-installer');
 
 const createShortcutAsync = (shortcutPath, opts) => {
@@ -73,6 +74,14 @@ const installAppAsync = (
             v = latestTemplateVersion;
             scriptFileName = 'forked-script-electron-v2.js';
             return prepareElectronAsync();
+          });
+      }
+
+      if (engine === 'webkit') {
+        return prepareWebkitWrapperAsync()
+          .then((latestTemplateVersion) => {
+            v = latestTemplateVersion;
+            scriptFileName = 'forked-script-webkit.js';
           });
       }
 

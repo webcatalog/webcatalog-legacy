@@ -122,13 +122,20 @@ Promise.resolve()
   })
   .then(() => {
     const p = [];
-    // remove userData
-    // userData The directory for storing your app's configuration files,
-    // which by default it is the appData directory appended with your app's name.
-    if (engine === 'electron') {
+    if (engine === 'webkit') {
+      p.push(checkExistsAndRemove(
+        path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`),
+      ));
+      p.push(checkExistsAndRemove(
+        path.join(homePath, 'Caches', `com.webcatalog.webkit.${id}`),
+      ));
+    } else if (engine === 'electron') {
+      // remove userData
+      // userData The directory for storing your app's configuration files,
+      // which by default it is the appData directory appended with your app's name.
       const userDataPath = path.join(appDataPath, name);
       p.push(checkExistsAndRemove(userDataPath));
-    } if (engine.startsWith('firefox')) {
+    } else if (engine.startsWith('firefox')) {
       const profileId = `webcatalog-${id}`;
 
       let firefoxUserDataPath;

@@ -29,6 +29,7 @@ import electronIcon from '../../assets/default-icon.png';
 import firefoxIcon from '../../assets/firefox.png';
 import operaIcon from '../../assets/opera.png';
 import vivaldiIcon from '../../assets/vivaldi.png';
+import webkitIcon from '../../assets/webkit.png';
 import yandexIcon from '../../assets/yandex.png';
 
 import HelpTooltip from './help-tooltip';
@@ -40,6 +41,10 @@ const CustomHelpIcon = withStyles(() => ({
 }))(HelpIcon);
 
 const getDesc = (engineCode, browserName) => {
+  if (engineCode === 'webkit') {
+    return `This option creates lightweight ${browserName}-based app, optimized to save memory & battery.`;
+  }
+
   if (engineCode === 'electron') {
     return `This option creates ${browserName}-based app with many exclusive features such as workspaces, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
   }
@@ -94,7 +99,7 @@ const EngineList = ({
               <HelpTooltip
                 title={(
                   <Typography variant="body2" color="textPrimary">
-                    {getDesc('electron', 'WebCatalog Engine')}
+                    {getDesc('electron', 'WebCatalog Engine (Electron)')}
                   </Typography>
                 )}
               >
@@ -105,6 +110,42 @@ const EngineList = ({
         )}
       />
     </ListItem>
+    {window.process.platform === 'darwin' && (
+      <ListItem
+        button
+        onClick={() => onEngineSelected('webkit')}
+        selected={engine === 'webkit'}
+      >
+        <ListItemAvatar>
+          <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  WebKit (part of Safari)
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
+              </Grid>
+              <Grid>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('webkit', 'WebKit')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
+        />
+      </ListItem>
+    )}
     {window.process.platform !== 'linux' && (
       <ListItem
         button

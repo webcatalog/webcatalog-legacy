@@ -9,6 +9,7 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_MAXIMIZED,
   UPDATE_LATEST_TEMPLATE_VERSION,
+  UPDATE_LATEST_WEBKIT_WRAPPER_VERSION,
   UPDATE_MOVING_ALL_APPS,
   UPDATE_SHOULD_USE_DARK_COLORS,
 } from '../../constants/actions';
@@ -40,9 +41,18 @@ const shouldUseDarkColors = (state = getShouldUseDarkColors(), action) => {
   }
 };
 
+// WebCatalog Engine version
 const latestTemplateVersion = (state = '0.0.0', action) => {
   switch (action.type) {
     case UPDATE_LATEST_TEMPLATE_VERSION: return action.latestTemplateVersion;
+    default: return state;
+  }
+};
+
+// WebKit Wrapper version
+const latestWebkitWrapperVersion = (state = '0.0.0', action) => {
+  switch (action.type) {
+    case UPDATE_LATEST_WEBKIT_WRAPPER_VERSION: return action.latestWebkitWrapperVersion;
     default: return state;
   }
 };
@@ -77,6 +87,7 @@ export default combineReducers({
   isFullScreen,
   isMaximized,
   latestTemplateVersion,
+  latestWebkitWrapperVersion,
   movingAllApps,
   shouldUseDarkColors,
 });
