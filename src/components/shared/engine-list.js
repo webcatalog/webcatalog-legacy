@@ -110,40 +110,42 @@ const EngineList = ({
         )}
       />
     </ListItem>
-    <ListItem
-      button
-      onClick={() => onEngineSelected('webkit')}
-      selected={engine === 'webkit'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={(
-          <Grid container direction="row" alignItems="center" spacing={1}>
-            <Grid item>
-              <Typography variant="body2" noWrap>
-                WebKit (part of Safari)
-              </Typography>
+    {window.process.platform === 'darwin' && (
+      <ListItem
+        button
+        onClick={() => onEngineSelected('webkit')}
+        selected={engine === 'webkit'}
+      >
+        <ListItemAvatar>
+          <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  WebKit (part of Safari)
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Experimental" variant="outlined" />
+              </Grid>
+              <Grid>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('webkit', 'WebKit')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
-            </Grid>
-            <Grid>
-              <HelpTooltip
-                title={(
-                  <Typography variant="body2" color="textPrimary">
-                    {getDesc('webkit', 'WebKit')}
-                  </Typography>
-                )}
-              >
-                <CustomHelpIcon fontSize="small" color="disabled" />
-              </HelpTooltip>
-            </Grid>
-          </Grid>
-        )}
-      />
-    </ListItem>
+          )}
+        />
+      </ListItem>
+    )}
     {window.process.platform !== 'linux' && (
       <ListItem
         button
