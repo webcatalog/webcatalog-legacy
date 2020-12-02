@@ -1,0 +1,121 @@
+diff --git a/node_modules/icon-gen/dist/lib/icns-generator.js b/node_modules/icon-gen/dist/lib/icns-generator.js
+index 6cc349f..fc9e42e 100755
+--- a/node_modules/icon-gen/dist/lib/icns-generator.js
++++ b/node_modules/icon-gen/dist/lib/icns-generator.js
+@@ -225,56 +225,61 @@ const createIconBlockPackBits = (id, mask, data) => {
+ 
+ 
+ const createIcon = (images, dest) => {
+-  // Write a temporary file size
+-  let fileSize = HEADER_SIZE;
++  return new Promise((resolve) => {
++    // Write a temporary file size
++    let fileSize = HEADER_SIZE;
+ 
+-  let stream = _fs.default.createWriteStream(dest);
+ 
+-  stream.write(createFileHeader(fileSize), 'binary');
++    let stream = _fs.default.createWriteStream(dest);
+ 
+-  for (let i = 0, max = ICON_INFOS.length; i < max; ++i) {
+-    const info = ICON_INFOS[i];
+-    const image = imageFromIconSize(info.size, images);
++    // https://stackoverflow.com/questions/46752428/do-i-need-await-fs-createwritestream-in-pipe-method-in-node
++    stream.on('finish', () => resolve(true));
+ 
+-    if (!image) {
+-      // Depending on the command line option, there may be no corresponding size
+-      continue;
+-    }
++    stream.write(createFileHeader(fileSize), 'binary');
+   
+-    let block = null;
++    for (let i = 0, max = ICON_INFOS.length; i < max; ++i) {
++      const info = ICON_INFOS[i];
++      const image = imageFromIconSize(info.size, images);
+   
+-    switch (info.id) {
+-      case 'is32':
+-      case 'il32':
+-        block = createIconBlockPackBits(info.id, info.mask, _fs.default.readFileSync(image.path));
+-        break;
++      if (!image) {
++        // Depending on the command line option, there may be no corresponding size
++        continue;
++      }
+   
+-      default:
+-        block = createIconBlock(info.id, _fs.default.readFileSync(image.path));
+-        break;
+-    }
++      let block = null;
+   
+-    if (block) {
+-      stream.write(block, 'binary');
+-      fileSize += block.length;
+-    } else {
+-      fileSize = 0;
+-      break;
+-    }
+-  }
++      switch (info.id) {
++        case 'is32':
++        case 'il32':
++          block = createIconBlockPackBits(info.id, info.mask, _fs.default.readFileSync(image.path));
++          break;
+   
+-  stream.end();
++        default:
++          block = createIconBlock(info.id, _fs.default.readFileSync(image.path));
++          break;
++      }
+   
+-  if (fileSize === 0) {
+-    return false;
+-  } // Update an actual file size
++      if (block) {
++        stream.write(block, 'binary');
++        fileSize += block.length;
++      } else {
++        fileSize = 0;
++        break;
++      }
++    }
++  
++    stream.end();
+   
++    if (fileSize === 0) {
++      resolve(false);
++    } // Update an actual file size
+   
+-  stream = _fs.default.createWriteStream(dest);
+-  stream.write(createFileHeader(fileSize), 'binary');
+-  stream.end();
+-  return true;
++    stream = _fs.default.createWriteStream(dest);
++    stream.write(createFileHeader(fileSize), 'binary');
++    stream.end();
++  })
+ };
++
+ /**
+  * Check an option properties.
+  * @param {Object} options Output destination the path of directory.
+@@ -354,7 +359,7 @@ const GetRequiredICNSImageSizes = () => {
+ exports.GetRequiredICNSImageSizes = GetRequiredICNSImageSizes;
+ 
+ const GenerateICNS = (images, dir, options, logger) => {
+-  return new _es6Promise.Promise((resolve, reject) => {
++  return new _es6Promise.Promise(async (resolve, reject) => {
+     logger.log('ICNS:');
+     const opt = checkOptions(options);
+ 
+@@ -362,7 +367,7 @@ const GenerateICNS = (images, dir, options, logger) => {
+ 
+     const targets = _util.default.filterImagesBySizes(images, opt.sizes);
+ 
+-    if (createIcon(targets, dest)) {
++    if (await createIcon(targets, dest)) {
+       logger.log('  Create: ' + dest);
+       resolve(dest);
+     } else {
