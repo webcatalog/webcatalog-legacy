@@ -30,6 +30,7 @@ const styles = (theme) => ({
     color: theme.palette.text.primary,
     border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
     outline: 'none',
+    userSelect: 'none',
     '&:hover, &:focus': {
       backgroundColor: theme.palette.action.selected,
     },
