@@ -278,7 +278,22 @@ Promise.resolve()
               name: 'e',
               sizes,
             },
-          });
+          })
+            .then(() => {
+              // icon-gen promise is resolved before the icon is generated
+              // the bug is patched but this test is kept to check everything in check
+              // (make sure ICNS file size at least as big as original PNG file)
+              // see https://github.com/webcatalog/webcatalog-app/issues/1185
+              // see https://github.com/electron/electron-packager/issues/691
+              if (process.platform === 'darwin') {
+                const icnsFileSize = fsExtra.statSync(iconIcnsPath).size;
+                const pngFileSize = fsExtra.statSync(iconPngPath).size;
+                if (icnsFileSize < pngFileSize) {
+                  return Promise.reject(new Error('e.icns is corrupted (file size is smaller than e.png).'));
+                }
+              }
+              return null;
+            });
         }
         return null;
       });
@@ -315,7 +330,7 @@ cd Resources;
 
 cp "$PWD"/icon.icns "$PWD"/${addSlash(name)}.app/Contents/Resources/firefox.icns
 
-open "$PWD"/${addSlash(name)}.app --args ${urlParam} -P ${firefoxProfileId}
+open -n "$PWD"/${addSlash(name)}.app --args ${urlParam} -P ${firefoxProfileId}
 `;
           } else if (useTabs) {
             execFileContent = `#!/bin/sh
@@ -344,7 +359,7 @@ else
   Tabs="${url || ''}"
 fi
 
-open "$PWD"/${addSlash(name)}.app --args $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open -n "$PWD"/${addSlash(name)}.app --args $Tabs --no-sandbox --test-type --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           } else {
             execFileContent = `#!/bin/sh
@@ -366,7 +381,7 @@ if [ -n "$pgrepResult" ]; then
   exit
 fi
 
-open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
+open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}" --user-data-dir="$HOME"/Library/Application\\ Support/WebCatalog/ChromiumProfiles/${id}
 `;
           }
           return fsExtra.outputFile(execFilePath, execFileContent)
@@ -510,7 +525,7 @@ open "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${url}"
   })
   .then(() => {
     const packageJson = JSON.stringify({
-      version: '2.5.0',
+      version: '2.6.0',
     });
     return fsExtra.writeFileSync(packageJsonPath, packageJson);
   })

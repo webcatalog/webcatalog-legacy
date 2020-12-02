@@ -24,7 +24,6 @@ const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : r
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
 const ProxyAgent = require('proxy-agent');
-const hasha = require('hasha');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
@@ -181,7 +180,22 @@ Promise.resolve()
               name: 'e',
               sizes,
             },
-          });
+          })
+            .then(() => {
+              // icon-gen promise is resolved before the icon is generated
+              // the bug is patched but this test is kept to check everything in check
+              // (make sure ICNS file size at least as big as original PNG file)
+              // see https://github.com/webcatalog/webcatalog-app/issues/1185
+              // see https://github.com/electron/electron-packager/issues/691
+              if (process.platform === 'darwin') {
+                const icnsFileSize = fsExtra.statSync(iconIcnsPath).size;
+                const pngFileSize = fsExtra.statSync(iconPngPath).size;
+                if (icnsFileSize < pngFileSize) {
+                  return Promise.reject(new Error('e.icns is corrupted (file size is smaller than e.png).'));
+                }
+              }
+              return null;
+            });
         }
         if (process.platform === 'win32') {
           return icongen(buildResourcesPath, buildResourcesPath, {
@@ -311,23 +325,6 @@ Promise.resolve()
       : path.join(dotTemplatePath, 'resources');
     const outputAppAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
-  })
-  .then(() => {
-    // for unknown reason, on some Macs (electron-package only copies the icon)
-    // electron.icns is corrupted after copying by electron-packager
-    // validate to be sure it's not corrupted
-    // see https://github.com/webcatalog/webcatalog-app/issues/1185
-    // see https://github.com/electron/electron-packager/issues/691
-    if (process.platform === 'darwin') {
-      const destIcnsPath = path.join(dotTemplatePath, 'Contents', 'Resources', 'electron.icns');
-      if (hasha.fromFileSync(destIcnsPath) !== hasha.fromFileSync(iconIcnsPath)) {
-        return Promise.reject(new Error('electron.icns is corrupted when copying.'));
-      }
-      if (fsExtra.statSync(destIcnsPath).size < 100) {
-        return Promise.reject(new Error('electron.icns is corrupted (file size is too small).'));
-      }
-    }
-    return null;
   })
   .then(async () => {
     // eslint-disable-next-line no-console

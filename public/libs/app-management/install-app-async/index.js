@@ -88,7 +88,7 @@ const installAppAsync = (
       if (process.platform === 'darwin') {
         // use v2 script on Mac
         scriptFileName = 'forked-script-lite-v2.js';
-        v = '2.5.0';
+        v = '2.6.0';
       } else {
         scriptFileName = 'forked-script-lite-v1.js';
         v = '1.1.0';
