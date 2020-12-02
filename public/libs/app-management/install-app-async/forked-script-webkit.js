@@ -156,7 +156,22 @@ Promise.resolve()
               name: 'e',
               sizes,
             },
-          });
+          })
+            .then(() => {
+              // icon-gen promise is resolved before the icon is generated
+              // the bug is patched but this test is kept to check everything in check
+              // (make sure ICNS file size at least as big as original PNG file)
+              // see https://github.com/webcatalog/webcatalog-app/issues/1185
+              // see https://github.com/electron/electron-packager/issues/691
+              if (process.platform === 'darwin') {
+                const icnsFileSize = fsExtra.statSync(iconIcnsPath).size;
+                const pngFileSize = fsExtra.statSync(iconPngPath).size;
+                if (icnsFileSize < pngFileSize) {
+                  return Promise.reject(new Error('e.icns is corrupted (file size is smaller than e.png).'));
+                }
+              }
+              return null;
+            });
         }
         return null;
       });
