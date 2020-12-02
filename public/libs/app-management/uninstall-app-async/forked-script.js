@@ -124,10 +124,10 @@ Promise.resolve()
     const p = [];
     if (engine === 'webkit') {
       p.push(checkExistsAndRemove(
-        path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`)
+        path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`),
       ));
       p.push(checkExistsAndRemove(
-        path.join(homePath, 'Caches', `com.webcatalog.webkit.${id}`)
+        path.join(homePath, 'Caches', `com.webcatalog.webkit.${id}`),
       ));
     } else if (engine === 'electron') {
       // remove userData
