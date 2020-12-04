@@ -43,7 +43,7 @@ switch (process.platform) {
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64, Arch.arm64);
     break;
   }
   default:
