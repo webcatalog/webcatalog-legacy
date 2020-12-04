@@ -206,7 +206,7 @@ const AppCard = (props) => {
       {
         label: 'What\'s New',
         visible: engine === 'electron',
-        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes'),
+        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
       },
       engine === 'electron' && version ? {
         label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
