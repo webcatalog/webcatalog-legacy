@@ -183,6 +183,15 @@ const AppCard = (props) => {
       },
       {
         type: 'separator',
+        visible: status === INSTALLED && !isOutdated,
+      },
+      {
+        label: 'Reinstall (Repair)',
+        visible: status === INSTALLED && !isOutdated,
+        click: () => onUpdateApp(engine, id, name, url, icon),
+      },
+      {
+        type: 'separator',
         visible: !inDetailsDialog,
       },
       {
