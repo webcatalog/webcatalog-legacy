@@ -125,4 +125,4 @@ const getElectronMainConfig = () => {
   };
 };
 
-module.exports = [getForkedScriptsConfig(), getElectronMainConfig(), getPreloadScriptsConfig];
+module.exports = [getForkedScriptsConfig(), getElectronMainConfig(), getPreloadScriptsConfig()];
