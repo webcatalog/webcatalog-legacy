@@ -37,12 +37,12 @@ const getForkedScriptsConfig = () => {
       __dirname: false,
     },
     entry: {
-      'install-app-forked-electron-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-electron-v2.js'),
-      'install-app-forked-lite-v1': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v1.js'),
-      'install-app-forked-lite-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v2.js'),
-      'prepare-engine-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-forked.js'),
-      'prepare-electron-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
-      'uninstall-app-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
+      'install-app-forked-electron-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-electron-v2.js'),
+      'install-app-forked-lite-v1': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v1.js'),
+      'install-app-forked-lite-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v2.js'),
+      'prepare-engine-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-forked.js'),
+      'prepare-electron-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
+      'uninstall-app-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
     },
     target: 'node',
     output: {
@@ -64,8 +64,8 @@ const getPreloadScriptsConfig = () => {
       __dirname: false,
     },
     entry: {
-      'preload-main': path.join(__dirname, 'public', 'libs', 'windows', 'preload-main.js'),
-      'preload-menubar': path.join(__dirname, 'public', 'libs', 'windows', 'preload-menubar.js'),
+      'preload-main': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-main.js'),
+      'preload-menubar': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-menubar.js'),
     },
     target: 'electron-renderer',
     output: {
@@ -92,6 +92,10 @@ const getElectronMainConfig = () => {
       new CopyPlugin({
         patterns: [
           {
+            from: path.join(__dirname, 'main-src', 'images'),
+            to: path.join(__dirname, 'build', 'images'),
+          },
+          {
             from: path.join(__dirname, 'node_modules', 'windows-shortcuts', 'lib', 'shortcut', 'Shortcut.exe'),
             to: path.join(__dirname, 'build', 'shortcut', 'Shortcut.exe'),
           },
@@ -112,7 +116,7 @@ const getElectronMainConfig = () => {
       __dirname: false,
     },
     entry: {
-      electron: path.join(__dirname, 'public', 'electron.js'),
+      electron: path.join(__dirname, 'main-src', 'electron.js'),
     },
     target: 'electron-main',
     output: {

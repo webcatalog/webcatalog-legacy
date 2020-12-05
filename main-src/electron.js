@@ -10,7 +10,6 @@ const {
   protocol,
   session,
 } = require('electron');
-const isDev = require('electron-is-dev');
 const fs = require('fs');
 
 const settings = require('electron-settings');
@@ -26,7 +25,7 @@ const url = require('url');
 const { getPreference, getPreferences } = require('./libs/preferences');
 
 // Activate the Sentry Electron SDK as early as possible in every process.
-if (!isDev && getPreference('sentry')) {
+if (process.env.NODE_ENV === 'production' && getPreference('sentry')) {
   // eslint-disable-next-line global-require
   require('./libs/sentry');
 }
