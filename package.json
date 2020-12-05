@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
-  "main": "public/electron.js",
+  "main": "main-src/electron.js",
   "scripts": {
     "postinstall": "npx patch-package && electron-builder install-app-deps",
     "build": "react-scripts build && webpack",
@@ -51,7 +51,6 @@
     "electron": "11.0.3",
     "electron-builder": "22.9.1",
     "electron-context-menu": "2.3.0",
-    "electron-is-dev": "1.2.0",
     "electron-notarize": "1.0.0",
     "electron-packager": "15.2.0",
     "electron-settings": "4.0.2",
