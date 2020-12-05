@@ -13,7 +13,7 @@ const sendToAllWindows = require('./send-to-all-windows');
 const { getPreference } = require('./preferences');
 const formatBytes = require('./format-bytes');
 
-const mainWindow = require('../windows/main');
+const mainWindow = require('./windows/main');
 
 let menu;
 

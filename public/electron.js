@@ -32,9 +32,9 @@ if (!isDev && getPreference('sentry')) {
 
 const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
-const loadListeners = require('./listeners');
+const loadListeners = require('./libs/listeners').load;
 
-const mainWindow = require('./windows/main');
+const mainWindow = require('./libs/windows/main');
 
 require('./libs/updater');
 

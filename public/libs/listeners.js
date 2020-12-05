@@ -12,30 +12,30 @@ const { autoUpdater } = require('electron-updater');
 
 const { captureException } = require('@sentry/electron');
 
-const sendToAllWindows = require('../libs/send-to-all-windows');
-const getWebsiteIconUrlAsync = require('../libs/get-website-icon-url-async');
+const sendToAllWindows = require('./send-to-all-windows');
+const getWebsiteIconUrlAsync = require('./get-website-icon-url-async');
 
-const openApp = require('../libs/app-management/open-app');
-const installAppAsync = require('../libs/app-management/install-app-async');
-const uninstallAppAsync = require('../libs/app-management/uninstall-app-async');
-const getInstalledAppsAsync = require('../libs/app-management/get-installed-apps-async');
+const openApp = require('./app-management/open-app');
+const installAppAsync = require('./app-management/install-app-async');
+const uninstallAppAsync = require('./app-management/uninstall-app-async');
+const getInstalledAppsAsync = require('./app-management/get-installed-apps-async');
 
 const {
   getPreference,
   getPreferences,
   setPreference,
   resetPreferences,
-} = require('../libs/preferences');
+} = require('./preferences');
 
 const {
   getSystemPreference,
   getSystemPreferences,
   setSystemPreference,
-} = require('../libs/system-preferences');
+} = require('./system-preferences');
 
-const { createMenu, showMenu } = require('../libs/menu');
+const { createMenu, showMenu } = require('./menu');
 
-const mainWindow = require('../windows/main');
+const mainWindow = require('./windows/main');
 
 const send = (webContents, ...args) => {
   // check to make sure webContents is not destroyed
@@ -358,4 +358,4 @@ const loadListeners = () => {
   });
 };
 
-module.exports = loadListeners;
+module.exports.load = loadListeners;

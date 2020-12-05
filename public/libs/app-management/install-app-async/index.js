@@ -72,7 +72,7 @@ const installAppAsync = (
         return prepareEngineAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
-            scriptFileName = 'forked-script-electron-v2.js';
+            scriptFileName = 'install-app-async-electron-v2.js';
             return prepareElectronAsync();
           });
       }
@@ -81,16 +81,16 @@ const installAppAsync = (
         return prepareWebkitWrapperAsync()
           .then((latestTemplateVersion) => {
             v = latestTemplateVersion;
-            scriptFileName = 'forked-script-webkit.js';
+            scriptFileName = 'install-app-async-webkit.js';
           });
       }
 
       if (process.platform === 'darwin') {
         // use v2 script on Mac
-        scriptFileName = 'forked-script-lite-v2.js';
+        scriptFileName = 'install-app-async-lite-v2.js';
         v = '2.6.0';
       } else {
-        scriptFileName = 'forked-script-lite-v1.js';
+        scriptFileName = 'install-app-async-lite-v1.js';
         v = '1.1.0';
       }
 

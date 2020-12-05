@@ -7,7 +7,7 @@ const { autoUpdater } = require('electron-updater');
 const sendToAllWindows = require('./send-to-all-windows');
 const { createMenu } = require('./menu');
 
-const mainWindow = require('../windows/main');
+const mainWindow = require('./windows/main');
 
 global.updateSilent = true;
 

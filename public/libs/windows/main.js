@@ -14,11 +14,11 @@ const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
 const isDev = require('electron-is-dev');
 
-const sendToAllWindows = require('../libs/send-to-all-windows');
-const { getPreference } = require('../libs/preferences');
+const sendToAllWindows = require('../send-to-all-windows');
+const { getPreference } = require('../preferences');
 const { REACT_PATH } = require('../constants/paths');
 
-const formatBytes = require('../libs/format-bytes');
+const formatBytes = require('../format-bytes');
 
 let win;
 let mb = {};
@@ -64,7 +64,7 @@ const createAsync = () => new Promise((resolve) => {
           enableRemoteModule: true,
           nodeIntegration: true,
           webSecurity: !isDev,
-          preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
+          preload: path.join(__dirname, 'preload-menubar.js'),
         },
       },
     });
@@ -186,7 +186,7 @@ const createAsync = () => new Promise((resolve) => {
       enableRemoteModule: true,
       nodeIntegration: true,
       webSecurity: !isDev,
-      preload: path.join(__dirname, '..', 'preload', 'main.js'),
+      preload: path.join(__dirname, 'preload-main.js'),
     },
   });
 
