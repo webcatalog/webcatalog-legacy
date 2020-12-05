@@ -18,7 +18,7 @@ const prepareElectronAsync = () => new Promise((resolve, reject) => {
     suffix: '',
   }).cache;
 
-  const scriptPath = path.join(__dirname, 'prepare-electron-async.js')
+  const scriptPath = path.join(__dirname, 'prepare-electron-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
   const {

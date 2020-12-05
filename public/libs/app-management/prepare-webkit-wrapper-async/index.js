@@ -62,7 +62,7 @@ const downloadTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   }).cache;
 
   let latestTemplateVersion = '0.0.0';
-  const scriptPath = path.join(__dirname, 'prepare-webkit-wrapper-async.js')
+  const scriptPath = path.join(__dirname, 'prepare-webkit-wrapper-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
   const {

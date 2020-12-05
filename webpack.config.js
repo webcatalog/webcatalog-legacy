@@ -7,6 +7,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const getForkedScriptsConfig = () => {
   const plugins = [
@@ -20,7 +21,7 @@ const getForkedScriptsConfig = () => {
         patterns: [
           {
             from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
-            to: path.join(__dirname, 'build', 'libs', 'app-management', 'bin', 'rcedit-x64.exe'),
+            to: path.join(__dirname, 'build', 'bin', 'rcedit-x64.exe'),
           },
         ],
       }),
@@ -36,12 +37,12 @@ const getForkedScriptsConfig = () => {
       __dirname: false,
     },
     entry: {
-      'install-app-async-electron-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-async-electron-v2.js'),
-      'install-app-async-lite-v1': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-async-lite-v1.js'),
-      'install-app-async-lite-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-async-lite-v2.js'),
-      'prepare-engine-async': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-async.js'),
-      'prepare-electron-async': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-async.js'),
-      'uninstall-app-async': path.join(__dirname, 'public', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-async.js'),
+      'install-app-forked-electron-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-electron-v2.js'),
+      'install-app-forked-lite-v1': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v1.js'),
+      'install-app-forked-lite-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v2.js'),
+      'prepare-engine-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-forked.js'),
+      'prepare-electron-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
+      'uninstall-app-forked': path.join(__dirname, 'public', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
     },
     target: 'node',
     output: {
@@ -53,8 +54,56 @@ const getForkedScriptsConfig = () => {
   };
 };
 
-const getElectronScriptsConfig = () => {
+const getPreloadScriptsConfig = () => {
   const plugins = [];
+  return {
+    mode: 'production',
+    node: {
+      global: false,
+      __filename: false,
+      __dirname: false,
+    },
+    entry: {
+      'preload-main': path.join(__dirname, 'public', 'libs', 'windows', 'preload-main.js'),
+      'preload-menubar': path.join(__dirname, 'public', 'libs', 'windows', 'preload-menubar.js'),
+    },
+    target: 'electron-renderer',
+    output: {
+      path: path.join(__dirname, 'build'),
+      filename: '[name].js',
+    },
+    devtool: 'source-map',
+    plugins,
+  };
+};
+
+const getElectronMainConfig = () => {
+  const plugins = [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['libs'],
+      cleanAfterEveryBuildPatterns: [],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ELECTRON_APP_SENTRY_DSN': JSON.stringify(process.env.ELECTRON_APP_SENTRY_DSN),
+    }),
+  ];
+  if (process.platform === 'win32') {
+    plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, 'node_modules', 'windows-shortcuts', 'lib', 'shortcut', 'Shortcut.exe'),
+            to: path.join(__dirname, 'build', 'shortcut', 'Shortcut.exe'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'regedit', 'vbs'),
+            to: path.join(__dirname, 'build', 'vbs'),
+          },
+        ],
+      }),
+    );
+  }
+
   return {
     mode: 'production',
     node: {
@@ -65,8 +114,6 @@ const getElectronScriptsConfig = () => {
     entry: {
       // eslint-disable-next-line quote-props
       'electron': path.join(__dirname, 'public', 'electron.js'),
-      'preload-main': path.join(__dirname, 'public', 'libs', 'windows', 'preload-main.js'),
-      'preload-menubar': path.join(__dirname, 'public', 'libs', 'windows', 'preload-menubar.js'),
     },
     target: 'electron-main',
     output: {
@@ -78,4 +125,4 @@ const getElectronScriptsConfig = () => {
   };
 };
 
-module.exports = [getForkedScriptsConfig(), getElectronScriptsConfig()];
+module.exports = [getForkedScriptsConfig(), getElectronMainConfig(), getPreloadScriptsConfig];

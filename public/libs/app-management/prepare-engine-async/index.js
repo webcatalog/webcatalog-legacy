@@ -62,7 +62,7 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   }).cache;
 
   let latestTemplateVersion = '0.0.0';
-  const scriptPath = path.join(__dirname, 'prepare-engine-async.js')
+  const scriptPath = path.join(__dirname, 'prepare-engine-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
   const {
