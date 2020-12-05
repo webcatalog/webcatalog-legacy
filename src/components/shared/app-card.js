@@ -183,6 +183,15 @@ const AppCard = (props) => {
       },
       {
         type: 'separator',
+        visible: status === INSTALLED && !isOutdated,
+      },
+      {
+        label: 'Reinstall (Repair)',
+        visible: status === INSTALLED && !isOutdated,
+        click: () => onUpdateApp(engine, id, name, url, icon),
+      },
+      {
+        type: 'separator',
         visible: !inDetailsDialog,
       },
       {
@@ -197,7 +206,7 @@ const AppCard = (props) => {
       {
         label: 'What\'s New',
         visible: engine === 'electron',
-        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes'),
+        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
       },
       engine === 'electron' && version ? {
         label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
@@ -412,6 +421,7 @@ const mapStateToProps = (state, ownProps) => {
     name: ownProps.name || app.name,
     url: ownProps.url || (app ? app.url : null),
     icon: ownProps.icon || app.icon,
+    iconThumbnail: ownProps.iconThumbnail || (app ? app.icon128 : null),
     isOutdated: isOutdatedApp(ownProps.id, state),
     latestTemplateVersion: state.general.latestTemplateVersion,
     status: app ? app.status : null,

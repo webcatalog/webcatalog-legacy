@@ -6,3 +6,4 @@ build
 *.zip
 .vscode
 yarn-error.log
+bin

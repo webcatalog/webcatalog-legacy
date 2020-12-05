@@ -43,7 +43,7 @@ switch (process.platform) {
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64, Arch.arm64);
     break;
   }
   default:
@@ -62,10 +62,13 @@ const opts = {
     asarUnpack: [
       'default-app-icons/**/*',
       '**/node_modules/regedit/**/*',
-      '**/libs/**/rcedit*.exe',
-      '**/libs/**/*forked-script*',
+      '**/rcedit*.exe',
+      '**/build/vbs/**/*',
+      '**/build/**/Shortcut.exe',
+      '**/build/**/*forked*',
     ],
     files: [
+      'bin/**/*',
       'default-app-icons/**/*',
       '!tests/**/*',
       '!docs/**/*',

@@ -15,25 +15,34 @@ export const isOutdatedApp = (id, state) => {
 
   if (!apps[id]) return true;
 
+  const appDetails = apps[id];
+
   // check if app is installing
-  if (apps[id].status === INSTALLING) return false;
+  if (appDetails.status === INSTALLING) return false;
 
   // check if license is correctly assigned
-  if (Boolean(apps[id].registered) !== registered) return true;
+  if (Boolean(appDetails.registered) !== registered) return true;
 
-  const v = apps[id].version;
+  const v = appDetails.version;
 
-  // check if app is non-Electron-based
-  if (apps[id].engine !== 'electron') {
+  // app is WebKit based
+  if (appDetails.engine === 'webkit') {
+    const latestV = state.general.latestWebkitWrapperVersion;
+    if (!v) return true;
+    return semver.lt(v, latestV);
+  }
+
+  // app is Chromium/Firefox-based
+  if (appDetails.engine !== 'electron') {
     // check if app is installed with the latest version of forked-script-v2.js
     if (window.process.platform === 'darwin') {
-      return semver.lt(v, '2.5.0');
+      return semver.lt(v, '2.6.0');
     }
     // check if app is installed with the latest version of forked-script-v1.js
     return semver.lt(v, '1.1.0');
   }
 
-  // check version
+  // app is WebCatalog Engine (Electron)-based
   const latestV = state.general.latestTemplateVersion;
   if (!v) return true;
   return semver.lt(v, latestV);

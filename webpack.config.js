@@ -7,46 +7,125 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const plugins = [
-  new webpack.optimize.LimitChunkCountPlugin({
-    maxChunks: 1,
-  }),
-];
-if (process.platform === 'win32') {
-  plugins.push(
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
-          to: path.join(__dirname, 'build', 'libs', 'app-management', 'bin', 'rcedit-x64.exe'),
-        },
-      ],
+const getForkedScriptsConfig = () => {
+  const plugins = [
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
     }),
-  );
-}
+  ];
+  if (process.platform === 'win32') {
+    plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
+            to: path.join(__dirname, 'bin', 'rcedit-x64.exe'),
+          },
+        ],
+      }),
+    );
+  }
 
-// https://jlongster.com/Backend-Apps-with-Webpack--Part-I
-module.exports = {
-  mode: 'production',
-  node: {
-    global: false,
-    __filename: false,
-    __dirname: false,
-  },
-  entry: {
-    'install-app-async/forked-script-electron-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'forked-script-electron-v2.js'),
-    'install-app-async/forked-script-lite-v1': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'forked-script-lite-v1.js'),
-    'install-app-async/forked-script-lite-v2': path.join(__dirname, 'public', 'libs', 'app-management', 'install-app-async', 'forked-script-lite-v2.js'),
-    'prepare-engine-async/forked-script': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-engine-async', 'forked-script.js'),
-    'prepare-electron-async/forked-script': path.join(__dirname, 'public', 'libs', 'app-management', 'prepare-electron-async', 'forked-script.js'),
-    'uninstall-app-async/forked-script': path.join(__dirname, 'public', 'libs', 'app-management', 'uninstall-app-async', 'forked-script.js'),
-  },
-  target: 'node',
-  output: {
-    path: path.join(__dirname, 'build', 'libs', 'app-management'),
-    filename: '[name].js',
-  },
-  devtool: 'source-map',
-  plugins,
+  // https://jlongster.com/Backend-Apps-with-Webpack--Part-I
+  return {
+    mode: 'production',
+    node: {
+      global: false,
+      __filename: false,
+      __dirname: false,
+    },
+    entry: {
+      'install-app-forked-electron-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-electron-v2.js'),
+      'install-app-forked-lite-v1': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v1.js'),
+      'install-app-forked-lite-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v2.js'),
+      'prepare-engine-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-forked.js'),
+      'prepare-electron-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
+      'uninstall-app-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
+    },
+    target: 'node',
+    output: {
+      path: path.join(__dirname, 'build'),
+      filename: '[name].js',
+    },
+    devtool: 'source-map',
+    plugins,
+  };
 };
+
+const getPreloadScriptsConfig = () => {
+  const plugins = [];
+  return {
+    mode: 'production',
+    node: {
+      global: false,
+      __filename: false,
+      __dirname: false,
+    },
+    entry: {
+      'preload-main': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-main.js'),
+      'preload-menubar': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-menubar.js'),
+    },
+    target: 'electron-renderer',
+    output: {
+      path: path.join(__dirname, 'build'),
+      filename: '[name].js',
+    },
+    devtool: 'source-map',
+    plugins,
+  };
+};
+
+const getElectronMainConfig = () => {
+  const plugins = [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['libs'],
+      cleanAfterEveryBuildPatterns: [],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ELECTRON_APP_SENTRY_DSN': JSON.stringify(process.env.ELECTRON_APP_SENTRY_DSN),
+    }),
+  ];
+  if (process.platform === 'win32') {
+    plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, 'main-src', 'images'),
+            to: path.join(__dirname, 'build', 'images'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'windows-shortcuts', 'lib', 'shortcut', 'Shortcut.exe'),
+            to: path.join(__dirname, 'build', 'shortcut', 'Shortcut.exe'),
+          },
+          {
+            from: path.join(__dirname, 'node_modules', 'regedit', 'vbs'),
+            to: path.join(__dirname, 'build', 'vbs'),
+          },
+        ],
+      }),
+    );
+  }
+
+  return {
+    mode: 'production',
+    node: {
+      global: false,
+      __filename: false,
+      __dirname: false,
+    },
+    entry: {
+      electron: path.join(__dirname, 'main-src', 'electron.js'),
+    },
+    target: 'electron-main',
+    output: {
+      path: path.join(__dirname, 'build'),
+      filename: '[name].js',
+    },
+    devtool: 'source-map',
+    plugins,
+  };
+};
+
+module.exports = [getForkedScriptsConfig(), getElectronMainConfig(), getPreloadScriptsConfig()];
