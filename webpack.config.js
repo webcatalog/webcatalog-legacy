@@ -21,7 +21,7 @@ const getForkedScriptsConfig = () => {
         patterns: [
           {
             from: path.join(__dirname, 'node_modules', 'rcedit', 'bin', 'rcedit-x64.exe'),
-            to: path.join(__dirname, 'build', 'bin', 'rcedit-x64.exe'),
+            to: path.join(__dirname, 'bin', 'rcedit-x64.exe'),
           },
         ],
       }),
@@ -112,8 +112,7 @@ const getElectronMainConfig = () => {
       __dirname: false,
     },
     entry: {
-      // eslint-disable-next-line quote-props
-      'electron': path.join(__dirname, 'public', 'electron.js'),
+      electron: path.join(__dirname, 'public', 'electron.js'),
     },
     target: 'electron-main',
     output: {
