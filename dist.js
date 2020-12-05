@@ -62,10 +62,13 @@ const opts = {
     asarUnpack: [
       'default-app-icons/**/*',
       '**/node_modules/regedit/**/*',
-      '**/libs/**/rcedit*.exe',
-      '**/libs/**/*forked-script*',
+      '**/rcedit*.exe',
+      '**/build/vbs/**/*',
+      '**/build/**/Shortcut.exe',
+      '**/build/**/*forked*',
     ],
     files: [
+      'bin/**/*',
       'default-app-icons/**/*',
       '!tests/**/*',
       '!docs/**/*',

@@ -12,13 +12,12 @@ const {
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
-const isDev = require('electron-is-dev');
 
-const sendToAllWindows = require('../libs/send-to-all-windows');
-const { getPreference } = require('../libs/preferences');
+const sendToAllWindows = require('../send-to-all-windows');
+const { getPreference } = require('../preferences');
 const { REACT_PATH } = require('../constants/paths');
 
-const formatBytes = require('../libs/format-bytes');
+const formatBytes = require('../format-bytes');
 
 let win;
 let mb = {};
@@ -45,7 +44,15 @@ const createAsync = () => new Promise((resolve) => {
     // https://github.com/atomery/translatium/issues/164
     const tray = new Tray(nativeImage.createEmpty());
     // icon template is not supported on Windows & Linux
-    const iconPath = path.resolve(__dirname, '..', process.platform === 'darwin' ? 'menubarTemplate.png' : 'menubar.png');
+    const iconFileName = process.platform === 'darwin' ? 'menubarTemplate.png' : 'menubar.png';
+    let iconPath;
+    if (process.platform === 'linux') {
+      if (process.env.NODE_ENV === 'production') {
+        iconPath = path.resolve(__dirname, 'images', iconFileName);
+      } else {
+        iconPath = path.resolve(__dirname, '..', '..', 'images', iconFileName);
+      }
+    }
     tray.setImage(iconPath);
 
     mb = menubar({
@@ -63,8 +70,8 @@ const createAsync = () => new Promise((resolve) => {
         webPreferences: {
           enableRemoteModule: true,
           nodeIntegration: true,
-          webSecurity: !isDev,
-          preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
+          webSecurity: process.env.NODE_ENV === 'production',
+          preload: path.join(__dirname, 'preload-menubar.js'),
         },
       },
     });
@@ -170,6 +177,15 @@ const createAsync = () => new Promise((resolve) => {
     defaultHeight: 768,
   });
 
+  let icon;
+  if (process.platform === 'linux') {
+    if (process.env.NODE_ENV === 'production') {
+      icon = path.resolve(__dirname, 'images', 'icon.png');
+    } else {
+      icon = path.resolve(__dirname, '..', '..', 'images', 'icon.png');
+    }
+  }
+
   win = new BrowserWindow({
     backgroundColor: '#FFF',
     x: mainWindowState.x,
@@ -179,14 +195,14 @@ const createAsync = () => new Promise((resolve) => {
     minWidth: 600,
     minHeight: 500,
     titleBarStyle: 'hiddenInset',
-    icon: process.platform === 'linux' ? path.resolve(__dirname, '..', 'icon.png') : undefined,
+    icon,
     show: false,
     frame: process.platform === 'darwin',
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
-      webSecurity: !isDev,
-      preload: path.join(__dirname, '..', 'preload', 'main.js'),
+      webSecurity: process.env.NODE_ENV === 'production',
+      preload: path.join(__dirname, 'preload-main.js'),
     },
   });
 

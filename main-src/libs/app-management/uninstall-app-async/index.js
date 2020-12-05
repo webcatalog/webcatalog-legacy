@@ -4,69 +4,71 @@
 const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
-const envPaths = require('env-paths');
 const { addBreadcrumb } = require('@sentry/electron');
 
 const { getPreferences } = require('../../preferences');
-const sendToAllWindows = require('../../send-to-all-windows');
 
-// force re-extract for first installation after launch
-global.forceExtract = true;
+const registryInstaller = require('../registry-installer');
 
-const prepareElectronAsync = () => new Promise((resolve, reject) => {
-  const cacheRoot = envPaths('webcatalog', {
-    suffix: '',
-  }).cache;
-
-  const scriptPath = path.join(__dirname, 'forked-script.js')
+const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) => {
+  const scriptPath = path.join(__dirname, 'uninstall-app-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
   const {
+    installationPath,
     proxyPacScript,
     proxyRules,
     proxyType,
+    requireAdmin,
   } = getPreferences();
-
-  const args = [
-    '--cacheRoot',
-    cacheRoot,
-    '--platform',
-    process.platform,
-    '--arch',
-    process.arch,
-  ];
 
   addBreadcrumb({
     category: 'run-forked-script',
-    message: 'prepare-electron-async',
+    message: 'uninstall-app-async',
     data: {
-      cacheRoot,
+      engine,
     },
   });
 
-  const child = fork(scriptPath, args, {
+  const child = fork(scriptPath, [
+    '--id',
+    id,
+    '--name',
+    name,
+    '--engine',
+    engine,
+    '--homePath',
+    app.getPath('home'),
+    '--appDataPath',
+    app.getPath('appData'),
+    '--desktopPath',
+    app.getPath('desktop'),
+    '--installationPath',
+    installationPath,
+    '--webcatalogUserDataPath',
+    app.getPath('userData'),
+    '--requireAdmin',
+    requireAdmin.toString(),
+    '--username',
+    process.env.USER, // required by sudo-prompt
+  ], {
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
-      APPDATA: app.getPath('appData'),
       PROXY_PAC_SCRIPT: proxyPacScript,
       PROXY_RULES: proxyRules,
       PROXY_TYPE: proxyType,
-      FORCE_EXTRACT: Boolean(global.forceExtract).toString(),
     },
   });
 
   let err = null;
   child.on('message', (message) => {
-    if (message && message.progress) {
-      sendToAllWindows('update-installation-progress', message.progress);
-    } else if (message && message.error) {
+    if (message && message.error) {
       err = new Error(message.error.message);
       err.stack = message.error.stack;
       err.name = message.error.name;
-    } else {
-      console.log(message); // eslint-disable-line no-console
     }
+    console.log(message); // eslint-disable-line no-console
   });
 
   child.on('exit', (code) => {
@@ -75,11 +77,14 @@ const prepareElectronAsync = () => new Promise((resolve, reject) => {
       return;
     }
 
-    // // extracting template code successful so need to re-extract next time
-    global.forceExtract = false;
-
     resolve();
   });
-});
+})
+  .then(() => {
+    if (process.platform === 'win32') {
+      return registryInstaller.uninstallAsync(`webcatalog-${id}`);
+    }
+    return null;
+  });
 
-module.exports = prepareElectronAsync;
+module.exports = uninstallAppAsync;

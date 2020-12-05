@@ -33,10 +33,10 @@ const getTagNameAsync = () => Promise.resolve()
           let stableVersion;
           let prereleaseVersion;
           const p = [
-            customizedFetch('https://webcatalog.app/juli/releases/latest.json')
+            customizedFetch('https://webcatalog.app/webkit-wrapper/releases/latest.json')
               .then((res) => res.json())
               .then((data) => { stableVersion = data.version; }),
-            customizedFetch('https://webcatalog.app/juli/releases/prerelease.json')
+            customizedFetch('https://webcatalog.app/webkit-wrapper/releases/prerelease.json')
               .then((res) => res.json())
               .then((data) => { prereleaseVersion = data.version; }),
           ];
@@ -51,18 +51,18 @@ const getTagNameAsync = () => Promise.resolve()
         .then((version) => `v${version}`);
     }
 
-    return customizedFetch('https://webcatalog.app/juli/releases/latest.json')
+    return customizedFetch('https://webcatalog.app/webkit-wrapper/releases/latest.json')
       .then((res) => res.json())
       .then((data) => `v${data.version}`);
   });
 
-const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) => {
+const downloadTemplateAsync = (tagName) => new Promise((resolve, reject) => {
   const cacheRoot = envPaths('webcatalog', {
     suffix: '',
   }).cache;
 
   let latestTemplateVersion = '0.0.0';
-  const scriptPath = path.join(__dirname, 'forked-script.js')
+  const scriptPath = path.join(__dirname, 'prepare-webkit-wrapper-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
   const {
@@ -74,8 +74,6 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   const args = [
     '--appVersion',
     app.getVersion(),
-    '--userDataPath',
-    app.getPath('userData'),
     '--cacheRoot',
     cacheRoot,
     '--platform',
@@ -142,7 +140,12 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   });
 });
 
-const prepareEngineAsync = () => getTagNameAsync()
-  .then((tagName) => downloadExtractTemplateAsync(tagName));
+const prepareWebkitWrapperAsync = () => {
+  if (process.platform !== 'darwin') {
+    return Promise.reject(new Error('Unsupported platform'));
+  }
+  return getTagNameAsync()
+    .then((tagName) => downloadTemplateAsync(tagName));
+};
 
-module.exports = prepareEngineAsync;
+module.exports = prepareWebkitWrapperAsync;

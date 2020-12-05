@@ -3,13 +3,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 const { remote, ipcRenderer } = require('electron');
 const contextMenu = require('electron-context-menu');
-const isDev = require('electron-is-dev');
 const machineId = require('node-machine-id');
 
 // Activate the Sentry Electron SDK as early as possible in every process.
-if (!isDev && ipcRenderer.sendSync('get-preference', 'sentry')) {
+if (process.env.NODE_ENV === 'production' && ipcRenderer.sendSync('get-preference', 'sentry')) {
   // eslint-disable-next-line global-require
-  require('../libs/sentry');
+  require('../sentry');
 }
 
 contextMenu({

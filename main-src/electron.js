@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+require('source-map-support').install();
 const path = require('path');
 const {
   app,
@@ -9,7 +10,6 @@ const {
   protocol,
   session,
 } = require('electron');
-const isDev = require('electron-is-dev');
 const fs = require('fs');
 
 const settings = require('electron-settings');
@@ -25,16 +25,16 @@ const url = require('url');
 const { getPreference, getPreferences } = require('./libs/preferences');
 
 // Activate the Sentry Electron SDK as early as possible in every process.
-if (!isDev && getPreference('sentry')) {
+if (process.env.NODE_ENV === 'production' && getPreference('sentry')) {
   // eslint-disable-next-line global-require
   require('./libs/sentry');
 }
 
 const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
-const loadListeners = require('./listeners');
+const loadListeners = require('./libs/listeners').load;
 
-const mainWindow = require('./windows/main');
+const mainWindow = require('./libs/windows/main');
 
 require('./libs/updater');
 
