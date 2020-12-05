@@ -23,6 +23,8 @@ const formInitialState = {
   url: 'https://',
   urlDisabled: false,
   icon: null,
+  freedesktopMainCategory: 'Network',
+  freedesktopAdditionalCategory: '',
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {
