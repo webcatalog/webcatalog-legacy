@@ -43,8 +43,9 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 const installAppAsync = (
-  engine, id, name, url, icon,
+  engine, id, name, url, icon, opts = {},
 ) => {
+  console.log(engine, id, name, url, icon, opts);
   let v = '0.0.0'; // app version
   let scriptFileName;
   let browserPath;
@@ -191,6 +192,8 @@ const installAppAsync = (
         name,
         '--icon',
         icon,
+        '--opts',
+        JSON.stringify(opts),
         '--homePath',
         app.getPath('home'),
         '--appDataPath',
@@ -312,7 +315,7 @@ const installAppAsync = (
         const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
         const exePath = path.join(finalPath, `${name}.exe`);
 
-        const opts = {
+        const shortcutOpts = {
           target: engine === 'electron' ? exePath : browserPath,
           args,
           icon: finalIconIcoPath,
@@ -322,15 +325,15 @@ const installAppAsync = (
         const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
         const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
 
-        const p = [createShortcutAsync(coreShortcutPath, opts)];
+        const p = [createShortcutAsync(coreShortcutPath, shortcutOpts)];
 
         if (createDesktopShortcut) {
-          p.push(createShortcutAsync(desktopShortcutPath, opts));
+          p.push(createShortcutAsync(desktopShortcutPath, shortcutOpts));
         }
 
         if (createStartMenuShortcut) {
           p.push(fsExtra.ensureDir(startMenuPath)
-            .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+            .then(() => createShortcutAsync(startMenuShortcutPath, shortcutOpts)));
         }
 
         if (engine === 'electron') {

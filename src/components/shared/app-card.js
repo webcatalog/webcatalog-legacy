@@ -136,6 +136,7 @@ const AppCard = (props) => {
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
     onUpdateApp,
+    opts,
     status,
     url,
     version,
@@ -165,6 +166,7 @@ const AppCard = (props) => {
           url,
           urlDisabled: Boolean(!url),
           icon,
+          opts,
         }),
       },
       {
@@ -388,6 +390,7 @@ AppCard.defaultProps = {
   iconThumbnail: null,
   inDetailsDialog: false,
   latestTemplateVersion: null,
+  opts: {},
   status: null,
   url: null,
   version: null,
@@ -397,8 +400,8 @@ AppCard.propTypes = {
   cancelable: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string,
-  iconThumbnail: PropTypes.string,
   icon: PropTypes.string.isRequired,
+  iconThumbnail: PropTypes.string,
   id: PropTypes.string.isRequired,
   inDetailsDialog: PropTypes.bool,
   isOutdated: PropTypes.bool.isRequired,
@@ -409,6 +412,7 @@ AppCard.propTypes = {
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
+  opts: PropTypes.object,
   status: PropTypes.string,
   url: PropTypes.string,
   version: PropTypes.string,
@@ -418,18 +422,19 @@ const mapStateToProps = (state, ownProps) => {
   const app = state.appManagement.apps[ownProps.id];
 
   return {
-    name: ownProps.name || app.name,
-    url: ownProps.url || (app ? app.url : null),
+    cancelable: Boolean(app ? app.cancelable : false),
+    engine: app ? app.engine : null,
     icon: ownProps.icon || app.icon,
     iconThumbnail: ownProps.iconThumbnail || (app ? app.icon128 : null),
     isOutdated: isOutdatedApp(ownProps.id, state),
     latestTemplateVersion: state.general.latestTemplateVersion,
-    status: app ? app.status : null,
-    engine: app ? app.engine : null,
-    version: app ? app.version : null,
-    cancelable: Boolean(app ? app.cancelable : false),
-    progressPercent: state.general.installationProgress.percent,
+    name: ownProps.name || app.name,
+    opts: app && app.opts ? app.opts : undefined,
     progressDesc: state.general.installationProgress.desc,
+    progressPercent: state.general.installationProgress.percent,
+    status: app ? app.status : null,
+    url: ownProps.url || (app ? app.url : null),
+    version: app ? app.version : null,
   };
 };
 

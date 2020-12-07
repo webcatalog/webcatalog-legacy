@@ -48,13 +48,14 @@ const {
   browserPath,
   appDataPath,
 } = argv;
+const opts = JSON.parse(argv.opts);
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
-  const opts = {
+  const sudoOpts = {
     name: 'WebCatalog',
   };
   process.env.USER = username;
-  sudo.exec(prompt, opts, (error, stdout, stderr) => {
+  sudo.exec(prompt, sudoOpts, (error, stdout, stderr) => {
     if (error) {
       return reject(error);
     }
@@ -338,6 +339,7 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
       url,
       engine,
       registered: registered === 'true',
+      opts,
     });
     return fsExtra.writeFile(appJsonPath, appJson);
   })

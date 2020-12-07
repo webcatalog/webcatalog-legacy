@@ -165,7 +165,7 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
+  ipcMain.on('request-install-app', (e, engine, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -176,6 +176,7 @@ const loadListeners = () => {
           name,
           url,
           icon,
+          opts,
           cancelable: true,
         });
 
@@ -185,7 +186,7 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon)
+          return installAppAsync(engine, id, name, url, icon, opts)
             .then((version) => {
               send(e.sender, 'set-app', id, {
                 engine,
@@ -194,6 +195,7 @@ const loadListeners = () => {
                 url,
                 icon,
                 version,
+                opts,
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
@@ -224,7 +226,7 @@ const loadListeners = () => {
       });
   });
 
-  ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
+  ipcMain.on('request-update-app', (e, engine, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -238,7 +240,7 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon)
+          return installAppAsync(engine, id, name, url, icon, opts)
             .then((version) => {
               let displayedIcon;
               // display latest icon from WebCatalog
@@ -251,10 +253,12 @@ const loadListeners = () => {
               }
 
               send(e.sender, 'set-app', id, {
+                name,
                 url,
                 version,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
+                opts,
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
                 icon128: displayedIcon,

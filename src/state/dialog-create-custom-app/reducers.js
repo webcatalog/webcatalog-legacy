@@ -24,7 +24,7 @@ const formInitialState = {
   urlDisabled: false,
   icon: null,
   freedesktopMainCategory: 'Network',
-  freedesktopAdditionalCategory: '',
+  freedesktopAdditionalCategory: 'WebBrowser',
 };
 const form = (state = formInitialState, action) => {
   switch (action.type) {
