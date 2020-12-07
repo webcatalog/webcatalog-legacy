@@ -71,6 +71,9 @@ const styles = (theme) => ({
   captionDisabled: {
     color: theme.palette.text.disabled,
   },
+  link: {
+    cursor: 'pointer',
+  },
 });
 
 const DialogEditApp = (props) => {
@@ -201,56 +204,64 @@ const DialogEditApp = (props) => {
             </Grid>
           )}
         </Grid>
-        <br />
-        <Divider />
-        <FormControl variant="outlined" fullWidth margin="normal">
-          <InputLabel id="input-main-category-label">Main Category</InputLabel>
-          <Select
-            id="input-main-category"
-            labelId="input-main-category-label"
-            value={freedesktopMainCategory}
-            onChange={(event) => onUpdateFormOpts({
-              freedesktopMainCategory: event.target.value,
-            })}
-            label="Type"
-            margin="dense"
-          >
-            {freedesktopMainCategories
-              .map((val) => (
-                <MenuItem key={val} value={val}>{val}</MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-        <FormControl variant="outlined" fullWidth margin="normal">
-          <InputLabel id="input-additional-category-label">Additional Category</InputLabel>
-          <Select
-            id="input-additional-category"
-            labelId="input-additional-category-label"
-            value={freedesktopAdditionalCategory === '' ? '_' : freedesktopAdditionalCategory}
-            onChange={(event) => onUpdateFormOpts({
-              freedesktopAdditionalCategory: event.target.value === '_' ? '' : event.target.value,
-            })}
-            label="Type"
-            margin="dense"
-          >
-            <MenuItem value="_">(blank)</MenuItem>
-            {freedesktopAdditionalCategories
-              .filter((val) => (!val.relatedMainCategories || val.relatedMainCategories.includes('Network')))
-              .map((val) => (
-                <MenuItem key={val.name} value={val.name}>{val.name}</MenuItem>
-              ))}
-          </Select>
-          <FormHelperText>
-            <span>Specify which section of the system application menu this app belongs to. </span>
-            <Link
-              onClick={() => requestOpenInBrowser('https://specifications.freedesktop.org/menu-spec/latest/apa.html')}
-              className={classes.link}
-            >
-              Learn more about Freedesktop.org specifications
-            </Link>
-            <span>.</span>
-          </FormHelperText>
-        </FormControl>
+        {window.process.platform === 'linux' && (
+          <>
+            <br />
+            <Divider />
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel id="input-main-category-label">Main Category</InputLabel>
+              <Select
+                id="input-main-category"
+                labelId="input-main-category-label"
+                value={freedesktopMainCategory}
+                onChange={(event) => onUpdateFormOpts({
+                  freedesktopMainCategory: event.target.value,
+                  freedesktopAdditionalCategory: '',
+                })}
+                label="Type"
+                margin="dense"
+              >
+                {freedesktopMainCategories
+                  .map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel id="input-additional-category-label">Additional Category</InputLabel>
+              <Select
+                id="input-additional-category"
+                labelId="input-additional-category-label"
+                value={freedesktopAdditionalCategory === '' ? '_' : freedesktopAdditionalCategory}
+                onChange={(event) => onUpdateFormOpts({
+                  freedesktopAdditionalCategory: event.target.value === '_' ? '' : event.target.value,
+                })}
+                label="Type"
+                margin="dense"
+              >
+                <MenuItem value="_">(blank)</MenuItem>
+                {freedesktopAdditionalCategories
+                  .filter((val) => (!val.relatedMainCategories
+                    || val.relatedMainCategories.includes(freedesktopMainCategory)))
+                  .map((val) => (
+                    <MenuItem key={val.name} value={val.name}>{val.name}</MenuItem>
+                  ))}
+              </Select>
+              <FormHelperText>
+                <span>
+                  Specify which section of the system application menu this app belongs to.&nbsp;
+                </span>
+                <Link
+                  onClick={() => requestOpenInBrowser('https://specifications.freedesktop.org/menu-spec/latest/apa.html')}
+                  className={classes.link}
+                >
+                  Learn more about Freedesktop.org specifications
+                </Link>
+                <span>.</span>
+              </FormHelperText>
+            </FormControl>
+          </>
+        )}
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <Button
@@ -323,8 +334,6 @@ const mapStateToProps = (state) => {
       urlError,
     },
   } = state.dialogEditApp;
-
-  console.log(state.dialogEditApp);
 
   const {
     freedesktopAdditionalCategory,

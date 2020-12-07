@@ -187,15 +187,9 @@ const loadListeners = () => {
           });
 
           return installAppAsync(engine, id, name, url, icon, opts)
-            .then((version) => {
+            .then((newApp) => {
               send(e.sender, 'set-app', id, {
-                engine,
-                id,
-                name,
-                url,
-                icon,
-                version,
-                opts,
+                ...newApp,
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
@@ -241,7 +235,7 @@ const loadListeners = () => {
           });
 
           return installAppAsync(engine, id, name, url, icon, opts)
-            .then((version) => {
+            .then((newApp) => {
               let displayedIcon;
               // display latest icon from WebCatalog
               if (!id.startsWith('custom-')) {
@@ -253,12 +247,9 @@ const loadListeners = () => {
               }
 
               send(e.sender, 'set-app', id, {
-                name,
-                url,
-                version,
+                ...newApp,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
-                opts,
                 registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
                 icon128: displayedIcon,

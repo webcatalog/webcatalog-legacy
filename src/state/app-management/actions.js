@@ -51,7 +51,7 @@ export const removeApp = (id) => ({
   id,
 });
 
-export const installApp = (engine, id, name, url, icon) => (dispatch, getState) => {
+export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
 
   const sanitizedName = name.trim();
@@ -60,12 +60,12 @@ export const installApp = (engine, id, name, url, icon) => (dispatch, getState) 
     return null;
   }
 
-  requestInstallApp(engine, id, sanitizedName, url, icon);
+  requestInstallApp(engine, id, sanitizedName, url, icon, opts);
   return null;
 };
 
-export const updateApp = (engine, id, name, url, icon) => () => {
-  requestUpdateApp(engine, id, name, url, icon);
+export const updateApp = (engine, id, name, url, icon, opts) => () => {
+  requestUpdateApp(engine, id, name, url, icon, opts);
 };
 
 export const updateApps = (apps) => () => {

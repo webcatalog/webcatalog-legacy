@@ -153,7 +153,7 @@ export const create = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  const opts = window.process.platform !== 'linux' ? {
+  const opts = window.process.platform === 'linux' ? {
     freedesktopMainCategory: form.freedesktopMainCategory,
     freedesktopAdditionalCategory: form.freedesktopAdditionalCategory,
   } : undefined;

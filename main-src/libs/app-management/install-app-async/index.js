@@ -14,6 +14,7 @@ const envPaths = require('env-paths');
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
 const isEngineInstalled = require('../../is-engine-installed');
+const getFreedesktopCategory = require('../../get-freedesktop-category');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
@@ -43,12 +44,21 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 const installAppAsync = (
-  engine, id, name, url, icon, opts = {},
+  engine, id, name, url, icon, _opts = {},
 ) => {
-  console.log(engine, id, name, url, icon, opts);
   let v = '0.0.0'; // app version
   let scriptFileName;
   let browserPath;
+
+  const opts = { ..._opts };
+  if (process.platform === 'linux') {
+    if (opts.freedesktopMainCategory == null
+      || opts.freedesktopAdditionalCategory == null) {
+      const val = getFreedesktopCategory(opts.category);
+      opts.freedesktopMainCategory = val.freedesktopMainCategory;
+      opts.freedesktopAdditionalCategory = val.freedesktopAdditionalCategory;
+    }
+  }
 
   const {
     installationPath,
@@ -355,7 +365,15 @@ const installAppAsync = (
 
       return null;
     })
-    .then(() => v);
+    .then(() => ({
+      engine,
+      id,
+      name,
+      url,
+      icon,
+      version: v,
+      opts,
+    }));
 };
 
 module.exports = installAppAsync;

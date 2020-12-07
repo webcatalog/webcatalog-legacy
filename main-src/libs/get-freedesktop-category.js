@@ -5,10 +5,13 @@ const linuxCategories = require('./constants/freedesktop-categories-map');
 
 // get freedesktop.org category from WebCatalog app category
 const getFreedesktopCategory = (category) => {
-  if (linuxCategories[category]) {
+  if (category && linuxCategories[category]) {
     return linuxCategories[category];
   }
-  return 'Network;WebBrowser';
+  return {
+    freedesktopMainCategory: 'Network',
+    freedesktopAdditionalCategory: 'WebBrowser',
+  };
 };
 
 module.exports = getFreedesktopCategory;

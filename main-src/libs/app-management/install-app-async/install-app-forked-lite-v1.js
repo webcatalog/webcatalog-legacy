@@ -377,6 +377,10 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
       const iconPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.png');
       const desktopDirPath = path.join(homePath, '.local', 'share', 'applications');
       const desktopFilePath = path.join(desktopDirPath, `webcatalog-${id}.desktop`);
+      const categoriesStr = [
+        opts.freedesktopMainCategory,
+        opts.freedesktopAdditionalCategory,
+      ].join(';');
       // https://askubuntu.com/questions/722179/icon-path-in-desktop-file
       // https://askubuntu.com/questions/189822/how-to-escape-spaces-in-desktop-files-exec-line
       const desktopFileContent = `[Desktop Entry]
@@ -388,6 +392,7 @@ Icon=${iconPath}c
 Exec="${finalExecFilePath}"
 Terminal=false
 StartupWMClass=${name.toLowerCase()}
+Categories=${categoriesStr}
 `;
       return fsExtra.ensureDir(desktopDirPath)
         .then(() => fsExtra.writeFile(desktopFilePath, desktopFileContent));
