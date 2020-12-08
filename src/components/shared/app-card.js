@@ -148,7 +148,9 @@ const AppCard = (props) => {
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
 
   const combinedOpts = { ...opts };
-  combinedOpts.category = category;
+  if (category) {
+    combinedOpts.category = category;
+  }
 
   const showMenu = () => {
     const template = [
@@ -170,7 +172,7 @@ const AppCard = (props) => {
           url,
           urlDisabled: Boolean(!url),
           icon,
-          combinedOpts,
+          opts: combinedOpts,
         }),
       },
       {
@@ -390,7 +392,7 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
-  category: null,
+  category: undefined,
   engine: null,
   iconThumbnail: null,
   inDetailsDialog: false,
@@ -426,6 +428,8 @@ AppCard.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const app = state.appManagement.apps[ownProps.id];
+
+  console.log(app);
 
   return {
     cancelable: Boolean(app ? app.cancelable : false),
