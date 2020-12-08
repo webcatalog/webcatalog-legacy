@@ -101,13 +101,38 @@ export const updateForm = (changes) => (dispatch, getState) => {
   });
 };
 
+export const updateFormOpts = (optsChanges) => (dispatch, getState) => {
+  const { opts } = getState().dialogEditApp.form;
+
+  dispatch({
+    type: DIALOG_EDIT_APP_FORM_UPDATE,
+    changes: {
+      opts: {
+        ...opts,
+        ...optsChanges,
+      },
+    },
+  });
+};
+
 export const save = () => (dispatch, getState) => {
   const state = getState();
 
   const { form } = state.dialogEditApp;
   const {
-    engine, id, name, url, urlDisabled,
+    engine,
+    id,
+    name,
+    url,
+    urlDisabled,
   } = form;
+
+  const opts = { ...form.opts };
+  if (window.process.platform === 'linux') {
+    opts.freedesktopMainCategory = form.opts.freedesktopMainCategory || 'Network';
+    opts.freedesktopAdditionalCategory = form.opts.freedesktopAdditionalCategory == null
+      ? 'WebBrowser' : form.opts.freedesktopAdditionalCategory;
+  }
 
   const validatedChanges = validate(form, getValidationRules(urlDisabled));
   if (hasErrors(validatedChanges)) {
@@ -117,7 +142,7 @@ export const save = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  dispatch(updateApp(engine, id, name, urlDisabled ? null : protocolledUrl, icon));
+  dispatch(updateApp(engine, id, name, urlDisabled ? null : protocolledUrl, icon, opts));
 
   dispatch(close());
   return null;

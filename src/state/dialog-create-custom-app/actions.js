@@ -153,12 +153,17 @@ export const create = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
+  const opts = window.process.platform === 'linux' ? {
+    freedesktopMainCategory: form.freedesktopMainCategory,
+    freedesktopAdditionalCategory: form.freedesktopAdditionalCategory,
+  } : undefined;
+
   if (isNameExisted(name, state)) {
     requestShowMessageBox(`An app named ${name} already exists.`, 'error');
     return null;
   }
 
-  dispatch(openDialogChooseEngine(id, name, urlDisabled ? null : protocolledUrl, icon));
+  dispatch(openDialogChooseEngine(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
 
   dispatch(close());
   return null;

@@ -29,7 +29,7 @@ export const create = () => (dispatch, getState) => {
   const { form } = state.dialogChooseEngine;
 
   const {
-    engine, id, icon, name, url,
+    engine, id, icon, name, url, opts,
   } = form;
 
   if (isNameExisted(name, state)) {
@@ -37,13 +37,13 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(installApp(engine, id, name, url, icon));
+  dispatch(installApp(engine, id, name, url, icon, opts));
 
   dispatch(close());
   return null;
 };
 
-export const open = (id, name, url, icon) => (dispatch, getState) => {
+export const open = (id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
 
   const { hideEnginePrompt } = state.preferences;
@@ -54,6 +54,7 @@ export const open = (id, name, url, icon) => (dispatch, getState) => {
       id,
       name,
       url,
+      opts,
     }));
 
     return dispatch(create());
@@ -66,5 +67,6 @@ export const open = (id, name, url, icon) => (dispatch, getState) => {
     id,
     name,
     url,
+    opts,
   });
 };

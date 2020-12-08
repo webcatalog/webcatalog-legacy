@@ -43,6 +43,7 @@ const {
   username,
   registered,
 } = argv;
+const opts = JSON.parse(argv.opts);
 
 // ignore requireAdmin if installationPath is not custom
 const isStandardInstallationPath = installationPath === '~/Applications/WebCatalog Apps'
@@ -157,11 +158,11 @@ const obj2Strings = (obj) => {
 /* eslint-enable prefer-template */
 
 const sudoAsync = (prompt) => new Promise((resolve, reject) => {
-  const opts = {
+  const sudoOpts = {
     name: 'WebCatalog',
   };
   process.env.USER = username;
-  sudo.exec(prompt, opts, (error, stdout, stderr) => {
+  sudo.exec(prompt, sudoOpts, (error, stdout, stderr) => {
     if (error) {
       return reject(error);
     }
@@ -521,6 +522,7 @@ open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${ur
       url,
       engine,
       registered: registered === 'true',
+      opts,
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);
   })

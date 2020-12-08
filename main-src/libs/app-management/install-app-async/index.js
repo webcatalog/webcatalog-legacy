@@ -14,6 +14,7 @@ const envPaths = require('env-paths');
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
 const isEngineInstalled = require('../../is-engine-installed');
+const getFreedesktopCategory = require('../../get-freedesktop-category');
 
 const getWin32BravePaths = require('../../get-win32-brave-paths');
 const getWin32ChromePaths = require('../../get-win32-chrome-paths');
@@ -43,11 +44,21 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 const installAppAsync = (
-  engine, id, name, url, icon,
+  engine, id, name, url, icon, _opts = {},
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
   let browserPath;
+
+  const opts = { ..._opts };
+  if (process.platform === 'linux') {
+    if (opts.freedesktopMainCategory == null
+      || opts.freedesktopAdditionalCategory == null) {
+      const val = getFreedesktopCategory(opts.category);
+      opts.freedesktopMainCategory = val.freedesktopMainCategory;
+      opts.freedesktopAdditionalCategory = val.freedesktopAdditionalCategory;
+    }
+  }
 
   const {
     installationPath,
@@ -191,6 +202,8 @@ const installAppAsync = (
         name,
         '--icon',
         icon,
+        '--opts',
+        JSON.stringify(opts),
         '--homePath',
         app.getPath('home'),
         '--appDataPath',
@@ -312,7 +325,7 @@ const installAppAsync = (
         const finalIconIcoPath = path.join(finalPath, 'resources', 'app.asar.unpacked', 'build', 'icon.ico');
         const exePath = path.join(finalPath, `${name}.exe`);
 
-        const opts = {
+        const shortcutOpts = {
           target: engine === 'electron' ? exePath : browserPath,
           args,
           icon: finalIconIcoPath,
@@ -322,15 +335,15 @@ const installAppAsync = (
         const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
         const desktopShortcutPath = path.join(app.getPath('desktop'), `${name}.lnk`);
 
-        const p = [createShortcutAsync(coreShortcutPath, opts)];
+        const p = [createShortcutAsync(coreShortcutPath, shortcutOpts)];
 
         if (createDesktopShortcut) {
-          p.push(createShortcutAsync(desktopShortcutPath, opts));
+          p.push(createShortcutAsync(desktopShortcutPath, shortcutOpts));
         }
 
         if (createStartMenuShortcut) {
           p.push(fsExtra.ensureDir(startMenuPath)
-            .then(() => createShortcutAsync(startMenuShortcutPath, opts)));
+            .then(() => createShortcutAsync(startMenuShortcutPath, shortcutOpts)));
         }
 
         if (engine === 'electron') {
@@ -352,7 +365,15 @@ const installAppAsync = (
 
       return null;
     })
-    .then(() => v);
+    .then(() => ({
+      engine,
+      id,
+      name,
+      url,
+      icon,
+      version: v,
+      opts,
+    }));
 };
 
 module.exports = installAppAsync;

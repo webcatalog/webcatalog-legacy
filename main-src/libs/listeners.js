@@ -165,7 +165,7 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  ipcMain.on('request-install-app', (e, engine, id, name, url, icon) => {
+  ipcMain.on('request-install-app', (e, engine, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -176,6 +176,7 @@ const loadListeners = () => {
           name,
           url,
           icon,
+          opts,
           cancelable: true,
         });
 
@@ -185,15 +186,10 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon)
-            .then((version) => {
+          return installAppAsync(engine, id, name, url, icon, opts)
+            .then((newApp) => {
               send(e.sender, 'set-app', id, {
-                engine,
-                id,
-                name,
-                url,
-                icon,
-                version,
+                ...newApp,
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
@@ -224,7 +220,7 @@ const loadListeners = () => {
       });
   });
 
-  ipcMain.on('request-update-app', (e, engine, id, name, url, icon) => {
+  ipcMain.on('request-update-app', (e, engine, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -238,8 +234,8 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon)
-            .then((version) => {
+          return installAppAsync(engine, id, name, url, icon, opts)
+            .then((newApp) => {
               let displayedIcon;
               // display latest icon from WebCatalog
               if (!id.startsWith('custom-')) {
@@ -251,8 +247,7 @@ const loadListeners = () => {
               }
 
               send(e.sender, 'set-app', id, {
-                url,
-                version,
+                ...newApp,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
                 registered: getPreference('registered'),

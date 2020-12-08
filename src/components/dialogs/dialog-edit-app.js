@@ -1,18 +1,26 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
+import DialogContent from '@material-ui/core/DialogContent';
+import Divider from '@material-ui/core/Divider';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import Link from '@material-ui/core/Link';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
@@ -22,11 +30,19 @@ import {
   save,
   getIconFromInternet,
   updateForm,
+  updateFormOpts,
 } from '../../state/dialog-edit-app/actions';
 
 import defaultIcon from '../../assets/default-icon.png';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+
+import freedesktopMainCategories from '../../constants/freedesktop-main-categories';
+import freedesktopAdditionalCategories from '../../constants/freedesktop-additional-categories';
+
+import {
+  requestOpenInBrowser,
+} from '../../senders';
 
 const styles = (theme) => ({
   grid: {
@@ -55,12 +71,17 @@ const styles = (theme) => ({
   captionDisabled: {
     color: theme.palette.text.disabled,
   },
+  link: {
+    cursor: 'pointer',
+  },
 });
 
 const DialogEditApp = (props) => {
   const {
     classes,
     downloadingIcon,
+    freedesktopAdditionalCategory,
+    freedesktopMainCategory,
     icon,
     id,
     internetIcon,
@@ -69,6 +90,7 @@ const DialogEditApp = (props) => {
     onGetIconFromInternet,
     onSave,
     onUpdateForm,
+    onUpdateFormOpts,
     open,
     savable,
     url,
@@ -182,6 +204,64 @@ const DialogEditApp = (props) => {
             </Grid>
           )}
         </Grid>
+        {window.process.platform === 'linux' && (
+          <>
+            <br />
+            <Divider />
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel id="input-main-category-label">Main Category</InputLabel>
+              <Select
+                id="input-main-category"
+                labelId="input-main-category-label"
+                value={freedesktopMainCategory}
+                onChange={(event) => onUpdateFormOpts({
+                  freedesktopMainCategory: event.target.value,
+                  freedesktopAdditionalCategory: '',
+                })}
+                label="Type"
+                margin="dense"
+              >
+                {freedesktopMainCategories
+                  .map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel id="input-additional-category-label">Additional Category</InputLabel>
+              <Select
+                id="input-additional-category"
+                labelId="input-additional-category-label"
+                value={freedesktopAdditionalCategory === '' ? '_' : freedesktopAdditionalCategory}
+                onChange={(event) => onUpdateFormOpts({
+                  freedesktopAdditionalCategory: event.target.value === '_' ? '' : event.target.value,
+                })}
+                label="Type"
+                margin="dense"
+              >
+                <MenuItem value="_">(blank)</MenuItem>
+                {freedesktopAdditionalCategories
+                  .filter((val) => (!val.relatedMainCategories
+                    || val.relatedMainCategories.includes(freedesktopMainCategory)))
+                  .map((val) => (
+                    <MenuItem key={val.name} value={val.name}>{val.name}</MenuItem>
+                  ))}
+              </Select>
+              <FormHelperText>
+                <span>
+                  Specify which section of the system application menu this app belongs to.&nbsp;
+                </span>
+                <Link
+                  onClick={() => requestOpenInBrowser('https://specifications.freedesktop.org/menu-spec/latest/apa.html')}
+                  className={classes.link}
+                >
+                  Learn more about Freedesktop.org specifications
+                </Link>
+                <span>.</span>
+              </FormHelperText>
+            </FormControl>
+          </>
+        )}
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <Button
@@ -204,6 +284,8 @@ const DialogEditApp = (props) => {
 };
 
 DialogEditApp.defaultProps = {
+  freedesktopAdditionalCategory: '',
+  freedesktopMainCategory: 'Network',
   icon: null,
   id: '',
   internetIcon: null,
@@ -217,6 +299,8 @@ DialogEditApp.defaultProps = {
 DialogEditApp.propTypes = {
   classes: PropTypes.object.isRequired,
   downloadingIcon: PropTypes.bool.isRequired,
+  freedesktopAdditionalCategory: PropTypes.string,
+  freedesktopMainCategory: PropTypes.string,
   icon: PropTypes.string,
   id: PropTypes.string,
   internetIcon: PropTypes.string,
@@ -225,6 +309,7 @@ DialogEditApp.propTypes = {
   onGetIconFromInternet: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
+  onUpdateFormOpts: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   savable: PropTypes.bool,
   url: PropTypes.string,
@@ -238,6 +323,7 @@ const mapStateToProps = (state) => {
     open,
     savable,
     form: {
+      opts,
       icon,
       id,
       internetIcon,
@@ -249,8 +335,15 @@ const mapStateToProps = (state) => {
     },
   } = state.dialogEditApp;
 
+  const {
+    freedesktopAdditionalCategory,
+    freedesktopMainCategory,
+  } = opts || {};
+
   return {
     downloadingIcon,
+    freedesktopAdditionalCategory,
+    freedesktopMainCategory,
     hideEnginePrompt: state.preferences.hideEnginePrompt,
     icon,
     id,
@@ -270,6 +363,7 @@ const actionCreators = {
   save,
   getIconFromInternet,
   updateForm,
+  updateFormOpts,
 };
 
 export default connectComponent(

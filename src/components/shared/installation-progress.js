@@ -55,7 +55,7 @@ const AppCard = ({
       }}
     >
       <CircularProgress
-        variant="static"
+        variant="determinate"
         value={progressPercent}
         className={classes.top}
         size={28}
@@ -63,7 +63,7 @@ const AppCard = ({
       />
     </Tooltip>
     <CircularProgress
-      variant="static"
+      variant="determinate"
       value={100}
       className={classes.bottom}
       size={28}
