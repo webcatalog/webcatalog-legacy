@@ -194,13 +194,18 @@ const AppCard = (props) => {
         }),
       },
       {
-        type: 'separator',
-        visible: status === INSTALLED && !isOutdated,
-      },
-      {
         label: 'Reinstall (Repair)',
         visible: status === INSTALLED && !isOutdated,
         click: () => onUpdateApp(engine, id, name, url, icon),
+      },
+      {
+        type: 'separator',
+        visible: !inDetailsDialog,
+      },
+      {
+        label: 'Preferences...',
+        visible: status === INSTALLED,
+        click: () => requestOpenInBrowser('https://help.webcatalog.app/article/35-how-can-i-change-an-apps-preferences?utm_source=webcatalog_app'),
       },
       {
         type: 'separator',
