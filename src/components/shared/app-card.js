@@ -429,8 +429,6 @@ AppCard.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const app = state.appManagement.apps[ownProps.id];
 
-  console.log(app);
-
   return {
     cancelable: Boolean(app ? app.cancelable : false),
     category: ownProps.category || (app && app.opts ? app.opts.category : undefined),
