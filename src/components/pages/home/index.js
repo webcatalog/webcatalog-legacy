@@ -112,6 +112,7 @@ const Home = ({
             id: { raw: {} },
             name: { raw: {} },
             url: { raw: {} },
+            category: { raw: {} },
             icon: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
@@ -226,6 +227,7 @@ const Home = ({
                           id={app.id.raw}
                           name={app.name.raw}
                           url={app.url.raw}
+                          category={app.category.raw}
                           icon={window.process.platform === 'win32' // use unplated icon for Windows
                             ? app.icon_unplated.raw : app.icon.raw}
                           iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
