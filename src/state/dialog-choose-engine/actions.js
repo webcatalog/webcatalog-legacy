@@ -12,7 +12,7 @@ import {
   isNameExisted,
 } from '../app-management/utils';
 
-import { requestShowMessageBox, getPreference } from '../../senders';
+import { requestShowMessageBox } from '../../senders';
 
 export const close = () => ({
   type: DIALOG_CHOOSE_ENGINE_CLOSE,
@@ -43,13 +43,17 @@ export const create = () => (dispatch, getState) => {
   return null;
 };
 
-export const open = (id, name, url, icon, opts) => (dispatch, getState) => {
+export const open = (id, name, url, icon, opts = {}) => (dispatch, getState) => {
   const state = getState();
 
-  const { hideEnginePrompt } = state.preferences;
-  if (hideEnginePrompt) {
+  const { hideEnginePrompt, preferredEngine } = state.preferences;
+
+  // WidevineCDM doesn't work with WebCatalog Engine (Electron)
+  // we force users to choose another engine
+  const forceEnginePrompt = preferredEngine === 'electron' && opts.widevine;
+  if (hideEnginePrompt && !forceEnginePrompt) {
     dispatch(updateForm({
-      engine: getPreference('preferredEngine'),
+      engine: preferredEngine,
       icon,
       id,
       name,
@@ -60,9 +64,28 @@ export const open = (id, name, url, icon, opts) => (dispatch, getState) => {
     return dispatch(create());
   }
 
+  // WidevineCDM doesn't work with WebCatalog Engine (Electron)
+  // so we pick another engine
+  let selectedEngine = preferredEngine;
+  if (preferredEngine === 'electron' && opts.widevine) {
+    switch (window.process.platform) {
+      case 'darwin':
+        selectedEngine = 'webkit';
+        break;
+      case 'win32':
+        selectedEngine = 'edge';
+        break;
+      case 'linux':
+        selectedEngine = 'firefox';
+        break;
+      default:
+        break;
+    }
+  }
+
   return dispatch({
     type: DIALOG_CHOOSE_ENGINE_OPEN,
-    engine: getPreference('preferredEngine'),
+    engine: selectedEngine,
     icon,
     id,
     name,

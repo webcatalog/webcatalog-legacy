@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
@@ -18,6 +19,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import HelpIcon from '@material-ui/icons/Help';
+
+import connectComponent from '../../helpers/connect-component';
 
 import braveIcon from '../../assets/brave.png';
 import chromeCanaryIcon from '../../assets/chrome-canary.png';
@@ -67,49 +70,90 @@ const getDesc = (engineCode, browserName) => {
   );
 };
 
+const styles = () => ({
+  disabledListItem: {
+    opacity: '0.2',
+    cursor: 'not-allowed',
+  },
+});
+
 const EngineList = ({
+  classes,
   engine,
-  onEngineSelected,
   isMultisite,
+  onEngineSelected,
+  widevine,
 }) => (
   <List dense>
-    <ListItem
-      button
-      onClick={() => onEngineSelected('electron')}
-      selected={engine === 'electron'}
-    >
-      <ListItemAvatar>
-        <Avatar alt="Electron" src={electronIcon} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={(
-          <Grid container direction="row" alignItems="center" spacing={1}>
-            <Grid item>
-              <Typography variant="body2" noWrap>
-                WebCatalog Engine
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Default" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Recommended" color="secondary" />
-            </Grid>
-            <Grid item>
-              <HelpTooltip
-                title={(
-                  <Typography variant="body2" color="textPrimary">
-                    {getDesc('electron', 'WebCatalog Engine (Electron)')}
-                  </Typography>
-                )}
-              >
-                <CustomHelpIcon fontSize="small" color="disabled" />
-              </HelpTooltip>
-            </Grid>
-          </Grid>
+    {widevine ? (
+      <HelpTooltip
+        title={(
+          <Typography variant="body2" color="textPrimary">
+            This app is incompatible with WebCatalog Engine.
+          </Typography>
         )}
-      />
-    </ListItem>
+      >
+        <ListItem
+          button
+          onClick={null}
+          selected={engine === 'electron'}
+          className={classnames(classes.disabledListItem)}
+        >
+          <ListItemAvatar>
+            <Avatar alt="Electron" src={electronIcon} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={(
+              <Grid container direction="row" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Typography variant="body2" noWrap>
+                    WebCatalog Engine
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
+          />
+        </ListItem>
+      </HelpTooltip>
+    ) : (
+      <ListItem
+        button
+        onClick={() => onEngineSelected('electron')}
+        selected={engine === 'electron'}
+      >
+        <ListItemAvatar>
+          <Avatar alt="Electron" src={electronIcon} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={(
+            <Grid container direction="row" alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography variant="body2" noWrap>
+                  WebCatalog Engine
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Default" variant="outlined" />
+              </Grid>
+              <Grid item>
+                <Chip size="small" label="Recommended" color="secondary" />
+              </Grid>
+              <Grid item>
+                <HelpTooltip
+                  title={(
+                    <Typography variant="body2" color="textPrimary">
+                      {getDesc('electron', 'WebCatalog Engine (Electron)')}
+                    </Typography>
+                  )}
+                >
+                  <CustomHelpIcon fontSize="small" color="disabled" />
+                </HelpTooltip>
+              </Grid>
+            </Grid>
+          )}
+        />
+      </ListItem>
+    )}
     {window.process.platform === 'darwin' && (
       <ListItem
         button
@@ -726,12 +770,20 @@ const EngineList = ({
 EngineList.defaultProps = {
   engine: '',
   isMultisite: false,
+  widevine: false,
 };
 
 EngineList.propTypes = {
+  classes: PropTypes.object.isRequired,
   engine: PropTypes.string,
-  onEngineSelected: PropTypes.func.isRequired,
   isMultisite: PropTypes.bool,
+  onEngineSelected: PropTypes.func.isRequired,
+  widevine: PropTypes.bool,
 };
 
-export default EngineList;
+export default connectComponent(
+  EngineList,
+  null,
+  null,
+  styles,
+);

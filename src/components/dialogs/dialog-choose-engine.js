@@ -47,86 +47,85 @@ const styles = (theme) => ({
   },
 });
 
-const DialogChooseEngine = (props) => {
-  const {
-    classes,
-    engine,
-    name,
-    onClose,
-    onCreate,
-    onUpdateForm,
-    open,
-    hideEnginePrompt,
-    url,
-  } = props;
-
-  return (
-    <Dialog
-      fullWidth
-      maxWidth="sm"
-      onClose={onClose}
-      open={open}
-    >
-      <EnhancedDialogTitle onClose={onClose} disableTypography>
-        <Grid container direction="row" alignItems="center" spacing={1}>
-          <Grid item>
-            <Typography variant="subtitle1">
-              Choose an Browser Engine for
-              {` ${name}`}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <HelpTooltip
-              title={(
-                <Typography variant="body2" color="textPrimary">
-                  WebCatalog lets you pick your preferrred browser engine to power&nbsp;
-                  {name}
-                  . This cannot be changed later.
-                  You will have to uninstall and then reinstall to change the engine of an app.
-                </Typography>
-              )}
-            >
-              <HelpIcon color="disabled" />
-            </HelpTooltip>
-          </Grid>
+const DialogChooseEngine = ({
+  classes,
+  engine,
+  name,
+  onClose,
+  onCreate,
+  onUpdateForm,
+  open,
+  hideEnginePrompt,
+  url,
+  widevine,
+}) => (
+  <Dialog
+    fullWidth
+    maxWidth="sm"
+    onClose={onClose}
+    open={open}
+  >
+    <EnhancedDialogTitle onClose={onClose} disableTypography>
+      <Grid container direction="row" alignItems="center" spacing={1}>
+        <Grid item>
+          <Typography variant="subtitle1">
+            Choose an Browser Engine for
+            {` ${name}`}
+          </Typography>
         </Grid>
-      </EnhancedDialogTitle>
-      <DialogContent className={classes.content}>
-        <EngineList
-          onEngineSelected={(selectedEngine) => onUpdateForm({ engine: selectedEngine })}
-          engine={engine}
-          isMultisite={!url}
-        />
-      </DialogContent>
-      <DialogActions className={classes.dialogActions}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={hideEnginePrompt}
-              onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
-              color="primary"
-            />
-          )}
-          label="Don't ask again"
-        />
-        <Button
-          onClick={onClose}
-        >
-          Cancel
-        </Button>
-        <Button
-          color="primary"
-          onClick={onCreate}
-        >
-          Install
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+        <Grid item>
+          <HelpTooltip
+            title={(
+              <Typography variant="body2" color="textPrimary">
+                WebCatalog lets you pick your preferrred browser engine to power&nbsp;
+                {name}
+                . This cannot be changed later.
+                You will have to uninstall and then reinstall to change the engine of an app.
+              </Typography>
+            )}
+          >
+            <HelpIcon color="disabled" />
+          </HelpTooltip>
+        </Grid>
+      </Grid>
+    </EnhancedDialogTitle>
+    <DialogContent className={classes.content}>
+      <EngineList
+        onEngineSelected={(selectedEngine) => onUpdateForm({ engine: selectedEngine })}
+        engine={engine}
+        isMultisite={!url}
+        widevine={widevine}
+      />
+    </DialogContent>
+    <DialogActions className={classes.dialogActions}>
+      <FormControlLabel
+        control={(
+          <Checkbox
+            checked={hideEnginePrompt}
+            onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
+            color="primary"
+          />
+        )}
+        label="Don't ask again"
+      />
+      <Button
+        onClick={onClose}
+      >
+        Cancel
+      </Button>
+      <Button
+        color="primary"
+        onClick={onCreate}
+      >
+        Install
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 DialogChooseEngine.defaultProps = {
   url: null,
+  widevine: false,
 };
 
 DialogChooseEngine.propTypes = {
@@ -134,11 +133,12 @@ DialogChooseEngine.propTypes = {
   engine: PropTypes.string.isRequired,
   hideEnginePrompt: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  url: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  url: PropTypes.string,
+  widevine: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
@@ -148,8 +148,11 @@ const mapStateToProps = (state) => {
       name,
       url,
       engine,
+      opts,
     },
   } = state.dialogChooseEngine;
+
+  const widevine = Boolean(opts && opts.widevine);
 
   const {
     hideEnginePrompt,
@@ -161,6 +164,7 @@ const mapStateToProps = (state) => {
     url,
     open,
     hideEnginePrompt,
+    widevine,
   };
 };
 

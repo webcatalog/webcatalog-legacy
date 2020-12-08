@@ -141,6 +141,7 @@ const AppCard = (props) => {
     status,
     url,
     version,
+    widevine,
   } = props;
 
   const clickable = !inDetailsDialog;
@@ -150,6 +151,9 @@ const AppCard = (props) => {
   const combinedOpts = { ...opts };
   if (category) {
     combinedOpts.category = category;
+  }
+  if (widevine) {
+    combinedOpts.widevine = widevine;
   }
 
   const showMenu = () => {
@@ -401,12 +405,13 @@ AppCard.defaultProps = {
   status: null,
   url: null,
   version: null,
+  widevine: false,
 };
 
 AppCard.propTypes = {
   cancelable: PropTypes.bool.isRequired,
-  classes: PropTypes.object.isRequired,
   category: PropTypes.string,
+  classes: PropTypes.object.isRequired,
   engine: PropTypes.string,
   icon: PropTypes.string.isRequired,
   iconThumbnail: PropTypes.string,
@@ -424,6 +429,7 @@ AppCard.propTypes = {
   status: PropTypes.string,
   url: PropTypes.string,
   version: PropTypes.string,
+  widevine: PropTypes.bool,
 };
 
 const mapStateToProps = (state, ownProps) => {

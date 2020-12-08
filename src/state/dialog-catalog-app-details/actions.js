@@ -48,6 +48,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
         url: { raw: {} },
         category: { raw: {} },
         description: { raw: {} },
+        widevine: { raw: {} },
         icon: window.process.platform === 'win32' ? undefined : { raw: {} },
         icon_256: window.process.platform === 'win32' ? undefined : { raw: {} },
         icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
@@ -62,6 +63,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
         url: app.url.raw,
         category: app.category.raw,
         description: app.description.raw,
+        widevine: app.widevine.raw === 1,
         icon: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated.raw : app.icon.raw,
         icon256: window.process.platform === 'win32' // use unplated icon for Windows
