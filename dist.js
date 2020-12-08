@@ -48,7 +48,7 @@ switch (process.platform) {
   }
   default:
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage'], Arch.x64, Arch.arm64);
+    targets = Platform.LINUX.createTarget(['AppImage', 'tar.gz'], Arch.x64, Arch.arm64);
     break;
   }
 }
