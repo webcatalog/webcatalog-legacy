@@ -122,6 +122,7 @@ const styles = (theme) => ({
 const AppCard = (props) => {
   const {
     cancelable,
+    category,
     classes,
     engine,
     icon,
@@ -146,6 +147,9 @@ const AppCard = (props) => {
   const buttonSize = inDetailsDialog ? 'large' : 'medium';
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
 
+  const combinedOpts = { ...opts };
+  combinedOpts.category = category;
+
   const showMenu = () => {
     const template = [
       {
@@ -166,7 +170,7 @@ const AppCard = (props) => {
           url,
           urlDisabled: Boolean(!url),
           icon,
-          opts,
+          combinedOpts,
         }),
       },
       {
@@ -252,7 +256,7 @@ const AppCard = (props) => {
               disableElevation
               onClick={(e) => {
                 e.stopPropagation();
-                onUpdateApp(engine, id, name, url, icon);
+                onUpdateApp(engine, id, name, url, icon, combinedOpts);
               }}
             >
               Update
@@ -307,7 +311,7 @@ const AppCard = (props) => {
         disabled={status !== null}
         onClick={(e) => {
           e.stopPropagation();
-          onOpenDialogChooseEngine(id, name, url, icon);
+          onOpenDialogChooseEngine(id, name, url, icon, combinedOpts);
         }}
       >
         {label}
@@ -386,6 +390,7 @@ const AppCard = (props) => {
 };
 
 AppCard.defaultProps = {
+  category: null,
   engine: null,
   iconThumbnail: null,
   inDetailsDialog: false,
@@ -399,6 +404,7 @@ AppCard.defaultProps = {
 AppCard.propTypes = {
   cancelable: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  category: PropTypes.string,
   engine: PropTypes.string,
   icon: PropTypes.string.isRequired,
   iconThumbnail: PropTypes.string,
@@ -423,6 +429,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     cancelable: Boolean(app ? app.cancelable : false),
+    category: ownProps.category || (app && app.opts ? app.opts.category : undefined),
     engine: app ? app.engine : null,
     icon: ownProps.icon || app.icon,
     iconThumbnail: ownProps.iconThumbnail || (app ? app.icon128 : null),
