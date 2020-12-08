@@ -94,6 +94,8 @@ const DialogCatalogAppDetails = ({
                   id={details.id}
                   name={details.name}
                   url={details.url}
+                  category={details.category}
+                  widevine={details.widevine}
                   icon={details.icon}
                   iconThumbnail={isUrl(details.icon256) ? details.icon256 : `file://${details.icon256}`}
                   inDetailsDialog

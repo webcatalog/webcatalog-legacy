@@ -9,6 +9,7 @@ const HelpTooltip = withStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     boxShadow: theme.shadows[1],
+    maxWidth: 360,
   },
 }))(Tooltip);
 

@@ -113,6 +113,7 @@ const Home = ({
             name: { raw: {} },
             url: { raw: {} },
             category: { raw: {} },
+            widevine: { raw: {} },
             icon: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
@@ -228,6 +229,7 @@ const Home = ({
                           name={app.name.raw}
                           url={app.url.raw}
                           category={app.category.raw}
+                          widevine={app.widevine.raw === 1}
                           icon={window.process.platform === 'win32' // use unplated icon for Windows
                             ? app.icon_unplated.raw : app.icon.raw}
                           iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
