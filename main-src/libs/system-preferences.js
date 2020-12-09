@@ -16,7 +16,7 @@ const checkAutoLauncherStatusAsync = () => {
   // if not show the status in the UI as disabled
   // so the user can attempt to re-enable it
   if (process.platform !== 'linux') return Promise.resolve();
-  const value = settings.getSync('systemPreferences.openAtLogin');
+  const value = settings.getSync('systemPreferences.openAtLogin') || 'no';
   if (value.startsWith('yes')) {
     const autoLauncher = new AutoLaunch({
       name: 'WebCatalog',

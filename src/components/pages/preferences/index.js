@@ -222,7 +222,6 @@ const Preferences = ({
       text: 'System',
       Icon: BuildIcon,
       ref: useRef(),
-      hidden: window.process.platform === 'linux',
     },
     advanced: {
       text: 'Advanced',
@@ -426,7 +425,7 @@ const Preferences = ({
             </List>
           </Paper>
 
-          {window.process.platform !== 'linux' && (
+          {window.process.platform !== '' && (
             <>
               <Typography
                 variant="subtitle2"
@@ -438,26 +437,24 @@ const Preferences = ({
               </Typography>
               <Paper elevation={0} className={classes.paper}>
                 <List disablePadding dense>
-                  {window.process.platform !== 'linux' && (
-                    <ListItem>
-                      <ListItemText primary="Open at login" />
-                      <Select
-                        value={openAtLogin}
-                        onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
-                        variant="filled"
-                        disableUnderline
-                        margin="dense"
-                        classes={{
-                          root: classes.select,
-                        }}
-                        className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                      >
-                        <MenuItem dense value="yes">Yes</MenuItem>
-                        <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
-                        <MenuItem dense value="no">No</MenuItem>
-                      </Select>
-                    </ListItem>
-                  )}
+                  <ListItem>
+                    <ListItemText primary="Open at login" />
+                    <Select
+                      value={openAtLogin}
+                      onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
+                      variant="filled"
+                      disableUnderline
+                      margin="dense"
+                      classes={{
+                        root: classes.select,
+                      }}
+                      className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                    >
+                      <MenuItem dense value="yes">Yes</MenuItem>
+                      <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                      <MenuItem dense value="no">No</MenuItem>
+                    </Select>
+                  </ListItem>
                 </List>
               </Paper>
             </>
