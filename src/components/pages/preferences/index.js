@@ -222,7 +222,6 @@ const Preferences = ({
       text: 'System',
       Icon: BuildIcon,
       ref: useRef(),
-      hidden: window.process.platform === 'linux',
     },
     advanced: {
       text: 'Advanced',
@@ -426,42 +425,36 @@ const Preferences = ({
             </List>
           </Paper>
 
-          {window.process.platform !== 'linux' && (
-            <>
-              <Typography
-                variant="subtitle2"
-                color="textPrimary"
-                className={classes.sectionTitle}
-                ref={sections.system.ref}
-              >
-                System
-              </Typography>
-              <Paper elevation={0} className={classes.paper}>
-                <List disablePadding dense>
-                  {window.process.platform !== 'linux' && (
-                    <ListItem>
-                      <ListItemText primary="Open at login" />
-                      <Select
-                        value={openAtLogin}
-                        onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
-                        variant="filled"
-                        disableUnderline
-                        margin="dense"
-                        classes={{
-                          root: classes.select,
-                        }}
-                        className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                      >
-                        <MenuItem dense value="yes">Yes</MenuItem>
-                        <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
-                        <MenuItem dense value="no">No</MenuItem>
-                      </Select>
-                    </ListItem>
-                  )}
-                </List>
-              </Paper>
-            </>
-          )}
+          <Typography
+            variant="subtitle2"
+            color="textPrimary"
+            className={classes.sectionTitle}
+            ref={sections.system.ref}
+          >
+            System
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem>
+                <ListItemText primary="Open at login" />
+                <Select
+                  value={openAtLogin}
+                  onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="yes">Yes</MenuItem>
+                  <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                  <MenuItem dense value="no">No</MenuItem>
+                </Select>
+              </ListItem>
+            </List>
+          </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced

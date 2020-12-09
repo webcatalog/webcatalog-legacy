@@ -12,6 +12,7 @@ const {
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
+const settings = require('electron-settings');
 
 const sendToAllWindows = require('../send-to-all-windows');
 const { getPreference } = require('../preferences');
@@ -208,7 +209,11 @@ const createAsync = () => new Promise((resolve) => {
 
   mainWindowState.manage(win);
 
-  const { wasOpenedAsHidden } = app.getLoginItemSettings();
+  // check system-preferences.js
+  // Linux uses different API
+  const wasOpenedAsHidden = process.platform === 'linux'
+    ? settings.getSync('systemPreferences.openAtLogin') === 'yes-hidden'
+    : app.getLoginItemSettings().wasOpenedAsHidden;
   win.once('ready-to-show', () => {
     if (!wasOpenedAsHidden) {
       win.show();
