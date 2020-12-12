@@ -47,12 +47,10 @@ const createAsync = () => new Promise((resolve) => {
     // icon template is not supported on Windows & Linux
     const iconFileName = process.platform === 'darwin' ? 'menubarTemplate.png' : 'menubar.png';
     let iconPath;
-    if (process.platform === 'linux') {
-      if (process.env.NODE_ENV === 'production') {
-        iconPath = path.resolve(__dirname, 'images', iconFileName);
-      } else {
-        iconPath = path.resolve(__dirname, '..', '..', 'images', iconFileName);
-      }
+    if (process.env.NODE_ENV === 'production') {
+      iconPath = path.resolve(__dirname, 'images', iconFileName);
+    } else {
+      iconPath = path.resolve(__dirname, '..', '..', 'images', iconFileName);
     }
     tray.setImage(iconPath);
 
