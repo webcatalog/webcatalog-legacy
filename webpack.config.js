@@ -87,26 +87,24 @@ const getElectronMainConfig = () => {
       'process.env.ELECTRON_APP_SENTRY_DSN': JSON.stringify(process.env.ELECTRON_APP_SENTRY_DSN),
     }),
   ];
+
+  const patterns = [
+    {
+      from: path.join(__dirname, 'main-src', 'images'),
+      to: path.join(__dirname, 'build', 'images'),
+    },
+  ];
   if (process.platform === 'win32') {
-    plugins.push(
-      new CopyPlugin({
-        patterns: [
-          {
-            from: path.join(__dirname, 'main-src', 'images'),
-            to: path.join(__dirname, 'build', 'images'),
-          },
-          {
-            from: path.join(__dirname, 'node_modules', 'windows-shortcuts', 'lib', 'shortcut', 'Shortcut.exe'),
-            to: path.join(__dirname, 'build', 'shortcut', 'Shortcut.exe'),
-          },
-          {
-            from: path.join(__dirname, 'node_modules', 'regedit', 'vbs'),
-            to: path.join(__dirname, 'build', 'vbs'),
-          },
-        ],
-      }),
-    );
+    patterns.push({
+      from: path.join(__dirname, 'node_modules', 'windows-shortcuts', 'lib', 'shortcut', 'Shortcut.exe'),
+      to: path.join(__dirname, 'build', 'shortcut', 'Shortcut.exe'),
+    });
+    patterns.push({
+      from: path.join(__dirname, 'node_modules', 'regedit', 'vbs'),
+      to: path.join(__dirname, 'build', 'vbs'),
+    });
   }
+  plugins.push(new CopyPlugin({ patterns }));
 
   return {
     mode: 'production',
