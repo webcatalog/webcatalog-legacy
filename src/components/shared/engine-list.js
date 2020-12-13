@@ -155,40 +155,88 @@ const EngineList = ({
       </ListItem>
     )}
     {window.process.platform === 'darwin' && (
-      <ListItem
-        button
-        onClick={() => onEngineSelected('webkit')}
-        selected={engine === 'webkit'}
-      >
-        <ListItemAvatar>
-          <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={(
-            <Grid container direction="row" alignItems="center" spacing={1}>
-              <Grid item>
-                <Typography variant="body2" noWrap>
-                  WebKit (part of Safari)
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
-              </Grid>
-              <Grid>
-                <HelpTooltip
-                  title={(
-                    <Typography variant="body2" color="textPrimary">
-                      {getDesc('webkit', 'WebKit')}
+      <>
+        {isMultisite ? (
+          <HelpTooltip
+            title={(
+              <Typography variant="body2" color="textPrimary">
+                This app is incompatible with WebKit.
+              </Typography>
+            )}
+          >
+            <ListItem
+              button
+              onClick={() => null}
+              selected={engine === 'webkit'}
+              className={classnames(classes.disabledListItem)}
+            >
+              <ListItemAvatar>
+                <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={(
+                  <Grid container direction="row" alignItems="center" spacing={1}>
+                    <Grid item>
+                      <Typography variant="body2" noWrap>
+                        WebKit (part of Safari)
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Chip size="small" label="Experimental" variant="outlined" />
+                    </Grid>
+                    <Grid>
+                      <HelpTooltip
+                        title={(
+                          <Typography variant="body2" color="textPrimary">
+                            {getDesc('webkit', 'WebKit')}
+                          </Typography>
+                        )}
+                      >
+                        <CustomHelpIcon fontSize="small" color="disabled" />
+                      </HelpTooltip>
+                    </Grid>
+                  </Grid>
+                )}
+              />
+            </ListItem>
+          </HelpTooltip>
+        ) : (
+          <ListItem
+            button
+            onClick={() => onEngineSelected('webkit')}
+            selected={engine === 'webkit'}
+          >
+            <ListItemAvatar>
+              <Avatar alt="WebKit (part of Safari)" src={webkitIcon} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={(
+                <Grid container direction="row" alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Typography variant="body2" noWrap>
+                      WebKit (part of Safari)
                     </Typography>
-                  )}
-                >
-                  <CustomHelpIcon fontSize="small" color="disabled" />
-                </HelpTooltip>
-              </Grid>
-            </Grid>
-          )}
-        />
-      </ListItem>
+                  </Grid>
+                  <Grid item>
+                    <Chip size="small" label="Experimental" variant="outlined" />
+                  </Grid>
+                  <Grid>
+                    <HelpTooltip
+                      title={(
+                        <Typography variant="body2" color="textPrimary">
+                          {getDesc('webkit', 'WebKit')}
+                        </Typography>
+                      )}
+                    >
+                      <CustomHelpIcon fontSize="small" color="disabled" />
+                    </HelpTooltip>
+                  </Grid>
+                </Grid>
+              )}
+            />
+          </ListItem>
+        )}
+      </>
     )}
     {window.process.platform !== 'linux' && (
       <ListItem

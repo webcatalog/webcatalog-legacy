@@ -50,7 +50,9 @@ export const open = (id, name, url, icon, opts = {}) => (dispatch, getState) => 
 
   // WidevineCDM doesn't work with WebCatalog Engine (Electron)
   // we force users to choose another engine
-  const forceEnginePrompt = preferredEngine === 'electron' && opts.widevine;
+  // also, webkit is not compatible with multisite apps
+  const forceEnginePrompt = (preferredEngine === 'electron' && opts.widevine)
+    || (preferredEngine === 'webkit' && url == null);
   if (hideEnginePrompt && !forceEnginePrompt) {
     dispatch(updateForm({
       engine: preferredEngine,
@@ -81,6 +83,8 @@ export const open = (id, name, url, icon, opts = {}) => (dispatch, getState) => 
       default:
         break;
     }
+  } else if (preferredEngine === 'webkit' && url == null) {
+    selectedEngine = 'electron';
   }
 
   return dispatch({
