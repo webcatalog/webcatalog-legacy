@@ -39,7 +39,7 @@ console.log(`Machine: ${process.platform}`);
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget();
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
     break;
   }
   case 'win32': {
