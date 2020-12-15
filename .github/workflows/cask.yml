@@ -40,7 +40,7 @@ jobs:
         (cd $(brew --repository) && hub issue)
         HOMEBREW_NO_COLOR=1 cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog
       # only runs if version is not a prerelease (not ending with -beta, -alpha, rc)
-      if: !contains(steps.get_version.outputs.version, "-")
+      if: contains(steps.get_version.outputs.version, "-") != 'true'
       env:
         GITHUB_USER: quanglam2807
         GITHUB_TOKEN: ${{ secrets.MASTER_GITHUB_TOKEN }}
