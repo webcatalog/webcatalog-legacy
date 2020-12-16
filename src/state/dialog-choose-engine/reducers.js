@@ -29,12 +29,7 @@ const form = (state = formInitialState, action) => {
   switch (action.type) {
     case DIALOG_CHOOSE_ENGINE_OPEN: return {
       ...formInitialState,
-      engine: action.engine,
-      icon: action.icon,
-      id: action.id,
-      name: action.name,
-      url: action.url,
-      opts: action.opts,
+      ...action.form,
     };
     case DIALOG_CHOOSE_ENGINE_CLOSE: return formInitialState;
     case DIALOG_CHOOSE_ENGINE_FORM_UPDATE: {

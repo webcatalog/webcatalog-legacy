@@ -89,11 +89,14 @@ export const open = (id, name, url, icon, opts = {}) => (dispatch, getState) => 
 
   return dispatch({
     type: DIALOG_CHOOSE_ENGINE_OPEN,
-    engine: selectedEngine,
-    icon,
-    id,
-    name,
-    url,
-    opts,
+    form: {
+      engine: selectedEngine,
+      icon,
+      id,
+      name,
+      url,
+      opts,
+      forceEnginePrompt,
+    },
   });
 };

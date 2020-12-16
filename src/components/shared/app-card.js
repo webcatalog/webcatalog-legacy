@@ -230,7 +230,7 @@ const AppCard = (props) => {
         enabled: false,
         visible: Boolean(engine),
       } : {
-        label: `Powered by ${getEngineName(engine)}`,
+        label: `Powered by ${getEngineName(engine)} (implementation ${version})`,
         enabled: false,
         visible: Boolean(engine),
       },

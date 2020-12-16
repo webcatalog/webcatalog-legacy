@@ -50,12 +50,13 @@ const styles = (theme) => ({
 const DialogChooseEngine = ({
   classes,
   engine,
+  forceEnginePrompt,
+  hideEnginePrompt,
   name,
   onClose,
   onCreate,
   onUpdateForm,
   open,
-  hideEnginePrompt,
   url,
   widevine,
 }) => (
@@ -98,16 +99,18 @@ const DialogChooseEngine = ({
       />
     </DialogContent>
     <DialogActions className={classes.dialogActions}>
-      <FormControlLabel
-        control={(
-          <Checkbox
-            checked={hideEnginePrompt}
-            onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
-            color="primary"
-          />
-        )}
-        label="Don't ask again"
-      />
+      {!forceEnginePrompt && (
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={hideEnginePrompt}
+              onChange={(e) => requestSetPreference('hideEnginePrompt', e.target.checked)}
+              color="primary"
+            />
+          )}
+          label="Don't ask again"
+        />
+      )}
       <Button
         onClick={onClose}
       >
@@ -124,6 +127,7 @@ const DialogChooseEngine = ({
 );
 
 DialogChooseEngine.defaultProps = {
+  forceEnginePrompt: false,
   url: null,
   widevine: false,
 };
@@ -131,6 +135,7 @@ DialogChooseEngine.defaultProps = {
 DialogChooseEngine.propTypes = {
   classes: PropTypes.object.isRequired,
   engine: PropTypes.string.isRequired,
+  forceEnginePrompt: PropTypes.bool,
   hideEnginePrompt: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -149,6 +154,7 @@ const mapStateToProps = (state) => {
       url,
       engine,
       opts,
+      forceEnginePrompt,
     },
   } = state.dialogChooseEngine;
 
@@ -164,6 +170,7 @@ const mapStateToProps = (state) => {
     url,
     open,
     hideEnginePrompt,
+    forceEnginePrompt,
     widevine,
   };
 };
