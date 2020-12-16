@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Run Web Apps like Real Apps",
-  "version": "27.2.0-rc",
+  "version": "27.2.0",
   "engines": {
     "node": ">=12.0.0 <13.0.0"
   },
@@ -20,8 +20,8 @@
   },
   "repository": "https://github.com/webcatalog/webcatalog-app",
   "author": {
-    "name": "Quang Lam",
-    "email": "quang.lam@webcatalog.app"
+    "name": "WebCatalog Ltd",
+    "email": "contact@webcatalog.app"
   },
   "dependencies": {},
   "devDependencies": {
