@@ -225,14 +225,14 @@ const AppCard = (props) => {
         visible: engine === 'electron',
         click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
       },
-      engine === 'electron' && version ? {
+      engine === 'electron' ? {
         label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
         enabled: false,
-        visible: Boolean(engine),
+        visible: Boolean(engine && version),
       } : {
         label: `Powered by ${getEngineName(engine)} (implementation ${version})`,
         enabled: false,
-        visible: Boolean(engine),
+        visible: Boolean(engine && version),
       },
     // visible doesn't work with type='separator'
     // https://github.com/electron/electron/issues/3494#issuecomment-455822039
