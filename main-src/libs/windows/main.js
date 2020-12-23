@@ -208,8 +208,8 @@ const createAsync = () => new Promise((resolve) => {
   mainWindowState.manage(win);
 
   // check system-preferences.js
-  // Linux uses different API
-  const wasOpenedAsHidden = process.platform === 'linux'
+  // wasOpenedAsHidden is only available on macOS
+  const wasOpenedAsHidden = process.platform !== 'darwin'
     ? settings.getSync('systemPreferences.openAtLogin') === 'yes-hidden'
     : app.getLoginItemSettings().wasOpenedAsHidden;
   win.once('ready-to-show', () => {

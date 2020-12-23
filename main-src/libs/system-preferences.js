@@ -48,7 +48,12 @@ const getSystemPreference = (name) => {
       const loginItemSettings = app.getLoginItemSettings();
       const { openAtLogin, openAsHidden } = loginItemSettings;
       if (openAtLogin && openAsHidden) return 'yes-hidden';
-      if (openAtLogin) return 'yes';
+      if (openAtLogin) {
+        // openAsHidden is only available on macOS
+        if (process.platform === 'win32'
+          && settings.getSync('systemPreferences.openAtLogin') === 'yes-hidden') return 'yes-hidden';
+        return 'yes';
+      }
       return 'no';
     }
     default: {
@@ -80,6 +85,7 @@ const setSystemPreference = (name, value) => {
             return null;
           })
           .then(() => {
+            settings.setSync('systemPreferences.openAtLogin', value);
             if (value.startsWith('yes')) {
               const autoLauncher = new AutoLaunch({
                 name: 'WebCatalog',
@@ -95,10 +101,19 @@ const setSystemPreference = (name, value) => {
           });
       }
 
-      app.setLoginItemSettings({
-        openAtLogin: value.startsWith('yes'),
-        openAsHidden: value === 'yes-hidden',
-      });
+      if (process.platform === 'darwin') {
+        app.setLoginItemSettings({
+          openAtLogin: value.startsWith('yes'),
+          openAsHidden: value === 'yes-hidden', // only for macOS
+        });
+      }
+
+      if (process.platform === 'win32') {
+        app.setLoginItemSettings({
+          openAtLogin: value.startsWith('yes'),
+        });
+        settings.setSync('systemPreferences.openAtLogin', value);
+      }
       break;
     }
     default: {
