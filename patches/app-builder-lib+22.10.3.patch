@@ -1,3 +1,16 @@
+diff --git a/node_modules/app-builder-lib/out/publish/updateInfoBuilder.js b/node_modules/app-builder-lib/out/publish/updateInfoBuilder.js
+index 180d84a..0e9925a 100644
+--- a/node_modules/app-builder-lib/out/publish/updateInfoBuilder.js
++++ b/node_modules/app-builder-lib/out/publish/updateInfoBuilder.js
+@@ -147,7 +147,7 @@ function getUpdateInfoFileName(channel, packager, arch) {
+ }
+ 
+ function getArchPrefixForUpdateFile(arch, packager) {
+-  if (arch == null || arch === _builderUtil().Arch.x64 || packager.platform !== _core().Platform.LINUX) {
++  if (arch == null || arch === _builderUtil().Arch.x64 || packager.platform === _core().Platform.MAC) {
+     return "";
+   }
+ 
 diff --git a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
 index 886bebc..80fef38 100644
 --- a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
