@@ -6,9 +6,6 @@ on:
       - master
     tags:
       - "v*.*.*"
-    paths-ignore:
-      - 'catalog/**'
-      - 'docs/**'
   pull_request:
     branches:
       - master

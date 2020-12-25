@@ -40,12 +40,12 @@ if ((['x64', 'arm64'].indexOf(arch) < 0)) {
   console.log(`${process.platform} ${arch} is not supported.`);
 }
 
-console.log(`Building for: ${process.platform} ${arch}`);
+console.log(`Building for: ${process.platform} ${process.platform === 'darwin' ? 'x64+arm64' : arch}`);
 
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch[arch]);
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
     break;
   }
   case 'win32': {
