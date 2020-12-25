@@ -1,4 +1,4 @@
-name: Linux
+name: Linux (x64)
 
 on:
   push:
@@ -20,6 +20,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      TEMPLATE_ARCH: x64
 
     steps:
     - uses: actions/checkout@v2
