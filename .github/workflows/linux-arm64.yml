@@ -2,13 +2,8 @@ name: Linux (arm64)
 
 on:
   push:
-    branches:
-      - master
     tags:
       - "v*.*.*"
-    paths-ignore:
-      - 'catalog/**'
-      - 'docs/**'
   pull_request:
     branches:
       - master
