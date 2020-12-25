@@ -1,5 +1,5 @@
 diff --git a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
-index 886bebc..151155f 100644
+index 886bebc..80fef38 100644
 --- a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
 +++ b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
 @@ -13,6 +13,9 @@
@@ -11,13 +11,4 @@ index 886bebc..151155f 100644
 +    !insertmacro arm64_app_files
    !else
      !insertmacro ia32_app_files
-   !endif
-@@ -22,7 +25,7 @@
-   !endif
- 
-   !ifdef ZIP_COMPRESSION
--    nsisunz::Unzip "$PLUGINSDIR\app-$packageArch.zip" "$INSTDIR"
-+    nsisunz::Unzip "$PLUGINSDIsR\app-$packageArch.zip" "$INSTDIR"
-   !else
-     !insertmacro extractUsing7za "$PLUGINSDIR\app-$packageArch.7z"
    !endif
