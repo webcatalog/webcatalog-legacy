@@ -34,21 +34,27 @@ const verifyNotarizationAsync = (filePath) => new Promise((resolve, reject) => {
   });
 });
 
-console.log(`Machine: ${process.platform}`);
+const arch = process.env.TEMPLATE_ARCH || 'x64';
+
+if ((['x64', 'arm64'].indexOf(arch) < 0)) {
+  console.log(`${process.platform} ${arch} is not supported.`);
+}
+
+console.log(`Building for: ${process.platform} ${arch}`);
 
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch[arch]);
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch[arch]);
     break;
   }
   default:
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage', 'tar.gz'], Arch.x64, Arch.arm64);
+    targets = Platform.LINUX.createTarget(['AppImage', 'tar.gz'], Arch[arch]);
     break;
   }
 }
@@ -99,6 +105,10 @@ const opts = {
       category: 'Utility',
       packageCategory: 'utils',
     },
+    nsis: arch === 'arm64' ? {
+      // eslint-disable-next-line no-template-curly-in-string
+      artifactName: 'WebCatalog-Setup-${version}-arm64.${ext}',
+    } : undefined,
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
       const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;

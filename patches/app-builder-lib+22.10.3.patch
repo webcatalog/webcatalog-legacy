@@ -1,0 +1,14 @@
+diff --git a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
+index 886bebc..80fef38 100644
+--- a/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
++++ b/node_modules/app-builder-lib/templates/nsis/include/extractAppPackage.nsh
+@@ -13,6 +13,9 @@
+ 	  !endif
+ 
+     !insertmacro compute_files_for_current_arch
++  !else ifdef APP_ARM64
++    StrCpy $packageArch "ARM64"
++    !insertmacro arm64_app_files
+   !else
+     !insertmacro ia32_app_files
+   !endif

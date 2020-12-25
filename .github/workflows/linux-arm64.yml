@@ -1,27 +1,38 @@
-name: macOS
+name: Linux (arm64)
 
 on:
   push:
+    branches:
+      - master
     tags:
       - "v*.*.*"
+    paths-ignore:
+      - 'catalog/**'
+      - 'docs/**'
   pull_request:
     branches:
       - master
       - next
-    paths:
-      - '.github/workflows/macos.yml'
-      - 'dist.js'
-
+    paths-ignore:
+      - 'catalog/**'
+      - 'docs/**'
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+
+    env:
+      TEMPLATE_ARCH: arm64
 
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 1
         submodules: false
+    - name: Install Snapcraft
+      uses: samuelmeuli/action-snapcraft@v1
+      with:
+        snapcraft_token: ${{ secrets.SNAP_TOKEN }}
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
@@ -38,9 +49,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     # https://github.com/mui-org/material-ui/issues/12432
-    - run: yarn --prefer-offline --network-timeout 600000
+    - run: yarn install --prefer-offline --network-timeout 600000 --ignore-platform
     - run: yarn lint
-    - run: brew install p7zip
     - name: Get tag name
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/tags/')
@@ -48,10 +58,6 @@ jobs:
       env:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
-        APPLE_ID: ${{ secrets.APPLE_ID }}
-        APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-        CSC_LINK: ${{ secrets.CSC_LINK }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET }}
         REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
@@ -61,3 +67,13 @@ jobs:
         REACT_APP_SWIFTYPE_ENGINE_NAME: ${{ secrets.REACT_APP_SWIFTYPE_ENGINE_NAME }}
         ELECTRON_APP_SENTRY_DSN: ${{ secrets.ELECTRON_APP_SENTRY_DSN }}
       if: startsWith(github.ref, 'refs/tags/')
+    - name: Create Sentry Release
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        curl -sL https://sentry.io/get-cli/ | bash
+        VERSION=$(node -p -e "require('./package.json').version")
+        sentry-cli releases new $VERSION
+        sentry-cli releases set-commits --auto $VERSION
+        sentry-cli releases finalize $VERSION
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
