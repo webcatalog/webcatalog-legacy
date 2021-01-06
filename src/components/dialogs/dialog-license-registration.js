@@ -81,7 +81,7 @@ const DialogLicenseRegistration = (props) => {
           </span>
           &nbsp;such as adding unlimited number of workspaces,
           blocking ads & trackers and more.
-          To remove the limitations, please purchase WebCatalog Plus ($20) from our store.
+          To remove the limitations, please purchase WebCatalog Plus (30 USD) from our store.
         </DialogContentText>
         <TextField
           autoFocus
