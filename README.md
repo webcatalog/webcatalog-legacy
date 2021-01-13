@@ -8,9 +8,9 @@
 |---|---|
 |[![Linux (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28x64%29%22)|[![Linux (arm64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(arm64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28arm64%29%22)|
 
-|Windows (x64)|Windows (arm64)|
-|---|---|
-|[![Windows (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Windows%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Windows+%28x64%29%22)|[![Windows (arm64)](https://github.com/webcatalog/webcatalog-app/workflows/Windows%20(arm64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Windows+%28arm64%29%22)|
+|Windows (x64)|
+|---|
+|[![Windows (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Windows%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Windows+%28x64%29%22)|
 
 **[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
 
