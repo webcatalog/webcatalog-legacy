@@ -194,7 +194,6 @@ const createAsync = () => new Promise((resolve) => {
     minWidth: 600,
     minHeight: 500,
     titleBarStyle: 'hiddenInset',
-    icon,
     show: false,
     frame: process.platform === 'darwin',
     webPreferences: {
