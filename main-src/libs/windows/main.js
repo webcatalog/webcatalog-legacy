@@ -185,7 +185,7 @@ const createAsync = () => new Promise((resolve) => {
     }
   }
 
-  win = new BrowserWindow({
+  const winOpts = {
     backgroundColor: '#FFF',
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -203,7 +203,14 @@ const createAsync = () => new Promise((resolve) => {
       webSecurity: process.env.NODE_ENV === 'production',
       preload: path.join(__dirname, 'preload-main.js'),
     },
-  });
+  };
+  // winOpts.icon cannot be set to undefined
+  // as it'd crash Electron on macOS
+  // https://github.com/electron/electron/issues/27303#issuecomment-759501184
+  if (icon) {
+    winOpts.icon = icon;
+  }
+  win = new BrowserWindow(winOpts);
 
   mainWindowState.manage(win);
 
