@@ -12,7 +12,6 @@ const {
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
-const settings = require('electron-settings');
 
 const sendToAllWindows = require('../send-to-all-windows');
 const { getPreference } = require('../preferences');
@@ -215,9 +214,7 @@ const createAsync = () => new Promise((resolve) => {
 
   // check system-preferences.js
   // wasOpenedAsHidden is only available on macOS
-  const wasOpenedAsHidden = process.platform !== 'darwin'
-    ? settings.getSync('systemPreferences.openAtLogin') === 'yes-hidden'
-    : app.getLoginItemSettings().wasOpenedAsHidden;
+  const { wasOpenedAsHidden } = app.getLoginItemSettings();
   win.once('ready-to-show', () => {
     if (!wasOpenedAsHidden) {
       win.show();

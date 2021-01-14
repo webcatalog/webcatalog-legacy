@@ -49,9 +49,6 @@ const getSystemPreference = (name) => {
       const { openAtLogin, openAsHidden } = loginItemSettings;
       if (openAtLogin && openAsHidden) return 'yes-hidden';
       if (openAtLogin) {
-        // openAsHidden is only available on macOS
-        if (process.platform === 'win32'
-          && settings.getSync('systemPreferences.openAtLogin') === 'yes-hidden') return 'yes-hidden';
         return 'yes';
       }
       return 'no';
