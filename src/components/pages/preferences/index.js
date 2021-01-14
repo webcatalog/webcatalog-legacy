@@ -449,7 +449,9 @@ const Preferences = ({
                   className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
                 >
                   <MenuItem dense value="yes">Yes</MenuItem>
-                  <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                  {window.process.platform !== 'win32' && (
+                    <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                  )}
                   <MenuItem dense value="no">No</MenuItem>
                 </Select>
               </ListItem>
