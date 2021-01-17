@@ -5,6 +5,7 @@ const path = require('path');
 const semver = require('semver');
 const settings = require('electron-settings');
 const { app, nativeTheme, ipcMain } = require('electron');
+const fs = require('fs-extra');
 
 const sendToAllWindows = require('./send-to-all-windows');
 
@@ -34,15 +35,16 @@ const defaultPreferences = {
   installationPath: getDefaultInstallationPath(),
   licenseKey: null,
   preferredEngine: 'electron',
+  privacyConsentAsked: false,
   proxyBypassRules: '',
   proxyPacScript: '',
   proxyRules: '',
   proxyType: 'none',
   registered: false,
   requireAdmin: false,
-  sentry: true,
+  sentry: false,
   sortInstalledAppBy: 'last-updated',
-  telemetry: true,
+  telemetry: false,
   themeSource: 'system',
   useHardwareAcceleration: true,
 };
@@ -84,6 +86,18 @@ const setPreference = (name, value) => {
 
   if (name === 'themeSource') {
     nativeTheme.themeSource = value;
+  }
+
+  if (name === 'telemetry' || name === 'sentry') {
+    // shared-preferences.json includes:
+    // telemetry & sentry pref
+    // so that privacy consent prefs
+    // can be shared across WebCatalog and WebCatalog-Engine-based apps
+    const sharedPreferencesPath = path.join(app.getPath('home'), '.webcatalog', 'shared-preferences.json');
+    fs.writeJSONSync(sharedPreferencesPath, {
+      telemetry: cachedPreferences.telemetry,
+      sentry: cachedPreferences.sentry,
+    });
   }
 };
 
