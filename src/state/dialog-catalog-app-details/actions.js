@@ -6,8 +6,11 @@ import {
   DIALOG_CATALOG_APP_DETAILS_UPDATE_DETAILS,
   DIALOG_CATALOG_APP_DETAILS_OPEN,
 } from '../../constants/actions';
+import { INSTALLED } from '../../constants/app-statuses';
 
 import swiftype from '../../swiftype';
+
+import { getRelatedPathsAsync } from '../../invokers';
 
 export const close = () => ({
   type: DIALOG_CATALOG_APP_DETAILS_CLOSE,
@@ -18,13 +21,19 @@ const updateDetails = (details) => ({
   details,
 });
 
-export const getDetailsAsync = () => (dispatch, getState) => {
+export const getDetailsAsync = () => async (dispatch, getState) => {
   const { appId } = getState().dialogCatalogAppDetails;
   if (!appId) return;
 
+  const { apps } = getState().appManagement;
+  const appObj = apps[appId];
+
+  let relatedPaths;
+  if (appObj && appObj.status === INSTALLED && appObj.engine) {
+    relatedPaths = await getRelatedPathsAsync(appObj);
+  }
+
   if (appId.startsWith('custom-')) {
-    const { apps } = getState().appManagement;
-    const appObj = apps[appId];
     dispatch(updateDetails({
       id: appId,
       name: appObj.name,
@@ -33,6 +42,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
       description: null,
       icon: appObj.icon,
       icon256: appObj.icon,
+      relatedPaths,
     }));
     return;
   }
@@ -68,6 +78,7 @@ export const getDetailsAsync = () => (dispatch, getState) => {
           ? app.icon_unplated.raw : app.icon.raw,
         icon256: window.process.platform === 'win32' // use unplated icon for Windows
           ? app.icon_unplated_256.raw : app.icon_256.raw,
+        relatedPaths,
       }));
     })
     .catch((err) => {
