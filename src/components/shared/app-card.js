@@ -196,7 +196,7 @@ const AppCard = (props) => {
       {
         label: 'Reinstall (Repair)',
         visible: status === INSTALLED && !isOutdated,
-        click: () => onUpdateApp(engine, id, name, url, icon),
+        click: () => onUpdateApp(id),
       },
       {
         type: 'separator',
@@ -267,7 +267,7 @@ const AppCard = (props) => {
               disableElevation
               onClick={(e) => {
                 e.stopPropagation();
-                onUpdateApp(engine, id, name, url, icon, combinedOpts);
+                onUpdateApp(id);
               }}
             >
               Update

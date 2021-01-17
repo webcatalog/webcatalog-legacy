@@ -5,6 +5,7 @@
 const path = require('path');
 const os = require('os');
 const fsExtra = require('fs-extra');
+const semver = require('semver');
 
 const getRelatedPaths = ({
   appObj,
@@ -31,6 +32,15 @@ const getRelatedPaths = ({
 
   relatedPaths.push({ path: dotAppPath, type: 'app' });
 
+  const resourcesPath = process.platform === 'darwin'
+    ? path.join(dotAppPath, 'Contents', 'Resources')
+    : path.join(dotAppPath, 'resources');
+
+  const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
+  const appJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'app.json');
+  const { legacyUserData } = fsExtra.readJSONSync(appJsonPath);
+  const { version } = fsExtra.readJSONSync(packageJsonPath);
+
   // Data
   switch (engine) {
     case 'webkit': {
@@ -48,10 +58,19 @@ const getRelatedPaths = ({
       // remove userData
       // userData The directory for storing your app's configuration files,
       // which by default it is the appData directory appended with your app's name.
-      relatedPaths.push({
-        path: path.join(appDataPath, name),
-        type: 'data',
-      });
+      // default Electron user data path for apps are used by WebCatalog Engine < 14.x
+      // or if legacyUserData = true is set in app.json
+      if (legacyUserData || semver.lt(version, '14.0.0')) {
+        relatedPaths.push({
+          path: path.join(appDataPath, name),
+          type: 'data',
+        });
+      } else {
+        relatedPaths.push({
+          path: path.join(appDataPath, 'WebCatalog', 'WebCatalogEngineData', id),
+          type: 'data',
+        });
+      }
       break;
     }
     case 'firefox': {

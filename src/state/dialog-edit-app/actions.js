@@ -190,7 +190,6 @@ export const save = () => (dispatch, getState) => {
 
   const { form } = state.dialogEditApp;
   const {
-    engine,
     id,
     name,
     url,
@@ -212,7 +211,7 @@ export const save = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  dispatch(updateApp(engine, id, name, urlDisabled ? null : protocolledUrl, icon, opts));
+  dispatch(updateApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
 
   dispatch(close());
   return null;
