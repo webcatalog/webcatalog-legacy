@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+import semver from 'semver';
 import {
   SET_APP,
   REMOVE_APP,
@@ -66,12 +67,23 @@ export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getS
   return null;
 };
 
-export const updateApp = (engine, id, name, url, icon, _opts) => async () => {
+export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, getState) => {
   // on Linux
   // opts.category is needed for WebCatalog to set correct freedesktop.org categories
   // but prior to v27.x, "opts.category" value is not included in app.json
   // so we try to get from the server
-  const opts = { ..._opts };
+  const appObj = getState().appManagement.apps[id];
+  const { engine, version } = appObj;
+  const name = _name || appObj.name;
+  const url = _url !== undefined ? _url : appObj.url; // url can be null
+  const icon = _icon || appObj.icon;
+  const opts = { ...appObj.opts, ..._opts };
+
+  // force using default Electron user data path for apps upgraded from WebCatalog Engine < 14.x
+  // for backward compatibility
+  if (engine === 'electron' && semver.lt(version, '14.0.0')) {
+    opts.legacyUserData = true;
+  }
 
   if (window.process.platform === 'linux'
     && !id.startsWith('custom-')
@@ -99,13 +111,7 @@ export const updateApp = (engine, id, name, url, icon, _opts) => async () => {
 };
 
 export const updateApps = (apps) => (dispatch) => {
-  apps.forEach((app) => {
-    const {
-      engine, id, name, url, icon, opts,
-    } = app;
-
-    return dispatch(updateApp(engine, id, name, url, icon, opts));
-  });
+  apps.forEach((app) => dispatch(updateApp(app.id)));
 };
 
 export const updateAllApps = () => (dispatch, getState) => {
@@ -113,13 +119,7 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   const outdatedApps = getOutdatedAppsAsList(state);
 
-  outdatedApps.forEach((app) => {
-    const {
-      engine, id, name, url, icon, opts,
-    } = app;
-
-    return dispatch(updateApp(engine, id, name, url, icon, opts));
-  });
+  outdatedApps.forEach((app) => dispatch(updateApp(app.id)));
 
   return null;
 };
