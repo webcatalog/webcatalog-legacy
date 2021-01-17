@@ -101,13 +101,10 @@ export const updateApp = (engine, id, name, url, icon, _opts) => async () => {
 export const updateApps = (apps) => (dispatch) => {
   apps.forEach((app) => {
     const {
-      engine, id, name, url, icon,
+      engine, id, name, url, icon, opts,
     } = app;
 
-    // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
-
-    return dispatch(updateApp(engine, id, name, url, iconUrl));
+    return dispatch(updateApp(engine, id, name, url, icon, opts));
   });
 };
 
@@ -118,13 +115,10 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   outdatedApps.forEach((app) => {
     const {
-      engine, id, name, url, icon,
+      engine, id, name, url, icon, opts,
     } = app;
 
-    // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
-
-    return dispatch(updateApp(engine, id, name, url, iconUrl));
+    return dispatch(updateApp(engine, id, name, url, icon, opts));
   });
 
   return null;
