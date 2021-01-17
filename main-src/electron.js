@@ -33,6 +33,7 @@ if (process.env.NODE_ENV === 'production' && getPreference('sentry')) {
 const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 const loadListeners = require('./libs/listeners').load;
+const loadInvokers = require('./libs/invokers').load;
 
 const mainWindow = require('./libs/windows/main');
 
@@ -59,6 +60,7 @@ if (!gotTheLock) {
   app.setAsDefaultProtocolClient('webcatalog');
 
   loadListeners();
+  loadInvokers();
 
   // mock app.whenReady
   let trulyReady = false;

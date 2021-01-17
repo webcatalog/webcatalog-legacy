@@ -62,6 +62,13 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(0.5),
     marginTop: -3,
   },
+  ul: {
+    margin: 0,
+  },
+  li: {
+    marginLeft: '-0.8rem',
+    cursor: 'pointer',
+  },
 });
 
 const DialogCatalogAppDetails = ({
@@ -154,6 +161,23 @@ const DialogCatalogAppDetails = ({
                       <span className={classes.appInfoName}>ID: </span>
                       {details.id}
                     </Typography>
+                    {details.relatedPaths && (
+                      <Typography variant="body2" component="div">
+                        <span className={classes.appInfoName}>Related Files & Directories: </span>
+                        <ul className={classes.ul}>
+                          {details.relatedPaths.map((pathDetails) => (
+                            <li
+                              key={pathDetails.path}
+                              className={classes.li}
+                            >
+                              <Link onClick={() => window.remote.shell.showItemInFolder(pathDetails.path)}>
+                                {pathDetails.path}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </Typography>
+                    )}
                   </div>
 
                   {!details.id.startsWith('custom-') && (

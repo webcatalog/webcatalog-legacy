@@ -24,6 +24,7 @@ const os = require('os');
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 
 const checkPathInUseAsync = require('../check-path-in-use-async');
+const getRelatedPaths = require('../get-related-paths');
 
 // id, name, username might only contain numbers
 // causing yargsParser to parse them correctly as Number instead of String
@@ -101,6 +102,12 @@ Promise.resolve()
     // https://askubuntu.com/questions/44339/how-does-updating-running-application-binaries-during-an-upgrade-work
     return false;
   })
+  .then(() => {
+    if (requireAdmin === 'true') {
+      return checkExistsAndRemoveWithSudo(dotAppPath);
+    }
+    return checkExistsAndRemove(dotAppPath);
+  })
   .then(async () => {
     // in v20.5.2 and below, '/Applications/WebCatalog Apps' owner is set to `root`
     // need to correct to user to install apps without sudo
@@ -115,27 +122,26 @@ Promise.resolve()
     }
   })
   .then(() => {
-    if (requireAdmin === 'true') {
-      return checkExistsAndRemoveWithSudo(dotAppPath);
-    }
-    return checkExistsAndRemove(dotAppPath);
+    const relatedPaths = getRelatedPaths({
+      appObj: {
+        id,
+        name,
+        engine,
+      },
+      installationPath,
+      homePath,
+      appDataPath,
+      userDataPath: webcatalogUserDataPath,
+      desktopPath,
+    });
+
+    const p = relatedPaths
+      .filter((pathDetails) => pathDetails.type !== 'app')
+      .map((pathDetails) => fsExtra.remove(pathDetails.path));
+    return Promise.all(p);
   })
   .then(() => {
-    const p = [];
-    if (engine === 'webkit') {
-      p.push(checkExistsAndRemove(
-        path.join(homePath, 'Library', 'WebKit', `com.webcatalog.webkit.${id}`),
-      ));
-      p.push(checkExistsAndRemove(
-        path.join(homePath, 'Caches', `com.webcatalog.webkit.${id}`),
-      ));
-    } else if (engine === 'electron') {
-      // remove userData
-      // userData The directory for storing your app's configuration files,
-      // which by default it is the appData directory appended with your app's name.
-      const userDataPath = path.join(appDataPath, name);
-      p.push(checkExistsAndRemove(userDataPath));
-    } else if (engine.startsWith('firefox')) {
+    if (engine.startsWith('firefox')) {
       const profileId = `webcatalog-${id}`;
 
       let firefoxUserDataPath;
@@ -155,80 +161,23 @@ Promise.resolve()
       }
       const profilesIniPath = path.join(firefoxUserDataPath, 'profiles.ini');
 
-      p.push(
-        fsExtra.pathExists(profilesIniPath)
-          .then((exists) => {
-            // If user has never opened Firefox app
-            // profiles.ini doesn't exist
-            if (!exists) return;
-            const profilesIniContent = fsExtra.readFileSync(profilesIniPath, 'utf-8');
+      return fsExtra.pathExists(profilesIniPath)
+        .then((exists) => {
+          // If user has never opened Firefox app
+          // profiles.ini doesn't exist
+          if (!exists) return;
+          const profilesIniContent = fsExtra.readFileSync(profilesIniPath, 'utf-8');
 
-            // get profile path and delete it
-            // https://coderwall.com/p/mrio6w/split-lines-cross-platform-in-node-js
-            const entries = profilesIniContent.split(`${os.EOL}${os.EOL}`).map((entryText) => {
-              /*
-              [Profile0]
-              Name=facebook
-              IsRelative=1
-              Path=Profiles/8kv8728b.facebook
-              Default=1
-              */
-              const lines = entryText.split(os.EOL);
+          // remove entry from profiles.init
+          const modifiedProfilesIniContent = profilesIniContent
+            .split(`${os.EOL}${os.EOL}`)
+            .filter((x) => !x.includes(`Name=${profileId}`))
+            .join(`${os.EOL}${os.EOL}`);
 
-              const entry = {};
-              lines.forEach((line, i) => {
-                if (i === 0) {
-                  // eslint-disable-next-line dot-notation
-                  entry.Header = line;
-                  return;
-                }
-                const parts = line.split(/=(.+)/);
-                // eslint-disable-next-line prefer-destructuring
-                entry[parts[0]] = parts[1];
-              });
-
-              return entry;
-            });
-
-            const profileDetails = entries.find((entry) => entry.Name === profileId);
-            if (profileDetails && profileDetails.Path) {
-              const profileDataPath = path.join(firefoxUserDataPath, profileDetails.Path);
-              fsExtra.removeSync(profileDataPath);
-            }
-
-            // remove entry from profiles.init
-            const modifiedProfilesIniContent = profilesIniContent
-              .split(`${os.EOL}${os.EOL}`)
-              .filter((x) => !x.includes(`Name=${profileId}`))
-              .join(`${os.EOL}${os.EOL}`);
-
-            fsExtra.writeFileSync(profilesIniPath, modifiedProfilesIniContent);
-          }),
-      );
-    } else { // chromium-based browsers
-      // forked-script-lite-v1
-      p.push(checkExistsAndRemove(path.join(homePath, '.webcatalog', 'chromium-data', id)));
-      // forked-script-lite-v2
-      if (process.platform === 'darwin') {
-        p.push(checkExistsAndRemove(path.join(webcatalogUserDataPath, 'ChromiumProfiles', id)));
-      }
+          fsExtra.writeFileSync(profilesIniPath, modifiedProfilesIniContent);
+        });
     }
-
-    if (process.platform === 'linux') {
-      const desktopFilePath = path.join(homePath, '.local', 'share', 'applications', `webcatalog-${id}.desktop`);
-      p.push(checkExistsAndRemove(desktopFilePath));
-    }
-
-    if (process.platform === 'win32') {
-      const startMenuPath = path.join(homePath, 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'WebCatalog Apps');
-      const startMenuShortcutPath = path.join(startMenuPath, `${name}.lnk`);
-      const desktopShortcutPath = path.join(desktopPath, `${name}.lnk`);
-
-      p.push(checkExistsAndRemove(startMenuShortcutPath));
-      p.push(checkExistsAndRemove(desktopShortcutPath));
-    }
-
-    return Promise.all(p);
+    return null;
   })
   .then(() => {
     process.exit(0);
