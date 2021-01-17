@@ -67,7 +67,7 @@ const getRelatedPaths = ({
         });
       } else {
         relatedPaths.push({
-          path: path.join(appDataPath, 'WebCatalog', 'WebCatalogEngineData', id),
+          path: path.join(appDataPath, 'WebCatalog', 'webcatalog-engine-data', id),
           type: 'data',
         });
       }
