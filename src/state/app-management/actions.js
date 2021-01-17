@@ -104,10 +104,7 @@ export const updateApps = (apps) => (dispatch) => {
       engine, id, name, url, icon,
     } = app;
 
-    // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
-
-    return dispatch(updateApp(engine, id, name, url, iconUrl));
+    return dispatch(updateApp(engine, id, name, url, icon));
   });
 };
 
@@ -121,10 +118,7 @@ export const updateAllApps = () => (dispatch, getState) => {
       engine, id, name, url, icon,
     } = app;
 
-    // download icon when updating apps in the catalog
-    const iconUrl = id.startsWith('custom-') ? icon : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
-
-    return dispatch(updateApp(engine, id, name, url, iconUrl));
+    return dispatch(updateApp(engine, id, name, url, icon));
   });
 
   return null;
