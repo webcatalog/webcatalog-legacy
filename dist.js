@@ -100,6 +100,7 @@ const opts = {
       darkModeSupport: true,
       entitlements: 'build-resources/entitlements.mac.plist',
       entitlementsInherit: 'build-resources/entitlements.mac.plist',
+      requirements: 'build-resources/electron-builder-requirements.txt',
     },
     linux: {
       category: 'Utility',
