@@ -101,10 +101,10 @@ export const updateApp = (engine, id, name, url, icon, _opts) => async () => {
 export const updateApps = (apps) => (dispatch) => {
   apps.forEach((app) => {
     const {
-      engine, id, name, url, icon,
+      engine, id, name, url, icon, opts,
     } = app;
 
-    return dispatch(updateApp(engine, id, name, url, icon));
+    return dispatch(updateApp(engine, id, name, url, icon, opts));
   });
 };
 
@@ -115,10 +115,10 @@ export const updateAllApps = () => (dispatch, getState) => {
 
   outdatedApps.forEach((app) => {
     const {
-      engine, id, name, url, icon,
+      engine, id, name, url, icon, opts,
     } = app;
 
-    return dispatch(updateApp(engine, id, name, url, icon));
+    return dispatch(updateApp(engine, id, name, url, icon, opts));
   });
 
   return null;
