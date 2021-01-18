@@ -92,6 +92,19 @@ const dotAppPath = process.platform === 'darwin'
   ? path.join(installationPath.replace('~', homePath), `${name}.app`)
   : path.join(installationPath.replace('~', homePath), `${name}`);
 
+const relatedPaths = getRelatedPaths({
+  appObj: {
+    id,
+    name,
+    engine,
+  },
+  installationPath,
+  homePath,
+  appDataPath,
+  userDataPath: webcatalogUserDataPath,
+  desktopPath,
+});
+
 Promise.resolve()
   .then(() => {
     if (process.platform === 'win32') {
@@ -122,19 +135,6 @@ Promise.resolve()
     }
   })
   .then(() => {
-    const relatedPaths = getRelatedPaths({
-      appObj: {
-        id,
-        name,
-        engine,
-      },
-      installationPath,
-      homePath,
-      appDataPath,
-      userDataPath: webcatalogUserDataPath,
-      desktopPath,
-    });
-
     const p = relatedPaths
       .filter((pathDetails) => pathDetails.type !== 'app')
       .map((pathDetails) => fsExtra.remove(pathDetails.path));
