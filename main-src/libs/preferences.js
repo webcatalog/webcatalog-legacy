@@ -12,6 +12,8 @@ const sendToAllWindows = require('./send-to-all-windows');
 // scope
 const v = '2018';
 
+const sharedPreferencesPath = path.join(app.getPath('home'), '.webcatalog', 'shared-preferences.json');
+
 const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
     return path.join('~', 'Applications', 'WebCatalog Apps');
@@ -58,6 +60,12 @@ const initCachedPreferences = () => {
   if (process.platform !== 'darwin') {
     cachedPreferences.attachToMenubar = false;
   }
+
+  // ensure shared preferences file exists
+  fs.writeJSON(sharedPreferencesPath, {
+    telemetry: cachedPreferences.telemetry,
+    sentry: cachedPreferences.sentry,
+  });
 };
 
 const getPreferences = () => {
@@ -93,7 +101,6 @@ const setPreference = (name, value) => {
     // telemetry & sentry pref
     // so that privacy consent prefs
     // can be shared across WebCatalog and WebCatalog-Engine-based apps
-    const sharedPreferencesPath = path.join(app.getPath('home'), '.webcatalog', 'shared-preferences.json');
     fs.writeJSONSync(sharedPreferencesPath, {
       telemetry: cachedPreferences.telemetry,
       sentry: cachedPreferences.sentry,
