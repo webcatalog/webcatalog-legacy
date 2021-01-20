@@ -396,19 +396,21 @@ open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${ur
           // init profile
           // hard code instead of relying on Electron app.getPath('userData')
           // as it is also hard coded in the exec bash script
-          const profilePath = path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id);
+          if (browserId !== 'firefox') {
+            const profilePath = path.join(homePath, 'Library', 'Application Support', 'WebCatalog', 'ChromiumProfiles', id);
 
-          // move data from v1
-          const legacyProfilePath = path.join(homePath, '.webcatalog', 'chromium-data', id);
-          if (fsExtra.existsSync(legacyProfilePath)) {
-            fsExtra.moveSync(legacyProfilePath, profilePath, { overwrite: true });
+            // move data from v1
+            const legacyProfilePath = path.join(homePath, '.webcatalog', 'chromium-data', id);
+            if (fsExtra.existsSync(legacyProfilePath)) {
+              fsExtra.moveSync(legacyProfilePath, profilePath, { overwrite: true });
+            }
+
+            // (redundant as ensureFileSync would ensureDir too
+            // fsExtra.ensureDirSync(profilePath);
+
+            // add empty "First Run" file so default browser prompt doesn't show up
+            fsExtra.ensureFileSync(path.join(profilePath, 'First Run'));
           }
-
-          // (redundant as ensureFileSync would ensureDir too
-          // fsExtra.ensureDirSync(profilePath);
-
-          // add empty "First Run" file so default browser prompt doesn't show up
-          fsExtra.ensureFileSync(path.join(profilePath, 'First Run'));
         })
         .then(() => {
           // for Firefox
