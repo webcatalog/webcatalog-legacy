@@ -26,7 +26,7 @@ import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 import connectComponent from '../../../helpers/connect-component';
 import getEngineName from '../../../helpers/get-engine-name';
@@ -198,9 +198,9 @@ const Preferences = ({
   useHardwareAcceleration,
 }) => {
   const sections = {
-    account: {
-      text: 'Account',
-      Icon: AccountCircleIcon,
+    licensing: {
+      text: 'Licensing',
+      Icon: CheckCircleOutlineIcon,
       ref: useRef(),
     },
     general: {
@@ -273,13 +273,13 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
-            Account
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
+            Licensing
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button disabled>
-                <ListItemText primary={registered ? 'WebCatalog Plus' : 'WebCatalog Basic'} />
+                <ListItemText primary={registered ? 'WebCatalog Plus is activated.' : 'WebCatalog Basic'} />
               </ListItem>
               {!registered && (
                 <>
@@ -290,11 +290,6 @@ const Preferences = ({
                   </ListItem>
                 </>
               )}
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/RqwYdQo8PM67Mmvc9')}>
-                <ListItemText primary="Join WebCatalog Pro Waitlist" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
             </List>
           </Paper>
 
