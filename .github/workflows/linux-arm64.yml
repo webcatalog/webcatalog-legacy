@@ -4,13 +4,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-  pull_request:
-    branches:
-      - master
-      - next
-    paths-ignore:
-      - 'catalog/**'
-      - 'docs/**'
 
 jobs:
   build:
