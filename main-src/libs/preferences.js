@@ -12,8 +12,6 @@ const sendToAllWindows = require('./send-to-all-windows');
 // scope
 const v = '2018';
 
-const sharedPreferencesPath = path.join(app.getPath('home'), '.webcatalog', 'shared-preferences.json');
-
 const getDefaultInstallationPath = () => {
   if (process.platform === 'darwin') {
     return path.join('~', 'Applications', 'WebCatalog Apps');
@@ -53,6 +51,21 @@ const defaultPreferences = {
 
 let cachedPreferences = null;
 
+const updateSharedPreferencesAsync = () => {
+  if (cachedPreferences == null) return Promise.resolve();
+  // shared-preferences.json includes:
+  // telemetry & sentry pref
+  // so that privacy consent prefs
+  // can be shared across WebCatalog and WebCatalog-Engine-based apps
+  const dotWebCatalogPath = path.join(app.getPath('home'), '.webcatalog');
+  const sharedPreferencesPath = path.join(app.getPath('home'), '.webcatalog', 'shared-preferences.json');
+  return fs.ensureDir(dotWebCatalogPath)
+    .then(() => fs.writeJSON(sharedPreferencesPath, {
+      telemetry: cachedPreferences.telemetry,
+      sentry: cachedPreferences.sentry,
+    }));
+};
+
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.getSync(`preferences.${v}`) };
 
@@ -62,10 +75,7 @@ const initCachedPreferences = () => {
   }
 
   // ensure shared preferences file exists
-  fs.writeJSON(sharedPreferencesPath, {
-    telemetry: cachedPreferences.telemetry,
-    sentry: cachedPreferences.sentry,
-  });
+  updateSharedPreferencesAsync();
 };
 
 const getPreferences = () => {
@@ -97,14 +107,7 @@ const setPreference = (name, value) => {
   }
 
   if (name === 'telemetry' || name === 'sentry') {
-    // shared-preferences.json includes:
-    // telemetry & sentry pref
-    // so that privacy consent prefs
-    // can be shared across WebCatalog and WebCatalog-Engine-based apps
-    fs.writeJSONSync(sharedPreferencesPath, {
-      telemetry: cachedPreferences.telemetry,
-      sentry: cachedPreferences.sentry,
-    });
+    updateSharedPreferencesAsync();
   }
 };
 
