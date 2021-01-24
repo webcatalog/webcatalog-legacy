@@ -12,7 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-about/actions';
-import iconPng from '../../assets/webcatalog-icon.png';
+import iconPng from '../../assets/products/webcatalog-mac-icon-128@2x.png';
 
 import { requestOpenInBrowser } from '../../senders';
 
