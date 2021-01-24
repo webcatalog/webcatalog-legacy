@@ -18,15 +18,16 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
 import BuildIcon from '@material-ui/icons/Build';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 import connectComponent from '../../../helpers/connect-component';
 import getEngineName from '../../../helpers/get-engine-name';
@@ -51,6 +52,10 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
+
+import webcatalogIconPng from '../../../assets/products/webcatalog-mac-icon-128@2x.png';
+import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
+import translatiumIconPng from '../../../assets/products/translatium-mac-icon-128@2x.png';
 
 const styles = (theme) => ({
   root: {
@@ -236,6 +241,11 @@ const Preferences = ({
     reset: {
       text: 'Reset',
       Icon: RotateLeftIcon,
+      ref: useRef(),
+    },
+    moreApps: {
+      text: 'More Apps',
+      Icon: StorefrontIcon,
       ref: useRef(),
     },
     miscs: {
@@ -711,6 +721,82 @@ const Preferences = ({
                 }}
               >
                 <ListItemText primary="Restore preferences to their original defaults" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.moreApps.ref}>
+            More Apps
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem
+                button
+                onClick={() => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app')}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={webcatalogIconPng} alt="WebCatalog" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        WebCatalog
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Turn Any Websites Into Desktop Apps
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => requestOpenInBrowser('https://singlebox.app?utm_source=webcatalog_app')}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={singleboxIconPng} alt="Singlebox" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Singlebox
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Smart Browser for Busy People
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => requestOpenInBrowser('https://translatium.app?utm_source=webcatalog_app')}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={translatiumIconPng} alt="Translatium" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Translatium
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Translate 100+ Languages Instantly
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
                 <ChevronRightIcon color="action" />
               </ListItem>
             </List>
