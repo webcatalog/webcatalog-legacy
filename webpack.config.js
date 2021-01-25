@@ -87,6 +87,8 @@ const getElectronMainConfig = () => {
     }),
     new webpack.DefinePlugin({
       'process.env.ELECTRON_APP_SENTRY_DSN': JSON.stringify(process.env.ELECTRON_APP_SENTRY_DSN),
+      'process.env.REACT_APP_LICENSE_SECRET': JSON.stringify(process.env.REACT_APP_LICENSE_SECRET),
+      'process.env.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY': JSON.stringify(process.env.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY),
     }),
   ];
 

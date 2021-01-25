@@ -8,6 +8,7 @@ const { app, nativeTheme, ipcMain } = require('electron');
 const fs = require('fs-extra');
 
 const sendToAllWindows = require('./send-to-all-windows');
+const isValidLicenseKey = require('./is-valid-license-key');
 
 // scope
 const v = '2018';
@@ -68,6 +69,11 @@ const updateSharedPreferencesAsync = () => {
 
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.getSync(`preferences.${v}`) };
+
+  // verify license key
+  if (process.env.NODE_ENV === 'production') {
+    cachedPreferences.registered = isValidLicenseKey(cachedPreferences.licenseKey);
+  }
 
   // disable menu bar mode on Windows/Linux
   if (process.platform !== 'darwin') {

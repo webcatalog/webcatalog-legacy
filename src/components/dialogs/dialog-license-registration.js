@@ -40,6 +40,10 @@ const styles = (theme) => ({
       textDecoration: 'underline',
     },
   },
+  helpContent: {
+    marginTop: theme.spacing(1),
+    textAlign: 'right',
+  },
 });
 
 const DialogLicenseRegistration = (props) => {
@@ -96,6 +100,21 @@ const DialogLicenseRegistration = (props) => {
           variant="outlined"
           helperText={licenseKeyError || 'If you have already purchased WebCatalog Plus or Singlebox from our store, you should have received a license key via email to enter above.'}
         />
+
+        <DialogContentText className={classes.helpContent}>
+          <span
+            onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter') return;
+              requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app');
+            }}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            Lost your license key?
+          </span>
+        </DialogContentText>
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <div style={{ flex: 1 }}>
