@@ -59,9 +59,9 @@ export const removeApp = (id) => ({
 export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
 
+  // free version can only create/install up to 10 apps
   const totalAppCount = getTotalAppCount(state);
   const { registered } = state.preferences;
-  console.log(state.preferences);
   if (totalAppCount >= 10 && !registered) {
     dispatch(openDialogLicenseRegistration());
   }
