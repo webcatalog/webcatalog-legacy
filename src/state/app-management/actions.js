@@ -9,12 +9,14 @@ import {
   SET_SCANNING_FOR_INSTALLED,
   SORT_APPS,
 } from '../../constants/actions';
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 
 import swiftype from '../../swiftype';
 
 import {
   isNameExisted,
   getOutdatedAppsAsList,
+  getTotalAppCount,
 } from './utils';
 
 import {
@@ -56,6 +58,13 @@ export const removeApp = (id) => ({
 
 export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
+
+  const totalAppCount = getTotalAppCount(state);
+  const { registered } = state.preferences;
+  console.log(state.preferences);
+  if (totalAppCount >= 10 && !registered) {
+    dispatch(openDialogLicenseRegistration());
+  }
 
   const sanitizedName = name.trim();
   if (isNameExisted(sanitizedName, state)) {

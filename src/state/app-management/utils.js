@@ -87,6 +87,11 @@ export const getAppBadgeCount = (state) => {
     .filter((app) => isOutdatedApp(app.id, state) || app.status !== INSTALLED).length;
 };
 
+export const getTotalAppCount = (state) => {
+  const { apps } = state.appManagement;
+  return Object.keys(apps).length;
+};
+
 export const isNameExisted = (name, state) => {
   const { apps } = state.appManagement;
   return Boolean(Object.keys(apps).find((id) => {
