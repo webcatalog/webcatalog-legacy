@@ -70,7 +70,7 @@ const DialogLicenseRegistration = (props) => {
       <DialogContent>
         <DialogContentText className={classes.dialogContentText}>
           You are currently running the free version of WebCatalog which
-          only lets you create/install up to 10 apps and does not include&nbsp;
+          does not include&nbsp;
           <span
             onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
             onKeyDown={(e) => {
