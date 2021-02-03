@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+import slugify from 'slugify';
 import {
   DIALOG_CREATE_CUSTOM_APP_CLOSE,
   DIALOG_CREATE_CUSTOM_APP_DOWNLOADING_ICON_UPDATE,
@@ -200,10 +201,22 @@ export const create = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  const opts = window.process.platform === 'linux' ? {
-    freedesktopMainCategory: form.freedesktopMainCategory,
-    freedesktopAdditionalCategory: form.freedesktopAdditionalCategory,
-  } : undefined;
+  const opts = {};
+  if (window.process.platform === 'linux') {
+    opts.freedesktopMainCategory = form.freedesktopMainCategory;
+    opts.freedesktopAdditionalCategory = form.freedesktopAdditionalCategory;
+  }
+
+  // custom app ID makes it hard to identify app directories in Finder
+  // see https://github.com/webcatalog/webcatalog-app/issues/1327
+  // so we will try to append slug to app data dir name if possible
+  // opts.slug is used by webcatalog-engine for the mentioned purpose
+  const slug = slugify(name, {
+    lower: true,
+  });
+  if (slug.length > 0) {
+    opts.slug = slug;
+  }
 
   if (isNameExisted(name, state)) {
     requestShowMessageBox(`An app named ${name} already exists.`, 'error');
