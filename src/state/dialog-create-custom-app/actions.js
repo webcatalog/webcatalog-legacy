@@ -202,8 +202,11 @@ export const create = () => (dispatch, getState) => {
   // attempt to use name slug as ID
   const slug = slugify(name, {
     lower: true,
-  }).substring(0, 16); // if the slug is longer than 16 chars, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
-  if (slug.length > 0 && !isIdExisted(`custom-${slug}`, state)) {
+  });
+  // if the slug is longer than 16 chars, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
+  // avoid using substring(0, 16)
+  // as it might lead to conflicts in the future (backup & restore, for example)
+  if (slug.length > 0 && slug.length <= 16 && !isIdExisted(`custom-${slug}`, state)) {
     id = `custom-${slug}`;
   }
 
