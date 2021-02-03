@@ -256,9 +256,27 @@ Promise.resolve()
       agent = new ProxyAgent(`pac+${proxyPacScript}`);
     }
 
+    // max length 43 chars
+    // if longer, the app would crash on Mac
+    // process memory mac.cc(93)] mach_vm_read(0x7ffeef65c000, 0x2000):
+    // (os/kern) invalid address (1)
+    const shortIdMap = {
+      // 6 apps exist before the bug is discovered
+      // we avoid ID changes
+      // these cases willl be handled explicitly
+      'encyclopaedia-britannica': 's-h19eno6trr',
+      'facebook-business-manager': 's-gmqvfslbrg',
+      'merriam-webster-dictionary': 's-mle3qne23l',
+      'microsoft-outlook-for-microsoft-365': 's-n3317hatzu',
+      'microsoft-power-automate': 's-9292ivvzxq',
+      'the-church-of-jesus-christ-of-latter-day-saints': 's-eiftr12uvd',
+      'us-news-and-world-report': 's-cpv544nw5q',
+    };
+    const appBundleId = `com.webcatalog.juli.${shortIdMap[id] ? shortIdMap[id] : id}`;
+
     const packagerOpts = {
       name,
-      appBundleId: `com.webcatalog.juli.${id}`,
+      appBundleId,
       icon: optsIconPath,
       platform: process.platform,
       dir: templatePath,
