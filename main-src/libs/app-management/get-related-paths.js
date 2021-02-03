@@ -38,7 +38,7 @@ const getRelatedPaths = ({
 
   const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
   const appJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'app.json');
-  const { legacyUserData } = fsExtra.readJSONSync(appJsonPath);
+  const { opts: { legacyUserData, slug } } = fsExtra.readJSONSync(appJsonPath);
   const { version } = fsExtra.readJSONSync(packageJsonPath);
 
   // Data
@@ -65,9 +65,14 @@ const getRelatedPaths = ({
           path: path.join(appDataPath, name),
           type: 'data',
         });
-      } else {
+      } else if (semver.lt(version, '15.1.0') || slug) {
         relatedPaths.push({
           path: path.join(appDataPath, 'WebCatalog', 'webcatalog-engine-data', id),
+          type: 'data',
+        });
+      } else {
+        relatedPaths.push({
+          path: path.join(appDataPath, 'WebCatalog', 'webcatalog-engine-data', `${id}-${slug}`),
           type: 'data',
         });
       }

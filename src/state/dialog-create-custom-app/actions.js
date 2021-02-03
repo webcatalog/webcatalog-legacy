@@ -197,26 +197,27 @@ export const create = () => (dispatch, getState) => {
 
   // id max length: 43 chars
   // if longer, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
-  let id = `custom-${Date.now().toString()}`;
-
-  // attempt to use name slug as ID
-  const slug = slugify(name, {
-    lower: true,
-  });
-  // if the slug is longer than 16 chars, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
-  // avoid using substring(0, 16)
-  // as it might lead to conflicts in the future (backup & restore, for example)
-  if (slug.length > 0 && slug.length <= 16 && !isIdExisted(`custom-${slug}`, state)) {
-    id = `custom-${slug}`;
-  }
+  const id = `custom-${Date.now().toString()}`;
 
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  const opts = window.process.platform === 'linux' ? {
-    freedesktopMainCategory: form.freedesktopMainCategory,
-    freedesktopAdditionalCategory: form.freedesktopAdditionalCategory,
-  } : undefined;
+  const opts = {};
+  if (window.process.platform === 'linux') {
+    opts.freedesktopMainCategory = form.freedesktopMainCategory;
+    opts.freedesktopAdditionalCategory = form.freedesktopAdditionalCategory;
+  }
+
+  // custom app ID makes it hard to identify app directories in Finder
+  // see https://github.com/webcatalog/webcatalog-app/issues/1327
+  // so we will try to append slug to app data dir name if possible
+  // opts.slug is used by webcatalog-engine for the mentioned purpose
+  const slug = slugify(name, {
+    lower: true,
+  });
+  if (slug.length > 0) {
+    opts.slug = slug;
+  }
 
   if (isNameExisted(name, state)) {
     requestShowMessageBox(`An app named ${name} already exists.`, 'error');
