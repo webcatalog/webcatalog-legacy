@@ -97,8 +97,3 @@ export const isNameExisted = (name, state) => {
     return false;
   }));
 };
-
-export const isIdExisted = (id, state) => {
-  const { apps } = state.appManagement;
-  return Boolean(apps[id]);
-};

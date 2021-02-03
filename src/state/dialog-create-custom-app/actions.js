@@ -16,7 +16,6 @@ import validate from '../../helpers/validate';
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
-  isIdExisted,
 } from '../app-management/utils';
 
 import { requestShowMessageBox } from '../../senders';

@@ -65,12 +65,15 @@ const getRelatedPaths = ({
           path: path.join(appDataPath, name),
           type: 'data',
         });
-      } else if (semver.lt(version, '15.1.0') || slug) {
+      } else if (semver.lt(version, '15.1.0') || !slug) {
         relatedPaths.push({
           path: path.join(appDataPath, 'WebCatalog', 'webcatalog-engine-data', id),
           type: 'data',
         });
       } else {
+        // for custom app, we append name slug to dir name (if available)
+        // to make it easier for pro users to identify
+        // see https://github.com/webcatalog/webcatalog-app/issues/1327
         relatedPaths.push({
           path: path.join(appDataPath, 'WebCatalog', 'webcatalog-engine-data', `${id}-${slug}`),
           type: 'data',
