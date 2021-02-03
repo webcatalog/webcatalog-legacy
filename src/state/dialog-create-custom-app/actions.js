@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import slugify from 'slugify';
 import {
   DIALOG_CREATE_CUSTOM_APP_CLOSE,
   DIALOG_CREATE_CUSTOM_APP_DOWNLOADING_ICON_UPDATE,
@@ -16,7 +15,6 @@ import validate from '../../helpers/validate';
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
-  isIdExisted,
 } from '../app-management/utils';
 
 import { requestShowMessageBox } from '../../senders';
@@ -197,18 +195,7 @@ export const create = () => (dispatch, getState) => {
 
   // id max length: 43 chars
   // if longer, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
-  let id = `custom-${Date.now().toString()}`;
-
-  // attempt to use name slug as ID
-  const slug = slugify(name, {
-    lower: true,
-  });
-  // if the slug is longer than 16 chars, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
-  // avoid using substring(0, 16)
-  // as it might lead to conflicts in the future (backup & restore, for example)
-  if (slug.length > 0 && slug.length <= 16 && !isIdExisted(`custom-${slug}`, state)) {
-    id = `custom-${slug}`;
-  }
+  const id = `custom-${Date.now().toString()}`;
 
   const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
