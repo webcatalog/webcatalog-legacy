@@ -56,6 +56,9 @@ import DefinedAppBar from './defined-app-bar';
 import webcatalogIconPng from '../../../assets/products/webcatalog-mac-icon-128@2x.png';
 import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
 import translatiumIconPng from '../../../assets/products/translatium-mac-icon-128@2x.png';
+import dynamailIconPng from '../../../assets/products/dynamail-mac-icon-128@2x.png';
+import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
+import pantextIconPng from '../../../assets/products/pantext-mac-icon-128@2x.png';
 
 const styles = (theme) => ({
   root: {
@@ -793,6 +796,84 @@ const Preferences = ({
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         Translate 100+ Languages Instantly
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://dynamail.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={dynamailIconPng} alt="Dynamail" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Dynamail
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Best Way to Use Gmail on Mac
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://panmail.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={panmailIconPng} alt="Panmail" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Panmail
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        All Your Email Apps in One
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://pantext.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={pantextIconPng} alt="Pantext" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Pantext
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        All Your Messaging Apps in One
                       </Typography>
                     </div>
                   </div>
