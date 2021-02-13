@@ -28,6 +28,7 @@ const getDefaultInstallationPath = () => {
 
 const defaultPreferences = {
   allowPrerelease: Boolean(semver.prerelease(app.getVersion())),
+  alwaysOnTop: false, // for menubar
   attachToMenubar: false,
   createDesktopShortcut: true,
   createStartMenuShortcut: true,

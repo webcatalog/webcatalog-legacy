@@ -180,6 +180,7 @@ const getUpdaterDesc = (status, info) => {
 
 const Preferences = ({
   allowPrerelease,
+  alwaysOnTop,
   appCount,
   attachToMenubar,
   classes,
@@ -341,6 +342,24 @@ const Preferences = ({
                     checked={attachToMenubar}
                     onChange={(e) => {
                       requestSetPreference('attachToMenubar', e.target.checked);
+                      enqueueRequestRestartSnackbar();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary="Keep attached window always on top"
+                  secondary="The window won't be hidden even when you click outside."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={alwaysOnTop}
+                    disabled={!attachToMenubar}
+                    onChange={(e) => {
+                      requestSetPreference('alwaysOnTop', e.target.checked);
                       enqueueRequestRestartSnackbar();
                     }}
                   />
@@ -933,6 +952,7 @@ Preferences.defaultProps = {
 
 Preferences.propTypes = {
   allowPrerelease: PropTypes.bool.isRequired,
+  alwaysOnTop: PropTypes.bool.isRequired,
   appCount: PropTypes.number.isRequired,
   attachToMenubar: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
@@ -961,6 +981,7 @@ Preferences.propTypes = {
 
 const mapStateToProps = (state) => ({
   allowPrerelease: state.preferences.allowPrerelease,
+  alwaysOnTop: state.preferences.alwaysOnTop,
   appCount: Object.keys(state.appManagement.apps).length,
   attachToMenubar: state.preferences.attachToMenubar,
   createDesktopShortcut: state.preferences.createDesktopShortcut,

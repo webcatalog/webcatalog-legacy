@@ -59,6 +59,7 @@ const createAsync = () => new Promise((resolve) => {
       preloadWindow: true,
       tooltip: 'WebCatalog',
       browserWindow: {
+        alwaysOnTop: getPreference('alwaysOnTop'),
         x: menubarWindowState.x,
         y: menubarWindowState.y,
         width: menubarWindowState.width,
