@@ -75,11 +75,6 @@ const initCachedPreferences = () => {
     cachedPreferences.registered = isValidLicenseKey(cachedPreferences.licenseKey);
   }
 
-  // disable menu bar mode on Windows/Linux
-  if (process.platform !== 'darwin') {
-    cachedPreferences.attachToMenubar = false;
-  }
-
   // ensure shared preferences file exists
   updateSharedPreferencesAsync();
 };

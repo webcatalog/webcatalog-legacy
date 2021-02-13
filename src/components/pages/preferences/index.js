@@ -329,27 +329,23 @@ const Preferences = ({
                   <MenuItem dense value="dark">Dark</MenuItem>
                 </Select>
               </ListItem>
-              {window.process.platform === 'darwin' && (
-                <>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText
-                      primary="Attach to menu bar"
-                    />
-                    <ListItemSecondaryAction>
-                      <Switch
-                        edge="end"
-                        color="primary"
-                        checked={attachToMenubar}
-                        onChange={(e) => {
-                          requestSetPreference('attachToMenubar', e.target.checked);
-                          enqueueRequestRestartSnackbar();
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </>
-              )}
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary={window.process.platform === 'win32' ? 'Attach to taskbar' : 'Attach to menu bar'}
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={attachToMenubar}
+                    onChange={(e) => {
+                      requestSetPreference('attachToMenubar', e.target.checked);
+                      enqueueRequestRestartSnackbar();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
               <Divider />
               <ListItem>
                 <ListItemText
