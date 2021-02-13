@@ -54,11 +54,13 @@ import {
 import DefinedAppBar from './defined-app-bar';
 
 import webcatalogIconPng from '../../../assets/products/webcatalog-mac-icon-128@2x.png';
-import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
 import translatiumIconPng from '../../../assets/products/translatium-mac-icon-128@2x.png';
-import dynamailIconPng from '../../../assets/products/dynamail-mac-icon-128@2x.png';
-import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
+import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
+import cloveryIconPng from '../../../assets/products/clovery-mac-icon-128@2x.png';
 import pantextIconPng from '../../../assets/products/pantext-mac-icon-128@2x.png';
+import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
+import dynamailIconPng from '../../../assets/products/dynamail-mac-icon-128@2x.png';
+import dynacallIconPng from '../../../assets/products/dynacal-mac-icon-128@2x.png';
 
 const styles = (theme) => ({
   root: {
@@ -795,29 +797,6 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => requestOpenInBrowser('https://singlebox.app?utm_source=webcatalog_app')}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={singleboxIconPng} alt="Singlebox" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        Singlebox
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Smart Browser for Busy People
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
                 onClick={() => requestOpenInBrowser('https://translatium.app?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
@@ -841,23 +820,20 @@ const Preferences = ({
               <Divider />
               <ListItem
                 button
-                onClick={() => {
-                  const url = 'https://dynamail.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
+                onClick={() => requestOpenInBrowser('https://singlebox.app?utm_source=webcatalog_app')}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
                   <div className={classes.promotionLeft}>
-                    <img src={dynamailIconPng} alt="Dynamail" className={classes.appIcon} />
+                    <img src={singleboxIconPng} alt="Singlebox" className={classes.appIcon} />
                   </div>
                   <div className={classes.promotionRight}>
                     <div>
                       <Typography variant="body1" className={classes.appTitle}>
-                        Dynamail
+                        Singlebox
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        Best Way to Use Gmail on Mac
+                        Smart Browser for Busy People
                       </Typography>
                     </div>
                   </div>
@@ -868,22 +844,22 @@ const Preferences = ({
               <ListItem
                 button
                 onClick={() => {
-                  const url = 'https://panmail.app?utm_source=webcatalog_app';
+                  const url = 'https://clovery.app?utm_source=webcatalog_app';
                   requestOpenInBrowser(url);
                 }}
                 className={classes.listItemPromotion}
               >
                 <div className={classes.promotionBlock}>
                   <div className={classes.promotionLeft}>
-                    <img src={panmailIconPng} alt="Panmail" className={classes.appIcon} />
+                    <img src={cloveryIconPng} alt="Clovery" className={classes.appIcon} />
                   </div>
                   <div className={classes.promotionRight}>
                     <div>
                       <Typography variant="body1" className={classes.appTitle}>
-                        Panmail
+                        Clovery
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        All Your Email Apps in One
+                        All Google Apps in One
                       </Typography>
                     </div>
                   </div>
@@ -901,12 +877,12 @@ const Preferences = ({
               >
                 <div className={classes.promotionBlock}>
                   <div className={classes.promotionLeft}>
-                    <img src={pantextIconPng} alt="Pantext" className={classes.appIcon} />
+                    <img src={pantextIconPng} alt="PanText" className={classes.appIcon} />
                   </div>
                   <div className={classes.promotionRight}>
                     <div>
                       <Typography variant="body1" className={classes.appTitle}>
-                        Pantext
+                        PanText
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         All Your Messaging Apps in One
@@ -916,6 +892,85 @@ const Preferences = ({
                 </div>
                 <ChevronRightIcon color="action" />
               </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://panmail.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={panmailIconPng} alt="PanMail" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        PanMail
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        All Your Email Apps in One
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://dynamail.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={dynamailIconPng} alt="DynaMail" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        DynaMail
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Best Way to Use Gmail on Mac
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://dynacal.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={dynacallIconPng} alt="DynaCal" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        DynaCal
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Best Way to Use Google Calendar on Mac
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
             </List>
           </Paper>
 
