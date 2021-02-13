@@ -103,6 +103,7 @@ const EnhancedAppBar = ({
   classes,
   isMaximized,
   shouldUseDarkColors,
+  useSystemTitleBar,
 }) => {
   const onDoubleClick = (e) => {
     // feature: double click on title bar to expand #656
@@ -118,6 +119,10 @@ const EnhancedAppBar = ({
     }
   };
 
+  const shouldShowMenuButton = window.process.platform === 'darwin'
+    ? window.mode === 'menubar' // on Mac, only show the button in menu bar mode
+    : (window.mode === 'menubar' || !useSystemTitleBar);
+
   return (
     <AppBar
       position="static"
@@ -129,7 +134,7 @@ const EnhancedAppBar = ({
         className={classes.toolbar}
       >
         <div className={classes.left} onDoubleClick={onDoubleClick}>
-          {(window.process.platform === 'darwin' && window.mode !== 'menubar') ? null : (
+          {shouldShowMenuButton && (
             <IconButton
               size="small"
               color="inherit"
@@ -148,7 +153,7 @@ const EnhancedAppBar = ({
           {center}
         </div>
         <div className={classes.right} onDoubleClick={onDoubleClick}>
-          {window.process.platform !== 'darwin' && (
+          {window.process.platform !== 'darwin' && !useSystemTitleBar && (
             <div className={classes.windowsControl}>
               <button
                 className={classes.windowsIconBg}
@@ -222,11 +227,13 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   isMaximized: PropTypes.bool.isRequired,
   shouldUseDarkColors: PropTypes.bool.isRequired,
+  useSystemTitleBar: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isMaximized: state.general.isMaximized,
   shouldUseDarkColors: state.general.shouldUseDarkColors,
+  useSystemTitleBar: state.preferences.useSystemTitleBar,
 });
 
 export default connectComponent(

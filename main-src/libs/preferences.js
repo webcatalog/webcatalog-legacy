@@ -9,6 +9,7 @@ const fs = require('fs-extra');
 
 const sendToAllWindows = require('./send-to-all-windows');
 const isValidLicenseKey = require('./is-valid-license-key');
+const isWindows10 = require('./is-windows-10');
 
 // scope
 const v = '2018';
@@ -49,6 +50,11 @@ const defaultPreferences = {
   telemetry: false,
   themeSource: 'system',
   useHardwareAcceleration: true,
+  // use system title bar by default on Windows 8 & Windows 7
+  // because on Windows 10, it's normally for apps not to have border
+  // but on prior versions of Windows, apps have border
+  // system title bar pref is required for the app have the native border
+  useSystemTitleBar: process.platform === 'win32' && !isWindows10(),
 };
 
 let cachedPreferences = null;
