@@ -204,6 +204,7 @@ const Preferences = ({
   themeSource,
   updaterInfo,
   updaterStatus,
+  useSystemTitleBar,
   useHardwareAcceleration,
 }) => {
   const sections = {
@@ -356,7 +357,7 @@ const Preferences = ({
                   <Switch
                     edge="end"
                     color="primary"
-                    checked={alwaysOnTop}
+                    checked={!attachToMenubar ? false : alwaysOnTop}
                     disabled={!attachToMenubar}
                     onChange={(e) => {
                       requestSetPreference('alwaysOnTop', e.target.checked);
@@ -495,7 +496,6 @@ const Preferences = ({
                 <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
                 <ChevronRightIcon color="action" />
               </ListItem>
-              <Divider />
               <ListItem>
                 <ListItemText
                   primary="Ask for browser engine selection before every installation"
@@ -512,42 +512,6 @@ const Preferences = ({
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider />
-              {window.process.platform === 'win32' && (
-                <>
-                  <ListItem>
-                    <ListItemText
-                      primary="Automatically create desktop shortcuts for newly installed apps"
-                    />
-                    <ListItemSecondaryAction>
-                      <Switch
-                        edge="end"
-                        color="primary"
-                        checked={createDesktopShortcut}
-                        onChange={(e) => {
-                          requestSetPreference('createDesktopShortcut', e.target.checked);
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText
-                      primary="Automatically create Start Menu shortcuts for newly installed apps"
-                    />
-                    <ListItemSecondaryAction>
-                      <Switch
-                        edge="end"
-                        color="primary"
-                        checked={createStartMenuShortcut}
-                        onChange={(e) => {
-                          requestSetPreference('createStartMenuShortcut', e.target.checked);
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider />
-                </>
-              )}
               <ListItem>
                 <ListItemText primary="Installation path" />
                 <Select
@@ -652,10 +616,67 @@ const Preferences = ({
                   </MenuItem>
                 </Select>
               </ListItem>
-              <Divider />
               <ListItem button onClick={requestOpenInstallLocation}>
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
+                <ChevronRightIcon color="action" />
               </ListItem>
+              {window.process.platform === 'win32' && (
+                <>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText
+                      primary="Automatically create desktop shortcuts for newly installed apps"
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        edge="end"
+                        color="primary"
+                        checked={createDesktopShortcut}
+                        onChange={(e) => {
+                          requestSetPreference('createDesktopShortcut', e.target.checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText
+                      primary="Automatically create Start Menu shortcuts for newly installed apps"
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        edge="end"
+                        color="primary"
+                        checked={createStartMenuShortcut}
+                        onChange={(e) => {
+                          requestSetPreference('createStartMenuShortcut', e.target.checked);
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </>
+              )}
+              {window.process.platform !== 'darwin' && (
+                <>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText
+                      primary="Use system title bar and borders"
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        edge="end"
+                        color="primary"
+                        checked={useSystemTitleBar}
+                        onChange={(e) => {
+                          requestSetPreference('useSystemTitleBar', e.target.checked);
+                          enqueueRequestRestartSnackbar();
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </>
+              )}
               <Divider />
               <ListItem>
                 <ListItemText
@@ -976,6 +997,7 @@ Preferences.propTypes = {
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
+  useSystemTitleBar: PropTypes.bool.isRequired,
   useHardwareAcceleration: PropTypes.bool.isRequired,
 };
 
@@ -999,6 +1021,7 @@ const mapStateToProps = (state) => ({
   themeSource: state.preferences.themeSource,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,
+  useSystemTitleBar: state.preferences.useSystemTitleBar,
   useHardwareAcceleration: state.preferences.useHardwareAcceleration,
 });
 
