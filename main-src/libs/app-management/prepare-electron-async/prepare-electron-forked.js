@@ -88,6 +88,8 @@ Promise.resolve()
       },
     })
       .then((cachedFilePath) => {
+        // cachedFilePath = '~/Library/Caches/webcatalog/electron/34...9907/electron-v11.2.3-...zip'
+
         process.send({
           progress: {
             percent: 80,
@@ -100,12 +102,7 @@ Promise.resolve()
         const cachedFiles = fs.readdirSync(electronCachePath);
         // remove cached of other versions of Electron
         const p = cachedFiles
-          // the second condition is to ensure that we don't
-          // wipe out cache files created by older versions of @electron/get
-          // @electron/get 1.12.4+ uses checksum as filename.
-          // Other versions use URL (so the dir name has version number in it)
-          // https://github.com/electron/get/pull/186
-          .filter((dirName) => dirName !== currentCacheDirName && !dirName.includes(`v${electronVersion}`))
+          .filter((dirName) => dirName !== currentCacheDirName)
           .map((dirName) => fs.remove(path.join(electronCachePath, dirName)));
         return Promise.all(p);
       });
