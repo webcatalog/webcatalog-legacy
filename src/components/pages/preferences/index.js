@@ -994,6 +994,14 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              <ListItem
+                button
+                onClick={() => requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/')}
+              >
+                <ListItemText primary="Review WebCatalog on AlternativeTo" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://twitter.com/webcatalog_app')}>
                 <ListItemText primary="Twitter" />
                 <ChevronRightIcon color="action" />
