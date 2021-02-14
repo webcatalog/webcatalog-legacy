@@ -87,19 +87,25 @@ Promise.resolve()
         },
       },
     })
-      .then(() => {
+      .then((cachedFilePath) => {
         process.send({
           progress: {
             percent: 80,
             desc: 'Preparing...',
           },
         });
-      })
-      .then(() => {
+
+        const currentCacheDirName = path.basename(path.dirname(cachedFilePath));
+
         const cachedFiles = fs.readdirSync(electronCachePath);
         // remove cached of other versions of Electron
         const p = cachedFiles
-          .filter((dirName) => !dirName.includes(`v${electronVersion}`))
+          // the second condition is to ensure that we don't
+          // wipe out cache files created by older versions of @electron/get
+          // @electron/get 1.12.4+ uses checksum as filename.
+          // Other versions use URL (so the dir name has version number in it)
+          // https://github.com/electron/get/pull/186
+          .filter((dirName) => dirName !== currentCacheDirName && !dirName.includes(`v${electronVersion}`))
           .map((dirName) => fs.remove(path.join(electronCachePath, dirName)));
         return Promise.all(p);
       });
