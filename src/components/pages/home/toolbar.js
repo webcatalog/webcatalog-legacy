@@ -13,11 +13,9 @@ import Typography from '@material-ui/core/Typography';
 
 import SortIcon from '@material-ui/icons/Sort';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import RateReviewIcon from '@material-ui/icons/RateReview';
 
 import connectComponent from '../../../helpers/connect-component';
-
-import { open as openDialogReferral } from '../../../state/dialog-referral/actions';
 
 import { requestOpenInBrowser } from '../../../senders';
 
@@ -51,7 +49,6 @@ const styles = (theme) => ({
 
 const Toolbar = ({
   classes,
-  onOpenDialogReferral,
 }) => (
   <WithSearch
     mapContextToProps={({
@@ -86,10 +83,37 @@ const Toolbar = ({
     }) => (
       <div className={classes.root}>
         <div className={classes.left}>
-          {isLoading && results.length > 0 && (
+          {isLoading && results.length > 0 ? (
             <Typography variant="body2" color="textSecondary" className={classes.statusText}>
               Loading...
             </Typography>
+          ) : (
+            <Tooltip title="Review WebCatalog">
+              <IconButton
+                size="small"
+                aria-label="Review WebCatalog"
+                // // when searching, results are ALWAYS sorted by relevance
+                onClick={() => {
+                  window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                    type: 'question',
+                    buttons: [
+                      'Review WebCatalog on AlternativeTo',
+                      'Later',
+                    ],
+                    message: 'Enjoying WebCatalog?',
+                    detail: 'If you enjoy using WebCatalog, would you mind taking a moment to review it?',
+                    cancelId: 1,
+                    defaultId: 0,
+                  }).then(({ response }) => {
+                    if (response === 0) {
+                      requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/');
+                    }
+                  }).catch(console.log); // eslint-disable-line
+                }}
+              >
+                <RateReviewIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           )}
         </div>
         <div className={classes.right}>
@@ -142,16 +166,6 @@ const Toolbar = ({
               <SortIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Share your Love">
-            <IconButton
-              size="small"
-              aria-label="Share your Love"
-              // // when searching, results are ALWAYS sorted by relevance
-              onClick={onOpenDialogReferral}
-            >
-              <FavoriteIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
         </div>
       </div>
     )}
@@ -160,16 +174,11 @@ const Toolbar = ({
 
 Toolbar.propTypes = {
   classes: PropTypes.object.isRequired,
-  onOpenDialogReferral: PropTypes.func.isRequired,
-};
-
-const actionCreators = {
-  openDialogReferral,
 };
 
 export default connectComponent(
   Toolbar,
   null,
-  actionCreators,
+  null,
   styles,
 );

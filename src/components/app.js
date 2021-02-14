@@ -21,7 +21,6 @@ import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogProxy from './dialogs/dialog-proxy';
-import DialogReferral from './dialogs/dialog-referral';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
 
@@ -109,7 +108,6 @@ class App extends React.Component {
         <DialogSetInstallationPath />
         <DialogSetPreferredEngine />
         <DialogCatalogAppDetails />
-        <DialogReferral />
       </div>
     );
   }
