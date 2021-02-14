@@ -87,19 +87,22 @@ Promise.resolve()
         },
       },
     })
-      .then(() => {
+      .then((cachedFilePath) => {
+        // cachedFilePath = '~/Library/Caches/webcatalog/electron/34...9907/electron-v11.2.3-...zip'
+
         process.send({
           progress: {
             percent: 80,
             desc: 'Preparing...',
           },
         });
-      })
-      .then(() => {
+
+        const currentCacheDirName = path.basename(path.dirname(cachedFilePath));
+
         const cachedFiles = fs.readdirSync(electronCachePath);
         // remove cached of other versions of Electron
         const p = cachedFiles
-          .filter((dirName) => !dirName.includes(`v${electronVersion}`))
+          .filter((dirName) => dirName !== currentCacheDirName)
           .map((dirName) => fs.remove(path.join(electronCachePath, dirName)));
         return Promise.all(p);
       });
