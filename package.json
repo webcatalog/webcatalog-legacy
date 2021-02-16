@@ -101,7 +101,7 @@
     "webpack-cli": "4.5.0",
     "windows-shortcuts": "0.1.6",
     "worker-loader": "3.0.8",
-    "yargs-parser": "20.2.4"
+    "yargs-parser": "20.2.5"
   },
   "homepage": "./",
   "private": true,
