@@ -12,6 +12,7 @@ import {
 import hasErrors from '../../helpers/has-errors';
 import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
+import getStaticGlobal from '../../helpers/get-static-global';
 
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
@@ -198,7 +199,7 @@ export const create = () => (dispatch, getState) => {
   // if longer, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
   const id = `custom-${Date.now().toString()}`;
 
-  const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
+  const icon = form.icon || form.internetIcon || getStaticGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
   const opts = {};
