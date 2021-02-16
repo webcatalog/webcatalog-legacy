@@ -12,7 +12,12 @@ import { getInstalledAppCount } from '../../state/app-management/utils';
 const TelemetryManager = ({
   installedAppCount,
   registered,
+  telemetry,
 }) => {
+  useEffect(() => {
+    amplitude.getInstance().setOptOut(!telemetry);
+  }, [telemetry]);
+
   useEffect(() => {
     amplitude.getInstance().setUserProperties({
       pricing: registered ? 'plus' : 'basic', // PRO plan to be added
@@ -48,14 +53,20 @@ const TelemetryManager = ({
   return null;
 };
 
+TelemetryManager.defaultProps = {
+  telemetry: false,
+};
+
 TelemetryManager.propTypes = {
   installedAppCount: PropTypes.number.isRequired,
   registered: PropTypes.bool.isRequired,
+  telemetry: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   registered: state.preferences.registered,
   installedAppCount: state.appManagement.scanning ? -1 : getInstalledAppCount(state),
+  telemetry: state.preferences.telemetry,
 });
 
 export default connectComponent(
