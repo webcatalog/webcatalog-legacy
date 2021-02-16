@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { requestShowAppMenu } from '../../senders';
 
 import connectComponent from '../../helpers/connect-component';
+import getStaticGlobal from '../../helpers/get-static-global';
 
 const LEFT_RIGHT_WIDTH = window.process.platform !== 'darwin' ? 160 : 100;
 const TOOLBAR_HEIGHT = 32;
@@ -103,8 +104,8 @@ const EnhancedAppBar = ({
   classes,
   isMaximized,
   shouldUseDarkColors,
-  useSystemTitleBar,
 }) => {
+  const useSystemTitleBar = getStaticGlobal('useSystemTitleBar');
   const onDoubleClick = (e) => {
     // feature: double click on title bar to expand #656
     // https://github.com/webcatalog/webcatalog-app/issues/656
@@ -227,13 +228,11 @@ EnhancedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   isMaximized: PropTypes.bool.isRequired,
   shouldUseDarkColors: PropTypes.bool.isRequired,
-  useSystemTitleBar: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isMaximized: state.general.isMaximized,
   shouldUseDarkColors: state.general.shouldUseDarkColors,
-  useSystemTitleBar: state.preferences.useSystemTitleBar,
 });
 
 export default connectComponent(

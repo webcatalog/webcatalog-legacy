@@ -128,7 +128,10 @@ if (!gotTheLock) {
       proxyType,
       themeSource,
       privacyConsentAsked,
+      useSystemTitleBar,
     } = getPreferences();
+
+    global.useSystemTitleBar = useSystemTitleBar;
 
     // configure proxy for default session
     if (proxyType === 'rules') {

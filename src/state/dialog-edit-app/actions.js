@@ -11,6 +11,7 @@ import {
 import hasErrors from '../../helpers/has-errors';
 import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
+import getStaticGlobal from '../../helpers/get-static-global';
 
 import { updateApp } from '../app-management/actions';
 
@@ -208,7 +209,7 @@ export const save = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
-  const icon = form.icon || form.internetIcon || window.remote.getGlobal('defaultIcon');
+  const icon = form.icon || form.internetIcon || getStaticGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
   dispatch(updateApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts));

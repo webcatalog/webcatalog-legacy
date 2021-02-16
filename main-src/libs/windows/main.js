@@ -195,7 +195,7 @@ const createAsync = () => new Promise((resolve) => {
     minHeight: 500,
     titleBarStyle: 'hiddenInset',
     show: false,
-    frame: process.platform === 'darwin' || getPreference('useSystemTitleBar'),
+    frame: process.platform === 'darwin' || global.useSystemTitleBar,
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
