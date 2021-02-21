@@ -38,7 +38,9 @@ const getRelatedPaths = ({
 
   const packageJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'package.json');
   const appJsonPath = path.join(resourcesPath, 'app.asar.unpacked', 'build', 'app.json');
-  const { opts: { legacyUserData, slug } } = fsExtra.readJSONSync(appJsonPath);
+  const appJsonContent = fsExtra.readJSONSync(appJsonPath);
+  const opts = { ...appJsonContent.opts };
+  const { legacyUserData, slug } = opts;
   const { version } = fsExtra.readJSONSync(packageJsonPath);
 
   // Data
