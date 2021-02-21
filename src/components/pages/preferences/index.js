@@ -36,6 +36,7 @@ import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
+import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogProxy } from '../../../state/dialog-proxy/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
@@ -194,6 +195,7 @@ const Preferences = ({
   installingAppCount,
   onOpenDialogAbout,
   onOpenDialogLicenseRegistration,
+  onOpenDialogOpenSourceNotices,
   onOpenDialogProxy,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
@@ -206,8 +208,8 @@ const Preferences = ({
   themeSource,
   updaterInfo,
   updaterStatus,
-  useSystemTitleBar,
   useHardwareAcceleration,
+  useSystemTitleBar,
 }) => {
   const sections = {
     licensing: {
@@ -993,6 +995,11 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
+              <ListItem button onClick={onOpenDialogOpenSourceNotices}>
+                <ListItemText primary="Open Source Notices" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
               <ListItem
                 button
                 onClick={() => requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/')}
@@ -1047,6 +1054,7 @@ Preferences.propTypes = {
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
+  onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogProxy: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
@@ -1059,8 +1067,8 @@ Preferences.propTypes = {
   themeSource: PropTypes.string.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
-  useSystemTitleBar: PropTypes.bool.isRequired,
   useHardwareAcceleration: PropTypes.bool.isRequired,
+  useSystemTitleBar: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -1090,9 +1098,10 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
   openDialogAbout,
   openDialogLicenseRegistration,
+  openDialogOpenSourceNotices,
+  openDialogProxy,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,
-  openDialogProxy,
 };
 
 export default connectComponent(
