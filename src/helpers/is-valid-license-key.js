@@ -5,7 +5,7 @@ import md5 from 'blueimp-md5';
 
 const isValidLicenseKey = (licenseKey) => {
   try {
-    const inputLicenseKey = licenseKey.trim();
+    const inputLicenseKey = licenseKey.trim().replace(/\s/g, '');
 
     const parts = inputLicenseKey.split('-');
     const quantity = parts[0];
