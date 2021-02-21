@@ -12,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-about/actions';
+import { open as openDialogOpenSourceNotices } from '../../state/dialog-open-source-notices/actions';
 import iconPng from '../../assets/products/webcatalog-mac-icon-128@2x.png';
 
 import { requestOpenInBrowser } from '../../senders';
@@ -57,13 +58,12 @@ const styles = (theme) => ({
   },
 });
 
-const About = (props) => {
-  const {
-    classes,
-    onClose,
-    open,
-  } = props;
-
+const About = ({
+  classes,
+  onClose,
+  onOpenDialogOpenSourceNotices,
+  open,
+}) => {
   const appVersion = window.remote.app.getVersion();
 
   return (
@@ -96,6 +96,14 @@ const About = (props) => {
         >
           Help
         </Button>
+
+        <br />
+
+        <Button
+          onClick={onOpenDialogOpenSourceNotices}
+        >
+          Open Source Notices
+        </Button>
       </DialogContent>
     </Dialog>
   );
@@ -104,6 +112,7 @@ const About = (props) => {
 About.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
 
@@ -113,6 +122,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   close,
+  openDialogOpenSourceNotices,
 };
 
 export default connectComponent(
