@@ -57,6 +57,7 @@ import DefinedAppBar from './defined-app-bar';
 import webcatalogIconPng from '../../../assets/products/webcatalog-mac-icon-128@2x.png';
 import translatiumIconPng from '../../../assets/products/translatium-mac-icon-128@2x.png';
 import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
+import squeezerIconPng from '../../../assets/products/squeezer-mac-icon-128@2x.png';
 import cloveryIconPng from '../../../assets/products/clovery-mac-icon-128@2x.png';
 import pantextIconPng from '../../../assets/products/pantext-mac-icon-128@2x.png';
 import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
@@ -835,6 +836,32 @@ const Preferences = ({
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         Smart Browser for Busy People
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <ChevronRightIcon color="action" />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => {
+                  const url = 'https://squeezer.app?utm_source=webcatalog_app';
+                  requestOpenInBrowser(url);
+                }}
+                className={classes.listItemPromotion}
+              >
+                <div className={classes.promotionBlock}>
+                  <div className={classes.promotionLeft}>
+                    <img src={squeezerIconPng} alt="Squeezer" className={classes.appIcon} />
+                  </div>
+                  <div className={classes.promotionRight}>
+                    <div>
+                      <Typography variant="body1" className={classes.appTitle}>
+                        Squeezer
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Compress, Resize, Convert Images
                       </Typography>
                     </div>
                   </div>
