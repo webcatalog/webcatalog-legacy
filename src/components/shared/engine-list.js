@@ -16,6 +16,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
 
 import HelpIcon from '@material-ui/icons/Help';
@@ -37,9 +39,9 @@ import yandexIcon from '../../assets/yandex.png';
 
 import HelpTooltip from './help-tooltip';
 
-const CustomHelpIcon = withStyles(() => ({
+const CustomHelpIcon = withStyles((theme) => ({
   fontSizeSmall: {
-    marginTop: 4,
+    marginTop: theme.spacing(0.5),
   },
 }))(HelpIcon);
 
@@ -66,14 +68,27 @@ const getDesc = (engineCode, browserName) => {
       <br />
       <strong>Tabbed: </strong>
       {tabbedDesc}
+      <br />
+      <br />
+      This option is experimental, buggy and not recommended.
     </>
   );
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   disabledListItem: {
     opacity: '0.2',
     cursor: 'not-allowed',
+  },
+  toggleButton: {
+    padding: theme.spacing(0.5),
+  },
+  smallAvatar: {
+    height: 28,
+    width: 28,
+  },
+  smallListItemAvatar: {
+    minWidth: 36,
   },
 });
 
@@ -84,7 +99,7 @@ const EngineList = ({
   onEngineSelected,
   widevine,
 }) => (
-  <List dense>
+  <List>
     {widevine ? (
       <HelpTooltip
         title={(
@@ -136,6 +151,9 @@ const EngineList = ({
                 <Chip size="small" label="Default" variant="outlined" />
               </Grid>
               <Grid item>
+                <Chip size="small" label="Feature-Rich" variant="outlined" />
+              </Grid>
+              <Grid item>
                 <Chip size="small" label="Recommended" color="secondary" />
               </Grid>
               <Grid item>
@@ -182,7 +200,7 @@ const EngineList = ({
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Chip size="small" label="Experimental" variant="outlined" />
+                      <Chip size="small" label="Lightweight" variant="outlined" />
                     </Grid>
                     <Grid>
                       <HelpTooltip
@@ -218,7 +236,7 @@ const EngineList = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Chip size="small" label="Experimental" variant="outlined" />
+                    <Chip size="small" label="Lightweight" variant="outlined" />
                   </Grid>
                   <Grid>
                     <HelpTooltip
@@ -238,17 +256,22 @@ const EngineList = ({
         )}
       </>
     )}
+    <Divider />
+    <ListSubheader>
+      Experimental (Unstable)
+    </ListSubheader>
     {window.process.platform !== 'linux' && (
       <ListItem
+        dense
         button
         onClick={() => {
           if (engine === 'firefox' || engine.startsWith('firefox/')) return;
-          onEngineSelected('firefox');
+          onEngineSelected('firefox/tabs');
         }}
         selected={engine === 'firefox' || engine.startsWith('firefox/')}
       >
-        <ListItemAvatar>
-          <Avatar alt="Mozilla Firefox" src={firefoxIcon} />
+        <ListItemAvatar className={classes.smallListItemAvatar}>
+          <Avatar alt="Mozilla Firefox" src={firefoxIcon} className={classes.smallAvatar} />
         </ListItemAvatar>
         <ListItemText
           primary={(
@@ -257,9 +280,6 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Mozilla Firefox
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -286,10 +306,7 @@ const EngineList = ({
               }}
               size="small"
             >
-              <ToggleButton value="firefox">
-                Standard
-              </ToggleButton>
-              <ToggleButton value="firefox/tabs">
+              <ToggleButton value="firefox/tabs" classes={{ root: classes.toggleButton }}>
                 Tabbed
               </ToggleButton>
             </ToggleButtonGroup>
@@ -298,6 +315,7 @@ const EngineList = ({
       </ListItem>
     )}
     <ListItem
+      dense
       button
       onClick={() => {
         if (engine === 'chrome' || engine.startsWith('chrome/')) return;
@@ -305,8 +323,8 @@ const EngineList = ({
       }}
       selected={engine === 'chrome' || engine.startsWith('chrome/')}
     >
-      <ListItemAvatar>
-        <Avatar alt="Google Chrome" src={chromeIcon} />
+      <ListItemAvatar className={classes.smallListItemAvatar}>
+        <Avatar alt="Google Chrome" src={chromeIcon} className={classes.smallAvatar} />
       </ListItemAvatar>
       <ListItemText
         primary={(
@@ -315,9 +333,6 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Google Chrome
               </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -344,10 +359,10 @@ const EngineList = ({
             }}
             size="small"
           >
-            <ToggleButton value="chrome">
+            <ToggleButton value="chrome" classes={{ root: classes.toggleButton }}>
               Standard
             </ToggleButton>
-            <ToggleButton value="chrome/tabs">
+            <ToggleButton value="chrome/tabs" classes={{ root: classes.toggleButton }}>
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
@@ -355,6 +370,7 @@ const EngineList = ({
       )}
     </ListItem>
     <ListItem
+      dense
       button
       onClick={() => {
         if (engine.startsWith('brave')) return;
@@ -362,8 +378,8 @@ const EngineList = ({
       }}
       selected={engine.startsWith('brave')}
     >
-      <ListItemAvatar>
-        <Avatar alt="Brave" src={braveIcon} />
+      <ListItemAvatar className={classes.smallListItemAvatar}>
+        <Avatar alt="Brave" src={braveIcon} className={classes.smallAvatar} />
       </ListItemAvatar>
       <ListItemText
         primary={(
@@ -372,9 +388,6 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Brave
               </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -401,10 +414,10 @@ const EngineList = ({
             }}
             size="small"
           >
-            <ToggleButton value="brave">
+            <ToggleButton value="brave" classes={{ root: classes.toggleButton }}>
               Standard
             </ToggleButton>
-            <ToggleButton value="brave/tabs">
+            <ToggleButton value="brave/tabs" classes={{ root: classes.toggleButton }}>
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
@@ -413,6 +426,7 @@ const EngineList = ({
     </ListItem>
     {window.process.platform === 'darwin' && (
       <ListItem
+        dense
         button
         onClick={() => {
           if (engine.startsWith('chromeCanary')) return;
@@ -420,8 +434,8 @@ const EngineList = ({
         }}
         selected={engine.startsWith('chromeCanary')}
       >
-        <ListItemAvatar>
-          <Avatar alt="Google Chrome Canary" src={chromeCanaryIcon} />
+        <ListItemAvatar className={classes.smallListItemAvatar}>
+          <Avatar alt="Google Chrome Canary" src={chromeCanaryIcon} className={classes.smallAvatar} />
         </ListItemAvatar>
         <ListItemText
           primary={(
@@ -430,9 +444,6 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Google Chrome Canary
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -459,10 +470,10 @@ const EngineList = ({
               }}
               size="small"
             >
-              <ToggleButton value="chromeCanary">
+              <ToggleButton value="chromeCanary" classes={{ root: classes.toggleButton }}>
                 Standard
               </ToggleButton>
-              <ToggleButton value="chromeCanary/tabs">
+              <ToggleButton value="chromeCanary/tabs" classes={{ root: classes.toggleButton }}>
                 Tabbed
               </ToggleButton>
             </ToggleButtonGroup>
@@ -472,6 +483,7 @@ const EngineList = ({
     )}
     {window.process.platform !== 'win32' && (
       <ListItem
+        dense
         button
         onClick={() => {
           if (engine.startsWith('chromium')) return;
@@ -479,8 +491,8 @@ const EngineList = ({
         }}
         selected={engine.startsWith('chromium')}
       >
-        <ListItemAvatar>
-          <Avatar alt="Chromium" src={chromiumIcon} />
+        <ListItemAvatar className={classes.smallListItemAvatar}>
+          <Avatar alt="Chromium" src={chromiumIcon} className={classes.smallAvatar} />
         </ListItemAvatar>
         <ListItemText
           primary={(
@@ -489,9 +501,6 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Chromium
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -518,10 +527,10 @@ const EngineList = ({
               }}
               size="small"
             >
-              <ToggleButton value="chromium">
+              <ToggleButton value="chromium" classes={{ root: classes.toggleButton }}>
                 Standard
               </ToggleButton>
-              <ToggleButton value="chromium/tabs">
+              <ToggleButton value="chromium/tabs" classes={{ root: classes.toggleButton }}>
                 Tabbed
               </ToggleButton>
             </ToggleButtonGroup>
@@ -531,6 +540,7 @@ const EngineList = ({
     )}
     {window.process.platform !== 'linux' && (
       <ListItem
+        dense
         button
         onClick={() => {
           if (engine.startsWith('coccoc')) return;
@@ -538,8 +548,8 @@ const EngineList = ({
         }}
         selected={engine.startsWith('coccoc')}
       >
-        <ListItemAvatar>
-          <Avatar alt="Cốc Cốc" src={coccocIcon} />
+        <ListItemAvatar className={classes.smallListItemAvatar}>
+          <Avatar alt="Cốc Cốc" src={coccocIcon} className={classes.smallAvatar} />
         </ListItemAvatar>
         <ListItemText
           primary={(
@@ -548,9 +558,6 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Cốc Cốc
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -577,10 +584,10 @@ const EngineList = ({
               }}
               size="small"
             >
-              <ToggleButton value="coccoc">
+              <ToggleButton value="coccoc" classes={{ root: classes.toggleButton }}>
                 Standard
               </ToggleButton>
-              <ToggleButton value="coccoc/tabs">
+              <ToggleButton value="coccoc/tabs" classes={{ root: classes.toggleButton }}>
                 Tabbed
               </ToggleButton>
             </ToggleButtonGroup>
@@ -590,6 +597,7 @@ const EngineList = ({
     )}
     {window.process.platform !== 'linux' && (
       <ListItem
+        dense
         button
         onClick={() => {
           if (engine.startsWith('edge')) return;
@@ -597,8 +605,8 @@ const EngineList = ({
         }}
         selected={engine.startsWith('edge')}
       >
-        <ListItemAvatar>
-          <Avatar alt="Microsoft Edge" src={edgeIcon} />
+        <ListItemAvatar className={classes.smallListItemAvatar}>
+          <Avatar alt="Microsoft Edge" src={edgeIcon} className={classes.smallAvatar} />
         </ListItemAvatar>
         <ListItemText
           primary={(
@@ -607,9 +615,6 @@ const EngineList = ({
                 <Typography variant="body2" noWrap>
                   Microsoft Edge
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Chip size="small" label="Experimental" variant="outlined" />
               </Grid>
               <Grid item>
                 <HelpTooltip
@@ -636,10 +641,10 @@ const EngineList = ({
               }}
               size="small"
             >
-              <ToggleButton value="edge">
+              <ToggleButton value="edge" classes={{ root: classes.toggleButton }}>
                 Standard
               </ToggleButton>
-              <ToggleButton value="edge/tabs">
+              <ToggleButton value="edge/tabs" classes={{ root: classes.toggleButton }}>
                 Tabbed
               </ToggleButton>
             </ToggleButtonGroup>
@@ -648,12 +653,13 @@ const EngineList = ({
       </ListItem>
     )}
     <ListItem
+      dense
       button
       onClick={() => onEngineSelected('opera/tabs')}
       selected={engine === 'opera/tabs'}
     >
-      <ListItemAvatar>
-        <Avatar alt="Opera" src={operaIcon} />
+      <ListItemAvatar className={classes.smallListItemAvatar}>
+        <Avatar alt="Opera" src={operaIcon} className={classes.smallAvatar} />
       </ListItemAvatar>
       <ListItemText
         primary={(
@@ -662,9 +668,6 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Opera
               </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -691,7 +694,7 @@ const EngineList = ({
             }}
             size="small"
           >
-            <ToggleButton value="opera/tabs">
+            <ToggleButton value="opera/tabs" classes={{ root: classes.toggleButton }}>
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
@@ -699,6 +702,7 @@ const EngineList = ({
       )}
     </ListItem>
     <ListItem
+      dense
       button
       onClick={() => {
         if (engine.startsWith('vivaldi')) return;
@@ -706,8 +710,8 @@ const EngineList = ({
       }}
       selected={engine.startsWith('vivaldi')}
     >
-      <ListItemAvatar>
-        <Avatar alt="Vivaldi" src={vivaldiIcon} />
+      <ListItemAvatar className={classes.smallListItemAvatar}>
+        <Avatar alt="Vivaldi" src={vivaldiIcon} className={classes.smallAvatar} />
       </ListItemAvatar>
       <ListItemText
         primary={(
@@ -716,9 +720,6 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Vivaldi
               </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -745,10 +746,10 @@ const EngineList = ({
             }}
             size="small"
           >
-            <ToggleButton value="vivaldi">
+            <ToggleButton value="vivaldi" classes={{ root: classes.toggleButton }}>
               Standard
             </ToggleButton>
-            <ToggleButton value="vivaldi/tabs">
+            <ToggleButton value="vivaldi/tabs" classes={{ root: classes.toggleButton }}>
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
@@ -756,6 +757,7 @@ const EngineList = ({
       )}
     </ListItem>
     <ListItem
+      dense
       button
       onClick={() => {
         if (engine.startsWith('yandex')) return;
@@ -763,8 +765,8 @@ const EngineList = ({
       }}
       selected={engine.startsWith('yandex')}
     >
-      <ListItemAvatar>
-        <Avatar alt="Yandex" src={yandexIcon} />
+      <ListItemAvatar className={classes.smallListItemAvatar}>
+        <Avatar alt="Yandex" src={yandexIcon} className={classes.smallAvatar} />
       </ListItemAvatar>
       <ListItemText
         primary={(
@@ -773,9 +775,6 @@ const EngineList = ({
               <Typography variant="body2" noWrap>
                 Yandex Browser
               </Typography>
-            </Grid>
-            <Grid item>
-              <Chip size="small" label="Experimental" variant="outlined" />
             </Grid>
             <Grid item>
               <HelpTooltip
@@ -802,10 +801,10 @@ const EngineList = ({
             }}
             size="small"
           >
-            <ToggleButton value="yandex">
+            <ToggleButton value="yandex" classes={{ root: classes.toggleButton }}>
               Standard
             </ToggleButton>
-            <ToggleButton value="yandex/tabs">
+            <ToggleButton value="yandex/tabs" classes={{ root: classes.toggleButton }}>
               Tabbed
             </ToggleButton>
           </ToggleButtonGroup>
