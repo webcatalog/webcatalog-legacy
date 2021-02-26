@@ -207,6 +207,25 @@ Promise.resolve()
     <string>NSApplication</string>
     <key>NSMainNibFile</key>
     <string>MainMenu</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLName</key>
+        <string>HTTPS Protocol</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>https</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLName</key>
+        <string>HTTP Protocol</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>http</string>
+        </array>
+      </dict>
+    </array>
   </dict>
 </plist>
 `;
