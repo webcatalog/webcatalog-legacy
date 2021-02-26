@@ -70,8 +70,8 @@ const DialogChooseEngine = ({
       <Grid container direction="row" alignItems="center" spacing={1}>
         <Grid item>
           <Typography variant="subtitle1">
-            Choose an Browser Engine for
-            {` ${name}`}
+            Choose an Browser Engine for&nbsp;
+            {name}
           </Typography>
         </Grid>
         <Grid item>
@@ -81,7 +81,9 @@ const DialogChooseEngine = ({
                 WebCatalog lets you pick your preferrred browser engine to power&nbsp;
                 {name}
                 . This cannot be changed later.
-                You will have to uninstall and then reinstall to change the engine of an app.
+                You will have to uninstall and then reinstall&nbsp;
+                {name}
+                &nbsp;to change the engine of an app.
               </Typography>
             )}
           >
