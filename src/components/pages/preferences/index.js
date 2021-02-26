@@ -61,8 +61,6 @@ import squeezerIconPng from '../../../assets/products/squeezer-mac-icon-128@2x.p
 import cloveryIconPng from '../../../assets/products/clovery-mac-icon-128@2x.png';
 import pantextIconPng from '../../../assets/products/pantext-mac-icon-128@2x.png';
 import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
-import dynamailIconPng from '../../../assets/products/dynamail-mac-icon-128@2x.png';
-import dynacallIconPng from '../../../assets/products/dynacal-mac-icon-128@2x.png';
 
 const styles = (theme) => ({
   root: {
@@ -941,58 +939,6 @@ const Preferences = ({
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         All Your Email Apps in One
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://dynamail.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={dynamailIconPng} alt="DynaMail" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        DynaMail
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        The Best Gmail Client
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://dynacal.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={dynacallIconPng} alt="DynaCal" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        DynaCal
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        The Best Google Calendar Client
                       </Typography>
                     </div>
                   </div>
