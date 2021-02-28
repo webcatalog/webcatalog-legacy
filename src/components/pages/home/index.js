@@ -120,6 +120,7 @@ const Home = ({
             icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
           },
           facets: {
+            type: { type: 'value', size: 2 },
             category: { type: 'value', size: 30 },
           },
         },
