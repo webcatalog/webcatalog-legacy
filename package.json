@@ -67,7 +67,7 @@
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.22.0",
     "eslint-plugin-react-hooks": "1.7.0",
-    "follow-redirects": "1.13.2",
+    "follow-redirects": "1.13.3",
     "fs-extra": "9.1.0",
     "hasha": "5.2.2",
     "icon-gen": "2.1.0",
