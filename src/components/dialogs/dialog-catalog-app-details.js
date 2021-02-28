@@ -48,6 +48,13 @@ const styles = (theme) => ({
   },
   appDescSection: {
     marginTop: theme.spacing(2),
+    '& h5': {
+      ...theme.typography.h6,
+      margin: 0,
+    },
+    '& h5 + p': {
+      marginTop: 0,
+    },
   },
   legal: {
     marginTop: theme.spacing(1),
