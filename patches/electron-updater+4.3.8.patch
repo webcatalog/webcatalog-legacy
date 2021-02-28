@@ -1,5 +1,5 @@
 diff --git a/node_modules/electron-updater/out/providers/Provider.js b/node_modules/electron-updater/out/providers/Provider.js
-index f174c7b..b0cae4f 100644
+index 51a5c23..315a4af 100644
 --- a/node_modules/electron-updater/out/providers/Provider.js
 +++ b/node_modules/electron-updater/out/providers/Provider.js
 @@ -55,8 +55,12 @@ class Provider {
