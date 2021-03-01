@@ -25,7 +25,6 @@ import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RouterIcon from '@material-ui/icons/Router';
 import SecurityIcon from '@material-ui/icons/Security';
-import StorefrontIcon from '@material-ui/icons/Storefront';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
@@ -53,14 +52,6 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
-
-import webcatalogIconPng from '../../../assets/products/webcatalog-mac-icon-128@2x.png';
-import translatiumIconPng from '../../../assets/products/translatium-mac-icon-128@2x.png';
-import singleboxIconPng from '../../../assets/products/singlebox-mac-icon-128@2x.png';
-import squeezerIconPng from '../../../assets/products/squeezer-mac-icon-128@2x.png';
-import cloveryIconPng from '../../../assets/products/clovery-mac-icon-128@2x.png';
-import pantextIconPng from '../../../assets/products/pantext-mac-icon-128@2x.png';
-import panmailIconPng from '../../../assets/products/panmail-mac-icon-128@2x.png';
 
 const styles = (theme) => ({
   root: {
@@ -249,11 +240,6 @@ const Preferences = ({
     reset: {
       text: 'Reset',
       Icon: RotateLeftIcon,
-      ref: useRef(),
-    },
-    moreApps: {
-      text: 'More Apps',
-      Icon: StorefrontIcon,
       ref: useRef(),
     },
     miscs: {
@@ -765,187 +751,6 @@ const Preferences = ({
                 <ListItemText primary="Restore preferences to their original defaults" />
                 <ChevronRightIcon color="action" />
               </ListItem>
-            </List>
-          </Paper>
-
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.moreApps.ref}>
-            More Apps
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app')}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={webcatalogIconPng} alt="WebCatalog" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        WebCatalog
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Turn Any Websites Into Desktop Apps
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://translatium.app?utm_source=webcatalog_app')}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={translatiumIconPng} alt="Translatium" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        Translatium
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Translate 100+ Languages Instantly
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://singlebox.app?utm_source=webcatalog_app')}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={singleboxIconPng} alt="Singlebox" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        Singlebox
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Smart Browser for Busy People
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://squeezer.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={squeezerIconPng} alt="Squeezer" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        Squeezer
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Compress, Resize, Convert Images
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://clovery.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={cloveryIconPng} alt="Clovery" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        Clovery
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        All Google Apps in One
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://pantext.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={pantextIconPng} alt="PanText" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        PanText
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        All Your Messaging Apps in One
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                button
-                onClick={() => {
-                  const url = 'https://panmail.app?utm_source=webcatalog_app';
-                  requestOpenInBrowser(url);
-                }}
-                className={classes.listItemPromotion}
-              >
-                <div className={classes.promotionBlock}>
-                  <div className={classes.promotionLeft}>
-                    <img src={panmailIconPng} alt="PanMail" className={classes.appIcon} />
-                  </div>
-                  <div className={classes.promotionRight}>
-                    <div>
-                      <Typography variant="body1" className={classes.appTitle}>
-                        PanMail
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        All Your Email Apps in One
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
             </List>
           </Paper>
 
