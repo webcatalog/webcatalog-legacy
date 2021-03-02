@@ -23,7 +23,6 @@ const icongen = require('icon-gen');
 const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
-const ProxyAgent = require('proxy-agent');
 
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
@@ -242,18 +241,6 @@ Promise.resolve()
     if (process.platform === 'darwin') optsIconPath = iconIcnsPath;
     if (process.platform === 'win32') optsIconPath = iconIcoPath;
 
-    const proxyPacScript = process.env.PROXY_PAC_SCRIPT;
-    const proxyRules = process.env.PROXY_RULES;
-    const proxyType = process.env.PROXY_TYPE;
-
-    // create proxy agent
-    let agent;
-    if (proxyType === 'rules') {
-      agent = new ProxyAgent(proxyRules);
-    } else if (proxyType === 'pacScript') {
-      agent = new ProxyAgent(`pac+${proxyPacScript}`);
-    }
-
     // max length 43 chars
     // if longer, the app would crash on Mac
     // process memory mac.cc(93)] mach_vm_read(0x7ffeef65c000, 0x2000):
@@ -287,16 +274,6 @@ Promise.resolve()
       prebuiltAsar: path.join(templatePath, 'app.asar'),
       download: {
         cacheRoot: electronCachePath,
-        // it's unlikely that electron-packager will make requests
-        // as we have downloaded Electron with prepare-electron-async
-        // but we still configure proxy here just in case
-        downloadOptions: {
-          agent: agent ? {
-            http: agent,
-            http2: agent,
-            https: agent,
-          } : undefined,
-        },
       },
     };
 

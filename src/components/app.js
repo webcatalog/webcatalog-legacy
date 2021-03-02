@@ -22,7 +22,6 @@ import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
-import DialogProxy from './dialogs/dialog-proxy';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
 
@@ -129,7 +128,6 @@ const App = ({
       <DialogEditApp />
       <DialogLicenseRegistration />
       <DialogOpenSourceNotices />
-      <DialogProxy />
       <DialogSetInstallationPath />
       <DialogSetPreferredEngine />
     </div>

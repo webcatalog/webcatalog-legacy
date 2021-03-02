@@ -4,7 +4,7 @@
 const path = require('path');
 const semver = require('semver');
 const settings = require('electron-settings');
-const { app, nativeTheme, ipcMain } = require('electron');
+const { app, nativeTheme } = require('electron');
 const fs = require('fs-extra');
 
 const sendToAllWindows = require('./send-to-all-windows');
@@ -38,10 +38,6 @@ const defaultPreferences = {
   licenseKey: null,
   preferredEngine: 'electron',
   privacyConsentAsked: false,
-  proxyBypassRules: '',
-  proxyPacScript: '',
-  proxyRules: '',
-  proxyType: 'none',
   requireAdmin: false,
   sentry: false,
   sortInstalledAppBy: 'last-updated',

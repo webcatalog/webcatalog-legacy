@@ -15,7 +15,6 @@ process.on('uncaughtException', (e) => {
   process.exit(1);
 });
 
-const ProxyAgent = require('proxy-agent');
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const axios = require('axios');
 const decompress = require('decompress');
@@ -77,24 +76,11 @@ Promise.resolve()
         return fs.remove(templateZipPath)
           .then(() => fs.remove(templatePath))
           .then(() => {
-            const proxyPacScript = process.env.PROXY_PAC_SCRIPT;
-            const proxyRules = process.env.PROXY_RULES;
-            const proxyType = process.env.PROXY_TYPE;
-
-            // create proxy agent
-            let agent;
-            if (proxyType === 'rules') {
-              agent = new ProxyAgent(proxyRules);
-            } else if (proxyType === 'pacScript') {
-              agent = new ProxyAgent(`pac+${proxyPacScript}`);
-            }
-
+            const url = templateInfo.downloadUrl;
             return axios({
               method: 'get',
-              url: templateInfo.downloadUrl,
+              url,
               responseType: 'stream',
-              httpsAgent: agent,
-              httpAgent: agent,
             }).then((response) => new Promise((resolve, reject) => {
               // https://futurestud.io/tutorials/axios-download-progress-in-node-js
               const totalLength = response.headers['content-length'];

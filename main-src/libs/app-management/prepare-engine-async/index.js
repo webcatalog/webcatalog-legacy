@@ -11,7 +11,7 @@ const { addBreadcrumb } = require('@sentry/electron');
 
 const customizedFetch = require('../../customized-fetch');
 const sendToAllWindows = require('../../send-to-all-windows');
-const { getPreference, getPreferences } = require('../../preferences');
+const { getPreference } = require('../../preferences');
 
 // force re-extract for first installation after launch
 global.forceExtract = true;
@@ -65,12 +65,6 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
   const scriptPath = path.join(__dirname, 'prepare-engine-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 
-  const {
-    proxyPacScript,
-    proxyRules,
-    proxyType,
-  } = getPreferences();
-
   const args = [
     '--appVersion',
     app.getVersion(),
@@ -105,9 +99,6 @@ const downloadExtractTemplateAsync = (tagName) => new Promise((resolve, reject) 
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
       APPDATA: app.getPath('appData'),
-      PROXY_PAC_SCRIPT: proxyPacScript,
-      PROXY_RULES: proxyRules,
-      PROXY_TYPE: proxyType,
       FORCE_EXTRACT: Boolean(global.forceExtract).toString(),
     },
   });

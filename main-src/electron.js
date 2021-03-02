@@ -9,7 +9,6 @@ const {
   ipcMain,
   nativeTheme,
   protocol,
-  session,
 } = require('electron');
 const fs = require('fs');
 
@@ -133,29 +132,12 @@ if (!gotTheLock) {
 
     const {
       allowPrerelease,
-      proxyBypassRules,
-      proxyPacScript,
-      proxyRules,
-      proxyType,
       themeSource,
       privacyConsentAsked,
       useSystemTitleBar,
     } = getPreferences();
 
     global.useSystemTitleBar = useSystemTitleBar;
-
-    // configure proxy for default session
-    if (proxyType === 'rules') {
-      session.defaultSession.setProxy({
-        proxyRules,
-        proxyBypassRules,
-      });
-    } else if (proxyType === 'pacScript') {
-      session.defaultSession.setProxy({
-        proxyPacScript,
-        proxyBypassRules,
-      });
-    }
 
     nativeTheme.themeSource = themeSource;
 
