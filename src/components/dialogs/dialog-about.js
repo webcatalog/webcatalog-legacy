@@ -13,7 +13,7 @@ import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-about/actions';
 import { open as openDialogOpenSourceNotices } from '../../state/dialog-open-source-notices/actions';
-import iconPng from '../../assets/products/webcatalog-mac-icon-128@2x.png';
+import iconPng from '../../assets/webcatalog-mac-icon-128@2x.png';
 
 import { requestOpenInBrowser } from '../../senders';
 
