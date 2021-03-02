@@ -219,11 +219,6 @@ const Preferences = ({
       Icon: WidgetsIcon,
       ref: useRef(),
     },
-    network: {
-      text: 'Network',
-      Icon: RouterIcon,
-      ref: useRef(),
-    },
     privacy: {
       text: 'Privacy & Security',
       Icon: SecurityIcon,
