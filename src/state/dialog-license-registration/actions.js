@@ -46,7 +46,6 @@ export const register = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
-  requestSetPreference('registered', true);
   requestSetPreference('licenseKey', form.licenseKey);
 
   requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to update and relaunch apps installed from WebCatalog for the license to be fully activated.');

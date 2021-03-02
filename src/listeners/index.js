@@ -25,6 +25,7 @@ import {
 import {
   getShouldUseDarkColors,
 } from '../senders';
+import firebase from '../firebase';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
@@ -100,6 +101,15 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('set-is-maximized', (e, isMaximized) => {
     store.dispatch(updateIsMaximized(isMaximized));
+  });
+
+  window.ipcRenderer.on('sign-in-with-token', (e, token) => {
+    if (firebase.auth().currentUser) {
+      return;
+    }
+    firebase.auth().signInWithCustomToken(token)
+      // eslint-disable-next-line no-console
+      .catch(console.log);
   });
 };
 

@@ -72,10 +72,6 @@ const loadListeners = () => {
 
   ipcMain.on('request-set-preference', (e, name, value) => {
     setPreference(name, value);
-
-    if (name === 'registered') {
-      createMenu();
-    }
   });
 
   // System Preferences
@@ -191,7 +187,6 @@ const loadListeners = () => {
               send(e.sender, 'set-app', id, {
                 ...newApp,
                 status: 'INSTALLED',
-                registered: getPreference('registered'),
               });
               delete promiseFuncMap[id];
             })
@@ -250,7 +245,6 @@ const loadListeners = () => {
                 ...newApp,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
-                registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
                 icon128: displayedIcon,
               });

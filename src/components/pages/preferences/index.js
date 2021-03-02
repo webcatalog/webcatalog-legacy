@@ -18,7 +18,6 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
 import BuildIcon from '@material-ui/icons/Build';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PowerIcon from '@material-ui/icons/Power';
@@ -191,7 +190,6 @@ const Preferences = ({
   onOpenDialogSetPreferredEngine,
   openAtLogin,
   preferredEngine,
-  registered,
   requireAdmin,
   sentry,
   telemetry,
@@ -202,11 +200,6 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
-    licensing: {
-      text: 'Licensing',
-      Icon: CheckCircleOutlineIcon,
-      ref: useRef(),
-    },
     general: {
       text: 'General',
       Icon: WidgetsIcon,
@@ -277,26 +270,6 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
-            Licensing
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem button disabled>
-                <ListItemText primary={registered ? 'WebCatalog Plus is activated.' : 'WebCatalog Basic'} />
-              </ListItem>
-              {!registered && (
-                <>
-                  <Divider />
-                  <ListItem button onClick={onOpenDialogLicenseRegistration}>
-                    <ListItemText primary="Upgrade to WebCatalog Plus" />
-                    <ChevronRightIcon color="action" />
-                  </ListItem>
-                </>
-              )}
-            </List>
-          </Paper>
-
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
           </Typography>
@@ -779,26 +752,8 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/')}
-              >
-                <ListItemText primary="Review WebCatalog on AlternativeTo" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://twitter.com/webcatalog_app')}>
-                <ListItemText primary="Twitter" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://www.linkedin.com/company/webcatalogapp')}>
-                <ListItemText primary="LinkedIn" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/webcatalog')}>
-                <ListItemText primary="GitHub" />
+                <ListItemText primary="Find Us on Twitter" />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
@@ -839,7 +794,6 @@ Preferences.propTypes = {
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   preferredEngine: PropTypes.string.isRequired,
-  registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
   telemetry: PropTypes.bool.isRequired,
@@ -863,7 +817,6 @@ const mapStateToProps = (state) => ({
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
   preferredEngine: state.preferences.preferredEngine,
-  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
   telemetry: state.preferences.telemetry,

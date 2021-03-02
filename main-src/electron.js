@@ -86,13 +86,24 @@ if (!gotTheLock) {
         if (urlStr.startsWith('webcatalog://catalog/')) {
           let appId;
           try {
-            appId = url.parse(urlStr).path.substring(1);
+            appId = urlStr.replace('webcatalog://catalog/', '');
           } catch (err) {
             // eslint-disable-next-line no-console
             console.log(err);
           }
           if (appId) {
             mainWindow.send('open-dialog-catalog-app-details', appId);
+          }
+        } else if (urlStr.startsWith('webcatalog://sign-in-with-token/')) {
+          let token;
+          try {
+            token = urlStr.replace('webcatalog://sign-in-with-token/', '');
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log(err);
+          }
+          if (token) {
+            mainWindow.send('sign-in-with-token', token);
           }
         }
       });

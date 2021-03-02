@@ -88,7 +88,6 @@ const createAsync = () => new Promise((resolve) => {
 
     mb.on('ready', () => {
       mb.tray.on('right-click', () => {
-        const registered = getPreference('registered');
         const updaterEnabled = process.env.SNAP == null
           && !process.mas && !process.windowsStore;
         const updaterMenuItem = {
@@ -122,23 +121,6 @@ const createAsync = () => new Promise((resolve) => {
             label: 'About WebCatalog',
             click: () => {
               sendToAllWindows('open-dialog-about');
-              mb.showWindow();
-            },
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: registered ? 'WebCatalog Plus' : 'WebCatalog Basic',
-            visible: true,
-            enabled: false,
-            click: null,
-          },
-          {
-            label: 'Upgrade...',
-            visible: !registered,
-            click: registered ? null : () => {
-              sendToAllWindows('open-license-registration-dialog');
               mb.showWindow();
             },
           },

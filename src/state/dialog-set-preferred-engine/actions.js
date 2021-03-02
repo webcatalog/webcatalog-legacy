@@ -35,10 +35,10 @@ export const save = () => (dispatch, getState) => {
 };
 
 export const open = () => (dispatch, getState) => {
-  const { registered, preferredEngine } = getState().preferences;
+  const { preferredEngine } = getState().preferences;
 
   dispatch({
     type: DIALOG_SET_PREFERRED_ENGINE_OPEN,
-    engine: registered ? preferredEngine : 'electron',
+    engine: preferredEngine,
   });
 };

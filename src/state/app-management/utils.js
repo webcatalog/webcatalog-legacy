@@ -11,7 +11,6 @@ export const isInstalledApp = (id, state) => {
 
 export const isOutdatedApp = (id, state) => {
   const { apps } = state.appManagement;
-  const { registered } = state.preferences;
 
   if (!apps[id]) return true;
 
@@ -19,9 +18,6 @@ export const isOutdatedApp = (id, state) => {
 
   // check if app is installing
   if (appDetails.status === INSTALLING) return false;
-
-  // check if license is correctly assigned
-  if (Boolean(appDetails.registered) !== registered) return true;
 
   const v = appDetails.version;
 
