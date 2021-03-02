@@ -14,6 +14,7 @@ import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
 import getStaticGlobal from '../../helpers/get-static-global';
 
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
@@ -27,10 +28,20 @@ export const close = () => ({
   type: DIALOG_CREATE_CUSTOM_APP_CLOSE,
 });
 
-export const open = (form) => ({
-  type: DIALOG_CREATE_CUSTOM_APP_OPEN,
-  form,
-});
+export const open = (form) => (dispatch, getState) => {
+  const { user } = getState();
+  const canContinue = user.publicProfile && user.publicProfile.billingPlan !== 'basic';
+
+  if (!canContinue) {
+    dispatch(openDialogLicenseRegistration());
+    return;
+  }
+
+  dispatch({
+    type: DIALOG_CREATE_CUSTOM_APP_OPEN,
+    form,
+  });
+};
 
 // to be replaced with invoke (electron 7+)
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args

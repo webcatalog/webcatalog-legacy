@@ -10,10 +10,7 @@ import {
 import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
 
-import {
-  requestSetPreference,
-  requestShowMessageBox,
-} from '../../senders';
+import firebase from '../../firebase';
 
 export const close = () => ({
   type: DIALOG_LICENSE_REGISTRATION_CLOSE,
@@ -46,10 +43,15 @@ export const register = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
-  requestSetPreference('licenseKey', form.licenseKey);
+  firebase.functions().httpsCallable('checkLegacyLicense')({ licenseKey: form.licenseKey })
+    .then((result) => {
+      console.log(result);
+    })
+    // eslint-disable-next-line no-console
+    .catch(console.log);
 
-  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to update and relaunch apps installed from WebCatalog for the license to be fully activated.');
-
-  dispatch(close());
+  // requestSetPreference('licenseKey', form.licenseKey);
+  // requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to update and relaunch apps installed from WebCatalog for the license to be fully activated.');
+  // dispatch(close());
   return null;
 };

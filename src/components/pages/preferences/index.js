@@ -33,7 +33,6 @@ import getEngineName from '../../../helpers/get-engine-name';
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
-import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogProxy } from '../../../state/dialog-proxy/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
@@ -183,7 +182,6 @@ const Preferences = ({
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
-  onOpenDialogLicenseRegistration,
   onOpenDialogOpenSourceNotices,
   onOpenDialogProxy,
   onOpenDialogSetInstallationPath,
@@ -787,7 +785,6 @@ Preferences.propTypes = {
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogProxy: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
@@ -829,7 +826,6 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   openDialogAbout,
-  openDialogLicenseRegistration,
   openDialogOpenSourceNotices,
   openDialogProxy,
   openDialogSetInstallationPath,

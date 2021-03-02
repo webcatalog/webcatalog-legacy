@@ -81,9 +81,11 @@ const Toolbar = ({
     }) => (
       <div className={classes.root}>
         <div className={classes.left}>
-          <Typography variant="body2" color="textSecondary" className={classes.statusText}>
-            Loading...
-          </Typography>
+          {isLoading && !error && (
+            <Typography variant="body2" color="textSecondary" className={classes.statusText}>
+              Loading...
+            </Typography>
+          )}
         </div>
         <div className={classes.right}>
           <Button
