@@ -15,8 +15,6 @@ process.on('uncaughtException', (e) => {
   process.exit(1);
 });
 
-const ProxyAgent = require('proxy-agent');
-
 const yargsParser = process.env.NODE_ENV === 'production' ? require('yargs-parser').default : require('yargs-parser');
 const fs = require('fs-extra');
 const path = require('path');
@@ -43,18 +41,6 @@ const templatePath = path.join(webcatalogEngineCachePath, 'template');
 
 Promise.resolve()
   .then(() => {
-    const proxyPacScript = process.env.PROXY_PAC_SCRIPT;
-    const proxyRules = process.env.PROXY_RULES;
-    const proxyType = process.env.PROXY_TYPE;
-
-    // create proxy agent
-    let agent;
-    if (proxyType === 'rules') {
-      agent = new ProxyAgent(proxyRules);
-    } else if (proxyType === 'pacScript') {
-      agent = new ProxyAgent(`pac+${proxyPacScript}`);
-    }
-
     const electronVersion = fs.readJSONSync(path.join(templatePath, 'package.json')).devDependencies.electron;
     let lastUpdated = new Date().getTime();
     return downloadArtifact({
@@ -64,11 +50,6 @@ Promise.resolve()
       platform,
       arch,
       downloadOptions: {
-        agent: agent ? {
-          http: agent,
-          http2: agent,
-          https: agent,
-        } : undefined,
         getProgressCallback: (progress) => {
           // this step is appproximately takes 60% of the time
           // following after 20% of downloading the template (prepare-engine-async)
