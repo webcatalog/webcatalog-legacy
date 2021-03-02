@@ -37,7 +37,6 @@ import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
-import { open as openDialogProxy } from '../../../state/dialog-proxy/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
 
@@ -195,7 +194,6 @@ const Preferences = ({
   onOpenDialogAbout,
   onOpenDialogLicenseRegistration,
   onOpenDialogOpenSourceNotices,
-  onOpenDialogProxy,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
   openAtLogin,
@@ -389,18 +387,6 @@ const Preferences = ({
                     }}
                   />
                 </ListItemSecondaryAction>
-              </ListItem>
-            </List>
-          </Paper>
-
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.network.ref}>
-            Network
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem button onClick={onOpenDialogProxy}>
-                <ListItemText primary="Configure proxy settings (BETA)" />
-                <ChevronRightIcon color="action" />
               </ListItem>
             </List>
           </Paper>
@@ -1029,7 +1015,6 @@ Preferences.propTypes = {
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
-  onOpenDialogProxy: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
@@ -1073,7 +1058,6 @@ const actionCreators = {
   openDialogAbout,
   openDialogLicenseRegistration,
   openDialogOpenSourceNotices,
-  openDialogProxy,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,
 };

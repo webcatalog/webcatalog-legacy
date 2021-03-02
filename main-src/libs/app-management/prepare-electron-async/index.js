@@ -7,7 +7,6 @@ const { app } = require('electron');
 const envPaths = require('env-paths');
 const { addBreadcrumb } = require('@sentry/electron');
 
-const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
 
 // force re-extract for first installation after launch
@@ -20,12 +19,6 @@ const prepareElectronAsync = () => new Promise((resolve, reject) => {
 
   const scriptPath = path.join(__dirname, 'prepare-electron-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
-
-  const {
-    proxyPacScript,
-    proxyRules,
-    proxyType,
-  } = getPreferences();
 
   const args = [
     '--cacheRoot',
@@ -49,9 +42,6 @@ const prepareElectronAsync = () => new Promise((resolve, reject) => {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
       APPDATA: app.getPath('appData'),
-      PROXY_PAC_SCRIPT: proxyPacScript,
-      PROXY_RULES: proxyRules,
-      PROXY_TYPE: proxyType,
       FORCE_EXTRACT: Boolean(global.forceExtract).toString(),
     },
   });

@@ -237,12 +237,6 @@ const installAppAsync = (
         );
       }
 
-      const {
-        proxyPacScript,
-        proxyRules,
-        proxyType,
-      } = getPreferences();
-
       addBreadcrumb({
         category: 'run-forked-script',
         message: 'install-app-async',
@@ -262,9 +256,6 @@ const installAppAsync = (
           ELECTRON_RUN_AS_NODE: 'true',
           ELECTRON_NO_ASAR: 'true',
           APPDATA: app.getPath('appData'),
-          PROXY_PAC_SCRIPT: proxyPacScript,
-          PROXY_RULES: proxyRules,
-          PROXY_TYPE: proxyType,
         },
       });
 

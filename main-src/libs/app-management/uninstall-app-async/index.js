@@ -16,9 +16,6 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
 
   const {
     installationPath,
-    proxyPacScript,
-    proxyRules,
-    proxyType,
     requireAdmin,
   } = getPreferences();
 
@@ -55,9 +52,6 @@ const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) =>
     env: {
       ELECTRON_RUN_AS_NODE: 'true',
       ELECTRON_NO_ASAR: 'true',
-      PROXY_PAC_SCRIPT: proxyPacScript,
-      PROXY_RULES: proxyRules,
-      PROXY_TYPE: proxyType,
     },
   });
 
