@@ -7,52 +7,36 @@ import {
   CLEAR_USER_STATE,
 } from '../../constants/actions';
 
-const savedStateJson = window.localStorage.getItem('userState');
-
-let savedState;
-if (savedStateJson) {
-  try {
-    savedState = JSON.parse(savedStateJson);
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
-  }
-}
-
 const initialState = {
   isSignedIn: false,
   email: '',
   displayName: '',
   photoURL: null,
   providerData: [],
+  authToken: null,
   publicProfile: {
     billingPlan: 'basic',
   },
 };
 
-const user = (state = { ...initialState, ...savedState }, action) => {
+const user = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_STATE: {
-      const newState = {
+      return {
         ...state,
         ...action.updatedState,
       };
-      window.localStorage.setItem('userState', JSON.stringify(newState));
-      return newState;
     }
 
     case CLEAR_USER_STATE: {
-      window.localStorage.removeItem('userState');
       return initialState;
     }
 
     case SET_PUBLIC_PROFILE: {
-      const newState = {
+      return {
         ...state,
         publicProfile: { ...action.publicProfile },
       };
-      window.localStorage.setItem('userState', JSON.stringify(newState));
-      return newState;
     }
 
     default:

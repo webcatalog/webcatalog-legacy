@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BuildIcon from '@material-ui/icons/Build';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -48,6 +49,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
+import SectionAccount from './section-account';
 
 const styles = (theme) => ({
   root: {
@@ -195,6 +197,11 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
+    account: {
+      text: 'Account',
+      Icon: AccountCircleIcon,
+      ref: useRef(),
+    },
     general: {
       text: 'General',
       Icon: WidgetsIcon,
@@ -260,6 +267,13 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
+            Account
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <SectionAccount />
+          </Paper>
+
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
           </Typography>

@@ -14,13 +14,18 @@ import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
 import getStaticGlobal from '../../helpers/get-static-global';
 
-import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
 import {
   isNameExisted,
 } from '../app-management/utils';
+import {
+  isLifetime,
+} from '../user/utils';
 
-import { requestShowMessageBox } from '../../senders';
+import {
+  requestShowMessageBox,
+  requestUpgrade,
+} from '../../senders';
 
 import swiftype from '../../swiftype';
 
@@ -30,10 +35,10 @@ export const close = () => ({
 
 export const open = (form) => (dispatch, getState) => {
   const { user } = getState();
-  const canContinue = user.publicProfile && user.publicProfile.billingPlan !== 'basic';
+  const canContinue = isLifetime(user);
 
   if (!canContinue) {
-    dispatch(openDialogLicenseRegistration());
+    requestUpgrade();
     return;
   }
 

@@ -104,10 +104,8 @@ const loadListeners = (store) => {
   });
 
   window.ipcRenderer.on('sign-in-with-token', (e, token) => {
-    if (firebase.auth().currentUser) {
-      return;
-    }
-    firebase.auth().signInWithCustomToken(token)
+    firebase.auth().signOut()
+      .then(() => firebase.auth().signInWithCustomToken(token))
       // eslint-disable-next-line no-console
       .catch(console.log);
   });

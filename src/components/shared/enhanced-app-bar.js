@@ -113,6 +113,7 @@ const styles = (theme) => ({
   avatar: {
     height: 28,
     width: 28,
+    border: `1px solid ${theme.palette.divider}`,
   },
 });
 
@@ -195,8 +196,12 @@ const EnhancedAppBar = ({
                   type: 'separator',
                 },
                 {
-                  label: 'Manage Your Account',
-                  click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/'),
+                  label: 'Profile and Password',
+                  click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile'),
+                },
+                {
+                  label: 'Billing and Subscription',
+                  click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/billing'),
                 },
                 {
                   type: 'separator',

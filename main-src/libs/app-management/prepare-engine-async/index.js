@@ -23,7 +23,7 @@ const cache = new NodeCache();
 // https://github.com/webcatalog/webcatalog-app/issues/890
 const getTagNameAsync = () => Promise.resolve()
   .then(() => {
-    const allowPrerelease = getPreference('allowPrerelease');
+    const allowPrerelease = getPreference('allowPrerelease') || Boolean(semver.prerelease(app.getVersion()));
 
     // check both prerelease and stable channels
     // return the newer version

@@ -32,108 +32,99 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(1),
   },
-  link: {
-    fontWeight: 600,
-    cursor: 'pointer',
-    outline: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
   helpContent: {
     marginTop: theme.spacing(1),
     textAlign: 'right',
   },
 });
 
-const DialogLicenseRegistration = (props) => {
-  const {
-    classes,
-    licenseKey,
-    licenseKeyError,
-    onClose,
-    onUpdateForm,
-    onRegister,
-    open,
-  } = props;
+const DialogLicenseRegistration = ({
+  classes,
+  licenseKey,
+  licenseKeyError,
+  onClose,
+  onRegister,
+  onUpdateForm,
+  open,
+  verifying,
+}) => (
+  <Dialog
+    fullWidth
+    maxWidth="sm"
+    onClose={onClose}
+    open={open}
+  >
+    <EnhancedDialogTitle onClose={onClose}>
+      Legacy License Registration
+    </EnhancedDialogTitle>
+    <DialogContent>
+      <DialogContentText className={classes.dialogContentText}>
+        If you&apos;ve purchased or received a lifetime WebCatalog or Singlebox license key,
+        you can use it to upgrade your account to WebCatalog
+        Lifetime Plan.
+        <br />
+        <br />
+        WebCatalog
+        Lifetime Plan lets you use many premium features and
+        add unlimited number of apps & workspaces perpetually.
+        <br />
+        <br />
+        The license key
+        will be tied to this account.
+      </DialogContentText>
+      <TextField
+        autoFocus
+        fullWidth
+        id=""
+        label="License Key"
+        margin="normal"
+        onChange={(e) => onUpdateForm({ licenseKey: e.target.value })}
+        value={licenseKey}
+        placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
+        error={Boolean(licenseKeyError)}
+        variant="outlined"
+        helperText={licenseKeyError || 'If you\'ve already purchased a lifetime license, you should have received the license key via email to enter above.'}
+      />
 
-  return (
-    <Dialog
-      fullWidth
-      maxWidth="sm"
-      onClose={onClose}
-      open={open}
-    >
-      <EnhancedDialogTitle onClose={onClose}>
-        Legacy License Registration
-      </EnhancedDialogTitle>
-      <DialogContent>
-        <DialogContentText className={classes.dialogContentText}>
-          Please enter your lifetime license key to upgrade
-          your account to WebCatalog Lifetime plan.
-          The license will be tied to your account.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          fullWidth
-          id=""
-          label="License Key"
-          margin="normal"
-          onChange={(e) => onUpdateForm({ licenseKey: e.target.value })}
-          value={licenseKey}
-          placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
-          error={Boolean(licenseKeyError)}
-          variant="outlined"
-          helperText={licenseKeyError || 'If you have already purchased WebCatalog or Singlebox from our store, you should have received a license key via email to enter above.'}
-        />
-
-        <DialogContentText className={classes.helpContent}>
-          <span
-            onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
-            onKeyDown={(e) => {
-              if (e.key !== 'Enter') return;
-              requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app');
-            }}
-            role="link"
-            tabIndex="0"
-            className={classes.link}
-          >
-            Lost your license key?
-          </span>
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions className={classes.dialogActions}>
-        <div style={{ flex: 1 }}>
-          <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite?utm_source=webcatalog_app')}
-          >
-            Visit Store...
-          </Button>
-          <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
-          >
-            Learn More...
-          </Button>
-        </div>
+      <DialogContentText className={classes.helpContent}>
         <Button
-          onClick={onClose}
+          variant="text"
+          color="default"
+          onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
         >
-          Cancel
+          Lost your license key?
         </Button>
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions className={classes.dialogActions}>
+      <div style={{ flex: 1 }}>
         <Button
-          color="primary"
-          onClick={onRegister}
+          onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
         >
-          Register
+          Buy License...
         </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+      </div>
+      <Button
+        onClick={onClose}
+        disabled={verifying}
+      >
+        Cancel
+      </Button>
+      <Button
+        color="primary"
+        onClick={onRegister}
+        disabled={Boolean(licenseKeyError) || verifying}
+      >
+        {verifying ? 'Verifying...' : 'Activate'}
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 DialogLicenseRegistration.defaultProps = {
   licenseKey: '',
   licenseKeyError: null,
+  verifying: false,
 };
 
 DialogLicenseRegistration.propTypes = {
@@ -144,11 +135,13 @@ DialogLicenseRegistration.propTypes = {
   onRegister: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  verifying: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   const {
     open,
+    verifying,
     form: {
       licenseKey,
       licenseKeyError,
@@ -159,6 +152,7 @@ const mapStateToProps = (state) => {
     licenseKey,
     licenseKeyError,
     open,
+    verifying,
   };
 };
 

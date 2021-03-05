@@ -72,7 +72,7 @@ export const getInstalledAppCount = (state) => {
   return sortedAppIds
     .filter((id) => {
       const app = apps[id];
-      return app.status === INSTALLED || (app.status === INSTALLING && app.version);
+      return app.status === INSTALLED || app.status === INSTALLING;
     })
     .length;
 };

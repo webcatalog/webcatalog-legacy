@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import connectComponent from '../helpers/connect-component';
@@ -9,6 +9,7 @@ import connectComponent from '../helpers/connect-component';
 import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
+import AuthManager from './root/auth-manager';
 
 import Installed from './pages/installed';
 import Home from './pages/home';
@@ -32,6 +33,7 @@ import {
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
+  requestUpdateAuthJson,
 } from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
@@ -52,10 +54,6 @@ const styles = (theme) => ({
     flex: 1,
     overflow: 'hidden',
   },
-  notistackContainerRoot: {
-    // substract 22px of FakeTitleBar
-    marginTop: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 42,
-  },
 });
 
 const App = ({
@@ -66,12 +64,18 @@ const App = ({
   onUpdateUserAsync,
   isSignedIn,
 }) => {
+  // wait for auth to be load before continuing
+  const [authReady, setAuthReady] = useState(false);
+
   // docs: https://github.com/firebase/firebaseui-web-react
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+      setAuthReady(true);
+
       if (!user) {
         onClearUserState();
+        requestUpdateAuthJson();
         return;
       }
 
@@ -79,7 +83,7 @@ const App = ({
     });
     // Make sure we un-register Firebase observers when the component unmounts.
     return () => unregisterAuthObserver();
-  }, [onClearUserState, onUpdateUserAsync]);
+  }, [onClearUserState, onUpdateUserAsync, setAuthReady]);
 
   useEffect(() => {
     requestCheckForUpdates(true); // isSilent = true
@@ -105,6 +109,12 @@ const App = ({
       pageContent = <Home key="home" />;
   }
 
+  if (!authReady) {
+    return (
+      <div className={classes.root} />
+    );
+  }
+
   return (
     <div className={classes.root}>
       {isSignedIn ? (
@@ -113,6 +123,7 @@ const App = ({
             {pageContent}
           </div>
           <EnhancedBottomNavigation />
+          <AuthManager />
         </>
       ) : (
         <SignIn />

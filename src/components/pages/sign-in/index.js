@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 
 import HelpIcon from '@material-ui/icons/Help';
 
@@ -66,7 +65,7 @@ const styles = (theme) => ({
   },
   signUpText: {
     marginTop: theme.spacing(3),
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: theme.palette.common.white,
     userSelect: 'none',
   },
   helpContainer: {
@@ -74,6 +73,7 @@ const styles = (theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     WebkitAppRegion: 'no-drag',
+    color: theme.palette.common.white,
   },
 });
 
@@ -116,13 +116,14 @@ const SignIn = ({ classes }) => (
 
         <Typography variant="body2" className={classes.signUpText}>
           New to WebCatalog?&nbsp;
-          <Button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+          <Button color="inherit" onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
             Create an Account
           </Button>
         </Typography>
       </div>
       <div className={classes.helpContainer}>
         <Button
+          color="inherit"
           startIcon={<HelpIcon />}
           onClick={() => requestOpenInBrowser('https://help.webcatalog.app')}
         >

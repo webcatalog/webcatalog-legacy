@@ -15,7 +15,7 @@
     "lint": "eslint ./main-src ./src ./dist.js --ext js",
     "lint-fix": "yarn lint --fix",
     "start": "react-scripts start",
-    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\" -k",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\" -k",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
     "dist-dev": "yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js"
   },

@@ -20,8 +20,6 @@ settings.configure({
 
 const { autoUpdater } = require('electron-updater');
 
-const url = require('url');
-
 const {
   getPreference,
   getPreferences,
@@ -38,6 +36,7 @@ const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 const loadListeners = require('./libs/listeners').load;
 const loadInvokers = require('./libs/invokers').load;
+const initAuthJsonWatcher = require('./libs/auth-json-watcher').init;
 
 const mainWindow = require('./libs/windows/main');
 
@@ -117,6 +116,8 @@ if (!gotTheLock) {
   };
 
   app.on('ready', () => {
+    initAuthJsonWatcher();
+
     // https://github.com/electron/electron/issues/23757
     protocol.registerFileProtocol('file', (request, callback) => {
       const pathname = decodeURI(request.url.replace('file:///', ''));

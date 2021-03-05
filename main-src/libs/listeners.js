@@ -345,6 +345,24 @@ const loadListeners = () => {
       showMenu(win, x, y);
     }
   });
+
+  ipcMain.on('request-upgrade', (e, reason = 'Your current plan does not include this feature') => {
+    dialog.showMessageBox(mainWindow.get(), {
+      type: 'info',
+      message: `${reason}. Please upgrade to continue.`,
+      buttons: ['Upgrade Now...', 'Learn More...', 'Later'],
+      cancelId: 2,
+      defaultId: 0,
+    })
+      .then(({ response }) => {
+        if (response === 0) {
+          sendToAllWindows('open-license-registration-dialog');
+        } else if (response === 1) {
+          shell.openExternal('https://webcatalog.app/pricing?utm_source=webcatalog_app');
+        }
+      })
+      .catch(console.log); // eslint-disable-line
+  });
 };
 
 module.exports.load = loadListeners;
