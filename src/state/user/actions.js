@@ -50,7 +50,6 @@ export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
   });
 
   const { preferences, user } = getState();
-  console.log(getState());
   const billingPlan = user.publicProfile && user.publicProfile.billingPlan
     ? user.publicProfile.billingPlan : 'basic';
   const { licenseKey, registered } = preferences;
