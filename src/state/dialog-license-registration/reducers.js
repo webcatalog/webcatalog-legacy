@@ -7,6 +7,7 @@ import {
   DIALOG_LICENSE_REGISTRATION_CLOSE,
   DIALOG_LICENSE_REGISTRATION_FORM_UPDATE,
   DIALOG_LICENSE_REGISTRATION_OPEN,
+  DIALOG_LICENSE_REGISTRATION_SET_VERIFYING,
 } from '../../constants/actions';
 
 const open = (state = false, action) => {
@@ -31,7 +32,15 @@ const form = (state = formInitialState, action) => {
   }
 };
 
+const verifying = (state = false, action) => {
+  switch (action.type) {
+    case DIALOG_LICENSE_REGISTRATION_SET_VERIFYING: return action.verifying;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   form,
   open,
+  verifying,
 });

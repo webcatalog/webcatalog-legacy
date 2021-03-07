@@ -17,8 +17,8 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BuildIcon from '@material-ui/icons/Build';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PowerIcon from '@material-ui/icons/Power';
@@ -33,7 +33,6 @@ import getEngineName from '../../../helpers/get-engine-name';
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
-import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
@@ -50,6 +49,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
+import SectionAccount from './section-account';
 
 const styles = (theme) => ({
   root: {
@@ -182,13 +182,11 @@ const Preferences = ({
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
-  onOpenDialogLicenseRegistration,
   onOpenDialogOpenSourceNotices,
   onOpenDialogSetInstallationPath,
   onOpenDialogSetPreferredEngine,
   openAtLogin,
   preferredEngine,
-  registered,
   requireAdmin,
   sentry,
   telemetry,
@@ -199,9 +197,9 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
-    licensing: {
-      text: 'Licensing',
-      Icon: CheckCircleOutlineIcon,
+    account: {
+      text: 'Account',
+      Icon: AccountCircleIcon,
       ref: useRef(),
     },
     general: {
@@ -269,24 +267,11 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
-            Licensing
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
+            Account
           </Typography>
           <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem button disabled>
-                <ListItemText primary={registered ? 'WebCatalog Plus is activated.' : 'WebCatalog Basic'} />
-              </ListItem>
-              {!registered && (
-                <>
-                  <Divider />
-                  <ListItem button onClick={onOpenDialogLicenseRegistration}>
-                    <ListItemText primary="Upgrade to WebCatalog Plus" />
-                    <ChevronRightIcon color="action" />
-                  </ListItem>
-                </>
-              )}
-            </List>
+            <SectionAccount />
           </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
@@ -759,26 +744,8 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/')}
-              >
-                <ListItemText primary="Review WebCatalog on AlternativeTo" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://twitter.com/webcatalog_app')}>
-                <ListItemText primary="Twitter" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://www.linkedin.com/company/webcatalogapp')}>
-                <ListItemText primary="LinkedIn" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://github.com/webcatalog')}>
-                <ListItemText primary="GitHub" />
+                <ListItemText primary="Find Us on Twitter" />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
@@ -812,13 +779,11 @@ Preferences.propTypes = {
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   preferredEngine: PropTypes.string.isRequired,
-  registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
   telemetry: PropTypes.bool.isRequired,
@@ -842,7 +807,6 @@ const mapStateToProps = (state) => ({
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
   preferredEngine: state.preferences.preferredEngine,
-  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
   telemetry: state.preferences.telemetry,
@@ -855,7 +819,6 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   openDialogAbout,
-  openDialogLicenseRegistration,
   openDialogOpenSourceNotices,
   openDialogSetInstallationPath,
   openDialogSetPreferredEngine,

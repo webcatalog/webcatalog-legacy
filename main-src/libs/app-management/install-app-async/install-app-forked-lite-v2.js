@@ -41,7 +41,6 @@ const {
   homePath,
   installationPath,
   username,
-  registered,
 } = argv;
 const opts = JSON.parse(argv.opts);
 
@@ -523,7 +522,6 @@ open -n "$PWD"/${addSlash(name)}.app --args --no-sandbox --test-type --app="${ur
       name,
       url,
       engine,
-      registered: registered === 'true',
       opts,
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);

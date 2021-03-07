@@ -5,13 +5,15 @@ import {
   DIALOG_LICENSE_REGISTRATION_CLOSE,
   DIALOG_LICENSE_REGISTRATION_FORM_UPDATE,
   DIALOG_LICENSE_REGISTRATION_OPEN,
+  DIALOG_LICENSE_REGISTRATION_SET_VERIFYING,
 } from '../../constants/actions';
 
 import validate from '../../helpers/validate';
 import hasErrors from '../../helpers/has-errors';
 
+import firebase from '../../firebase';
+
 import {
-  requestSetPreference,
   requestShowMessageBox,
 } from '../../senders';
 
@@ -21,6 +23,11 @@ export const close = () => ({
 
 export const open = () => ({
   type: DIALOG_LICENSE_REGISTRATION_OPEN,
+});
+
+export const setVerifying = (verifying) => ({
+  type: DIALOG_LICENSE_REGISTRATION_SET_VERIFYING,
+  verifying,
 });
 
 const getValidationRules = () => ({
@@ -46,11 +53,24 @@ export const register = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
-  requestSetPreference('registered', true);
-  requestSetPreference('licenseKey', form.licenseKey);
+  dispatch(setVerifying(true));
+  firebase.functions().httpsCallable('checkLegacyLicense')({ licenseKey: form.licenseKey })
+    .then(() => {
+      requestShowMessageBox('WebCatalog Lifetime is activated successfully! Thank you for your support.', 'info');
+      dispatch(close());
+    })
+    .catch((err) => {
+      dispatch({
+        type: DIALOG_LICENSE_REGISTRATION_FORM_UPDATE,
+        changes: {
+          ...validatedChanges,
+          licenseKeyError: `${err.message}.`,
+        },
+      });
+    })
+    .then(() => {
+      dispatch(setVerifying(false));
+    });
 
-  requestShowMessageBox('Registration Complete! Thank you for supporting the future development of WebCatalog. You may need to update and relaunch apps installed from WebCatalog for the license to be fully activated.');
-
-  dispatch(close());
   return null;
 };

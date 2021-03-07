@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 
+import '@fontsource/ibm-plex-sans/500.css';
+
 import './amplitude';
 
 import './index.css';

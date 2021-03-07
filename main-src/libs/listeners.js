@@ -72,10 +72,6 @@ const loadListeners = () => {
 
   ipcMain.on('request-set-preference', (e, name, value) => {
     setPreference(name, value);
-
-    if (name === 'registered') {
-      createMenu();
-    }
   });
 
   // System Preferences
@@ -191,7 +187,6 @@ const loadListeners = () => {
               send(e.sender, 'set-app', id, {
                 ...newApp,
                 status: 'INSTALLED',
-                registered: getPreference('registered'),
               });
               delete promiseFuncMap[id];
             })
@@ -250,7 +245,6 @@ const loadListeners = () => {
                 ...newApp,
                 status: 'INSTALLED',
                 lastUpdated: new Date().getTime(),
-                registered: getPreference('registered'),
                 // ensure fresh icon from the catalog is shown
                 icon128: displayedIcon,
               });
@@ -350,6 +344,24 @@ const loadListeners = () => {
     if (win) {
       showMenu(win, x, y);
     }
+  });
+
+  ipcMain.on('request-upgrade', (e, reason = 'Your current plan does not include this feature') => {
+    dialog.showMessageBox(mainWindow.get(), {
+      type: 'info',
+      message: `${reason}. Please upgrade to continue.`,
+      buttons: ['Upgrade Now...', 'Learn More...', 'Later'],
+      cancelId: 2,
+      defaultId: 0,
+    })
+      .then(({ response }) => {
+        if (response === 0) {
+          sendToAllWindows('open-license-registration-dialog');
+        } else if (response === 1) {
+          shell.openExternal('https://webcatalog.app/pricing?utm_source=webcatalog_app');
+        }
+      })
+      .catch(console.log); // eslint-disable-line
   });
 };
 

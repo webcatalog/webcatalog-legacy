@@ -11,7 +11,6 @@ import { getInstalledAppCount } from '../../state/app-management/utils';
 
 const TelemetryManager = ({
   installedAppCount,
-  registered,
   telemetry,
 }) => {
   useEffect(() => {
@@ -20,13 +19,12 @@ const TelemetryManager = ({
 
   useEffect(() => {
     amplitude.getInstance().setUserProperties({
-      pricing: registered ? 'plus' : 'basic', // PRO plan to be added
       /* the following fields have been deprecated */
       /* do not reuse */
       // pricingPlan: registered ? 'plus' : 'basic', // PRO plan to be added
       // registered, // legacy
     });
-  }, [registered]);
+  }, []);
 
   useEffect(() => {
     if (installedAppCount >= 0) {
@@ -59,12 +57,10 @@ TelemetryManager.defaultProps = {
 
 TelemetryManager.propTypes = {
   installedAppCount: PropTypes.number.isRequired,
-  registered: PropTypes.bool.isRequired,
   telemetry: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  registered: state.preferences.registered,
   installedAppCount: state.appManagement.scanning ? -1 : getInstalledAppCount(state),
   telemetry: state.preferences.telemetry,
 });

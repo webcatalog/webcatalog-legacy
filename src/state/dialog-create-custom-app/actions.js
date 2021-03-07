@@ -18,8 +18,14 @@ import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions'
 import {
   isNameExisted,
 } from '../app-management/utils';
+import {
+  isLifetime,
+} from '../user/utils';
 
-import { requestShowMessageBox } from '../../senders';
+import {
+  requestShowMessageBox,
+  requestUpgrade,
+} from '../../senders';
 
 import swiftype from '../../swiftype';
 
@@ -27,10 +33,20 @@ export const close = () => ({
   type: DIALOG_CREATE_CUSTOM_APP_CLOSE,
 });
 
-export const open = (form) => ({
-  type: DIALOG_CREATE_CUSTOM_APP_OPEN,
-  form,
-});
+export const open = (form) => (dispatch, getState) => {
+  const { user } = getState();
+  const canContinue = isLifetime(user);
+
+  if (!canContinue) {
+    requestUpgrade();
+    return;
+  }
+
+  dispatch({
+    type: DIALOG_CREATE_CUSTOM_APP_OPEN,
+    form,
+  });
+};
 
 // to be replaced with invoke (electron 7+)
 // https://electronjs.org/docs/api/ipc-renderer#ipcrendererinvokechannel-args

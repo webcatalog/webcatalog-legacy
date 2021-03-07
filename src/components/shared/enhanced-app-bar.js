@@ -6,16 +6,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import Avatar from '@material-ui/core/Avatar';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { requestShowAppMenu } from '../../senders';
+import {
+  requestShowAppMenu,
+  requestOpenInBrowser,
+} from '../../senders';
 
 import connectComponent from '../../helpers/connect-component';
 import getStaticGlobal from '../../helpers/get-static-global';
+
+import billingPlans from '../../constants/billing-plans';
+
+import firebase from '../../firebase';
 
 const LEFT_RIGHT_WIDTH = window.process.platform !== 'darwin' ? 160 : 100;
 const TOOLBAR_HEIGHT = 32;
@@ -48,6 +56,11 @@ const styles = (theme) => ({
     width: LEFT_RIGHT_WIDTH,
     textAlign: 'right',
     boxSizing: 'border-box',
+  },
+  rightMac: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: theme.spacing(0.5),
   },
   noDrag: {
     WebkitAppRegion: 'no-drag',
@@ -97,12 +110,20 @@ const styles = (theme) => ({
     borderRadius: 0,
     height: TOOLBAR_HEIGHT,
   },
+  avatar: {
+    height: 28,
+    width: 28,
+    border: `1px solid ${theme.palette.divider}`,
+  },
 });
 
 const EnhancedAppBar = ({
   center,
   classes,
+  currentPlan,
+  displayName,
   isMaximized,
+  photoURL,
   shouldUseDarkColors,
 }) => {
   const useSystemTitleBar = getStaticGlobal('useSystemTitleBar');
@@ -153,7 +174,48 @@ const EnhancedAppBar = ({
         <div className={classes.center} onDoubleClick={onDoubleClick}>
           {center}
         </div>
-        <div className={classes.right} onDoubleClick={onDoubleClick}>
+        <div
+          className={classnames(classes.right, window.process.platform === 'darwin' && classes.rightMac)}
+          onDoubleClick={onDoubleClick}
+        >
+          <Avatar
+            alt={displayName}
+            src={photoURL}
+            className={classes.avatar}
+            onClick={() => {
+              const template = [
+                {
+                  label: displayName,
+                  enabled: false,
+                },
+                {
+                  label: billingPlans[currentPlan].name,
+                  enabled: false,
+                },
+                {
+                  type: 'separator',
+                },
+                {
+                  label: 'Profile and Password',
+                  click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile'),
+                },
+                {
+                  label: 'Billing and Subscription',
+                  click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/billing'),
+                },
+                {
+                  type: 'separator',
+                },
+                {
+                  label: 'Log Out',
+                  click: () => firebase.auth().signOut(),
+                },
+              ];
+
+              const menu = window.remote.Menu.buildFromTemplate(template);
+              menu.popup(window.remote.getCurrentWindow());
+            }}
+          />
           {window.process.platform !== 'darwin' && !useSystemTitleBar && (
             <div className={classes.windowsControl}>
               <button
@@ -221,17 +283,26 @@ const EnhancedAppBar = ({
 
 EnhancedAppBar.defaultProps = {
   center: null,
+  currentPlan: 'basic',
+  displayName: '',
+  photoURL: null,
 };
 
 EnhancedAppBar.propTypes = {
   center: PropTypes.node,
   classes: PropTypes.object.isRequired,
+  currentPlan: PropTypes.oneOf(['basic', 'lifetime', 'plus', 'pro']),
+  displayName: PropTypes.string,
   isMaximized: PropTypes.bool.isRequired,
+  photoURL: PropTypes.string,
   shouldUseDarkColors: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  currentPlan: state.user.publicProfile.billingPlan,
+  displayName: state.user.displayName,
   isMaximized: state.general.isMaximized,
+  photoURL: state.user.photoURL,
   shouldUseDarkColors: state.general.shouldUseDarkColors,
 });
 

@@ -69,3 +69,9 @@ export const requestOpenApp = (id, name) => window.ipcRenderer.send('request-ope
 
 // Native Theme
 export const getShouldUseDarkColors = () => window.ipcRenderer.sendSync('get-should-use-dark-colors');
+
+// Firebase
+export const requestUpdateAuthJson = (authToken) => window.ipcRenderer.send('request-update-auth-json', authToken);
+
+// Payment
+export const requestUpgrade = (reason) => window.ipcRenderer.send('request-upgrade', reason);

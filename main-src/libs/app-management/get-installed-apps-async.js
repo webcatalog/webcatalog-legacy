@@ -12,7 +12,6 @@ const getInstalledAppsAsync = () => {
   sendToAllWindows('clean-app-management');
 
   const installationPath = getPreference('installationPath').replace('~', app.getPath('home'));
-  const registered = getPreference('registered');
 
   return Promise.resolve()
     .then(() => {
@@ -42,14 +41,6 @@ const getInstalledAppsAsync = () => {
               if (fsExtra.pathExistsSync(appJsonPath)) {
                 lastUpdated = Math.floor(fsExtra.statSync(appJsonPath).mtimeMs);
                 appJson = fsExtra.readJSONSync(appJsonPath);
-                if (registered && appJson.engine === 'electron' && !appJson.registered) {
-                  try {
-                    fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
-                    appJson.registered = true;
-                  } catch (err) {
-                    sendToAllWindows('log', `Failed to register app license ${appJsonPath} ${err ? err.stack : ''}`);
-                  }
-                }
               } else {
                 // if app.json doesn't exist then skip the app
                 return;
