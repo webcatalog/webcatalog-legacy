@@ -40,6 +40,7 @@ const {
   id,
   installationPath,
   name,
+  registered,
   url,
   username,
 } = argv;
@@ -243,6 +244,7 @@ Promise.resolve()
       name,
       url,
       engine,
+      registered: registered === 'true',
       opts,
     });
     return fsExtra.writeFileSync(appJsonPath, appJson);

@@ -15,21 +15,13 @@ import swiftype from '../../swiftype';
 import {
   isNameExisted,
   getOutdatedAppsAsList,
-  getInstalledAppCount,
 } from './utils';
-
-import {
-  getCurrentPlan,
-} from '../user/utils';
 
 import {
   requestShowMessageBox,
   requestInstallApp,
   requestUpdateApp,
-  requestUpgrade,
 } from '../../senders';
-
-import billingPlans from '../../constants/billing-plans';
 
 export const clean = () => (dispatch, getState) => {
   const state = getState();
@@ -64,14 +56,6 @@ export const removeApp = (id) => ({
 
 export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
-
-  const currentPlan = getCurrentPlan(state.user);
-  const installedAppCount = getInstalledAppCount(state);
-  const limit = billingPlans[currentPlan].apps;
-  if (limit !== 'Unlimited' && installedAppCount >= limit) {
-    requestUpgrade(`Your current plan only allows you to install up to ${limit} apps`);
-    return null;
-  }
 
   const sanitizedName = name.trim();
   if (isNameExisted(sanitizedName, state)) {

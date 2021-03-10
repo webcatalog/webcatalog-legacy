@@ -32,99 +32,122 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(1),
   },
+  link: {
+    fontWeight: 600,
+    cursor: 'pointer',
+    outline: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
   helpContent: {
     marginTop: theme.spacing(1),
     textAlign: 'right',
   },
 });
 
-const DialogLicenseRegistration = ({
-  classes,
-  licenseKey,
-  licenseKeyError,
-  onClose,
-  onRegister,
-  onUpdateForm,
-  open,
-  verifying,
-}) => (
-  <Dialog
-    fullWidth
-    maxWidth="sm"
-    onClose={onClose}
-    open={open}
-  >
-    <EnhancedDialogTitle onClose={onClose}>
-      Legacy License Registration
-    </EnhancedDialogTitle>
-    <DialogContent>
-      <DialogContentText className={classes.dialogContentText}>
-        If you&apos;ve purchased or received a lifetime WebCatalog or Singlebox license key,
-        you can use it to upgrade your account to WebCatalog
-        Lifetime Plan.
-        <br />
-        <br />
-        WebCatalog
-        Lifetime Plan lets you use many premium features and
-        add unlimited number of apps & workspaces perpetually.
-        <br />
-        <br />
-        The license key
-        will be tied to this account.
-      </DialogContentText>
-      <TextField
-        autoFocus
-        fullWidth
-        id=""
-        label="License Key"
-        margin="normal"
-        onChange={(e) => onUpdateForm({ licenseKey: e.target.value })}
-        value={licenseKey}
-        placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
-        error={Boolean(licenseKeyError)}
-        variant="outlined"
-        helperText={licenseKeyError || 'If you\'ve already purchased a lifetime license, you should have received the license key via email to enter above.'}
-      />
+const DialogLicenseRegistration = (props) => {
+  const {
+    classes,
+    licenseKey,
+    licenseKeyError,
+    onClose,
+    onUpdateForm,
+    onRegister,
+    open,
+  } = props;
 
-      <DialogContentText className={classes.helpContent}>
+  return (
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      onClose={onClose}
+      open={open}
+    >
+      <EnhancedDialogTitle onClose={onClose}>
+        License Registration
+      </EnhancedDialogTitle>
+      <DialogContent>
+        <DialogContentText className={classes.dialogContentText}>
+          You are currently running the free version of WebCatalog which
+          does not include&nbsp;
+          <span
+            onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter') return;
+              requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app');
+            }}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            premium features
+          </span>
+          &nbsp;such as adding unlimited number of workspaces,
+          blocking ads & trackers and more.
+          To remove the limitations, please purchase WebCatalog Plus (30 USD) from our store.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          fullWidth
+          id=""
+          label="License Key"
+          margin="normal"
+          onChange={(e) => onUpdateForm({ licenseKey: e.target.value })}
+          value={licenseKey}
+          placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
+          error={Boolean(licenseKeyError)}
+          variant="outlined"
+          helperText={licenseKeyError || 'If you have already purchased WebCatalog Plus or Singlebox from our store, you should have received a license key via email to enter above.'}
+        />
+
+        <DialogContentText className={classes.helpContent}>
+          <span
+            onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter') return;
+              requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app');
+            }}
+            role="link"
+            tabIndex="0"
+            className={classes.link}
+          >
+            Lost your license key?
+          </span>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions className={classes.dialogActions}>
+        <div style={{ flex: 1 }}>
+          <Button
+            onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite?utm_source=webcatalog_app')}
+          >
+            Visit Store...
+          </Button>
+          <Button
+            onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
+          >
+            Learn More...
+          </Button>
+        </div>
         <Button
-          variant="text"
-          color="default"
-          onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
+          onClick={onClose}
         >
-          Lost your license key?
+          Cancel
         </Button>
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions className={classes.dialogActions}>
-      <div style={{ flex: 1 }}>
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
+          color="primary"
+          onClick={onRegister}
         >
-          Buy License...
+          Register
         </Button>
-      </div>
-      <Button
-        onClick={onClose}
-        disabled={verifying}
-      >
-        Cancel
-      </Button>
-      <Button
-        color="primary"
-        onClick={onRegister}
-        disabled={Boolean(licenseKeyError) || verifying}
-      >
-        {verifying ? 'Verifying...' : 'Activate'}
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 DialogLicenseRegistration.defaultProps = {
   licenseKey: '',
   licenseKeyError: null,
-  verifying: false,
 };
 
 DialogLicenseRegistration.propTypes = {
@@ -135,13 +158,11 @@ DialogLicenseRegistration.propTypes = {
   onRegister: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  verifying: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   const {
     open,
-    verifying,
     form: {
       licenseKey,
       licenseKeyError,
@@ -152,7 +173,6 @@ const mapStateToProps = (state) => {
     licenseKey,
     licenseKeyError,
     open,
-    verifying,
   };
 };
 

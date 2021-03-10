@@ -65,6 +65,7 @@ const installAppAsync = (
     requireAdmin,
     createDesktopShortcut,
     createStartMenuShortcut,
+    registered,
   } = getPreferences();
 
   const cacheRoot = envPaths('webcatalog', {
@@ -213,6 +214,8 @@ const installAppAsync = (
         requireAdmin.toString(),
         '--username',
         process.env.USER, // required by sudo-prompt,
+        '--registered',
+        registered,
         '--cacheRoot',
         cacheRoot,
       ];

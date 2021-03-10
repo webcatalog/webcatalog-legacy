@@ -4,10 +4,11 @@
 const path = require('path');
 const semver = require('semver');
 const settings = require('electron-settings');
-const { app, nativeTheme } = require('electron');
+const { app, nativeTheme, ipcMain } = require('electron');
 const fs = require('fs-extra');
 
 const sendToAllWindows = require('./send-to-all-windows');
+const isValidLicenseKey = require('./is-valid-license-key');
 const isWindows10 = require('./is-windows-10');
 
 // scope
@@ -38,6 +39,7 @@ const defaultPreferences = {
   licenseKey: null,
   preferredEngine: 'electron',
   privacyConsentAsked: false,
+  registered: false,
   requireAdmin: false,
   sentry: false,
   sortInstalledAppBy: 'last-updated',
@@ -71,6 +73,11 @@ const updateSharedPreferencesAsync = () => {
 const initCachedPreferences = () => {
   cachedPreferences = { ...defaultPreferences, ...settings.getSync(`preferences.${v}`) };
 
+  // verify license key
+  if (process.env.NODE_ENV === 'production') {
+    cachedPreferences.registered = isValidLicenseKey(cachedPreferences.licenseKey);
+  }
+
   // ensure shared preferences file exists
   updateSharedPreferencesAsync();
 };
@@ -94,6 +101,10 @@ const setPreference = (name, value) => {
   sendToAllWindows('set-preference', name, value);
   cachedPreferences[name] = value;
   Promise.resolve().then(() => settings.setSync(`preferences.${v}.${name}`, value));
+
+  if (name === 'registered' && value === true) {
+    ipcMain.emit('request-get-installed-apps');
+  }
 
   if (name === 'themeSource') {
     nativeTheme.themeSource = value;

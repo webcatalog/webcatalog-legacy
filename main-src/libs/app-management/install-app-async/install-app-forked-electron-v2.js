@@ -39,6 +39,7 @@ const {
   id,
   installationPath,
   name,
+  registered,
   tmpPath,
   url,
   username,
@@ -211,6 +212,7 @@ Promise.resolve()
       name,
       url,
       engine: 'electron',
+      registered: registered === 'true',
       opts,
     });
     return fsExtra.writeFile(appJsonPath, appJson);
