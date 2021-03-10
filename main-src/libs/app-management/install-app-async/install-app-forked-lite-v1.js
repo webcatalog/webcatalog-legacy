@@ -44,6 +44,7 @@ const {
   installationPath,
   requireAdmin,
   username,
+  registered,
   browserPath,
   appDataPath,
 } = argv;
@@ -337,6 +338,7 @@ firefox -new-instance -P "webcatalog-${id}" "${url}";`;
       name,
       url,
       engine,
+      registered: registered === 'true',
       opts,
     });
     return fsExtra.writeFile(appJsonPath, appJson);
