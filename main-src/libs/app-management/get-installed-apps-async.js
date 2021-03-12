@@ -42,12 +42,12 @@ const getInstalledAppsAsync = () => {
               if (fsExtra.pathExistsSync(appJsonPath)) {
                 lastUpdated = Math.floor(fsExtra.statSync(appJsonPath).mtimeMs);
                 appJson = fsExtra.readJSONSync(appJsonPath);
-                if (registered && appJson.engine === 'electron' && !appJson.registered) {
+                if (appJson.engine === 'electron' && registered !== appJson.registered) {
                   try {
                     fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
-                    appJson.registered = true;
+                    appJson.registered = registered;
                   } catch (err) {
-                    sendToAllWindows('log', `Failed to register app license ${appJsonPath} ${err ? err.stack : ''}`);
+                    sendToAllWindows('log', `Failed to (de-)register app license ${appJsonPath} ${err ? err.stack : ''}`);
                   }
                 }
               } else {

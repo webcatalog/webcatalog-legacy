@@ -32,14 +32,6 @@ const styles = (theme) => ({
     margin: 0,
     padding: theme.spacing(1),
   },
-  link: {
-    fontWeight: 600,
-    cursor: 'pointer',
-    outline: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
   helpContent: {
     marginTop: theme.spacing(1),
     textAlign: 'right',
@@ -83,9 +75,9 @@ const DialogLicenseRegistration = (props) => {
           >
             premium features
           </span>
-          &nbsp;such as adding unlimited number of workspaces,
+          &nbsp;such as adding unlimited number of apps & workspaces,
           blocking ads & trackers and more.
-          To remove the limitations, please purchase WebCatalog Plus (30 USD) from our store.
+          To remove the limitations, please purchase WebCatalog Lifetime (30 USD) from our store.
         </DialogContentText>
         <TextField
           autoFocus
@@ -98,22 +90,15 @@ const DialogLicenseRegistration = (props) => {
           placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
           error={Boolean(licenseKeyError)}
           variant="outlined"
-          helperText={licenseKeyError || 'If you have already purchased WebCatalog Plus or Singlebox from our store, you should have received a license key via email to enter above.'}
+          helperText={licenseKeyError || 'If you have already purchased WebCatalog Lifetime or Singlebox from our store, you should have received a license key via email to enter above.'}
         />
 
         <DialogContentText className={classes.helpContent}>
-          <span
+          <Button
             onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
-            onKeyDown={(e) => {
-              if (e.key !== 'Enter') return;
-              requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app');
-            }}
-            role="link"
-            tabIndex="0"
-            className={classes.link}
           >
             Lost your license key?
-          </span>
+          </Button>
         </DialogContentText>
       </DialogContent>
       <DialogActions className={classes.dialogActions}>

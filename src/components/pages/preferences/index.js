@@ -275,13 +275,13 @@ const Preferences = ({
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem button disabled>
-                <ListItemText primary={registered ? 'WebCatalog Plus is activated.' : 'WebCatalog Basic'} />
+                <ListItemText primary={registered ? 'WebCatalog Lifetime is activated.' : 'WebCatalog Basic'} />
               </ListItem>
               {!registered && (
                 <>
                   <Divider />
                   <ListItem button onClick={onOpenDialogLicenseRegistration}>
-                    <ListItemText primary="Upgrade to WebCatalog Plus" />
+                    <ListItemText primary="Upgrade to WebCatalog Lifetime" />
                     <ChevronRightIcon color="action" />
                   </ListItem>
                 </>

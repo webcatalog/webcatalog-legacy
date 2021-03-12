@@ -9,8 +9,11 @@ import {
   SET_SCANNING_FOR_INSTALLED,
   SORT_APPS,
 } from '../../constants/actions';
+import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 
 import swiftype from '../../swiftype';
+
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 
 import {
   isNameExisted,
@@ -56,6 +59,21 @@ export const removeApp = (id) => ({
 
 export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
+
+  // free version can only install up to 10 apps
+  const { registered } = state.preferences;
+  if (!registered) {
+    const { apps, sortedAppIds } = state.appManagement;
+    const appCount = sortedAppIds
+      .filter((appId) => {
+        const app = apps[appId];
+        return app.status === INSTALLED || app.status === INSTALLING;
+      }).length;
+    if (appCount >= 10) {
+      dispatch(openDialogLicenseRegistration());
+      return null;
+    }
+  }
 
   const sanitizedName = name.trim();
   if (isNameExisted(sanitizedName, state)) {
