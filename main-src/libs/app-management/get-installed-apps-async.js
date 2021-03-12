@@ -45,7 +45,7 @@ const getInstalledAppsAsync = () => {
                 if (appJson.engine === 'electron' && registered !== appJson.registered) {
                   try {
                     fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
-                    appJson.registered = true;
+                    appJson.registered = registered;
                   } catch (err) {
                     sendToAllWindows('log', `Failed to (de-)register app license ${appJsonPath} ${err ? err.stack : ''}`);
                   }
