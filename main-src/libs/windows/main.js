@@ -129,7 +129,7 @@ const createAsync = () => new Promise((resolve) => {
             type: 'separator',
           },
           {
-            label: registered ? 'WebCatalog Plus' : 'WebCatalog Basic',
+            label: registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic',
             visible: true,
             enabled: false,
             click: null,
