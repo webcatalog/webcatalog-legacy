@@ -29,7 +29,8 @@ const get = () => {
 };
 
 const createAsync = () => new Promise((resolve) => {
-  attachToMenubar = getPreference('attachToMenubar');
+  // only supported on macOS
+  attachToMenubar = process.platform === 'darwin' && getPreference('attachToMenubar');
 
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
@@ -196,8 +197,10 @@ const createAsync = () => new Promise((resolve) => {
     titleBarStyle: 'hiddenInset',
     show: false,
     frame: process.platform === 'darwin' || global.useSystemTitleBar,
+    alwaysOnTop: getPreference('alwaysOnTop'),
     webPreferences: {
       enableRemoteModule: true,
+      contextIsolation: false,
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV === 'production',
       preload: path.join(__dirname, 'preload-main.js'),

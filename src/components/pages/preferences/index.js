@@ -218,6 +218,7 @@ const Preferences = ({
       text: 'System',
       Icon: BuildIcon,
       ref: useRef(),
+      hidden: window.process.platform === 'linux',
     },
     advanced: {
       text: 'Advanced',
@@ -312,34 +313,38 @@ const Preferences = ({
                   <MenuItem dense value="dark">Dark</MenuItem>
                 </Select>
               </ListItem>
+              {window.process.platform === 'darwin' && (
+                <>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText
+                      primary="Attach to menu bar"
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        edge="end"
+                        color="primary"
+                        checked={attachToMenubar}
+                        onChange={(e) => {
+                          requestSetPreference('attachToMenubar', e.target.checked);
+                          enqueueRequestRestartSnackbar();
+                        }}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </>
+              )}
               <Divider />
               <ListItem>
                 <ListItemText
-                  primary={window.process.platform === 'win32' ? 'Attach to taskbar' : 'Attach to menu bar'}
-                />
-                <ListItemSecondaryAction>
-                  <Switch
-                    edge="end"
-                    color="primary"
-                    checked={attachToMenubar}
-                    onChange={(e) => {
-                      requestSetPreference('attachToMenubar', e.target.checked);
-                      enqueueRequestRestartSnackbar();
-                    }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="Keep attached window always on top"
+                  primary="Keep window always on top"
                   secondary="The window won't be hidden even when you click outside."
                 />
                 <ListItemSecondaryAction>
                   <Switch
                     edge="end"
                     color="primary"
-                    checked={!attachToMenubar ? false : alwaysOnTop}
-                    disabled={!attachToMenubar}
+                    checked={alwaysOnTop}
                     onChange={(e) => {
                       requestSetPreference('alwaysOnTop', e.target.checked);
                       enqueueRequestRestartSnackbar();
@@ -418,38 +423,42 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography
-            variant="subtitle2"
-            color="textPrimary"
-            className={classes.sectionTitle}
-            ref={sections.system.ref}
-          >
-            System
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem>
-                <ListItemText primary="Open at login" />
-                <Select
-                  value={openAtLogin}
-                  onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
-                  variant="filled"
-                  disableUnderline
-                  margin="dense"
-                  classes={{
-                    root: classes.select,
-                  }}
-                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                >
-                  <MenuItem dense value="yes">Yes</MenuItem>
-                  {window.process.platform !== 'win32' && (
-                    <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
-                  )}
-                  <MenuItem dense value="no">No</MenuItem>
-                </Select>
-              </ListItem>
-            </List>
-          </Paper>
+          {window.process.platform !== 'linux' && (
+            <>
+              <Typography
+                variant="subtitle2"
+                color="textPrimary"
+                className={classes.sectionTitle}
+                ref={sections.system.ref}
+              >
+                System
+              </Typography>
+              <Paper elevation={0} className={classes.paper}>
+                <List disablePadding dense>
+                  <ListItem>
+                    <ListItemText primary="Open at login" />
+                    <Select
+                      value={openAtLogin}
+                      onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
+                      variant="filled"
+                      disableUnderline
+                      margin="dense"
+                      classes={{
+                        root: classes.select,
+                      }}
+                      className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                    >
+                      <MenuItem dense value="yes">Yes</MenuItem>
+                      {window.process.platform !== 'win32' && (
+                        <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                      )}
+                      <MenuItem dense value="no">No</MenuItem>
+                    </Select>
+                  </ListItem>
+                </List>
+              </Paper>
+            </>
+          )}
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced
