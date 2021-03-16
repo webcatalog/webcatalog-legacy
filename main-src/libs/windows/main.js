@@ -200,6 +200,7 @@ const createAsync = () => new Promise((resolve) => {
     alwaysOnTop: getPreference('alwaysOnTop'),
     webPreferences: {
       enableRemoteModule: true,
+      contextIsolation: false,
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV === 'production',
       preload: path.join(__dirname, 'preload-main.js'),
