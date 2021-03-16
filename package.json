@@ -36,7 +36,6 @@
     "@material-ui/lab": "4.0.0-alpha.57",
     "@sentry/electron": "2.4.0",
     "amplitude-js": "7.4.4",
-    "auto-launch": "5.0.5",
     "axios": "0.21.1",
     "babel-eslint": "10.1.0",
     "babel-preset-env": "1.7.0",
