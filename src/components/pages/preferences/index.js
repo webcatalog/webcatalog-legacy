@@ -318,7 +318,8 @@ const Preferences = ({
                   <Divider />
                   <ListItem>
                     <ListItemText
-                      primary="Attach to menu bar"
+                      primary={window.process.platform === 'win32' ? 'Pin to system tray (notification area)' : 'Attach to menu bar'}
+                      secondary="Tip: Right-click on app icon to access context menu."
                     />
                     <ListItemSecondaryAction>
                       <Switch

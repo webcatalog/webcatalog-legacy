@@ -30,7 +30,7 @@ const get = () => {
 
 const createAsync = () => new Promise((resolve) => {
   // only supported on macOS
-  attachToMenubar = process.platform === 'darwin' && getPreference('attachToMenubar');
+  attachToMenubar = process.platform !== 'linux' && getPreference('attachToMenubar');
 
   if (attachToMenubar) {
     const menubarWindowState = windowStateKeeper({
