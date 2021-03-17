@@ -1,0 +1,15 @@
+diff --git a/node_modules/fs-extra/lib/remove/rimraf.js b/node_modules/fs-extra/lib/remove/rimraf.js
+index 2c77102..00baece 100644
+--- a/node_modules/fs-extra/lib/remove/rimraf.js
++++ b/node_modules/fs-extra/lib/remove/rimraf.js
+@@ -21,7 +21,9 @@ function defaults (options) {
+     options[m] = options[m] || fs[m]
+   })
+ 
+-  options.maxBusyTries = options.maxBusyTries || 3
++  // rimraf is likely to fail on Windows
++  // so retry 30 times before giving up
++  options.maxBusyTries = options.maxBusyTries || 30
+ }
+ 
+ function rimraf (p, options, cb) {
