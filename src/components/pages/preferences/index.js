@@ -313,7 +313,7 @@ const Preferences = ({
                   <MenuItem dense value="dark">Dark</MenuItem>
                 </Select>
               </ListItem>
-              {window.process.platform === 'darwin' && (
+              {window.process.platform !== 'linux' && (
                 <>
                   <Divider />
                   <ListItem>
