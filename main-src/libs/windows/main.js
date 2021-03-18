@@ -69,6 +69,7 @@ const createAsync = () => new Promise((resolve) => {
         minHeight: 500,
         webPreferences: {
           enableRemoteModule: true,
+          contextIsolation: false,
           nodeIntegration: true,
           webSecurity: process.env.NODE_ENV === 'production',
           preload: path.join(__dirname, 'preload-menubar.js'),
