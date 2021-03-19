@@ -51,7 +51,7 @@ const getDesc = (engineCode, browserName) => {
   }
 
   if (engineCode === 'electron') {
-    return `This option creates ${browserName}-based app with many exclusive features such as workspaces, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
+    return `This option creates ${browserName}-based app with many exclusive features such as switching between multiple accounts, notifications, badges and email handling. ${browserName} does not support WebExtensions and DRM-protected apps such as Netflix or Spotify.`;
   }
 
   const standardDesc = `This option creates bare-bone ${browserName}-based app${engineCode !== 'firefox' ? ' with WebExtension support' : ''}.`;
