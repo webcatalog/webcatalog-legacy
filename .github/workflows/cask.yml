@@ -20,7 +20,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: 14.x
     - name: Set up SSH Agent
       uses: webfactory/ssh-agent@v0.4.1
       with:
