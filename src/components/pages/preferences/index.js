@@ -391,9 +391,9 @@ const Preferences = ({
                   <Switch
                     edge="end"
                     color="primary"
-                    checked={telemetry}
+                    checked={sentry}
                     onChange={(e) => {
-                      requestSetPreference('telemetry', e.target.checked);
+                      requestSetPreference('sentry', e.target.checked);
                     }}
                   />
                 </ListItemSecondaryAction>
@@ -408,9 +408,9 @@ const Preferences = ({
                   <Switch
                     edge="end"
                     color="primary"
-                    checked={sentry}
+                    checked={telemetry}
                     onChange={(e) => {
-                      requestSetPreference('sentry', e.target.checked);
+                      requestSetPreference('telemetry', e.target.checked);
                       enqueueRequestRestartSnackbar();
                     }}
                   />
