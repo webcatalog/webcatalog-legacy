@@ -33,7 +33,7 @@ const createShortcutAsync = (shortcutPath, opts) => {
 };
 
 const installAppAsync = (
-  engine, id, name, url, icon, _opts = {},
+  id, name, url, icon, _opts = {},
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
@@ -76,6 +76,8 @@ const installAppAsync = (
     })
     .then(() => new Promise((resolve, reject) => {
       const params = [
+        '--engine',
+        'electron',
         '--id',
         id,
         '--name',
@@ -115,7 +117,7 @@ const installAppAsync = (
         message: 'install-app-async',
         // avoid sending app name, app id to protect user privacy
         data: {
-          engine,
+          engine: 'electron',
           cacheRoot,
           installationPath,
           requireAdmin,
@@ -148,9 +150,7 @@ const installAppAsync = (
       child.on('exit', (code) => {
         if (code === 1) {
           // force reextracting template code to avoid bugs related to corrupted files
-          if (engine === 'electron') {
-            global.forceExtract = true;
-          }
+          global.forceExtract = true;
 
           reject(err || new Error('Forked script failed to run correctly.'));
           return;
@@ -168,21 +168,6 @@ const installAppAsync = (
     .then(() => {
       if (process.platform === 'win32') {
         let args;
-
-        if (engine.startsWith('firefox')) {
-          if (engine.endsWith('/tabs')) {
-            args = `-P "webcatalog-${id}" "${url}"`;
-          } else {
-            args = `-P "webcatalog-${id}" --ssb="${url}"`;
-          }
-        } else if (engine !== 'electron') {
-          const chromiumDataPath = path.join(app.getPath('home'), '.webcatalog', 'chromium-data', id);
-          if (engine.endsWith('/tabs')) {
-            args = `--user-data-dir="${chromiumDataPath}" "${url}"`;
-          } else {
-            args = `--class "${name}" --user-data-dir="${chromiumDataPath}" --app="${url}"`;
-          }
-        }
 
         const allAppsPath = installationPath.replace('~', app.getPath('home'));
         const finalPath = path.join(allAppsPath, name);
@@ -210,19 +195,17 @@ const installAppAsync = (
             .then(() => createShortcutAsync(startMenuShortcutPath, shortcutOpts)));
         }
 
-        if (engine === 'electron') {
-          // this step fails randomly on some Windows computers
-          // but since this is not very essential
-          // so temporarily just collect the bug report and ignore it if the bug occurs
-          p.push(
-            registryInstaller.installAsync(`webcatalog-${id}`, name, exePath)
-              .catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-                captureException(e);
-              }),
-          );
-        }
+        // this step fails randomly on some Windows computers
+        // but since this is not very essential
+        // so temporarily just collect the bug report and ignore it if the bug occurs
+        p.push(
+          registryInstaller.installAsync(`webcatalog-${id}`, name, exePath)
+            .catch((e) => {
+              // eslint-disable-next-line no-console
+              console.log(e);
+              captureException(e);
+            }),
+        );
 
         return Promise.all(p);
       }
@@ -230,7 +213,7 @@ const installAppAsync = (
       return null;
     })
     .then(() => ({
-      engine,
+      engine: 'electron',
       id,
       name,
       url,

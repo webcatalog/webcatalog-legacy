@@ -57,7 +57,7 @@ export const removeApp = (id) => ({
   id,
 });
 
-export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getState) => {
+export const installApp = (id, name, url, icon, opts) => (dispatch, getState) => {
   const state = getState();
 
   // free version can only install up to 10 apps
@@ -81,7 +81,7 @@ export const installApp = (engine, id, name, url, icon, opts) => (dispatch, getS
     return null;
   }
 
-  requestInstallApp(engine, id, sanitizedName, url, icon, opts);
+  requestInstallApp(id, sanitizedName, url, icon, opts);
   return null;
 };
 

@@ -35,8 +35,7 @@ import {
 } from '../../senders';
 
 import { isOutdatedApp } from '../../state/app-management/utils';
-import { updateApp } from '../../state/app-management/actions';
-import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
+import { installApp, updateApp } from '../../state/app-management/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
 import { open as openDialogCatalogAppDetails } from '../../state/dialog-catalog-app-details/actions';
@@ -133,7 +132,7 @@ const AppCard = (props) => {
     latestTemplateVersion,
     name,
     onOpenDialogCatalogAppDetails,
-    onOpenDialogChooseEngine,
+    onInstallApp,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
     onUpdateApp,
@@ -226,7 +225,7 @@ const AppCard = (props) => {
         click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
       },
       engine === 'electron' ? {
-        label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
+        label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
         enabled: false,
         visible: Boolean(engine && version),
       } : {
@@ -322,7 +321,7 @@ const AppCard = (props) => {
         disabled={status !== null}
         onClick={(e) => {
           e.stopPropagation();
-          onOpenDialogChooseEngine(id, name, url, icon, combinedOpts);
+          onInstallApp(id, name, url, icon, combinedOpts);
         }}
       >
         {label}
@@ -425,8 +424,8 @@ AppCard.propTypes = {
   isOutdated: PropTypes.bool.isRequired,
   latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
+  onInstallApp: PropTypes.func.isRequired,
   onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
-  onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
@@ -460,10 +459,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const actionCreators = {
   openDialogCatalogAppDetails,
-  openDialogChooseEngine,
   openDialogCreateCustomApp,
   openDialogEditApp,
   updateApp,
+  installApp,
 };
 
 export default connectComponent(

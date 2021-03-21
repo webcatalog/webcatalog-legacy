@@ -14,7 +14,7 @@ import isUrl from '../../helpers/is-url';
 import validate from '../../helpers/validate';
 import getStaticGlobal from '../../helpers/get-static-global';
 
-import { open as openDialogChooseEngine } from '../dialog-choose-engine/actions';
+import { installApp } from '../app-management/actions';
 import {
   isNameExisted,
 } from '../app-management/utils';
@@ -224,7 +224,7 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(openDialogChooseEngine(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
+  dispatch(installApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
 
   dispatch(close());
   return null;

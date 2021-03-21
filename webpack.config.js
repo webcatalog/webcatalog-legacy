@@ -38,12 +38,8 @@ const getForkedScriptsConfig = () => {
     },
     entry: {
       'install-app-forked-electron-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-electron-v2.js'),
-      'install-app-forked-lite-v1': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v1.js'),
-      'install-app-forked-lite-v2': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-lite-v2.js'),
-      'install-app-forked-webkit': path.join(__dirname, 'main-src', 'libs', 'app-management', 'install-app-async', 'install-app-forked-webkit.js'),
       'prepare-engine-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-engine-async', 'prepare-engine-forked.js'),
       'prepare-electron-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
-      'prepare-webkit-wrapper-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-webkit-wrapper-async', 'prepare-webkit-wrapper-forked.js'),
       'uninstall-app-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
     },
     target: 'node',
