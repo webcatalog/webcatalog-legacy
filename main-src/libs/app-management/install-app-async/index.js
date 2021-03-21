@@ -13,21 +13,10 @@ const envPaths = require('env-paths');
 
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
-const isEngineInstalled = require('../../is-engine-installed');
 const getFreedesktopCategory = require('../../get-freedesktop-category');
-
-const getWin32BravePaths = require('../../get-win32-brave-paths');
-const getWin32ChromePaths = require('../../get-win32-chrome-paths');
-const getWin32VivaldiPaths = require('../../get-win32-vivaldi-paths');
-const getWin32EdgePaths = require('../../get-win32-vivaldi-paths');
-const getWin32OperaPaths = require('../../get-win32-opera-paths');
-const getWin32YandexPaths = require('../../get-win32-yandex-paths');
-const getWin32CoccocPaths = require('../../get-win32-coccoc-paths');
-const getWin32FirefoxPaths = require('../../get-win32-firefox-paths');
 
 const prepareEngineAsync = require('../prepare-engine-async');
 const prepareElectronAsync = require('../prepare-electron-async');
-const prepareWebkitWrapperAsync = require('../prepare-webkit-wrapper-async');
 const registryInstaller = require('../registry-installer');
 
 const createShortcutAsync = (shortcutPath, opts) => {
@@ -48,7 +37,6 @@ const installAppAsync = (
 ) => {
   let v = '0.0.0'; // app version
   let scriptFileName;
-  let browserPath;
 
   const opts = { ..._opts };
   if (process.platform === 'linux') {
@@ -79,123 +67,15 @@ const installAppAsync = (
         desc: null,
       });
 
-      if (engine === 'electron') {
-        return prepareEngineAsync()
-          .then((latestTemplateVersion) => {
-            v = latestTemplateVersion;
-            scriptFileName = 'install-app-forked-electron-v2.js';
-            return prepareElectronAsync();
-          });
-      }
-
-      if (engine === 'webkit') {
-        return prepareWebkitWrapperAsync()
-          .then((latestTemplateVersion) => {
-            v = latestTemplateVersion;
-            scriptFileName = 'install-app-forked-webkit.js';
-          });
-      }
-
-      if (process.platform === 'darwin') {
-        // use v2 script on Mac
-        scriptFileName = 'install-app-forked-lite-v2.js';
-        v = '2.6.0';
-      } else {
-        scriptFileName = 'install-app-forked-lite-v1.js';
-        v = '1.1.0';
-      }
-
-      return null;
+      return prepareEngineAsync()
+        .then((latestTemplateVersion) => {
+          v = latestTemplateVersion;
+          scriptFileName = 'install-app-forked-electron-v2.js';
+          return prepareElectronAsync();
+        });
     })
     .then(() => new Promise((resolve, reject) => {
-      if (!isEngineInstalled(engine)) {
-        let engineName;
-        switch (engine) {
-          case 'electron': {
-            engineName = 'Electron';
-            break;
-          }
-          case 'chromium':
-          case 'chromium/tabs': {
-            engineName = 'Chromium';
-            break;
-          }
-          case 'brave':
-          case 'brave/tabs': {
-            engineName = 'Brave';
-            break;
-          }
-          case 'vivaldi':
-          case 'vivaldi/tabs': {
-            engineName = 'Vivaldi';
-            break;
-          }
-          case 'edge':
-          case 'edge/tabs': {
-            engineName = 'Microsoft Edge';
-            break;
-          }
-          case 'chromeCanary':
-          case 'chromeCanary/tabs': {
-            engineName = 'Google Chrome Canary';
-            break;
-          }
-          case 'chrome':
-          case 'chrome/tabs': {
-            engineName = 'Google Chrome';
-            break;
-          }
-          case 'opera':
-          case 'opera/tabs': {
-            engineName = 'Opera';
-            break;
-          }
-          case 'yandex':
-          case 'yandex/tabs': {
-            engineName = 'Yandex Browser';
-            break;
-          }
-          case 'coccoc':
-          case 'coccoc/tabs': {
-            engineName = 'Cốc Cốc';
-            break;
-          }
-          case 'firefox':
-          case 'firefox/tabs': {
-            engineName = 'Mozilla Firefox';
-            break;
-          }
-          default: {
-            engineName = 'Browser';
-          }
-        }
-        reject(new Error(`${engineName} is not installed.`));
-        return;
-      }
-
-      if (process.platform === 'win32') {
-        if (engine.startsWith('chrome')) {
-          browserPath = getWin32ChromePaths()[0];
-        } else if (engine.startsWith('brave')) {
-          browserPath = getWin32BravePaths()[0];
-        } else if (engine.startsWith('vivaldi')) {
-          browserPath = getWin32VivaldiPaths()[0];
-        } else if (engine.startsWith('edge')) {
-          browserPath = getWin32EdgePaths()[0];
-        } else if (engine.startsWith('opera')) {
-          browserPath = getWin32OperaPaths()[0];
-        } else if (engine.startsWith('yandex')) {
-          browserPath = getWin32YandexPaths()[0];
-        } else if (engine.startsWith('coccoc')) {
-          browserPath = getWin32CoccocPaths()[0];
-        } else if (engine.startsWith('firefox')) {
-          browserPath = getWin32FirefoxPaths()[0];
-        }
-      }
-
       const params = [
-        '--engine',
-        engine,
         '--id',
         id,
         '--name',
@@ -225,17 +105,10 @@ const installAppAsync = (
         params.push(url);
       }
 
-      if (browserPath) {
-        params.push('--browserPath');
-        params.push(browserPath);
-      }
-
-      if (engine === 'electron') {
-        params.push(
-          '--tmpPath',
-          tmp.dirSync().name,
-        );
-      }
+      params.push(
+        '--tmpPath',
+        tmp.dirSync().name,
+      );
 
       addBreadcrumb({
         category: 'run-forked-script',
@@ -317,7 +190,7 @@ const installAppAsync = (
         const exePath = path.join(finalPath, `${name}.exe`);
 
         const shortcutOpts = {
-          target: engine === 'electron' ? exePath : browserPath,
+          target: exePath,
           args,
           icon: finalIconIcoPath,
         };

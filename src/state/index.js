@@ -7,13 +7,11 @@ import thunkMiddleware from 'redux-thunk';
 import appManagement from './app-management/reducers';
 import dialogAbout from './dialog-about/reducers';
 import dialogCatalogAppDetails from './dialog-catalog-app-details/reducers';
-import dialogChooseEngine from './dialog-choose-engine/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogEditApp from './dialog-edit-app/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
 import dialogOpenSourceNotices from './dialog-open-source-notices/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
-import dialogSetPreferredEngine from './dialog-set-preferred-engine/reducers';
 import general from './general/reducers';
 import installed from './installed/reducers';
 import preferences from './preferences/reducers';
@@ -25,13 +23,11 @@ const rootReducer = combineReducers({
   appManagement,
   dialogAbout,
   dialogCatalogAppDetails,
-  dialogChooseEngine,
   dialogCreateCustomApp,
   dialogEditApp,
   dialogLicenseRegistration,
   dialogOpenSourceNotices,
   dialogSetInstallationPath,
-  dialogSetPreferredEngine,
   general,
   installed,
   preferences,
