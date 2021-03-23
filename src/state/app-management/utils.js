@@ -17,6 +17,10 @@ export const isOutdatedApp = (id, state) => {
 
   const appDetails = apps[id];
 
+  if (appDetails.engine && appDetails.engine !== 'electron') {
+    return false;
+  }
+
   // check if app is installing
   if (appDetails.status === INSTALLING) return false;
 
@@ -24,16 +28,6 @@ export const isOutdatedApp = (id, state) => {
   if (Boolean(appDetails.registered) !== registered) return true;
 
   const v = appDetails.version;
-
-  // app is Chromium/Firefox-based
-  if (appDetails.engine !== 'electron') {
-    // check if app is installed with the latest version of forked-script-v2.js
-    if (window.process.platform === 'darwin') {
-      return semver.lt(v, '2.6.0');
-    }
-    // check if app is installed with the latest version of forked-script-v1.js
-    return semver.lt(v, '1.1.0');
-  }
 
   // app is WebCatalog Engine (Electron)-based
   const latestV = state.general.latestTemplateVersion;

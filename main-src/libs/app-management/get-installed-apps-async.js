@@ -42,7 +42,7 @@ const getInstalledAppsAsync = () => {
               if (fsExtra.pathExistsSync(appJsonPath)) {
                 lastUpdated = Math.floor(fsExtra.statSync(appJsonPath).mtimeMs);
                 appJson = fsExtra.readJSONSync(appJsonPath);
-                if (appJson.engine === 'electron' && registered !== appJson.registered) {
+                if (registered !== appJson.registered) {
                   try {
                     fsExtra.writeJSONSync(appJsonPath, { ...appJson, registered });
                     appJson.registered = registered;

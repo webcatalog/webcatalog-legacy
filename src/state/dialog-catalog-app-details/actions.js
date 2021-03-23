@@ -6,7 +6,6 @@ import {
   DIALOG_CATALOG_APP_DETAILS_UPDATE_DETAILS,
   DIALOG_CATALOG_APP_DETAILS_OPEN,
 } from '../../constants/actions';
-import { INSTALLED } from '../../constants/app-statuses';
 
 import swiftype from '../../swiftype';
 
@@ -28,10 +27,7 @@ export const getDetailsAsync = () => async (dispatch, getState) => {
   const { apps } = getState().appManagement;
   const appObj = apps[appId];
 
-  let relatedPaths;
-  if (appObj && appObj.status === INSTALLED && appObj.engine) {
-    relatedPaths = await getRelatedPathsAsync(appObj);
-  }
+  const relatedPaths = appObj ? await getRelatedPathsAsync(appObj) : null;
 
   if (appId.startsWith('custom-')) {
     dispatch(updateDetails({

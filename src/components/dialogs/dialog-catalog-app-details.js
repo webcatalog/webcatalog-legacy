@@ -115,18 +115,6 @@ const DialogCatalogAppDetails = ({
                   inDetailsDialog
                 />
                 <div className={classes.appDesc}>
-                  <Typography variant="body2" className={classes.appDescSection} component="div">
-                    <ReactMarkdown>
-                      {details.description}
-                    </ReactMarkdown>
-                  </Typography>
-
-                  {(details.url || details.id.startsWith('group-')) && (
-                    <Typography variant="body2" color="textSecondary" className={classes.legal}>
-                      {`We are not affiliated, associated, authorized, endorsed by or in any way officially connected to ${details.name}${hostname ? ` (${hostname})` : ''}, except for the fact that we use their websites to develop and provide you this app. All product names, logos, and brands are property of their respective owners.`}
-                    </Typography>
-                  )}
-
                   <div className={classes.appDescSection}>
                     {details.url && (
                       <Typography variant="body2">
@@ -183,6 +171,18 @@ const DialogCatalogAppDetails = ({
                             </li>
                           ))}
                         </ul>
+                      </Typography>
+                    )}
+
+                    <Typography variant="body2" className={classes.appDescSection} component="div">
+                      <ReactMarkdown>
+                        {details.description}
+                      </ReactMarkdown>
+                    </Typography>
+
+                    {(details.url || details.id.startsWith('group-')) && (
+                      <Typography variant="body2" color="textSecondary" className={classes.legal}>
+                        {`We are not affiliated, associated, authorized, endorsed by or in any way officially connected to ${details.name}${hostname ? ` (${hostname})` : ''}, except for the fact that we use their websites to develop and provide you this app. All product names, logos, and brands are property of their respective owners.`}
                       </Typography>
                     )}
                   </div>

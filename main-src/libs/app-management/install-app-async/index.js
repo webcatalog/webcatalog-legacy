@@ -76,8 +76,6 @@ const installAppAsync = (
     })
     .then(() => new Promise((resolve, reject) => {
       const params = [
-        '--engine',
-        'electron',
         '--id',
         id,
         '--name',
@@ -213,7 +211,6 @@ const installAppAsync = (
       return null;
     })
     .then(() => ({
-      engine: 'electron',
       id,
       name,
       url,

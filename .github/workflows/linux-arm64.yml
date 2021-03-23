@@ -55,13 +55,3 @@ jobs:
         REACT_APP_SWIFTYPE_ENGINE_NAME: ${{ secrets.REACT_APP_SWIFTYPE_ENGINE_NAME }}
         ELECTRON_APP_SENTRY_DSN: ${{ secrets.ELECTRON_APP_SENTRY_DSN }}
       if: startsWith(github.ref, 'refs/tags/')
-    - name: Create Sentry Release
-      if: startsWith(github.ref, 'refs/tags/')
-      run: |
-        curl -sL https://sentry.io/get-cli/ | bash
-        VERSION=$(node -p -e "require('./package.json').version")
-        sentry-cli releases new $VERSION
-        sentry-cli releases set-commits --auto $VERSION
-        sentry-cli releases finalize $VERSION
-      env:
-        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

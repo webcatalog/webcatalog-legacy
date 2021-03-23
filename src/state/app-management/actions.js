@@ -91,7 +91,7 @@ export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, get
   // but prior to v27.x, "opts.category" value is not included in app.json
   // so we try to get from the server
   const appObj = getState().appManagement.apps[id];
-  const { engine, version } = appObj;
+  const { version } = appObj;
   const name = _name || appObj.name;
   const url = _url !== undefined ? _url : appObj.url; // url can be null
   const icon = _icon || appObj.icon;
@@ -99,7 +99,7 @@ export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, get
 
   // force using default Electron user data path for apps upgraded from WebCatalog Engine < 14.x
   // for backward compatibility
-  if (engine === 'electron' && semver.lt(version, '14.0.0')) {
+  if (semver.lt(version, '14.0.0')) {
     opts.legacyUserData = true;
   }
 
@@ -125,7 +125,7 @@ export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, get
       });
   }
 
-  requestUpdateApp(engine, id, name, url, icon, opts);
+  requestUpdateApp(id, name, url, icon, opts);
 };
 
 export const updateApps = (apps) => (dispatch) => {
