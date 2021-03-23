@@ -16,13 +16,11 @@ import Preferences from './pages/preferences';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
-import DialogChooseEngine from './dialogs/dialog-choose-engine';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
-import DialogSetPreferredEngine from './dialogs/dialog-set-preferred-engine';
 
 import {
   ROUTE_PREFERENCES,
@@ -101,13 +99,11 @@ class App extends React.Component {
 
         <DialogAbout />
         <DialogCatalogAppDetails />
-        <DialogChooseEngine />
         <DialogCreateCustomApp />
         <DialogEditApp />
         <DialogLicenseRegistration />
         <DialogOpenSourceNotices />
         <DialogSetInstallationPath />
-        <DialogSetPreferredEngine />
       </div>
     );
   }

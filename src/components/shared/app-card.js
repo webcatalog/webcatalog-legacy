@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import WarningIcon from '@material-ui/icons/Warning';
 
 import HelpTooltip from './help-tooltip';
 
@@ -35,8 +36,7 @@ import {
 } from '../../senders';
 
 import { isOutdatedApp } from '../../state/app-management/utils';
-import { updateApp } from '../../state/app-management/actions';
-import { open as openDialogChooseEngine } from '../../state/dialog-choose-engine/actions';
+import { installApp, updateApp } from '../../state/app-management/actions';
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 import { open as openDialogEditApp } from '../../state/dialog-edit-app/actions';
 import { open as openDialogCatalogAppDetails } from '../../state/dialog-catalog-app-details/actions';
@@ -133,7 +133,7 @@ const AppCard = (props) => {
     latestTemplateVersion,
     name,
     onOpenDialogCatalogAppDetails,
-    onOpenDialogChooseEngine,
+    onInstallApp,
     onOpenDialogCreateCustomApp,
     onOpenDialogEditApp,
     onUpdateApp,
@@ -218,17 +218,15 @@ const AppCard = (props) => {
       },
       {
         type: 'separator',
-        visible: Boolean(engine),
       },
       {
         label: 'What\'s New',
         visible: engine === 'electron',
         click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
       },
-      engine === 'electron' ? {
-        label: `Powered by WebCatalog Engine ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
+      !engine || engine === 'electron' ? {
+        label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
         enabled: false,
-        visible: Boolean(engine && version),
       } : {
         label: `Powered by ${getEngineName(engine)} (implementation ${version})`,
         enabled: false,
@@ -322,7 +320,7 @@ const AppCard = (props) => {
         disabled={status !== null}
         onClick={(e) => {
           e.stopPropagation();
-          onOpenDialogChooseEngine(id, name, url, icon, combinedOpts);
+          onInstallApp(id, name, url, icon, combinedOpts);
         }}
       >
         {label}
@@ -384,6 +382,24 @@ const AppCard = (props) => {
             </IconButton>
           </HelpTooltip>
         )}
+        {engine && engine !== 'electron' && (
+          <HelpTooltip
+            title={(
+              <Typography variant="body2" color="textPrimary">
+                {`Apps powered by ${getEngineName(engine)} are no longer supported by WebCatalog. Click to learn more.`}
+              </Typography>
+            )}
+          >
+            <IconButton
+              size="small"
+              aria-label="Warning"
+              classes={{ root: classes.topLeft }}
+              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/14-is-it-possible-to-create-apps-using-non-electron-browser-engines')}
+            >
+              <WarningIcon fontSize="small" />
+            </IconButton>
+          </HelpTooltip>
+        )}
         <IconButton
           size="small"
           aria-label={`More Options for ${name}`}
@@ -425,8 +441,8 @@ AppCard.propTypes = {
   isOutdated: PropTypes.bool.isRequired,
   latestTemplateVersion: PropTypes.string,
   name: PropTypes.string.isRequired,
+  onInstallApp: PropTypes.func.isRequired,
   onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
-  onOpenDialogChooseEngine: PropTypes.func.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
@@ -460,10 +476,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const actionCreators = {
   openDialogCatalogAppDetails,
-  openDialogChooseEngine,
   openDialogCreateCustomApp,
   openDialogEditApp,
   updateApp,
+  installApp,
 };
 
 export default connectComponent(

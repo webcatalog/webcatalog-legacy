@@ -28,7 +28,6 @@ import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import connectComponent from '../../../helpers/connect-component';
-import getEngineName from '../../../helpers/get-engine-name';
 
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
@@ -36,7 +35,6 @@ import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
-import { open as openDialogSetPreferredEngine } from '../../../state/dialog-set-preferred-engine/actions';
 
 import {
   requestCheckForUpdates,
@@ -178,16 +176,13 @@ const Preferences = ({
   createDesktopShortcut,
   createStartMenuShortcut,
   defaultHome,
-  hideEnginePrompt,
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
   onOpenDialogLicenseRegistration,
   onOpenDialogOpenSourceNotices,
   onOpenDialogSetInstallationPath,
-  onOpenDialogSetPreferredEngine,
   openAtLogin,
-  preferredEngine,
   registered,
   requireAdmin,
   sentry,
@@ -466,31 +461,6 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <ListItem
-                button
-                onClick={() => {
-                  onOpenDialogSetPreferredEngine();
-                }}
-              >
-                <ListItemText primary="Preferred browser engine" secondary={getEngineName(preferredEngine)} />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="Ask for browser engine selection before every installation"
-                />
-                <ListItemSecondaryAction>
-                  <Switch
-                    edge="end"
-                    color="primary"
-                    checked={!hideEnginePrompt}
-                    onChange={(e) => {
-                      requestSetPreference('hideEnginePrompt', !e.target.checked);
-                    }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider />
               <ListItem>
                 <ListItemText primary="Installation path" />
                 <Select
@@ -769,14 +739,6 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem
-                button
-                onClick={() => requestOpenInBrowser('https://alternativeto.net/software/webcatalog/about/')}
-              >
-                <ListItemText primary="Review WebCatalog on AlternativeTo" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-              <Divider />
               <ListItem button onClick={() => requestOpenInBrowser('https://twitter.com/webcatalog_app')}>
                 <ListItemText primary="Twitter" />
                 <ChevronRightIcon color="action" />
@@ -818,16 +780,13 @@ Preferences.propTypes = {
   createDesktopShortcut: PropTypes.bool.isRequired,
   createStartMenuShortcut: PropTypes.bool.isRequired,
   defaultHome: PropTypes.string.isRequired,
-  hideEnginePrompt: PropTypes.bool.isRequired,
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
-  onOpenDialogSetPreferredEngine: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
-  preferredEngine: PropTypes.string.isRequired,
   registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
@@ -847,11 +806,9 @@ const mapStateToProps = (state) => ({
   createDesktopShortcut: state.preferences.createDesktopShortcut,
   createStartMenuShortcut: state.preferences.createStartMenuShortcut,
   defaultHome: state.preferences.defaultHome,
-  hideEnginePrompt: state.preferences.hideEnginePrompt,
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
-  preferredEngine: state.preferences.preferredEngine,
   registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
@@ -868,7 +825,6 @@ const actionCreators = {
   openDialogLicenseRegistration,
   openDialogOpenSourceNotices,
   openDialogSetInstallationPath,
-  openDialogSetPreferredEngine,
 };
 
 export default connectComponent(

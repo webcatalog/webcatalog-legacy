@@ -19,7 +19,6 @@ const open = (state = false, action) => {
 };
 
 const formInitialState = {
-  engine: 'electron',
   name: '',
   url: 'https://',
   urlDisabled: false,

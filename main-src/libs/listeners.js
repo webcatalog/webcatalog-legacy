@@ -165,13 +165,12 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  ipcMain.on('request-install-app', (e, engine, id, name, url, icon, opts) => {
+  ipcMain.on('request-install-app', (e, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
           status: 'INSTALLING',
           lastUpdated: new Date().getTime(),
-          engine,
           id,
           name,
           url,
@@ -186,7 +185,7 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon, opts)
+          return installAppAsync(id, name, url, icon, opts)
             .then((newApp) => {
               send(e.sender, 'set-app', id, {
                 ...newApp,
@@ -220,7 +219,7 @@ const loadListeners = () => {
       });
   });
 
-  ipcMain.on('request-update-app', (e, engine, id, name, url, icon, opts) => {
+  ipcMain.on('request-update-app', (e, id, name, url, icon, opts) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -234,7 +233,7 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(engine, id, name, url, icon, opts)
+          return installAppAsync(id, name, url, icon, opts)
             .then((newApp) => {
               let displayedIcon;
               // display latest icon from WebCatalog

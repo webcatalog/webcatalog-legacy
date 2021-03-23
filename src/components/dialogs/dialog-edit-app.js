@@ -357,7 +357,6 @@ const mapStateToProps = (state) => {
     downloadingIcon,
     freedesktopAdditionalCategory,
     freedesktopMainCategory,
-    hideEnginePrompt: state.preferences.hideEnginePrompt,
     icon,
     id,
     internetIcon,

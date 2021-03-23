@@ -28,10 +28,9 @@ export const requestSetSystemPreference = (name, value) => window.ipcRenderer.se
 
 // App Management
 export const requestGetInstalledApps = () => window.ipcRenderer.send('request-get-installed-apps');
-export const requestInstallApp = (engine, id, name, url, icon, opts) => {
+export const requestInstallApp = (id, name, url, icon, opts) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('install app', {
-    engine,
     multisiteApp: url == null,
   });
 
@@ -40,12 +39,11 @@ export const requestInstallApp = (engine, id, name, url, icon, opts) => {
     trackInstallAsync(amplitude.getInstance().options.deviceId, id);
   }
 
-  window.ipcRenderer.send('request-install-app', engine, id, name, url, icon, opts);
+  window.ipcRenderer.send('request-install-app', id, name, url, icon, opts);
 };
-export const requestUpdateApp = (engine, id, name, url, icon, opts) => {
+export const requestUpdateApp = (id, name, url, icon, opts) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('update app', {
-    engine,
     multisiteApp: url == null,
   });
 
@@ -54,7 +52,7 @@ export const requestUpdateApp = (engine, id, name, url, icon, opts) => {
     trackInstallAsync(amplitude.getInstance().options.deviceId, id);
   }
 
-  window.ipcRenderer.send('request-update-app', engine, id, name, url, icon, opts);
+  window.ipcRenderer.send('request-update-app', id, name, url, icon, opts);
 };
 export const requestCancelInstallApp = (id) => window.ipcRenderer.send('request-cancel-install-app', id);
 export const requestCancelUpdateApp = (id) => window.ipcRenderer.send('request-cancel-update-app', id);

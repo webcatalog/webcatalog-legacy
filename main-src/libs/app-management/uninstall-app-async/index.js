@@ -10,7 +10,7 @@ const { getPreferences } = require('../../preferences');
 
 const registryInstaller = require('../registry-installer');
 
-const uninstallAppAsync = (id, name, engine) => new Promise((resolve, reject) => {
+const uninstallAppAsync = (id, name, engine = 'electron') => new Promise((resolve, reject) => {
   const scriptPath = path.join(__dirname, 'uninstall-app-forked.js')
     .replace('app.asar', 'app.asar.unpacked');
 

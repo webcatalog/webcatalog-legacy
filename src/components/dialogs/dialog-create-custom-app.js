@@ -77,7 +77,6 @@ const DialogCreateCustomApp = (props) => {
     downloadingIcon,
     freedesktopAdditionalCategory,
     freedesktopMainCategory,
-    hideEnginePrompt,
     icon,
     internetIcon,
     name,
@@ -290,7 +289,7 @@ const DialogCreateCustomApp = (props) => {
           color="primary"
           onClick={onCreate}
         >
-          {(hideEnginePrompt) ? 'Install' : 'Continue'}
+          Install
         </Button>
       </DialogActions>
     </Dialog>
@@ -313,7 +312,6 @@ DialogCreateCustomApp.propTypes = {
   downloadingIcon: PropTypes.bool.isRequired,
   freedesktopAdditionalCategory: PropTypes.string,
   freedesktopMainCategory: PropTypes.string,
-  hideEnginePrompt: PropTypes.bool.isRequired,
   icon: PropTypes.string,
   internetIcon: PropTypes.string,
   name: PropTypes.string,
@@ -350,7 +348,6 @@ const mapStateToProps = (state) => {
     downloadingIcon,
     freedesktopAdditionalCategory,
     freedesktopMainCategory,
-    hideEnginePrompt: state.preferences.hideEnginePrompt,
     icon,
     internetIcon,
     name,

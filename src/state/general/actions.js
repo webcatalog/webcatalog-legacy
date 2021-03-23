@@ -9,7 +9,6 @@ import {
   UPDATE_IS_FULL_SCREEN,
   UPDATE_IS_MAXIMIZED,
   UPDATE_LATEST_TEMPLATE_VERSION,
-  UPDATE_LATEST_WEBKIT_WRAPPER_VERSION,
   UPDATE_MOVING_ALL_APPS,
   UPDATE_SHOULD_USE_DARK_COLORS,
 } from '../../constants/actions';
@@ -32,11 +31,6 @@ export const updateShouldUseDarkColors = (shouldUseDarkColors) => ({
 export const updateLatestTemplateVersion = (latestTemplateVersion) => ({
   type: UPDATE_LATEST_TEMPLATE_VERSION,
   latestTemplateVersion,
-});
-
-export const updateLatestWebkitWrapperVersion = (latestWebkitWrapperVersion) => ({
-  type: UPDATE_LATEST_WEBKIT_WRAPPER_VERSION,
-  latestWebkitWrapperVersion,
 });
 
 export const updateFetchingLatestTemplateVersion = (fetchingLatestTemplateVersion) => ({
@@ -64,81 +58,35 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
     // to avoid bugs with instead of https://github.com/webcatalog/webcatalog-engine/releases.atom
     // https://github.com/webcatalog/webcatalog-app/issues/890
     .then(() => {
-      const pp = [];
-
-      // check for latest WebCatalog Engine version
-      pp.push([
-        Promise.resolve().then(() => {
-          if (allowPrerelease) {
-            return Promise.resolve()
+      if (allowPrerelease) {
+        return Promise.resolve()
+          .then(() => {
+            let stableVersion;
+            let prereleaseVersion;
+            const p = [
+              window.fetch('https://webcatalog.app/juli/releases/latest.json')
+                .then((res) => res.json())
+                .then((data) => { stableVersion = data.version; }),
+              window.fetch('https://webcatalog.app/juli/releases/prerelease.json')
+                .then((res) => res.json())
+                .then((data) => { prereleaseVersion = data.version; }),
+            ];
+            return Promise.all(p)
               .then(() => {
-                let stableVersion;
-                let prereleaseVersion;
-                const p = [
-                  window.fetch('https://webcatalog.app/juli/releases/latest.json')
-                    .then((res) => res.json())
-                    .then((data) => { stableVersion = data.version; }),
-                  window.fetch('https://webcatalog.app/juli/releases/prerelease.json')
-                    .then((res) => res.json())
-                    .then((data) => { prereleaseVersion = data.version; }),
-                ];
-                return Promise.all(p)
-                  .then(() => {
-                    if (semver.gt(stableVersion, prereleaseVersion)) {
-                      return stableVersion;
-                    }
-                    return prereleaseVersion;
-                  });
+                if (semver.gt(stableVersion, prereleaseVersion)) {
+                  return stableVersion;
+                }
+                return prereleaseVersion;
               });
-          }
-
-          return window.fetch('https://webcatalog.app/juli/releases/latest.json')
-            .then((res) => res.json())
-            .then((data) => data.version);
-        })
-          .then((latestVersion) => {
-            dispatch(updateLatestTemplateVersion(latestVersion));
-          }),
-      ]);
-
-      // check for latest WebKit Wrapper version
-      if (window.process.platform === 'darwin') {
-        pp.push([
-          Promise.resolve().then(() => {
-            if (allowPrerelease) {
-              return Promise.resolve()
-                .then(() => {
-                  let stableVersion;
-                  let prereleaseVersion;
-                  const p = [
-                    window.fetch('https://webcatalog.app/webkit-wrapper/releases/latest.json')
-                      .then((res) => res.json())
-                      .then((data) => { stableVersion = data.version; }),
-                    window.fetch('https://webcatalog.app/webkit-wrapper/releases/prerelease.json')
-                      .then((res) => res.json())
-                      .then((data) => { prereleaseVersion = data.version; }),
-                  ];
-                  return Promise.all(p)
-                    .then(() => {
-                      if (semver.gt(stableVersion, prereleaseVersion)) {
-                        return stableVersion;
-                      }
-                      return prereleaseVersion;
-                    });
-                });
-            }
-
-            return window.fetch('https://webcatalog.app/webkit-wrapper/releases/latest.json')
-              .then((res) => res.json())
-              .then((data) => data.version);
-          })
-            .then((latestVersion) => {
-              dispatch(updateLatestWebkitWrapperVersion(latestVersion));
-            }),
-        ]);
+          });
       }
 
-      return Promise.all(pp);
+      return window.fetch('https://webcatalog.app/juli/releases/latest.json')
+        .then((res) => res.json())
+        .then((data) => data.version);
+    })
+    .then((latestVersion) => {
+      dispatch(updateLatestTemplateVersion(latestVersion));
     })
     .catch((err) => {
       console.log(err); // eslint-disable-line no-console
