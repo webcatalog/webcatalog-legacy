@@ -104,6 +104,7 @@ const Home = ({
           resultsPerPage: 58,
           sortField: '',
           sortDirection: '',
+          filters: [{ field: 'widevine', values: [0], type: 'all' }],
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
