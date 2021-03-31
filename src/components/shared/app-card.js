@@ -227,6 +227,7 @@ const AppCard = (props) => {
       !engine || engine === 'electron' ? {
         label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
         enabled: false,
+        visible: Boolean(version),
       } : {
         label: `Powered by ${getEngineName(engine)} (implementation ${version})`,
         enabled: false,
