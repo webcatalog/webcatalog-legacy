@@ -29,7 +29,7 @@ export const isOutdatedApp = (id, state) => {
 
   const v = appDetails.version;
 
-  // app is WebCatalog Engine (Electron)-based
+  // app is Neutron (Electron)-based
   const latestV = state.general.latestTemplateVersion;
   if (!v) return true;
   return semver.lt(v, latestV);

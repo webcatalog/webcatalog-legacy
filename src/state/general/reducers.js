@@ -40,7 +40,7 @@ const shouldUseDarkColors = (state = getShouldUseDarkColors(), action) => {
   }
 };
 
-// WebCatalog Engine version
+// Neutron version
 const latestTemplateVersion = (state = '0.0.0', action) => {
   switch (action.type) {
     case UPDATE_LATEST_TEMPLATE_VERSION: return action.latestTemplateVersion;

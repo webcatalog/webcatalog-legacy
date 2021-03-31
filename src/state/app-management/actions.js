@@ -97,7 +97,7 @@ export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, get
   const icon = _icon || appObj.icon;
   const opts = { ...appObj.opts, ..._opts };
 
-  // force using default Electron user data path for apps upgraded from WebCatalog Engine < 14.x
+  // force using default Electron user data path for apps upgraded from Neutron < 14.x
   // for backward compatibility
   if (semver.lt(version, '14.0.0')) {
     opts.legacyUserData = true;
