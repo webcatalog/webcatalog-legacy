@@ -280,8 +280,6 @@ const Home = ({
                   const typeFilter = filters.find((filter) => filter.field === 'type');
                   const categoryFilter = filters.find((filter) => filter.field === 'category');
 
-                  console.log(filters);
-
                   return (
                     <>
                       <List dense>
