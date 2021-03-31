@@ -8,15 +8,12 @@ import { WithSearch } from '@elastic/react-search-ui';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import SortIcon from '@material-ui/icons/Sort';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import connectComponent from '../../../helpers/connect-component';
-
-import { requestOpenInBrowser } from '../../../senders';
 
 const styles = (theme) => ({
   root: {
@@ -89,12 +86,6 @@ const Toolbar = ({
           )}
         </div>
         <div className={classes.right}>
-          <Button
-            variant="text"
-            onClick={() => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9')}
-          >
-            Submit New App
-          </Button>
           <Tooltip title="Refresh">
             <IconButton
               size="small"

@@ -15,7 +15,7 @@ import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-
 
 const styles = (theme) => ({
   card: {
-    width: 168,
+    width: 220,
     height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
@@ -60,7 +60,7 @@ const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
     >
       <BrushIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>
-        Create Custom App
+        Create Custom App & Space
       </Typography>
     </Paper>
   </Grid>

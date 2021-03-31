@@ -132,8 +132,8 @@ const DialogCatalogAppDetails = ({
                       </Typography>
                     )}
                     <Typography variant="body2">
-                      <span className={classes.appInfoName}>Type: </span>
-                      {details.url ? 'Singlesite' : 'Multisite'}
+                      <span className={classes.appInfoName}>Classification: </span>
+                      {details.url ? 'App' : 'Space'}
 
                       <Tooltip title="What is this?" placement="right">
                         <IconButton

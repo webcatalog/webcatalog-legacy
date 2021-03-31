@@ -142,7 +142,7 @@ class SearchBox extends React.Component {
                   onUpdateQuery('');
                 }
               }}
-              placeholder="Search installed apps..."
+              placeholder="Search installed apps & spaces..."
               ref={(inputBox) => { this.inputBox = inputBox; }}
               value={query}
             />

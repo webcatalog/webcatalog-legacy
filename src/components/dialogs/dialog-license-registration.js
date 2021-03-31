@@ -75,7 +75,7 @@ const DialogLicenseRegistration = (props) => {
           >
             premium features
           </span>
-          &nbsp;such as adding unlimited number of apps & accounts,
+          &nbsp;such as adding unlimited number of apps, spaces & accounts,
           blocking ads & trackers and more.
           To remove the limitations, please purchase WebCatalog Lifetime (30 USD) from our store.
         </DialogContentText>

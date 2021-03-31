@@ -19,6 +19,8 @@ import SearchBox from './search-box';
 
 import EnhancedAppBar from '../../shared/enhanced-app-bar';
 
+import { requestOpenInBrowser } from '../../../senders';
+
 const styles = (theme) => ({
   addButton: {
     marginLeft: theme.spacing(1),
@@ -44,13 +46,37 @@ const DefinedAppBar = ({
     center={(
       <div className={classes.centerContainer}>
         <SearchBox />
-        <Tooltip title="Create Custom App...">
+        <Tooltip title="Create...">
           <IconButton
             size="small"
             color="inherit"
-            aria-label="Create Custom App..."
+            aria-label="Create..."
             className={classnames(classes.noDrag, classes.addButton)}
-            onClick={() => onOpenDialogCreateCustomApp()}
+            onClick={() => {
+              const template = [
+                {
+                  label: 'Create...',
+                  click: () => {
+                    onOpenDialogCreateCustomApp();
+                  },
+                },
+                {
+                  label: 'Create Custom Space...',
+                  click: () => {
+                    onOpenDialogCreateCustomApp({ urlDisabled: true });
+                  },
+                },
+                {
+                  label: 'Submit New App to the Catalog...',
+                  click: () => {
+                    requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9');
+                  },
+                },
+              ];
+
+              const menu = window.remote.Menu.buildFromTemplate(template);
+              menu.popup(window.remote.getCurrentWindow());
+            }}
           >
             <AddIcon fontSize="small" />
           </IconButton>
