@@ -95,7 +95,7 @@ Promise.resolve()
                   process.send({
                     progress: {
                       percent: Math.round((downloadedLength / totalLength) * 20),
-                      desc: `Downloading WebCatalog Engine ${templateInfo.version} (${formatBytes(downloadedLength)}/${formatBytes(totalLength)})...`,
+                      desc: `Downloading Neutron ${templateInfo.version} (${formatBytes(downloadedLength)}/${formatBytes(totalLength)})...`,
                     },
                   });
                   lastUpdated = currentTime;

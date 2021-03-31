@@ -60,7 +60,7 @@ const getRelatedPaths = ({
       // remove userData
       // userData The directory for storing your app's configuration files,
       // which by default it is the appData directory appended with your app's name.
-      // default Electron user data path for apps are used by WebCatalog Engine < 14.x
+      // default Electron user data path for apps are used by Neutron < 14.x
       // or if legacyUserData = true is set in app.json
       if (legacyUserData || semver.lt(version, '14.0.0')) {
         relatedPaths.push({
