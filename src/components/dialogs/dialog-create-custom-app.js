@@ -108,7 +108,7 @@ const DialogCreateCustomApp = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Create Custom App
+        Create Custom App & Space
       </EnhancedDialogTitle>
       <DialogContent>
         <TextField
@@ -123,24 +123,24 @@ const DialogCreateCustomApp = (props) => {
           variant="outlined"
         />
         <FormControl variant="outlined" fullWidth margin="normal">
-          <InputLabel id="input-type-label">Type</InputLabel>
+          <InputLabel id="input-type-label">Classification</InputLabel>
           <Select
             id="input-type"
             labelId="input-type-label"
             value={urlDisabled}
             onChange={(event) => onUpdateForm({ urlDisabled: event.target.value })}
-            label="Type"
+            label="Classification"
             margin="dense"
           >
-            <MenuItem value={false}>Singlesite</MenuItem>
-            <MenuItem value>Multisite</MenuItem>
+            <MenuItem value={false}>App</MenuItem>
+            <MenuItem value>Space</MenuItem>
           </Select>
           <FormHelperText>
             <Link
               onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
               className={classes.link}
             >
-              What is the difference between singlesite apps and multisite apps?
+              What is the difference between apps and spaces?
             </Link>
           </FormHelperText>
         </FormControl>
