@@ -232,9 +232,7 @@ const Home = ({
           resultsPerPage: 60,
           sortField: '',
           sortDirection: '',
-          filters: [
-            { field: 'widevine', values: [0], type: 'all' },
-          ],
+          filters: [],
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
@@ -253,6 +251,9 @@ const Home = ({
           facets: {
             category: { type: 'value', size: 30 },
           },
+          filters: [
+            { field: 'widevine', values: [0], type: 'all' },
+          ],
         },
       }}
     >
@@ -299,8 +300,7 @@ const Home = ({
                                 button
                                 onClick={() => {
                                   if (sectionKey === 'all') {
-                                    const except = ['widevine'];
-                                    clearFilters(except);
+                                    clearFilters();
                                   }
                                 }}
                                 selected={selected}
@@ -334,10 +334,10 @@ const Home = ({
                                 button
                                 onClick={() => {
                                   if (sectionKey === 'spaces') {
-                                    clearFilters('widevine', 'category');
+                                    clearFilters('type'); // clear all filters except type filter
                                     setFilter('type', 'Multisite', 'all');
                                   } else {
-                                    clearFilters('widevine');
+                                    clearFilters('category'); // clear all filters except category filter
                                     setFilter('category', text, 'all');
                                   }
                                 }}
