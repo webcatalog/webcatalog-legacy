@@ -40,6 +40,7 @@ const kits = {
         return '{fieldName} cannot contain any of the following characters: \\ / : * ? " < > | or non-printable characters.'
           .replace('{fieldName}', fieldName);
       }
+    // eslint-disable-next-line react/destructuring-assignment
     } else if (val.match(/[/:\000]/)) {
       // unix
       return '{fieldName} cannot contain any of the following characters: / : or NUL.'

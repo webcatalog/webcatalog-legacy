@@ -17,14 +17,14 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
-import BuildIcon from '@material-ui/icons/Build';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import PaletteIcon from '@material-ui/icons/Palette';
 import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SecurityIcon from '@material-ui/icons/Security';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -196,7 +196,7 @@ const Preferences = ({
   const sections = {
     licensing: {
       text: 'Licensing',
-      Icon: CheckCircleOutlineIcon,
+      Icon: CheckCircleIcon,
       ref: useRef(),
     },
     general: {
@@ -204,16 +204,15 @@ const Preferences = ({
       Icon: WidgetsIcon,
       ref: useRef(),
     },
+    appearance: {
+      text: 'Appearance',
+      Icon: PaletteIcon,
+      ref: useRef(),
+    },
     privacy: {
       text: 'Privacy & Security',
       Icon: SecurityIcon,
       ref: useRef(),
-    },
-    system: {
-      text: 'System',
-      Icon: BuildIcon,
-      ref: useRef(),
-      hidden: window.process.platform === 'linux',
     },
     advanced: {
       text: 'Advanced',
@@ -222,7 +221,7 @@ const Preferences = ({
     },
     updates: {
       text: 'Updates',
-      Icon: SystemUpdateAltIcon,
+      Icon: UpdateIcon,
       ref: useRef(),
     },
     reset: {
@@ -291,58 +290,17 @@ const Preferences = ({
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem>
-                <ListItemText primary="Theme" />
-                <Select
-                  value={themeSource}
-                  onChange={(e) => requestSetPreference('themeSource', e.target.value)}
-                  variant="filled"
-                  disableUnderline
-                  margin="dense"
-                  classes={{
-                    root: classes.select,
-                  }}
-                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                >
-                  <MenuItem dense value="system">System default</MenuItem>
-                  <MenuItem dense value="light">Light</MenuItem>
-                  <MenuItem dense value="dark">Dark</MenuItem>
-                </Select>
-              </ListItem>
-              {window.process.platform !== 'linux' && (
-                <>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText
-                      primary={window.process.platform === 'win32' ? 'Pin to system tray (notification area)' : 'Attach to menu bar'}
-                      secondary="Tip: Right-click on app icon to access context menu."
-                    />
-                    <ListItemSecondaryAction>
-                      <Switch
-                        edge="end"
-                        color="primary"
-                        checked={attachToMenubar}
-                        onChange={(e) => {
-                          requestSetPreference('attachToMenubar', e.target.checked);
-                          enqueueRequestRestartSnackbar();
-                        }}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </>
-              )}
-              <Divider />
-              <ListItem>
                 <ListItemText
-                  primary="Keep window always on top"
-                  secondary="The window won't be hidden even when you click outside."
+                  primary={window.process.platform === 'darwin' ? 'Attach window to menu bar' : 'Pin window to system tray (notification area)'}
+                  secondary="Tip: Right-click on app icon to access context menu."
                 />
                 <ListItemSecondaryAction>
                   <Switch
                     edge="end"
                     color="primary"
-                    checked={alwaysOnTop}
+                    checked={attachToMenubar}
                     onChange={(e) => {
-                      requestSetPreference('alwaysOnTop', e.target.checked);
+                      requestSetPreference('attachToMenubar', e.target.checked);
                       enqueueRequestRestartSnackbar();
                     }}
                   />
@@ -368,6 +326,53 @@ const Preferences = ({
                     }}
                   />
                 </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText primary="Open at login" />
+                <Select
+                  value={openAtLogin}
+                  onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="yes">Yes</MenuItem>
+                  {window.process.platform !== 'win32' && (
+                    <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
+                  )}
+                  <MenuItem dense value="no">No</MenuItem>
+                </Select>
+              </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.appearance.ref}>
+            Appearance
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem>
+                <ListItemText primary="Theme" />
+                <Select
+                  value={themeSource}
+                  onChange={(e) => requestSetPreference('themeSource', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="system">System default</MenuItem>
+                  <MenuItem dense value="light">Light</MenuItem>
+                  <MenuItem dense value="dark">Dark</MenuItem>
+                </Select>
               </ListItem>
             </List>
           </Paper>
@@ -418,43 +423,6 @@ const Preferences = ({
               </ListItem>
             </List>
           </Paper>
-
-          {window.process.platform !== 'linux' && (
-            <>
-              <Typography
-                variant="subtitle2"
-                color="textPrimary"
-                className={classes.sectionTitle}
-                ref={sections.system.ref}
-              >
-                System
-              </Typography>
-              <Paper elevation={0} className={classes.paper}>
-                <List disablePadding dense>
-                  <ListItem>
-                    <ListItemText primary="Open at login" />
-                    <Select
-                      value={openAtLogin}
-                      onChange={(e) => requestSetSystemPreference('openAtLogin', e.target.value)}
-                      variant="filled"
-                      disableUnderline
-                      margin="dense"
-                      classes={{
-                        root: classes.select,
-                      }}
-                      className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                    >
-                      <MenuItem dense value="yes">Yes</MenuItem>
-                      {window.process.platform !== 'win32' && (
-                        <MenuItem dense value="yes-hidden">Yes, but minimized</MenuItem>
-                      )}
-                      <MenuItem dense value="no">No</MenuItem>
-                    </Select>
-                  </ListItem>
-                </List>
-              </Paper>
-            </>
-          )}
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
             Advanced
@@ -605,6 +573,24 @@ const Preferences = ({
                   </ListItem>
                 </>
               )}
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Keep window always on top"
+                  secondary="The window won't be hidden even when you click outside."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={alwaysOnTop}
+                    onChange={(e) => {
+                      requestSetPreference('alwaysOnTop', e.target.checked);
+                      enqueueRequestRestartSnackbar();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
               {window.process.platform !== 'darwin' && (
                 <>
                   <Divider />
