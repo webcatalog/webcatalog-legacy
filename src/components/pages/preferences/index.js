@@ -24,8 +24,8 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SecurityIcon from '@material-ui/icons/Security';
-import WidgetsIcon from '@material-ui/icons/Widgets';
 import UpdateIcon from '@material-ui/icons/Update';
+import WidgetsIcon from '@material-ui/icons/Widgets';
 
 import connectComponent from '../../../helpers/connect-component';
 
