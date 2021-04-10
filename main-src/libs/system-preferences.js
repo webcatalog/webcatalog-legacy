@@ -5,15 +5,47 @@
 // It can be retrieved and changed using Electron APIs
 
 const { app } = require('electron');
+const AutoLaunch = require('auto-launch');
 const settings = require('electron-settings');
+const { captureException } = require('@sentry/electron');
 
 const sendToAllWindows = require('./send-to-all-windows');
 
+const checkAutoLauncherStatusAsync = () => {
+  // check if autolauncher is still functioning on Linux
+  // if not show the status in the UI as disabled
+  // so the user can attempt to re-enable it
+  if (process.platform !== 'linux') return Promise.resolve();
+  const value = settings.getSync('systemPreferences.openAtLogin') || 'no';
+  if (value.startsWith('yes')) {
+    const autoLauncher = new AutoLaunch({
+      name: 'WebCatalog',
+      isHidden: value === 'yes-hidden',
+    });
+    return autoLauncher.isEnabled()
+      .then((isEnabled) => {
+        if (isEnabled) return;
+        sendToAllWindows('set-system-preference', 'openAtLogin', 'no');
+      })
+      .catch((err) => {
+        captureException(err);
+        sendToAllWindows('set-system-preference', 'openAtLogin', 'no');
+      });
+  }
+  return Promise.resolve();
+};
+
 const getSystemPreference = (name) => {
   switch (name) {
-    case 'openAtLogin': {
+    case 'openAtLogin': { // return yes, yes-hidden, no
+      // use 3rd-party libary on Linux
       // Electron app.getLoginItemSettings API only supports macOS & Windows
       if (process.platform === 'linux') {
+        checkAutoLauncherStatusAsync();
+        const value = settings.getSync('systemPreferences.openAtLogin');
+        if (value && value.startsWith('yes')) {
+          return 'yes';
+        }
         return 'no';
       }
 
@@ -38,9 +70,36 @@ const getSystemPreferences = () => ({
 const setSystemPreference = (name, value) => {
   switch (name) {
     case 'openAtLogin': {
+      // use 3rd-party libary on Linux
       // Electron app.getLoginItemSettings API only supports macOS & Windows
       if (process.platform === 'linux') {
-        return;
+        const currentValue = settings.getSync('systemPreferences.openAtLogin') || 'no';
+        Promise.resolve()
+          .then(() => {
+            if (currentValue.startsWith('yes')) {
+              const autoLauncher = new AutoLaunch({
+                name: 'WebCatalog',
+                isHidden: currentValue === 'yes-hidden',
+              });
+              return autoLauncher.disable();
+            }
+            return null;
+          })
+          .then(() => {
+            settings.setSync('systemPreferences.openAtLogin', value);
+            if (value.startsWith('yes')) {
+              const autoLauncher = new AutoLaunch({
+                name: 'WebCatalog',
+                isHidden: value === 'yes-hidden',
+              });
+              return autoLauncher.enable();
+            }
+            return null;
+          })
+          .catch((err) => captureException(err))
+          .then(() => {
+            checkAutoLauncherStatusAsync();
+          });
       }
 
       if (process.platform === 'darwin') {
