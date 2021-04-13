@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
@@ -111,6 +111,8 @@ const styles = (theme) => ({
 const Home = ({
   classes,
 }) => {
+  const scrollContainerRef = useRef(null);
+
   if (!connector) {
     return (
       <div
@@ -220,12 +222,17 @@ const Home = ({
       config={{
         apiConnector: connector,
         onSearch: (state, queryConfig, next) => {
+          if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+          }
+
           const updatedState = { ...state };
           // when searching, results should ALWAYS be listed by relevance
           if (state.searchTerm.length > 0) {
             updatedState.sortField = '';
             updatedState.sortDirection = '';
           }
+
           return next(updatedState, queryConfig);
         },
         initialState: {
@@ -363,7 +370,7 @@ const Home = ({
           <Grid item xs className={classes.mainArea}>
             <SecondaryToolbar />
             <Divider />
-            <div className={classes.scrollContainer}>
+            <div className={classes.scrollContainer} ref={scrollContainerRef}>
               <Grid item xs container spacing={1} justify="space-evenly">
                 <WithSearch
                   mapContextToProps={({
