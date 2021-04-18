@@ -121,6 +121,10 @@ const getRegistryConfig = (appId, appName, installPath) => ({
       value: appId,
       type: 'REG_SZ',
     },
+    'webcal': {
+      value: appId,
+      type: 'REG_SZ',
+    },
   },
   [`HKCU\\Software\\Clients\\StartMenuInternet\\${appId}\\DefaultIcon`]: {
     'default': {
