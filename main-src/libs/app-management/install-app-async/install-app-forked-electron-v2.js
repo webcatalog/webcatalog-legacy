@@ -292,6 +292,10 @@ Promise.resolve()
         name: 'Mailto Protocol',
         schemes: ['mailto'],
       },
+      {
+        name: 'Webcal Protocol',
+        schemes: ['webcal'],
+      },
     ];
 
     return packager(packagerOpts)
