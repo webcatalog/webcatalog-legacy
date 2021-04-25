@@ -20,8 +20,9 @@ const getRelatedPaths = ({
   const {
     id,
     name,
-    engine,
   } = appObj;
+
+  const engine = appObj.engine || 'electron';
 
   const relatedPaths = [];
 
