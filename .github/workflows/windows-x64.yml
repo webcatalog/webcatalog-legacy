@@ -46,6 +46,12 @@ jobs:
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       shell: bash
       if: startsWith(github.ref, 'refs/tags/')
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+    - name: Install AzureSignTool
+      run: dotnet tool install --global AzureSignTool
     - run: yarn dist
       env:
         CI: true
