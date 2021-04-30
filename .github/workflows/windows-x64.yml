@@ -50,8 +50,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
+      if: startsWith(github.ref, 'refs/tags/')
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool
+      if: startsWith(github.ref, 'refs/tags/')
     - run: yarn dist
       env:
         CI: true
@@ -66,5 +68,9 @@ jobs:
         REACT_APP_SWIFTYPE_SEARCH_KEY: ${{ secrets.REACT_APP_SWIFTYPE_SEARCH_KEY }}
         REACT_APP_SWIFTYPE_ENGINE_NAME: ${{ secrets.REACT_APP_SWIFTYPE_ENGINE_NAME }}
         ELECTRON_APP_SENTRY_DSN: ${{ secrets.ELECTRON_APP_SENTRY_DSN }}
+        AZURE_KEY_VAULT_CLIENT_ID: ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }}
+        AZURE_KEY_VAULT_CLIENT_SECRET: ${{ secrets.AZURE_KEY_VAULT_CLIENT_SECRET }}
+        AZURE_KEY_VAULT_URI: ${{ secrets.AZURE_KEY_VAULT_URI }}
+        AZURE_KEY_VAULT_CERT_NAME: ${{ secrets.AZURE_KEY_VAULT_CERT_NAME }}
       if: startsWith(github.ref, 'refs/tags/')
 
