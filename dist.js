@@ -93,6 +93,39 @@ const opts = {
       name: 'WebCatalog',
       schemes: ['webcatalog'],
     },
+    win: {
+      forceCodeSigning: true,
+      // https://www.electron.build/configuration/win.html#how-do-delegate-code-signing
+      sign: (configuration) => new Promise((resolve, reject) => {
+        const {
+          AZURE_KEY_VAULT_CLIENT_ID,
+          AZURE_KEY_VAULT_CLIENT_SECRET,
+          AZURE_KEY_VAULT_URI,
+          AZURE_KEY_VAULT_CERT_NAME,
+        } = process.env;
+
+        console.log('Signing', configuration.path);
+        const command = `azuresigntool sign -kvu ${AZURE_KEY_VAULT_URI} -kvc ${AZURE_KEY_VAULT_CERT_NAME} -kvi ${AZURE_KEY_VAULT_CLIENT_ID} -kvs ${AZURE_KEY_VAULT_CLIENT_SECRET} -tr http://rfc3161timestamp.globalsign.com/advanced -td sha256 '${configuration.path}'`;
+        exec(command, { shell: 'powershell.exe' }, (e, stdout, stderr) => {
+          if (e instanceof Error) {
+            console.log(stdout);
+            reject(e);
+            return;
+          }
+
+          if (stderr) {
+            reject(new Error(stderr));
+            return;
+          }
+
+          if (stdout.indexOf('Signing completed successfully') > -1) {
+            resolve(stdout);
+          } else {
+            reject(new Error(stdout));
+          }
+        });
+      }),
+    },
     mac: {
       category: 'public.app-category.utilities',
       hardenedRuntime: true,
