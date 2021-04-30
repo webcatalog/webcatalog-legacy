@@ -130,7 +130,6 @@ const opts = {
       schemes: ['webcatalog'],
     },
     win: {
-      forceCodeSigning: true,
       // https://www.electron.build/configuration/win.html#how-do-delegate-code-signing
       sign: (configuration) => hsmCodeSignAsync(configuration.path),
     },
