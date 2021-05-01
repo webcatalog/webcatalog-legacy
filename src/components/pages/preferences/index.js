@@ -77,7 +77,7 @@ const styles = (theme) => ({
     width: '100%',
     maxWidth: 500,
     margin: '0 auto',
-    [theme.breakpoints.between(800, 928)]: {
+    [theme.breakpoints.between(1120, 1248)]: {
       margin: 0,
       float: 'right',
       maxWidth: 'calc(100% - 224px)',
@@ -87,7 +87,7 @@ const styles = (theme) => ({
     position: 'fixed',
     width: 204,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down(800)]: {
+    [theme.breakpoints.down(1120)]: {
       display: 'none',
     },
   },
