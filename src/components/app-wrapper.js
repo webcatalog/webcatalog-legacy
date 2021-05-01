@@ -33,12 +33,6 @@ const AppWrapper = ({ shouldUseDarkColors }) => {
     },
   };
 
-  if (!shouldUseDarkColors) {
-    themeObj.palette.background = {
-      default: '#f5f5f5',
-    };
-  }
-
   const theme = createMuiTheme(themeObj);
 
   return (

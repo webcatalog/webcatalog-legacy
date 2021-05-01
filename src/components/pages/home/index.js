@@ -102,13 +102,21 @@ const styles = (theme) => ({
     color: theme.palette.common.white,
     height: '100%',
     overflow: 'auto',
-    paddingTop: 32,
+    paddingTop: 0,
     boxShadow: theme.shadows[5],
+  },
+  sidebarList: {
+    paddingTop: 0,
   },
   listItemSelected: {
     backgroundColor: `${theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.grey[900]} !important`,
   },
   sidebarInner: {
+  },
+  sidebarTop: {
+    height: 40,
+    WebkitAppRegion: 'drag',
+    userSelect: 'none',
   },
   listItemIcon: {
     color: theme.palette.common.white,
@@ -285,13 +293,13 @@ const Home = ({
           return next(updatedState, queryConfig);
         },
         initialState: {
-          resultsPerPage: 60,
           sortField: '',
           sortDirection: '',
           filters: [],
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
+          resultsPerPage: 59,
           disjunctiveFacets: ['category'],
           result_fields: {
             id: { raw: {} },
@@ -316,6 +324,7 @@ const Home = ({
       <div className={classes.root}>
         <Grid item className={classes.sidebar}>
           <div className={classes.sidebarInner}>
+            <div className={classes.sidebarTop} />
             <WithSearch
               mapContextToProps={({
                 filters,
@@ -337,7 +346,7 @@ const Home = ({
 
                 return (
                   <>
-                    <List>
+                    <List className={classes.sidebarList}>
                       {Object.keys(mainSections).map((sectionKey) => {
                         const {
                           Icon, text, hidden,
