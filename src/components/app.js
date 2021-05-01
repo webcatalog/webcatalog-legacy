@@ -6,13 +6,10 @@ import PropTypes from 'prop-types';
 
 import connectComponent from '../helpers/connect-component';
 
-import EnhancedBottomNavigation from './root/enhanced-bottom-navigation';
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
 
-import Installed from './pages/installed';
 import Home from './pages/home';
-import Preferences from './pages/preferences';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
@@ -22,10 +19,6 @@ import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 
-import {
-  ROUTE_PREFERENCES,
-  ROUTE_INSTALLED,
-} from '../constants/routes';
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
@@ -74,25 +67,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, route } = this.props;
-    let pageContent;
-    switch (route) {
-      case ROUTE_PREFERENCES:
-        pageContent = <Preferences key="preferences" />;
-        break;
-      case ROUTE_INSTALLED:
-        pageContent = <Installed key="installed" />;
-        break;
-      default:
-        pageContent = <Home key="home" />;
-    }
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <div className={classes.content}>
-          {pageContent}
+          <Home />
         </div>
-        <EnhancedBottomNavigation />
 
         <SnackbarTrigger />
         <TelemetryManager />
@@ -111,13 +92,11 @@ class App extends React.Component {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  route: PropTypes.string.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isFullScreen: state.general.isFullScreen,
-  route: state.router.route,
 });
 
 const actionCreators = {

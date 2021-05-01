@@ -17,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import { fade } from '@material-ui/core/styles';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -28,10 +27,11 @@ const styles = (theme) => ({
     borderRadius: 6,
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : theme.palette.primary.dark,
-    color: fade(theme.palette.common.white, 0.88),
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.primary,
     flex: 1,
     WebkitAppRegion: 'no-drag',
+    border: theme.palette.type === 'dark' ? 'none' : `${theme.palette.divider} 1px solid`,
   },
   toolbarSectionSearch: {
     alignItems: 'center',
@@ -67,11 +67,11 @@ const styles = (theme) => ({
       boxShadow: 'none',
     },
     '&::placeholder': {
-      color: fade(theme.palette.common.white, 0.3),
+      color: theme.palette.text.disabled,
     },
   },
   searchIcon: {
-    fill: theme.palette.common.white,
+    fill: theme.palette.text.disabled,
   },
   searchButton: {
     [theme.breakpoints.up('md')]: {

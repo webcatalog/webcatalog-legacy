@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { fade } from '@material-ui/core/styles';
 
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
@@ -24,10 +23,11 @@ const styles = (theme) => ({
     borderRadius: 6,
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.background.paper : theme.palette.primary.dark,
-    color: fade(theme.palette.common.white, 0.88),
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.primary,
     flex: 1,
     WebkitAppRegion: 'no-drag',
+    border: theme.palette.type === 'dark' ? 'none' : `${theme.palette.divider} 1px solid`,
   },
   toolbarSectionSearch: {
     alignItems: 'center',
@@ -57,16 +57,17 @@ const styles = (theme) => ({
     margin: 0,
     color: 'inherit',
     width: '100%',
-    padding: 16,
     '&:focus': {
       outline: 0,
+      border: 0,
+      boxShadow: 'none',
     },
     '&::placeholder': {
-      color: fade(theme.palette.common.white, 0.3),
+      color: theme.palette.text.disabled,
     },
   },
   searchIcon: {
-    fill: theme.palette.common.white,
+    fill: theme.palette.text.disabled,
   },
   searchButton: {
     [theme.breakpoints.up('md')]: {
@@ -121,7 +122,7 @@ class SearchBox extends React.Component {
       </>
     );
     return (
-      <Paper elevation={1} className={classes.toolbarSearchContainer}>
+      <Paper elevation={0} className={classes.toolbarSearchContainer}>
         <div className={classes.toolbarSectionSearch}>
           <SearchIcon
             className={classes.searchIcon}
