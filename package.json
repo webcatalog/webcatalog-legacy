@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Desktop App Bundle, powered by the Web",
-  "version": "31.4.0-beta",
+  "version": "31.4.0-rc",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
   },
