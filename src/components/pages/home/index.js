@@ -398,10 +398,10 @@ const Home = ({
                             <ListItemIcon classes={{ root: classes.listItemIcon }}>
                               {sectionKey === 'updates' ? (
                                 <Badge color="secondary" badgeContent={appBadgeCount}>
-                                  <Icon fontSize="medium" />
+                                  <Icon fontSize="default" />
                                 </Badge>
                               ) : (
-                                <Icon fontSize="medium" />
+                                <Icon fontSize="default" />
                               )}
                             </ListItemIcon>
                             <ListItemText
@@ -478,8 +478,8 @@ const Home = ({
                                 }}
                                 selected={selected}
                               >
-                                <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                                  <Icon fontSize="medium" />
+                                <ListItemIcon>
+                                  <Icon fontSize="default" />
                                 </ListItemIcon>
                                 <ListItemText
                                   primary={text}
@@ -499,8 +499,8 @@ const Home = ({
           {route === ROUTE_PREFERENCES && <Preferences />}
           {route === ROUTE_HOME && (
             <>
-              <DefinedAppBar />
               <Grid item xs className={classes.mainArea}>
+                <DefinedAppBar />
                 <SecondaryToolbar />
                 <Divider />
                 <div className={classes.scrollContainer} ref={scrollContainerRef}>
@@ -508,6 +508,7 @@ const Home = ({
                     <WithSearch
                       mapContextToProps={({
                         error,
+                        filters,
                         isLoading,
                         results,
                         searchTerm,
@@ -515,6 +516,7 @@ const Home = ({
                         wasSearched,
                       }) => ({
                         error,
+                        filters,
                         isLoading,
                         results,
                         searchTerm,
@@ -524,6 +526,7 @@ const Home = ({
                     >
                       {({
                         error,
+                        filters,
                         isLoading,
                         results,
                         searchTerm,
@@ -574,8 +577,10 @@ const Home = ({
                           );
                         }
 
+                        const typeFilter = filters.find((filter) => filter.field === 'type');
                         return (
                           <>
+                            <CreateCustomAppCard urlDisabled={typeFilter && typeFilter.values[0] === 'Multisite'} />
                             {results.map((app) => (
                               <AppCard
                                 key={app.id.raw}

@@ -104,9 +104,9 @@ const DialogLicenseRegistration = (props) => {
       <DialogActions className={classes.dialogActions}>
         <div style={{ flex: 1 }}>
           <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.onfastspring.com/webcatalog-lite?utm_source=webcatalog_app')}
+            onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}
           >
-            Visit Store...
+            Purchase a License...
           </Button>
           <Button
             onClick={() => requestOpenInBrowser('https://webcatalog.app/pricing?utm_source=webcatalog_app')}

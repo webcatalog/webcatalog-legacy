@@ -15,7 +15,7 @@ import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-
 
 const styles = (theme) => ({
   card: {
-    width: 220,
+    width: 168,
     height: 150,
     boxSizing: 'border-box',
     borderRadius: 4,
@@ -49,26 +49,31 @@ const styles = (theme) => ({
   },
 });
 
-const CreateCustomAppCard = ({ classes, onOpenDialogCreateCustomApp }) => (
+const CreateCustomAppCard = ({ classes, urlDisabled, onOpenDialogCreateCustomApp }) => (
   <Grid item>
     <Paper
       className={classes.card}
       elevation={0}
       role="link"
       tabIndex="0"
-      onClick={() => onOpenDialogCreateCustomApp()}
+      onClick={() => onOpenDialogCreateCustomApp({ urlDisabled })}
     >
       <BrushIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>
-        Create Custom App & Space
+        {urlDisabled ? 'Create Custom Space' : 'Create Custom App'}
       </Typography>
     </Paper>
   </Grid>
 );
 
+CreateCustomAppCard.defaultProps = {
+  urlDisabled: false,
+};
+
 CreateCustomAppCard.propTypes = {
   classes: PropTypes.object.isRequired,
   onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  urlDisabled: PropTypes.bool,
 };
 
 const actionCreators = {
