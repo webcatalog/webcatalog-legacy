@@ -72,14 +72,14 @@ const styles = (theme) => ({
     padding: 0,
     margin: 0,
     '&:hover': {
-      backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
+      backgroundColor: theme.palette.background.default,
     },
   },
   windowsIcon: {
     height: '100%',
     width: '100%',
     maskSize: '23.1%',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.text.secondary,
     cursor: 'pointer',
   },
   windowsIconClose: {
