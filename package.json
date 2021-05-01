@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Desktop App Bundle, powered by the Web",
-  "version": "31.4.0-rc",
+  "version": "31.4.0",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
   },
@@ -35,7 +35,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
     "@sentry/electron": "2.4.1",
-    "amplitude-js": "8.2.0",
+    "amplitude-js": "8.2.1",
     "auto-launch": "5.0.5",
     "axios": "0.21.1",
     "babel-eslint": "10.1.0",
@@ -51,7 +51,7 @@
     "copy-webpack-plugin": "6.4.1",
     "cross-env": "7.0.3",
     "decompress": "4.2.1",
-    "electron": "12.0.5",
+    "electron": "12.0.6",
     "electron-builder": "22.10.5",
     "electron-context-menu": "2.5.2",
     "electron-notarize": "1.0.0",
