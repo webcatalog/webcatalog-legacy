@@ -55,6 +55,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    flex: 1,
   },
   scrollContainer: {
     flex: 1,

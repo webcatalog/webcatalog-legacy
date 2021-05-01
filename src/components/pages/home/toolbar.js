@@ -19,8 +19,8 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     height: 36,
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   left: {
     flex: 1,
@@ -49,6 +49,7 @@ const Toolbar = ({
   <WithSearch
     mapContextToProps={({
       error,
+      filters,
       isLoading,
       results,
       setSort,
@@ -58,6 +59,7 @@ const Toolbar = ({
       setSearchTerm,
     }) => ({
       error,
+      filters,
       isLoading,
       results,
       setSort,
@@ -69,6 +71,7 @@ const Toolbar = ({
   >
     {({
       error,
+      filters,
       isLoading,
       results,
       setSort,
@@ -76,62 +79,71 @@ const Toolbar = ({
       sortField,
       searchTerm,
       setSearchTerm,
-    }) => (
-      <div className={classes.root}>
-        <div className={classes.left}>
-          {isLoading && results.length > 0 && (
-            <Typography variant="body2" color="textSecondary" className={classes.statusText}>
-              Loading...
-            </Typography>
-          )}
-        </div>
-        <div className={classes.right}>
-          <Tooltip title="Refresh">
-            <IconButton
-              size="small"
-              aria-label="Refresh"
-              onClick={() => {
-                // clear cache first
-                if (window.elasticAppSearchQueryCache) {
-                  window.elasticAppSearchQueryCache.clear();
-                }
-                setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
-              }}
-              disabled={isLoading && !error}
-            >
-              <RefreshIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Sort by...">
-            <IconButton
-              size="small"
-              aria-label="Sort by..."
-              // // when searching, results are ALWAYS sorted by relevance
-              disabled={searchTerm.length > 0}
-              onClick={() => {
-                const template = [
-                  { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
-                  { name: 'Sort by Name (A-Z)', sortField: 'name', sortDirection: 'asc' },
-                  { name: 'Sort by Name (Z-A)', sortField: 'name', sortDirection: 'desc' },
-                  { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },
-                ].map((sortOption) => ({
-                  type: 'checkbox',
-                  label: sortOption.name,
-                  click: () => setSort(sortOption.sortField, sortOption.sortDirection),
-                  checked: sortOption.sortField === sortField
-                    && sortOption.sortDirection === sortDirection,
-                }));
+    }) => {
+      const categoryFilter = filters.find((filter) => filter.field === 'category');
 
-                const menu = window.remote.Menu.buildFromTemplate(template);
-                menu.popup(window.remote.getCurrentWindow());
-              }}
-            >
-              <SortIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+      return (
+        <div className={classes.root}>
+          <div className={classes.left}>
+            {isLoading && results.length > 0 && (
+              <Typography variant="body2" color="textSecondary" className={classes.statusText}>
+                Loading...
+              </Typography>
+            )}
+            {!isLoading && categoryFilter != null && (
+              <Typography variant="body2" color="textSecondary" className={classes.statusText}>
+                {categoryFilter.values[0]}
+              </Typography>
+            )}
+          </div>
+          <div className={classes.right}>
+            <Tooltip title="Refresh">
+              <IconButton
+                size="small"
+                aria-label="Refresh"
+                onClick={() => {
+                  // clear cache first
+                  if (window.elasticAppSearchQueryCache) {
+                    window.elasticAppSearchQueryCache.clear();
+                  }
+                  setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
+                }}
+                disabled={isLoading && !error}
+              >
+                <RefreshIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Sort by...">
+              <IconButton
+                size="small"
+                aria-label="Sort by..."
+                // // when searching, results are ALWAYS sorted by relevance
+                disabled={searchTerm.length > 0}
+                onClick={() => {
+                  const template = [
+                    { name: 'Sort by Relevance', sortField: '', sortDirection: '' },
+                    { name: 'Sort by Name (A-Z)', sortField: 'name', sortDirection: 'asc' },
+                    { name: 'Sort by Name (Z-A)', sortField: 'name', sortDirection: 'desc' },
+                    { name: 'Sort by Date Added', sortField: 'date_added', sortDirection: 'desc' },
+                  ].map((sortOption) => ({
+                    type: 'checkbox',
+                    label: sortOption.name,
+                    click: () => setSort(sortOption.sortField, sortOption.sortDirection),
+                    checked: sortOption.sortField === sortField
+                      && sortOption.sortDirection === sortDirection,
+                  }));
+
+                  const menu = window.remote.Menu.buildFromTemplate(template);
+                  menu.popup(window.remote.getCurrentWindow());
+                }}
+              >
+                <SortIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </div>
         </div>
-      </div>
-    )}
+      );
+    }}
   </WithSearch>
 );
 

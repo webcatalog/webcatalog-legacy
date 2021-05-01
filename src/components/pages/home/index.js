@@ -18,13 +18,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import Badge from '@material-ui/core/Badge';
 
+import StarsIcon from '@material-ui/icons/Stars';
 import SearchIcon from '@material-ui/icons/Search';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import CodeIcon from '@material-ui/icons/Code';
 import SchoolIcon from '@material-ui/icons/School';
 import TheatersIcon from '@material-ui/icons/Theaters';
-import AppsIcon from '@material-ui/icons/Apps';
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -38,13 +40,15 @@ import ForumIcon from '@material-ui/icons/Forum';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import BuildIcon from '@material-ui/icons/Build';
-// import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import CategoryIcon from '@material-ui/icons/Category';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import EmptyState from '../../shared/empty-state';
 import NoConnection from '../../shared/no-connection';
+import EnhancedAppBar from '../../shared/enhanced-app-bar';
 
 import DefinedAppBar from './defined-app-bar';
 import SecondaryToolbar from './toolbar';
@@ -52,6 +56,19 @@ import SubmitAppCard from './submit-app-card';
 import CreateCustomAppCard from './create-custom-app-card';
 
 import AppCard from '../../shared/app-card';
+
+import { changeRoute } from '../../../state/router/actions';
+import { getAppBadgeCount } from '../../../state/app-management/utils';
+
+import {
+  ROUTE_CATEGORIES,
+  ROUTE_HOME,
+  ROUTE_INSTALLED,
+  ROUTE_PREFERENCES,
+} from '../../../constants/routes';
+
+import Preferences from '../preferences';
+import Installed from '../installed';
 
 const connector = process.env.REACT_APP_SWIFTYPE_SEARCH_KEY ? new AppSearchAPIConnector({
   searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
@@ -63,7 +80,7 @@ const styles = (theme) => ({
   root: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     overflow: 'hidden',
   },
   badConfigRoot: {
@@ -80,19 +97,38 @@ const styles = (theme) => ({
     marginTop: theme.spacing(4),
   },
   sidebar: {
-    width: 250,
-    color: theme.palette.text.primary,
+    width: 320,
+    backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
+    color: theme.palette.common.white,
     height: '100%',
     overflow: 'auto',
-    paddingTop: theme.spacing(2),
-    borderRight: `1px solid ${theme.palette.divider}`,
+    paddingTop: 32,
+    boxShadow: theme.shadows[5],
+  },
+  listItemSelected: {
+    backgroundColor: `${theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.grey[900]} !important`,
   },
   sidebarInner: {
+  },
+  listItemIcon: {
+    color: theme.palette.common.white,
   },
   mainArea: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+  },
+  pageRoot: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    flex: 1,
+  },
+  categoryPage: {
+    width: '100%',
+    color: theme.palette.text.primary,
+    overflow: 'auto',
   },
   scrollContainer: {
     flex: 1,
@@ -104,12 +140,19 @@ const styles = (theme) => ({
     overflow: 'hidden',
   },
   categoryList: {
-    // marginTop: theme.spacing(4),
+  },
+  appBarTitle: {
+    textAlign: 'center',
+    color: 'inherit',
+    fontWeight: 400,
   },
 });
 
 const Home = ({
+  appBadgeCount,
   classes,
+  route,
+  onChangeRoute,
 }) => {
   const scrollContainerRef = useRef(null);
 
@@ -131,22 +174,28 @@ const Home = ({
 
   const mainSections = {
     all: {
-      text: 'All Apps & Spaces',
-      Icon: AppsIcon,
+      text: 'Discover',
+      Icon: StarsIcon,
     },
-    /*
-    installed: {
-      text: 'Installed Apps & Spaces',
-      Icon: SystemUpdateIcon,
-    },
-    */
-  };
-
-  const categorySections = {
     spaces: {
       text: 'Spaces',
       Icon: GroupWorkIcon,
     },
+    categories: {
+      text: 'Categories',
+      Icon: CategoryIcon,
+    },
+    updates: {
+      text: 'Updates',
+      Icon: SystemUpdateAltIcon,
+    },
+    preferences: {
+      text: 'Preferences',
+      Icon: SettingsIcon,
+    },
+  };
+
+  const categorySections = {
     business: {
       text: 'Business',
       Icon: BusinessCenterIcon,
@@ -265,66 +314,149 @@ const Home = ({
       }}
     >
       <div className={classes.root}>
-        <DefinedAppBar />
+        <Grid item className={classes.sidebar}>
+          <div className={classes.sidebarInner}>
+            <WithSearch
+              mapContextToProps={({
+                filters,
+                clearFilters,
+                setFilter,
+              }) => ({
+                filters,
+                clearFilters,
+                setFilter,
+              })}
+            >
+              {({
+                filters,
+                clearFilters,
+                setFilter,
+              }) => {
+                const typeFilter = filters.find((filter) => filter.field === 'type');
+                const categoryFilter = filters.find((filter) => filter.field === 'category');
+
+                return (
+                  <>
+                    <List>
+                      {Object.keys(mainSections).map((sectionKey) => {
+                        const {
+                          Icon, text, hidden,
+                        } = mainSections[sectionKey];
+                        if (hidden) return null;
+
+                        const selected = (() => {
+                          if (sectionKey === 'updates') {
+                            return route === ROUTE_INSTALLED;
+                          }
+
+                          if (sectionKey === 'preferences') {
+                            return route === ROUTE_PREFERENCES;
+                          }
+
+                          if (sectionKey === 'all') {
+                            return route === ROUTE_HOME
+                              && categoryFilter == null && typeFilter == null;
+                          }
+
+                          if (sectionKey === 'spaces') {
+                            return route === ROUTE_HOME
+                              && typeFilter && typeFilter.values[0] === 'Multisite';
+                          }
+
+                          if (sectionKey === 'categories') {
+                            return route === ROUTE_CATEGORIES
+                              || (route === ROUTE_HOME && categoryFilter != null);
+                          }
+
+                          return false;
+                        })();
+
+                        const listItemComponent = (
+                          <ListItem
+                            button
+                            onClick={() => {
+                              if (sectionKey === 'all') {
+                                onChangeRoute(ROUTE_HOME);
+                                clearFilters();
+                              } else if (sectionKey === 'categories') {
+                                onChangeRoute(ROUTE_CATEGORIES);
+                              } else if (sectionKey === 'updates') {
+                                onChangeRoute(ROUTE_INSTALLED);
+                              } else if (sectionKey === 'preferences') {
+                                onChangeRoute(ROUTE_PREFERENCES);
+                              } else if (sectionKey === 'spaces') {
+                                clearFilters('type'); // clear all filters except type filter
+                                setFilter('type', 'Multisite', 'all');
+                                onChangeRoute(ROUTE_HOME);
+                              }
+                            }}
+                            selected={selected}
+                            classes={{
+                              selected: classes.listItemSelected,
+                            }}
+                          >
+                            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                              {sectionKey === 'updates' ? (
+                                <Badge color="secondary" badgeContent={appBadgeCount}>
+                                  <Icon fontSize="default" />
+                                </Badge>
+                              ) : (
+                                <Icon fontSize="default" />
+                              )}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={text}
+                            />
+                          </ListItem>
+                        );
+
+                        return (
+                          <React.Fragment key={sectionKey}>
+                            {listItemComponent}
+                          </React.Fragment>
+                        );
+                      })}
+                    </List>
+
+                    {/*  */}
+                  </>
+                );
+              }}
+            </WithSearch>
+          </div>
+        </Grid>
         <Grid container className={classes.container}>
-          <Grid item className={classes.sidebar}>
-            <div className={classes.sidebarInner}>
-              <WithSearch
-                mapContextToProps={({
-                  filters,
-                  clearFilters,
-                  setFilter,
-                }) => ({
-                  filters,
-                  clearFilters,
-                  setFilter,
-                })}
-              >
-                {({
-                  filters,
-                  clearFilters,
-                  setFilter,
-                }) => {
-                  const typeFilter = filters.find((filter) => filter.field === 'type');
-                  const categoryFilter = filters.find((filter) => filter.field === 'category');
+          {route === ROUTE_CATEGORIES && (
+            <div className={classes.pageRoot}>
+              <EnhancedAppBar
+                center={(
+                  <Typography variant="body1" className={classes.appBarTitle}>
+                    Categories
+                  </Typography>
+                )}
+              />
+              <div className={classes.categoryPage}>
+                <WithSearch
+                  mapContextToProps={({
+                    filters,
+                    clearFilters,
+                    setFilter,
+                  }) => ({
+                    filters,
+                    clearFilters,
+                    setFilter,
+                  })}
+                >
+                  {({
+                    filters,
+                    clearFilters,
+                    setFilter,
+                  }) => {
+                    const typeFilter = filters.find((filter) => filter.field === 'type');
+                    const categoryFilter = filters.find((filter) => filter.field === 'category');
 
-                  return (
-                    <>
-                      <List dense>
-                        {Object.keys(mainSections).map((sectionKey) => {
-                          const {
-                            Icon, text, hidden,
-                          } = mainSections[sectionKey];
-                          if (hidden) return null;
-
-                          const selected = sectionKey === 'all'
-                            ? categoryFilter == null && typeFilter == null
-                            : false;
-
-                          return (
-                            <React.Fragment key={sectionKey}>
-                              <ListItem
-                                button
-                                onClick={() => {
-                                  if (sectionKey === 'all') {
-                                    clearFilters();
-                                  }
-                                }}
-                                selected={selected}
-                              >
-                                <ListItemIcon>
-                                  <Icon />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary={text}
-                                />
-                              </ListItem>
-                            </React.Fragment>
-                          );
-                        })}
-                      </List>
-
-                      <List dense className={classes.categoryList}>
+                    return (
+                      <List className={classes.categoryList}>
                         {Object.keys(categorySections).map((sectionKey) => {
                           const {
                             Icon, text, hidden,
@@ -340,18 +472,14 @@ const Home = ({
                               <ListItem
                                 button
                                 onClick={() => {
-                                  if (sectionKey === 'spaces') {
-                                    clearFilters('type'); // clear all filters except type filter
-                                    setFilter('type', 'Multisite', 'all');
-                                  } else {
-                                    clearFilters('category'); // clear all filters except category filter
-                                    setFilter('category', text, 'all');
-                                  }
+                                  clearFilters('category'); // clear all filters except category filter
+                                  setFilter('category', text, 'all');
+                                  onChangeRoute(ROUTE_HOME);
                                 }}
                                 selected={selected}
                               >
                                 <ListItemIcon>
-                                  <Icon />
+                                  <Icon fontSize="default" />
                                 </ListItemIcon>
                                 <ListItemText
                                   primary={text}
@@ -361,112 +489,124 @@ const Home = ({
                           );
                         })}
                       </List>
-                    </>
-                  );
-                }}
-              </WithSearch>
-            </div>
-          </Grid>
-          <Grid item xs className={classes.mainArea}>
-            <SecondaryToolbar />
-            <Divider />
-            <div className={classes.scrollContainer} ref={scrollContainerRef}>
-              <Grid item xs container spacing={1} justify="space-evenly">
-                <WithSearch
-                  mapContextToProps={({
-                    error,
-                    isLoading,
-                    results,
-                    searchTerm,
-                    setSearchTerm,
-                    wasSearched,
-                  }) => ({
-                    error,
-                    isLoading,
-                    results,
-                    searchTerm,
-                    setSearchTerm,
-                    wasSearched,
-                  })}
-                >
-                  {({
-                    error,
-                    isLoading,
-                    results,
-                    searchTerm,
-                    setSearchTerm,
-                    wasSearched,
-                  }) => {
-                    if (error) {
-                      return (
-                        <div className={classes.noConnectionContainer}>
-                          <NoConnection
-                            onTryAgainButtonClick={() => {
-                              setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
-                            }}
-                          />
-                        </div>
-                      );
-                    }
-
-                    if (isLoading && !error && results.length < 1) {
-                      return (
-                        <Grid item xs={12}>
-                          <Typography
-                            variant="body2"
-                            align="center"
-                            color="textSecondary"
-                            className={classes.loading}
-                          >
-                            Loading...
-                          </Typography>
-                        </Grid>
-                      );
-                    }
-
-                    if (wasSearched && results.length < 1) {
-                      return (
-                        <EmptyState icon={SearchIcon} title="No Matching Results">
-                          <Typography
-                            variant="subtitle1"
-                            align="center"
-                          >
-                            Your query did not match any apps in our database.
-                          </Typography>
-                          <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
-                            <SubmitAppCard />
-                            <CreateCustomAppCard />
-                          </Grid>
-                        </EmptyState>
-                      );
-                    }
-
-                    return (
-                      <>
-                        {results.map((app) => (
-                          <AppCard
-                            key={app.id.raw}
-                            id={app.id.raw}
-                            name={app.name.raw}
-                            url={app.url.raw}
-                            category={app.category.raw}
-                            widevine={app.widevine.raw === 1}
-                            icon={window.process.platform === 'win32' // use unplated icon for Windows
-                              ? app.icon_unplated.raw : app.icon.raw}
-                            iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
-                              ? app.icon_unplated_128.raw : app.icon_128.raw}
-                          />
-                        ))}
-                        <Grid item xs={12} container justify="center">
-                          <Paging />
-                        </Grid>
-                      </>
                     );
                   }}
                 </WithSearch>
-              </Grid>
+              </div>
             </div>
-          </Grid>
+          )}
+          {route === ROUTE_INSTALLED && <Installed />}
+          {route === ROUTE_PREFERENCES && <Preferences />}
+          {route === ROUTE_HOME && (
+            <>
+              <Grid item xs className={classes.mainArea}>
+                <DefinedAppBar />
+                <SecondaryToolbar />
+                <Divider />
+                <div className={classes.scrollContainer} ref={scrollContainerRef}>
+                  <Grid item xs container spacing={1} justify="space-evenly">
+                    <WithSearch
+                      mapContextToProps={({
+                        error,
+                        filters,
+                        isLoading,
+                        results,
+                        searchTerm,
+                        setSearchTerm,
+                        wasSearched,
+                      }) => ({
+                        error,
+                        filters,
+                        isLoading,
+                        results,
+                        searchTerm,
+                        setSearchTerm,
+                        wasSearched,
+                      })}
+                    >
+                      {({
+                        error,
+                        filters,
+                        isLoading,
+                        results,
+                        searchTerm,
+                        setSearchTerm,
+                        wasSearched,
+                      }) => {
+                        if (error) {
+                          return (
+                            <div className={classes.noConnectionContainer}>
+                              <NoConnection
+                                onTryAgainButtonClick={() => {
+                                  setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
+                                }}
+                              />
+                            </div>
+                          );
+                        }
+
+                        if (isLoading && !error && results.length < 1) {
+                          return (
+                            <Grid item xs={12}>
+                              <Typography
+                                variant="body2"
+                                align="center"
+                                color="textSecondary"
+                                className={classes.loading}
+                              >
+                                Loading...
+                              </Typography>
+                            </Grid>
+                          );
+                        }
+
+                        if (wasSearched && results.length < 1) {
+                          return (
+                            <EmptyState icon={SearchIcon} title="No Matching Results">
+                              <Typography
+                                variant="subtitle1"
+                                align="center"
+                              >
+                                Your query did not match any apps in our database.
+                              </Typography>
+                              <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
+                                <SubmitAppCard />
+                                <CreateCustomAppCard />
+                              </Grid>
+                            </EmptyState>
+                          );
+                        }
+
+                        const typeFilter = filters.find((filter) => filter.field === 'type');
+                        return (
+                          <>
+                            <CreateCustomAppCard urlDisabled={typeFilter && typeFilter.values[0] === 'Multisite'} />
+                            {results.map((app) => (
+                              <AppCard
+                                key={app.id.raw}
+                                id={app.id.raw}
+                                name={app.name.raw}
+                                url={app.url.raw}
+                                category={app.category.raw}
+                                widevine={app.widevine.raw === 1}
+                                icon={window.process.platform === 'win32' // use unplated icon for Windows
+                                  ? app.icon_unplated.raw : app.icon.raw}
+                                iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
+                                  ? app.icon_unplated_128.raw : app.icon_128.raw}
+                              />
+                            ))}
+                            <Grid item xs={12} container justify="center">
+                              <Paging />
+                            </Grid>
+                          </>
+                        );
+                      }}
+                    </WithSearch>
+                  </Grid>
+                </div>
+              </Grid>
+            </>
+          )}
         </Grid>
       </div>
     </SearchProvider>
@@ -475,11 +615,24 @@ const Home = ({
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
+  route: PropTypes.string.isRequired,
+  appBadgeCount: PropTypes.number.isRequired,
+  onChangeRoute: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  activated: state.general.activated,
+  route: state.router.route,
+  appBadgeCount: getAppBadgeCount(state),
+});
+
+const actionCreators = {
+  changeRoute,
 };
 
 export default connectComponent(
   Home,
-  null,
-  null,
+  mapStateToProps,
+  actionCreators,
   styles,
 );

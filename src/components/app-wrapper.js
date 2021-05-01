@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/pink';
-import grey from '@material-ui/core/colors/grey';
 
 import connectComponent from '../helpers/connect-component';
 
@@ -35,8 +34,8 @@ const AppWrapper = ({ shouldUseDarkColors }) => {
   };
 
   if (!shouldUseDarkColors) {
-    themeObj.background = {
-      primary: grey[200],
+    themeObj.palette.background = {
+      default: '#f5f5f5',
     };
   }
 

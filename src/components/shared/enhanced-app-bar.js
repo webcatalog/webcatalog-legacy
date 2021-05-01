@@ -26,6 +26,8 @@ const styles = (theme) => ({
     // leave space for resizing cursor
     // https://github.com/electron/electron/issues/3022
     padding: 4,
+    backgroundColor: theme.palette.background.paper,
+    borderBottom: theme.palette.type === 'dark' ? 'none' : `${theme.palette.divider} 1px solid`,
   },
   toolbar: {
     minHeight: 32,
@@ -38,7 +40,7 @@ const styles = (theme) => ({
   left: {
     width: LEFT_RIGHT_WIDTH,
     // leave space for traffic light buttons
-    paddingLeft: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 0,
+    paddingLeft: 0,
     boxSizing: 'border-box',
   },
   center: {
@@ -70,14 +72,14 @@ const styles = (theme) => ({
     padding: 0,
     margin: 0,
     '&:hover': {
-      backgroundColor: theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.primary.dark,
+      backgroundColor: theme.palette.background.default,
     },
   },
   windowsIcon: {
     height: '100%',
     width: '100%',
     maskSize: '23.1%',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.text.secondary,
     cursor: 'pointer',
   },
   windowsIconClose: {
@@ -100,10 +102,10 @@ const styles = (theme) => ({
 });
 
 const EnhancedAppBar = ({
+  left,
   center,
   classes,
   isMaximized,
-  shouldUseDarkColors,
 }) => {
   const useSystemTitleBar = getStaticGlobal('useSystemTitleBar');
   const onDoubleClick = (e) => {
@@ -128,13 +130,15 @@ const EnhancedAppBar = ({
     <AppBar
       position="static"
       className={classes.appBar}
-      color={shouldUseDarkColors ? 'default' : 'primary'}
+      color="default"
+      elevation={1}
     >
       <Toolbar
         variant="dense"
         className={classes.toolbar}
       >
         <div className={classes.left} onDoubleClick={onDoubleClick}>
+          {left}
           {shouldShowMenuButton && (
             <IconButton
               size="small"
@@ -220,19 +224,19 @@ const EnhancedAppBar = ({
 };
 
 EnhancedAppBar.defaultProps = {
+  left: null,
   center: null,
 };
 
 EnhancedAppBar.propTypes = {
+  left: PropTypes.node,
   center: PropTypes.node,
   classes: PropTypes.object.isRequired,
   isMaximized: PropTypes.bool.isRequired,
-  shouldUseDarkColors: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isMaximized: state.general.isMaximized,
-  shouldUseDarkColors: state.general.shouldUseDarkColors,
 });
 
 export default connectComponent(
