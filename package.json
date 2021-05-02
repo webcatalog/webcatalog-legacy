@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "description": "Desktop App Bundle, powered by the Web",
+  "description": "Turn Any Websites Into Real Desktop Apps",
   "version": "31.4.0",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
