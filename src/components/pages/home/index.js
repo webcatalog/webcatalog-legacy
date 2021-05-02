@@ -18,15 +18,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import Badge from '@material-ui/core/Badge';
 
-import StarsIcon from '@material-ui/icons/Stars';
 import SearchIcon from '@material-ui/icons/Search';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import CodeIcon from '@material-ui/icons/Code';
 import SchoolIcon from '@material-ui/icons/School';
 import TheatersIcon from '@material-ui/icons/Theaters';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -40,9 +37,6 @@ import ForumIcon from '@material-ui/icons/Forum';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import BuildIcon from '@material-ui/icons/Build';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
-import CategoryIcon from '@material-ui/icons/Category';
-import SettingsIcon from '@material-ui/icons/Settings';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -58,7 +52,6 @@ import SubmitAppCard from '../../shared/submit-app-card';
 import CreateCustomAppCard from '../../shared/create-custom-app-card';
 
 import { changeRoute } from '../../../state/router/actions';
-import { getAppBadgeCount } from '../../../state/app-management/utils';
 
 import {
   ROUTE_CATEGORIES,
@@ -69,6 +62,8 @@ import {
 
 import Preferences from '../preferences';
 import Installed from '../installed';
+
+import Sidebar from './sidebar';
 
 const connector = process.env.REACT_APP_SWIFTYPE_SEARCH_KEY ? new AppSearchAPIConnector({
   searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
@@ -157,7 +152,6 @@ const styles = (theme) => ({
 });
 
 const Home = ({
-  appBadgeCount,
   classes,
   route,
   onChangeRoute,
@@ -179,29 +173,6 @@ const Home = ({
       </div>
     );
   }
-
-  const mainSections = {
-    all: {
-      text: 'Discover',
-      Icon: StarsIcon,
-    },
-    spaces: {
-      text: 'Spaces',
-      Icon: GroupWorkIcon,
-    },
-    categories: {
-      text: 'Categories',
-      Icon: CategoryIcon,
-    },
-    updates: {
-      text: 'Updates',
-      Icon: SystemUpdateAltIcon,
-    },
-    preferences: {
-      text: 'Preferences',
-      Icon: SettingsIcon,
-    },
-  };
 
   const categorySections = {
     business: {
@@ -322,118 +293,7 @@ const Home = ({
       }}
     >
       <div className={classes.root}>
-        <Grid item className={classes.sidebar}>
-          <div className={classes.sidebarInner}>
-            <div className={classes.sidebarTop} />
-            <WithSearch
-              mapContextToProps={({
-                filters,
-                clearFilters,
-                setFilter,
-              }) => ({
-                filters,
-                clearFilters,
-                setFilter,
-              })}
-            >
-              {({
-                filters,
-                clearFilters,
-                setFilter,
-              }) => {
-                const typeFilter = filters.find((filter) => filter.field === 'type');
-                const categoryFilter = filters.find((filter) => filter.field === 'category');
-
-                return (
-                  <>
-                    <List className={classes.sidebarList}>
-                      {Object.keys(mainSections).map((sectionKey) => {
-                        const {
-                          Icon, text, hidden,
-                        } = mainSections[sectionKey];
-                        if (hidden) return null;
-
-                        const selected = (() => {
-                          if (sectionKey === 'updates') {
-                            return route === ROUTE_INSTALLED;
-                          }
-
-                          if (sectionKey === 'preferences') {
-                            return route === ROUTE_PREFERENCES;
-                          }
-
-                          if (sectionKey === 'all') {
-                            return route === ROUTE_HOME
-                              && categoryFilter == null && typeFilter == null;
-                          }
-
-                          if (sectionKey === 'spaces') {
-                            return route === ROUTE_HOME
-                              && typeFilter && typeFilter.values[0] === 'Multisite';
-                          }
-
-                          if (sectionKey === 'categories') {
-                            return route === ROUTE_CATEGORIES
-                              || (route === ROUTE_HOME && categoryFilter != null);
-                          }
-
-                          return false;
-                        })();
-
-                        const listItemComponent = (
-                          <ListItem
-                            button
-                            onClick={() => {
-                              if (sectionKey === 'all') {
-                                onChangeRoute(ROUTE_HOME);
-                                clearFilters();
-                              } else if (sectionKey === 'categories') {
-                                onChangeRoute(ROUTE_CATEGORIES);
-                              } else if (sectionKey === 'updates') {
-                                onChangeRoute(ROUTE_INSTALLED);
-                              } else if (sectionKey === 'preferences') {
-                                onChangeRoute(ROUTE_PREFERENCES);
-                              } else if (sectionKey === 'spaces') {
-                                clearFilters('type'); // clear all filters except type filter
-                                setFilter('type', 'Multisite', 'all');
-                                onChangeRoute(ROUTE_HOME);
-                              }
-                            }}
-                            selected={selected}
-                            classes={{
-                              selected: classes.listItemSelected,
-                            }}
-                          >
-                            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                              {sectionKey === 'updates' ? (
-                                <Badge color="secondary" badgeContent={appBadgeCount}>
-                                  <Icon fontSize="default" />
-                                </Badge>
-                              ) : (
-                                <Icon fontSize="default" />
-                              )}
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={text}
-                            />
-                          </ListItem>
-                        );
-
-                        return (
-                          <React.Fragment key={sectionKey}>
-                            {listItemComponent}
-                          </React.Fragment>
-                        );
-                      })}
-                    </List>
-
-                    {/*  */}
-                  </>
-                );
-              }}
-            </WithSearch>
-          </div>
-        </Grid>
+        <Sidebar />
         <Grid container className={classes.container}>
           {route === ROUTE_CATEGORIES && (
             <div className={classes.pageRoot}>
@@ -625,14 +485,11 @@ const Home = ({
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   route: PropTypes.string.isRequired,
-  appBadgeCount: PropTypes.number.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  activated: state.general.activated,
   route: state.router.route,
-  appBadgeCount: getAppBadgeCount(state),
 });
 
 const actionCreators = {
