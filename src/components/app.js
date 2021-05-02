@@ -8,8 +8,7 @@ import connectComponent from '../helpers/connect-component';
 
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
-
-import Home from './pages/home';
+import Container from './root/container';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
@@ -57,12 +56,12 @@ const App = ({ classes, onFetchLatestTemplateVersionAsync }) => {
     return () => {
       clearTimeout(updaterTimer);
     };
-  }, []);
+  }, [onFetchLatestTemplateVersionAsync]);
 
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Home />
+        <Container />
       </div>
 
       <SnackbarTrigger />

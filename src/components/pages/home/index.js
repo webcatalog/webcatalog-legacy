@@ -2,12 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
-import React, { useRef } from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
 import {
-  SearchProvider, WithSearch, Paging,
+  WithSearch, Paging,
 } from '@elastic/react-search-ui';
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
@@ -29,38 +28,12 @@ import AppCard from '../../shared/app-card';
 import SubmitAppCard from '../../shared/submit-app-card';
 import CreateCustomAppCard from '../../shared/create-custom-app-card';
 
-import {
-  ROUTE_CATEGORIES,
-  ROUTE_HOME,
-  ROUTE_INSTALLED,
-  ROUTE_PREFERENCES,
-} from '../../../constants/routes';
-
-import Preferences from '../preferences';
-import Installed from '../installed';
-import Categories from '../categories';
-
-import Sidebar from './sidebar';
-
-const connector = process.env.REACT_APP_SWIFTYPE_SEARCH_KEY ? new AppSearchAPIConnector({
-  searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
-  engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
-  hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
-}) : null;
-
 const styles = (theme) => ({
   root: {
     height: '100%',
     display: 'flex',
     flexDirection: 'row',
     overflow: 'hidden',
-  },
-  badConfigRoot: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    justifyContent: 'center',
   },
   loading: {
     marginTop: theme.spacing(2),
@@ -84,209 +57,123 @@ const styles = (theme) => ({
   },
 });
 
-const Home = ({
-  classes,
-  route,
-}) => {
-  const scrollContainerRef = useRef(null);
-
-  if (!connector) {
-    return (
-      <div
-        className={classes.badConfigRoot}
-      >
-        <Typography
-          variant="body1"
-          align="center"
-          color="textPrimary"
+const Home = forwardRef(({ classes }, scrollContainerRef) => (
+  <Grid item xs className={classes.mainArea}>
+    <DefinedAppBar />
+    <SecondaryToolbar />
+    <Divider />
+    <div className={classes.scrollContainer} ref={scrollContainerRef}>
+      <Grid item xs container spacing={1} justify="space-evenly">
+        <WithSearch
+          mapContextToProps={({
+            error,
+            filters,
+            isLoading,
+            results,
+            searchTerm,
+            setSearchTerm,
+            wasSearched,
+          }) => ({
+            error,
+            filters,
+            isLoading,
+            results,
+            searchTerm,
+            setSearchTerm,
+            wasSearched,
+          })}
         >
-          Swiftype environment variables are required for &quot;Discover&quot;. Learn more at: https://github.com/webcatalog/webcatalog-app/blob/master/README.md#development
-        </Typography>
-      </div>
-    );
-  }
-
-  return (
-    <SearchProvider
-      config={{
-        apiConnector: connector,
-        onSearch: (state, queryConfig, next) => {
-          if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = 0;
-          }
-
-          const updatedState = { ...state };
-          // when searching, results should ALWAYS be listed by relevance
-          if (state.searchTerm.length > 0) {
-            updatedState.sortField = '';
-            updatedState.sortDirection = '';
-          }
-
-          return next(updatedState, queryConfig);
-        },
-        initialState: {
-          sortField: '',
-          sortDirection: '',
-          filters: [],
-        },
-        alwaysSearchOnInitialLoad: true,
-        searchQuery: {
-          resultsPerPage: 59,
-          disjunctiveFacets: ['category'],
-          result_fields: {
-            id: { raw: {} },
-            name: { raw: {} },
-            url: { raw: {} },
-            category: { raw: {} },
-            widevine: { raw: {} },
-            icon: window.process.platform === 'win32' ? undefined : { raw: {} },
-            icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
-            icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
-            icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
-          },
-          facets: {
-            category: { type: 'value', size: 30 },
-          },
-          filters: [
-            { field: 'widevine', values: [0], type: 'all' },
-          ],
-        },
-      }}
-    >
-      <div className={classes.root}>
-        <Sidebar />
-        <Grid container className={classes.container}>
-          {route === ROUTE_CATEGORIES && <Categories />}
-          {route === ROUTE_INSTALLED && <Installed />}
-          {route === ROUTE_PREFERENCES && <Preferences />}
-          {route === ROUTE_HOME && (
-            <>
-              <Grid item xs className={classes.mainArea}>
-                <DefinedAppBar />
-                <SecondaryToolbar />
-                <Divider />
-                <div className={classes.scrollContainer} ref={scrollContainerRef}>
-                  <Grid item xs container spacing={1} justify="space-evenly">
-                    <WithSearch
-                      mapContextToProps={({
-                        error,
-                        filters,
-                        isLoading,
-                        results,
-                        searchTerm,
-                        setSearchTerm,
-                        wasSearched,
-                      }) => ({
-                        error,
-                        filters,
-                        isLoading,
-                        results,
-                        searchTerm,
-                        setSearchTerm,
-                        wasSearched,
-                      })}
-                    >
-                      {({
-                        error,
-                        filters,
-                        isLoading,
-                        results,
-                        searchTerm,
-                        setSearchTerm,
-                        wasSearched,
-                      }) => {
-                        if (error) {
-                          return (
-                            <div className={classes.noConnectionContainer}>
-                              <NoConnection
-                                onTryAgainButtonClick={() => {
-                                  setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
-                                }}
-                              />
-                            </div>
-                          );
-                        }
-
-                        if (isLoading && !error && results.length < 1) {
-                          return (
-                            <Grid item xs={12}>
-                              <Typography
-                                variant="body2"
-                                align="center"
-                                color="textSecondary"
-                                className={classes.loading}
-                              >
-                                Loading...
-                              </Typography>
-                            </Grid>
-                          );
-                        }
-
-                        if (wasSearched && results.length < 1) {
-                          return (
-                            <EmptyState icon={SearchIcon} title="No Matching Results">
-                              <Typography
-                                variant="subtitle1"
-                                align="center"
-                              >
-                                Your query did not match any apps in our database.
-                              </Typography>
-                              <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
-                                <SubmitAppCard />
-                                <CreateCustomAppCard />
-                              </Grid>
-                            </EmptyState>
-                          );
-                        }
-
-                        const typeFilter = filters.find((filter) => filter.field === 'type');
-                        return (
-                          <>
-                            <CreateCustomAppCard urlDisabled={typeFilter && typeFilter.values[0] === 'Multisite'} />
-                            {results.map((app) => (
-                              <AppCard
-                                key={app.id.raw}
-                                id={app.id.raw}
-                                name={app.name.raw}
-                                url={app.url.raw}
-                                category={app.category.raw}
-                                widevine={app.widevine.raw === 1}
-                                icon={window.process.platform === 'win32' // use unplated icon for Windows
-                                  ? app.icon_unplated.raw : app.icon.raw}
-                                iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
-                                  ? app.icon_unplated_128.raw : app.icon_128.raw}
-                              />
-                            ))}
-                            <Grid item xs={12} container justify="center">
-                              <Paging />
-                            </Grid>
-                          </>
-                        );
-                      }}
-                    </WithSearch>
-                  </Grid>
+          {({
+            error,
+            filters,
+            isLoading,
+            results,
+            searchTerm,
+            setSearchTerm,
+            wasSearched,
+          }) => {
+            if (error) {
+              return (
+                <div className={classes.noConnectionContainer}>
+                  <NoConnection
+                    onTryAgainButtonClick={() => {
+                      setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
+                    }}
+                  />
                 </div>
-              </Grid>
-            </>
-          )}
-        </Grid>
-      </div>
-    </SearchProvider>
-  );
-};
+              );
+            }
+
+            if (isLoading && !error && results.length < 1) {
+              return (
+                <Grid item xs={12}>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    color="textSecondary"
+                    className={classes.loading}
+                  >
+                    Loading...
+                  </Typography>
+                </Grid>
+              );
+            }
+
+            if (wasSearched && results.length < 1) {
+              return (
+                <EmptyState icon={SearchIcon} title="No Matching Results">
+                  <Typography
+                    variant="subtitle1"
+                    align="center"
+                  >
+                    Your query did not match any apps in our database.
+                  </Typography>
+                  <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
+                    <SubmitAppCard />
+                    <CreateCustomAppCard />
+                  </Grid>
+                </EmptyState>
+              );
+            }
+
+            const typeFilter = filters.find((filter) => filter.field === 'type');
+            return (
+              <>
+                <CreateCustomAppCard urlDisabled={typeFilter && typeFilter.values[0] === 'Multisite'} />
+                {results.map((app) => (
+                  <AppCard
+                    key={app.id.raw}
+                    id={app.id.raw}
+                    name={app.name.raw}
+                    url={app.url.raw}
+                    category={app.category.raw}
+                    widevine={app.widevine.raw === 1}
+                    icon={window.process.platform === 'win32' // use unplated icon for Windows
+                      ? app.icon_unplated.raw : app.icon.raw}
+                    iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
+                      ? app.icon_unplated_128.raw : app.icon_128.raw}
+                  />
+                ))}
+                <Grid item xs={12} container justify="center">
+                  <Paging />
+                </Grid>
+              </>
+            );
+          }}
+        </WithSearch>
+      </Grid>
+    </div>
+  </Grid>
+));
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
-  route: PropTypes.string.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  route: state.router.route,
-});
 
 export default connectComponent(
   Home,
-  mapStateToProps,
+  null,
   null,
   styles,
+  { forwardRef: true },
 );
