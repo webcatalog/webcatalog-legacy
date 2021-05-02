@@ -52,10 +52,10 @@ import EnhancedAppBar from '../../shared/enhanced-app-bar';
 
 import DefinedAppBar from './defined-app-bar';
 import SecondaryToolbar from './toolbar';
-import SubmitAppCard from './submit-app-card';
-import CreateCustomAppCard from './create-custom-app-card';
 
 import AppCard from '../../shared/app-card';
+import SubmitAppCard from '../../shared/submit-app-card';
+import CreateCustomAppCard from '../../shared/create-custom-app-card';
 
 import { changeRoute } from '../../../state/router/actions';
 import { getAppBadgeCount } from '../../../state/app-management/utils';

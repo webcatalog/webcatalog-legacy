@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import BrushIcon from '@material-ui/icons/Brush';
 
-import connectComponent from '../../../helpers/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
-import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
+import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
 const styles = (theme) => ({
   card: {

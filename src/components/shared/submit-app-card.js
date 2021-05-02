@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import connectComponent from '../../../helpers/connect-component';
+import connectComponent from '../../helpers/connect-component';
 
-import { requestOpenInBrowser } from '../../../senders';
+import { requestOpenInBrowser } from '../../senders';
 
 const styles = (theme) => ({
   card: {
