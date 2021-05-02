@@ -17,6 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import StarsIcon from '@material-ui/icons/Stars';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -27,6 +28,8 @@ import connectComponent from '../../helpers/connect-component';
 
 import { changeRoute } from '../../state/router/actions';
 import { getAppBadgeCount } from '../../state/app-management/utils';
+
+import { requestOpenInBrowser } from '../../senders';
 
 import {
   ROUTE_CATEGORIES,
@@ -45,13 +48,17 @@ const styles = (theme) => ({
     paddingTop: 0,
     boxShadow: theme.shadows[5],
   },
-  sidebarList: {
+  sidebarInner: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
+  sidebarListTop: {
+    flex: 1,
     paddingTop: 0,
   },
   listItemSelected: {
     backgroundColor: `${theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.grey[900]} !important`,
-  },
-  sidebarInner: {
   },
   sidebarTop: {
     height: 40,
@@ -116,7 +123,7 @@ const Home = ({
             const categoryFilter = filters.find((filter) => filter.field === 'category');
 
             return (
-              <List className={classes.sidebarList}>
+              <List className={classes.sidebarListTop}>
                 {Object.keys(mainSections).map((sectionKey) => {
                   const {
                     Icon, text, hidden,
@@ -199,6 +206,19 @@ const Home = ({
             );
           }}
         </WithSearch>
+        <List>
+          <ListItem
+            button
+            onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <AccountCircleIcon fontSize="default" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Sign In"
+            />
+          </ListItem>
+        </List>
       </div>
     </Grid>
   );
