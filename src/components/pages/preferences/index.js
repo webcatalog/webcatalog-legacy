@@ -18,6 +18,7 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -48,6 +49,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
+import SectionAccount from './section-account';
 
 const styles = (theme) => ({
   root: {
@@ -195,6 +197,11 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
+    account: {
+      text: 'Account',
+      Icon: AccountCircleIcon,
+      ref: useRef(),
+    },
     licensing: {
       text: 'Licensing',
       Icon: CheckCircleIcon,
@@ -265,6 +272,13 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
+            Account
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <SectionAccount />
+          </Paper>
+
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
             Licensing
           </Typography>
