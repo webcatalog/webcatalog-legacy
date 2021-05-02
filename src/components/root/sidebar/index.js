@@ -17,7 +17,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import StarsIcon from '@material-ui/icons/Stars';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -28,8 +27,6 @@ import connectComponent from '../../../helpers/connect-component';
 
 import { changeRoute } from '../../../state/router/actions';
 import { getAppBadgeCount } from '../../../state/app-management/utils';
-
-import { requestOpenInBrowser } from '../../../senders';
 
 import {
   ROUTE_CATEGORIES,
