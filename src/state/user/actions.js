@@ -63,6 +63,8 @@ export const updateUserAsync = () => async (dispatch, getState) => {
   const { currentUser } = firebase.auth();
   const currentUserState = getState().user;
 
+  console.log('x', currentUser);
+
   if (!currentUser) return Promise.resolve();
 
   dispatch(updateUserState({

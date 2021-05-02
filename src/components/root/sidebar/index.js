@@ -24,19 +24,21 @@ import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import CategoryIcon from '@material-ui/icons/Category';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import connectComponent from '../../helpers/connect-component';
+import connectComponent from '../../../helpers/connect-component';
 
-import { changeRoute } from '../../state/router/actions';
-import { getAppBadgeCount } from '../../state/app-management/utils';
+import { changeRoute } from '../../../state/router/actions';
+import { getAppBadgeCount } from '../../../state/app-management/utils';
 
-import { requestOpenInBrowser } from '../../senders';
+import { requestOpenInBrowser } from '../../../senders';
 
 import {
   ROUTE_CATEGORIES,
   ROUTE_HOME,
   ROUTE_INSTALLED,
   ROUTE_PREFERENCES,
-} from '../../constants/routes';
+} from '../../../constants/routes';
+
+import ListItemAccount from './list-item-account';
 
 const styles = (theme) => ({
   sidebar: {
@@ -157,9 +159,10 @@ const Home = ({
                     return false;
                   })();
 
-                  const listItemComponent = (
+                  return (
                     <ListItem
                       button
+                      key={sectionKey}
                       onClick={() => {
                         if (sectionKey === 'all') {
                           onChangeRoute(ROUTE_HOME);
@@ -195,29 +198,13 @@ const Home = ({
                       />
                     </ListItem>
                   );
-
-                  return (
-                    <React.Fragment key={sectionKey}>
-                      {listItemComponent}
-                    </React.Fragment>
-                  );
                 })}
               </List>
             );
           }}
         </WithSearch>
         <List>
-          <ListItem
-            button
-            onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}
-          >
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <AccountCircleIcon fontSize="default" />
-            </ListItemIcon>
-            <ListItemText
-              primary="Sign In"
-            />
-          </ListItem>
+          <ListItemAccount />
         </List>
       </div>
     </Grid>

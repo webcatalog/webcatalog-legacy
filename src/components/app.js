@@ -21,9 +21,13 @@ import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
+  requestUpdateAuthJson,
 } from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
+import { clearUserState, updateUserAsync } from '../state/user/actions';
+
+import firebase from '../firebase';
 
 const styles = (theme) => ({
   root: {
@@ -44,7 +48,12 @@ const styles = (theme) => ({
   },
 });
 
-const App = ({ classes, onFetchLatestTemplateVersionAsync }) => {
+const App = ({
+  classes,
+  onClearUserState,
+  onUpdateUserAsync,
+  onFetchLatestTemplateVersionAsync,
+}) => {
   useEffect(() => {
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
@@ -57,6 +66,22 @@ const App = ({ classes, onFetchLatestTemplateVersionAsync }) => {
       clearTimeout(updaterTimer);
     };
   }, [onFetchLatestTemplateVersionAsync]);
+
+  // docs: https://github.com/firebase/firebaseui-web-react
+  // Listen to the Firebase Auth state and set the local state.
+  useEffect(() => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        onClearUserState();
+        requestUpdateAuthJson();
+        return;
+      }
+
+      onUpdateUserAsync();
+    });
+    // Make sure we un-register Firebase observers when the component unmounts.
+    return () => unregisterAuthObserver();
+  }, [onClearUserState, onUpdateUserAsync]);
 
   return (
     <div className={classes.root}>
@@ -80,7 +105,9 @@ const App = ({ classes, onFetchLatestTemplateVersionAsync }) => {
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
+  onClearUserState: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
+  onUpdateUserAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -88,7 +115,9 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
+  clearUserState,
   fetchLatestTemplateVersionAsync,
+  updateUserAsync,
 };
 
 export default connectComponent(

@@ -18,77 +18,101 @@ import {
   requestOpenInBrowser,
 } from '../../../senders';
 
+import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
+
 import connectComponent from '../../../helpers/connect-component';
 
 import firebase from '../../../firebase';
 
 const SectionAccount = ({
-  // currentPlan,
   displayName,
   isSignedIn,
   photoURL,
-}) => (
-  <>
-    <List disablePadding dense>
-      {!isSignedIn ? (
-        <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
-          <ListItemText primary="Sign in to WebCatalog" />
-          <ChevronRightIcon color="action" />
-        </ListItem>
-      ) : (
-        <>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt={displayName} src={photoURL} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={displayName}
-              // secondary={currentPlan}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile')}>
-            <ListItemText primary="Profile & Password" />
-            <ChevronRightIcon color="action" />
-          </ListItem>
-          <Divider />
-          <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/settings/billing')}>
-            <ListItemText primary="Billing & Subscription" />
-            <ChevronRightIcon color="action" />
-          </ListItem>
-          <Divider />
-          <ListItem button onClick={() => firebase.auth().signOut()}>
-            <ListItemText primary="Log Out" />
-            <ChevronRightIcon color="action" />
-          </ListItem>
-        </>
-      )}
-    </List>
-  </>
-);
+  registered,
+  onOpenDialogLicenseRegistration,
+}) => {
+  const upgradeToLifetimeComponent = !registered && (
+    <>
+      <Divider />
+      <ListItem button onClick={onOpenDialogLicenseRegistration}>
+        <ListItemText primary="Upgrade to WebCatalog Lifetime" />
+        <ChevronRightIcon color="action" />
+      </ListItem>
+    </>
+  );
+
+  return (
+    <>
+      <List disablePadding dense>
+        {!isSignedIn ? (
+          <>
+            <ListItem button disabled>
+              <ListItemText primary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'} />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+              <ListItemText primary="Sign in to WebCatalog" />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            {upgradeToLifetimeComponent}
+          </>
+        ) : (
+          <>
+            <ListItem alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt={displayName} src={photoURL} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={displayName}
+                secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
+              />
+            </ListItem>
+            {upgradeToLifetimeComponent}
+            <Divider />
+            <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile')}>
+              <ListItemText primary="Profile & Password" />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={() => firebase.auth().signOut()}>
+              <ListItemText primary="Log Out" />
+              <ChevronRightIcon color="action" />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </>
+  );
+};
 
 SectionAccount.defaultProps = {
-  // currentPlan: 'basic',
   displayName: '',
   isSignedIn: false,
   photoURL: null,
+  registered: false,
 };
 
 SectionAccount.propTypes = {
-  // currentPlan: PropTypes.oneOf(['basic', 'lifetime', 'plus', 'pro']),
   displayName: PropTypes.string,
   isSignedIn: PropTypes.bool,
+  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   photoURL: PropTypes.string,
+  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  isSignedIn: state.user.isSignedIn,
-  // currentPlan: state.user.publicProfile.billingPlan,
   displayName: state.user.displayName,
+  isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,
+  registered: state.preferences.registered,
 });
+
+const actionCreators = {
+  openDialogLicenseRegistration,
+};
 
 export default connectComponent(
   SectionAccount,
   mapStateToProps,
+  actionCreators,
 );
