@@ -91,31 +91,6 @@ const styles = (theme) => ({
   noMatchingResultOpts: {
     marginTop: theme.spacing(4),
   },
-  sidebar: {
-    width: 320,
-    backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
-    color: theme.palette.common.white,
-    height: '100%',
-    overflow: 'auto',
-    paddingTop: 0,
-    boxShadow: theme.shadows[5],
-  },
-  sidebarList: {
-    paddingTop: 0,
-  },
-  listItemSelected: {
-    backgroundColor: `${theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.grey[900]} !important`,
-  },
-  sidebarInner: {
-  },
-  sidebarTop: {
-    height: 40,
-    WebkitAppRegion: 'drag',
-    userSelect: 'none',
-  },
-  listItemIcon: {
-    color: theme.palette.common.white,
-  },
   mainArea: {
     height: '100%',
     display: 'flex',

@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import connectComponent from '../helpers/connect-component';
@@ -45,50 +45,39 @@ const styles = (theme) => ({
   },
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.updaterTimer = null;
-  }
-
-  componentDidMount() {
+const App = ({ classes, onFetchLatestTemplateVersionAsync }) => {
+  useEffect(() => {
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
-    const { onFetchLatestTemplateVersionAsync } = this.props;
     onFetchLatestTemplateVersionAsync();
-    this.updaterTimer = setTimeout(() => {
+    const updaterTimer = setTimeout(() => {
       onFetchLatestTemplateVersionAsync();
     }, 15 * 60 * 1000); // recheck every 15 minutes
-  }
+    return () => {
+      clearTimeout(updaterTimer);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    clearTimeout(this.updaterTimer);
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <div className={classes.content}>
-          <Home />
-        </div>
-
-        <SnackbarTrigger />
-        <TelemetryManager />
-
-        <DialogAbout />
-        <DialogCatalogAppDetails />
-        <DialogCreateCustomApp />
-        <DialogEditApp />
-        <DialogLicenseRegistration />
-        <DialogOpenSourceNotices />
-        <DialogSetInstallationPath />
+  return (
+    <div className={classes.root}>
+      <div className={classes.content}>
+        <Home />
       </div>
-    );
-  }
-}
+
+      <SnackbarTrigger />
+      <TelemetryManager />
+
+      <DialogAbout />
+      <DialogCatalogAppDetails />
+      <DialogCreateCustomApp />
+      <DialogEditApp />
+      <DialogLicenseRegistration />
+      <DialogOpenSourceNotices />
+      <DialogSetInstallationPath />
+    </div>
+  );
+};
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
