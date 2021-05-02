@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-const connectComponent = (component, mapStateToProps, actionCreators, styles) => {
+const connectComponent = (component, mapStateToProps, actionCreators, styles, options) => {
   // Adds `on` to binded action names
   const onActionCreators = {};
   if (actionCreators) {
@@ -22,6 +22,8 @@ const connectComponent = (component, mapStateToProps, actionCreators, styles) =>
   return connect(
     mapStateToProps,
     (dispatch) => bindActionCreators(onActionCreators, dispatch),
+    null,
+    options,
   )(styledComponent);
 };
 

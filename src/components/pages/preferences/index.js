@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -32,7 +32,6 @@ import connectComponent from '../../../helpers/connect-component';
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
-import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
 
@@ -48,6 +47,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
+import SectionAccount from './section-account';
 
 const styles = (theme) => ({
   root: {
@@ -80,12 +80,12 @@ const styles = (theme) => ({
     [theme.breakpoints.between(1120, 1248)]: {
       margin: 0,
       float: 'right',
-      maxWidth: 'calc(100% - 224px)',
+      maxWidth: 'calc(100% - 260px)',
     },
   },
   sidebar: {
     position: 'fixed',
-    width: 204,
+    width: 240,
     color: theme.palette.text.primary,
     [theme.breakpoints.down(1120)]: {
       display: 'none',
@@ -180,11 +180,9 @@ const Preferences = ({
   installationPath,
   installingAppCount,
   onOpenDialogAbout,
-  onOpenDialogLicenseRegistration,
   onOpenDialogOpenSourceNotices,
   onOpenDialogSetInstallationPath,
   openAtLogin,
-  registered,
   requireAdmin,
   sentry,
   telemetry,
@@ -195,9 +193,9 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
-    licensing: {
-      text: 'Licensing',
-      Icon: CheckCircleIcon,
+    account: {
+      text: 'Account & Licensing',
+      Icon: AccountCircleIcon,
       ref: useRef(),
     },
     general: {
@@ -265,24 +263,11 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
-            Licensing
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
+            Account & Licensing
           </Typography>
           <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem button disabled>
-                <ListItemText primary={registered ? 'WebCatalog Lifetime is activated.' : 'WebCatalog Basic'} />
-              </ListItem>
-              {!registered && (
-                <>
-                  <Divider />
-                  <ListItem button onClick={onOpenDialogLicenseRegistration}>
-                    <ListItemText primary="Upgrade to WebCatalog Lifetime" />
-                    <ChevronRightIcon color="action" />
-                  </ListItem>
-                </>
-              )}
-            </List>
+            <SectionAccount />
           </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
@@ -770,11 +755,9 @@ Preferences.propTypes = {
   installationPath: PropTypes.string.isRequired,
   installingAppCount: PropTypes.number.isRequired,
   onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
-  registered: PropTypes.bool.isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
   telemetry: PropTypes.bool.isRequired,
@@ -809,7 +792,6 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   openDialogAbout,
-  openDialogLicenseRegistration,
   openDialogOpenSourceNotices,
   openDialogSetInstallationPath,
 };

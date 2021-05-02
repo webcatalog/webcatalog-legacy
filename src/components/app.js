@@ -1,15 +1,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import connectComponent from '../helpers/connect-component';
 
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
-
-import Home from './pages/home';
+import Container from './root/container';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
@@ -22,9 +21,13 @@ import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
+  requestUpdateAuthJson,
 } from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
+import { clearUserState, updateUserAsync } from '../state/user/actions';
+
+import firebase from '../firebase';
 
 const styles = (theme) => ({
   root: {
@@ -45,54 +48,66 @@ const styles = (theme) => ({
   },
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.updaterTimer = null;
-  }
-
-  componentDidMount() {
+const App = ({
+  classes,
+  onClearUserState,
+  onUpdateUserAsync,
+  onFetchLatestTemplateVersionAsync,
+}) => {
+  useEffect(() => {
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
-    const { onFetchLatestTemplateVersionAsync } = this.props;
     onFetchLatestTemplateVersionAsync();
-    this.updaterTimer = setTimeout(() => {
+    const updaterTimer = setTimeout(() => {
       onFetchLatestTemplateVersionAsync();
     }, 15 * 60 * 1000); // recheck every 15 minutes
-  }
+    return () => {
+      clearTimeout(updaterTimer);
+    };
+  }, [onFetchLatestTemplateVersionAsync]);
 
-  componentWillUnmount() {
-    clearTimeout(this.updaterTimer);
-  }
+  // docs: https://github.com/firebase/firebaseui-web-react
+  // Listen to the Firebase Auth state and set the local state.
+  useEffect(() => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        onClearUserState();
+        requestUpdateAuthJson();
+        return;
+      }
 
-  render() {
-    const { classes } = this.props;
+      onUpdateUserAsync();
+    });
+    // Make sure we un-register Firebase observers when the component unmounts.
+    return () => unregisterAuthObserver();
+  }, [onClearUserState, onUpdateUserAsync]);
 
-    return (
-      <div className={classes.root}>
-        <div className={classes.content}>
-          <Home />
-        </div>
-
-        <SnackbarTrigger />
-        <TelemetryManager />
-
-        <DialogAbout />
-        <DialogCatalogAppDetails />
-        <DialogCreateCustomApp />
-        <DialogEditApp />
-        <DialogLicenseRegistration />
-        <DialogOpenSourceNotices />
-        <DialogSetInstallationPath />
+  return (
+    <div className={classes.root}>
+      <div className={classes.content}>
+        <Container />
       </div>
-    );
-  }
-}
+
+      <SnackbarTrigger />
+      <TelemetryManager />
+
+      <DialogAbout />
+      <DialogCatalogAppDetails />
+      <DialogCreateCustomApp />
+      <DialogEditApp />
+      <DialogLicenseRegistration />
+      <DialogOpenSourceNotices />
+      <DialogSetInstallationPath />
+    </div>
+  );
+};
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
+  onClearUserState: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
+  onUpdateUserAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -100,7 +115,9 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
+  clearUserState,
   fetchLatestTemplateVersionAsync,
+  updateUserAsync,
 };
 
 export default connectComponent(

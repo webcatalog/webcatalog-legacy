@@ -1,6 +1,6 @@
 {
   "name": "WebCatalog",
-  "description": "Desktop App Bundle, powered by the Web",
+  "description": "Turn Any Websites Into Real Desktop Apps",
   "version": "31.4.0",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
@@ -67,8 +67,10 @@
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.23.2",
     "eslint-plugin-react-hooks": "1.7.0",
+    "firebase": "8.2.10",
     "follow-redirects": "1.14.0",
     "fs-extra": "9.1.0",
+    "gravatar": "1.8.1",
     "hasha": "5.2.2",
     "icon-gen": "2.1.0",
     "is-url": "1.2.4",

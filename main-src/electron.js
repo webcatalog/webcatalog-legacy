@@ -20,8 +20,6 @@ settings.configure({
 
 const { autoUpdater } = require('electron-updater');
 
-const url = require('url');
-
 const {
   getPreference,
   getPreferences,
@@ -38,6 +36,7 @@ const { createMenu } = require('./libs/menu');
 const sendToAllWindows = require('./libs/send-to-all-windows');
 const loadListeners = require('./libs/listeners').load;
 const loadInvokers = require('./libs/invokers').load;
+const initAuthJsonWatcher = require('./libs/auth-json-watcher').init;
 
 const mainWindow = require('./libs/windows/main');
 
@@ -85,13 +84,24 @@ if (!gotTheLock) {
         if (urlStr.startsWith('webcatalog://catalog/')) {
           let appId;
           try {
-            appId = url.parse(urlStr).path.substring(1);
+            appId = urlStr.replace('webcatalog://catalog/', '');
           } catch (err) {
             // eslint-disable-next-line no-console
             console.log(err);
           }
           if (appId) {
             mainWindow.send('open-dialog-catalog-app-details', appId);
+          }
+        } else if (urlStr.startsWith('webcatalog://sign-in-with-token/')) {
+          let token;
+          try {
+            token = urlStr.replace('webcatalog://sign-in-with-token/', '');
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log(err);
+          }
+          if (token) {
+            mainWindow.send('sign-in-with-token', token);
           }
         }
       });
@@ -106,6 +116,8 @@ if (!gotTheLock) {
   };
 
   app.on('ready', () => {
+    initAuthJsonWatcher();
+
     // https://github.com/electron/electron/issues/23757
     protocol.registerFileProtocol('file', (request, callback) => {
       const pathname = decodeURI(request.url.replace('file:///', ''));

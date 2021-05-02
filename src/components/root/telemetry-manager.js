@@ -20,9 +20,10 @@ const TelemetryManager = ({
 
   useEffect(() => {
     amplitude.getInstance().setUserProperties({
-      pricing: registered ? 'plus' : 'basic', // PRO plan to be added
+      plan: registered ? 'lifetime' : 'basic', // PRO plan to be added
       /* the following fields have been deprecated */
       /* do not reuse */
+      // pricing: registered ? 'plus' : 'basic', // PRO plan to be added
       // pricingPlan: registered ? 'plus' : 'basic', // PRO plan to be added
       // registered, // legacy
     });
