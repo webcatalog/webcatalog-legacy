@@ -13,36 +13,14 @@ import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
 import SearchIcon from '@material-ui/icons/Search';
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import CodeIcon from '@material-ui/icons/Code';
-import SchoolIcon from '@material-ui/icons/School';
-import TheatersIcon from '@material-ui/icons/Theaters';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import ForumIcon from '@material-ui/icons/Forum';
-import SportsFootballIcon from '@material-ui/icons/SportsFootball';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
-import BuildIcon from '@material-ui/icons/Build';
 
 import connectComponent from '../../../helpers/connect-component';
 
 import EmptyState from '../../shared/empty-state';
 import NoConnection from '../../shared/no-connection';
-import EnhancedAppBar from '../../shared/enhanced-app-bar';
 
 import DefinedAppBar from './defined-app-bar';
 import SecondaryToolbar from './toolbar';
@@ -50,8 +28,6 @@ import SecondaryToolbar from './toolbar';
 import AppCard from '../../shared/app-card';
 import SubmitAppCard from '../../shared/submit-app-card';
 import CreateCustomAppCard from '../../shared/create-custom-app-card';
-
-import { changeRoute } from '../../../state/router/actions';
 
 import {
   ROUTE_CATEGORIES,
@@ -62,6 +38,7 @@ import {
 
 import Preferences from '../preferences';
 import Installed from '../installed';
+import Categories from '../categories';
 
 import Sidebar from './sidebar';
 
@@ -96,18 +73,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  pageRoot: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    flex: 1,
-  },
-  categoryPage: {
-    width: '100%',
-    color: theme.palette.text.primary,
-    overflow: 'auto',
-  },
   scrollContainer: {
     flex: 1,
     overflow: 'auto',
@@ -117,19 +82,11 @@ const styles = (theme) => ({
     height: '100%',
     overflow: 'hidden',
   },
-  categoryList: {
-  },
-  appBarTitle: {
-    textAlign: 'center',
-    color: 'inherit',
-    fontWeight: 400,
-  },
 });
 
 const Home = ({
   classes,
   route,
-  onChangeRoute,
 }) => {
   const scrollContainerRef = useRef(null);
 
@@ -148,77 +105,6 @@ const Home = ({
       </div>
     );
   }
-
-  const categorySections = {
-    business: {
-      text: 'Business',
-      Icon: BusinessCenterIcon,
-    },
-    developerTools: {
-      text: 'Developer Tools',
-      Icon: CodeIcon,
-    },
-    education: {
-      text: 'Education',
-      Icon: SchoolIcon,
-    },
-    entertainment: {
-      text: 'Entertainment',
-      Icon: TheatersIcon,
-    },
-    finance: {
-      text: 'Finance',
-      Icon: AccountBalanceIcon,
-    },
-    games: {
-      text: 'Games',
-      Icon: SportsEsportsIcon,
-    },
-    photographyGraphics: {
-      text: 'Photography & Graphics',
-      Icon: PhotoLibraryIcon,
-    },
-    healthFitness: {
-      text: 'Health & Fitness',
-      Icon: DirectionsRunIcon,
-    },
-    lifestyle: {
-      text: 'Lifestyle',
-      Icon: EmojiEmotionsIcon,
-    },
-    musicAudio: {
-      text: 'Music & Audio',
-      Icon: MusicNoteIcon,
-    },
-    newsWeather: {
-      text: 'News & Weather',
-      Icon: WbSunnyIcon,
-    },
-    productivity: {
-      text: 'Productivity',
-      Icon: TrendingUpIcon,
-    },
-    booksReference: {
-      text: 'Books & Reference',
-      Icon: LibraryBooksIcon,
-    },
-    socialNetworking: {
-      text: 'Social Networking',
-      Icon: ForumIcon,
-    },
-    sports: {
-      text: 'Sports',
-      Icon: SportsFootballIcon,
-    },
-    travel: {
-      text: 'Travel',
-      Icon: BeachAccessIcon,
-    },
-    utilities: {
-      text: 'Utilities',
-      Icon: BuildIcon,
-    },
-  };
 
   return (
     <SearchProvider
@@ -270,75 +156,7 @@ const Home = ({
       <div className={classes.root}>
         <Sidebar />
         <Grid container className={classes.container}>
-          {route === ROUTE_CATEGORIES && (
-            <div className={classes.pageRoot}>
-              <EnhancedAppBar
-                center={(
-                  <Typography variant="body1" className={classes.appBarTitle}>
-                    Categories
-                  </Typography>
-                )}
-              />
-              <div className={classes.categoryPage}>
-                <WithSearch
-                  mapContextToProps={({
-                    filters,
-                    clearFilters,
-                    setFilter,
-                  }) => ({
-                    filters,
-                    clearFilters,
-                    setFilter,
-                  })}
-                >
-                  {({
-                    filters,
-                    clearFilters,
-                    setFilter,
-                  }) => {
-                    const typeFilter = filters.find((filter) => filter.field === 'type');
-                    const categoryFilter = filters.find((filter) => filter.field === 'category');
-
-                    return (
-                      <List className={classes.categoryList}>
-                        {Object.keys(categorySections).map((sectionKey) => {
-                          const {
-                            Icon, text, hidden,
-                          } = categorySections[sectionKey];
-                          if (hidden) return null;
-
-                          const selected = sectionKey !== 'spaces'
-                            ? categoryFilter && categoryFilter.values[0] === text
-                            : typeFilter && typeFilter.values[0] === 'Multisite';
-
-                          return (
-                            <React.Fragment key={sectionKey}>
-                              <ListItem
-                                button
-                                onClick={() => {
-                                  clearFilters('category'); // clear all filters except category filter
-                                  setFilter('category', text, 'all');
-                                  onChangeRoute(ROUTE_HOME);
-                                }}
-                                selected={selected}
-                              >
-                                <ListItemIcon>
-                                  <Icon fontSize="default" />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary={text}
-                                />
-                              </ListItem>
-                            </React.Fragment>
-                          );
-                        })}
-                      </List>
-                    );
-                  }}
-                </WithSearch>
-              </div>
-            </div>
-          )}
+          {route === ROUTE_CATEGORIES && <Categories />}
           {route === ROUTE_INSTALLED && <Installed />}
           {route === ROUTE_PREFERENCES && <Preferences />}
           {route === ROUTE_HOME && (
@@ -460,20 +278,15 @@ const Home = ({
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   route: PropTypes.string.isRequired,
-  onChangeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   route: state.router.route,
 });
 
-const actionCreators = {
-  changeRoute,
-};
-
 export default connectComponent(
   Home,
   mapStateToProps,
-  actionCreators,
+  null,
   styles,
 );
