@@ -39,13 +39,12 @@ import ListItemAccount from './list-item-account';
 
 const styles = (theme) => ({
   sidebar: {
-    width: 320,
+    width: 220,
     backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
     color: theme.palette.common.white,
     height: '100%',
     overflow: 'auto',
     paddingTop: 0,
-    boxShadow: theme.shadows[5],
   },
   sidebarInner: {
     display: 'flex',
