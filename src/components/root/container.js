@@ -69,6 +69,7 @@ const styles = (theme) => ({
   container: {
     height: '100%',
     overflow: 'hidden',
+    flex: 1,
   },
 });
 

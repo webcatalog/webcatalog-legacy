@@ -28,6 +28,17 @@ const styles = (theme) => ({
   listItemIcon: {
     color: theme.palette.common.white,
   },
+  profilePrimaryText: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+  profileSecondaryText: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
 });
 
 const SectionAccount = ({
@@ -89,6 +100,10 @@ const SectionAccount = ({
           <ListItemText
             primary={displayName}
             secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
+            classes={{
+              primary: classes.profilePrimaryText,
+              secondary: classes.profileSecondaryText,
+            }}
           />
         </ListItem>
       </>
