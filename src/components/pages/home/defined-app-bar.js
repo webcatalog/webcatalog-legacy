@@ -4,38 +4,27 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import {
   WithSearch,
 } from '@elastic/react-search-ui';
 
-import AddIcon from '@material-ui/icons/Add';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
 import { changeRoute } from '../../../state/router/actions';
 
 import SearchBox from './search-box';
 
 import EnhancedAppBar from '../../shared/enhanced-app-bar';
+import CreateButton from '../../shared/create-button';
 
-import { requestOpenInBrowser } from '../../../senders';
 import { ROUTE_CATEGORIES } from '../../../constants/routes';
 
 const styles = (theme) => ({
-  addButton: {
-    marginLeft: theme.spacing(1),
-  },
-  helpButton: {
-    marginLeft: theme.spacing(1),
-  },
   backButton: {
     marginLeft: theme.spacing(1),
   },
@@ -51,7 +40,6 @@ const styles = (theme) => ({
 
 const DefinedAppBar = ({
   classes,
-  onOpenDialogCreateCustomApp,
   onChangeRoute,
 }) => (
   <WithSearch
@@ -89,41 +77,7 @@ const DefinedAppBar = ({
           center={(
             <div className={classes.centerContainer}>
               <SearchBox />
-              <Tooltip title="Create...">
-                <IconButton
-                  size="small"
-                  color="inherit"
-                  aria-label="Create..."
-                  className={classnames(classes.noDrag, classes.addButton)}
-                  onClick={() => {
-                    const template = [
-                      {
-                        label: 'Create Custom App...',
-                        click: () => {
-                          onOpenDialogCreateCustomApp();
-                        },
-                      },
-                      {
-                        label: 'Create Custom Space...',
-                        click: () => {
-                          onOpenDialogCreateCustomApp({ urlDisabled: true });
-                        },
-                      },
-                      {
-                        label: 'Submit New App to the Catalog...',
-                        click: () => {
-                          requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9');
-                        },
-                      },
-                    ];
-
-                    const menu = window.remote.Menu.buildFromTemplate(template);
-                    menu.popup(window.remote.getCurrentWindow());
-                  }}
-                >
-                  <AddIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              <CreateButton />
             </div>
           )}
         />
@@ -135,12 +89,10 @@ const DefinedAppBar = ({
 DefinedAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
   changeRoute,
-  openDialogCreateCustomApp,
 };
 
 export default connectComponent(

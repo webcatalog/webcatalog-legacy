@@ -94,7 +94,7 @@ const createAsync = () => new Promise((resolve) => {
         const updaterEnabled = process.env.SNAP == null
           && !process.mas && !process.windowsStore;
         const updaterMenuItem = {
-          label: 'Check for Updates...',
+          label: 'Check for Updates',
           click: () => ipcMain.emit('request-check-for-updates'),
           visible: updaterEnabled,
         };

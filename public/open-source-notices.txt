@@ -1467,6 +1467,30 @@ SOFTWARE.
 
 -----
 
+The following software may be included in this product: @malept/flatpak-bundler. A copy of the source code may be downloaded from git+https://github.com/malept/flatpak-bundler.git. This software contains the following license and notice below:
+
+Copyright (c) 2016 Endless Mobile, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: @material-ui/core, @material-ui/icons, @material-ui/lab, @material-ui/styles, @material-ui/system, @material-ui/utils. A copy of the source code may be downloaded from https://github.com/mui-org/material-ui.git (@material-ui/core), https://github.com/mui-org/material-ui.git (@material-ui/icons), https://github.com/mui-org/material-ui.git (@material-ui/lab), https://github.com/mui-org/material-ui.git (@material-ui/styles), https://github.com/mui-org/material-ui.git (@material-ui/system), https://github.com/mui-org/material-ui.git (@material-ui/utils). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -2990,6 +3014,32 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+-----
+
+The following software may be included in this product: app-builder-lib, builder-util, builder-util-runtime, dmg-builder, electron-builder, electron-publish, electron-updater. A copy of the source code may be downloaded from https://github.com/electron-userland/electron-builder.git (app-builder-lib), https://github.com/electron-userland/electron-builder.git (builder-util), https://github.com/electron-userland/electron-builder.git (builder-util-runtime), https://github.com/electron-userland/electron-builder.git (dmg-builder), https://github.com/electron-userland/electron-builder.git (electron-builder), https://github.com/electron-userland/electron-builder.git (electron-publish), https://github.com/electron-userland/electron-builder.git (electron-updater). This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Loopline Systems
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -5415,34 +5465,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: binaryextensions, textextensions. A copy of the source code may be downloaded from https://github.com/bevry/binaryextensions.git (binaryextensions), https://github.com/bevry/textextensions.git (textextensions). This software contains the following license and notice below:
-
-<!-- LICENSEFILE/ -->
-
-<h1>License</h1>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; 2013+ <a href="http://bevry.me">Bevry Pty Ltd</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<h2>MIT License</h2>
-
-<pre>
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
-
-<!-- /LICENSEFILE -->
-
------
-
 The following software may be included in this product: bindings. A copy of the source code may be downloaded from git://github.com/TooTallNate/node-bindings.git. This software contains the following license and notice below:
 
 (The MIT License)
@@ -6945,6 +6967,32 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: ci-info, is-ci. A copy of the source code may be downloaded from https://github.com/watson/ci-info.git (ci-info), https://github.com/watson/is-ci.git (is-ci). This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2016-2021 Thomas Watson Steen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -9825,34 +9873,6 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: editions. A copy of the source code may be downloaded from https://github.com/bevry/editions.git. This software contains the following license and notice below:
-
-<!-- LICENSEFILE/ -->
-
-<h1>License</h1>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; 2016+ <a href="http://bevry.me">Bevry Pty Ltd</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<h2>MIT License</h2>
-
-<pre>
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
-
-<!-- /LICENSEFILE -->
-
------
-
 The following software may be included in this product: electron. A copy of the source code may be downloaded from https://github.com/electron/electron. This software contains the following license and notice below:
 
 Copyright (c) 2013-2020 GitHub Inc.
@@ -10204,34 +10224,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
------
-
-The following software may be included in this product: errlop. A copy of the source code may be downloaded from https://github.com/bevry/errlop.git. This software contains the following license and notice below:
-
-<!-- LICENSEFILE/ -->
-
-<h1>License</h1>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; 2018+ <a href="https://balupton.com">Benjamin Lupton</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<h2>MIT License</h2>
-
-<pre>
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
-
-<!-- /LICENSEFILE -->
 
 -----
 
@@ -13975,6 +13967,33 @@ SOFTWARE.
 
 The following software may be included in this product: isbinaryfile. A copy of the source code may be downloaded from https://github.com/gjtorikian/isBinaryFile. This software contains the following license and notice below:
 
+Copyright (c) 2019 Garen J. Torikian
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: isbinaryfile. A copy of the source code may be downloaded from https://github.com/gjtorikian/isBinaryFile. This software contains the following license and notice below:
+
 Copyright (c) 2017 Garen J. Torikian
 
 MIT License
@@ -14071,35 +14090,6 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
------
-
-The following software may be included in this product: istextorbinary. A copy of the source code may be downloaded from https://github.com/bevry/istextorbinary.git. This software contains the following license and notice below:
-
-<!-- LICENSEFILE/ -->
-
-<h1>License</h1>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; 2012+ <a href="http://bevry.me">Bevry Pty Ltd</a></li>
-<li>Copyright &copy; 2011 <a href="https://balupton.com">Benjamin Lupton</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<h2>MIT License</h2>
-
-<pre>
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
-
-<!-- /LICENSEFILE -->
 
 -----
 
@@ -15285,7 +15275,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: lodash.camelcase, lodash.debounce, lodash.get, lodash.has, lodash.memoize, lodash.set, lodash.sortby, lodash.uniq, lodash.unset. A copy of the source code may be downloaded from https://github.com/lodash/lodash.git (lodash.camelcase), https://github.com/lodash/lodash.git (lodash.debounce), https://github.com/lodash/lodash.git (lodash.get), https://github.com/lodash/lodash.git (lodash.has), https://github.com/lodash/lodash.git (lodash.memoize), https://github.com/lodash/lodash.git (lodash.set), https://github.com/lodash/lodash.git (lodash.sortby), https://github.com/lodash/lodash.git (lodash.uniq), https://github.com/lodash/lodash.git (lodash.unset). This software contains the following license and notice below:
+The following software may be included in this product: lodash.camelcase, lodash.debounce, lodash.escaperegexp, lodash.get, lodash.has, lodash.memoize, lodash.set, lodash.sortby, lodash.uniq, lodash.unset. A copy of the source code may be downloaded from https://github.com/lodash/lodash.git (lodash.camelcase), https://github.com/lodash/lodash.git (lodash.debounce), https://github.com/lodash/lodash.git (lodash.escaperegexp), https://github.com/lodash/lodash.git (lodash.get), https://github.com/lodash/lodash.git (lodash.has), https://github.com/lodash/lodash.git (lodash.memoize), https://github.com/lodash/lodash.git (lodash.set), https://github.com/lodash/lodash.git (lodash.sortby), https://github.com/lodash/lodash.git (lodash.uniq), https://github.com/lodash/lodash.git (lodash.unset). This software contains the following license and notice below:
 
 Copyright jQuery Foundation and other contributors <https://jquery.org/>
 
@@ -18867,6 +18857,32 @@ The following software may be included in this product: react-window-infinite-lo
 The MIT License (MIT)
 
 Copyright (c) 2019 Brian Vaughn
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
+The following software may be included in this product: read-config-file. A copy of the source code may be downloaded from https://github.com/develar/read-config-file.git. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2020 Vladimir Krivosheev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22492,34 +22508,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
-
------
-
-The following software may be included in this product: version-compare, version-range. A copy of the source code may be downloaded from https://github.com/bevry/version-compare.git (version-compare), https://github.com/bevry/version-range.git (version-range). This software contains the following license and notice below:
-
-<!-- LICENSEFILE/ -->
-
-<h1>License</h1>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; 2020+ <a href="https://balupton.com">Benjamin Lupton</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<h2>MIT License</h2>
-
-<pre>
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
-
-<!-- /LICENSEFILE -->
 
 -----
 

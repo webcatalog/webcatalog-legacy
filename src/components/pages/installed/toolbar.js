@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import SortIcon from '@material-ui/icons/Sort';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -113,28 +113,17 @@ const Toolbar = ({
           <SortIcon fontSize="small" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="More">
+      <Tooltip title="Refresh">
         <IconButton
           size="small"
-          aria-label="More"
+          aria-label="Refresh"
           onClick={() => {
-            const template = [
-              {
-                label: fetchingLatestTemplateVersion ? 'Checking for Updates...' : 'Check for Updates',
-                enabled: !fetchingLatestTemplateVersion,
-                click: onFetchLatestTemplateVersionAsync,
-              },
-              {
-                label: 'Rescan for Installed Apps',
-                click: requestGetInstalledApps,
-              },
-            ];
-
-            const menu = window.remote.Menu.buildFromTemplate(template);
-            menu.popup(window.remote.getCurrentWindow());
+            onFetchLatestTemplateVersionAsync();
+            requestGetInstalledApps();
           }}
+          disabled={fetchingLatestTemplateVersion}
         >
-          <MoreVertIcon fontSize="small" />
+          <RefreshIcon fontSize="small" />
         </IconButton>
       </Tooltip>
     </div>
