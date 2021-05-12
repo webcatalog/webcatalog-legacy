@@ -45,6 +45,9 @@ const styles = (theme) => ({
     height: '100%',
     overflow: 'auto',
     paddingTop: 0,
+    [theme.breakpoints.down('sm')]: {
+      width: 80,
+    },
   },
   sidebarInner: {
     display: 'flex',
@@ -65,6 +68,15 @@ const styles = (theme) => ({
   },
   listItemIcon: {
     color: theme.palette.common.white,
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      minWidth: 0,
+    },
+  },
+  listItemText: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
 });
 
@@ -175,6 +187,7 @@ const Home = ({
                           onChangeRoute(ROUTE_HOME);
                         }
                       }}
+                      title={text}
                       selected={selected}
                       classes={{
                         selected: classes.listItemSelected,
@@ -191,6 +204,7 @@ const Home = ({
                       </ListItemIcon>
                       <ListItemText
                         primary={text}
+                        className={classes.listItemText}
                       />
                     </ListItem>
                   );

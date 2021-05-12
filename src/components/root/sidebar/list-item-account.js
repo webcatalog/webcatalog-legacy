@@ -27,6 +27,15 @@ import firebase from '../../../firebase';
 const styles = (theme) => ({
   listItemIcon: {
     color: theme.palette.common.white,
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      minWidth: 0,
+    },
+  },
+  listItemText: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   profilePrimaryText: {
     whiteSpace: 'nowrap',
@@ -93,14 +102,16 @@ const SectionAccount = ({
             const menu = window.remote.Menu.buildFromTemplate(template);
             menu.popup(window.remote.getCurrentWindow());
           }}
+          title={`${displayName} (${registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'})`}
         >
-          <ListItemAvatar>
+          <ListItemAvatar className={classes.listItemIcon}>
             <Avatar alt={displayName} src={photoURL} />
           </ListItemAvatar>
           <ListItemText
             primary={displayName}
             secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
             classes={{
+              root: classes.listItemText,
               primary: classes.profilePrimaryText,
               secondary: classes.profileSecondaryText,
             }}

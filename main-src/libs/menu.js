@@ -21,11 +21,11 @@ const createMenu = () => {
   const registered = getPreference('registered');
 
   const updaterMenuItem = {
-    label: 'Check for Updates...',
+    label: 'Check for Updates',
     click: () => ipcMain.emit('request-check-for-updates'),
   };
   if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
-    updaterMenuItem.label = 'Restart to Apply Updates...';
+    updaterMenuItem.label = 'Restart to Apply Updates';
   } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
     updaterMenuItem.label = 'Downloading Updates...';
     updaterMenuItem.enabled = false;
@@ -190,19 +190,15 @@ const createMenu = () => {
           click: () => shell.openExternal('https://help.webcatalog.app?utm_source=webcatalog_app'),
         },
         {
-          label: 'Report a Bug via GitHub...',
-          click: () => shell.openExternal('https://github.com/webcatalog/webcatalog-app/issues'),
-        },
-        {
-          label: 'Request a New Feature via GitHub...',
+          label: 'Request New Features',
           click: () => shell.openExternal('https://github.com/webcatalog/webcatalog-app/issues/new?template=feature.md&title=feature%3A+'),
         },
         {
-          label: 'Submit New App to Catalog...',
+          label: 'Submit New App to Catalog',
           click: () => shell.openExternal('https://forms.gle/redZCVMwkuhvuDtb9'),
         },
         {
-          label: 'Learn More...',
+          label: 'Learn More',
           click: () => shell.openExternal('https://webcatalog.app?utm_source=webcatalog_app'),
         },
         { type: 'separator' },
