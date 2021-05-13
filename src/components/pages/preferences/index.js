@@ -187,6 +187,7 @@ const Preferences = ({
   sentry,
   telemetry,
   themeSource,
+  trayIcon,
   updaterInfo,
   updaterStatus,
   useHardwareAcceleration,
@@ -275,6 +276,26 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
+              <ListItem>
+                <ListItemText
+                  primary={(() => {
+                    if (window.process.platform === 'darwin') { return 'Show menu bar icon'; }
+                    return 'Show tray (notification area) icon';
+                  })()}
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={trayIcon || attachToMenubar}
+                    disabled={attachToMenubar}
+                    onChange={(e) => {
+                      requestSetPreference('trayIcon', e.target.checked);
+                      enqueueRequestRestartSnackbar();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
               <ListItem>
                 <ListItemText
                   primary={window.process.platform === 'darwin' ? 'Attach window to menu bar' : 'Pin window to system tray (notification area)'}
@@ -762,6 +783,7 @@ Preferences.propTypes = {
   sentry: PropTypes.bool.isRequired,
   telemetry: PropTypes.bool.isRequired,
   themeSource: PropTypes.string.isRequired,
+  trayIcon: PropTypes.bool.isRequired,
   updaterInfo: PropTypes.object,
   updaterStatus: PropTypes.string,
   useHardwareAcceleration: PropTypes.bool.isRequired,
@@ -784,10 +806,11 @@ const mapStateToProps = (state) => ({
   sentry: state.preferences.sentry,
   telemetry: state.preferences.telemetry,
   themeSource: state.preferences.themeSource,
+  trayIcon: state.preferences.trayIcon,
   updaterInfo: state.updater.info,
   updaterStatus: state.updater.status,
-  useSystemTitleBar: state.preferences.useSystemTitleBar,
   useHardwareAcceleration: state.preferences.useHardwareAcceleration,
+  useSystemTitleBar: state.preferences.useSystemTitleBar,
 });
 
 const actionCreators = {

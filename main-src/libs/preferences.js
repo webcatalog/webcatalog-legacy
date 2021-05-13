@@ -43,6 +43,7 @@ const defaultPreferences = {
   sortInstalledAppBy: 'last-updated',
   telemetry: false,
   themeSource: 'system',
+  trayIcon: false,
   useHardwareAcceleration: true,
   // use system title bar by default on Windows 8 & Windows 7
   // because on Windows 10, it's normally for apps not to have border
