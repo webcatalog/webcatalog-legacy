@@ -175,7 +175,7 @@ const DialogCatalogAppDetails = ({
                     )}
 
                     <Typography variant="body2" className={classes.appDescSection} component="div">
-                      <ReactMarkdown>
+                      <ReactMarkdown linkTarget="_blank">
                         {details.description}
                       </ReactMarkdown>
                     </Typography>
