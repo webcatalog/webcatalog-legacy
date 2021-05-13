@@ -4,11 +4,13 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
@@ -57,70 +59,90 @@ const SectionAccount = ({
   photoURL,
   registered,
   onOpenDialogLicenseRegistration,
-}) => (
-  <>
-    {!isSignedIn ? (
-      <>
-        <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
-          <ListItemIcon classes={{ root: classes.listItemIcon }}>
-            <AccountCircleIcon fontSize="default" />
-          </ListItemIcon>
-          <ListItemText
-            primary="Sign In"
-          />
-        </ListItem>
-      </>
-    ) : (
-      <>
-        <ListItem
-          button
-          alignItems="flex-start"
-          onClick={() => {
-            const template = [
-              {
-                label: 'Upgrade to WebCatalog Lifetime',
-                click: () => onOpenDialogLicenseRegistration(),
-                visible: !registered,
-              },
-              {
-                type: 'separator',
-                visible: !registered,
-              },
-              {
-                label: 'Profile and Password',
-                click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile'),
-              },
-              {
-                type: 'separator',
-              },
-              {
-                label: 'Log Out',
-                click: () => firebase.auth().signOut(),
-              },
-            ];
+}) => {
+  const showTooltip = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-            const menu = window.remote.Menu.buildFromTemplate(template);
-            menu.popup(window.remote.getCurrentWindow());
-          }}
-          title={`${displayName} (${registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'})`}
-        >
-          <ListItemAvatar className={classes.listItemIcon}>
-            <Avatar alt={displayName} src={photoURL} />
-          </ListItemAvatar>
-          <ListItemText
-            primary={displayName}
-            secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
-            classes={{
-              root: classes.listItemText,
-              primary: classes.profilePrimaryText,
-              secondary: classes.profileSecondaryText,
-            }}
-          />
-        </ListItem>
-      </>
-    )}
-  </>
-);
+  if (!isSignedIn) {
+    const loginListItem = (
+      <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+        <ListItemIcon classes={{ root: classes.listItemIcon }}>
+          <AccountCircleIcon fontSize="default" />
+        </ListItemIcon>
+        <ListItemText
+          className={classes.listItemText}
+          primary="Sign In"
+        />
+      </ListItem>
+    );
+
+    if (showTooltip) {
+      return (
+        <Tooltip title="Sign In" placement="right" arrow>
+          {loginListItem}
+        </Tooltip>
+      );
+    }
+
+    return loginListItem;
+  }
+
+  const accountListItem = (
+    <ListItem
+      button
+      alignItems="flex-start"
+      onClick={() => {
+        const template = [
+          {
+            label: 'Upgrade to WebCatalog Lifetime',
+            click: () => onOpenDialogLicenseRegistration(),
+            visible: !registered,
+          },
+          {
+            type: 'separator',
+            visible: !registered,
+          },
+          {
+            label: 'Profile and Password',
+            click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile'),
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Log Out',
+            click: () => firebase.auth().signOut(),
+          },
+        ];
+
+        const menu = window.remote.Menu.buildFromTemplate(template);
+        menu.popup(window.remote.getCurrentWindow());
+      }}
+      title={`${displayName} (${registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'})`}
+    >
+      <ListItemAvatar className={classes.listItemIcon}>
+        <Avatar alt={displayName} src={photoURL} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={displayName}
+        secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
+        classes={{
+          root: classes.listItemText,
+          primary: classes.profilePrimaryText,
+          secondary: classes.profileSecondaryText,
+        }}
+      />
+    </ListItem>
+  );
+
+  if (showTooltip) {
+    return (
+      <Tooltip title={displayName} placement="right" arrow>
+        {accountListItem}
+      </Tooltip>
+    );
+  }
+  return accountListItem;
+};
 
 SectionAccount.defaultProps = {
   displayName: '',

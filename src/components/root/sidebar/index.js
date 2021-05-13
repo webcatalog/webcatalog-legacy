@@ -4,6 +4,7 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {
   WithSearch,
@@ -16,6 +17,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import StarsIcon from '@material-ui/icons/Stars';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
@@ -86,6 +88,8 @@ const Home = ({
   route,
   onChangeRoute,
 }) => {
+  const showTooltip = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
   const mainSections = {
     all: {
       text: 'Discover',
@@ -167,7 +171,7 @@ const Home = ({
                     return false;
                   })();
 
-                  return (
+                  const listItem = (
                     <ListItem
                       button
                       key={sectionKey}
@@ -208,6 +212,16 @@ const Home = ({
                       />
                     </ListItem>
                   );
+
+                  if (showTooltip) {
+                    return (
+                      <Tooltip key={text} title={text} placement="right" arrow>
+                        {listItem}
+                      </Tooltip>
+                    );
+                  }
+
+                  return listItem;
                 })}
               </List>
             );
