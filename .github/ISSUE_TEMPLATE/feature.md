@@ -6,7 +6,8 @@ title: 'feature: '
 
 # Feature Request
 **Specifications:**
-- App Version:
+- WebCatalog Version:
+- Neutron Version:
 - OS (macOS, Windows, Linux):
 
 **Description:**

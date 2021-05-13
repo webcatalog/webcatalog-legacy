@@ -6,7 +6,8 @@ title: 'bug: '
 
 # Bug Report
 **Specifications:**
-- App Version:
+- WebCatalog Version:
+- Neutron Version:
 - OS (macOS, Windows, Linux):
 
 **Description:**
