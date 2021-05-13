@@ -21,6 +21,7 @@ const { REACT_PATH } = require('../constants/paths');
 const formatBytes = require('../format-bytes');
 
 let win;
+let tray;
 let mb = {};
 let attachToMenubar = false;
 
@@ -30,6 +31,85 @@ const get = () => {
 };
 
 const createAsync = () => new Promise((resolve) => {
+  const handleTrayRightClick = () => {
+    const registered = getPreference('registered');
+    const updaterEnabled = process.env.SNAP == null
+      && !process.mas && !process.windowsStore;
+    const updaterMenuItem = {
+      label: 'Check for Updates',
+      click: () => ipcMain.emit('request-check-for-updates'),
+      visible: updaterEnabled,
+    };
+    if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
+      updaterMenuItem.label = 'Restart to Apply Updates...';
+    } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
+      updaterMenuItem.label = 'Downloading Updates...';
+      updaterMenuItem.enabled = false;
+    } else if (global.updaterObj && global.updaterObj.status === 'download-progress') {
+      const { transferred, total, bytesPerSecond } = global.updaterObj.info;
+      updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
+      updaterMenuItem.enabled = false;
+    } else if (global.updaterObj && global.updaterObj.status === 'checking-for-update') {
+      updaterMenuItem.label = 'Checking for Updates...';
+      updaterMenuItem.enabled = false;
+    }
+
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Open WebCatalog',
+        click: () => mb.showWindow(),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'About WebCatalog',
+        click: () => {
+          sendToAllWindows('open-dialog-about');
+          mb.showWindow();
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic',
+        visible: true,
+        enabled: false,
+        click: null,
+      },
+      {
+        label: 'Upgrade...',
+        visible: !registered,
+        click: registered ? null : () => {
+          sendToAllWindows('open-license-registration-dialog');
+          mb.showWindow();
+        },
+      },
+      {
+        type: 'separator',
+        visible: updaterEnabled,
+      },
+      updaterMenuItem,
+      { type: 'separator' },
+      {
+        label: 'Preferences...',
+        click: () => {
+          sendToAllWindows('go-to-preferences');
+          mb.showWindow();
+        },
+      },
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        click: () => {
+          mb.app.quit();
+        },
+      },
+    ]);
+    mb.tray.popUpContextMenu(contextMenu);
+  };
+
   // only supported on macOS
   attachToMenubar = process.platform !== 'linux' && getPreference('attachToMenubar');
 
@@ -44,7 +124,7 @@ const createAsync = () => new Promise((resolve) => {
     // "Segmentation fault (core dumped)" bug on Linux
     // https://github.com/electron/electron/issues/22137#issuecomment-586105622
     // https://github.com/atomery/translatium/issues/164
-    const tray = new Tray(nativeImage.createEmpty());
+    tray = new Tray(nativeImage.createEmpty());
     // icon template is not supported on Windows & Linux
     const iconFileName = process.platform === 'darwin' ? 'menubarTemplate.png' : 'menubar.png';
     let iconPath;
@@ -90,84 +170,7 @@ const createAsync = () => new Promise((resolve) => {
     });
 
     mb.on('ready', () => {
-      mb.tray.on('right-click', () => {
-        const registered = getPreference('registered');
-        const updaterEnabled = process.env.SNAP == null
-          && !process.mas && !process.windowsStore;
-        const updaterMenuItem = {
-          label: 'Check for Updates',
-          click: () => ipcMain.emit('request-check-for-updates'),
-          visible: updaterEnabled,
-        };
-        if (global.updaterObj && global.updaterObj.status === 'update-downloaded') {
-          updaterMenuItem.label = 'Restart to Apply Updates...';
-        } else if (global.updaterObj && global.updaterObj.status === 'update-available') {
-          updaterMenuItem.label = 'Downloading Updates...';
-          updaterMenuItem.enabled = false;
-        } else if (global.updaterObj && global.updaterObj.status === 'download-progress') {
-          const { transferred, total, bytesPerSecond } = global.updaterObj.info;
-          updaterMenuItem.label = `Downloading Updates (${formatBytes(transferred)}/${formatBytes(total)} at ${formatBytes(bytesPerSecond)}/s)...`;
-          updaterMenuItem.enabled = false;
-        } else if (global.updaterObj && global.updaterObj.status === 'checking-for-update') {
-          updaterMenuItem.label = 'Checking for Updates...';
-          updaterMenuItem.enabled = false;
-        }
-
-        const contextMenu = Menu.buildFromTemplate([
-          {
-            label: 'Open WebCatalog',
-            click: () => mb.showWindow(),
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: 'About WebCatalog',
-            click: () => {
-              sendToAllWindows('open-dialog-about');
-              mb.showWindow();
-            },
-          },
-          {
-            type: 'separator',
-          },
-          {
-            label: registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic',
-            visible: true,
-            enabled: false,
-            click: null,
-          },
-          {
-            label: 'Upgrade...',
-            visible: !registered,
-            click: registered ? null : () => {
-              sendToAllWindows('open-license-registration-dialog');
-              mb.showWindow();
-            },
-          },
-          {
-            type: 'separator',
-            visible: updaterEnabled,
-          },
-          updaterMenuItem,
-          { type: 'separator' },
-          {
-            label: 'Preferences...',
-            click: () => {
-              sendToAllWindows('go-to-preferences');
-              mb.showWindow();
-            },
-          },
-          { type: 'separator' },
-          {
-            label: 'Quit',
-            click: () => {
-              mb.app.quit();
-            },
-          },
-        ]);
-        mb.tray.popUpContextMenu(contextMenu);
-      });
+      mb.tray.on('right-click', handleTrayRightClick);
 
       resolve();
     });
@@ -257,6 +260,28 @@ const createAsync = () => new Promise((resolve) => {
   });
 
   win.loadURL(REACT_PATH);
+
+  const shouldShowTray = getPreference('trayIcon');
+  if (shouldShowTray && tray == null) {
+    tray = new Tray(nativeImage.createEmpty());
+    const iconFileName = process.platform === 'darwin' ? 'menubarTemplate.png' : 'menubar.png';
+    let iconPath;
+    if (process.env.NODE_ENV === 'production') {
+      iconPath = path.resolve(__dirname, 'images', iconFileName);
+    } else {
+      iconPath = path.resolve(__dirname, '..', '..', 'images', iconFileName);
+    }
+    tray.setImage(iconPath);
+    tray.on('click', () => {
+      if (win == null) {
+        createAsync();
+      } else {
+        win.show();
+      }
+    });
+    tray.setToolTip(app.name);
+    tray.on('right-click', handleTrayRightClick);
+  }
 });
 
 const show = () => {
