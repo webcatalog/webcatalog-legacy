@@ -8,6 +8,7 @@ const {
   app,
   ipcMain,
   nativeImage,
+  shell,
 } = require('electron');
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
@@ -174,7 +175,7 @@ const createAsync = () => new Promise((resolve) => {
   }
 
   const mainWindowState = windowStateKeeper({
-    defaultWidth: 800,
+    defaultWidth: 1024,
     defaultHeight: 768,
   });
 
@@ -224,6 +225,11 @@ const createAsync = () => new Promise((resolve) => {
     if (!wasOpenedAsHidden) {
       win.show();
     }
+  });
+
+  win.webContents.on('new-window', (e, nextUrl) => {
+    e.preventDefault();
+    shell.openExternal(nextUrl);
   });
 
   win.on('closed', () => {
