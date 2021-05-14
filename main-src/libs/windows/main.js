@@ -57,7 +57,7 @@ const createAsync = () => new Promise((resolve) => {
     const contextMenu = Menu.buildFromTemplate([
       {
         label: 'Open WebCatalog',
-        click: () => mb.showWindow(),
+        click: () => get().show(),
       },
       {
         type: 'separator',
@@ -66,7 +66,7 @@ const createAsync = () => new Promise((resolve) => {
         label: 'About WebCatalog',
         click: () => {
           sendToAllWindows('open-dialog-about');
-          mb.showWindow();
+          get().show();
         },
       },
       {
@@ -83,7 +83,7 @@ const createAsync = () => new Promise((resolve) => {
         visible: !registered,
         click: registered ? null : () => {
           sendToAllWindows('open-license-registration-dialog');
-          mb.showWindow();
+          get().show();
         },
       },
       {
@@ -96,18 +96,22 @@ const createAsync = () => new Promise((resolve) => {
         label: 'Preferences...',
         click: () => {
           sendToAllWindows('go-to-preferences');
-          mb.showWindow();
+          get().show();
         },
       },
       { type: 'separator' },
       {
         label: 'Quit',
         click: () => {
-          mb.app.quit();
+          if (attachToMenubar) {
+            mb.app.quit();
+          } else {
+            app.quit();
+          }
         },
       },
     ]);
-    mb.tray.popUpContextMenu(contextMenu);
+    (attachToMenubar ? mb.tray : tray).popUpContextMenu(contextMenu);
   };
 
   // only supported on macOS
