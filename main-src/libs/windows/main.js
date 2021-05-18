@@ -13,6 +13,7 @@ const {
 const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 const { menubar } = require('menubar');
+const contextMenu = require('electron-context-menu');
 
 const sendToAllWindows = require('../send-to-all-windows');
 const { getPreference } = require('../preferences');
@@ -54,7 +55,7 @@ const createAsync = () => new Promise((resolve) => {
       updaterMenuItem.enabled = false;
     }
 
-    const contextMenu = Menu.buildFromTemplate([
+    const trayContextMenu = Menu.buildFromTemplate([
       {
         label: 'Open WebCatalog',
         click: () => get().show(),
@@ -111,7 +112,7 @@ const createAsync = () => new Promise((resolve) => {
         },
       },
     ]);
-    (attachToMenubar ? mb.tray : tray).popUpContextMenu(contextMenu);
+    (attachToMenubar ? mb.tray : tray).popUpContextMenu(trayContextMenu);
   };
 
   // only supported on macOS
@@ -164,6 +165,8 @@ const createAsync = () => new Promise((resolve) => {
 
     mb.on('after-create-window', () => {
       menubarWindowState.manage(mb.window);
+
+      contextMenu({ window: mb.window });
 
       mb.window.on('focus', () => {
         const view = mb.window.getBrowserView();
@@ -224,6 +227,7 @@ const createAsync = () => new Promise((resolve) => {
   win = new BrowserWindow(winOpts);
 
   mainWindowState.manage(win);
+  contextMenu({ window: win });
 
   // check system-preferences.js
   // wasOpenedAsHidden is only available on macOS
