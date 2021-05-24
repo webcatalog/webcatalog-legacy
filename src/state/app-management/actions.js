@@ -10,10 +10,12 @@ import {
   SORT_APPS,
 } from '../../constants/actions';
 import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
+import { ROUTE_INSTALLED } from '../../constants/routes';
 
 import swiftype from '../../swiftype';
 
 import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
+import { changeRoute } from '../router/actions';
 
 import {
   isNameExisted,
@@ -82,6 +84,12 @@ export const installApp = (id, name, url, icon, opts) => (dispatch, getState) =>
   }
 
   requestInstallApp(id, sanitizedName, url, icon, opts);
+
+  // if user is trying to install a custom app/space, move to "Updates"/installed tab automatically
+  if (id.startsWith('custom-')) {
+    dispatch(changeRoute(ROUTE_INSTALLED));
+  }
+
   return null;
 };
 

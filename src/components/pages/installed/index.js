@@ -21,6 +21,7 @@ import EmptyState from '../../shared/empty-state';
 
 import DefinedAppBar from './defined-app-bar';
 import Toolbar from './toolbar';
+import CreateCustomAppCard from '../../shared/create-custom-app-card';
 
 import { updateScrollOffset } from '../../../state/installed/actions';
 
@@ -97,6 +98,7 @@ const Installed = ({
     }
 
     if (appIds.length > 0) {
+      const totalItems = appIds.length + 1; // 2 more for custom app card
       const rowHeight = 158 + 16;
       const sidebarWidth = innerWidth < 960 ? 80 : 220;
       const innerWidthMinurScrollbar = window.process.platform === 'darwin'
@@ -109,9 +111,17 @@ const Installed = ({
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
-        if (index >= appIds.length) return <div style={style} />;
+        if (index === 0) {
+          return (
+            <div className={classes.cardContainer} style={style}>
+              <CreateCustomAppCard />
+            </div>
+          );
+        }
 
-        const appId = appIds[index];
+        if (index >= totalItems) return <div style={style} />;
+
+        const appId = appIds[index - 1];
         return (
           <div className={classes.cardContainer} style={style}>
             <AppCard
