@@ -275,14 +275,19 @@ Promise.resolve()
       darwinDarkModeSupport: true,
       tmpdir: false,
       prebuiltAsar: path.join(templatePath, 'app.asar'),
-      electronVersion: `${electronVersion}-wvvmp`,
-      download: {
+      electronVersion,
+    };
+
+    // support widevine cdm on mac or linux x64
+    if (process.platform === 'darwin' || (process.platform === 'linux' && process.arch === 'x64')) {
+      packagerOpts.electronVersion = `${electronVersion}-wvvmp`;
+      packagerOpts.download = {
         cacheRoot: electronCachePath,
         mirrorOptions: {
           mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
         },
-      },
-    };
+      };
+    }
 
     packagerOpts.protocols = [
       {
@@ -318,8 +323,6 @@ Promise.resolve()
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
   })
   .then(() => {
-    if (process.platform === 'linux') return null;
-    if (process.platform === 'win32' && process.arch === 'arm64') return null;
     // copy castlab evs signature
     if (process.platform === 'darwin') {
       return fsExtra.copy(
