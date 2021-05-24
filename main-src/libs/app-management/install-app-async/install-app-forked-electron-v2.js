@@ -325,10 +325,11 @@ Promise.resolve()
   .then(() => {
     // copy castlab evs signature
     if (process.platform === 'darwin') {
-      return fsExtra.copy(
-        path.join(templatePath, 'evs', 'Electron Framework.sig'),
-        path.join(dotTemplatePath, 'Contents', 'Frameworks', 'Electron Framework.framework', 'Versions', 'A', 'Resources', 'Electron Framework.sig'),
-      );
+      const originPath = path.join(templatePath, 'evs', 'Electron Framework.sig');
+      const destPath = path.join(dotTemplatePath, 'Contents', 'Frameworks', 'Electron Framework.framework', 'Versions', 'A', 'Resources', 'Electron Framework.sig');
+      if (fsExtra.existsSync(originPath)) {
+        return fsExtra.copy(originPath, destPath);
+      }
     }
     return null;
   })
