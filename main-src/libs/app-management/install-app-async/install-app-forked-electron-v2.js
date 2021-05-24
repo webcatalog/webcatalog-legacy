@@ -260,6 +260,7 @@ Promise.resolve()
       'us-news-and-world-report': 's-cpv544nw5q',
     };
     const appBundleId = `com.webcatalog.juli.${shortIdMap[id] ? shortIdMap[id] : id}`;
+    const electronVersion = fsExtra.readJSONSync(path.join(templatePath, 'package.json')).devDependencies.electron;
 
     const packagerOpts = {
       name,
@@ -274,10 +275,19 @@ Promise.resolve()
       darwinDarkModeSupport: true,
       tmpdir: false,
       prebuiltAsar: path.join(templatePath, 'app.asar'),
-      download: {
-        cacheRoot: electronCachePath,
-      },
+      electronVersion,
     };
+
+    // support widevine cdm on mac or linux x64
+    if (process.platform === 'darwin' || (process.platform === 'linux' && process.arch === 'x64')) {
+      packagerOpts.electronVersion = `${electronVersion}-wvvmp`;
+      packagerOpts.download = {
+        cacheRoot: electronCachePath,
+        mirrorOptions: {
+          mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
+        },
+      };
+    }
 
     packagerOpts.protocols = [
       {
@@ -311,6 +321,16 @@ Promise.resolve()
       : path.join(dotTemplatePath, 'resources');
     const outputAppAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
+  })
+  .then(() => {
+    // copy castlab evs signature
+    if (process.platform === 'darwin') {
+      return fsExtra.copy(
+        path.join(templatePath, 'evs', 'Electron Framework.sig'),
+        path.join(dotTemplatePath, 'Contents', 'Frameworks', 'Electron Framework.framework', 'Versions', 'A', 'Resources', 'Electron Framework.sig'),
+      );
+    }
+    return null;
   })
   .then(async () => {
     // eslint-disable-next-line no-console

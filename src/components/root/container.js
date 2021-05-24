@@ -73,6 +73,12 @@ const styles = (theme) => ({
   },
 });
 
+const filters = [];
+// widevine is not supported on ARM64 Linux & Windows
+if (window.process.platform === 'win32' || (window.process.platform === 'linux' && window.process.platform !== 'x64')) {
+  filters.push({ field: 'widevine', values: [0], type: 'all' });
+}
+
 const Container = ({
   classes,
   route,
@@ -136,9 +142,7 @@ const Container = ({
           facets: {
             category: { type: 'value', size: 30 },
           },
-          filters: [
-            { field: 'widevine', values: [0], type: 'all' },
-          ],
+          filters,
         },
       }}
     >
