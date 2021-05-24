@@ -260,6 +260,7 @@ Promise.resolve()
       'us-news-and-world-report': 's-cpv544nw5q',
     };
     const appBundleId = `com.webcatalog.juli.${shortIdMap[id] ? shortIdMap[id] : id}`;
+    const electronVersion = fsExtra.readJSONSync(path.join(templatePath, 'package.json')).devDependencies.electron;
 
     const packagerOpts = {
       name,
@@ -274,8 +275,12 @@ Promise.resolve()
       darwinDarkModeSupport: true,
       tmpdir: false,
       prebuiltAsar: path.join(templatePath, 'app.asar'),
+      electronVersion: `${electronVersion}-wvvmp`,
       download: {
         cacheRoot: electronCachePath,
+        mirrorOptions: {
+          mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
+        },
       },
     };
 
@@ -311,6 +316,24 @@ Promise.resolve()
       : path.join(dotTemplatePath, 'resources');
     const outputAppAsarUnpackedPath = path.join(resourcesPath, 'app.asar.unpacked');
     return fsExtra.copy(appAsarUnpackedPath, outputAppAsarUnpackedPath, { overwrite: true });
+  })
+  .then(() => {
+    if (process.platform === 'linux') return null;
+    if (process.platform === 'win32' && process.arch === 'arm64') return null;
+    // copy castlab evs signature
+    if (process.platform === 'darwin') {
+      return fsExtra.copy(
+        path.join(templatePath, 'evs', 'Electron Framework.sig'),
+        path.join(dotTemplatePath, 'Contents', 'Frameworks', 'Electron Framework.framework', 'Versions', 'A', 'Resources', 'Electron Framework.sig'),
+      );
+    }
+    if (process.platform === 'win32') {
+      return fsExtra.copy(
+        path.join(templatePath, 'evs', 'app.exe.sig'),
+        path.join(dotTemplatePath, `${name}.exe.sig`),
+      );
+    }
+    return null;
   })
   .then(async () => {
     // eslint-disable-next-line no-console

@@ -44,11 +44,14 @@ Promise.resolve()
     const electronVersion = fs.readJSONSync(path.join(templatePath, 'package.json')).devDependencies.electron;
     let lastUpdated = new Date().getTime();
     return downloadArtifact({
-      version: electronVersion,
+      version: `${electronVersion}-wvvmp`,
       artifactName: 'electron',
       cacheRoot: electronCachePath,
       platform,
       arch,
+      mirrorOptions: {
+        mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
+      },
       downloadOptions: {
         getProgressCallback: (progress) => {
           // this step is appproximately takes 60% of the time
