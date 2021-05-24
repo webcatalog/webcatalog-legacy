@@ -23,7 +23,6 @@ const cache = new NodeCache();
 // https://github.com/webcatalog/webcatalog-app/issues/890
 const getTagNameAsync = () => Promise.resolve()
   .then(() => {
-    return 'v17.8.0-beta';
     const allowPrerelease = getPreference('allowPrerelease');
 
     // check both prerelease and stable channels

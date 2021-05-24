@@ -327,12 +327,6 @@ Promise.resolve()
         path.join(dotTemplatePath, 'Contents', 'Frameworks', 'Electron Framework.framework', 'Versions', 'A', 'Resources', 'Electron Framework.sig'),
       );
     }
-    if (process.platform === 'win32') {
-      return fsExtra.copy(
-        path.join(templatePath, 'evs', 'app.exe.sig'),
-        path.join(dotTemplatePath, `${name}.exe.sig`),
-      );
-    }
     return null;
   })
   .then(async () => {

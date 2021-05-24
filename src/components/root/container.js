@@ -75,7 +75,7 @@ const styles = (theme) => ({
 
 const filters = [];
 // widevine is not supported on ARM64 Linux & Windows
-if ((window.process.arch === 'arm64' && window.process.platform !== 'darwin')) {
+if (window.process.platform === 'win32' || (window.process.platform === 'linux' && window.process.platform !== 'x64')) {
   filters.push({ field: 'widevine', values: [0], type: 'all' });
 }
 

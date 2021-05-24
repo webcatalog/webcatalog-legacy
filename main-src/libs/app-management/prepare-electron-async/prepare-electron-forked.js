@@ -43,15 +43,13 @@ Promise.resolve()
   .then(() => {
     const electronVersion = fs.readJSONSync(path.join(templatePath, 'package.json')).devDependencies.electron;
     let lastUpdated = new Date().getTime();
-    return downloadArtifact({
-      version: `${electronVersion}-wvvmp`,
+
+    const downloadOpts = {
+      version: electronVersion,
       artifactName: 'electron',
       cacheRoot: electronCachePath,
       platform,
       arch,
-      mirrorOptions: {
-        mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
-      },
       downloadOptions: {
         getProgressCallback: (progress) => {
           // this step is appproximately takes 60% of the time
@@ -70,7 +68,17 @@ Promise.resolve()
           }
         },
       },
-    })
+    };
+
+    // support widevine cdm on mac or linux x64
+    if (process.platform === 'darwin' || (process.platform === 'linux' && process.arch === 'x64')) {
+      downloadOpts.version = `${electronVersion}-wvvmp`;
+      downloadOpts.mirrorOptions = {
+        mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
+      };
+    }
+
+    return downloadArtifact(downloadOpts)
       .then((cachedFilePath) => {
         // cachedFilePath = '~/Library/Caches/webcatalog/electron/34...9907/electron-v11.2.3-...zip'
 
