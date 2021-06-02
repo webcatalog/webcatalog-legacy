@@ -4,9 +4,9 @@
 import * as ElasticAppSearch from '@elastic/app-search-javascript';
 
 const client = ElasticAppSearch.createClient({
-  searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
-  engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
-  hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
+  searchKey: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY,
+  endpointBase: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_API_ENDPOINT,
+  engineName: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_ENGINE_NAME,
 });
 
 export default client;

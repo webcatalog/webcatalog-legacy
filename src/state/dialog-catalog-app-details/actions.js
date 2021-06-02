@@ -7,7 +7,7 @@ import {
   DIALOG_CATALOG_APP_DETAILS_OPEN,
 } from '../../constants/actions';
 
-import swiftype from '../../swiftype';
+import appSearch from '../../app-search';
 
 import { getRelatedPathsAsync } from '../../invokers';
 
@@ -43,7 +43,7 @@ export const getDetailsAsync = () => async (dispatch, getState) => {
     return;
   }
 
-  swiftype
+  appSearch
     .search('', {
       filters: {
         id: [appId],

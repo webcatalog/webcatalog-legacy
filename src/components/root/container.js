@@ -30,11 +30,12 @@ import Home from '../pages/home';
 
 import Sidebar from './sidebar';
 
-const connector = process.env.REACT_APP_SWIFTYPE_SEARCH_KEY ? new AppSearchAPIConnector({
-  searchKey: process.env.REACT_APP_SWIFTYPE_SEARCH_KEY,
-  engineName: process.env.REACT_APP_SWIFTYPE_ENGINE_NAME,
-  hostIdentifier: process.env.REACT_APP_SWIFTYPE_HOST_ID,
-}) : null;
+const connector = process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY
+  ? new AppSearchAPIConnector({
+    searchKey: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY,
+    engineName: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_ENGINE_NAME,
+    endpointBase: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_API_ENDPOINT,
+  }) : null;
 
 const styles = (theme) => ({
   root: {
@@ -95,7 +96,7 @@ const Container = ({
           align="center"
           color="textPrimary"
         >
-          Swiftype environment variables are required for &quot;Discover&quot;. Learn more at: https://github.com/webcatalog/webcatalog-app/blob/master/README.md#development
+          Elastic Cloud App Search environment variables are required for &quot;Discover&quot;. Learn more at: https://github.com/webcatalog/webcatalog-app/blob/master/README.md#development
         </Typography>
       </div>
     );

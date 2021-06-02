@@ -15,7 +15,7 @@ import getStaticGlobal from '../../helpers/get-static-global';
 
 import { updateApp } from '../app-management/actions';
 
-import swiftype from '../../swiftype';
+import appSearch from '../../app-search';
 
 export const close = () => ({
   type: DIALOG_EDIT_APP_CLOSE,
@@ -43,7 +43,7 @@ export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => 
 export const getWebsiteIconUrlFromSwifttypeAsync = (url, name) => {
   // if it fails, try to get icon from in-house database
   const query = name && name.length > 0 ? `${url} ${name}` : url;
-  return swiftype
+  return appSearch
     .search(query, {
       search_fields: {
         name: {},
@@ -105,7 +105,7 @@ export const getIconFromInternet = () => (dispatch, getState) => {
     });
 };
 
-export const getIconFromSwiftype = () => (dispatch, getState) => {
+export const getIconFromAppSearch = () => (dispatch, getState) => {
   const {
     form: {
       name, url, urlDisabled, urlError,
