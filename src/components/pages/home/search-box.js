@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import {
   WithSearch,
-  SearchBox as SwiftypeSearchBox,
+  SearchBox as AppSearchSearchBox,
 } from '@elastic/react-search-ui';
 
 import CloseIcon from '@material-ui/icons/Close';
@@ -119,7 +119,7 @@ class SearchBox extends React.Component {
             color="inherit"
             variant="subtitle1"
           >
-            <SwiftypeSearchBox
+            <AppSearchSearchBox
               searchAsYouType
               debounceLength={300}
               inputView={({ getAutocomplete, getInputProps }) => (

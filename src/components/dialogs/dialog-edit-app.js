@@ -29,7 +29,7 @@ import {
   close,
   save,
   getIconFromInternet,
-  getIconFromSwiftype,
+  getIconFromAppSearch,
   updateForm,
   updateFormOpts,
 } from '../../state/dialog-edit-app/actions';
@@ -89,7 +89,7 @@ const DialogEditApp = (props) => {
     name,
     onClose,
     onGetIconFromInternet,
-    onGetIconFromSwiftype,
+    onGetIconFromAppSearch,
     onSave,
     onUpdateForm,
     onUpdateFormOpts,
@@ -199,7 +199,7 @@ const DialogEditApp = (props) => {
                 size="small"
                 className={classes.buttonBot}
                 disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-                onClick={() => onGetIconFromSwiftype()}
+                onClick={() => onGetIconFromAppSearch()}
               >
                 {downloadingIcon ? 'Downloading...' : 'Download Icon from WebCatalog'}
               </Button>
@@ -319,7 +319,7 @@ DialogEditApp.propTypes = {
   name: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onGetIconFromInternet: PropTypes.func.isRequired,
-  onGetIconFromSwiftype: PropTypes.func.isRequired,
+  onGetIconFromAppSearch: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   onUpdateFormOpts: PropTypes.func.isRequired,
@@ -374,7 +374,7 @@ const actionCreators = {
   close,
   save,
   getIconFromInternet,
-  getIconFromSwiftype,
+  getIconFromAppSearch,
   updateForm,
   updateFormOpts,
 };
