@@ -23,6 +23,7 @@ import NoConnection from '../../shared/no-connection';
 
 import DefinedAppBar from './defined-app-bar';
 import SecondaryToolbar from './toolbar';
+import InstalledSpaces from './installed-spaces';
 
 import AppCard from '../../shared/app-card';
 import SubmitAppCard from '../../shared/submit-app-card';
@@ -137,9 +138,11 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
             }
 
             const typeFilter = filters.find((filter) => filter.field === 'type');
+            const isRouteSpaces = typeFilter && typeFilter.values[0] === 'Multisite';
             return (
               <>
-                <CreateCustomAppCard urlDisabled={typeFilter && typeFilter.values[0] === 'Multisite'} />
+                <CreateCustomAppCard urlDisabled={isRouteSpaces} />
+                {isRouteSpaces && <InstalledSpaces />}
                 {results.map((app) => (
                   <AppCard
                     key={app.id.raw}
@@ -154,9 +157,11 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
                       ? app.icon_unplated_128.raw : app.icon_128.raw}
                   />
                 ))}
-                <Grid item xs={12} container justify="center">
-                  <Paging />
-                </Grid>
+                {!isRouteSpaces && (
+                  <Grid item xs={12} container justify="center">
+                    <Paging />
+                  </Grid>
+                )}
               </>
             );
           }}

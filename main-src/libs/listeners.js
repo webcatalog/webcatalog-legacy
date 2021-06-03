@@ -192,6 +192,7 @@ const loadListeners = () => {
                 status: 'INSTALLED',
                 registered: getPreference('registered'),
               });
+              send(e.sender, 'enqueue-snackbar', `${name} is installed successfully.`, 'success');
               delete promiseFuncMap[id];
             })
             .catch((error) => {
