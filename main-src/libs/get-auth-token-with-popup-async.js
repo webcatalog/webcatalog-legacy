@@ -9,7 +9,7 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
     width: 800,
     height: 600,
     webPreferences: {
-      partition: 'auth-temp',
+      partition: `auth-temp-${Date.now()}`,
       nativeWindowOpen: true,
     },
   });
