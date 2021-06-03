@@ -42,7 +42,7 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
     .replace(` Electron/${process.versions.electron}`, '');
   win.webContents.setUserAgent(customUserAgent);
 
-  win.loadURL('http://localhost:3006/token/in-app');
+  win.loadURL('https://accounts.webcatalog.app/token/in-app');
 
   win.on('did-fail-load', () => {
     reject(new Error('did-fail-load'));
