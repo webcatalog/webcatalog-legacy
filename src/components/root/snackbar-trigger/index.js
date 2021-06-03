@@ -31,7 +31,7 @@ const SnackbarTrigger = ({ classes }) => {
       maxSnack={3}
       autoHideDuration={2000}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right',
       }}
       dense

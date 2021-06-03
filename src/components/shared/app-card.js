@@ -369,7 +369,10 @@ const AppCard = (props) => {
               size="small"
               aria-label="Space"
               classes={{ root: classes.topLeft }}
-              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+              onClick={(e) => {
+                e.stopPropagation();
+                requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps');
+              }}
             >
               <GroupWorkIcon fontSize="small" />
             </IconButton>
