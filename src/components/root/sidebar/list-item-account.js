@@ -18,6 +18,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {
   requestOpenInBrowser,
+  requestSignInWithPopup,
 } from '../../../senders';
 
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
@@ -64,7 +65,16 @@ const SectionAccount = ({
 
   if (!isSignedIn) {
     const loginListItem = (
-      <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+      <ListItem
+        button
+        onClick={() => {
+          if (window.process.platform === 'linux') {
+            requestSignInWithPopup();
+            return;
+          }
+          requestOpenInBrowser('https://accounts.webcatalog.app/token');
+        }}
+      >
         <ListItemIcon classes={{ root: classes.listItemIcon }}>
           <AccountCircleIcon fontSize="default" />
         </ListItemIcon>

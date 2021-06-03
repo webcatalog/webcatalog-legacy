@@ -35,6 +35,8 @@ const {
 
 const { createMenu, showMenu } = require('./menu');
 
+const getAuthTokenWithPopupAsync = require('./get-auth-token-with-popup-async');
+
 const mainWindow = require('./windows/main');
 
 const send = (webContents, ...args) => {
@@ -350,6 +352,17 @@ const loadListeners = () => {
     if (win) {
       showMenu(win, x, y);
     }
+  });
+
+  ipcMain.on('request-sign-in-with-popup', () => {
+    getAuthTokenWithPopupAsync()
+      .then((token) => {
+        if (token) {
+          mainWindow.send('sign-in-with-token', token);
+        }
+      })
+      // eslint-disable-next-line no-console
+      .catch(console.log);
   });
 };
 
