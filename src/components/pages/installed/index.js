@@ -28,6 +28,7 @@ import { updateScrollOffset } from '../../../state/installed/actions';
 const styles = (theme) => ({
   root: {
     height: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
@@ -98,13 +99,13 @@ const Installed = ({
     }
 
     if (appIds.length > 0) {
-      const totalItems = appIds.length + 1; // 2 more for custom app card
+      const totalItemCount = appIds.length + 1; // 1 more for custom app card
       const rowHeight = 158 + 16;
       const sidebarWidth = innerWidth < 960 ? 80 : 220;
       const innerWidthMinurScrollbar = window.process.platform === 'darwin'
         ? innerWidth - sidebarWidth - 10 : innerWidth - sidebarWidth - 20;
       const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
-      const rowCount = Math.ceil(appIds.length / columnCount);
+      const rowCount = Math.ceil(totalItemCount / columnCount);
       const columnWidth = Math.floor(innerWidthMinurScrollbar / columnCount);
       // total window height - (searchbox: 40, toolbar: 36, bottom nav: 40)
       const scrollHeight = innerHeight - 116;
@@ -119,7 +120,7 @@ const Installed = ({
           );
         }
 
-        if (index >= totalItems) return <div style={style} />;
+        if (index >= totalItemCount) return <div style={style} />;
 
         const appId = appIds[index - 1];
         return (
