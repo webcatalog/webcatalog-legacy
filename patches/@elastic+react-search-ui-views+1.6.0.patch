@@ -1,5 +1,5 @@
 diff --git a/node_modules/@elastic/react-search-ui-views/lib/styles/styles.css b/node_modules/@elastic/react-search-ui-views/lib/styles/styles.css
-index efc7ac2..43cad30 100644
+index 51aca96..5a547d3 100644
 --- a/node_modules/@elastic/react-search-ui-views/lib/styles/styles.css
 +++ b/node_modules/@elastic/react-search-ui-views/lib/styles/styles.css
 @@ -488,7 +488,7 @@ html {
