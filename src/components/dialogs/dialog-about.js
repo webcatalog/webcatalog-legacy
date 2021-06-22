@@ -82,7 +82,7 @@ const About = ({
           variant="body2"
           className={classes.version}
         >
-          {`Version v${appVersion}`}
+          {`Version v${appVersion} (${window.process.arch})`}
         </Typography>
 
         <Button
