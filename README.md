@@ -1,6 +1,6 @@
 # WebCatalog [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](LICENSE)
 
-|macOS|
+|macOS (x64 + arm64)|
 |---|
 |[![macOS](https://github.com/webcatalog/webcatalog-app/workflows/macOS/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow:%22macOS%22)|
 
@@ -8,9 +8,9 @@
 |---|---|
 |[![Linux (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28x64%29%22)|[![Linux (arm64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(arm64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28arm64%29%22)|
 
-|Windows (x64)|
+|Windows (x64 + arm64)|
 |---|
-|[![Windows (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Windows%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Windows+%28x64%29%22)|
+|[![Windows](https://github.com/webcatalog/webcatalog-app/workflows/Windows/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow:%22Windows%22)|
 
 **[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
 
