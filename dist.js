@@ -76,7 +76,7 @@ if ((['x64', 'arm64'].indexOf(arch) < 0)) {
   console.log(`${process.platform} ${arch} is not supported.`);
 }
 
-console.log(`Building for: ${process.platform} ${process.platform === 'darwin' ? 'x64+arm64' : arch}`);
+console.log(`Building for: ${process.platform} ${process.platform !== 'linux' ? 'x64 + arm64' : arch}`);
 
 let targets;
 switch (process.platform) {
@@ -85,7 +85,7 @@ switch (process.platform) {
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch[arch]);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.arm64, Arch.x64);
     break;
   }
   default:
@@ -146,10 +146,6 @@ const opts = {
       category: 'Utility',
       packageCategory: 'utils',
     },
-    nsis: arch === 'arm64' ? {
-      // eslint-disable-next-line no-template-curly-in-string
-      artifactName: 'WebCatalog-Setup-${version}-arm64.${ext}',
-    } : undefined,
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
       const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
