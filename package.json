@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Turn Any Websites Into Real Desktop Apps",
-  "version": "35.0.0-alpha.2",
+  "version": "35.0.0",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
   },
@@ -75,7 +75,7 @@
     "icon-gen": "2.1.0",
     "is-url": "1.2.4",
     "jimp": "0.16.1",
-    "menubar": "9.0.4",
+    "menubar": "9.0.5",
     "node-cache": "5.1.2",
     "node-fetch": "2.6.1",
     "node-machine-id": "1.1.12",
