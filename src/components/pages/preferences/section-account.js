@@ -54,6 +54,9 @@ const SectionAccount = ({
             <ListItem
               button
               onClick={() => {
+                // we don't use logging in with protocol webcatalog://
+                // as it causes wrong Electron instance to be opened
+                // e.g. it opens production app instead of dev env
                 if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
                   requestSignInWithPopup();
                   return;
