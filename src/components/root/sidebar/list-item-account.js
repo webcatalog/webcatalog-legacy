@@ -76,11 +76,13 @@ const SectionAccount = ({
           className={classes.listItemText}
           primary={registered ? 'Lifetime Plan' : 'Basic Plan'}
         />
-        <ListItemSecondaryAction>
-          <Button size="small" onClick={() => onOpenDialogLicenseRegistration()}>
-            Upgrade
-          </Button>
-        </ListItemSecondaryAction>
+        {!registered && (
+          <ListItemSecondaryAction>
+            <Button size="small" onClick={() => onOpenDialogLicenseRegistration()}>
+              Upgrade
+            </Button>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     );
 
