@@ -7,18 +7,15 @@ import PropTypes from 'prop-types';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
-
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import {
   requestOpenInBrowser,
-  requestSignInWithPopup,
 } from '../../../senders';
 
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
@@ -28,6 +25,11 @@ import connectComponent from '../../../helpers/connect-component';
 import firebase from '../../../firebase';
 
 const styles = (theme) => ({
+  upgradeListItem: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
   listItemIcon: {
     color: theme.palette.common.white,
     [theme.breakpoints.down('sm')]: {
@@ -36,6 +38,7 @@ const styles = (theme) => ({
     },
   },
   listItemText: {
+    userSelect: 'none',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -66,35 +69,22 @@ const SectionAccount = ({
   if (!isSignedIn) {
     const loginListItem = (
       <ListItem
-        button
-        onClick={() => {
-          // we don't use logging in with protocol webcatalog://
-          // as it causes wrong Electron instance to be opened
-          // e.g. it opens production app instead of dev env
-          if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
-            requestSignInWithPopup();
-            return;
-          }
-          requestOpenInBrowser('https://accounts.webcatalog.app/token');
-        }}
+        dense
+        classes={{ container: classes.upgradeListItem }}
       >
-        <ListItemIcon classes={{ root: classes.listItemIcon }}>
-          <AccountCircleIcon fontSize="default" />
-        </ListItemIcon>
         <ListItemText
           className={classes.listItemText}
-          primary="Sign In"
+          primary={registered ? 'Lifetime Plan' : 'Basic Plan'}
         />
+        {!registered && (
+          <ListItemSecondaryAction>
+            <Button size="small" onClick={() => onOpenDialogLicenseRegistration()}>
+              Upgrade
+            </Button>
+          </ListItemSecondaryAction>
+        )}
       </ListItem>
     );
-
-    if (showTooltip) {
-      return (
-        <Tooltip title="Sign In" placement="right" arrow>
-          {loginListItem}
-        </Tooltip>
-      );
-    }
 
     return loginListItem;
   }
