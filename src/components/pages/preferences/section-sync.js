@@ -63,6 +63,7 @@ const SectionSync = ({
           <ListItemAvatar>
             <Avatar alt={displayName} src={photoURL} />
           </ListItemAvatar>
+          <ListItemText primary={displayName} secondary="-" />
         </ListItem>
         <Divider />
         <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/AAByYb4hYppP91YRA')}>

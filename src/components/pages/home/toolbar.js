@@ -81,6 +81,7 @@ const Toolbar = ({
       setSearchTerm,
     }) => {
       const categoryFilter = filters.find((filter) => filter.field === 'category');
+      const typeFilter = filters.find((filter) => filter.field === 'type');
 
       return (
         <div className={classes.root}>
@@ -93,6 +94,11 @@ const Toolbar = ({
             {!isLoading && categoryFilter != null && (
               <Typography variant="body2" color="textSecondary" className={classes.statusText}>
                 {categoryFilter.values[0]}
+              </Typography>
+            )}
+            {!isLoading && categoryFilter == null && typeFilter && typeFilter.values[0] === 'Multisite' && (
+              <Typography variant="body2" color="textSecondary" className={classes.statusText}>
+                Spaces let you organize multiple services & accounts in one place.
               </Typography>
             )}
           </div>
