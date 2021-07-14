@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Turn Any Websites Into Real Desktop Apps",
-  "version": "35.1.0",
+  "version": "35.1.1",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
   },
