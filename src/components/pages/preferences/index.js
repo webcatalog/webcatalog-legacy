@@ -26,6 +26,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SecurityIcon from '@material-ui/icons/Security';
 import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
+import SyncIcon from '@material-ui/icons/Sync';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -47,7 +48,8 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
-import SectionAccount from './section-account';
+import SectionSync from './section-sync';
+import SectionLicensing from './section-licensing';
 
 const styles = (theme) => ({
   root: {
@@ -195,8 +197,13 @@ const Preferences = ({
 }) => {
   const sections = {
     account: {
-      text: 'Account & Licensing',
+      text: 'Licensing',
       Icon: AccountCircleIcon,
+      ref: useRef(),
+    },
+    sync: {
+      text: 'Sync',
+      Icon: SyncIcon,
       ref: useRef(),
     },
     general: {
@@ -265,10 +272,17 @@ const Preferences = ({
         </div>
         <div className={classes.inner}>
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
-            Account & Licensing
+            Licensing
           </Typography>
           <Paper elevation={0} className={classes.paper}>
-            <SectionAccount />
+            <SectionLicensing />
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.sync.ref}>
+            Sync
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <SectionSync />
           </Paper>
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
