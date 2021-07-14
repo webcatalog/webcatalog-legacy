@@ -167,13 +167,6 @@ const createAsync = () => new Promise((resolve) => {
       menubarWindowState.manage(mb.window);
 
       contextMenu({ window: mb.window });
-
-      mb.window.on('focus', () => {
-        const view = mb.window.getBrowserView();
-        if (view && view.webContents) {
-          view.webContents.focus();
-        }
-      });
     });
 
     mb.on('ready', () => {
