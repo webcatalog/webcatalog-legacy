@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import {
   requestOpenInBrowser,
+  requestSignInWithPopup,
 } from '../../../senders';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -34,7 +35,19 @@ const SectionSync = ({
     <Divider />
     {!isSignedIn ? (
       <>
-        <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+        <ListItem
+          button
+          onClick={() => {
+            // we don't use logging in with protocol webcatalog://
+            // as it causes wrong Electron instance to be opened
+            // e.g. it opens production app instead of dev env
+            if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
+              requestSignInWithPopup();
+              return;
+            }
+            requestOpenInBrowser('https://accounts.webcatalog.app/token');
+          }}
+        >
           <ListItemText primary="Sign in to WebCatalog" />
           <ChevronRightIcon color="action" />
         </ListItem>
