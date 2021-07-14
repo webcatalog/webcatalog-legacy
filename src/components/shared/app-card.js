@@ -20,6 +20,7 @@ import HelpTooltip from './help-tooltip';
 import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
+import isWidevineSupported from '../../helpers/is-widevine-supported';
 
 import {
   INSTALLED,
@@ -321,7 +322,19 @@ const AppCard = (props) => {
         disabled={status !== null}
         onClick={(e) => {
           e.stopPropagation();
-          onInstallApp(id, name, url, icon, combinedOpts);
+
+          // inform users that
+          // widevine is not supported on Linux (ARM64) & Windows (x64 + arm64)
+          if (!widevine || isWidevineSupported()) {
+            onInstallApp(id, name, url, icon, combinedOpts);
+          } else {
+            window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+              message: `Due to technical limitations, ${name} app is not supported on this device.`,
+              buttons: ['I Understand', 'Install Anyway'],
+              cancelId: 0,
+              defaultId: 0,
+            }).catch(console.log); // eslint-disable-line
+          }
         }}
       >
         {label}
@@ -371,7 +384,7 @@ const AppCard = (props) => {
               classes={{ root: classes.topLeft }}
               onClick={(e) => {
                 e.stopPropagation();
-                requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps');
+                requestOpenInBrowser('https://webcatalog.io/webcatalog/spaces/');
               }}
             >
               <GroupWorkIcon fontSize="small" />
