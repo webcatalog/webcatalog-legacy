@@ -2,29 +2,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useCallback, useState } from 'react';
-
-import { close } from '../../state/dialog-export-app-details/actions';
-
-import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Avatar,
+  Button,
   Checkbox,
   Dialog,
+  DialogActions,
   DialogContent,
   List,
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
-  ListItemText
+  ListItemText,
 } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { DialogActions } from '@material-ui/core';
+import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+import { close } from '../../state/dialog-export-app-details/actions';
 import getAssetPath from '../../helpers/get-asset';
-import { Button } from '@material-ui/core';
-
-const styles = (theme) => ({
-
-});
 
 const DialogExportAppDetails = () => {
   const dispatch = useDispatch();
@@ -36,7 +30,7 @@ const DialogExportAppDetails = () => {
   const appsList = useSelector((state) => Object.entries(state.appManagement.apps));
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
-  const onAppSelected = (appIndex) => () => { 
+  const onAppSelected = (appIndex) => () => {
     const currentAppIndex = selectedApps.indexOf(appIndex);
     const newSelectedApps = [...selectedApps];
     const isAllAppsSelected = (appsList.length === newSelectedApps.length);
@@ -65,8 +59,8 @@ const DialogExportAppDetails = () => {
     <Dialog
       onClose={onClose}
       open={open}
-      fullWidth={true}
-      maxWidth={"sm"}
+      fullWidth
+      maxWidth="sm"
     >
       <EnhancedDialogTitle onClose={onClose}>
         Export Applications Details
@@ -78,11 +72,11 @@ const DialogExportAppDetails = () => {
             dense
             onClick={onAllAppSelected}
           >
-            <ListItemText primary={"Applications"} />
+            <ListItemText primary="Applications" />
             <ListItemSecondaryAction>
               <Checkbox
-                edge={"end"}
-                color={"secondary"}
+                edge="end"
+                color="secondary"
                 tabIndex={-1}
                 disableRipple
                 checked={allAppsSelected}
@@ -94,7 +88,7 @@ const DialogExportAppDetails = () => {
             <ListItem
               button
               dense
-              key={appIndex}
+              key={appKey}
               onClick={onAppSelected(appIndex)}
             >
               <ListItemAvatar>
@@ -106,8 +100,8 @@ const DialogExportAppDetails = () => {
               />
               <ListItemSecondaryAction>
                 <Checkbox
-                  edge={"end"}
-                  color={"secondary"}
+                  edge="end"
+                  color="secondary"
                   tabIndex={-1}
                   disableRipple
                   checked={selectedApps.indexOf(appIndex) !== -1}
@@ -120,7 +114,7 @@ const DialogExportAppDetails = () => {
       </DialogContent>
       <DialogActions>
         <Button>
-          
+          Export
         </Button>
       </DialogActions>
     </Dialog>

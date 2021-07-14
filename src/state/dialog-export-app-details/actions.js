@@ -4,8 +4,8 @@
 
 import {
   DIALOG_EXPORT_APP_DETAILS_CLOSE,
-  DIALOG_EXPORT_APP_DETAILS_OPEN
-} from "../../constants/actions";
+  DIALOG_EXPORT_APP_DETAILS_OPEN,
+} from '../../constants/actions';
 
 export const close = () => ({
   type: DIALOG_EXPORT_APP_DETAILS_CLOSE,

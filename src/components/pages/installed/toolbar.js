@@ -94,8 +94,8 @@ const Toolbar = ({
     <div className={classes.right}>
       <Tooltip title="Export...">
         <IconButton
-          size={"small"}
-          aria-label={"Export..."}
+          size="small"
+          aria-label="Export..."
           onClick={onOpenExportAppDetailsDialog}
         >
           <ImportExportIcon fontSize="small" />
