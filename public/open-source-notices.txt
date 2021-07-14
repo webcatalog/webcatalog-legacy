@@ -878,7 +878,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @firebase/auth, @malept/cross-spawn-promise, @xtuc/long, ejs, indefinite-observable, long, spdx-correct, sumchecker, validate-npm-package-license. A copy of the source code may be downloaded from https://github.com/firebase/firebase-js-sdk.git (@firebase/auth), https://github.com/malept/cross-spawn-promise (@malept/cross-spawn-promise), https://github.com/dcodeIO/long.js.git (@xtuc/long), git://github.com/mde/ejs.git (ejs), git@github.com:material-motion/indefinite-observable-js.git (indefinite-observable), https://github.com/dcodeIO/long.js.git (long), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), git+https://github.com/malept/sumchecker.git (sumchecker), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license). This software contains the following license and notice below:
+The following software may be included in this product: @firebase/auth, @malept/cross-spawn-promise, @xtuc/long, ejs, long, spdx-correct, sumchecker, validate-npm-package-license. A copy of the source code may be downloaded from https://github.com/firebase/firebase-js-sdk.git (@firebase/auth), https://github.com/malept/cross-spawn-promise (@malept/cross-spawn-promise), https://github.com/dcodeIO/long.js.git (@xtuc/long), git://github.com/mde/ejs.git (ejs), https://github.com/dcodeIO/long.js.git (long), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), git+https://github.com/malept/sumchecker.git (sumchecker), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -21260,33 +21260,6 @@ Copyright © 2012–2016 Кир Белевич
 ВОЗНИКШИМ ИЗ, ИМЕЮЩИМ ПРИЧИНОЙ ИЛИ СВЯЗАННЫМ С ПРОГРАММНЫМ
 ОБЕСПЕЧЕНИЕМ ИЛИ ИСПОЛЬЗОВАНИЕМ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ
 ИЛИ ИНЫМИ ДЕЙСТВИЯМИ С ПРОГРАММНЫМ ОБЕСПЕЧЕНИЕМ.
-
------
-
-The following software may be included in this product: symbol-observable. A copy of the source code may be downloaded from https://github.com/blesh/symbol-observable.git. This software contains the following license and notice below:
-
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-Copyright (c) Ben Lesh <ben@benlesh.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 -----
 

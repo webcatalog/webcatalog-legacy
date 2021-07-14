@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import {
   requestOpenInBrowser,
+  requestSignInWithPopup,
 } from '../../../senders';
 
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
@@ -50,7 +51,16 @@ const SectionAccount = ({
               <ListItemText primary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'} />
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/token')}>
+            <ListItem
+              button
+              onClick={() => {
+                if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
+                  requestSignInWithPopup();
+                  return;
+                }
+                requestOpenInBrowser('https://accounts.webcatalog.app/token');
+              }}
+            >
               <ListItemText primary="Sign in to WebCatalog" />
               <ChevronRightIcon color="action" />
             </ListItem>

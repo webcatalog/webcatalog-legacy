@@ -68,7 +68,7 @@ const SectionAccount = ({
       <ListItem
         button
         onClick={() => {
-          if (window.process.platform === 'linux') {
+          if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
             requestSignInWithPopup();
             return;
           }
