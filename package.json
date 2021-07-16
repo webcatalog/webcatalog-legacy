@@ -75,6 +75,7 @@
     "icon-gen": "2.1.0",
     "is-url": "1.2.4",
     "jimp": "0.16.1",
+    "jszip": "^3.6.0",
     "menubar": "9.0.5",
     "node-cache": "5.1.2",
     "node-fetch": "2.6.1",

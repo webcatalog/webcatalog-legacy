@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import JSZip from 'jszip';
 import {
   Avatar,
   Button,
@@ -16,9 +17,11 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from '@material-ui/core';
+
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import { close } from '../../state/dialog-export-app-details/actions';
 import getAssetPath from '../../helpers/get-asset';
+import { APP_DETAILS_FILENAME, APP_IMAGES_FOLDERNAME } from '../../constants/backups';
 
 const DialogExportAppDetails = () => {
   const dispatch = useDispatch();
@@ -30,7 +33,7 @@ const DialogExportAppDetails = () => {
   const appsList = useSelector((state) => Object.entries(state.appManagement.apps));
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
-  const onAppSelected = (appIndex) => () => {
+  const onAppSelected = useCallback((appIndex) => () => {
     const currentAppIndex = selectedApps.indexOf(appIndex);
     const newSelectedApps = [...selectedApps];
     const isAllAppsSelected = (appsList.length === newSelectedApps.length);
@@ -44,7 +47,28 @@ const DialogExportAppDetails = () => {
 
     setSelectedApps(newSelectedApps);
     setAllAppsSelected(isAllAppsSelected);
-  };
+  }, [appsList, selectedApps]);
+  const onExportAppDetails = useCallback(async () => {
+    // TODO: Add zip utils for better architecture.
+    const zip = new JSZip();
+    zip.file(APP_DETAILS_FILENAME, JSON.stringify(appsList));
+
+    const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
+    const fileReader = new FileReader();
+
+    appsList.forEach(([appKey, appInfo]) => {
+      const { icon } = appInfo;
+      const iconFileData = fileReader.readAsDataURL(new File(['icon'], icon));
+
+      if (appKey.startsWith('custom-')) {
+        imagesFolder.file(icon, iconFileData, { base64: true });
+      }
+    });
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+    });
+  }, [appsList]);
+
   const onAllAppSelected = () => {
     setAllAppsSelected(!allAppsSelected);
 
@@ -113,7 +137,13 @@ const DialogExportAppDetails = () => {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button>
+        <Button onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          color="primary"
+          onClick={onExportAppDetails}
+        >
           Export
         </Button>
       </DialogActions>
