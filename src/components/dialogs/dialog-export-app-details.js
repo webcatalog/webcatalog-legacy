@@ -54,11 +54,11 @@ const DialogExportAppDetails = () => {
     zip.file(APP_DETAILS_FILENAME, JSON.stringify(appsList));
 
     const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
-    const fileReader = new FileReader();
+    const fileReader = new window.FileReader();
 
     appsList.forEach(([appKey, appInfo]) => {
       const { icon } = appInfo;
-      const iconFileData = fileReader.readAsDataURL(new File(['icon'], icon));
+      const iconFileData = fileReader.readAsDataURL(new window.File(['icon'], icon));
 
       if (appKey.startsWith('custom-')) {
         imagesFolder.file(icon, iconFileData, { base64: true });
@@ -87,7 +87,7 @@ const DialogExportAppDetails = () => {
       maxWidth="sm"
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Export Applications Details
+        Backup Apps & Spaces
       </EnhancedDialogTitle>
       <DialogContent>
         <List>
@@ -96,11 +96,11 @@ const DialogExportAppDetails = () => {
             dense
             onClick={onAllAppSelected}
           >
-            <ListItemText primary="Applications" />
+            <ListItemText primary="All Apps & Spaces" />
             <ListItemSecondaryAction>
               <Checkbox
                 edge="end"
-                color="secondary"
+                color="primary"
                 tabIndex={-1}
                 disableRipple
                 checked={allAppsSelected}
@@ -125,7 +125,7 @@ const DialogExportAppDetails = () => {
               <ListItemSecondaryAction>
                 <Checkbox
                   edge="end"
-                  color="secondary"
+                  color="primary"
                   tabIndex={-1}
                   disableRipple
                   checked={selectedApps.indexOf(appIndex) !== -1}
