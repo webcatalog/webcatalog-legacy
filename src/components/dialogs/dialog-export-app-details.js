@@ -67,7 +67,7 @@ const DialogExportAppDetails = () => {
         const { icon } = appInfo;
         const iconFilename = getFilename(icon);
 
-        const fileResponse = await fetch(getAssetPath(icon));
+        const fileResponse = await window.fetch(getAssetPath(icon));
         const fileResponseBody = await fileResponse.body;
         const dataStream = await fileResponseBody.getReader().read();
 
