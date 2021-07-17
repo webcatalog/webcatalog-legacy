@@ -4,6 +4,8 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
+import FileSaver from 'file-saver';
+
 import {
   Avatar,
   Button,
@@ -21,7 +23,12 @@ import {
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import { close } from '../../state/dialog-export-app-details/actions';
 import getAssetPath from '../../helpers/get-asset';
-import { APP_DETAILS_FILENAME, APP_IMAGES_FOLDERNAME } from '../../constants/backups';
+import {
+  APP_DETAILS_FILENAME,
+  APP_DETAILS_ZIP_FILENAME,
+  APP_IMAGES_FOLDERNAME,
+} from '../../constants/backups';
+import getFilename from '../../helpers/get-filename';
 
 const DialogExportAppDetails = () => {
   const dispatch = useDispatch();
@@ -51,21 +58,25 @@ const DialogExportAppDetails = () => {
   const onExportAppDetails = useCallback(async () => {
     // TODO: Add zip utils for better architecture.
     const zip = new JSZip();
+    const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
+
     zip.file(APP_DETAILS_FILENAME, JSON.stringify(appsList));
 
-    const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
-    const fileReader = new window.FileReader();
-
-    appsList.forEach(([appKey, appInfo]) => {
-      const { icon } = appInfo;
-      const iconFileData = fileReader.readAsDataURL(new window.File(['icon'], icon));
-
+    await Promise.all(appsList.map(async ([appKey, appInfo]) => {
       if (appKey.startsWith('custom-')) {
-        imagesFolder.file(icon, iconFileData, { base64: true });
-      }
-    });
+        const { icon } = appInfo;
+        const iconFilename = getFilename(icon);
 
-    zip.generateAsync({ type: 'blob' }).then((content) => {
+        const fileResponse = await fetch(getAssetPath(icon));
+        const fileResponseBody = await fileResponse.body;
+        const dataStream = await fileResponseBody.getReader().read();
+
+        imagesFolder.file(iconFilename, dataStream.value, { base64: true });
+      }
+    }));
+
+    zip.generateAsync({ type: 'blob' }).then((zipFileBlob) => {
+      FileSaver.saveAs(zipFileBlob, APP_DETAILS_ZIP_FILENAME);
     });
   }, [appsList]);
 
