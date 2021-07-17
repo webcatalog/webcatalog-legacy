@@ -13,6 +13,7 @@ import { changeRoute } from '../state/router/actions';
 import { setPreference, setPreferences } from '../state/preferences/actions';
 import { setSystemPreference } from '../state/system-preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
+import { open as openDialogExportAppDetails } from '../state/dialog-export-app-details/actions';
 import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
 import { open as openDialogCatalogAppDetails } from '../state/dialog-catalog-app-details/actions';
 import { updateUpdater } from '../state/updater/actions';
@@ -73,6 +74,10 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('open-dialog-about', () => {
     store.dispatch(openDialogAbout());
+  });
+
+  window.ipcRenderer.on('open-dialog-export-app-details', () => {
+    store.dispatch(openDialogExportAppDetails());
   });
 
   window.ipcRenderer.on('native-theme-updated', () => {
