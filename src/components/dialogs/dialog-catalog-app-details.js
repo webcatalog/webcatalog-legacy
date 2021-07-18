@@ -84,7 +84,7 @@ const DialogCatalogAppDetails = ({
   open,
   details,
 }) => {
-  const shareUrl = details && !details.err ? `https://webcatalog.app/catalog/${details.id}` : '';
+  const shareUrl = details && !details.err && details.url ? `https://webcatalog.io/webcatalog/apps/${details.id}/` : '';
   const hostname = details ? extractHostname(details.url) : null;
 
   return (
@@ -187,7 +187,7 @@ const DialogCatalogAppDetails = ({
                     )}
                   </div>
 
-                  {!details.id.startsWith('custom-') && (
+                  {!details.id.startsWith('custom-') && details.url && (
                     <LinkSharing url={shareUrl} className={classes.shareInput} />
                   )}
                 </div>
