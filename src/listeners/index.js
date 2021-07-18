@@ -76,7 +76,7 @@ const loadListeners = (store) => {
     store.dispatch(openDialogAbout());
   });
 
-  window.ipcRenderer.on('open-dialog-export-app-details', () => {
+  window.ipcRenderer.on('open-dialog-backup-app-details', () => {
     store.dispatch(openDialogBackupAppDetails());
   });
 
