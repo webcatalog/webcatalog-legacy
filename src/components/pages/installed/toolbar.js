@@ -18,7 +18,7 @@ import connectComponent from '../../../helpers/connect-component';
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
 import { updateAllApps } from '../../../state/app-management/actions';
-import { open as openExportAppDetailsDialog } from '../../../state/dialog-export-app-details/actions';
+import { open as openBackupAppDetailsDialog } from '../../../state/dialog-backup-app-details/actions';
 
 import {
   requestGetInstalledApps,
@@ -58,12 +58,14 @@ const styles = (theme) => ({
 
 const Toolbar = ({
   activeQuery,
+  appsList,
   classes,
   fetchingLatestTemplateVersion,
   onFetchLatestTemplateVersionAsync,
   onUpdateAllApps,
-  onOpenExportAppDetailsDialog,
+  onOpenBackupAppDetailsDialog,
   outdatedAppCount,
+  registered,
   sortInstalledAppBy,
 }) => (
   <div className={classes.root}>
@@ -92,15 +94,17 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
-      <Tooltip title="Export...">
-        <IconButton
-          size="small"
-          aria-label="Export..."
-          onClick={onOpenExportAppDetailsDialog}
-        >
-          <ImportExportIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      {registered && (appsList.length !== 0) && (
+        <Tooltip title="Back up...">
+          <IconButton
+            size="small"
+            aria-label="Back up..."
+            onClick={onOpenBackupAppDetailsDialog}
+          >
+            <ImportExportIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
       <Tooltip title="Sort by...">
         <IconButton
           size="small"
@@ -148,24 +152,28 @@ Toolbar.defaultProps = {
 
 Toolbar.propTypes = {
   activeQuery: PropTypes.string,
+  appsList: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
-  onOpenExportAppDetailsDialog: PropTypes.func.isRequired,
+  onOpenBackupAppDetailsDialog: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
+  registered: PropTypes.bool.isRequired,
   sortInstalledAppBy: PropTypes.string.isRequired,
 };
 
 const actionCreators = {
   fetchLatestTemplateVersionAsync,
-  openExportAppDetailsDialog,
+  openBackupAppDetailsDialog,
   updateAllApps,
 };
 
 const mapStateToProps = (state) => ({
   activeQuery: state.installed.activeQuery,
+  appsList: state.appManagement.apps,
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
+  registered: state.preferences.registered,
   sortInstalledAppBy: state.preferences.sortInstalledAppBy,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
 });

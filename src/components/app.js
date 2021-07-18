@@ -14,7 +14,7 @@ import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
-import DialogExportAppDetails from './dialogs/dialog-export-app-details';
+import DialogBackupAppDetails from './dialogs/dialog-backup-app-details';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
@@ -97,7 +97,7 @@ const App = ({
       <DialogCatalogAppDetails />
       <DialogCreateCustomApp />
       <DialogEditApp />
-      <DialogExportAppDetails />
+      <DialogBackupAppDetails />
       <DialogLicenseRegistration />
       <DialogOpenSourceNotices />
       <DialogSetInstallationPath />

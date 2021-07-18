@@ -3,14 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import {
-  DIALOG_EXPORT_APP_DETAILS_CLOSE,
-  DIALOG_EXPORT_APP_DETAILS_OPEN,
+  DIALOG_BACKUP_APP_DETAILS_CLOSE,
+  DIALOG_BACKUP_APP_DETAILS_OPEN,
 } from '../../constants/actions';
 
 export const close = () => ({
-  type: DIALOG_EXPORT_APP_DETAILS_CLOSE,
+  type: DIALOG_BACKUP_APP_DETAILS_CLOSE,
 });
 
 export const open = () => ({
-  type: DIALOG_EXPORT_APP_DETAILS_OPEN,
+  type: DIALOG_BACKUP_APP_DETAILS_OPEN,
 });

@@ -43,7 +43,6 @@ const SectionSync = ({
             // e.g. it opens production app instead of dev env
             if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
               requestSignInWithPopup();
-              return;
             }
             requestOpenInBrowser('https://accounts.webcatalog.app/token');
           }}

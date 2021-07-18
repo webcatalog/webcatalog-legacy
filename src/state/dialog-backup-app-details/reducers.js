@@ -4,15 +4,15 @@
 import { combineReducers } from 'redux';
 
 import {
-  DIALOG_EXPORT_APP_DETAILS_CLOSE,
-  DIALOG_EXPORT_APP_DETAILS_OPEN,
+  DIALOG_BACKUP_APP_DETAILS_CLOSE,
+  DIALOG_BACKUP_APP_DETAILS_OPEN,
 } from '../../constants/actions';
 
 const open = (state = false, action) => {
   switch (action.type) {
-    case DIALOG_EXPORT_APP_DETAILS_CLOSE:
+    case DIALOG_BACKUP_APP_DETAILS_CLOSE:
       return false;
-    case DIALOG_EXPORT_APP_DETAILS_OPEN:
+    case DIALOG_BACKUP_APP_DETAILS_OPEN:
       return true;
     default:
       return state;

@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+/* eslint-disable object-curly-newline */
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
@@ -21,22 +22,22 @@ import {
 } from '@material-ui/core';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
-import { close } from '../../state/dialog-export-app-details/actions';
+import { close } from '../../state/dialog-backup-app-details/actions';
 import getAssetPath from '../../helpers/get-asset';
+import getFilename from '../../helpers/get-filename';
 import {
   APP_DETAILS_FILENAME,
   APP_DETAILS_ZIP_FILENAME,
   APP_IMAGES_FOLDERNAME,
 } from '../../constants/backups';
-import getFilename from '../../helpers/get-filename';
 
-const DialogExportAppDetails = () => {
+const DialogBackupAppDetails = () => {
   const dispatch = useDispatch();
 
   const [selectedApps, setSelectedApps] = useState([]);
   const [allAppsSelected, setAllAppsSelected] = useState(false);
 
-  const open = useSelector((state) => state.dialogExportAppDetails.open);
+  const open = useSelector((state) => state.dialogBackupAppDetails.open);
   const appsList = useSelector((state) => Object.entries(state.appManagement.apps));
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
@@ -55,19 +56,28 @@ const DialogExportAppDetails = () => {
     setSelectedApps(newSelectedApps);
     setAllAppsSelected(isAllAppsSelected);
   }, [appsList, selectedApps]);
-  const onExportAppDetails = useCallback(async () => {
+  const onBackupAppDetails = useCallback(async () => {
     // TODO: Add zip utils for better architecture.
     const zip = new JSZip();
     const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
 
-    zip.file(APP_DETAILS_FILENAME, JSON.stringify(appsList));
+    const selectedAppsData = appsList
+      .filter((_, index) => selectedApps.indexOf(index) !== -1)
+      .map(([appKey, appInfo]) => {
+        const { id, name, url, icon, opts } = appInfo;
 
-    await Promise.all(appsList.map(async ([appKey, appInfo]) => {
+        return [appKey, { id, name, url, icon, opts }];
+      });
+
+    zip.file(APP_DETAILS_FILENAME, JSON.stringify(selectedApps));
+
+    await Promise.all(selectedAppsData.map(async ([appKey, appInfo]) => {
       if (appKey.startsWith('custom-')) {
         const { icon } = appInfo;
         const iconFilename = getFilename(icon);
 
-        const fileResponse = await window.fetch(getAssetPath(icon));
+        // eslint-disable-next-line no-undef
+        const fileResponse = await fetch(getAssetPath(icon));
         const fileResponseBody = await fileResponse.body;
         const dataStream = await fileResponseBody.getReader().read();
 
@@ -75,10 +85,9 @@ const DialogExportAppDetails = () => {
       }
     }));
 
-    zip.generateAsync({ type: 'blob' }).then((zipFileBlob) => {
-      FileSaver.saveAs(zipFileBlob, APP_DETAILS_ZIP_FILENAME);
-    });
-  }, [appsList]);
+    const zipFileBlob = await zip.generateAsync({ type: 'blob' });
+    FileSaver.saveAs(zipFileBlob, APP_DETAILS_ZIP_FILENAME);
+  }, [selectedApps, appsList]);
 
   const onAllAppSelected = () => {
     setAllAppsSelected(!allAppsSelected);
@@ -153,13 +162,13 @@ const DialogExportAppDetails = () => {
         </Button>
         <Button
           color="primary"
-          onClick={onExportAppDetails}
+          onClick={onBackupAppDetails}
         >
-          Export
+          Backup
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default DialogExportAppDetails;
+export default DialogBackupAppDetails;
