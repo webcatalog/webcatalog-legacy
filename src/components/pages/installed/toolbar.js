@@ -97,9 +97,9 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
-      {/* {registered && ( */}
+      {registered && (
         <>
-          {/* {appsList.length !== 0 && (
+          {(appsList.length !== 0) && (
             <Tooltip title="Back up...">
               <IconButton
                 size="small"
@@ -109,7 +109,7 @@ const Toolbar = ({
                 <ImportExportIcon fontSize="small" />
               </IconButton>
             </Tooltip>
-          )} */}
+          )}
           {
             <Tooltip title="Restore apps...">
               <IconButton
@@ -122,7 +122,7 @@ const Toolbar = ({
             </Tooltip>
           }
         </>
-      {/* )} */}
+      )}
       <Tooltip title="Sort by...">
         <IconButton
           size="small"
