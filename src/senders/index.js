@@ -42,6 +42,19 @@ export const requestInstallApp = (id, name, url, icon, opts) => {
 
   window.ipcRenderer.send('request-install-app', id, name, url, icon, opts);
 };
+export const requestInstallCustomApp = (id, name, url, iconFilename, iconData, opts) => {
+  // only log engine & app type to protect privacy
+  amplitude.getInstance().logEvent('restore app', {
+    multisiteApp: url == null,
+  });
+
+  // only track installs for apps in the catalog
+  if (!id.startsWith('custom-')) {
+    trackInstallAsync(amplitude.getInstance().options.deviceId, id);
+  }
+
+  window.ipcRenderer.send('request-install-custom-app', id, name, url, iconFilename, iconData, opts);
+};
 export const requestUpdateApp = (id, name, url, icon, opts) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('update app', {

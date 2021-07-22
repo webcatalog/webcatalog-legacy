@@ -8,6 +8,7 @@ const {
   nativeTheme,
   shell,
 } = require('electron');
+const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
 
 const { captureException } = require('@sentry/electron');
@@ -167,59 +168,70 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
+  const onInstallApp = (e, id, name, url, icon, opts) => {
+    send(e.sender, 'set-app', id, {
+      status: 'INSTALLING',
+      lastUpdated: new Date().getTime(),
+      id,
+      name,
+      url,
+      icon,
+      opts,
+      cancelable: true,
+    });
+
+    promiseFuncMap[id] = () => {
+      // prevent canceling when installation has already started
+      send(e.sender, 'set-app', id, {
+        cancelable: false,
+      });
+
+      return installAppAsync(id, name, url, icon, opts)
+        .then((newApp) => {
+          send(e.sender, 'set-app', id, {
+            ...newApp,
+            status: 'INSTALLED',
+            registered: getPreference('registered'),
+          });
+          send(e.sender, 'enqueue-snackbar', `${name} is installed successfully.`, 'success');
+          delete promiseFuncMap[id];
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+          if (error && error.message && error.message.includes('is not installed')) {
+            send(e.sender, 'enqueue-snackbar', error.message, 'error');
+          } else if (error && error.message && error.message.startsWith('WebCatalog is outdated')) {
+            send(e.sender, 'enqueue-snackbar', error.message, 'error');
+          } else {
+            captureException(error);
+            send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error');
+          }
+          send(e.sender, 'remove-app', id);
+          delete promiseFuncMap[id];
+        });
+    };
+
+    p = p.then(() => {
+      if (promiseFuncMap[id]) {
+        return promiseFuncMap[id]();
+      }
+      return null;
+    });
+  };
+
   ipcMain.on('request-install-app', (e, id, name, url, icon, opts) => {
     Promise.resolve()
-      .then(() => {
-        send(e.sender, 'set-app', id, {
-          status: 'INSTALLING',
-          lastUpdated: new Date().getTime(),
-          id,
-          name,
-          url,
-          icon,
-          opts,
-          cancelable: true,
-        });
+      .then(onInstallApp(e, id, name, url, icon, opts));
+  });
 
-        promiseFuncMap[id] = () => {
-          // prevent canceling when installation has already started
-          send(e.sender, 'set-app', id, {
-            cancelable: false,
-          });
+  ipcMain.on('request-install-custom-app', (e, id, name, url, iconFilename, iconData, opts) => {
+    const tmpFolderPath = app.getPath('temp');
+    const tmpIconPath = `${tmpFolderPath}${iconFilename}`;
+    fs.writeFileSync(tmpIconPath, iconData);
 
-          return installAppAsync(id, name, url, icon, opts)
-            .then((newApp) => {
-              send(e.sender, 'set-app', id, {
-                ...newApp,
-                status: 'INSTALLED',
-                registered: getPreference('registered'),
-              });
-              send(e.sender, 'enqueue-snackbar', `${name} is installed successfully.`, 'success');
-              delete promiseFuncMap[id];
-            })
-            .catch((error) => {
-              // eslint-disable-next-line no-console
-              console.log(error);
-              if (error && error.message && error.message.includes('is not installed')) {
-                send(e.sender, 'enqueue-snackbar', error.message, 'error');
-              } else if (error && error.message && error.message.startsWith('WebCatalog is outdated')) {
-                send(e.sender, 'enqueue-snackbar', error.message, 'error');
-              } else {
-                captureException(error);
-                send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error');
-              }
-              send(e.sender, 'remove-app', id);
-              delete promiseFuncMap[id];
-            });
-        };
-
-        p = p.then(() => {
-          if (promiseFuncMap[id]) {
-            return promiseFuncMap[id]();
-          }
-          return null;
-        });
-      });
+    Promise.resolve()
+      .then(onInstallApp(e, id, name, url, tmpIconPath, opts));
   });
 
   ipcMain.on('request-update-app', (e, id, name, url, icon, opts) => {

@@ -69,12 +69,12 @@ const DialogBackupAppDetails = () => {
         return [appKey, { id, name, url, icon, opts }];
       });
 
-    zip.file(APP_DETAILS_FILENAME, JSON.stringify(selectedApps));
+    zip.file(APP_DETAILS_FILENAME, JSON.stringify(selectedAppsData));
 
     await Promise.all(selectedAppsData.map(async ([appKey, appInfo]) => {
       if (appKey.startsWith('custom-')) {
-        const { icon } = appInfo;
-        const iconFilename = getFilename(icon);
+        const { name, icon } = appInfo;
+        const iconFilename = `${name}-${getFilename(icon)}`;
 
         // eslint-disable-next-line no-undef
         const fileResponse = await fetch(getAssetPath(icon));
@@ -87,6 +87,8 @@ const DialogBackupAppDetails = () => {
 
     const zipFileBlob = await zip.generateAsync({ type: 'blob' });
     FileSaver.saveAs(zipFileBlob, APP_DETAILS_ZIP_FILENAME);
+
+    onClose();
   }, [selectedApps, appsList]);
 
   const onAllAppSelected = () => {
