@@ -1,15 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-
-import connectComponent from '../../helpers/connect-component';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
 
 import { close } from '../../state/dialog-about/actions';
 import { open as openDialogOpenSourceNotices } from '../../state/dialog-open-source-notices/actions';
@@ -19,7 +20,7 @@ import { requestOpenInBrowser } from '../../senders';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styles = (theme) => ({
+const useStyle = makeStyles((theme) => ({
   icon: {
     height: 96,
     width: 96,
@@ -56,15 +57,27 @@ const styles = (theme) => ({
       textDecoration: 'underline',
     },
   },
-});
+}));
 
-const About = ({
-  classes,
-  onClose,
-  onOpenDialogOpenSourceNotices,
-  open,
-}) => {
-  const appVersion = window.remote.app.getVersion();
+const DialogAbout = () => {
+  const classes = useStyle();
+  const dispatch = useDispatch();
+
+  const appVersion = useMemo(() => window.remote.app.getVersion(), [window.remote.app]);
+
+  const open = useSelector((state) => state.dialogAbout.open);
+
+  const onClose = useCallback(() => dispatch(close()), [dispatch]);
+
+  const onOpenDialogOpenSourceNotices = useCallback(
+    () => dispatch(openDialogOpenSourceNotices), [dispatch],
+  );
+  const onOpenWebsite = useCallback(
+    () => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app'), [requestOpenInBrowser],
+  );
+  const onOpenHelp = useCallback(
+    () => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app'), [requestOpenInBrowser],
+  );
 
   return (
     <Dialog
@@ -76,32 +89,35 @@ const About = ({
         About
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <img src={iconPng} alt="WebCatalog" className={classes.icon} />
-        <Typography variant="h6" className={classes.title}>WebCatalog</Typography>
+        <img
+          className={classes.icon}
+          src={iconPng}
+          alt="WebCatalog"
+        />
         <Typography
-          variant="body2"
+          className={classes.title}
+          variant="h6"
+        >
+          WebCatalog
+        </Typography>
+        <Typography
           className={classes.version}
+          variant="body2"
         >
           {`Version v${appVersion} (${window.process.arch})`}
         </Typography>
 
-        <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app')}
-        >
+        <Button onClick={onOpenWebsite}>
           Website
         </Button>
 
-        <Button
-          onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}
-        >
+        <Button onClick={onOpenHelp}>
           Help
         </Button>
 
         <br />
 
-        <Button
-          onClick={onOpenDialogOpenSourceNotices}
-        >
+        <Button onClick={onOpenDialogOpenSourceNotices}>
           Open Source Notices
         </Button>
       </DialogContent>
@@ -109,25 +125,4 @@ const About = ({
   );
 };
 
-About.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  open: state.dialogAbout.open,
-});
-
-const actionCreators = {
-  close,
-  openDialogOpenSourceNotices,
-};
-
-export default connectComponent(
-  About,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogAbout;
