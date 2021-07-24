@@ -63,9 +63,9 @@ const DialogAbout = () => {
   const classes = useStyle();
   const dispatch = useDispatch();
 
-  const appVersion = useMemo(() => window.remote.app.getVersion(), [window.remote.app]);
-
   const open = useSelector((state) => state.dialogAbout.open);
+
+  const appVersion = useMemo(() => window.remote.app.getVersion(), [window.remote.app]);
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
 
