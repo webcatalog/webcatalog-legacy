@@ -21,9 +21,9 @@ const getChromeUserAgent = () => {
 // fix Google prevents signing in because of security concerns
 // https://github.com/webcatalog/webcatalog-app/issues/455
 // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
-const getFakeEdgeUserAgent = () => {
-  const fakedEdgeUaStr = `${getChromeUserAgent()} Edge/18.18875`;
-  return fakedEdgeUaStr;
+const getFakeFirefoxUserAgent = () => {
+  const fakedFirefoxUaStr = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0) Gecko/20100101 Firefox/90.0';
+  return fakedFirefoxUaStr;
 };
 
 const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
@@ -45,10 +45,10 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
     childWindow.webContents.on('will-navigate', (e, url) => {
       // fix Google prevents signing in because of security concerns
       if (url && url.includes('providerId=google.com')) {
-        const fakeEdgeUa = getFakeEdgeUserAgent();
+        const fakeEdgeUa = getFakeFirefoxUserAgent();
         if (e.sender.userAgent !== fakeEdgeUa) {
           e.preventDefault();
-          e.sender.setUserAgent(getFakeEdgeUserAgent());
+          e.sender.setUserAgent(getFakeFirefoxUserAgent());
           e.sender.loadURL(url);
         }
       }
