@@ -142,6 +142,7 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
             return (
               <>
                 <CreateCustomAppCard urlDisabled={isRouteSpaces} />
+                {!isRouteSpaces && <SubmitAppCard />}
                 {isRouteSpaces && <InstalledSpaces />}
                 {results.map((app) => (
                   <AppCard
@@ -157,7 +158,6 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
                       ? app.icon_unplated_128.raw : app.icon_128.raw}
                   />
                 ))}
-                <SubmitAppCard />
                 {!isRouteSpaces && (
                   <Grid item xs={12} container justifyContent="center">
                     <Paging />

@@ -35,6 +35,7 @@ import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
 import { open as openDialogOpenSourceNotices } from '../../../state/dialog-open-source-notices/actions';
 import { open as openDialogSetInstallationPath } from '../../../state/dialog-set-installation-path/actions';
+import { open as openDialogBackupRestore } from '../../../state/dialog-backup-restore/actions';
 
 import {
   requestCheckForUpdates,
@@ -184,6 +185,7 @@ const Preferences = ({
   onOpenDialogAbout,
   onOpenDialogOpenSourceNotices,
   onOpenDialogSetInstallationPath,
+  onOpenDialogBackupRestore,
   openAtLogin,
   requireAdmin,
   sentry,
@@ -558,6 +560,11 @@ const Preferences = ({
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
                 <ChevronRightIcon color="action" />
               </ListItem>
+              <Divider />
+              <ListItem button onClick={onOpenDialogBackupRestore}>
+                <ListItemText primary="Backup and restore apps & spaces" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
               {window.process.platform === 'win32' && (
                 <>
                   <Divider />
@@ -792,6 +799,7 @@ Preferences.propTypes = {
   onOpenDialogAbout: PropTypes.func.isRequired,
   onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
   onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
+  onOpenDialogBackupRestore: PropTypes.func.isRequired,
   openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
   requireAdmin: PropTypes.bool.isRequired,
   sentry: PropTypes.bool.isRequired,
@@ -831,6 +839,7 @@ const actionCreators = {
   openDialogAbout,
   openDialogOpenSourceNotices,
   openDialogSetInstallationPath,
+  openDialogBackupRestore,
 };
 
 export default connectComponent(
