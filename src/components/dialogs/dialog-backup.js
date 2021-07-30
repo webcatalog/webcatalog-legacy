@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
-import { close } from '../../state/dialog-backup-app-details/actions';
+import { close } from '../../state/dialog-backup/actions';
 import getAssetPath from '../../helpers/get-asset';
 import getFilename from '../../helpers/get-filename';
 import {
@@ -31,13 +31,13 @@ import {
   APP_IMAGES_FOLDERNAME,
 } from '../../constants/backups';
 
-const DialogBackupAppDetails = () => {
+const DialogBackup = () => {
   const dispatch = useDispatch();
 
   const [selectedApps, setSelectedApps] = useState([]);
   const [allAppsSelected, setAllAppsSelected] = useState(false);
 
-  const open = useSelector((state) => state.dialogBackupAppDetails.open);
+  const open = useSelector((state) => state.dialogBackup.open);
   const appsList = useSelector((state) => Object.entries(state.appManagement.apps));
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
@@ -56,7 +56,7 @@ const DialogBackupAppDetails = () => {
     setSelectedApps(newSelectedApps);
     setAllAppsSelected(isAllAppsSelected);
   }, [appsList, selectedApps]);
-  const onBackupAppDetails = useCallback(async () => {
+  const onBackup = useCallback(async () => {
     // TODO: Add zip utils for better architecture.
     const zip = new JSZip();
     const imagesFolder = zip.folder(APP_IMAGES_FOLDERNAME);
@@ -89,7 +89,7 @@ const DialogBackupAppDetails = () => {
     FileSaver.saveAs(zipFileBlob, APP_DETAILS_ZIP_FILENAME);
 
     onClose();
-  }, [selectedApps, appsList]);
+  }, [selectedApps, appsList, onClose]);
 
   const onAllAppSelected = () => {
     setAllAppsSelected(!allAppsSelected);
@@ -164,7 +164,7 @@ const DialogBackupAppDetails = () => {
         </Button>
         <Button
           color="primary"
-          onClick={onBackupAppDetails}
+          onClick={onBackup}
         >
           Backup
         </Button>
@@ -173,4 +173,4 @@ const DialogBackupAppDetails = () => {
   );
 };
 
-export default DialogBackupAppDetails;
+export default DialogBackup;

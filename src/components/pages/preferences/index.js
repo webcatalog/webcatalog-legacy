@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -198,7 +198,7 @@ const Preferences = ({
   const sections = {
     account: {
       text: 'Licensing',
-      Icon: AccountCircleIcon,
+      Icon: CheckCircleIcon,
       ref: useRef(),
     },
     sync: {

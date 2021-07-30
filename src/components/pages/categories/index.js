@@ -175,7 +175,7 @@ const Categories = ({ classes, onChangeRoute }) => {
                         selected={selected}
                       >
                         <ListItemIcon>
-                          <Icon fontSize="default" />
+                          <Icon fontSize="medium" />
                         </ListItemIcon>
                         <ListItemText
                           primary={text}

@@ -200,10 +200,10 @@ const Home = ({
                       <ListItemIcon classes={{ root: classes.listItemIcon }}>
                         {sectionKey === 'updates' ? (
                           <Badge color="secondary" badgeContent={appBadgeCount}>
-                            <Icon fontSize="default" />
+                            <Icon fontSize="medium" />
                           </Badge>
                         ) : (
-                          <Icon fontSize="default" />
+                          <Icon fontSize="medium" />
                         )}
                       </ListItemIcon>
                       <ListItemText
