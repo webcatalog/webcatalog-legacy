@@ -9,6 +9,7 @@ import dialogAbout from './dialog-about/reducers';
 import dialogCatalogAppDetails from './dialog-catalog-app-details/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogEditApp from './dialog-edit-app/reducers';
+import dialogBackupRestore from './dialog-backup-restore/reducers';
 import dialogBackup from './dialog-backup/reducers';
 import dialogRestore from './dialog-restore/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   dialogCatalogAppDetails,
   dialogCreateCustomApp,
   dialogEditApp,
+  dialogBackupRestore,
   dialogBackup,
   dialogRestore,
   dialogLicenseRegistration,

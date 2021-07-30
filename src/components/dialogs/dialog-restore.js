@@ -11,10 +11,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  IconButton,
 } from '@material-ui/core';
-
-import PublishIcon from '@material-ui/icons/Publish';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import { close } from '../../state/dialog-restore/actions';
@@ -77,19 +74,17 @@ const DialogRestore = () => {
         Restore Apps & Spaces
       </EnhancedDialogTitle>
       <DialogContent>
-        <IconButton
-          color="primary"
+        <Button
+          variant="contained"
+          size="large"
           onClick={onUploadAppDetailsZip}
         >
-          <PublishIcon fontSize="large" />
-        </IconButton>
+          Choose ZIP file
+        </Button>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>
           Cancel
-        </Button>
-        <Button color="primary">
-          Restore Apps
         </Button>
       </DialogActions>
     </Dialog>

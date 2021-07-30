@@ -18,7 +18,7 @@ import connectComponent from '../../../helpers/connect-component';
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
 import { updateAllApps } from '../../../state/app-management/actions';
-import { open as openRestoreDialog } from '../../../state/dialog-restore/actions';
+import { open as openDialogBackupRestore } from '../../../state/dialog-backup-restore/actions';
 
 import {
   requestGetInstalledApps,
@@ -62,7 +62,7 @@ const Toolbar = ({
   fetchingLatestTemplateVersion,
   onFetchLatestTemplateVersionAsync,
   onUpdateAllApps,
-  onOpenRestoreDialog,
+  onOpenDialogBackupRestore,
   outdatedAppCount,
   sortInstalledAppBy,
 }) => (
@@ -92,11 +92,11 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
-      <Tooltip title="Backup & restore...">
+      <Tooltip title="Backup & Restore...">
         <IconButton
           size="small"
-          aria-label="Restore apps..."
-          onClick={onOpenRestoreDialog}
+          aria-label="Backup & Restore..."
+          onClick={onOpenDialogBackupRestore}
         >
           <RestoreIcon fontSize="small" />
         </IconButton>
@@ -150,7 +150,7 @@ Toolbar.propTypes = {
   activeQuery: PropTypes.string,
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
-  onOpenRestoreDialog: PropTypes.func.isRequired,
+  onOpenDialogBackupRestore: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
@@ -159,7 +159,7 @@ Toolbar.propTypes = {
 
 const actionCreators = {
   fetchLatestTemplateVersionAsync,
-  openRestoreDialog,
+  openDialogBackupRestore,
   updateAllApps,
 };
 

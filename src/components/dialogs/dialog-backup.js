@@ -19,6 +19,7 @@ import {
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
+  Typography,
 } from '@material-ui/core';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
@@ -112,6 +113,9 @@ const DialogBackup = () => {
         Backup Apps & Spaces
       </EnhancedDialogTitle>
       <DialogContent>
+        <Typography variant="body2" color="textSecondary" gutterBottom>
+          Choose which apps & spaces to backup.
+        </Typography>
         <List>
           <ListItem
             button

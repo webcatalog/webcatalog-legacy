@@ -6,11 +6,20 @@ import {
   DIALOG_BACKUP_APP_DETAILS_CLOSE,
   DIALOG_BACKUP_APP_DETAILS_OPEN,
 } from '../../constants/actions';
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 
 export const close = () => ({
   type: DIALOG_BACKUP_APP_DETAILS_CLOSE,
 });
 
-export const open = () => ({
-  type: DIALOG_BACKUP_APP_DETAILS_OPEN,
-});
+export const open = () => (dispatch, getState) => {
+  const { registered } = getState().preferences;
+  if (!registered) {
+    dispatch(openDialogLicenseRegistration());
+    return;
+  }
+
+  dispatch({
+    type: DIALOG_BACKUP_APP_DETAILS_OPEN,
+  });
+};
