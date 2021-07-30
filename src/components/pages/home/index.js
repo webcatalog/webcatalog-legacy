@@ -64,7 +64,7 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
     <SecondaryToolbar />
     <Divider />
     <div className={classes.scrollContainer} ref={scrollContainerRef}>
-      <Grid item xs container spacing={1} justify="space-evenly">
+      <Grid item xs container spacing={1} justifyContent="space-evenly">
         <WithSearch
           mapContextToProps={({
             error,
@@ -129,9 +129,9 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
                   >
                     Your query did not match any apps in our database.
                   </Typography>
-                  <Grid container justify="center" spacing={1} className={classes.noMatchingResultOpts}>
-                    <SubmitAppCard />
+                  <Grid container justifyContent="center" spacing={1} className={classes.noMatchingResultOpts}>
                     <CreateCustomAppCard />
+                    <SubmitAppCard />
                   </Grid>
                 </EmptyState>
               );
@@ -157,8 +157,9 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
                       ? app.icon_unplated_128.raw : app.icon_128.raw}
                   />
                 ))}
+                <SubmitAppCard />
                 {!isRouteSpaces && (
-                  <Grid item xs={12} container justify="center">
+                  <Grid item xs={12} container justifyContent="center">
                     <Paging />
                   </Grid>
                 )}

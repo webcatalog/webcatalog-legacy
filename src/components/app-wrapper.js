@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/pink';
 
@@ -33,7 +33,7 @@ const AppWrapper = ({ shouldUseDarkColors }) => {
     },
   };
 
-  const theme = createMuiTheme(themeObj);
+  const theme = createTheme(themeObj);
 
   return (
     <MuiThemeProvider theme={theme}>

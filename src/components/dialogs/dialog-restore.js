@@ -17,20 +17,20 @@ import {
 import PublishIcon from '@material-ui/icons/Publish';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
-import { close } from '../../state/dialog-restore-app-details/actions';
+import { close } from '../../state/dialog-restore/actions';
 import getAssetPath from '../../helpers/get-asset';
 import { APP_DETAILS_FILENAME, APP_IMAGES_FOLDERNAME } from '../../constants/backups';
 import { requestInstallApp, requestInstallCustomApp } from '../../senders';
 import getFilename from '../../helpers/get-filename';
 
-const DialogRestoreAppDetails = () => {
+const DialogRestore = () => {
   const dispatch = useDispatch();
 
-  const open = useSelector((state) => state.dialogRestoreAppDetails.open);
+  const open = useSelector((state) => state.dialogRestore.open);
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
 
-  const onUploadAppDetailsZip = useCallback(async () => {
+  const onUploadAppDetailsZip = async () => {
     const filePaths = window.remote.dialog.showOpenDialogSync({
       filters: [
         { name: 'App Details', extensions: ['.zip'] },
@@ -64,7 +64,7 @@ const DialogRestoreAppDetails = () => {
         }
       });
     }
-  });
+  };
 
   return (
     <Dialog
@@ -96,4 +96,4 @@ const DialogRestoreAppDetails = () => {
   );
 };
 
-export default DialogRestoreAppDetails;
+export default DialogRestore;

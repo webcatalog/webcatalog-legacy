@@ -123,7 +123,7 @@ const Container = ({
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
-          resultsPerPage: 59,
+          resultsPerPage: 58,
           disjunctiveFacets: ['category'],
           result_fields: {
             id: { raw: {} },
