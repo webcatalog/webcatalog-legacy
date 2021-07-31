@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { useDropzone } from 'react-dropzone';
@@ -71,6 +71,10 @@ const DialogRestore = () => {
     setSelectedAppDetails([]);
     setAllAppSelected(false);
   };
+
+  useEffect(() => {
+    if (!open) resetDialogStates();
+  }, [open]);
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
   const onUploadAppDetailsZip = useCallback(async (assetPath) => {
@@ -143,11 +147,20 @@ const DialogRestore = () => {
         }
       }
     });
-    resetDialogStates();
 
     onClose();
     window.ipcRenderer.emit('enqueue-snackbar', null, 'Restore successfully.', 'success');
   }, [selectedAppDetails, customAppsIconData, appDetails, installedApps, onClose]);
+
+  const { getRootProps, getInputProps } = useCallback(useDropzone(({
+    accept: 'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
+    maxFiles: 1,
+    onDrop: (files) => {
+      if (files && files.length > 0) {
+        onUploadAppDetailsZip(files[0].path);
+      }
+    },
+  })), [useDropzone]);
 
   const onAllAppSelected = () => {
     setAllAppSelected(!allAppsSelected);
@@ -159,15 +172,16 @@ const DialogRestore = () => {
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone(({
-    accept: 'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
-    maxFiles: 1,
-    onDrop: (files) => {
-      if (files && files.length > 0) {
-        onUploadAppDetailsZip(files[0].path);
-      }
-    },
-  }));
+  const getAppIconSrc = (appKey, icon) => {
+    if (isCustomApp(appKey)) {
+      const iconUInt8Data = customAppsIconData[appKey]?.iconData;
+      const base64Str = Buffer.from(iconUInt8Data).toString('base64') || '';
+
+      return `data:image/png;base64, ${base64Str}`;
+    }
+
+    return getAssetPath(icon);
+  };
 
   return (
     <Dialog
@@ -203,32 +217,40 @@ const DialogRestore = () => {
                   />
                 </ListItemSecondaryAction>
               </ListItem>
-              {appDetails && appDetails.map(([appKey, appInfo], appIndex) => (
-                <ListItem
-                  button
-                  dense
-                  key={appKey}
-                  onClick={onAppSelected(appIndex)}
-                >
-                  <ListItemAvatar>
-                    <Avatar src={getAssetPath(appInfo.icon)} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    id={appKey}
-                    primary={appInfo.name}
-                  />
-                  <ListItemSecondaryAction>
-                    <Checkbox
-                      edge="end"
-                      color="primary"
-                      tabIndex={-1}
-                      disableRipple
-                      checked={selectedAppDetails.indexOf(appIndex) !== -1}
-                      onChange={onAppSelected(appIndex)}
+              {appDetails && appDetails.map(([appKey, appInfo], appIndex) => {
+                const isAppRestoreDisabled = installedApps.includes(appKey);
+                const checkedState = (selectedAppDetails.indexOf(appIndex) !== -1)
+                  && !isAppRestoreDisabled;
+
+                return (
+                  <ListItem
+                    button
+                    dense
+                    key={appKey}
+                    disabled={isAppRestoreDisabled}
+                    onClick={onAppSelected(appIndex)}
+                  >
+                    <ListItemAvatar>
+                      <Avatar src={getAppIconSrc(appKey, appInfo.icon)} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      id={appKey}
+                      primary={appInfo.name}
                     />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
+                    <ListItemSecondaryAction>
+                      <Checkbox
+                        edge="end"
+                        color="primary"
+                        tabIndex={-1}
+                        disableRipple
+                        disabled={isAppRestoreDisabled}
+                        checked={checkedState}
+                        onChange={onAppSelected(appIndex)}
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
             </List>
           </>
         ) : (
