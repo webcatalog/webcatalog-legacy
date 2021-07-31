@@ -159,6 +159,8 @@ const DialogRestore = () => {
   };
 
   const { getRootProps, getInputProps } = useDropzone(({
+    accept: 'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
+    maxFiles: 1,
     onDrop: (files) => {
       if (files && files.length > 0) {
         onUploadAppDetailsZip(files[0].path);
