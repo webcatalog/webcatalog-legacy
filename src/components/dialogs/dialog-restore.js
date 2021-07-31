@@ -89,7 +89,7 @@ const DialogRestore = () => {
         }
         return [appKey, {
           ...appInfo,
-          icon: `https://cdn-1.webcatalog.io/catalog/${appKey}/${appKey}-icon-128.webp`,
+          icon: `https://cdn-1.webcatalog.io/catalog/${appKey}/${appKey}-icon.png`,
         }];
       });
 
