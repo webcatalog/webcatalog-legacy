@@ -137,7 +137,7 @@ const DialogCreateCustomApp = (props) => {
           </Select>
           <FormHelperText>
             <Link
-              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+              onClick={() => requestOpenInBrowser('https://docs.webcatalog.io/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
               className={classes.link}
             >
               What is the difference between apps and spaces?

@@ -206,7 +206,7 @@ const AppCard = (props) => {
       {
         label: 'Preferences...',
         visible: status === INSTALLED,
-        click: () => requestOpenInBrowser('https://help.webcatalog.app/article/35-how-can-i-change-an-apps-preferences?utm_source=webcatalog_app'),
+        click: () => requestOpenInBrowser('https://docs.webcatalog.io/article/35-how-can-i-change-an-apps-preferences?utm_source=webcatalog_app'),
       },
       {
         type: 'separator',
@@ -223,7 +223,7 @@ const AppCard = (props) => {
       {
         label: 'What\'s New',
         visible: engine === 'electron',
-        click: () => requestOpenInBrowser('https://webcatalog.app/release-notes?utm_source=webcatalog_app'),
+        click: () => requestOpenInBrowser('https://webcatalog.io/webcatalog/release-notes/?utm_source=webcatalog_app'),
       },
       !engine || engine === 'electron' ? {
         label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
@@ -403,7 +403,7 @@ const AppCard = (props) => {
               size="small"
               aria-label="Warning"
               classes={{ root: classes.topLeft }}
-              onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/14-is-it-possible-to-create-apps-using-non-electron-browser-engines')}
+              onClick={() => requestOpenInBrowser('https://docs.webcatalog.io/article/14-is-it-possible-to-create-apps-using-non-electron-browser-engines')}
             >
               <WarningIcon fontSize="small" />
             </IconButton>

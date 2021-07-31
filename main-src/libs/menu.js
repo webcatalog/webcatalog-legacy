@@ -187,7 +187,7 @@ const createMenu = () => {
       submenu: [
         {
           label: 'WebCatalog Help',
-          click: () => shell.openExternal('https://help.webcatalog.app?utm_source=webcatalog_app'),
+          click: () => shell.openExternal('https://docs.webcatalog.io?utm_source=webcatalog_app'),
         },
         {
           label: 'Request New Features',
