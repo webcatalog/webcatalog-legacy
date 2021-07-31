@@ -118,7 +118,6 @@ const DialogRestore = () => {
   const onAppSelected = useCallback((appIndex) => () => {
     const currentAppIndex = selectedAppDetails.indexOf(appIndex);
     const newSelectedApps = [...selectedAppDetails];
-    const isAllAppsSelected = (appDetails.length === newSelectedApps.length);
 
     if (currentAppIndex === -1) {
       newSelectedApps.push(appIndex);
@@ -127,6 +126,7 @@ const DialogRestore = () => {
       newSelectedApps.splice(currentAppIndex, 1);
     }
 
+    const isAllAppsSelected = (appDetails.length === newSelectedApps.length);
     setSelectedAppDetails(newSelectedApps);
     setAllAppSelected(isAllAppsSelected);
   }, [appDetails, selectedAppDetails]);
