@@ -45,7 +45,6 @@ const DialogBackup = () => {
   const onAppSelected = useCallback((appIndex) => () => {
     const currentAppIndex = selectedApps.indexOf(appIndex);
     const newSelectedApps = [...selectedApps];
-    const isAllAppsSelected = (appsList.length === newSelectedApps.length);
 
     if (currentAppIndex === -1) {
       newSelectedApps.push(appIndex);
@@ -54,6 +53,7 @@ const DialogBackup = () => {
       newSelectedApps.splice(currentAppIndex, 1);
     }
 
+    const isAllAppsSelected = (appsList.length === newSelectedApps.length);
     setSelectedApps(newSelectedApps);
     setAllAppsSelected(isAllAppsSelected);
   }, [appsList, selectedApps]);
