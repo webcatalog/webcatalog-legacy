@@ -82,7 +82,16 @@ const DialogRestore = () => {
 
     const appDetailsContent = await JSZip.loadAsync(fileBlob);
     const appDetailsRes = await appDetailsContent.files[APP_DETAILS_FILENAME].async('text');
-    const appDetailsData = JSON.parse(appDetailsRes);
+    const appDetailsData = JSON.parse(appDetailsRes)
+      .map(([appKey, appInfo]) => {
+        if (isCustomApp(appKey)) {
+          return [appKey, appInfo];
+        }
+        return [appKey, {
+          ...appInfo,
+          icon: `https://cdn-1.webcatalog.io/catalog/${appKey}/${appKey}-icon-filled-128.webp`,
+        }];
+      });
 
     // Caching custom app images
     const appIconsData = await Promise.all(appDetailsData.map(async ([appKey, appInfo]) => {
