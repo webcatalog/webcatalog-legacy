@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { useDropzone } from 'react-dropzone';
@@ -167,6 +167,11 @@ const DialogRestore = () => {
       setSelectedAppDetails([...Array(appDetails.length).keys()]);
     }
   };
+
+  // clean up when dialog is closed
+  useEffect(() => {
+    if (!open) updateAppDetails([]);
+  }, [open]);
 
   const { getRootProps, getInputProps } = useDropzone(({
     accept: 'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
