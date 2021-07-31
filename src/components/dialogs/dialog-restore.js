@@ -7,6 +7,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { useDropzone } from 'react-dropzone';
+import { useSnackbar } from 'notistack';
 
 import {
   Avatar,
@@ -56,6 +57,7 @@ const useStyle = makeStyles((theme) => ({
 const DialogRestore = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
+  const { enqueueSnackbar } = useSnackbar();
 
   const open = useSelector((state) => state.dialogRestore.open);
   const installedApps = useSelector((state) => state.installed.filteredSortedAppIds
@@ -146,6 +148,7 @@ const DialogRestore = () => {
     resetDialogStates();
 
     onClose();
+    enqueueSnackbar('Restore successfully.', { variant: 'success' });
   }, [selectedAppDetails, customAppsIconData, appDetails, installedApps, onClose]);
 
   const onAllAppSelected = () => {
