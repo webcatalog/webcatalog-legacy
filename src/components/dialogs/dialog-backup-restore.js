@@ -28,6 +28,9 @@ const DialogBackupRestore = () => {
   const dispatch = useDispatch();
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
   const open = useSelector((state) => state.dialogBackupRestore.open);
+  const canBackup = useSelector((state) => (
+    state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds
+  ).length > 0);
 
   return (
     <Dialog
@@ -37,7 +40,7 @@ const DialogBackupRestore = () => {
       maxWidth="sm"
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Backup & Restore Apps & Spaces (ALPHA)
+        Backup & Restore Apps & Spaces
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography variant="body2" color="textSecondary" gutterBottom>
@@ -51,6 +54,7 @@ const DialogBackupRestore = () => {
               onClose();
               dispatch(openDialogBackup());
             }}
+            disabled={!canBackup}
           >
             <ListItemIcon>
               <SvgIcon fontSize="large">
