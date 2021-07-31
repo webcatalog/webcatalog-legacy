@@ -105,7 +105,7 @@ const DialogRestore = () => {
 
     updateCustomAppsIconData(newAppIconsData);
     updateAppDetails(appDetailsData);
-  }, [appDetails, customAppsIconData]);
+  }, []);
   const onAppSelected = useCallback((appIndex) => () => {
     const currentAppIndex = selectedAppDetails.indexOf(appIndex);
     const newSelectedApps = [...selectedAppDetails];
@@ -146,7 +146,7 @@ const DialogRestore = () => {
     resetDialogStates();
 
     onClose();
-  }, [selectedAppDetails, customAppsIconData]);
+  }, [selectedAppDetails, customAppsIconData, appDetails, installedApps, onClose]);
 
   const onAllAppSelected = () => {
     setAllAppSelected(!allAppsSelected);
