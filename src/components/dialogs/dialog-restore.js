@@ -2,14 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable object-curly-newline */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
+import { useDropzone } from 'react-dropzone';
 
 import {
   Avatar,
   Button,
-  ButtonBase,
   Checkbox,
   Dialog,
   DialogActions,
@@ -22,7 +23,6 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/FolderOpenOutlined';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import { close } from '../../state/dialog-restore/actions';
@@ -32,16 +32,24 @@ import { requestInstallApp, requestInstallCustomApp } from '../../senders';
 import getFilename from '../../helpers/get-filename';
 import isCustomApp from '../../helpers/is-custom-app';
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
   dialogBody: {
     display: 'inline-block',
   },
-  uploadFile: {
-    height: '240px',
-    width: '100%',
-  },
-  uploadFileIcon: {
-    fontSize: 64,
+  dropZone: {
+    border: '2px dashed',
+    borderColor: theme.palette.divider,
+    borderRadius: 5,
+    background: theme.palette.background.default,
+    height: 200,
+    lineHeight: '160px',
+    textAlign: 'center',
+    color: theme.palette.text.disabled,
+    userSelect: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+      borderColor: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -65,47 +73,38 @@ const DialogRestore = () => {
   };
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
-  const onUploadAppDetailsZip = useCallback(async () => {
-    const filePaths = window.remote.dialog.showOpenDialogSync({
-      filters: [
-        { name: 'App Details', extensions: ['.zip'] },
-      ],
-      properties: ['openFile'],
+  const onUploadAppDetailsZip = useCallback(async (assetPath) => {
+    const filePath = getAssetPath(assetPath);
+
+    // eslint-disable-next-line no-undef
+    const fileResponse = await fetch(filePath);
+    const fileBlob = await fileResponse.blob();
+
+    const appDetailsContent = await JSZip.loadAsync(fileBlob);
+    const appDetailsRes = await appDetailsContent.files[APP_DETAILS_FILENAME].async('text');
+    const appDetailsData = JSON.parse(appDetailsRes);
+
+    // Caching custom app images
+    const appIconsData = await Promise.all(appDetailsData.map(async ([appKey, appInfo]) => {
+      if (isCustomApp(appKey)) {
+        const { name, icon } = appInfo;
+        const iconFilename = `${name}-${getFilename(icon)}`;
+        const iconFilePath = `${APP_IMAGES_FOLDERNAME}/${iconFilename}`;
+        const iconData = await appDetailsContent.files[iconFilePath].async('uint8array');
+
+        return { [appKey]: { iconFilename, iconData } };
+      }
+
+      return { };
+    }));
+
+    let newAppIconsData = { };
+    appIconsData.forEach((iconsData) => {
+      newAppIconsData = { ...newAppIconsData, ...iconsData };
     });
 
-    if (filePaths && filePaths.length !== 0) {
-      const filePath = getAssetPath(filePaths[0]);
-
-      // eslint-disable-next-line no-undef
-      const fileResponse = await fetch(filePath);
-      const fileBlob = await fileResponse.blob();
-
-      const appDetailsContent = await JSZip.loadAsync(fileBlob);
-      const appDetailsRes = await appDetailsContent.files[APP_DETAILS_FILENAME].async('text');
-      const appDetailsData = JSON.parse(appDetailsRes);
-
-      // Caching custom app images
-      const appIconsData = await Promise.all(appDetailsData.map(async ([appKey, appInfo]) => {
-        if (isCustomApp(appKey)) {
-          const { name, icon } = appInfo;
-          const iconFilename = `${name}-${getFilename(icon)}`;
-          const iconFilePath = `${APP_IMAGES_FOLDERNAME}/${iconFilename}`;
-          const iconData = await appDetailsContent.files[iconFilePath].async('uint8array');
-
-          return { [appKey]: { iconFilename, iconData } };
-        }
-
-        return { };
-      }));
-
-      let newAppIconsData = { };
-      appIconsData.forEach((iconsData) => {
-        newAppIconsData = { ...newAppIconsData, ...iconsData };
-      });
-
-      updateCustomAppsIconData(newAppIconsData);
-      updateAppDetails(appDetailsData);
-    }
+    updateCustomAppsIconData(newAppIconsData);
+    updateAppDetails(appDetailsData);
   }, [appDetails, customAppsIconData]);
   const onAppSelected = useCallback((appIndex) => () => {
     const currentAppIndex = selectedAppDetails.indexOf(appIndex);
@@ -158,6 +157,14 @@ const DialogRestore = () => {
       setSelectedAppDetails([...Array(appDetails.length).keys()]);
     }
   };
+
+  const { getRootProps, getInputProps } = useDropzone(({
+    onDrop: (files) => {
+      if (files && files.length > 0) {
+        onUploadAppDetailsZip(files[0].path);
+      }
+    },
+  }));
 
   return (
     <Dialog
@@ -222,13 +229,10 @@ const DialogRestore = () => {
             </List>
           </>
         ) : (
-          <ButtonBase
-            className={classes.uploadFile}
-            onClick={onUploadAppDetailsZip}
-          >
-            <FolderIcon className={classes.uploadFileIcon} />
-            Choose ZIP file to restore.
-          </ButtonBase>
+          <div {...getRootProps({ className: classes.dropZone })}>
+            <input {...getInputProps()} />
+            <p>Drop backup ZIP file here or click to select.</p>
+          </div>
         )}
       </DialogContent>
       <DialogActions>

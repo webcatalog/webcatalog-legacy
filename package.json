@@ -86,6 +86,7 @@
     "prop-types": "15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
+    "react-dropzone": "11.3.4",
     "react-markdown": "5.0.3",
     "react-redux": "7.2.4",
     "react-scripts": "3.4.4",
