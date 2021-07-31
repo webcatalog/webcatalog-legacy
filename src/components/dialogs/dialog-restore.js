@@ -7,7 +7,6 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { useDropzone } from 'react-dropzone';
-import { useSnackbar } from 'notistack';
 
 import {
   Avatar,
@@ -29,7 +28,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import { close } from '../../state/dialog-restore/actions';
 import getAssetPath from '../../helpers/get-asset';
 import { APP_DETAILS_FILENAME, APP_IMAGES_FOLDERNAME } from '../../constants/backups';
-import { requestInstallApp, requestInstallCustomApp } from '../../senders';
+import { requestInstallApp, requestInstallAppWithIconData } from '../../senders';
 import getFilename from '../../helpers/get-filename';
 import isCustomApp from '../../helpers/is-custom-app';
 
@@ -57,7 +56,6 @@ const useStyle = makeStyles((theme) => ({
 const DialogRestore = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
-  const { enqueueSnackbar } = useSnackbar();
 
   const open = useSelector((state) => state.dialogRestore.open);
   const installedApps = useSelector((state) => state.installed.filteredSortedAppIds
@@ -139,7 +137,7 @@ const DialogRestore = () => {
         if (isCustomApp(appKey)) {
           const { iconFilename, iconData } = customAppsIconData[appKey];
 
-          requestInstallCustomApp(id, name, url, iconFilename, iconData, opts);
+          requestInstallAppWithIconData(id, name, url, iconFilename, iconData, opts);
         } else {
           requestInstallApp(id, name, url, icon, opts);
         }
@@ -148,7 +146,7 @@ const DialogRestore = () => {
     resetDialogStates();
 
     onClose();
-    enqueueSnackbar('Restore successfully.', { variant: 'success' });
+    window.ipcRenderer.emit('enqueue-snackbar', null, 'Restore successfully.', 'success');
   }, [selectedAppDetails, customAppsIconData, appDetails, installedApps, onClose]);
 
   const onAllAppSelected = () => {
