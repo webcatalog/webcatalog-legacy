@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,9 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-
-import connectComponent from '../../helpers/connect-component';
-import isUrl from '../../helpers/is-url';
+import { makeStyles } from '@material-ui/core';
 
 import freedesktopMainCategories from '../../constants/freedesktop-main-categories';
 import freedesktopAdditionalCategories from '../../constants/freedesktop-additional-categories';
@@ -41,8 +39,9 @@ import {
 import defaultIcon from '../../assets/default-icon.png';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
+import getAssetPath from '../../helpers/get-asset';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -69,36 +68,37 @@ const styles = (theme) => ({
   link: {
     cursor: 'pointer',
   },
-});
+}));
 
-const DialogCreateCustomApp = (props) => {
+const DialogCreateCustomApp = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.dialogCreateCustomApp.open);
+  const form = useSelector((state) => state.dialogCreateCustomApp.form);
+  const downloadingIcon = useSelector((state) => state.dialogCreateCustomApp.downloadingIcon);
+
   const {
-    classes,
-    downloadingIcon,
     freedesktopAdditionalCategory,
-    freedesktopMainCategory,
+    freedesktopMainCategory = 'Network',
     icon,
     internetIcon,
     name,
     nameError,
-    onClose,
-    onCreate,
-    onGetIconFromInternet,
-    onGetIconFromAppSearch,
-    onUpdateForm,
-    open,
     url,
     urlDisabled,
     urlError,
-  } = props;
+  } = useMemo(() => (form || { }), [form]);
+  const iconPath = useMemo(
+    () => (icon ? getAssetPath(icon) : (internetIcon || defaultIcon)),
+    [form],
+  );
 
-  let iconPath = defaultIcon;
-  if (icon) {
-    if (isUrl(icon)) iconPath = icon;
-    else iconPath = `file://${icon}`;
-  } else if (internetIcon) {
-    iconPath = internetIcon;
-  }
+  const onClose = useCallback(() => dispatch(close()), [dispatch]);
+  const onCreate = useCallback(() => dispatch(create()), [dispatch]);
+  const onGetIconFromInternet = useCallback(() => dispatch(getIconFromInternet()), [dispatch]);
+  const onGetIconFromAppSearch = useCallback(() => dispatch(getIconFromAppSearch()), [dispatch]);
+  const onUpdateForm = useCallback((formData) => dispatch(updateForm(formData)), [dispatch]);
 
   return (
     <Dialog
@@ -194,7 +194,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-              onClick={() => onGetIconFromInternet()}
+              onClick={onGetIconFromInternet}
             >
               {downloadingIcon ? 'Downloading...' : 'Download Icon from URL'}
             </Button>
@@ -204,7 +204,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-              onClick={() => onGetIconFromAppSearch()}
+              onClick={onGetIconFromAppSearch}
             >
               {downloadingIcon ? 'Downloading...' : 'Download Icon from WebCatalog'}
             </Button>
@@ -296,80 +296,4 @@ const DialogCreateCustomApp = (props) => {
   );
 };
 
-DialogCreateCustomApp.defaultProps = {
-  freedesktopAdditionalCategory: '',
-  freedesktopMainCategory: 'Network',
-  icon: null,
-  internetIcon: null,
-  name: '',
-  nameError: null,
-  url: '',
-  urlError: null,
-};
-
-DialogCreateCustomApp.propTypes = {
-  classes: PropTypes.object.isRequired,
-  downloadingIcon: PropTypes.bool.isRequired,
-  freedesktopAdditionalCategory: PropTypes.string,
-  freedesktopMainCategory: PropTypes.string,
-  icon: PropTypes.string,
-  internetIcon: PropTypes.string,
-  name: PropTypes.string,
-  nameError: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onGetIconFromInternet: PropTypes.func.isRequired,
-  onGetIconFromAppSearch: PropTypes.func.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  url: PropTypes.string,
-  urlDisabled: PropTypes.bool.isRequired,
-  urlError: PropTypes.string,
-};
-
-const mapStateToProps = (state) => {
-  const {
-    downloadingIcon,
-    open,
-    form: {
-      freedesktopAdditionalCategory,
-      freedesktopMainCategory,
-      icon,
-      internetIcon,
-      name,
-      nameError,
-      url,
-      urlDisabled,
-      urlError,
-    },
-  } = state.dialogCreateCustomApp;
-
-  return {
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    internetIcon,
-    name,
-    nameError,
-    open,
-    url,
-    urlDisabled,
-    urlError,
-  };
-};
-
-const actionCreators = {
-  close,
-  create,
-  getIconFromInternet,
-  getIconFromAppSearch,
-  updateForm,
-};
-
-export default connectComponent(
-  DialogCreateCustomApp,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogCreateCustomApp;
