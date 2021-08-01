@@ -42,7 +42,7 @@ export const requestInstallApp = (id, name, url, icon, opts) => {
 
   window.ipcRenderer.send('request-install-app', id, name, url, icon, opts);
 };
-export const requestInstallCustomApp = (id, name, url, iconFilename, iconData, opts) => {
+export const requestInstallAppWithIconData = (id, name, url, iconFilename, iconData, opts) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('restore app', {
     multisiteApp: url == null,
@@ -53,7 +53,7 @@ export const requestInstallCustomApp = (id, name, url, iconFilename, iconData, o
     trackInstallAsync(amplitude.getInstance().options.deviceId, id);
   }
 
-  window.ipcRenderer.send('request-install-custom-app', id, name, url, iconFilename, iconData, opts);
+  window.ipcRenderer.send('request-install-app-with-icon-data', id, name, url, iconFilename, iconData, opts);
 };
 export const requestUpdateApp = (id, name, url, icon, opts) => {
   // only log engine & app type to protect privacy

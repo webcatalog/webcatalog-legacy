@@ -225,7 +225,7 @@ const loadListeners = () => {
       .then(onInstallApp(e, id, name, url, icon, opts));
   });
 
-  ipcMain.on('request-install-custom-app', (e, id, name, url, iconFilename, iconData, opts) => {
+  ipcMain.on('request-install-app-with-icon-data', (e, id, name, url, iconFilename, iconData, opts) => {
     const tmpFolderPath = app.getPath('temp');
     const tmpIconPath = `${tmpFolderPath}${iconFilename}`;
     fs.writeFileSync(tmpIconPath, iconData);
