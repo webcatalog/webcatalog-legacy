@@ -1,8 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,8 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
-
-import connectComponent from '../../helpers/connect-component';
+import { makeStyles } from '@material-ui/core';
 
 import {
   close,
@@ -23,7 +22,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import { requestOpenInBrowser } from '../../senders';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   dialogContentText: {
     marginTop: theme.spacing(2),
   },
@@ -36,18 +35,23 @@ const styles = (theme) => ({
     marginTop: theme.spacing(1),
     textAlign: 'right',
   },
-});
+}));
 
-const DialogLicenseRegistration = (props) => {
+const DialogLicenseRegistration = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.dialogEditApp.open);
+  const form = useSelector((state) => state.dialogEditApp.form);
+
   const {
-    classes,
     licenseKey,
     licenseKeyError,
-    onClose,
-    onUpdateForm,
-    onRegister,
-    open,
-  } = props;
+  } = useMemo(() => (form || { }), [form]);
+
+  const onClose = useCallback(() => dispatch(close()), [dispatch]);
+  const onUpdateForm = useCallback((formData) => dispatch(updateForm(formData)), [dispatch]);
+  const onRegister = useCallback(() => dispatch(register()), [dispatch]);
 
   return (
     <Dialog
@@ -130,46 +134,4 @@ const DialogLicenseRegistration = (props) => {
   );
 };
 
-DialogLicenseRegistration.defaultProps = {
-  licenseKey: '',
-  licenseKeyError: null,
-};
-
-DialogLicenseRegistration.propTypes = {
-  classes: PropTypes.object.isRequired,
-  licenseKey: PropTypes.string,
-  licenseKeyError: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  onRegister: PropTypes.func.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  const {
-    open,
-    form: {
-      licenseKey,
-      licenseKeyError,
-    },
-  } = state.dialogLicenseRegistration;
-
-  return {
-    licenseKey,
-    licenseKeyError,
-    open,
-  };
-};
-
-const actionCreators = {
-  close,
-  updateForm,
-  register,
-};
-
-export default connectComponent(
-  DialogLicenseRegistration,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogLicenseRegistration;
