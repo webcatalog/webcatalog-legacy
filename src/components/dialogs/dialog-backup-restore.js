@@ -40,7 +40,7 @@ const DialogBackupRestore = () => {
       maxWidth="sm"
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Backup & Restore Apps & Spaces
+        Backup & Restore Apps & Spaces (BETA)
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography variant="body2" color="textSecondary" gutterBottom>
