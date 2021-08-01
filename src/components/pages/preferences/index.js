@@ -440,7 +440,7 @@ const Preferences = ({
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.app/privacy?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy/?utm_source=webcatalog_app')}>
                 <ListItemText primary="Privacy Policy" />
                 <ChevronRightIcon color="action" />
               </ListItem>
@@ -738,12 +738,12 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.app?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/?utm_source=webcatalog_app')}>
                 <ListItemText primary="Website" />
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}>
+              <ListItem button onClick={() => requestOpenInBrowser('https://docs.webcatalog.io?utm_source=webcatalog_app')}>
                 <ListItemText primary="Help" />
                 <ChevronRightIcon color="action" />
               </ListItem>

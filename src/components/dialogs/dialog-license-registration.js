@@ -95,7 +95,7 @@ const DialogLicenseRegistration = (props) => {
 
         <DialogContentText className={classes.helpContent}>
           <Button
-            onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
+            onClick={() => requestOpenInBrowser('https://docs.webcatalog.io/article/9-i-lost-my-license-key-how-can-i-retrieve-it?utm_source=webcatalog_app')}
           >
             Lost your license key?
           </Button>

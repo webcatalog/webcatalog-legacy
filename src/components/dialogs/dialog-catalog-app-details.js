@@ -140,7 +140,7 @@ const DialogCatalogAppDetails = ({
                           size="small"
                           aria-label="What is this?"
                           classes={{ root: classes.helpButton }}
-                          onClick={() => requestOpenInBrowser('https://help.webcatalog.app/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
+                          onClick={() => requestOpenInBrowser('https://docs.webcatalog.io/article/18-what-is-the-difference-between-standard-apps-and-multisite-apps')}
                         >
                           <HelpIcon fontSize="small" />
                         </IconButton>
