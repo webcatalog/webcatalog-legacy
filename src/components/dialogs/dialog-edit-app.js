@@ -44,7 +44,7 @@ import {
 } from '../../senders';
 import getAssetPath from '../../helpers/get-asset';
 
-const useStyles = makeStyles((theme) => ({
+const useStyle = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogEditApp = () => {
-  const classes = useStyles();
+  const classes = useStyle();
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.dialogEditApp.open);

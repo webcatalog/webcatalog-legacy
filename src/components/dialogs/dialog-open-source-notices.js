@@ -31,16 +31,20 @@ const DialogOpenSourceNotices = () => {
 
   const [content, setContent] = useState('');
 
-  useEffect(async () => {
-    try {
-      const res = await window.fetch('./open-source-notices.txt');
-      const text = await res.text();
+  useEffect(() => {
+    const fetchOpenSourceNotice = async () => {
+      try {
+        const res = await window.fetch('./open-source-notices.txt');
+        const text = await res.text();
 
-      setContent(text);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    }
+        setContent(text);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      }
+    };
+
+    fetchOpenSourceNotice();
   });
 
   return (

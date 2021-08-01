@@ -41,7 +41,7 @@ import defaultIcon from '../../assets/default-icon.png';
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 import getAssetPath from '../../helpers/get-asset';
 
-const useStyles = makeStyles((theme) => ({
+const useStyle = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogCreateCustomApp = () => {
-  const classes = useStyles();
+  const classes = useStyle();
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.dialogCreateCustomApp.open);

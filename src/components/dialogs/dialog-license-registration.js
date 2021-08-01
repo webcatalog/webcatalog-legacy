@@ -22,7 +22,7 @@ import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import { requestOpenInBrowser } from '../../senders';
 
-const useStyles = makeStyles((theme) => ({
+const useStyle = makeStyles((theme) => ({
   dialogContentText: {
     marginTop: theme.spacing(2),
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogLicenseRegistration = () => {
-  const classes = useStyles();
+  const classes = useStyle();
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.dialogEditApp.open);
