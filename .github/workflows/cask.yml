@@ -35,7 +35,7 @@ jobs:
         brew update
         brew tap vitorgalvao/tiny-scripts
         brew install cask-repair
-        git config --global user.email "quang.lam@webcatalog.app"
+        git config --global user.email "quang.lam@webcatalog.io"
         git config --global user.name "Quang Lam (GitHub Actions)"
         (cd $(brew --repository) && hub issue)
         HOMEBREW_NO_COLOR=1 cask-repair --cask-version $(node -p -e "require('./package.json').version") --blind-submit webcatalog

@@ -12,7 +12,7 @@
 |---|---|
 |[![Linux (x64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(x64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28x64%29%22)|[![Linux (arm64)](https://github.com/webcatalog/webcatalog-app/workflows/Linux%20(arm64)/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow%3A%22Linux+%28arm64%29%22)|
 
-**[WebCatalog](https://webcatalog.app)** - Turn Websites into Desktop Apps.
+**[WebCatalog](https://webcatalog.io/webcatalog/)** - Turn Websites into Desktop Apps.
 
 **master** branch only includes the source code of WebCatalog 13 and above. For older versions, check out the **legacy-** branches.
 
@@ -20,7 +20,7 @@
 
 ## Licensing
 ### Usage
-**WebCatalog is a commercial product.** [Learn more about  our pricing](https://webcatalog.app/pricing).
+**WebCatalog is a commercial product.** [Learn more about  our pricing](https://webcatalog.io/webcatalog/pricing/).
 
 ### Source Code
 On the other hand, **the source code is freely available** for use, modification and distribution under the permissions, limitations and conditions listed in the [Mozilla Public License 2.0](LICENSE).

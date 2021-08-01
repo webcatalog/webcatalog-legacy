@@ -5,7 +5,7 @@
 const generateUrlWithRef = (url) => {
   if (!url) return null;
   const urlObj = new URL(url);
-  urlObj.searchParams.append('ref', 'webcatalog.app');
+  urlObj.searchParams.append('ref', 'webcatalog.io');
   return urlObj.toString();
 };
 
