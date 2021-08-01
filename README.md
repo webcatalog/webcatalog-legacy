@@ -28,7 +28,7 @@ On the other hand, **the source code is freely available** for use, modification
 ---
 
 ## Development
-This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [Neutron](https://help.webcatalog.app/article/23-what-is-neutron), the core that powers the apps created with WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
+This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [Neutron](https://docs.webcatalog.io/article/23-what-is-neutron), the core that powers the apps created with WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
 
 For the app to be fully functional, set these environment variables:
 ```

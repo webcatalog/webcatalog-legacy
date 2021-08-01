@@ -92,7 +92,7 @@ const About = ({
         </Button>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://help.webcatalog.app?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://docs.webcatalog.io?utm_source=webcatalog_app')}
         >
           Help
         </Button>
