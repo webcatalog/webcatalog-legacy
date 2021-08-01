@@ -22,7 +22,7 @@
   "repository": "https://github.com/webcatalog/webcatalog-app",
   "author": {
     "name": "WebCatalog Ltd",
-    "email": "contact@webcatalog.app"
+    "email": "contact@webcatalog.io"
   },
   "dependencies": {},
   "devDependencies": {

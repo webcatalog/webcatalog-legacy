@@ -138,8 +138,8 @@ Promise.resolve()
     if (!id.startsWith('custom-')) {
       // use unplated icon on Windows
       const catalogIconUrl = process.platform === 'win32'
-        ? `https://storage.webcatalog.app/catalog/${id}/${id}-icon-unplated.png`
-        : `https://storage.webcatalog.app/catalog/${id}/${id}-icon.png`;
+        ? `https://cdn-1.webcatalog.io/catalog/${id}/${id}-icon-unplated.png`
+        : `https://cdn-1.webcatalog.io/catalog/${id}/${id}-icon.png`;
       return downloadAsync(catalogIconUrl, iconPngPath)
         .catch(() => fsExtra.copy(icon, iconPngPath)); // fallback if fails
     }

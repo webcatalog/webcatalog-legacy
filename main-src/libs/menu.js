@@ -199,7 +199,7 @@ const createMenu = () => {
         },
         {
           label: 'Learn More',
-          click: () => shell.openExternal('https://webcatalog.app?utm_source=webcatalog_app'),
+          click: () => shell.openExternal('https://webcatalog.io/webcatalog/?utm_source=webcatalog_app'),
         },
         { type: 'separator' },
         {
