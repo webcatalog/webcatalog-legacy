@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
@@ -21,9 +21,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-
-import connectComponent from '../../helpers/connect-component';
-import isUrl from '../../helpers/is-url';
+import { makeStyles } from '@material-ui/core';
 
 import {
   close,
@@ -44,8 +42,9 @@ import freedesktopAdditionalCategories from '../../constants/freedesktop-additio
 import {
   requestOpenInBrowser,
 } from '../../senders';
+import getAssetPath from '../../helpers/get-asset';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -75,38 +74,39 @@ const styles = (theme) => ({
   link: {
     cursor: 'pointer',
   },
-});
+}));
 
-const DialogEditApp = (props) => {
+const DialogEditApp = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.dialogEditApp.open);
+  const form = useSelector((state) => state.dialogEditApp.form);
+  const savable = useSelector((state) => state.dialogEditApp.savable);
+  const downloadingIcon = useSelector((state) => state.dialogEditApp.downloadingIcon);
+
   const {
-    classes,
-    downloadingIcon,
     freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    id,
+    freedesktopMainCategory = 'Network',
+    icon = null,
+    id = null,
     internetIcon,
     name,
-    onClose,
-    onGetIconFromInternet,
-    onGetIconFromAppSearch,
-    onSave,
-    onUpdateForm,
-    onUpdateFormOpts,
-    open,
-    savable,
     url,
     urlDisabled,
     urlError,
-  } = props;
+  } = useMemo(() => (form || { }), [form]);
+  const iconPath = useMemo(
+    () => (icon ? getAssetPath(icon) : (internetIcon || defaultIcon)),
+    [form],
+  );
 
-  let iconPath = defaultIcon;
-  if (icon) {
-    if (isUrl(icon)) iconPath = icon;
-    else iconPath = `file://${icon}`;
-  } else if (internetIcon) {
-    iconPath = internetIcon;
-  }
+  const onClose = useCallback(() => dispatch(close()), [dispatch]);
+  const onSave = useCallback(() => dispatch(save()), [dispatch]);
+  const onUpdateFormOpts = useCallback(() => dispatch(updateFormOpts), [dispatch]);
+  const onGetIconFromInternet = useCallback(() => dispatch(getIconFromInternet()), [dispatch]);
+  const onGetIconFromAppSearch = useCallback(() => dispatch(getIconFromAppSearch()), [dispatch]);
+  const onUpdateForm = useCallback((formData) => dispatch(updateForm(formData)), [dispatch]);
 
   return (
     <Dialog
@@ -147,7 +147,7 @@ const DialogEditApp = (props) => {
               <img src={iconPath} alt={name} className={classes.icon} />
             </div>
           </Grid>
-          {!id.startsWith('custom-') ? (
+          {!id?.startsWith('custom-') ? (
             <Grid item xs={12} sm="auto">
               <Typography
                 variant="body2"
@@ -295,93 +295,4 @@ const DialogEditApp = (props) => {
   );
 };
 
-DialogEditApp.defaultProps = {
-  freedesktopAdditionalCategory: '',
-  freedesktopMainCategory: 'Network',
-  icon: null,
-  id: '',
-  internetIcon: null,
-  name: '',
-  savable: false,
-  url: '',
-  urlDisabled: false,
-  urlError: null,
-};
-
-DialogEditApp.propTypes = {
-  classes: PropTypes.object.isRequired,
-  downloadingIcon: PropTypes.bool.isRequired,
-  freedesktopAdditionalCategory: PropTypes.string,
-  freedesktopMainCategory: PropTypes.string,
-  icon: PropTypes.string,
-  id: PropTypes.string,
-  internetIcon: PropTypes.string,
-  name: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  onGetIconFromInternet: PropTypes.func.isRequired,
-  onGetIconFromAppSearch: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  onUpdateFormOpts: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  savable: PropTypes.bool,
-  url: PropTypes.string,
-  urlDisabled: PropTypes.bool,
-  urlError: PropTypes.string,
-};
-
-const mapStateToProps = (state) => {
-  const {
-    downloadingIcon,
-    open,
-    savable,
-    form: {
-      opts,
-      icon,
-      id,
-      internetIcon,
-      name,
-      nameError,
-      url,
-      urlDisabled,
-      urlError,
-    },
-  } = state.dialogEditApp;
-
-  const {
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-  } = opts || {};
-
-  return {
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    id,
-    internetIcon,
-    name,
-    nameError,
-    open,
-    savable,
-    url,
-    urlDisabled,
-    urlError,
-  };
-};
-
-const actionCreators = {
-  close,
-  save,
-  getIconFromInternet,
-  getIconFromAppSearch,
-  updateForm,
-  updateFormOpts,
-};
-
-export default connectComponent(
-  DialogEditApp,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogEditApp;
