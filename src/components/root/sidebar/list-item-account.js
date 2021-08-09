@@ -78,7 +78,7 @@ const SectionAccount = ({
         />
         {!registered && (
           <ListItemSecondaryAction>
-            <Button size="small" onClick={() => onOpenDialogLicenseRegistration()}>
+            <Button size="small" onClick={() => onOpenDialogLicenseRegistration()} color="inherit">
               Upgrade
             </Button>
           </ListItemSecondaryAction>
