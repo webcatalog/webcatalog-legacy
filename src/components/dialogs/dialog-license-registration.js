@@ -104,12 +104,12 @@ const DialogLicenseRegistration = (props) => {
       <DialogActions className={classes.dialogActions}>
         <div style={{ flex: 1 }}>
           <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.io/pricing/?utm_source=webcatalog_app')}
+            onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/pricing/?utm_source=webcatalog_app')}
           >
             Purchase a License...
           </Button>
           <Button
-            onClick={() => requestOpenInBrowser('https://webcatalog.io/pricing/?utm_source=webcatalog_app')}
+            onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/pricing/?utm_source=webcatalog_app')}
           >
             Learn More...
           </Button>
