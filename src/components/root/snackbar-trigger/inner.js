@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
 
 import {
+  requestOpenApp,
   requestRestart,
 } from '../../../senders';
 
@@ -16,13 +17,53 @@ const SnackbarTriggerInner = () => {
 
   useEffect(() => {
     window.ipcRenderer.removeAllListeners('enqueue-snackbar');
-    window.ipcRenderer.on('enqueue-snackbar', (_, message, variant) => {
-      enqueueSnackbar(message, { variant, autoHideDuration: 10000 });
+    window.ipcRenderer.on('enqueue-snackbar', (_, message, variant, actionData) => {
+      let action;
+      if (actionData) {
+        switch (actionData.type) {
+          case 'open-app': {
+            action = (key) => (
+              <>
+                <Button color="inherit" onClick={() => requestOpenApp(actionData.id, actionData.name)}>
+                  Open
+                </Button>
+                <Button color="inherit" onClick={() => closeSnackbar(key)}>
+                  Dismiss
+                </Button>
+              </>
+            );
+            break;
+          }
+          case 'show-details': {
+            action = (key) => (
+              <>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                      message: actionData.text,
+                    }).catch(console.log); // eslint-disable-line
+                  }}
+                >
+                  Show Details
+                </Button>
+                <Button color="inherit" onClick={() => closeSnackbar(key)}>
+                  Dismiss
+                </Button>
+              </>
+            );
+            break;
+          }
+          default: break;
+        }
+      }
+
+      enqueueSnackbar(message, { variant, autoHideDuration: 10000, action });
     });
     return () => {
       window.ipcRenderer.removeAllListeners('enqueue-snackbar');
     };
-  }, [enqueueSnackbar]);
+  }, [enqueueSnackbar, closeSnackbar]);
 
   const showRequestRestartSnackbar = useCallback(() => {
     enqueueSnackbar('You need to restart the app for the changes to take effect.', {
