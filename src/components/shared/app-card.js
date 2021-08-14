@@ -223,7 +223,7 @@ const AppCard = (props) => {
       {
         label: 'What\'s New',
         visible: engine === 'electron',
-        click: () => requestOpenInBrowser('https://webcatalog.io/webcatalog/release-notes/?utm_source=webcatalog_app'),
+        click: () => requestOpenInBrowser('https://webcatalog.io/webcatalog/changelog/neutron/?utm_source=webcatalog_app'),
       },
       !engine || engine === 'electron' ? {
         label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
