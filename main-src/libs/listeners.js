@@ -152,7 +152,8 @@ const loadListeners = () => {
               send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name} as the application is in use.`, 'error');
             } else {
               captureException(error);
-              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error');
+              const actionData = error ? { type: 'show-details', text: error.stack } : undefined;
+              send(e.sender, 'enqueue-snackbar', `Failed to uninstall ${name}.`, 'error', actionData);
             }
             send(e.sender, 'set-app', id, {
               status: 'INSTALLED',
@@ -193,7 +194,8 @@ const loadListeners = () => {
             status: 'INSTALLED',
             registered: getPreference('registered'),
           });
-          send(e.sender, 'enqueue-snackbar', `${name} is installed successfully.`, 'success');
+          const actionData = { type: 'open-app', id, name };
+          send(e.sender, 'enqueue-snackbar', `${name} is installed successfully.`, 'success', actionData);
           delete promiseFuncMap[id];
         })
         .catch((error) => {
@@ -205,7 +207,8 @@ const loadListeners = () => {
             send(e.sender, 'enqueue-snackbar', error.message, 'error');
           } else {
             captureException(error);
-            send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error');
+            const actionData = error ? { type: 'show-details', text: error.stack } : undefined;
+            send(e.sender, 'enqueue-snackbar', `Failed to install ${name}.`, 'error', actionData);
           }
           send(e.sender, 'remove-app', id);
           delete promiseFuncMap[id];
@@ -279,7 +282,8 @@ const loadListeners = () => {
               } else if (error && error.message && error.message.startsWith('WebCatalog is outdated')) {
                 send(e.sender, 'enqueue-snackbar', error.message, 'error');
               } else {
-                send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error');
+                const actionData = error ? { type: 'show-details', text: error.stack } : undefined;
+                send(e.sender, 'enqueue-snackbar', `Failed to update ${name}.`, 'error', actionData);
                 captureException(error);
               }
               send(e.sender, 'set-app', id, {
