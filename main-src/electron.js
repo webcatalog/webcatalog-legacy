@@ -159,23 +159,28 @@ if (!gotTheLock) {
         });
 
         if (!privacyConsentAsked) {
-          dialog.showMessageBox(mainWindow.get(), {
-            type: 'question',
-            buttons: ['Allow', 'Don\'t Allow'],
-            message: 'Can we collect anonymous usage statistics and crash reports?',
-            detail: 'The data helps us improve and optimize the product. You can change your decision at any time in the app’s preferences.',
-            cancelId: 1,
-            defaultId: 0,
-          }).then(({ response }) => {
-            setPreference('privacyConsentAsked', true);
-            if (response === 0) {
-              setPreference('sentry', true);
-              setPreference('telemetry', true);
-            } else {
-              setPreference('sentry', false);
-              setPreference('telemetry', false);
-            }
-          }).catch(console.log); // eslint-disable-line
+          // wait for 5s before showing this
+          // the window needs some time to focus
+          // https://github.com/webcatalog/webcatalog-app/issues/1461
+          setTimeout(() => {
+            dialog.showMessageBox(mainWindow.get(), {
+              type: 'question',
+              buttons: ['Allow', 'Don\'t Allow'],
+              message: 'Can we collect anonymous usage statistics and crash reports?',
+              detail: 'The data helps us improve and optimize the product. You can change your decision at any time in the app’s preferences.',
+              cancelId: 1,
+              defaultId: 0,
+            }).then(({ response }) => {
+              setPreference('privacyConsentAsked', true);
+              if (response === 0) {
+                setPreference('sentry', true);
+                setPreference('telemetry', true);
+              } else {
+                setPreference('sentry', false);
+                setPreference('telemetry', false);
+              }
+            }).catch(console.log); // eslint-disable-line
+          }, 5000);
         }
       });
 
