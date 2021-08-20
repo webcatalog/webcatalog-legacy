@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.1.1.tgz#9274ec7460652f9c632c59addf24efb1684ef876"
   integrity sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==
 
-"@amplitude/types@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.0.tgz#58f65f52c05b5ba844322f66b2158eab35651b24"
-  integrity sha512-Jomb5ypMM4fuS+4LThY33mbiLdNgDa3KAypH7bRmTqGnXKd3h2olM0HkHrQtAAbl2tln/hd9IPiSKjRVqoQ3fQ==
+"@amplitude/types@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.1.tgz#e738fca6678432847f46d249ae754584f5789fde"
+  integrity sha512-r4XzG/m8S8brU2mxcnt+E3/pVuSynIbEtoOCnvbGKaLT1eLloEaSzcs/offLsvp19jn/UShrtF41BqXqfItk4A==
 
 "@amplitude/ua-parser-js@0.7.24":
   version "0.7.24"
@@ -18,11 +18,11 @@
   integrity sha512-VbQuJymJ20WEw0HtI2np7EdC3NJGUWi8+Xdbc7uk8WfMIF308T0howpzkQ3JFMN7ejnrcSM/OyNGveeE3TP3TA==
 
 "@amplitude/utils@^1.0.5":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.8.0.tgz#e687d8bb89579bc64455704a6f6d7badee78d3be"
-  integrity sha512-Hl9U2jc8Xp/2/c3QcCQ2ulKzYrdd6DISSHp6Un7v/lW9GdCXwk8aZU8B0MEvmBaAkvMnzJqJsIKqfVOU9iT0Gg==
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.8.1.tgz#36bdcb0cd2ed61645ef6c48746cb04f2f176a3d2"
+  integrity sha512-TiOuNpp3SZHQ4BHoI1Wuk8vclrx+sqTE0+9U+Y8RbbNgP1R89zDrZ25uW9+HQgvSPjEJYjbJxZRXZUDvNl3eKA==
   dependencies:
-    "@amplitude/types" "^1.8.0"
+    "@amplitude/types" "^1.8.1"
     tslib "^1.9.3"
 
 "@babel/code-frame@7.8.3":
