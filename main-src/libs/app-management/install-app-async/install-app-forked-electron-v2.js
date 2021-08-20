@@ -27,6 +27,7 @@ const sudo = require('sudo-prompt');
 const execAsync = require('../../exec-async');
 const downloadAsync = require('../../download-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
+const getWvvmpElectronVersion = require('../../get-wvvmp-electron-version');
 
 // id, name, username might only contain numbers
 // causing yargsParser to parse them correctly as Number instead of String
@@ -280,7 +281,7 @@ Promise.resolve()
 
     // support widevine cdm on mac or linux x64
     if (process.platform === 'darwin' || (process.platform === 'linux' && process.arch === 'x64')) {
-      packagerOpts.electronVersion = `${electronVersion}-wvvmp`;
+      packagerOpts.electronVersion = getWvvmpElectronVersion(electronVersion);
       packagerOpts.download = {
         cacheRoot: electronCachePath,
         mirrorOptions: {
