@@ -43,8 +43,9 @@ const SectionSync = ({
             // e.g. it opens production app instead of dev env
             if (window.process.platform === 'linux' || process.env.NODE_ENV !== 'production') {
               requestSignInWithPopup();
+              return;
             }
-            requestOpenInBrowser('https://accounts.webcatalog.app/token');
+            requestOpenInBrowser('https://webcatalog.io/account/token/');
           }}
         >
           <ListItemText primary="Sign in to WebCatalog" />
@@ -70,7 +71,7 @@ const SectionSync = ({
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
-        <ListItem button onClick={() => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile')}>
+        <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/')}>
           <ListItemText primary="Profile & Password" />
           <ChevronRightIcon color="action" />
         </ListItem>

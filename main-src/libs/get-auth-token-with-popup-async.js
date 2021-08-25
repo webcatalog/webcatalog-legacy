@@ -31,7 +31,7 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
   ses.setUserAgent(getChromeUserAgent());
   const win = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 700,
     webPreferences: {
       session: ses,
       nativeWindowOpen: true,
@@ -58,7 +58,7 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
   win.webContents.setWindowOpenHandler((details) => {
     if (details.url) {
       const urlObj = new URL(details.url);
-      if (urlObj.pathname === '/token/in-app/success') {
+      if (urlObj.pathname === '/account/token/in-app/success') {
         const token = urlObj.searchParams.get('token');
         if (token) {
           resolve(token);
@@ -73,7 +73,7 @@ const getAuthTokenWithPopupAsync = () => new Promise((resolve, reject) => {
     return { action: 'allow' };
   });
 
-  win.loadURL('http://localhost:3001/token/in-app');
+  win.loadURL('https://webcatalog.io/account/token/in-app/');
 
   win.on('did-fail-load', () => {
     reject(new Error('did-fail-load'));
