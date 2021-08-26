@@ -106,7 +106,7 @@ const SectionAccount = ({
           },
           {
             label: 'Profile and Password',
-            click: () => requestOpenInBrowser('https://accounts.webcatalog.app/settings/profile'),
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/'),
           },
           {
             type: 'separator',
