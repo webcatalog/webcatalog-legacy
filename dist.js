@@ -81,7 +81,11 @@ console.log(`Building for: ${process.platform} ${process.platform !== 'linux' ? 
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
+    // use Arch.universal because
+    // electron-updater 4.3.10 -> 4.5.1 has a bug preventing
+    // Intel-based Macs from updating if there exists Arch.arm64 builds
+    // https://github.com/electron-userland/electron-builder/pull/6212
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.universal);
     break;
   }
   case 'win32': {
