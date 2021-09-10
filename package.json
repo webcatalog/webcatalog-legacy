@@ -57,7 +57,7 @@
     "electron-notarize": "1.1.1",
     "electron-packager": "15.3.0",
     "electron-settings": "4.0.2",
-    "electron-updater": "4.4.6",
+    "electron-updater": "4.5.2",
     "electron-window-state": "5.0.3",
     "env-paths": "2.2.1",
     "eslint": "6.8.0",
