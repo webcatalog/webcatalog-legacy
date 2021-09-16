@@ -57,6 +57,7 @@ const styles = (theme) => ({
 });
 
 const SectionAccount = ({
+  currentPlan,
   classes,
   displayName,
   isSignedIn,
@@ -89,6 +90,11 @@ const SectionAccount = ({
     return loginListItem;
   }
 
+  let displayedPlan = currentPlan;
+  if (currentPlan === 'basic' && registered) {
+    displayedPlan = 'pro';
+  }
+
   const accountListItem = (
     <ListItem
       button
@@ -96,7 +102,7 @@ const SectionAccount = ({
       onClick={() => {
         const template = [
           {
-            label: 'Upgrade to WebCatalog Lifetime',
+            label: 'Upgrade...',
             click: () => onOpenDialogLicenseRegistration(),
             visible: !registered,
           },
@@ -105,8 +111,16 @@ const SectionAccount = ({
             visible: !registered,
           },
           {
-            label: 'Profile and Password',
+            label: 'Profile',
             click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/'),
+          },
+          {
+            label: 'Password',
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/password/'),
+          },
+          {
+            label: 'Plans & Billing',
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
           },
           {
             type: 'separator',
@@ -120,7 +134,7 @@ const SectionAccount = ({
         const menu = window.remote.Menu.buildFromTemplate(template);
         menu.popup(window.remote.getCurrentWindow());
       }}
-      title={`${displayName} (${registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'})`}
+      title={`${displayName} (${displayedPlan})`}
     >
       <ListItemAvatar className={classes.listItemIcon}>
         <Avatar alt={displayName} src={photoURL} />
@@ -148,6 +162,7 @@ const SectionAccount = ({
 };
 
 SectionAccount.defaultProps = {
+  currentPlan: 'basic',
   displayName: '',
   isSignedIn: false,
   photoURL: null,
@@ -156,6 +171,7 @@ SectionAccount.defaultProps = {
 
 SectionAccount.propTypes = {
   classes: PropTypes.object.isRequired,
+  currentPlan: PropTypes.string,
   displayName: PropTypes.string,
   isSignedIn: PropTypes.bool,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
@@ -164,6 +180,7 @@ SectionAccount.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  currentPlan: state.user.publicProfile.currentPlan,
   displayName: state.user.displayName,
   isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,

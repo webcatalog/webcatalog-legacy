@@ -29,10 +29,6 @@ const SectionSync = ({
   photoURL,
 }) => (
   <List disablePadding dense>
-    <ListItem>
-      <ListItemText secondary="Syncing is under development and requires a WebCatalog account with WebCatalog Pro subscription." />
-    </ListItem>
-    <Divider />
     {!isSignedIn ? (
       <>
         <ListItem
@@ -51,11 +47,6 @@ const SectionSync = ({
           <ListItemText primary="Sign in to WebCatalog" />
           <ChevronRightIcon color="action" />
         </ListItem>
-        <Divider />
-        <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/AAByYb4hYppP91YRA')}>
-          <ListItemText primary="Join WebCatalog Pro Waitlist" />
-          <ChevronRightIcon color="action" />
-        </ListItem>
       </>
     ) : (
       <>
@@ -66,18 +57,23 @@ const SectionSync = ({
           <ListItemText primary={displayName} secondary="-" />
         </ListItem>
         <Divider />
-        <ListItem button onClick={() => requestOpenInBrowser('https://forms.gle/AAByYb4hYppP91YRA')}>
-          <ListItemText primary="Join WebCatalog Pro Waitlist" />
+        <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/')}>
+          <ListItemText primary="Profile" />
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
-        <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/')}>
-          <ListItemText primary="Profile & Password" />
+        <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/password/')}>
+          <ListItemText primary="Password" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/')}>
+          <ListItemText primary="Plans & Billing" />
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
         <ListItem button onClick={() => firebase.auth().signOut()}>
-          <ListItemText primary="Log Out" />
+          <ListItemText primary="Sign Out" />
           <ChevronRightIcon color="action" />
         </ListItem>
       </>
