@@ -27,6 +27,11 @@ const SectionLicensing = ({
         <ListItemText primary="Upgrade to WebCatalog Lifetime" />
         <ChevronRightIcon color="action" />
       </ListItem>
+      <Divider />
+      <ListItem button disabled>
+        <ListItemText primary="Upgrade to WebCatalog Pro" />
+        <ChevronRightIcon color="action" />
+      </ListItem>
     </>
   );
 
