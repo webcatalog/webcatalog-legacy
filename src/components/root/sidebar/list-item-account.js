@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { getAuth } from 'firebase/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -22,7 +23,7 @@ import { open as openDialogLicenseRegistration } from '../../../state/dialog-lic
 
 import connectComponent from '../../../helpers/connect-component';
 
-import firebase from '../../../firebase';
+import '../../../firebase';
 
 const styles = (theme) => ({
   upgradeListItem: {
@@ -119,7 +120,7 @@ const SectionAccount = ({
             click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/password/'),
           },
           {
-            label: 'Plans & Billing',
+            label: 'Plans and Billing',
             click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
           },
           {
@@ -127,7 +128,7 @@ const SectionAccount = ({
           },
           {
             label: 'Log Out',
-            click: () => firebase.auth().signOut(),
+            click: () => getAuth().signOut(),
           },
         ];
 

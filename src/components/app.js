@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { getAuth } from 'firebase/auth';
 
 import connectComponent from '../helpers/connect-component';
 
@@ -30,7 +31,7 @@ import {
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 import { clearUserState, updateUserAsync } from '../state/user/actions';
 
-import firebase from '../firebase';
+import '../firebase';
 
 const styles = (theme) => ({
   root: {
@@ -73,7 +74,7 @@ const App = ({
   // docs: https://github.com/firebase/firebaseui-web-react
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+    const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
       if (!user) {
         onClearUserState();
         requestUpdateAuthJson();

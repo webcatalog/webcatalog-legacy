@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import amplitude from '../amplitude';
 
-import { trackInstallAsync } from '../firebase/functions';
+import { trackInstallAsync } from '../api/functions';
 
 export const enqueueRequestRestartSnackbar = () => window.ipcRenderer.emit('enqueue-request-restart-snackbar');
 

@@ -4,6 +4,7 @@
 /* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getAuth } from 'firebase/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
@@ -21,7 +22,7 @@ import {
 
 import connectComponent from '../../../helpers/connect-component';
 
-import firebase from '../../../firebase';
+import '../../../firebase';
 
 const SectionSync = ({
   displayName,
@@ -72,7 +73,7 @@ const SectionSync = ({
           <ChevronRightIcon color="action" />
         </ListItem>
         <Divider />
-        <ListItem button onClick={() => firebase.auth().signOut()}>
+        <ListItem button onClick={() => getAuth().signOut()}>
           <ListItemText primary="Sign Out" />
           <ChevronRightIcon color="action" />
         </ListItem>

@@ -3,13 +3,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 // This import loads the firebase namespace.
-import firebase from 'firebase/app';
-
-// These imports load individual services into the firebase namespace.
-import 'firebase/auth';
-import 'firebase/storage';
-import 'firebase/firestore';
-import 'firebase/functions';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 // Configure Firebase.
 const firebaseConfig = {
@@ -21,13 +16,8 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
-export const db = firebase.firestore();
+export const db = getFirestore(firebaseApp);
 
-if (process.env.REACT_APP_USE_EMULATORS) {
-  db.useEmulator('localhost', 8080);
-  firebase.functions().useEmulator('localhost', 5001);
-}
-
-export default firebase;
+export default firebaseApp;
