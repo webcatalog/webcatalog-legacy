@@ -25,9 +25,11 @@ import connectComponent from '../../../helpers/connect-component';
 import '../../../firebase';
 
 const SectionSync = ({
+  currentPlan,
   displayName,
   isSignedIn,
   photoURL,
+  registered,
 }) => (
   <List disablePadding dense>
     {!isSignedIn ? (
@@ -55,7 +57,14 @@ const SectionSync = ({
           <ListItemAvatar>
             <Avatar alt={displayName} src={photoURL} />
           </ListItemAvatar>
-          <ListItemText primary={displayName} secondary="-" />
+          <ListItemText
+            primary={displayName}
+            secondary={(() => {
+              // if user is using lifetime plan, don't show any text to avoid confusion
+              if (registered && currentPlan !== 'pro') return '-';
+              return currentPlan === 'pro' ? 'WebCatalog Pro' : 'WebCatalog Basic';
+            })()}
+          />
         </ListItem>
         <Divider />
         <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/')}>
@@ -83,18 +92,23 @@ const SectionSync = ({
 );
 
 SectionSync.defaultProps = {
+  currentPlan: 'basic',
   displayName: '',
   isSignedIn: false,
   photoURL: null,
+  registered: false,
 };
 
 SectionSync.propTypes = {
+  currentPlan: PropTypes.string,
   displayName: PropTypes.string,
   isSignedIn: PropTypes.bool,
   photoURL: PropTypes.string,
+  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
+  currentPlan: state.user.publicProfile.currentPlan,
   displayName: state.user.displayName,
   isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,
