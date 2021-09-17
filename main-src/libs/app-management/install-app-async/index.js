@@ -9,7 +9,7 @@ const tmp = require('tmp');
 const ws = require('windows-shortcuts');
 const fsExtra = require('fs-extra');
 const { captureException, addBreadcrumb } = require('@sentry/electron');
-const envPaths = require('env-paths');
+const envPaths = require('env-paths').default;
 
 const { getPreferences } = require('../../preferences');
 const sendToAllWindows = require('../../send-to-all-windows');
