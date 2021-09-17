@@ -4,7 +4,7 @@
 const path = require('path');
 const { fork } = require('child_process');
 const { app } = require('electron');
-const envPaths = require('env-paths');
+const envPaths = require('env-paths').default;
 const { addBreadcrumb } = require('@sentry/electron');
 
 const sendToAllWindows = require('../../send-to-all-windows');

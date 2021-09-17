@@ -6,7 +6,7 @@ const semver = require('semver');
 const NodeCache = require('node-cache');
 const { fork } = require('child_process');
 const { app } = require('electron');
-const envPaths = require('env-paths');
+const envPaths = require('env-paths').default;
 const { addBreadcrumb } = require('@sentry/electron');
 
 const customizedFetch = require('../../customized-fetch');
