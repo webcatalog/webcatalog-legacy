@@ -17,19 +17,21 @@ import { open as openDialogLicenseRegistration } from '../../../state/dialog-lic
 import connectComponent from '../../../helpers/connect-component';
 
 const SectionLicensing = ({
+  currentPlan,
   registered,
   onOpenDialogLicenseRegistration,
 }) => {
-  const upgradeToLifetimeComponent = !registered && (
+  let planName = 'Basic';
+  if (currentPlan === 'pro') planName = 'Pro';
+  else if (registered) planName = 'Lifetime';
+
+  const upgradeToLifetimeComponent = planName === 'Basic' && (
     <>
       <Divider />
       <ListItem button onClick={onOpenDialogLicenseRegistration}>
-        <ListItemText primary="Upgrade to WebCatalog Lifetime" />
-        <ChevronRightIcon color="action" />
-      </ListItem>
-      <Divider />
-      <ListItem button disabled>
-        <ListItemText primary="Upgrade to WebCatalog Pro" />
+        <ListItemText
+          primary="Upgrade to WebCatalog Lifetime"
+        />
         <ChevronRightIcon color="action" />
       </ListItem>
     </>
@@ -38,7 +40,7 @@ const SectionLicensing = ({
   return (
     <List dense disablePadding>
       <ListItem button disabled>
-        <ListItemText primary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'} />
+        <ListItemText primary={`WebCatalog ${planName}`} />
       </ListItem>
       {upgradeToLifetimeComponent}
     </List>
@@ -46,15 +48,18 @@ const SectionLicensing = ({
 };
 
 SectionLicensing.defaultProps = {
+  currentPlan: 'basic',
   registered: false,
 };
 
 SectionLicensing.propTypes = {
+  currentPlan: PropTypes.string,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
+  currentPlan: state.user.publicProfile.currentPlan,
   displayName: state.user.displayName,
   isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,

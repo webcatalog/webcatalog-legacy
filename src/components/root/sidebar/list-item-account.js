@@ -68,6 +68,10 @@ const SectionAccount = ({
 }) => {
   const showTooltip = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
+  let planName = 'Basic';
+  if (currentPlan === 'pro') planName = 'Pro';
+  else if (registered) planName = 'Lifetime';
+
   if (!isSignedIn) {
     const loginListItem = (
       <ListItem
@@ -89,11 +93,6 @@ const SectionAccount = ({
     );
 
     return loginListItem;
-  }
-
-  let displayedPlan = currentPlan;
-  if (currentPlan === 'basic' && registered) {
-    displayedPlan = 'pro';
   }
 
   const accountListItem = (
@@ -135,14 +134,14 @@ const SectionAccount = ({
         const menu = window.remote.Menu.buildFromTemplate(template);
         menu.popup(window.remote.getCurrentWindow());
       }}
-      title={`${displayName} (${displayedPlan})`}
+      title={`${displayName} (${planName})`}
     >
       <ListItemAvatar className={classes.listItemIcon}>
         <Avatar alt={displayName} src={photoURL} />
       </ListItemAvatar>
       <ListItemText
         primary={displayName}
-        secondary={registered ? 'WebCatalog Lifetime' : 'WebCatalog Basic'}
+        secondary={`WebCatalog ${planName}`}
         classes={{
           root: classes.listItemText,
           primary: classes.profilePrimaryText,
@@ -154,7 +153,7 @@ const SectionAccount = ({
 
   if (showTooltip) {
     return (
-      <Tooltip title={displayName} placement="right" arrow>
+      <Tooltip title={`${displayName} (${planName})`} placement="right" arrow>
         {accountListItem}
       </Tooltip>
     );

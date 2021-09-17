@@ -10,6 +10,7 @@ import connectComponent from '../helpers/connect-component';
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
 import Container from './root/container';
+import AuthManager from './root/auth-manager';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
@@ -95,6 +96,7 @@ const App = ({
 
       <SnackbarTrigger />
       <TelemetryManager />
+      <AuthManager />
 
       <DialogAbout />
       <DialogCatalogAppDetails />
