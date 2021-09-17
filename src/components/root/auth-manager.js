@@ -4,10 +4,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { getAuth } from '@firebase/auth';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 import connectComponent from '../../helpers/connect-component';
 
-import firebase, { db } from '../../firebase';
+import { db } from '../../firebase';
 
 import { setPublicProfile, updateUserAsync } from '../../state/user/actions';
 
@@ -21,20 +23,19 @@ const AuthManager = ({
       return () => {};
     }
 
-    const { uid } = firebase.auth().currentUser;
-    const publicProfilePref = db.collection('publicProfiles').doc(uid);
+    const { uid } = getAuth().currentUser;
+    const publicProfileRef = doc(db, 'publicProfiles', uid);
 
-    publicProfilePref.get()
-      .then((doc) => {
-        onSetPublicProfile(doc.data());
+    getDoc(publicProfileRef)
+      .then((_doc) => {
+        onSetPublicProfile(_doc.data());
       })
       // eslint-disable-next-line no-console
       .catch(console.log);
 
-    const unsubscribe = publicProfilePref
-      .onSnapshot((doc) => {
-        onSetPublicProfile(doc.data());
-      });
+    const unsubscribe = onSnapshot(publicProfileRef, (_doc) => {
+      setPublicProfile(_doc.data());
+    });
 
     return () => {
       unsubscribe();

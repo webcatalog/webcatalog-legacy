@@ -2,8 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import gravatar from 'gravatar';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getAuth } from '@firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import {
+  getStorage, ref, getDownloadURL,
+} from 'firebase/storage';
 
-import firebase, { db } from '../../firebase';
+import { db } from '../../firebase';
 
 import defaultAvatarPng from '../../assets/default-avatar.png';
 
@@ -37,7 +43,7 @@ export const updateUserState = (updatedState) => ({
 export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
   if (!publicProfile) return;
 
-  const { currentUser } = firebase.auth();
+  const { currentUser } = getAuth();
   if (publicProfile.billingPlan) {
     window.localStorage.setItem(`billingPlan-${currentUser.uid}`, publicProfile.billingPlan);
   } else {
@@ -60,7 +66,7 @@ export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
 };
 
 export const updateUserAsync = () => async (dispatch, getState) => {
-  const { currentUser } = firebase.auth();
+  const { currentUser } = getAuth();
   const currentUserState = getState().user;
 
   if (!currentUser) return Promise.resolve();
@@ -85,7 +91,7 @@ export const updateUserAsync = () => async (dispatch, getState) => {
   Promise.resolve()
     .then(() => {
       if (!currentUserState.authToken) {
-        return firebase.functions().httpsCallable('getLongtermAuthToken')()
+        return httpsCallable(getFunctions(), 'getLongtermAuthToken')()
           .then((result) => result.data.token);
       }
       return currentUserState.authToken;
@@ -102,13 +108,13 @@ export const updateUserAsync = () => async (dispatch, getState) => {
 
   return Promise.resolve()
     .then(async () => {
-      const profileRef = db.collection('editableProfiles').doc(currentUser.uid);
-      const profileDocSnapshot = await profileRef.get();
-      const profile = profileDocSnapshot.data();
+      const profileRef = doc(db, 'editableProfiles', currentUser.uid);
+      const profileDocSnapshot = await getDoc(profileRef);
+      const profileDocSnapshotData = profileDocSnapshot.data();
       let uploadedPhoto;
-      if (profile && profile.photoPath) {
-        const storageRef = firebase.storage().ref(profile.photoPath);
-        uploadedPhoto = await storageRef.getDownloadURL();
+      if (profileDocSnapshotData && profileDocSnapshotData.photoPath) {
+        const storageRef = ref(getStorage(), profileDocSnapshotData.photoPath);
+        uploadedPhoto = await getDownloadURL(storageRef);
       }
       dispatch(updateUserState({
         photoURL: uploadedPhoto
