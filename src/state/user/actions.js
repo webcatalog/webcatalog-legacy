@@ -43,7 +43,7 @@ export const updateUserState = (updatedState) => ({
 export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
   if (!publicProfile) return;
 
-  const { currentUser } = getAuth;
+  const { currentUser } = getAuth();
   if (publicProfile.billingPlan) {
     window.localStorage.setItem(`billingPlan-${currentUser.uid}`, publicProfile.billingPlan);
   } else {
