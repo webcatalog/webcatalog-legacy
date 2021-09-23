@@ -118,10 +118,10 @@ const SectionAccount = ({
             label: 'Password',
             click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/password/'),
           },
-          {
-            label: 'Plans and Billing',
-            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
-          },
+          // {
+          //   label: 'Plans and Billing',
+          //   click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
+          // },
           {
             type: 'separator',
           },
