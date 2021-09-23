@@ -26,7 +26,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SecurityIcon from '@material-ui/icons/Security';
 import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -49,7 +49,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
-import SectionAccount from './section-account';
+// import SectionAccount from './section-account';
 import SectionLicensing from './section-licensing';
 
 const styles = (theme) => ({
@@ -203,11 +203,12 @@ const Preferences = ({
       Icon: CheckCircleIcon,
       ref: useRef(),
     },
-    sync: {
-      text: 'WebCatalog Account',
-      Icon: AccountCircleIcon,
-      ref: useRef(),
-    },
+    // sync: {
+    //   text: 'WebCatalog Account',
+    //   Icon: AccountCircleIcon,
+    //   ref: useRef(),
+    //   hidden: true,
+    // },
     general: {
       text: 'General',
       Icon: WidgetsIcon,
@@ -280,12 +281,17 @@ const Preferences = ({
             <SectionLicensing />
           </Paper>
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.sync.ref}>
+          {/* <Typography
+            variant="subtitle2"
+            color="textPrimary"
+            className={classes.sectionTitle}
+            ref={sections.sync.ref}
+          >
             WebCatalog Account
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <SectionAccount />
-          </Paper>
+          </Paper> */}
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General
