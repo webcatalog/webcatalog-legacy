@@ -128,7 +128,7 @@ class SearchBox extends React.Component {
                     <input
                       {...getInputProps({
                         className: classes.input,
-                        placeholder: 'Search apps & spaces...',
+                        placeholder: 'Search apps & spaces in catalog...',
                         ref: (inputBox) => { this.inputBox = inputBox; },
                       })}
                     />

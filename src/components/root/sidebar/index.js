@@ -19,8 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import StarsIcon from '@material-ui/icons/Stars';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import AppsIcon from '@material-ui/icons/Apps';
+import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import CategoryIcon from '@material-ui/icons/Category';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -92,8 +92,8 @@ const Home = ({
 
   const mainSections = {
     all: {
-      text: 'Discover',
-      Icon: StarsIcon,
+      text: 'Catalog',
+      Icon: AppsIcon,
     },
     spaces: {
       text: 'Spaces',
@@ -104,8 +104,8 @@ const Home = ({
       Icon: CategoryIcon,
     },
     updates: {
-      text: 'Updates',
-      Icon: SystemUpdateAltIcon,
+      text: 'Installed',
+      Icon: OfflinePinIcon,
     },
     preferences: {
       text: 'Preferences',
@@ -122,16 +122,19 @@ const Home = ({
             filters,
             clearFilters,
             setFilter,
+            setSearchTerm,
           }) => ({
             filters,
             clearFilters,
             setFilter,
+            setSearchTerm,
           })}
         >
           {({
             filters,
             clearFilters,
             setFilter,
+            setSearchTerm,
           }) => {
             const typeFilter = filters.find((filter) => filter.field === 'type');
             const categoryFilter = filters.find((filter) => filter.field === 'category');
@@ -187,6 +190,7 @@ const Home = ({
                           onChangeRoute(ROUTE_PREFERENCES);
                         } else if (sectionKey === 'spaces') {
                           clearFilters('type'); // clear all filters except type filter
+                          setSearchTerm('');
                           setFilter('type', 'Multisite', 'all');
                           onChangeRoute(ROUTE_HOME);
                         }
