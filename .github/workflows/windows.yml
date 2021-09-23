@@ -49,7 +49,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.1.x
+        dotnet-version: 3.1.x
       if: startsWith(github.ref, 'refs/tags/')
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool
@@ -70,6 +70,7 @@ jobs:
         REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
         REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
         ELECTRON_APP_SENTRY_DSN: ${{ secrets.ELECTRON_APP_SENTRY_DSN }}
+        AZURE_KEY_VAULT_TENANT_ID: ${{ secrets.AZURE_KEY_VAULT_TENANT_ID }}
         AZURE_KEY_VAULT_CLIENT_ID: ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }}
         AZURE_KEY_VAULT_CLIENT_SECRET: ${{ secrets.AZURE_KEY_VAULT_CLIENT_SECRET }}
         AZURE_KEY_VAULT_URI: ${{ secrets.AZURE_KEY_VAULT_URI }}

@@ -40,6 +40,7 @@ const hsmCodeSignAsync = (filePath) => {
   codeSigningPromise = codeSigningPromise
     .then(() => new Promise((resolve, reject) => {
       const {
+        AZURE_KEY_VAULT_TENANT_ID,
         AZURE_KEY_VAULT_CLIENT_ID,
         AZURE_KEY_VAULT_CLIENT_SECRET,
         AZURE_KEY_VAULT_URI,
@@ -47,7 +48,7 @@ const hsmCodeSignAsync = (filePath) => {
       } = process.env;
 
       console.log('Signing', filePath);
-      const command = `azuresigntool sign -kvu ${AZURE_KEY_VAULT_URI} -kvc ${AZURE_KEY_VAULT_CERT_NAME} -kvi ${AZURE_KEY_VAULT_CLIENT_ID} -kvs ${AZURE_KEY_VAULT_CLIENT_SECRET} -tr http://rfc3161timestamp.globalsign.com/advanced -td sha256 '${filePath}'`;
+      const command = `azuresigntool sign -kvu ${AZURE_KEY_VAULT_URI} -kvc ${AZURE_KEY_VAULT_CERT_NAME} -kvt ${AZURE_KEY_VAULT_TENANT_ID} -kvi ${AZURE_KEY_VAULT_CLIENT_ID} -kvs ${AZURE_KEY_VAULT_CLIENT_SECRET} -tr http://rfc3161timestamp.globalsign.com/advanced -td sha256 '${filePath}'`;
       exec(command, { shell: 'powershell.exe' }, (e, stdout, stderr) => {
         if (e instanceof Error) {
           console.log(stdout);
