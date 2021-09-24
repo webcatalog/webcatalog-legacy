@@ -24,7 +24,6 @@ import {
 } from '../../senders';
 
 import {
-  open as openDialogLicenseRegistration,
   updateForm as updateFormDialogLicenseRegistration,
 } from '../dialog-license-registration/actions';
 
@@ -61,7 +60,6 @@ export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
   const { licenseKey, registered } = preferences;
   if (billingPlan === 'basic' && registered) {
     dispatch(updateFormDialogLicenseRegistration({ licenseKey: licenseKey || '' }));
-    dispatch(openDialogLicenseRegistration());
   }
 };
 
