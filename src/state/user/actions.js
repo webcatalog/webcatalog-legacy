@@ -23,11 +23,6 @@ import {
   requestUpdateAuthJson,
 } from '../../senders';
 
-import {
-  open as openDialogLicenseRegistration,
-  updateForm as updateFormDialogLicenseRegistration,
-} from '../dialog-license-registration/actions';
-
 export const clearUserState = () => (dispatch) => {
   dispatch(({
     type: CLEAR_USER_STATE,
@@ -40,7 +35,7 @@ export const updateUserState = (updatedState) => ({
   updatedState,
 });
 
-export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
+export const setPublicProfile = (publicProfile) => (dispatch) => {
   if (!publicProfile) return;
 
   const { currentUser } = getAuth();
@@ -54,15 +49,6 @@ export const setPublicProfile = (publicProfile) => (dispatch, getState) => {
     type: SET_PUBLIC_PROFILE,
     publicProfile,
   });
-
-  const { preferences, user } = getState();
-  const billingPlan = user.publicProfile && user.publicProfile.billingPlan
-    ? user.publicProfile.billingPlan : 'basic';
-  const { licenseKey, registered } = preferences;
-  if (billingPlan === 'basic' && registered) {
-    dispatch(updateFormDialogLicenseRegistration({ licenseKey: licenseKey || '' }));
-    dispatch(openDialogLicenseRegistration());
-  }
 };
 
 export const updateUserAsync = () => async (dispatch, getState) => {
