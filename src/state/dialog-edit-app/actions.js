@@ -191,6 +191,7 @@ export const save = () => (dispatch, getState) => {
 
   const { form } = state.dialogEditApp;
   const {
+    applyIconTemplate,
     id,
     name,
     url,
@@ -212,7 +213,7 @@ export const save = () => (dispatch, getState) => {
   const icon = form.icon || form.internetIcon || getStaticGlobal('defaultIcon');
   const protocolledUrl = isUrl(url) ? url : `http://${url}`;
 
-  dispatch(updateApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
+  dispatch(updateApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts, applyIconTemplate));
 
   dispatch(close());
   return null;

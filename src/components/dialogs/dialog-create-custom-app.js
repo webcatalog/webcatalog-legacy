@@ -6,11 +6,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -55,6 +58,19 @@ const styles = (theme) => ({
     height: 96,
     width: 96,
   },
+  iconContainerPlated: {
+    height: 96,
+    width: 96,
+    // 100/1024 * 96
+    padding: 9,
+  },
+  iconPlated: {
+    height: 78,
+    width: 78,
+    boxShadow: theme.shadows[1],
+    // 96 * 22.375%
+    borderRadius: 21,
+  },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
@@ -73,6 +89,7 @@ const styles = (theme) => ({
 
 const DialogCreateCustomApp = (props) => {
   const {
+    applyIconTemplate,
     classes,
     downloadingIcon,
     freedesktopAdditionalCategory,
@@ -160,9 +177,15 @@ const DialogCreateCustomApp = (props) => {
         )}
         <Grid container spacing={1} className={classes.grid}>
           <Grid item xs={12} sm="auto">
-            <div className={classes.iconContainer}>
-              <img src={iconPath} alt={name} className={classes.icon} />
-            </div>
+            {applyIconTemplate ? (
+              <div className={classes.iconContainerPlated}>
+                <img src={iconPath} alt={name} className={classes.iconPlated} />
+              </div>
+            ) : (
+              <div className={classes.iconContainer}>
+                <img src={iconPath} alt={name} className={classes.icon} />
+              </div>
+            )}
           </Grid>
           <Grid item xs={12} sm="auto">
             <Button
@@ -218,6 +241,20 @@ const DialogCreateCustomApp = (props) => {
             >
               Reset to Default
             </Button>
+            <br />
+            <FormGroup row>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={applyIconTemplate}
+                    onChange={(e) => onUpdateForm({ applyIconTemplate: e.target.checked })}
+                    name="applyIconTemplate"
+                    color="primary"
+                  />
+                )}
+                label="Add shadows and rounded corners"
+              />
+            </FormGroup>
           </Grid>
         </Grid>
         {window.process.platform === 'linux' && (
@@ -297,6 +334,7 @@ const DialogCreateCustomApp = (props) => {
 };
 
 DialogCreateCustomApp.defaultProps = {
+  applyIconTemplate: false,
   freedesktopAdditionalCategory: '',
   freedesktopMainCategory: 'Network',
   icon: null,
@@ -308,6 +346,7 @@ DialogCreateCustomApp.defaultProps = {
 };
 
 DialogCreateCustomApp.propTypes = {
+  applyIconTemplate: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   downloadingIcon: PropTypes.bool.isRequired,
   freedesktopAdditionalCategory: PropTypes.string,
@@ -318,8 +357,8 @@ DialogCreateCustomApp.propTypes = {
   nameError: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
-  onGetIconFromInternet: PropTypes.func.isRequired,
   onGetIconFromAppSearch: PropTypes.func.isRequired,
+  onGetIconFromInternet: PropTypes.func.isRequired,
   onUpdateForm: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   url: PropTypes.string,
@@ -332,6 +371,7 @@ const mapStateToProps = (state) => {
     downloadingIcon,
     open,
     form: {
+      applyIconTemplate,
       freedesktopAdditionalCategory,
       freedesktopMainCategory,
       icon,
@@ -345,6 +385,7 @@ const mapStateToProps = (state) => {
   } = state.dialogCreateCustomApp;
 
   return {
+    applyIconTemplate,
     downloadingIcon,
     freedesktopAdditionalCategory,
     freedesktopMainCategory,

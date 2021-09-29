@@ -193,7 +193,9 @@ export const create = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
-  const { name, url, urlDisabled } = form;
+  const {
+    name, url, urlDisabled, applyIconTemplate,
+  } = form;
 
   // id max length: 43 chars
   // if longer, it would crash the app on macOS (https://github.com/webcatalog/webcatalog-app/pull/1328)
@@ -224,7 +226,9 @@ export const create = () => (dispatch, getState) => {
     return null;
   }
 
-  dispatch(installApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts));
+  dispatch(
+    installApp(id, name, urlDisabled ? null : protocolledUrl, icon, opts, applyIconTemplate),
+  );
 
   dispatch(close());
   return null;
