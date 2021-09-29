@@ -18,6 +18,15 @@ const maskIconAsync = async (iconPath, iconDestPath, unplated = false) => {
   const foreground = await Jimp.read(foregroundPath);
   const iconFilled = await Jimp.read(iconPath);
 
+  // resize to fit into mask
+  let iconPadded = iconFilled;
+  if (!unplated) {
+    iconFilled.resize(824, 824);
+    iconPadded = new Jimp(1024, 1024).composite(iconFilled, 100, 100);
+  } else {
+    iconFilled.resize(1024, 1024);
+  }
+
   // replace transparent pixels with white pixels
   const whiteHex = Jimp.rgbaToInt(255, 255, 255, 255);
   for (let w = 0; w < iconFilled.bitmap.width; w += 1) {
@@ -30,15 +39,6 @@ const maskIconAsync = async (iconPath, iconDestPath, unplated = false) => {
         iconFilled.setPixelColor(whiteHex, w, h);
       }
     }
-  }
-
-  // resize to fit into mask
-  let iconPadded = iconFilled;
-  if (!unplated) {
-    iconFilled.resize(824, 824);
-    iconPadded = new Jimp(1024, 1024).composite(iconFilled, 100, 100);
-  } else {
-    iconFilled.resize(1024, 1024);
   }
 
   const maskedIcon = foreground.clone();
