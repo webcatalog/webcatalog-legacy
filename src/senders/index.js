@@ -29,7 +29,7 @@ export const requestSetSystemPreference = (name, value) => window.ipcRenderer.se
 
 // App Management
 export const requestGetInstalledApps = () => window.ipcRenderer.send('request-get-installed-apps');
-export const requestInstallApp = (id, name, url, icon, opts) => {
+export const requestInstallApp = (id, name, url, icon, opts, applyIconTemplate) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('install app', {
     multisiteApp: url == null,
@@ -40,7 +40,7 @@ export const requestInstallApp = (id, name, url, icon, opts) => {
     trackInstallAsync(amplitude.getInstance().options.deviceId, id);
   }
 
-  window.ipcRenderer.send('request-install-app', id, name, url, icon, opts);
+  window.ipcRenderer.send('request-install-app', id, name, url, icon, opts, applyIconTemplate);
 };
 export const requestInstallAppWithIconData = (id, name, url, iconFilename, iconData, opts) => {
   // only log engine & app type to protect privacy
@@ -55,7 +55,7 @@ export const requestInstallAppWithIconData = (id, name, url, iconFilename, iconD
 
   window.ipcRenderer.send('request-install-app-with-icon-data', id, name, url, iconFilename, iconData, opts);
 };
-export const requestUpdateApp = (id, name, url, icon, opts) => {
+export const requestUpdateApp = (id, name, url, icon, opts, applyIconTemplate) => {
   // only log engine & app type to protect privacy
   amplitude.getInstance().logEvent('update app', {
     multisiteApp: url == null,
@@ -66,7 +66,7 @@ export const requestUpdateApp = (id, name, url, icon, opts) => {
     trackInstallAsync(amplitude.getInstance().options.deviceId, id);
   }
 
-  window.ipcRenderer.send('request-update-app', id, name, url, icon, opts);
+  window.ipcRenderer.send('request-update-app', id, name, url, icon, opts, applyIconTemplate);
 };
 export const requestCancelInstallApp = (id) => window.ipcRenderer.send('request-cancel-install-app', id);
 export const requestCancelUpdateApp = (id) => window.ipcRenderer.send('request-cancel-update-app', id);

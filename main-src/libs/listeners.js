@@ -10,6 +10,7 @@ const {
 } = require('electron');
 const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
+const tmp = require('tmp');
 
 const { captureException } = require('@sentry/electron');
 
@@ -20,6 +21,7 @@ const openApp = require('./app-management/open-app');
 const installAppAsync = require('./app-management/install-app-async');
 const uninstallAppAsync = require('./app-management/uninstall-app-async');
 const getInstalledAppsAsync = require('./app-management/get-installed-apps-async');
+const maskIconAsync = require('./mask-icon-async');
 
 const {
   getPreference,
@@ -169,7 +171,7 @@ const loadListeners = () => {
 
   const promiseFuncMap = {};
 
-  const onInstallApp = (e, id, name, url, icon, opts) => {
+  const onInstallApp = (e, id, name, url, icon, opts, applyIconTemplate) => {
     send(e.sender, 'set-app', id, {
       status: 'INSTALLING',
       lastUpdated: new Date().getTime(),
@@ -187,7 +189,20 @@ const loadListeners = () => {
         cancelable: false,
       });
 
-      return installAppAsync(id, name, url, icon, opts)
+      return Promise.resolve()
+        .then(async () => {
+          if (applyIconTemplate) {
+            const maskedIconPath = tmp.fileSync().name;
+            const unplated = process.platform !== 'darwin';
+            await maskIconAsync(icon, maskedIconPath, unplated);
+            send(e.sender, 'set-app', id, {
+              icon: maskedIconPath,
+            });
+            return installAppAsync(id, name, url, maskedIconPath, opts);
+          }
+
+          return installAppAsync(id, name, url, icon, opts);
+        })
         .then((newApp) => {
           send(e.sender, 'set-app', id, {
             ...newApp,
@@ -223,9 +238,9 @@ const loadListeners = () => {
     });
   };
 
-  ipcMain.on('request-install-app', (e, id, name, url, icon, opts) => {
+  ipcMain.on('request-install-app', (e, id, name, url, icon, opts, applyIconTemplate) => {
     Promise.resolve()
-      .then(onInstallApp(e, id, name, url, icon, opts));
+      .then(onInstallApp(e, id, name, url, icon, opts, applyIconTemplate));
   });
 
   ipcMain.on('request-install-app-with-icon-data', (e, id, name, url, iconFilename, iconData, opts) => {
@@ -237,7 +252,7 @@ const loadListeners = () => {
       .then(onInstallApp(e, id, name, url, tmpIconPath, opts));
   });
 
-  ipcMain.on('request-update-app', (e, id, name, url, icon, opts) => {
+  ipcMain.on('request-update-app', (e, id, name, url, icon, opts, applyIconTemplate) => {
     Promise.resolve()
       .then(() => {
         send(e.sender, 'set-app', id, {
@@ -251,7 +266,20 @@ const loadListeners = () => {
             cancelable: false,
           });
 
-          return installAppAsync(id, name, url, icon, opts)
+          return Promise.resolve()
+            .then(async () => {
+              if (applyIconTemplate) {
+                const maskedIconPath = tmp.fileSync().name;
+                const unplated = process.platform !== 'darwin';
+                await maskIconAsync(icon, maskedIconPath, unplated);
+                send(e.sender, 'set-app', id, {
+                  icon: maskedIconPath,
+                });
+                return installAppAsync(id, name, url, maskedIconPath, opts);
+              }
+
+              return installAppAsync(id, name, url, icon, opts);
+            })
             .then((newApp) => {
               let displayedIcon;
               // display latest icon from WebCatalog

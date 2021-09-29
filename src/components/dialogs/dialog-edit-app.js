@@ -7,11 +7,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -53,11 +56,23 @@ const styles = (theme) => ({
   iconContainer: {
     height: 96,
     width: 96,
-    backgroundColor: theme.palette.common.minBlack,
   },
   icon: {
     height: 96,
     width: 96,
+  },
+  iconContainerPlated: {
+    height: 96,
+    width: 96,
+    // 100/1024 * 96
+    padding: 9,
+  },
+  iconPlated: {
+    height: 78,
+    width: 78,
+    boxShadow: theme.shadows[1],
+    // 96 * 22.375%
+    borderRadius: 21,
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
@@ -84,6 +99,7 @@ const styles = (theme) => ({
 
 const DialogEditApp = (props) => {
   const {
+    applyIconTemplate,
     classes,
     downloadingIcon,
     freedesktopAdditionalCategory,
@@ -149,9 +165,15 @@ const DialogEditApp = (props) => {
         )}
         <Grid container spacing={1} className={classes.grid} wrap="nowrap">
           <Grid item xs={12} sm="auto">
-            <div className={classes.iconContainer}>
-              <img src={iconPath} alt={name} className={classes.icon} />
-            </div>
+            {applyIconTemplate ? (
+              <div className={classes.iconContainerPlated}>
+                <img src={iconPath} alt={name} className={classes.iconPlated} />
+              </div>
+            ) : (
+              <div className={classes.iconContainer}>
+                <img src={iconPath} alt={name} className={classes.icon} />
+              </div>
+            )}
           </Grid>
           {!id.startsWith('custom-') ? (
             <Grid item xs={12} sm="auto">
@@ -220,6 +242,20 @@ const DialogEditApp = (props) => {
               >
                 Reset to Default
               </Button>
+              <br />
+              <FormGroup row>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={applyIconTemplate}
+                      onChange={(e) => onUpdateForm({ applyIconTemplate: e.target.checked })}
+                      name="applyIconTemplate"
+                      color="primary"
+                    />
+                  )}
+                  label="Add shadows and rounded corners"
+                />
+              </FormGroup>
             </Grid>
           )}
         </Grid>
@@ -320,6 +356,7 @@ const DialogEditApp = (props) => {
 };
 
 DialogEditApp.defaultProps = {
+  applyIconTemplate: false,
   freedesktopAdditionalCategory: '',
   freedesktopMainCategory: 'Network',
   icon: null,
@@ -333,6 +370,7 @@ DialogEditApp.defaultProps = {
 };
 
 DialogEditApp.propTypes = {
+  applyIconTemplate: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   downloadingIcon: PropTypes.bool.isRequired,
   freedesktopAdditionalCategory: PropTypes.string,
@@ -361,12 +399,13 @@ const mapStateToProps = (state) => {
     open,
     savable,
     form: {
-      opts,
+      applyIconTemplate,
       icon,
       id,
       internetIcon,
       name,
       nameError,
+      opts,
       url,
       urlDisabled,
       urlError,
@@ -379,6 +418,7 @@ const mapStateToProps = (state) => {
   } = opts || {};
 
   return {
+    applyIconTemplate,
     downloadingIcon,
     freedesktopAdditionalCategory,
     freedesktopMainCategory,

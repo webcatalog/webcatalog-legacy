@@ -57,7 +57,9 @@ export const removeApp = (id) => ({
   id,
 });
 
-export const installApp = (id, name, url, icon, opts) => (dispatch, getState) => {
+export const installApp = (
+  id, name, url, icon, opts, applyIconTemplate,
+) => (dispatch, getState) => {
   const state = getState();
 
   // free version can only install up to 10 apps
@@ -81,12 +83,14 @@ export const installApp = (id, name, url, icon, opts) => (dispatch, getState) =>
     return null;
   }
 
-  requestInstallApp(id, sanitizedName, url, icon, opts);
+  requestInstallApp(id, sanitizedName, url, icon, opts, applyIconTemplate);
 
   return null;
 };
 
-export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, getState) => {
+export const updateApp = (
+  id, _name, _url, _icon, _opts, applyIconTemplate,
+) => async (dispatch, getState) => {
   // on Linux
   // opts.category is needed for WebCatalog to set correct freedesktop.org categories
   // but prior to v27.x, "opts.category" value is not included in app.json
@@ -126,7 +130,7 @@ export const updateApp = (id, _name, _url, _icon, _opts) => async (dispatch, get
       });
   }
 
-  requestUpdateApp(id, name, url, icon, opts);
+  requestUpdateApp(id, name, url, icon, opts, applyIconTemplate);
 };
 
 export const updateApps = (apps) => (dispatch) => {
