@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 const path = require('path');
-const Jimp = require('jimp');
+const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 
 // apply icon template to make icon follow Big Sur style
 const maskIconAsync = async (iconPath, iconDestPath, unplated = false) => {
