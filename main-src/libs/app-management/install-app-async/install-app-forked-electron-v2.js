@@ -23,9 +23,9 @@ const icongen = require('icon-gen');
 const Jimp = process.env.NODE_ENV === 'production' ? require('jimp').default : require('jimp');
 const isUrl = require('is-url');
 const sudo = require('sudo-prompt');
+const fetch = process.env.NODE_ENV === 'production' ? require('node-fetch').default : require('node-fetch');
 
 const execAsync = require('../../exec-async');
-const downloadAsync = require('../../download-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
 const getWvvmpElectronVersion = require('../../get-wvvmp-electron-version');
 
@@ -103,6 +103,22 @@ const sudoAsync = (prompt) => new Promise((resolve, reject) => {
     return resolve(stdout, stderr);
   });
 });
+
+// https://github.com/node-fetch/node-fetch/issues/375#issuecomment-385751664
+const downloadAsync = (
+  _url, dest, fetchOpts, ...fetchArgs
+) => fsExtra.ensureFile(dest)
+  .then(() => fetch(_url, fetchOpts, ...fetchArgs))
+  .then((res) => new Promise((resolve, reject) => {
+    const fileStream = fsExtra.createWriteStream(dest);
+    res.body.pipe(fileStream);
+    res.body.on('error', (err) => {
+      reject(err);
+    });
+    fileStream.on('finish', () => {
+      resolve();
+    });
+  }));
 
 Promise.resolve()
   .then(() => {
