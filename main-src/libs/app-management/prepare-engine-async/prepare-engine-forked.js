@@ -22,8 +22,8 @@ const fs = require('fs-extra');
 const hasha = require('hasha');
 const path = require('path');
 const semver = require('semver');
+const fetch = process.env.NODE_ENV === 'production' ? require('node-fetch').default : require('node-fetch');
 
-const customizedFetch = require('../../customized-fetch');
 const formatBytes = require('../../format-bytes');
 
 const argv = yargsParser(process.argv.slice(1));
@@ -48,7 +48,7 @@ Promise.resolve()
       return JSON.parse(templateInfoJson);
     }
 
-    return customizedFetch(`https://github.com/webcatalog/webcatalog-engine/releases/download/${tagName}/template-${platform}-${arch}.json`)
+    return fetch(`https://github.com/webcatalog/webcatalog-engine/releases/download/${tagName}/template-${platform}-${arch}.json`)
       .then((res) => res.json());
   })
   .then((templateInfo) => Promise.resolve()
