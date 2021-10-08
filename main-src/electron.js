@@ -11,6 +11,7 @@ const {
   protocol,
 } = require('electron');
 const fs = require('fs');
+const electronRemote = require('@electron/remote/main');
 
 const settings = require('electron-settings');
 
@@ -19,6 +20,8 @@ settings.configure({
 });
 
 const { autoUpdater } = require('electron-updater');
+
+electronRemote.initialize();
 
 const {
   getPreference,
