@@ -15,9 +15,10 @@ const customizedFetch = (url, opts, ...args) => electronFetch(url, opts, ...args
   // if electron-fetch fails, attempt again using node-fetch (Node `http` and `https` module)
   // which uses bundled root certficiates list
   .catch((err) => {
-    // eslint-disable-next-line no-console
-    console.log(err);
-    return nodeFetch(url, opts, ...args);
+    if (err && err.code === 'ERR_CERT_DATE_INVALID') {
+      return nodeFetch(url, opts, ...args);
+    }
+    return Promise.reject(err);
   });
 
 module.exports = customizedFetch;
