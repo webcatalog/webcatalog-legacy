@@ -1,5 +1,5 @@
 diff --git a/node_modules/menubar/lib/Menubar.js b/node_modules/menubar/lib/Menubar.js
-index 558399c..6120937 100644
+index 558399c..b2f3da7 100644
 --- a/node_modules/menubar/lib/Menubar.js
 +++ b/node_modules/menubar/lib/Menubar.js
 @@ -229,6 +229,11 @@ var Menubar = /** @class */ (function (_super) {
@@ -22,7 +22,15 @@ index 558399c..6120937 100644
                          this._browserWindow.show();
                          this._isVisible = true;
                          this.emit('after-show');
-@@ -353,7 +359,10 @@ var Menubar = /** @class */ (function (_super) {
+@@ -340,6 +346,7 @@ var Menubar = /** @class */ (function (_super) {
+                             frame: false,
+                         };
+                         this._browserWindow = new electron_1.BrowserWindow(__assign(__assign({}, defaults), this._options.browserWindow));
++                        require("@electron/remote/main").enable(this._browserWindow.webContents);
+                         this._positioner = new electron_positioner_1.default(this._browserWindow);
+                         this._browserWindow.on('blur', function () {
+                             if (!_this._browserWindow) {
+@@ -353,7 +360,10 @@ var Menubar = /** @class */ (function (_super) {
                                  }, 100));
                          });
                          if (this._options.showOnAllWorkspaces !== false) {
