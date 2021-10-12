@@ -165,8 +165,6 @@ const createAsync = () => new Promise((resolve) => {
     });
 
     mb.on('after-create-window', () => {
-      electronRemote.enable(mb.window.webContents);
-
       menubarWindowState.manage(mb.window);
 
       contextMenu({ window: mb.window });
