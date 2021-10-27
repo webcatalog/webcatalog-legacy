@@ -129,6 +129,8 @@ class SearchBox extends React.Component {
                       {...getInputProps({
                         className: classes.input,
                         placeholder: 'Search apps & spaces in catalog...',
+                        // App Search API can only handle up to 128 chars
+                        maxLength: 128,
                         ref: (inputBox) => { this.inputBox = inputBox; },
                       })}
                     />
