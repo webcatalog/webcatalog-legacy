@@ -34,7 +34,7 @@ import {
   ROUTE_SPACES,
 } from '../../../constants/routes';
 
-// import ListItemAccount from './list-item-account';
+import ListItemAccount from './list-item-account';
 
 const styles = (theme) => ({
   sidebar: {
@@ -183,9 +183,7 @@ const Home = ({
             return listItem;
           })}
         </List>
-        {/* <List>
-          <ListItemAccount />
-        </List> */}
+        <ListItemAccount />
       </div>
     </Grid>
   );
