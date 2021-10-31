@@ -42,6 +42,15 @@ const getForkedScriptsConfig = () => {
       'prepare-electron-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'prepare-electron-async', 'prepare-electron-forked.js'),
       'uninstall-app-forked': path.join(__dirname, 'main-src', 'libs', 'app-management', 'uninstall-app-async', 'uninstall-app-forked.js'),
     },
+    module: {
+      rules: [
+        {
+          test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
+      ],
+    },
     target: 'node',
     output: {
       path: path.join(__dirname, 'build'),
@@ -64,6 +73,15 @@ const getPreloadScriptsConfig = () => {
     entry: {
       'preload-main': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-main.js'),
       'preload-menubar': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-menubar.js'),
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
+      ],
     },
     target: 'electron-renderer',
     output: {
@@ -115,6 +133,15 @@ const getElectronMainConfig = () => {
     },
     entry: {
       electron: path.join(__dirname, 'main-src', 'electron.js'),
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
+      ],
     },
     target: 'electron-main',
     output: {
