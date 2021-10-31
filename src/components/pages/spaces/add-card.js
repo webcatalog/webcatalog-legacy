@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import { open as openDialogCreateCustomApp } from '../../../state/dialog-create-custom-app/actions';
+import { open as openDialogAddSpace } from '../../../state/dialog-add-space/actions';
 
 const styles = (theme) => ({
   card: {
@@ -49,14 +49,14 @@ const styles = (theme) => ({
   },
 });
 
-const AddCard = ({ classes, onOpenDialogCreateCustomApp }) => (
+const AddCard = ({ classes, onOpenDialogAddSpace }) => (
   <Grid item>
     <Paper
       className={classes.card}
       elevation={0}
       role="link"
       tabIndex="0"
-      onClick={() => onOpenDialogCreateCustomApp({ urlDisabled: true })}
+      onClick={() => onOpenDialogAddSpace()}
     >
       <AddIcon className={classes.icon} />
       <Typography variant="subtitle2" className={classes.desc}>
@@ -68,11 +68,11 @@ const AddCard = ({ classes, onOpenDialogCreateCustomApp }) => (
 
 AddCard.propTypes = {
   classes: PropTypes.object.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  onOpenDialogAddSpace: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
-  openDialogCreateCustomApp,
+  openDialogAddSpace,
 };
 
 export default connectComponent(

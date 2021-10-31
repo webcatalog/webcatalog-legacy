@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import WarningIcon from '@material-ui/icons/Warning';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 
 import HelpTooltip from './help-tooltip';
 
@@ -21,6 +20,8 @@ import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
 import isWidevineSupported from '../../helpers/is-widevine-supported';
+
+import SpaceIcon from './space-icon';
 
 import {
   INSTALLED,
@@ -407,7 +408,7 @@ const AppCard = ({
                 requestOpenInBrowser('https://webcatalog.io/webcatalog/spaces/');
               }}
             >
-              <GroupWorkIcon fontSize="small" />
+              <SpaceIcon fontSize="small" />
             </IconButton>
           </HelpTooltip>
         )}

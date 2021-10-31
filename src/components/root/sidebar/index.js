@@ -18,8 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import AppsIcon from '@material-ui/icons/Apps';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import SettingsIcon from '@material-ui/icons/Settings';
+
+import SpaceIcon from '../../shared/space-icon';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -88,7 +89,7 @@ const Home = ({
     },
     spaces: {
       text: 'Spaces',
-      Icon: GroupWorkIcon,
+      Icon: SpaceIcon,
     },
     updates: {
       text: 'Installed',

@@ -63,19 +63,17 @@ const styles = (theme) => ({
 const Container = ({
   classes,
   route,
-}) => {
-  return (
-    <div className={classes.root}>
-      <Sidebar />
-      <Grid container className={classes.container}>
-        {route === ROUTE_INSTALLED && <Installed />}
-        {route === ROUTE_SPACES && <Spaces />}
-        {route === ROUTE_PREFERENCES && <Preferences />}
-        {route === ROUTE_HOME && <Home />}
-      </Grid>
-    </div>
-  );
-};
+}) => (
+  <div className={classes.root}>
+    <Sidebar />
+    <Grid container className={classes.container}>
+      {route === ROUTE_INSTALLED && <Installed />}
+      {route === ROUTE_SPACES && <Spaces />}
+      {route === ROUTE_PREFERENCES && <Preferences />}
+      {route === ROUTE_HOME && <Home />}
+    </Grid>
+  </div>
+);
 
 Container.propTypes = {
   classes: PropTypes.object.isRequired,

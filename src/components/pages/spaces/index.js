@@ -11,6 +11,7 @@ import connectComponent from '../../../helpers/connect-component';
 import DefinedAppBar from './defined-app-bar';
 import InstalledSpaces from './installed-spaces';
 import AddCard from './add-card';
+import DialogAddSpace from './dialog-add-space';
 
 const styles = (theme) => ({
   root: {
@@ -60,6 +61,7 @@ const Preferences = ({
         </Grid>
       </div>
     </div>
+    <DialogAddSpace />
   </div>
 );
 
@@ -67,11 +69,9 @@ Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = () => ({});
-
 export default connectComponent(
   Preferences,
-  mapStateToProps,
+  null,
   null,
   styles,
 );

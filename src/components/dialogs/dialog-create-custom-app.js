@@ -70,6 +70,7 @@ const styles = (theme) => ({
     boxShadow: theme.shadows[1],
     // 96 * 22.375%
     borderRadius: 21,
+    backgroundColor: theme.palette.common.white,
   },
   dialogActions: {
     borderTop: `1px solid ${theme.palette.divider}`,
