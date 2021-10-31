@@ -40,12 +40,12 @@ const DialogBackupRestore = () => {
       maxWidth="sm"
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Backup & Restore Apps & Spaces (BETA)
+        Backup & Restore Apps & Spaces (ALPHA)
       </EnhancedDialogTitle>
       <DialogContent>
         <Typography variant="body2" color="textSecondary" gutterBottom>
           Backup only includes the list of your apps and spaces (including custom app icons)
-          and does not include app data and preferences.
+          and does not include app/space data and preferences.
         </Typography>
         <List>
           <ListItem

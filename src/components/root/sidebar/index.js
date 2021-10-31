@@ -33,6 +33,7 @@ import {
   ROUTE_HOME,
   ROUTE_INSTALLED,
   ROUTE_PREFERENCES,
+  ROUTE_SPACES,
 } from '../../../constants/routes';
 
 // import ListItemAccount from './list-item-account';
@@ -151,8 +152,7 @@ const Home = ({
                     }
 
                     if (sectionKey === 'spaces') {
-                      return route === ROUTE_HOME
-                        && typeFilter && typeFilter.values[0] === 'Multisite';
+                      return route === ROUTE_SPACES;
                     }
 
                     return false;
@@ -170,6 +170,8 @@ const Home = ({
                           onChangeRoute(ROUTE_INSTALLED);
                         } else if (sectionKey === 'preferences') {
                           onChangeRoute(ROUTE_PREFERENCES);
+                        } else if (sectionKey === 'spaces') {
+                          onChangeRoute(ROUTE_SPACES);
                         } else if (sectionKey === 'spaces') {
                           clearFilters('type'); // clear all filters except type filter
                           setSearchTerm('');

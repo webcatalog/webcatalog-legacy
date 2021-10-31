@@ -20,11 +20,13 @@ import {
   ROUTE_HOME,
   ROUTE_INSTALLED,
   ROUTE_PREFERENCES,
+  ROUTE_SPACES,
 } from '../../constants/routes';
 
 import Preferences from '../pages/preferences';
 import Installed from '../pages/installed';
 import Home from '../pages/home';
+import Spaces from '../pages/spaces';
 
 import Sidebar from './sidebar';
 
@@ -71,8 +73,6 @@ const styles = (theme) => ({
     flex: 1,
   },
 });
-
-const filters = [];
 
 const Container = ({
   classes,
@@ -121,6 +121,9 @@ const Container = ({
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
+          filters: [
+            { field: 'type', values: ['Singlesite'], type: 'all' },
+          ],
           resultsPerPage: 82,
           result_fields: {
             id: { raw: {} },
@@ -133,7 +136,6 @@ const Container = ({
             icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
             icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
           },
-          filters,
         },
       }}
     >
@@ -141,6 +143,7 @@ const Container = ({
         <Sidebar />
         <Grid container className={classes.container}>
           {route === ROUTE_INSTALLED && <Installed />}
+          {route === ROUTE_SPACES && <Spaces />}
           {route === ROUTE_PREFERENCES && <Preferences />}
           {route === ROUTE_HOME && <Home ref={scrollContainerRef} />}
         </Grid>
