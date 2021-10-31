@@ -26,6 +26,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/eslint-parser": "7.16.0",
     "@babel/preset-env": "7.16.0",
     "@babel/preset-react": "7.16.0",
     "@elastic/app-search-javascript": "7.15.0",
