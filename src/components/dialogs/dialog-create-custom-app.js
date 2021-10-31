@@ -126,7 +126,7 @@ const DialogCreateCustomApp = (props) => {
       open={open}
     >
       <EnhancedDialogTitle onClose={onClose}>
-        Create Custom App & Space
+        {urlDisabled ? 'Create Custom Space' : 'Create Custom App'}
       </EnhancedDialogTitle>
       <DialogContent>
         <TextField
@@ -140,7 +140,7 @@ const DialogCreateCustomApp = (props) => {
           error={Boolean(nameError)}
           variant="outlined"
         />
-        <FormControl variant="outlined" fullWidth margin="normal">
+        {/* <FormControl variant="outlined" fullWidth margin="normal">
           <InputLabel id="input-type-label">Classification</InputLabel>
           <Select
             id="input-type"
@@ -161,7 +161,7 @@ const DialogCreateCustomApp = (props) => {
               What is the difference between apps and spaces?
             </Link>
           </FormHelperText>
-        </FormControl>
+        </FormControl> */}
         {!urlDisabled && (
           <TextField
             fullWidth
