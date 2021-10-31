@@ -2,184 +2,114 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
-import React, { forwardRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
 import {
-  WithSearch, Paging,
+  SearchProvider,
 } from '@elastic/react-search-ui';
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-
-import SearchIcon from '@material-ui/icons/Search';
 
 import connectComponent from '../../../helpers/connect-component';
 
-import EmptyState from '../../shared/empty-state';
-import NoConnection from '../../shared/no-connection';
+import Home from './home';
 
-import DefinedAppBar from './defined-app-bar';
-import SecondaryToolbar from './toolbar';
-import InstalledSpaces from './installed-spaces';
+const connector = process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY
+  ? new AppSearchAPIConnector({
+    searchKey: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY,
+    engineName: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_ENGINE_NAME,
+    endpointBase: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_API_ENDPOINT,
+  }) : null;
 
-import AppCard from '../../shared/app-card';
-import SubmitAppCard from '../../shared/submit-app-card';
-import CreateCustomAppCard from '../../shared/create-custom-app-card';
-
-const styles = (theme) => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  loading: {
-    marginTop: theme.spacing(2),
-  },
-  noMatchingResultOpts: {
-    marginTop: theme.spacing(4),
-  },
-  mainArea: {
+const styles = () => ({
+  badConfigRoot: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-  },
-  scrollContainer: {
-    flex: 1,
-    overflow: 'auto',
-    padding: theme.spacing(1),
-  },
-  container: {
-    height: '100%',
     overflow: 'hidden',
+    justifyContent: 'center',
   },
 });
 
-const Home = forwardRef(({ classes }, scrollContainerRef) => (
-  <Grid item xs className={classes.mainArea}>
-    <DefinedAppBar />
-    <SecondaryToolbar />
-    <Divider />
-    <div className={classes.scrollContainer} ref={scrollContainerRef}>
-      <Grid item xs container spacing={1} justifyContent="space-evenly">
-        <WithSearch
-          mapContextToProps={({
-            error,
-            filters,
-            isLoading,
-            results,
-            searchTerm,
-            setSearchTerm,
-            wasSearched,
-          }) => ({
-            error,
-            filters,
-            isLoading,
-            results,
-            searchTerm,
-            setSearchTerm,
-            wasSearched,
-          })}
+const Container = ({
+  classes,
+}) => {
+  const scrollContainerRef = useRef(null);
+
+  if (!connector) {
+    return (
+      <div
+        className={classes.badConfigRoot}
+      >
+        <Typography
+          variant="body1"
+          align="center"
+          color="textPrimary"
         >
-          {({
-            error,
-            filters,
-            isLoading,
-            results,
-            searchTerm,
-            setSearchTerm,
-            wasSearched,
-          }) => {
-            if (error) {
-              return (
-                <div className={classes.noConnectionContainer}>
-                  <NoConnection
-                    onTryAgainButtonClick={() => {
-                      setSearchTerm(searchTerm, { refresh: true, debounce: 0 });
-                    }}
-                  />
-                </div>
-              );
-            }
+          Elastic Cloud App Search environment variables are required for &quot;Discover&quot;. Learn more at: https://github.com/webcatalog/webcatalog-app/blob/master/README.md#development
+        </Typography>
+      </div>
+    );
+  }
 
-            if (isLoading && !error && results.length < 1) {
-              return (
-                <Grid item xs={12}>
-                  <Typography
-                    variant="body2"
-                    align="center"
-                    color="textSecondary"
-                    className={classes.loading}
-                  >
-                    Loading...
-                  </Typography>
-                </Grid>
-              );
-            }
+  return (
+    <SearchProvider
+      config={{
+        apiConnector: connector,
+        onSearch: (state, queryConfig, next) => {
+          if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+          }
 
-            if (wasSearched && results.length < 1) {
-              return (
-                <EmptyState icon={SearchIcon} title="No Matching Results">
-                  <Typography
-                    variant="subtitle1"
-                    align="center"
-                  >
-                    Your query did not match any apps in our database.
-                  </Typography>
-                  <Grid container justifyContent="center" spacing={1} className={classes.noMatchingResultOpts}>
-                    <CreateCustomAppCard />
-                    <SubmitAppCard />
-                  </Grid>
-                </EmptyState>
-              );
-            }
+          const updatedState = { ...state };
+          // when searching, results should ALWAYS be listed by relevance
+          if (state.searchTerm.length > 0) {
+            updatedState.sortField = '';
+            updatedState.sortDirection = '';
+          }
 
-            const typeFilter = filters.find((filter) => filter.field === 'type');
-            const isRouteSpaces = typeFilter && typeFilter.values[0] === 'Multisite';
-            return (
-              <>
-                <CreateCustomAppCard urlDisabled={isRouteSpaces} />
-                {!isRouteSpaces && <SubmitAppCard />}
-                {isRouteSpaces && <InstalledSpaces />}
-                {results.map((app) => (
-                  <AppCard
-                    key={app.id.raw}
-                    id={app.id.raw}
-                    name={app.name.raw}
-                    url={app.url.raw}
-                    category={app.category.raw}
-                    widevine={app.widevine.raw === 1}
-                    icon={window.process.platform === 'win32' // use unplated icon for Windows
-                      ? app.icon_unplated.raw : app.icon.raw}
-                    iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
-                      ? app.icon_unplated_128.raw : app.icon_128.raw}
-                  />
-                ))}
-                {!isRouteSpaces && (
-                  <Grid item xs={12} container justifyContent="center">
-                    <Paging />
-                  </Grid>
-                )}
-              </>
-            );
-          }}
-        </WithSearch>
-      </Grid>
-    </div>
-  </Grid>
-));
+          return next(updatedState, queryConfig);
+        },
+        initialState: {
+          sortField: '',
+          sortDirection: '',
+          filters: [],
+        },
+        alwaysSearchOnInitialLoad: true,
+        searchQuery: {
+          filters: [
+            { field: 'type', values: ['Singlesite'], type: 'all' },
+          ],
+          resultsPerPage: 82,
+          result_fields: {
+            id: { raw: {} },
+            name: { raw: {} },
+            url: { raw: {} },
+            category: { raw: {} },
+            widevine: { raw: {} },
+            icon: window.process.platform === 'win32' ? undefined : { raw: {} },
+            icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
+            icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
+            icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
+          },
+        },
+      }}
+    >
+      <Home ref={scrollContainerRef} />
+    </SearchProvider>
+  );
+};
 
-Home.propTypes = {
+Container.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 export default connectComponent(
-  Home,
+  Container,
   null,
   null,
   styles,
-  { forwardRef: true },
 );

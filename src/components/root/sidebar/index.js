@@ -6,9 +6,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import {
-  WithSearch,
-} from '@elastic/react-search-ui';
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Grid from '@material-ui/core/Grid';
@@ -107,117 +104,84 @@ const Home = ({
     <Grid item className={classes.sidebar}>
       <div className={classes.sidebarInner}>
         <div className={classes.sidebarTop} />
-        <WithSearch
-          mapContextToProps={({
-            filters,
-            clearFilters,
-            setFilter,
-            setSearchTerm,
-          }) => ({
-            filters,
-            clearFilters,
-            setFilter,
-            setSearchTerm,
-          })}
-        >
-          {({
-            filters,
-            clearFilters,
-            setFilter,
-            setSearchTerm,
-          }) => {
-            const typeFilter = filters.find((filter) => filter.field === 'type');
-            const categoryFilter = filters.find((filter) => filter.field === 'category');
+        <List className={classes.sidebarListTop}>
+          {Object.keys(mainSections).map((sectionKey) => {
+            const {
+              Icon, text, hidden,
+            } = mainSections[sectionKey];
+            if (hidden) return null;
 
-            return (
-              <List className={classes.sidebarListTop}>
-                {Object.keys(mainSections).map((sectionKey) => {
-                  const {
-                    Icon, text, hidden,
-                  } = mainSections[sectionKey];
-                  if (hidden) return null;
+            const selected = (() => {
+              if (sectionKey === 'updates') {
+                return route === ROUTE_INSTALLED;
+              }
 
-                  const selected = (() => {
-                    if (sectionKey === 'updates') {
-                      return route === ROUTE_INSTALLED;
-                    }
+              if (sectionKey === 'preferences') {
+                return route === ROUTE_PREFERENCES;
+              }
 
-                    if (sectionKey === 'preferences') {
-                      return route === ROUTE_PREFERENCES;
-                    }
+              if (sectionKey === 'all') {
+                return route === ROUTE_HOME;
+              }
 
-                    if (sectionKey === 'all') {
-                      return route === ROUTE_HOME
-                        && categoryFilter == null && typeFilter == null;
-                    }
+              if (sectionKey === 'spaces') {
+                return route === ROUTE_SPACES;
+              }
 
-                    if (sectionKey === 'spaces') {
-                      return route === ROUTE_SPACES;
-                    }
+              return false;
+            })();
 
-                    return false;
-                  })();
-
-                  const listItem = (
-                    <ListItem
-                      button
-                      key={sectionKey}
-                      onClick={() => {
-                        if (sectionKey === 'all') {
-                          onChangeRoute(ROUTE_HOME);
-                          clearFilters();
-                        } else if (sectionKey === 'updates') {
-                          onChangeRoute(ROUTE_INSTALLED);
-                        } else if (sectionKey === 'preferences') {
-                          onChangeRoute(ROUTE_PREFERENCES);
-                        } else if (sectionKey === 'spaces') {
-                          onChangeRoute(ROUTE_SPACES);
-                        } else if (sectionKey === 'spaces') {
-                          clearFilters('type'); // clear all filters except type filter
-                          setSearchTerm('');
-                          setFilter('type', 'Multisite', 'all');
-                          onChangeRoute(ROUTE_HOME);
-                        }
-                      }}
-                      title={text}
-                      selected={selected}
-                      classes={{
-                        root: classes.listItem,
-                        selected: classes.listItemSelected,
-                      }}
-                    >
-                      <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                        {sectionKey === 'updates' ? (
-                          <Badge color="secondary" badgeContent={appBadgeCount}>
-                            <Icon fontSize="medium" />
-                          </Badge>
-                        ) : (
-                          <Icon fontSize="medium" />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text}
-                        classes={{
-                          primary: classes.listItemTextPrimary,
-                        }}
-                      />
-                    </ListItem>
-                  );
-
-                  if (showTooltip) {
-                    return (
-                      <Tooltip key={text} title={text} placement="right" arrow>
-                        {listItem}
-                      </Tooltip>
-                    );
+            const listItem = (
+              <ListItem
+                button
+                key={sectionKey}
+                onClick={() => {
+                  if (sectionKey === 'all') {
+                    onChangeRoute(ROUTE_HOME);
+                  } else if (sectionKey === 'updates') {
+                    onChangeRoute(ROUTE_INSTALLED);
+                  } else if (sectionKey === 'preferences') {
+                    onChangeRoute(ROUTE_PREFERENCES);
+                  } else if (sectionKey === 'spaces') {
+                    onChangeRoute(ROUTE_SPACES);
                   }
-
-                  return listItem;
-                })}
-              </List>
+                }}
+                title={text}
+                selected={selected}
+                classes={{
+                  root: classes.listItem,
+                  selected: classes.listItemSelected,
+                }}
+              >
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                  {sectionKey === 'updates' ? (
+                    <Badge color="secondary" badgeContent={appBadgeCount}>
+                      <Icon fontSize="medium" />
+                    </Badge>
+                  ) : (
+                    <Icon fontSize="medium" />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  classes={{
+                    primary: classes.listItemTextPrimary,
+                  }}
+                />
+              </ListItem>
             );
-          }}
-        </WithSearch>
+
+            if (showTooltip) {
+              return (
+                <Tooltip key={text} title={text} placement="right" arrow>
+                  {listItem}
+                </Tooltip>
+              );
+            }
+
+            return listItem;
+          })}
+        </List>
         {/* <List>
           <ListItemAccount />
         </List> */}
