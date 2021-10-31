@@ -17,7 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import connectComponent from '../../helpers/connect-component';
 
 import {
-  ROUTE_CATEGORIES,
   ROUTE_HOME,
   ROUTE_INSTALLED,
   ROUTE_PREFERENCES,
@@ -25,7 +24,6 @@ import {
 
 import Preferences from '../pages/preferences';
 import Installed from '../pages/installed';
-import Categories from '../pages/categories';
 import Home from '../pages/home';
 
 import Sidebar from './sidebar';
@@ -123,8 +121,7 @@ const Container = ({
         },
         alwaysSearchOnInitialLoad: true,
         searchQuery: {
-          resultsPerPage: 58,
-          disjunctiveFacets: ['category'],
+          resultsPerPage: 82,
           result_fields: {
             id: { raw: {} },
             name: { raw: {} },
@@ -136,9 +133,6 @@ const Container = ({
             icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
             icon_unplated_128: window.process.platform === 'win32' ? { raw: {} } : undefined,
           },
-          facets: {
-            category: { type: 'value', size: 30 },
-          },
           filters,
         },
       }}
@@ -146,7 +140,6 @@ const Container = ({
       <div className={classes.root}>
         <Sidebar />
         <Grid container className={classes.container}>
-          {route === ROUTE_CATEGORIES && <Categories />}
           {route === ROUTE_INSTALLED && <Installed />}
           {route === ROUTE_PREFERENCES && <Preferences />}
           {route === ROUTE_HOME && <Home ref={scrollContainerRef} />}
