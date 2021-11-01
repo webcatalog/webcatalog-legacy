@@ -353,8 +353,9 @@ const AppCard = ({
     );
   };
 
-  // in simple mode, we only show the actions if the app is outdatdd
-  const shouldShowActions = !simple || isOutdated;
+  // in simple mode, we only show the actions
+  // if the app/space needs to be updated or it is being updated
+  const shouldShowActions = !simple || status !== INSTALLED || isOutdated;
 
   return (
     <Grid item>
