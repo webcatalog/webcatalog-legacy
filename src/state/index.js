@@ -6,14 +6,15 @@ import thunkMiddleware from 'redux-thunk';
 
 import appManagement from './app-management/reducers';
 import dialogAbout from './dialog-about/reducers';
+import dialogAddSpace from './dialog-add-space/reducers';
+import dialogBackup from './dialog-backup/reducers';
+import dialogBackupRestore from './dialog-backup-restore/reducers';
 import dialogCatalogAppDetails from './dialog-catalog-app-details/reducers';
 import dialogCreateCustomApp from './dialog-create-custom-app/reducers';
 import dialogEditApp from './dialog-edit-app/reducers';
-import dialogBackupRestore from './dialog-backup-restore/reducers';
-import dialogBackup from './dialog-backup/reducers';
-import dialogRestore from './dialog-restore/reducers';
 import dialogLicenseRegistration from './dialog-license-registration/reducers';
 import dialogOpenSourceNotices from './dialog-open-source-notices/reducers';
+import dialogRestore from './dialog-restore/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
 import general from './general/reducers';
 import installed from './installed/reducers';
@@ -26,6 +27,7 @@ import user from './user/reducers';
 const rootReducer = combineReducers({
   appManagement,
   dialogAbout,
+  dialogAddSpace,
   dialogCatalogAppDetails,
   dialogCreateCustomApp,
   dialogEditApp,

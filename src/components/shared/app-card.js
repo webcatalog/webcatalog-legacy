@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import WarningIcon from '@material-ui/icons/Warning';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 
 import HelpTooltip from './help-tooltip';
 
@@ -21,6 +20,8 @@ import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
 import isWidevineSupported from '../../helpers/is-widevine-supported';
+
+import SpaceIcon from './space-icon';
 
 import {
   INSTALLED,
@@ -89,6 +90,13 @@ const styles = (theme) => ({
     marginBottom: window.process.platform === 'win32' ? 4 : 0,
     userSelect: 'none',
   },
+  paperIconMedium: {
+    width: window.process.platform === 'win32' ? 72 : 96,
+    height: window.process.platform === 'win32' ? 72 : 96,
+    marginTop: window.process.platform === 'win32' ? 6 : 0,
+    marginBottom: window.process.platform === 'win32' ? 6 : 0,
+    userSelect: 'none',
+  },
   paperIconLarge: {
     width: window.process.platform === 'win32' ? 96 : 128,
     height: window.process.platform === 'win32' ? 96 : 128,
@@ -120,31 +128,30 @@ const styles = (theme) => ({
   },
 });
 
-const AppCard = (props) => {
-  const {
-    cancelable,
-    category,
-    classes,
-    engine,
-    icon,
-    iconThumbnail,
-    id,
-    inDetailsDialog,
-    isOutdated,
-    latestTemplateVersion,
-    name,
-    onOpenDialogCatalogAppDetails,
-    onInstallApp,
-    onOpenDialogCreateCustomApp,
-    onOpenDialogEditApp,
-    onUpdateApp,
-    opts,
-    status,
-    url,
-    version,
-    widevine,
-  } = props;
-
+const AppCard = ({
+  cancelable,
+  category,
+  classes,
+  engine,
+  icon,
+  iconThumbnail,
+  id,
+  inDetailsDialog,
+  isOutdated,
+  latestTemplateVersion,
+  name,
+  onInstallApp,
+  onOpenDialogCatalogAppDetails,
+  onOpenDialogCreateCustomApp,
+  onOpenDialogEditApp,
+  onUpdateApp,
+  opts,
+  simple,
+  status,
+  url,
+  version,
+  widevine,
+}) => {
   const clickable = !inDetailsDialog;
   const buttonSize = inDetailsDialog ? 'large' : 'medium';
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
@@ -181,11 +188,6 @@ const AppCard = (props) => {
         }),
       },
       {
-        label: 'Uninstall',
-        visible: status === INSTALLED && isOutdated,
-        click: () => requestUninstallApp(id, name, engine),
-      },
-      {
         label: 'Clone',
         click: () => onOpenDialogCreateCustomApp({
           name: `${name} 2`,
@@ -195,11 +197,6 @@ const AppCard = (props) => {
         }),
       },
       {
-        label: 'Reinstall (Repair)',
-        visible: status === INSTALLED && !isOutdated,
-        click: () => onUpdateApp(id),
-      },
-      {
         type: 'separator',
         visible: !inDetailsDialog,
       },
@@ -207,6 +204,20 @@ const AppCard = (props) => {
         label: 'Preferences...',
         visible: status === INSTALLED,
         click: () => requestOpenInBrowser('https://docs.webcatalog.io/article/35-how-can-i-change-an-apps-preferences?utm_source=webcatalog_app'),
+      },
+      {
+        type: 'separator',
+        visible: status === INSTALLED,
+      },
+      {
+        label: 'Reinstall (Repair)',
+        visible: status === INSTALLED && !isOutdated,
+        click: () => onUpdateApp(id),
+      },
+      {
+        label: 'Uninstall',
+        visible: status === INSTALLED,
+        click: () => requestUninstallApp(id, name, engine),
       },
       {
         type: 'separator',
@@ -342,6 +353,9 @@ const AppCard = (props) => {
     );
   };
 
+  // in simple mode, we only show the actions if the app is outdatdd
+  const shouldShowActions = !simple || isOutdated;
+
   return (
     <Grid item>
       <Paper
@@ -352,6 +366,10 @@ const AppCard = (props) => {
           inDetailsDialog && classes.cardFrameless,
         )}
         onClick={clickable ? () => {
+          if (simple) {
+            requestOpenApp(id, name);
+            return;
+          }
           onOpenDialogCatalogAppDetails(id);
         } : null}
         onContextMenu={() => {
@@ -363,6 +381,7 @@ const AppCard = (props) => {
           className={classnames(
             classes.paperIcon,
             inDetailsDialog && classes.paperIconLarge,
+            !shouldShowActions && classes.paperIconMedium,
           )}
           src={iconThumbnail || (isUrl(icon) ? icon : `file://${icon}`)}
         />
@@ -373,10 +392,12 @@ const AppCard = (props) => {
         >
           {name}
         </Typography>
-        <div className={classes.actionContainer}>
-          {renderActionsElement()}
-        </div>
-        {!url && !inDetailsDialog && (
+        {shouldShowActions && (
+          <div className={classes.actionContainer}>
+            {renderActionsElement()}
+          </div>
+        )}
+        {!url && !inDetailsDialog && !simple && (
           <HelpTooltip title="Space">
             <IconButton
               size="small"
@@ -387,7 +408,7 @@ const AppCard = (props) => {
                 requestOpenInBrowser('https://webcatalog.io/webcatalog/spaces/');
               }}
             >
-              <GroupWorkIcon fontSize="small" />
+              <SpaceIcon fontSize="small" />
             </IconButton>
           </HelpTooltip>
         )}
@@ -432,6 +453,7 @@ AppCard.defaultProps = {
   inDetailsDialog: false,
   latestTemplateVersion: null,
   opts: {},
+  simple: false,
   status: null,
   url: null,
   version: null,
@@ -456,6 +478,7 @@ AppCard.propTypes = {
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
   opts: PropTypes.object,
+  simple: PropTypes.bool,
   status: PropTypes.string,
   url: PropTypes.string,
   version: PropTypes.string,

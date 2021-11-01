@@ -14,8 +14,6 @@ import connectComponent from '../../helpers/connect-component';
 
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
-import { requestOpenInBrowser } from '../../senders';
-
 const styles = (theme) => ({
   button: {
     marginLeft: theme.spacing(1),
@@ -27,38 +25,13 @@ const CreateButton = ({
   classes,
   onOpenDialogCreateCustomApp,
 }) => (
-  <Tooltip title="Create...">
+  <Tooltip title="Create Custom App...">
     <IconButton
       size="small"
       color="inherit"
-      aria-label="Create..."
+      aria-label="Create Custom App..."
       className={classes.button}
-      onClick={() => {
-        const template = [
-          {
-            label: 'Create Custom App',
-            click: () => {
-              onOpenDialogCreateCustomApp();
-            },
-          },
-          {
-            label: 'Create Custom Space',
-            click: () => {
-              onOpenDialogCreateCustomApp({ urlDisabled: true });
-            },
-          },
-          { type: 'separator' },
-          {
-            label: 'Submit New App to the Catalog',
-            click: () => {
-              requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9');
-            },
-          },
-        ];
-
-        const menu = window.remote.Menu.buildFromTemplate(template);
-        menu.popup(window.remote.getCurrentWindow());
-      }}
+      onClick={() => onOpenDialogCreateCustomApp()}
     >
       <AddIcon fontSize="small" />
     </IconButton>

@@ -23,7 +23,6 @@ import RestoreAppsCard from '../../shared/restore-apps-card';
 
 import DefinedAppBar from './defined-app-bar';
 import Toolbar from './toolbar';
-import CreateCustomAppCard from '../../shared/create-custom-app-card';
 
 import { updateScrollOffset } from '../../../state/installed/actions';
 
@@ -104,9 +103,9 @@ const Installed = ({
     }
 
     if (appIds.length > 0) {
-      const totalItemCount = appIds.length + 1; // 1 more for custom app card
+      const totalItemCount = appIds.length;
       const rowHeight = 158 + 16;
-      const sidebarWidth = innerWidth < 960 ? 80 : 220;
+      const sidebarWidth = 80;
       const innerWidthMinurScrollbar = window.process.platform === 'darwin'
         ? innerWidth - sidebarWidth - 10 : innerWidth - sidebarWidth - 20;
       const columnCount = Math.floor(innerWidthMinurScrollbar / 184);
@@ -117,17 +116,9 @@ const Installed = ({
       const Cell = ({ columnIndex, rowIndex, style }) => {
         const index = rowIndex * columnCount + columnIndex;
 
-        if (index === 0) {
-          return (
-            <div className={classes.cardContainer} style={style}>
-              <CreateCustomAppCard />
-            </div>
-          );
-        }
-
         if (index >= totalItemCount) return <div style={style} />;
 
-        const appId = appIds[index - 1];
+        const appId = appIds[index];
         return (
           <div className={classes.cardContainer} style={style}>
             <AppCard

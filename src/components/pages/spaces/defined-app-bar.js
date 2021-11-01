@@ -27,7 +27,7 @@ const DefinedAppBar = ({
   <EnhancedAppBar
     center={(
       <Typography variant="body1" className={classes.title}>
-        Categories
+        Spaces
       </Typography>
     )}
   />
