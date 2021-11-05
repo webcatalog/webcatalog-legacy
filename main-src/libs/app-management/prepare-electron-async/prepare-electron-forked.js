@@ -27,7 +27,7 @@ const path = require('path');
 const { downloadArtifact } = require('@electron/get/dist/cjs');
 
 const formatBytes = require('../../format-bytes');
-const getWvvmpElectronVersion = require('../../get-wvvmp-electron-version');
+const getCastlabsElectronVersion = require('../../get-wvvmp-electron-version');
 
 const argv = yargsParser(process.argv.slice(1));
 const {
@@ -73,7 +73,7 @@ Promise.resolve()
 
     // support widevine cdm on mac or linux x64
     if (process.platform === 'darwin' || (process.platform === 'linux' && process.arch === 'x64')) {
-      downloadOpts.version = getWvvmpElectronVersion(electronVersion);
+      downloadOpts.version = getCastlabsElectronVersion(electronVersion);
       downloadOpts.mirrorOptions = {
         mirror: 'https://github.com/castlabs/electron-releases/releases/download/',
       };
