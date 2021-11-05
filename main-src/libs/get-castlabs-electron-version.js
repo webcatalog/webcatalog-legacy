@@ -10,7 +10,7 @@ const semver = require('semver');
 const getCastlabsElectronVersion = (electronVersion) => {
   // '14.0.0-beta.9' to '14.0.0-beta.9+wvcus'
   // '14.0.0' to '14.0.0+wvcus'
-  if (semver.gte('16.0.0-beta.6')) {
+  if (semver.gte(electronVersion, '16.0.0-beta.6')) {
     return `${electronVersion}+wvcus`;
   }
 

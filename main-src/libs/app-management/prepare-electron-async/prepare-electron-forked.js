@@ -27,7 +27,7 @@ const path = require('path');
 const { downloadArtifact } = require('@electron/get/dist/cjs');
 
 const formatBytes = require('../../format-bytes');
-const getCastlabsElectronVersion = require('../../get-wvvmp-electron-version');
+const getCastlabsElectronVersion = require('../../get-castlabs-electron-version');
 
 const argv = yargsParser(process.argv.slice(1));
 const {

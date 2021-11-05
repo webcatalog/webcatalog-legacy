@@ -27,7 +27,7 @@ const fetch = process.env.NODE_ENV === 'production' ? require('node-fetch').defa
 
 const execAsync = require('../../exec-async');
 const checkPathInUseAsync = require('../check-path-in-use-async');
-const getCastlabsElectronVersion = require('../../get-wvvmp-electron-version');
+const getCastlabsElectronVersion = require('../../get-castlabs-electron-version');
 
 // id, name, username might only contain numbers
 // causing yargsParser to parse them correctly as Number instead of String
