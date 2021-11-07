@@ -27,7 +27,7 @@ const styles = (theme) => ({
     alignItems: 'center',
     height: 52,
     marginTop: theme.spacing(1),
-    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
+    border: 'none',
   },
   appName: {
     overflow: 'hidden',

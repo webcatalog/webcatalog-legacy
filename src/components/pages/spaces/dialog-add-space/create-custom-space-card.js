@@ -23,7 +23,7 @@ const styles = (theme) => ({
     display: 'flex',
     cursor: 'pointer',
     color: theme.palette.text.primary,
-    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
+    border: 'none',
     '&:hover, &:focus': {
       backgroundColor: theme.palette.action.selected,
     },
