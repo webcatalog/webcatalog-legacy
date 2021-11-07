@@ -102,6 +102,13 @@ const Home = ({ classes, installedAppIds }) => {
           sortDirection: '',
         },
         alwaysSearchOnInitialLoad: true,
+        // we already use `trackUrlState`
+        // (URL parameters) for the SearchProvider component in Catalog page
+        // so `trackUrlState` must be disabled here to prevent conflicts
+        // for example, page URL parameter of catalog Provider might be used by this
+        // so if a user goes to page 10 in the catalog page
+        // this component will also attemp to load page 10 instead of page 1 on first load
+        trackUrlState: false,
         searchQuery: {
           filters,
           result_fields: {

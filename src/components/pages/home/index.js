@@ -79,6 +79,7 @@ const Container = ({
           filters: [],
         },
         alwaysSearchOnInitialLoad: true,
+        trackUrlState: true,
         searchQuery: {
           filters: [
             { field: 'type', values: ['Singlesite'], type: 'all' },
