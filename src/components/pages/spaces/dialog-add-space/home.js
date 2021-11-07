@@ -10,14 +10,12 @@ import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import connectComponent from '../../../../helpers/connect-component';
 
 import AppCard from './app-card';
 import NoConnection from './no-connection';
-import EmptyState from './empty-state';
 import CreateCustomSpaceCard from './create-custom-space-card';
 
 const styles = (theme) => ({
@@ -142,11 +140,9 @@ const Home = ({ classes, installedAppIds }) => {
           >
             {({
               error,
-              isLoading,
               results,
               searchTerm,
               setSearchTerm,
-              wasSearched,
             }) => {
               if (error) {
                 return (
@@ -160,36 +156,6 @@ const Home = ({ classes, installedAppIds }) => {
                         });
                       }}
                     />
-                  </div>
-                );
-              }
-
-              if (isLoading && results.length < 1) {
-                return (
-                  <div className={classes.contentContainer}>
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      color="textSecondary"
-                      className={classes.loading}
-                    >
-                      Loading...
-                    </Typography>
-                  </div>
-                );
-              }
-
-              if (wasSearched && results.length < 1) {
-                return (
-                  <div className={classes.contentContainer}>
-                    <EmptyState icon={SearchIcon} title="No Matching Results">
-                      <Typography
-                        variant="subtitle1"
-                        align="center"
-                      >
-                        Your query did not match any spaces in our database.
-                      </Typography>
-                    </EmptyState>
                   </div>
                 );
               }
@@ -209,9 +175,11 @@ const Home = ({ classes, installedAppIds }) => {
                       icon128={app.icon_filled_128.raw}
                     />
                   ))}
-                  <Grid container justify="center">
-                    <Paging />
-                  </Grid>
+                  {results.length > 0 && (
+                    <Grid container justify="center">
+                      <Paging />
+                    </Grid>
+                  )}
                 </>
               );
             }}
