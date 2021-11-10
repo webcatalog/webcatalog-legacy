@@ -10,7 +10,6 @@ import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import connectComponent from '../../../../helpers/connect-component';
 
@@ -86,127 +85,116 @@ const Home = ({ classes, installedAppIds }) => {
   }
 
   return (
-    <SearchProvider
-      config={{
-        apiConnector: connector,
-        onSearch: (state, queryConfig, next) => {
-          if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = 0;
-          }
+    <>
+      <CreateCustomSpaceCard />
+      <SearchProvider
+        config={{
+          apiConnector: connector,
+          onSearch: (state, queryConfig, next) => {
+            if (scrollContainerRef.current) {
+              scrollContainerRef.current.scrollTop = 0;
+            }
 
-          return next(state, queryConfig);
-        },
-        initialState: {
-          resultsPerPage: 60,
-          sortField: '',
-          sortDirection: '',
-        },
-        alwaysSearchOnInitialLoad: true,
-        // we already use `trackUrlState`
-        // (URL parameters) for the SearchProvider component in Catalog page
-        // so `trackUrlState` must be disabled here to prevent conflicts
-        // for example, page URL parameter of catalog Provider might be used by this
-        // so if a user goes to page 10 in the catalog page
-        // this component will also attemp to load page 10 instead of page 1 on first load
-        trackUrlState: false,
-        searchQuery: {
-          filters,
-          result_fields: {
-            id: { raw: {} },
-            name: { raw: {} },
-            description: { raw: {} },
-            url: { raw: {} },
-            icon: window.process.platform === 'win32' ? undefined : { raw: {} },
-            icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
-            icon_filled_128: { raw: {} },
+            return next(state, queryConfig);
           },
-        },
-      }}
-    >
-      <div className={classes.homeContainer}>
-        <div
-          className={classes.scrollContainer}
-          ref={scrollContainerRef}
-        >
-          <WithSearch
-            mapContextToProps={({
-              error,
-              isLoading,
-              results,
-              searchTerm,
-              setSearchTerm,
-              wasSearched,
-            }) => ({
-              error,
-              isLoading,
-              results,
-              searchTerm,
-              setSearchTerm,
-              wasSearched,
-            })}
+          initialState: {
+            resultsPerPage: 60,
+            sortField: '',
+            sortDirection: '',
+          },
+          alwaysSearchOnInitialLoad: true,
+          // we already use `trackUrlState`
+          // (URL parameters) for the SearchProvider component in Catalog page
+          // so `trackUrlState` must be disabled here to prevent conflicts
+          // for example, page URL parameter of catalog Provider might be used by this
+          // so if a user goes to page 10 in the catalog page
+          // this component will also attemp to load page 10 instead of page 1 on first load
+          trackUrlState: false,
+          searchQuery: {
+            filters,
+            result_fields: {
+              id: { raw: {} },
+              name: { raw: {} },
+              description: { raw: {} },
+              url: { raw: {} },
+              icon: window.process.platform === 'win32' ? undefined : { raw: {} },
+              icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,
+              icon_filled_128: { raw: {} },
+            },
+          },
+        }}
+      >
+        <div className={classes.homeContainer}>
+          <div
+            className={classes.scrollContainer}
+            ref={scrollContainerRef}
           >
-            {({
-              error,
-              results,
-              searchTerm,
-              setSearchTerm,
-            }) => {
-              if (error) {
-                return (
-                  <div className={classes.contentContainer}>
-                    <NoConnection
-                      onTryAgainButtonClick={() => {
-                        setSearchTerm(searchTerm, {
-                          refresh: true,
-                          debounce: 0,
-                          shouldClearFilters: false,
-                        });
-                      }}
-                    />
-                  </div>
-                );
-              }
+            <WithSearch
+              mapContextToProps={({
+                error,
+                isLoading,
+                results,
+                searchTerm,
+                setSearchTerm,
+                wasSearched,
+              }) => ({
+                error,
+                isLoading,
+                results,
+                searchTerm,
+                setSearchTerm,
+                wasSearched,
+              })}
+            >
+              {({
+                error,
+                results,
+                searchTerm,
+                setSearchTerm,
+              }) => {
+                if (error) {
+                  return (
+                    <div className={classes.contentContainer}>
+                      <NoConnection
+                        onTryAgainButtonClick={() => {
+                          setSearchTerm(searchTerm, {
+                            refresh: true,
+                            debounce: 0,
+                            shouldClearFilters: false,
+                          });
+                        }}
+                      />
+                    </div>
+                  );
+                }
 
-              return (
-                <>
-                  <CreateCustomSpaceCard />
-                  {results.map((app) => installedAppIds.indexOf(app.id.raw) < 0 && (
-                    <AppCard
-                      key={app.id.raw}
-                      id={app.id.raw}
-                      name={app.name.raw}
-                      description={app.description.raw}
-                      url={app.url.raw}
-                      icon={window.process.platform === 'win32' // use unplated icon for Windows
-                        ? app.icon_unplated.raw : app.icon.raw}
-                      icon128={app.icon_filled_128.raw}
-                    />
-                  ))}
-                  {results.length > 0 && (
-                    <Grid container justify="center">
-                      <Paging />
-                    </Grid>
-                  )}
-                </>
-              );
-            }}
-          </WithSearch>
+                return (
+                  <>
+                    {results.map((app) => installedAppIds.indexOf(app.id.raw) < 0 && (
+                      <AppCard
+                        key={app.id.raw}
+                        id={app.id.raw}
+                        name={app.name.raw}
+                        description={app.description.raw}
+                        url={app.url.raw}
+                        icon={window.process.platform === 'win32' // use unplated icon for Windows
+                          ? app.icon_unplated.raw : app.icon.raw}
+                        icon128={app.icon_filled_128.raw}
+                      />
+                    ))}
+                    {results.length > 0 && (
+                      <Grid container justify="center">
+                        <Paging />
+                      </Grid>
+                    )}
+                  </>
+                );
+              }}
+            </WithSearch>
+          </div>
         </div>
-        <WithSearch
-          mapContextToProps={({ isLoading }) => ({ isLoading })}
-        >
-          {({ isLoading }) => (
-            <>
-              {isLoading && (
-                <div className={classes.progressContainer}>
-                  <CircularProgress size={20} />
-                </div>
-              )}
-            </>
-          )}
-        </WithSearch>
-      </div>
-    </SearchProvider>
+      </SearchProvider>
+    </>
   );
 };
 
