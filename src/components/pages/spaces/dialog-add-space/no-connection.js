@@ -41,7 +41,7 @@ const NoConnection = (props) => {
         color="textSecondary"
         variant="h6"
       >
-        Failed to Connect to Server
+        Failed to Load Suggested Spaces
       </Typography>
       <Typography
         align="center"
