@@ -91,6 +91,7 @@ const Container = ({
             url: { raw: {} },
             category: { raw: {} },
             widevine: { raw: {} },
+            require_instance_url: { raw: {} },
             icon: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_128: window.process.platform === 'win32' ? undefined : { raw: {} },
             icon_unplated: window.process.platform === 'win32' ? { raw: {} } : undefined,

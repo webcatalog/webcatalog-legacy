@@ -146,6 +146,7 @@ const AppCard = ({
   onOpenDialogEditApp,
   onUpdateApp,
   opts,
+  requireInstanceUrl,
   simple,
   status,
   url,
@@ -334,6 +335,18 @@ const AppCard = ({
         onClick={(e) => {
           e.stopPropagation();
 
+          // if the app requires instance URL
+          // user has to configure the app URL before adding workspace
+          if (requireInstanceUrl) {
+            onOpenDialogCreateCustomApp({
+              name,
+              url,
+              urlDisabled: Boolean(!url),
+              icon,
+            });
+            return;
+          }
+
           // inform users that
           // widevine is not supported on Linux (ARM64) & Windows (x64 + arm64)
           if (!widevine || isWidevineSupported()) {
@@ -454,6 +467,7 @@ AppCard.defaultProps = {
   inDetailsDialog: false,
   latestTemplateVersion: null,
   opts: {},
+  requireInstanceUrl: false,
   simple: false,
   status: null,
   url: null,
@@ -479,6 +493,7 @@ AppCard.propTypes = {
   onOpenDialogEditApp: PropTypes.func.isRequired,
   onUpdateApp: PropTypes.func.isRequired,
   opts: PropTypes.object,
+  requireInstanceUrl: PropTypes.bool,
   simple: PropTypes.bool,
   status: PropTypes.string,
   url: PropTypes.string,

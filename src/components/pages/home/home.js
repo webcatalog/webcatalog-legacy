@@ -139,6 +139,8 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
 
             const typeFilter = filters.find((filter) => filter.field === 'type');
             const isRouteSpaces = typeFilter && typeFilter.values[0] === 'Multisite';
+
+            console.log(results);
             return (
               <>
                 <CreateCustomAppCard urlDisabled={isRouteSpaces} />
@@ -152,6 +154,8 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
                     url={app.url.raw}
                     category={app.category.raw}
                     widevine={app.widevine.raw === 1}
+                    requireInstanceUrl={app.require_instance_url
+                      && app.require_instance_url.raw === 1}
                     icon={window.process.platform === 'win32' // use unplated icon for Windows
                       ? app.icon_unplated.raw : app.icon.raw}
                     iconThumbnail={window.process.platform === 'win32' // use unplated icon for Windows
