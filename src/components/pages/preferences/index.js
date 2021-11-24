@@ -357,23 +357,25 @@ const Preferences = ({
               <Divider />
               <ListItem>
                 <ListItemText
-                  primary="Show installed apps at launch"
+                  primary="Startup page"
+                  secondary="Startup page is the one that shows when you launch the app."
                 />
-                <ListItemSecondaryAction>
-                  <Switch
-                    edge="end"
-                    color="primary"
-                    checked={attachToMenubar || defaultHome === 'installed'}
-                    disabled={attachToMenubar}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        requestSetPreference('defaultHome', 'installed');
-                      } else {
-                        requestSetPreference('defaultHome', 'home');
-                      }
-                    }}
-                  />
-                </ListItemSecondaryAction>
+                <Select
+                  value={defaultHome}
+                  onChange={(e) => requestSetPreference('defaultHome', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="home">Catalog</MenuItem>
+                  <MenuItem dense value="spaces">Spaces</MenuItem>
+                  <MenuItem dense value="installed">Installed</MenuItem>
+                  <MenuItem dense value="preferences">Settings</MenuItem>
+                </Select>
               </ListItem>
               <Divider />
               <ListItem>
