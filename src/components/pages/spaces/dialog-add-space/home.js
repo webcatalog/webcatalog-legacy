@@ -5,10 +5,9 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
-import { SearchProvider, WithSearch, Paging } from '@elastic/react-search-ui';
+import { SearchProvider, WithSearch } from '@elastic/react-search-ui';
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../../../helpers/connect-component';
@@ -182,11 +181,6 @@ const Home = ({ classes, installedAppIds }) => {
                         icon128={app.icon_filled_128.raw}
                       />
                     ))}
-                    {results.length > 0 && (
-                      <Grid container justify="center">
-                        <Paging />
-                      </Grid>
-                    )}
                   </>
                 );
               }}
