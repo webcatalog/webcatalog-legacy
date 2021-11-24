@@ -12,7 +12,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
-import RestoreIcon from '@material-ui/icons/Restore';
 import SortIcon from '@material-ui/icons/Sort';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -20,7 +19,6 @@ import connectComponent from '../../../helpers/connect-component';
 import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
 import { getOutdatedAppsAsList } from '../../../state/app-management/utils';
 import { updateAllApps } from '../../../state/app-management/actions';
-import { open as openDialogBackupRestore } from '../../../state/dialog-backup-restore/actions';
 
 import {
   requestGetInstalledApps,
@@ -74,7 +72,6 @@ const Toolbar = ({
   fetchingLatestTemplateVersion,
   onFetchLatestTemplateVersionAsync,
   onUpdateAllApps,
-  onOpenDialogBackupRestore,
   outdatedAppCount,
   sortInstalledAppBy,
 }) => (
@@ -121,15 +118,6 @@ const Toolbar = ({
           label: classes.betaSwitchLabelLabel,
         }}
       />
-      <Tooltip title="Backup & Restore...">
-        <IconButton
-          size="small"
-          aria-label="Backup & Restore..."
-          onClick={onOpenDialogBackupRestore}
-        >
-          <RestoreIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
       <Tooltip title="Sort by...">
         <IconButton
           size="small"
@@ -181,7 +169,6 @@ Toolbar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
-  onOpenDialogBackupRestore: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
   sortInstalledAppBy: PropTypes.string.isRequired,
@@ -189,7 +176,6 @@ Toolbar.propTypes = {
 
 const actionCreators = {
   fetchLatestTemplateVersionAsync,
-  openDialogBackupRestore,
   updateAllApps,
 };
 

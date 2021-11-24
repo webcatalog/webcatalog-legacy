@@ -20,12 +20,12 @@ import Typography from '@material-ui/core/Typography';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import PaletteIcon from '@material-ui/icons/Palette';
 import PowerIcon from '@material-ui/icons/Power';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SecurityIcon from '@material-ui/icons/Security';
 import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
+import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import connectComponent from '../../../helpers/connect-component';
@@ -214,9 +214,9 @@ const Preferences = ({
       Icon: WidgetsIcon,
       ref: useRef(),
     },
-    appearance: {
-      text: 'Appearance',
-      Icon: PaletteIcon,
+    appManagement: {
+      text: 'App Management',
+      Icon: OfflinePinIcon,
       ref: useRef(),
     },
     privacy: {
@@ -299,6 +299,25 @@ const Preferences = ({
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
               <ListItem>
+                <ListItemText primary="Theme" />
+                <Select
+                  value={themeSource}
+                  onChange={(e) => requestSetPreference('themeSource', e.target.value)}
+                  variant="filled"
+                  disableUnderline
+                  margin="dense"
+                  classes={{
+                    root: classes.select,
+                  }}
+                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
+                >
+                  <MenuItem dense value="system">System default</MenuItem>
+                  <MenuItem dense value="light">Light</MenuItem>
+                  <MenuItem dense value="dark">Dark</MenuItem>
+                </Select>
+              </ListItem>
+              <Divider />
+              <ListItem>
                 <ListItemText
                   primary={(() => {
                     if (window.process.platform === 'darwin') { return 'Show menu bar icon'; }
@@ -380,81 +399,8 @@ const Preferences = ({
             </List>
           </Paper>
 
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.appearance.ref}>
-            Appearance
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem>
-                <ListItemText primary="Theme" />
-                <Select
-                  value={themeSource}
-                  onChange={(e) => requestSetPreference('themeSource', e.target.value)}
-                  variant="filled"
-                  disableUnderline
-                  margin="dense"
-                  classes={{
-                    root: classes.select,
-                  }}
-                  className={classnames(classes.selectRoot, classes.selectRootExtraMargin)}
-                >
-                  <MenuItem dense value="system">System default</MenuItem>
-                  <MenuItem dense value="light">Light</MenuItem>
-                  <MenuItem dense value="dark">Dark</MenuItem>
-                </Select>
-              </ListItem>
-            </List>
-          </Paper>
-
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.privacy.ref}>
-            Privacy &amp; Security
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <List disablePadding dense>
-              <ListItem>
-                <ListItemText
-                  primary="Allow the app to send anonymous crash reports"
-                  secondary="Help us quickly diagnose and fix bugs in the app."
-                />
-                <ListItemSecondaryAction>
-                  <Switch
-                    edge="end"
-                    color="primary"
-                    checked={sentry}
-                    onChange={(e) => {
-                      requestSetPreference('sentry', e.target.checked);
-                    }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider />
-              <ListItem>
-                <ListItemText
-                  primary="Allow the app to send anonymous usage data"
-                  secondary="Help us understand how to improve the product."
-                />
-                <ListItemSecondaryAction>
-                  <Switch
-                    edge="end"
-                    color="primary"
-                    checked={telemetry}
-                    onChange={(e) => {
-                      requestSetPreference('telemetry', e.target.checked);
-                      enqueueRequestRestartSnackbar();
-                    }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider />
-              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy/?utm_source=webcatalog_app')}>
-                <ListItemText primary="Privacy Policy" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
-            </List>
-          </Paper>
-
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
-            Advanced
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.appManagement.ref}>
+            App Management
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
@@ -566,11 +512,6 @@ const Preferences = ({
                 <ListItemText primary={`Open installation path in ${getFileManagerName()}`} />
                 <ChevronRightIcon color="action" />
               </ListItem>
-              <Divider />
-              <ListItem button onClick={onOpenDialogBackupRestore}>
-                <ListItemText primary="Backup and restore apps & spaces" />
-                <ChevronRightIcon color="action" />
-              </ListItem>
               {window.process.platform === 'win32' && (
                 <>
                   <Divider />
@@ -608,6 +549,68 @@ const Preferences = ({
                 </>
               )}
               <Divider />
+              <ListItem button onClick={onOpenDialogBackupRestore}>
+                <ListItemText
+                  primary="Backup and restore apps & spaces (experimental)"
+                  secondary="This feature is under development and might contain bugs."
+                />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.privacy.ref}>
+            Privacy &amp; Security
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
+              <ListItem>
+                <ListItemText
+                  primary="Allow the app to send anonymous crash reports"
+                  secondary="Help us quickly diagnose and fix bugs in the app."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={sentry}
+                    onChange={(e) => {
+                      requestSetPreference('sentry', e.target.checked);
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem>
+                <ListItemText
+                  primary="Allow the app to send anonymous usage data"
+                  secondary="Help us understand how to improve the product."
+                />
+                <ListItemSecondaryAction>
+                  <Switch
+                    edge="end"
+                    color="primary"
+                    checked={telemetry}
+                    onChange={(e) => {
+                      requestSetPreference('telemetry', e.target.checked);
+                      enqueueRequestRestartSnackbar();
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={() => requestOpenInBrowser('https://webcatalog.io/privacy/?utm_source=webcatalog_app')}>
+                <ListItemText primary="Privacy Policy" />
+                <ChevronRightIcon color="action" />
+              </ListItem>
+            </List>
+          </Paper>
+
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.advanced.ref}>
+            Advanced
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <List disablePadding dense>
               <ListItem>
                 <ListItemText
                   primary="Keep window always on top"
