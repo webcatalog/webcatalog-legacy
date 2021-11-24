@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
 import RestoreIcon from '@material-ui/icons/Restore';
@@ -23,6 +25,7 @@ import { open as openDialogBackupRestore } from '../../../state/dialog-backup-re
 import {
   requestGetInstalledApps,
   requestSetPreference,
+  enqueueRequestRestartSnackbar,
 } from '../../../senders';
 
 const styles = (theme) => ({
@@ -54,10 +57,19 @@ const styles = (theme) => ({
   actionButton: {
     marginLeft: theme.spacing(1),
   },
+  betaSwitchLabelRoot: {
+    marginLeft: 0,
+  },
+  betaSwitchLabelLabel: {
+    ...theme.typography.body2,
+    color: theme.palette.text.secondary,
+    userSelect: 'none',
+  },
 });
 
 const Toolbar = ({
   activeQuery,
+  allowPrerelease,
   classes,
   fetchingLatestTemplateVersion,
   onFetchLatestTemplateVersionAsync,
@@ -92,6 +104,23 @@ const Toolbar = ({
       )}
     </div>
     <div className={classes.right}>
+      <FormControlLabel
+        control={(
+          <Switch
+            checked={allowPrerelease}
+            onChange={(e) => {
+              requestSetPreference('allowPrerelease', e.target.checked);
+              enqueueRequestRestartSnackbar();
+            }}
+            size="small"
+          />
+        )}
+        label="Receive beta updates"
+        classes={{
+          root: classes.betaSwitchLabelRoot,
+          label: classes.betaSwitchLabelLabel,
+        }}
+      />
       <Tooltip title="Backup & Restore...">
         <IconButton
           size="small"
@@ -148,10 +177,11 @@ Toolbar.defaultProps = {
 
 Toolbar.propTypes = {
   activeQuery: PropTypes.string,
+  allowPrerelease: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   fetchingLatestTemplateVersion: PropTypes.bool.isRequired,
-  onOpenDialogBackupRestore: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
+  onOpenDialogBackupRestore: PropTypes.func.isRequired,
   onUpdateAllApps: PropTypes.func.isRequired,
   outdatedAppCount: PropTypes.number.isRequired,
   sortInstalledAppBy: PropTypes.string.isRequired,
@@ -165,10 +195,11 @@ const actionCreators = {
 
 const mapStateToProps = (state) => ({
   activeQuery: state.installed.activeQuery,
+  allowPrerelease: state.preferences.allowPrerelease,
   appsList: state.appManagement.apps,
   fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
-  sortInstalledAppBy: state.preferences.sortInstalledAppBy,
   outdatedAppCount: getOutdatedAppsAsList(state).length,
+  sortInstalledAppBy: state.preferences.sortInstalledAppBy,
 });
 
 export default connectComponent(

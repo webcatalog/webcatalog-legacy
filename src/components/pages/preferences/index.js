@@ -688,7 +688,8 @@ const Preferences = ({
               <Divider />
               <ListItem>
                 <ListItemText
-                  primary="Receive pre-release updates"
+                  primary="Receive beta updates"
+                  secondary="Try pre-release versions of WebCatalog, and test drive our new features."
                 />
                 <ListItemSecondaryAction>
                   <Switch
