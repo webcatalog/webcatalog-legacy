@@ -113,7 +113,7 @@ const EnhancedAppBar = ({
     // https://github.com/webcatalog/webcatalog-app/issues/656
     // https://stackoverflow.com/questions/10554446/no-onclick-when-child-is-clicked
     if (e.target === e.currentTarget) {
-      const win = window.require('electron').remote.getCurrentWindow();
+      const win = window.remote.getCurrentWindow();
       if (win.isMaximized()) {
         win.unmaximize();
       } else {
