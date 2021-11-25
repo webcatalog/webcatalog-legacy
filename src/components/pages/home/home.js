@@ -140,7 +140,6 @@ const Home = forwardRef(({ classes }, scrollContainerRef) => (
             const typeFilter = filters.find((filter) => filter.field === 'type');
             const isRouteSpaces = typeFilter && typeFilter.values[0] === 'Multisite';
 
-            console.log(results);
             return (
               <>
                 <CreateCustomAppCard urlDisabled={isRouteSpaces} />
