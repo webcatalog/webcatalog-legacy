@@ -7652,7 +7652,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: common-tags. A copy of the source code may be downloaded from https://github.com/declandewet/common-tags. This software contains the following license and notice below:
+The following software may be included in this product: common-tags. A copy of the source code may be downloaded from https://github.com/zspecza/common-tags. This software contains the following license and notice below:
 
 License (MIT)
 -------------
