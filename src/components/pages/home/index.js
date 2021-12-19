@@ -81,9 +81,6 @@ const Container = ({
         alwaysSearchOnInitialLoad: true,
         trackUrlState: true,
         searchQuery: {
-          filters: [
-            { field: 'type', values: ['Singlesite'], type: 'all' },
-          ],
           resultsPerPage: 82,
           result_fields: {
             id: { raw: {} },
