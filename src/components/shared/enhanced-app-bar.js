@@ -42,6 +42,7 @@ const styles = (theme) => ({
     // leave space for traffic light buttons
     paddingLeft: 0,
     boxSizing: 'border-box',
+    height: '100%',
   },
   center: {
     flex: 1,
@@ -50,6 +51,7 @@ const styles = (theme) => ({
     width: LEFT_RIGHT_WIDTH,
     textAlign: 'right',
     boxSizing: 'border-box',
+    height: '100%',
   },
   noDrag: {
     WebkitAppRegion: 'no-drag',
@@ -101,6 +103,39 @@ const styles = (theme) => ({
   },
 });
 
+const onDoubleClick = (e) => {
+  // feature: double click on title bar to expand #656
+  // https://github.com/webcatalog/webcatalog-app/issues/656
+
+  // https://stackoverflow.com/questions/10554446/no-onclick-when-child-is-clicked
+  if (e.target !== e.currentTarget) {
+    return;
+  }
+
+  // User can choose title bar behavior from macOS System Preferences > Dock & Menu Bar
+  const systemPref = window.process.platform === 'darwin'
+    ? window.remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
+    : 'Maximize';
+
+  switch (systemPref) {
+    case 'Minimize': {
+      const win = window.remote.getCurrentWindow();
+      win.minimize();
+      break;
+    }
+    case 'Maximize': {
+      const win = window.remote.getCurrentWindow();
+      if (win.isMaximized()) {
+        win.unmaximize();
+      } else {
+        win.maximize();
+      }
+      break;
+    }
+    default: break;
+  }
+};
+
 const EnhancedAppBar = ({
   left,
   center,
@@ -108,19 +143,6 @@ const EnhancedAppBar = ({
   isMaximized,
 }) => {
   const useSystemTitleBar = getStaticGlobal('useSystemTitleBar');
-  const onDoubleClick = (e) => {
-    // feature: double click on title bar to expand #656
-    // https://github.com/webcatalog/webcatalog-app/issues/656
-    // https://stackoverflow.com/questions/10554446/no-onclick-when-child-is-clicked
-    if (e.target === e.currentTarget) {
-      const win = window.remote.getCurrentWindow();
-      if (win.isMaximized()) {
-        win.unmaximize();
-      } else {
-        win.maximize();
-      }
-    }
-  };
 
   const shouldShowMenuButton = window.process.platform === 'darwin'
     ? window.mode === 'menubar' // on Mac, only show the button in menu bar mode
