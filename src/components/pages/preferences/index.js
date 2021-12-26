@@ -834,7 +834,6 @@ const mapStateToProps = (state) => ({
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
-  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
   telemetry: state.preferences.telemetry,

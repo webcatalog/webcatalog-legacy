@@ -102,7 +102,6 @@ const mapStateToProps = (state) => ({
   displayName: state.user.displayName,
   isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,
-  registered: state.preferences.registered,
 });
 
 export default connectComponent(

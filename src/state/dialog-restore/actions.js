@@ -7,14 +7,15 @@ import {
   DIALOG_RESTORE_APP_DETAILS_OPEN,
 } from '../../constants/actions';
 import { open as openDialogUpgrade } from '../dialog-upgrade/actions';
+import { getCurrentPlan } from '../user/utils';
 
 export const close = () => ({
   type: DIALOG_RESTORE_APP_DETAILS_CLOSE,
 });
 
 export const open = () => (dispatch, getState) => {
-  const { registered } = getState().preferences;
-  if (!registered) {
+  const currentPlan = getCurrentPlan(getState());
+  if (currentPlan === 'basic') {
     dispatch(openDialogUpgrade());
     return;
   }

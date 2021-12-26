@@ -16,6 +16,7 @@ import {
 } from '../../../senders';
 
 import { open as openDialogUpgrade } from '../../../state/dialog-upgrade/actions';
+import { getCurrentPlan } from '../../../state/user/utils';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -48,7 +49,6 @@ const styles = (theme) => ({
 
 const SectionAccount = ({
   classes,
-  registered,
   onOpenDialogUpgrade,
   currentPlan,
   displayName,
@@ -57,7 +57,7 @@ const SectionAccount = ({
 }) => {
   let planName = 'Basic';
   if (currentPlan === 'pro') planName = 'Pro';
-  else if (registered) planName = 'Lifetime';
+  else if (currentPlan === 'lifetime') planName = 'Lifetime';
 
   const accountListItem = (
     <ListItem
@@ -72,7 +72,7 @@ const SectionAccount = ({
           },
           {
             type: 'separator',
-            visible: !registered,
+            visible: currentPlan !== 'pro',
           },
           {
             label: 'Profile',
@@ -119,7 +119,7 @@ const SectionAccount = ({
 
   return (
     <>
-      {!registered && currentPlan !== 'pro' && (
+      {currentPlan === 'basic' && (
         <div className={classes.container}>
           <Button size="small" onClick={() => onOpenDialogUpgrade()} color="inherit">
             Upgrade
@@ -132,29 +132,25 @@ const SectionAccount = ({
 };
 
 SectionAccount.defaultProps = {
-  currentPlan: 'basic',
   displayName: '',
   isSignedIn: false,
   photoURL: null,
-  registered: false,
 };
 
 SectionAccount.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentPlan: PropTypes.string,
+  currentPlan: PropTypes.string.isRequired,
   displayName: PropTypes.string,
   isSignedIn: PropTypes.bool,
   onOpenDialogUpgrade: PropTypes.func.isRequired,
   photoURL: PropTypes.string,
-  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  currentPlan: state.user.publicProfile.currentPlan,
+  currentPlan: getCurrentPlan(state),
   displayName: state.user.displayName,
   isSignedIn: state.user.isSignedIn,
   photoURL: state.user.photoURL,
-  registered: state.preferences.registered,
 });
 
 const actionCreators = {
