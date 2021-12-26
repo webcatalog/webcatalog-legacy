@@ -61,23 +61,10 @@ const DialogLicenseRegistration = (props) => {
       </EnhancedDialogTitle>
       <DialogContent>
         <DialogContentText className={classes.dialogContentText}>
-          You are currently running the free version of WebCatalog which
-          does not include&nbsp;
-          <span
-            onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/pricing/?utm_source=webcatalog_app')}
-            onKeyDown={(e) => {
-              if (e.key !== 'Enter') return;
-              requestOpenInBrowser('https://webcatalog.io/webcatalog/pricing/?utm_source=webcatalog_app');
-            }}
-            role="link"
-            tabIndex="0"
-            className={classes.link}
-          >
-            premium features
-          </span>
-          &nbsp;such as adding unlimited number of apps, spaces & accounts,
-          blocking ads & trackers and more.
-          To remove the limitations, please purchase WebCatalog Lifetime from our store.
+          If you have already purchased WebCatalog Lifetime from our store,
+          you should have received a license key via email to enter above.
+          If not, you can select &quot;Purchase a License...&quot;
+          to purchase a license key for 40 USD (per user, one-time payment)
         </DialogContentText>
         <TextField
           autoFocus
@@ -90,7 +77,7 @@ const DialogLicenseRegistration = (props) => {
           placeholder="0-0000000000000-00000000-00000000-00000000-00000000"
           error={Boolean(licenseKeyError)}
           variant="outlined"
-          helperText={licenseKeyError || 'If you have already purchased WebCatalog Lifetime from our store, you should have received a license key via email to enter above.'}
+          helperText={licenseKeyError}
         />
 
         <DialogContentText className={classes.helpContent}>

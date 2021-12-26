@@ -13,7 +13,7 @@ import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 
 import appSearch from '../../app-search';
 
-import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
+import { open as openDialogUpgrade } from '../dialog-upgrade/actions';
 
 import {
   isNameExisted,
@@ -72,7 +72,7 @@ export const installApp = (
         return app.status === INSTALLED || app.status === INSTALLING;
       }).length;
     if (appCount >= 10) {
-      dispatch(openDialogLicenseRegistration());
+      dispatch(openDialogUpgrade());
       return null;
     }
   }

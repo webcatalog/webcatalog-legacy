@@ -13,15 +13,16 @@ import Container from './root/container';
 import AuthManager from './root/auth-manager';
 
 import DialogAbout from './dialogs/dialog-about';
+import DialogBackup from './dialogs/dialog-backup';
+import DialogBackupRestore from './dialogs/dialog-backup-restore';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
 import DialogCreateCustomApp from './dialogs/dialog-create-custom-app';
 import DialogEditApp from './dialogs/dialog-edit-app';
-import DialogBackupRestore from './dialogs/dialog-backup-restore';
-import DialogBackup from './dialogs/dialog-backup';
-import DialogRestore from './dialogs/dialog-restore';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
+import DialogRestore from './dialogs/dialog-restore';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
+import DialogUpgrade from './dialogs/dialog-upgrade';
 
 import {
   requestGetInstalledApps,
@@ -99,15 +100,16 @@ const App = ({
       <AuthManager />
 
       <DialogAbout />
+      <DialogBackup />
+      <DialogBackupRestore />
       <DialogCatalogAppDetails />
       <DialogCreateCustomApp />
       <DialogEditApp />
-      <DialogBackupRestore />
-      <DialogBackup />
-      <DialogRestore />
       <DialogLicenseRegistration />
       <DialogOpenSourceNotices />
+      <DialogRestore />
       <DialogSetInstallationPath />
+      <DialogUpgrade />
     </div>
   );
 };
