@@ -12,17 +12,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { open as openDialogUpgrade } from '../../../state/dialog-upgrade/actions';
+import { getCurrentPlan } from '../../../state/user/utils';
 
 import connectComponent from '../../../helpers/connect-component';
 
 const SectionLicensing = ({
   currentPlan,
   onOpenDialogUpgrade,
-  registered,
 }) => {
   let planName = 'Basic';
   if (currentPlan === 'pro') planName = 'Pro';
-  else if (registered) planName = 'Lifetime';
+  else if (currentPlan === 'lifetime') planName = 'Lifetime';
 
   return (
     <List dense disablePadding>
@@ -44,20 +44,13 @@ const SectionLicensing = ({
   );
 };
 
-SectionLicensing.defaultProps = {
-  currentPlan: 'basic',
-  registered: false,
-};
-
 SectionLicensing.propTypes = {
-  currentPlan: PropTypes.string,
+  currentPlan: PropTypes.string.isRequired,
   onOpenDialogUpgrade: PropTypes.func.isRequired,
-  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  currentPlan: state.user.publicProfile.currentPlan,
-  registered: state.preferences.registered,
+  currentPlan: getCurrentPlan(state),
 });
 
 const actionCreators = {

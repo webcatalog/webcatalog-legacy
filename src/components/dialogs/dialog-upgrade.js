@@ -19,6 +19,7 @@ import connectComponent from '../../helpers/connect-component';
 import { close } from '../../state/dialog-upgrade/actions';
 import { requestOpenInBrowser, requestSignInWithPopup } from '../../senders';
 import { open as openDialogLicenseRegistration } from '../../state/dialog-license-registration/actions';
+import { getCurrentPlan } from '../../state/user/utils';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
@@ -44,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 const DialogUpgrade = ({
   currentPlan,
   isSignedIn,
-  registered,
   open,
   onClose,
   onOpenDialogLicenseRegistration,
@@ -53,7 +53,7 @@ const DialogUpgrade = ({
 
   let planName = 'Basic';
   if (currentPlan === 'pro') planName = 'Pro';
-  else if (registered) planName = 'Lifetime';
+  else if (currentPlan === 'lifetime') planName = 'Lifetime';
 
   const handleUpgradeToPro = useCallback(() => {
     if (isSignedIn) {
@@ -116,7 +116,7 @@ const DialogUpgrade = ({
             />
           </ListItem>
           <Divider />
-          <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={registered}>
+          <ListItem button onClick={onOpenDialogLicenseRegistration} disabled={currentPlan === 'lifetime'}>
             <ListItemText
               primary="WebCatalog Lifetime (40 USD per user, one-time payment)"
               secondary="Unlock most features, EXLCUDING cloud syncing."
@@ -143,25 +143,21 @@ const DialogUpgrade = ({
 };
 
 DialogUpgrade.defaultProps = {
-  currentPlan: 'basic',
   isSignedIn: false,
-  registered: false,
 };
 
 DialogUpgrade.propTypes = {
-  currentPlan: PropTypes.string,
+  currentPlan: PropTypes.string.isRequired,
   isSignedIn: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   open: state.dialogUpgrade.open,
-  currentPlan: state.user.publicProfile.currentPlan,
+  currentPlan: getCurrentPlan(state),
   isSignedIn: state.user.isSignedIn,
-  registered: state.preferences.registered,
 });
 
 const actionCreators = {
