@@ -71,6 +71,10 @@ const styles = (theme) => ({
     margin: '0 auto',
     minWidth: 'auto',
   },
+  listItemText: {
+    textAlign: 'center',
+    width: '100%',
+  },
   listItemTextPrimary: theme.typography.body2,
 });
 
@@ -166,6 +170,7 @@ const Home = ({
                 <ListItemText
                   primary={text}
                   classes={{
+                    root: classes.listItemText,
                     primary: classes.listItemTextPrimary,
                   }}
                 />

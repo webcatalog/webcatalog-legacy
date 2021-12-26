@@ -1,25 +1,21 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-/* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
-// import useMediaQuery from '@material-ui/core/useMediaQuery';
-// import { getAuth } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 
-// import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import Tooltip from '@material-ui/core/Tooltip';
-// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
 
-// import {
-//   requestOpenInBrowser,
-// } from '../../../senders';
+import {
+  requestOpenInBrowser,
+} from '../../../senders';
 
-import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
+import { open as openDialogUpgrade } from '../../../state/dialog-upgrade/actions';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -31,136 +27,138 @@ const styles = (theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  // listItemIcon: {
-  //   color: theme.palette.common.white,
-  // },
-  // listItemText: {
-  //   userSelect: 'none',
-  // },
-  // profilePrimaryText: {
-  //   whiteSpace: 'nowrap',
-  //   textOverflow: 'ellipsis',
-  //   overflow: 'hidden',
-  // },
-  // profileSecondaryText: {
-  //   whiteSpace: 'nowrap',
-  //   textOverflow: 'ellipsis',
-  //   overflow: 'hidden',
-  //   color: 'rgba(255, 255, 255, 0.7)',
-  // },
+  listItem: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  listItemSelected: {
+    backgroundColor: `${theme.palette.type === 'dark' ? theme.palette.common.black : theme.palette.grey[900]} !important`,
+  },
+  listItemIcon: {
+    color: theme.palette.common.white,
+    margin: '0 auto',
+    minWidth: 'auto',
+  },
+  listItemText: {
+    textAlign: 'center',
+    width: '100%',
+  },
+  listItemTextPrimary: theme.typography.body2,
 });
 
 const SectionAccount = ({
   classes,
   registered,
-  onOpenDialogLicenseRegistration,
+  onOpenDialogUpgrade,
+  currentPlan,
+  displayName,
+  isSignedIn,
+  photoURL,
 }) => {
-  if (!registered) {
-    return (
-      <div className={classes.container}>
-        <Button size="small" onClick={() => onOpenDialogLicenseRegistration()} color="inherit">
-          Upgrade
-        </Button>
-      </div>
-    );
-  }
+  let planName = 'Basic';
+  if (currentPlan === 'pro') planName = 'Pro';
+  else if (registered) planName = 'Lifetime';
 
-  return null;
+  const accountListItem = (
+    <ListItem
+      button
+      alignItems="flex-start"
+      onClick={() => {
+        const template = [
+          {
+            label: 'Upgrade...',
+            click: () => onOpenDialogUpgrade(),
+            visible: currentPlan !== 'pro',
+          },
+          {
+            type: 'separator',
+            visible: !registered,
+          },
+          {
+            label: 'Profile',
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/'),
+          },
+          {
+            label: 'Password',
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/password/'),
+          },
+          {
+            label: 'Plans and Billing',
+            click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Log Out',
+            click: () => getAuth().signOut(),
+          },
+        ];
 
-  // const accountListItem = (
-  //   <ListItem
-  //     button
-  //     alignItems="flex-start"
-  //     onClick={() => {
-  //       const template = [
-  //         {
-  //           label: 'Upgrade...',
-  //           click: () => onOpenDialogLicenseRegistration(),
-  //           visible: !registered,
-  //         },
-  //         {
-  //           type: 'separator',
-  //           visible: !registered,
-  //         },
-  //         {
-  //           label: 'Profile',
-  //           click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/profile/'),
-  //         },
-  //         {
-  //           label: 'Password',
-  //           click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/password/'),
-  //         },
-  //         // {
-  //         //   label: 'Plans and Billing',
-  //         //   click: () => requestOpenInBrowser('https://webcatalog.io/account/settings/billing/'),
-  //         // },
-  //         {
-  //           type: 'separator',
-  //         },
-  //         {
-  //           label: 'Log Out',
-  //           click: () => getAuth().signOut(),
-  //         },
-  //       ];
+        const menu = window.remote.Menu.buildFromTemplate(template);
+        menu.popup(window.remote.getCurrentWindow());
+      }}
+      title={displayName}
+      classes={{
+        root: classes.listItem,
+        selected: classes.listItemSelected,
+      }}
+    >
+      <ListItemAvatar classes={{ root: classes.listItemIcon }}>
+        <Avatar alt={displayName} src={photoURL} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={planName}
+        classes={{
+          root: classes.listItemText,
+          primary: classes.listItemTextPrimary,
+        }}
+      />
+    </ListItem>
+  );
 
-  //       const menu = window.remote.Menu.buildFromTemplate(template);
-  //       menu.popup(window.remote.getCurrentWindow());
-  //     }}
-  //     title={`${displayName} (${planName})`}
-  //   >
-  //     <ListItemAvatar className={classes.listItemIcon}>
-  //       <Avatar alt={displayName} src={photoURL} />
-  //     </ListItemAvatar>
-  //     <ListItemText
-  //       primary={displayName}
-  //       secondary={`WebCatalog ${planName}`}
-  //       classes={{
-  //         root: classes.listItemText,
-  //         primary: classes.profilePrimaryText,
-  //         secondary: classes.profileSecondaryText,
-  //       }}
-  //     />
-  //   </ListItem>
-  // );
-
-  // if (showTooltip) {
-  //   return (
-  //     <Tooltip title={`${displayName} (${planName})`} placement="right" arrow>
-  //       {accountListItem}
-  //     </Tooltip>
-  //   );
-  // }
-  // return accountListItem;
+  return (
+    <>
+      {!registered && currentPlan !== 'pro' && (
+        <div className={classes.container}>
+          <Button size="small" onClick={() => onOpenDialogUpgrade()} color="inherit">
+            Upgrade
+          </Button>
+        </div>
+      )}
+      {isSignedIn && accountListItem}
+    </>
+  );
 };
 
 SectionAccount.defaultProps = {
-  // currentPlan: 'basic',
-  // displayName: '',
-  // isSignedIn: false,
-  // photoURL: null,
+  currentPlan: 'basic',
+  displayName: '',
+  isSignedIn: false,
+  photoURL: null,
   registered: false,
 };
 
 SectionAccount.propTypes = {
   classes: PropTypes.object.isRequired,
-  // currentPlan: PropTypes.string,
-  // displayName: PropTypes.string,
-  // isSignedIn: PropTypes.bool,
-  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
-  // photoURL: PropTypes.string,
+  currentPlan: PropTypes.string,
+  displayName: PropTypes.string,
+  isSignedIn: PropTypes.bool,
+  onOpenDialogUpgrade: PropTypes.func.isRequired,
+  photoURL: PropTypes.string,
   registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  // currentPlan: state.user.publicProfile.currentPlan,
-  // displayName: state.user.displayName,
-  // isSignedIn: state.user.isSignedIn,
-  // photoURL: state.user.photoURL,
+  currentPlan: state.user.publicProfile.currentPlan,
+  displayName: state.user.displayName,
+  isSignedIn: state.user.isSignedIn,
+  photoURL: state.user.photoURL,
   registered: state.preferences.registered,
 });
 
 const actionCreators = {
-  openDialogLicenseRegistration,
+  openDialogUpgrade,
 };
 
 export default connectComponent(
