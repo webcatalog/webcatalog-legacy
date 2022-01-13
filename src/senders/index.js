@@ -13,7 +13,6 @@ export const requestQuit = () => window.ipcRenderer.send('request-quit');
 export const requestCheckForUpdates = (isSilent) => window.ipcRenderer.send('request-check-for-updates', isSilent);
 export const requestShowAppMenu = (x, y) => window.ipcRenderer.send('request-show-app-menu', x, y);
 export const requestRestart = () => window.ipcRenderer.send('request-restart');
-export const requestSignInWithPopup = () => window.ipcRenderer.send('request-sign-in-with-popup');
 
 // Preferences
 export const getPreference = (name) => window.ipcRenderer.sendSync('get-preference', name);
@@ -81,6 +80,3 @@ export const requestOpenApp = (id, name) => window.ipcRenderer.send('request-ope
 
 // Native Theme
 export const getShouldUseDarkColors = () => window.ipcRenderer.sendSync('get-should-use-dark-colors');
-
-// Firebase
-export const requestUpdateAuthJson = (authToken) => window.ipcRenderer.send('request-update-auth-json', authToken);

@@ -17,13 +17,11 @@ import { open as openDialogLicenseRegistration } from '../../../state/dialog-lic
 import connectComponent from '../../../helpers/connect-component';
 
 const SectionLicensing = ({
-  currentPlan,
   registered,
   onOpenDialogLicenseRegistration,
 }) => {
   let planName = 'Basic';
-  if (currentPlan === 'pro') planName = 'Pro';
-  else if (registered) planName = 'Lifetime';
+  if (registered) planName = 'Lifetime';
 
   const upgradeToLifetimeComponent = planName === 'Basic' && (
     <>
@@ -48,21 +46,15 @@ const SectionLicensing = ({
 };
 
 SectionLicensing.defaultProps = {
-  currentPlan: 'basic',
   registered: false,
 };
 
 SectionLicensing.propTypes = {
-  currentPlan: PropTypes.string,
   onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
   registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  currentPlan: state.user.publicProfile.currentPlan,
-  displayName: state.user.displayName,
-  isSignedIn: state.user.isSignedIn,
-  photoURL: state.user.photoURL,
   registered: state.preferences.registered,
 });
 

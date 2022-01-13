@@ -3,14 +3,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getAuth } from 'firebase/auth';
 
 import connectComponent from '../helpers/connect-component';
 
 import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
 import Container from './root/container';
-import AuthManager from './root/auth-manager';
 
 import DialogAbout from './dialogs/dialog-about';
 import DialogCatalogAppDetails from './dialogs/dialog-catalog-app-details';
@@ -26,13 +24,9 @@ import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
 import {
   requestGetInstalledApps,
   requestCheckForUpdates,
-  requestUpdateAuthJson,
 } from '../senders';
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
-import { clearUserState, updateUserAsync } from '../state/user/actions';
-
-import '../firebase';
 
 const styles = (theme) => ({
   root: {
@@ -55,8 +49,6 @@ const styles = (theme) => ({
 
 const App = ({
   classes,
-  onClearUserState,
-  onUpdateUserAsync,
   onFetchLatestTemplateVersionAsync,
 }) => {
   useEffect(() => {
@@ -72,22 +64,6 @@ const App = ({
     };
   }, [onFetchLatestTemplateVersionAsync]);
 
-  // docs: https://github.com/firebase/firebaseui-web-react
-  // Listen to the Firebase Auth state and set the local state.
-  useEffect(() => {
-    const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
-      if (!user) {
-        onClearUserState();
-        requestUpdateAuthJson();
-        return;
-      }
-
-      onUpdateUserAsync();
-    });
-    // Make sure we un-register Firebase observers when the component unmounts.
-    return () => unregisterAuthObserver();
-  }, [onClearUserState, onUpdateUserAsync]);
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -96,7 +72,6 @@ const App = ({
 
       <SnackbarTrigger />
       <TelemetryManager />
-      <AuthManager />
 
       <DialogAbout />
       <DialogCatalogAppDetails />
@@ -114,9 +89,7 @@ const App = ({
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  onClearUserState: PropTypes.func.isRequired,
   onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
-  onUpdateUserAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -124,9 +97,7 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  clearUserState,
   fetchLatestTemplateVersionAsync,
-  updateUserAsync,
 };
 
 export default connectComponent(

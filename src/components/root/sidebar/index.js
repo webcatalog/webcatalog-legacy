@@ -34,7 +34,7 @@ import {
   ROUTE_SPACES,
 } from '../../../constants/routes';
 
-import ListItemAccount from './list-item-account';
+import UpgradeButton from './upgrade-button';
 
 const styles = (theme) => ({
   sidebar: {
@@ -183,7 +183,7 @@ const Home = ({
             return listItem;
           })}
         </List>
-        <ListItemAccount />
+        <UpgradeButton />
       </div>
     </Grid>
   );

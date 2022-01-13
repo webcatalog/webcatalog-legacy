@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { batch } from 'react-redux';
-import { getAuth, signInWithCustomToken } from '@firebase/auth';
 
 import {
   setApp,
@@ -28,7 +27,6 @@ import {
 import {
   getShouldUseDarkColors,
 } from '../senders';
-import '../firebase';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
@@ -112,14 +110,6 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('set-is-maximized', (e, isMaximized) => {
     store.dispatch(updateIsMaximized(isMaximized));
-  });
-
-  window.ipcRenderer.on('sign-in-with-token', (e, token) => {
-    const auth = getAuth();
-    auth.signOut()
-      .then(() => signInWithCustomToken(auth, token))
-      // eslint-disable-next-line no-console
-      .catch(console.log);
   });
 };
 

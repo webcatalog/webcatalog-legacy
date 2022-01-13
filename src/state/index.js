@@ -22,7 +22,6 @@ import preferences from './preferences/reducers';
 import router from './router/reducers';
 import systemPreferences from './system-preferences/reducers';
 import updater from './updater/reducers';
-import user from './user/reducers';
 
 const rootReducer = combineReducers({
   appManagement,
@@ -43,7 +42,6 @@ const rootReducer = combineReducers({
   router,
   systemPreferences,
   updater,
-  user,
 });
 
 const configureStore = (initialState) => createStore(
