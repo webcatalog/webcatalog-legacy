@@ -6,7 +6,7 @@ import {
   DIALOG_RESTORE_APP_DETAILS_CLOSE,
   DIALOG_RESTORE_APP_DETAILS_OPEN,
 } from '../../constants/actions';
-import { open as openDialogUpgrade } from '../dialog-upgrade/actions';
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 
 export const close = () => ({
   type: DIALOG_RESTORE_APP_DETAILS_CLOSE,
@@ -15,7 +15,7 @@ export const close = () => ({
 export const open = () => (dispatch, getState) => {
   const { registered } = getState().preferences;
   if (!registered) {
-    dispatch(openDialogUpgrade());
+    dispatch(openDialogLicenseRegistration());
     return;
   }
 

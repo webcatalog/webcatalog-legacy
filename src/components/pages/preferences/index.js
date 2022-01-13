@@ -26,7 +26,7 @@ import SecurityIcon from '@material-ui/icons/Security';
 import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -49,7 +49,7 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
-import SectionAccount from './section-account';
+// import SectionAccount from './section-account';
 import SectionLicensing from './section-licensing';
 
 const styles = (theme) => ({
@@ -199,15 +199,16 @@ const Preferences = ({
 }) => {
   const sections = {
     account: {
-      text: 'Account',
-      Icon: AccountCircleIcon,
-      ref: useRef(),
-    },
-    licensing: {
       text: 'Licensing',
       Icon: CheckCircleIcon,
       ref: useRef(),
     },
+    // sync: {
+    //   text: 'WebCatalog Account',
+    //   Icon: AccountCircleIcon,
+    //   ref: useRef(),
+    //   hidden: true,
+    // },
     general: {
       text: 'General',
       Icon: WidgetsIcon,
@@ -273,24 +274,24 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography
-            variant="subtitle2"
-            color="textPrimary"
-            className={classes.sectionTitle}
-            ref={sections.account.ref}
-          >
-            Account
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <SectionAccount />
-          </Paper>
-
-          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
+          <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.account.ref}>
             Licensing
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <SectionLicensing />
           </Paper>
+
+          {/* <Typography
+            variant="subtitle2"
+            color="textPrimary"
+            className={classes.sectionTitle}
+            ref={sections.sync.ref}
+          >
+            WebCatalog Account
+          </Typography>
+          <Paper elevation={0} className={classes.paper}>
+            <SectionAccount />
+          </Paper> */}
 
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.general.ref}>
             General

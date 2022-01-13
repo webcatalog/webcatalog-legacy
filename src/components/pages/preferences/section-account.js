@@ -25,9 +25,11 @@ import connectComponent from '../../../helpers/connect-component';
 import '../../../firebase';
 
 const SectionSync = ({
+  currentPlan,
   displayName,
   isSignedIn,
   photoURL,
+  registered,
 }) => (
   <List disablePadding dense>
     {!isSignedIn ? (
@@ -57,7 +59,11 @@ const SectionSync = ({
           </ListItemAvatar>
           <ListItemText
             primary={displayName}
-            secondary="Signed in."
+            secondary={(() => {
+              // if user is using lifetime plan, don't show any text to avoid confusion
+              if (registered && currentPlan !== 'pro') return '-';
+              return currentPlan === 'pro' ? 'WebCatalog Pro' : 'WebCatalog Basic';
+            })()}
           />
         </ListItem>
         <Divider />
@@ -77,7 +83,7 @@ const SectionSync = ({
         </ListItem>
         <Divider />
         <ListItem button onClick={() => getAuth().signOut()}>
-          <ListItemText primary="Log Out" />
+          <ListItemText primary="Sign Out" />
           <ChevronRightIcon color="action" />
         </ListItem>
       </>
@@ -86,15 +92,19 @@ const SectionSync = ({
 );
 
 SectionSync.defaultProps = {
+  currentPlan: 'basic',
   displayName: '',
   isSignedIn: false,
   photoURL: null,
+  registered: false,
 };
 
 SectionSync.propTypes = {
+  currentPlan: PropTypes.string,
   displayName: PropTypes.string,
   isSignedIn: PropTypes.bool,
   photoURL: PropTypes.string,
+  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

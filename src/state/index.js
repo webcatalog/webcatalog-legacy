@@ -16,7 +16,6 @@ import dialogLicenseRegistration from './dialog-license-registration/reducers';
 import dialogOpenSourceNotices from './dialog-open-source-notices/reducers';
 import dialogRestore from './dialog-restore/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
-import dialogUpgrade from './dialog-upgrade/reducers';
 import general from './general/reducers';
 import installed from './installed/reducers';
 import preferences from './preferences/reducers';
@@ -29,16 +28,15 @@ const rootReducer = combineReducers({
   appManagement,
   dialogAbout,
   dialogAddSpace,
-  dialogBackup,
-  dialogBackupRestore,
   dialogCatalogAppDetails,
   dialogCreateCustomApp,
   dialogEditApp,
+  dialogBackupRestore,
+  dialogBackup,
+  dialogRestore,
   dialogLicenseRegistration,
   dialogOpenSourceNotices,
-  dialogRestore,
   dialogSetInstallationPath,
-  dialogUpgrade,
   general,
   installed,
   preferences,
