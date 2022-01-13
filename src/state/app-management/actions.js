@@ -14,7 +14,6 @@ import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 import appSearch from '../../app-search';
 
 import { open as openDialogUpgrade } from '../dialog-upgrade/actions';
-import { getCurrentPlan } from '../user/utils';
 
 import {
   isNameExisted,
@@ -64,8 +63,8 @@ export const installApp = (
   const state = getState();
 
   // free version can only install up to 10 apps
-  const currentPlan = getCurrentPlan(state);
-  if (currentPlan === 'basic') {
+  const { registered } = state.preferences;
+  if (!registered) {
     const { apps, sortedAppIds } = state.appManagement;
     const appCount = sortedAppIds
       .filter((appId) => {
