@@ -61,50 +61,8 @@ if (!gotTheLock) {
     }
   }
 
-  // Register protocol
-  app.setAsDefaultProtocolClient('webcatalog');
-
   loadListeners();
   loadInvokers();
-
-  // mock app.whenReady
-  let trulyReady = false;
-  ipcMain.once('truly-ready', () => { trulyReady = true; });
-  const whenTrulyReady = () => {
-    if (trulyReady) return Promise.resolve();
-    return new Promise((resolve) => {
-      ipcMain.once('truly-ready', () => {
-        trulyReady = true;
-        resolve();
-      });
-    });
-  };
-
-  const handleOpenUrl = (urlStr) => {
-    whenTrulyReady()
-      .then(() => {
-        if (urlStr.startsWith('webcatalog://catalog/')) {
-          let appId;
-          try {
-            appId = urlStr.replace('webcatalog://catalog/', '');
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.log(err);
-          }
-          if (appId) {
-            mainWindow.send('open-dialog-catalog-app-details', appId);
-          }
-        }
-      });
-  };
-
-  const handleArgv = (argv) => {
-    if (argv.length <= 1) return;
-    const urlStr = argv.find((a) => a.startsWith('webcatalog:'));
-    if (urlStr) {
-      handleOpenUrl(urlStr);
-    }
-  };
 
   app.on('ready', () => {
     // https://github.com/electron/electron/issues/23757
@@ -135,12 +93,6 @@ if (!gotTheLock) {
       .then(() => {
         // trigger whenFullyReady
         ipcMain.emit('truly-ready');
-
-        // handle protocols on Windows & Linux
-        // on macOS, use 'open-url' event
-        if (process.platform !== 'darwin') {
-          handleArgv(process.argv);
-        }
 
         const win = mainWindow.get();
         mainWindow.get().on('focus', () => {
@@ -193,23 +145,11 @@ if (!gotTheLock) {
       .then(() => mainWindow.show());
   });
 
-  app.on('open-url', (e, urlStr) => {
-    e.preventDefault();
-
-    handleOpenUrl(urlStr);
-  });
-
-  app.on('second-instance', (e, argv) => {
+  app.on('second-instance', () => {
     const win = mainWindow.get();
     if (win != null) {
       if (win.isMinimized()) win.restore();
       win.show();
-    }
-
-    // handle protocols on Windows & Linux
-    // on macOS, use 'open-url' event
-    if (process.platform !== 'darwin') {
-      handleArgv(argv);
     }
   });
 }
