@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+/* eslint-disable no-constant-condition */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,50 +12,54 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { open as openDialogUpgrade } from '../../../state/dialog-upgrade/actions';
-import { getCurrentPlan } from '../../../state/user/utils';
+import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 
 import connectComponent from '../../../helpers/connect-component';
 
 const SectionLicensing = ({
-  currentPlan,
-  onOpenDialogUpgrade,
+  registered,
+  onOpenDialogLicenseRegistration,
 }) => {
   let planName = 'Basic';
-  if (currentPlan === 'pro') planName = 'Pro';
-  else if (currentPlan === 'lifetime') planName = 'Lifetime';
+  if (registered) planName = 'Lifetime';
+
+  const upgradeToLifetimeComponent = planName === 'Basic' && (
+    <>
+      <Divider />
+      <ListItem button onClick={onOpenDialogLicenseRegistration}>
+        <ListItemText
+          primary="Upgrade to WebCatalog Lifetime"
+        />
+        <ChevronRightIcon color="action" />
+      </ListItem>
+    </>
+  );
 
   return (
     <List dense disablePadding>
       <ListItem button disabled>
         <ListItemText primary={`WebCatalog ${planName}`} />
       </ListItem>
-      {planName !== 'Pro' && (
-        <>
-          <Divider />
-          <ListItem button onClick={onOpenDialogUpgrade}>
-            <ListItemText
-              primary="Upgrade..."
-            />
-            <ChevronRightIcon color="action" />
-          </ListItem>
-        </>
-      )}
+      {upgradeToLifetimeComponent}
     </List>
   );
 };
 
+SectionLicensing.defaultProps = {
+  registered: false,
+};
+
 SectionLicensing.propTypes = {
-  currentPlan: PropTypes.string.isRequired,
-  onOpenDialogUpgrade: PropTypes.func.isRequired,
+  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
+  registered: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  currentPlan: getCurrentPlan(state),
+  registered: state.preferences.registered,
 });
 
 const actionCreators = {
-  openDialogUpgrade,
+  openDialogLicenseRegistration,
 };
 
 export default connectComponent(

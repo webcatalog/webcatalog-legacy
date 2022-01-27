@@ -13,8 +13,7 @@ import { INSTALLING, INSTALLED } from '../../constants/app-statuses';
 
 import appSearch from '../../app-search';
 
-import { open as openDialogUpgrade } from '../dialog-upgrade/actions';
-import { getCurrentPlan } from '../user/utils';
+import { open as openDialogLicenseRegistration } from '../dialog-license-registration/actions';
 
 import {
   isNameExisted,
@@ -64,8 +63,8 @@ export const installApp = (
   const state = getState();
 
   // free version can only install up to 10 apps
-  const currentPlan = getCurrentPlan(state);
-  if (currentPlan === 'basic') {
+  const { registered } = state.preferences;
+  if (!registered) {
     const { apps, sortedAppIds } = state.appManagement;
     const appCount = sortedAppIds
       .filter((appId) => {
@@ -73,7 +72,7 @@ export const installApp = (
         return app.status === INSTALLED || app.status === INSTALLING;
       }).length;
     if (appCount >= 10) {
-      dispatch(openDialogUpgrade());
+      dispatch(openDialogLicenseRegistration());
       return null;
     }
   }

@@ -34,7 +34,7 @@ import {
   ROUTE_SPACES,
 } from '../../../constants/routes';
 
-import ListItemAccount from './list-item-account';
+import UpgradeButton from './upgrade-button';
 
 const styles = (theme) => ({
   sidebar: {
@@ -70,10 +70,6 @@ const styles = (theme) => ({
     color: theme.palette.common.white,
     margin: '0 auto',
     minWidth: 'auto',
-  },
-  listItemText: {
-    textAlign: 'center',
-    width: '100%',
   },
   listItemTextPrimary: theme.typography.body2,
 });
@@ -170,7 +166,6 @@ const Home = ({
                 <ListItemText
                   primary={text}
                   classes={{
-                    root: classes.listItemText,
                     primary: classes.listItemTextPrimary,
                   }}
                 />
@@ -188,7 +183,7 @@ const Home = ({
             return listItem;
           })}
         </List>
-        <ListItemAccount />
+        <UpgradeButton />
       </div>
     </Grid>
   );

@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { batch } from 'react-redux';
-import { getAuth, signInWithCustomToken } from '@firebase/auth';
 
 import {
   setApp,
@@ -16,7 +15,7 @@ import { setSystemPreference } from '../state/system-preferences/actions';
 import { open as openDialogAbout } from '../state/dialog-about/actions';
 import { open as openDialogBackup } from '../state/dialog-backup/actions';
 import { open as openDialogRestore } from '../state/dialog-restore/actions';
-import { open as openDialogUpgrade } from '../state/dialog-upgrade/actions';
+import { open as openDialogLicenseRegistration } from '../state/dialog-license-registration/actions';
 import { open as openDialogCatalogAppDetails } from '../state/dialog-catalog-app-details/actions';
 import { updateUpdater } from '../state/updater/actions';
 import {
@@ -28,7 +27,6 @@ import {
 import {
   getShouldUseDarkColors,
 } from '../senders';
-import '../firebase';
 
 import { ROUTE_PREFERENCES } from '../constants/routes';
 
@@ -71,7 +69,7 @@ const loadListeners = (store) => {
   window.ipcRenderer.on('go-to-preferences', () => store.dispatch(changeRoute(ROUTE_PREFERENCES)));
 
   window.ipcRenderer.on('open-license-registration-dialog', () => {
-    store.dispatch(openDialogUpgrade());
+    store.dispatch(openDialogLicenseRegistration());
   });
 
   window.ipcRenderer.on('open-dialog-about', () => {
@@ -112,14 +110,6 @@ const loadListeners = (store) => {
 
   window.ipcRenderer.on('set-is-maximized', (e, isMaximized) => {
     store.dispatch(updateIsMaximized(isMaximized));
-  });
-
-  window.ipcRenderer.on('sign-in-with-token', (e, token) => {
-    const auth = getAuth();
-    auth.signOut()
-      .then(() => signInWithCustomToken(auth, token))
-      // eslint-disable-next-line no-console
-      .catch(console.log);
   });
 };
 

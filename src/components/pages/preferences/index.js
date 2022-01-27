@@ -26,7 +26,6 @@ import SecurityIcon from '@material-ui/icons/Security';
 import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import connectComponent from '../../../helpers/connect-component';
 
@@ -49,7 +48,6 @@ import {
 } from '../../../senders';
 
 import DefinedAppBar from './defined-app-bar';
-import SectionAccount from './section-account';
 import SectionLicensing from './section-licensing';
 
 const styles = (theme) => ({
@@ -198,11 +196,6 @@ const Preferences = ({
   useSystemTitleBar,
 }) => {
   const sections = {
-    account: {
-      text: 'Account',
-      Icon: AccountCircleIcon,
-      ref: useRef(),
-    },
     licensing: {
       text: 'Licensing',
       Icon: CheckCircleIcon,
@@ -273,18 +266,6 @@ const Preferences = ({
           </List>
         </div>
         <div className={classes.inner}>
-          <Typography
-            variant="subtitle2"
-            color="textPrimary"
-            className={classes.sectionTitle}
-            ref={sections.account.ref}
-          >
-            Account
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <SectionAccount />
-          </Paper>
-
           <Typography variant="subtitle2" color="textPrimary" className={classes.sectionTitle} ref={sections.licensing.ref}>
             Licensing
           </Typography>
@@ -834,6 +815,7 @@ const mapStateToProps = (state) => ({
   installationPath: state.preferences.installationPath,
   installingAppCount: getInstallingAppsAsList(state).length,
   openAtLogin: state.systemPreferences.openAtLogin,
+  registered: state.preferences.registered,
   requireAdmin: state.preferences.requireAdmin,
   sentry: state.preferences.sentry,
   telemetry: state.preferences.telemetry,

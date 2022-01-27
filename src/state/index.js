@@ -16,36 +16,32 @@ import dialogLicenseRegistration from './dialog-license-registration/reducers';
 import dialogOpenSourceNotices from './dialog-open-source-notices/reducers';
 import dialogRestore from './dialog-restore/reducers';
 import dialogSetInstallationPath from './dialog-set-installation-path/reducers';
-import dialogUpgrade from './dialog-upgrade/reducers';
 import general from './general/reducers';
 import installed from './installed/reducers';
 import preferences from './preferences/reducers';
 import router from './router/reducers';
 import systemPreferences from './system-preferences/reducers';
 import updater from './updater/reducers';
-import user from './user/reducers';
 
 const rootReducer = combineReducers({
   appManagement,
   dialogAbout,
   dialogAddSpace,
-  dialogBackup,
-  dialogBackupRestore,
   dialogCatalogAppDetails,
   dialogCreateCustomApp,
   dialogEditApp,
+  dialogBackupRestore,
+  dialogBackup,
+  dialogRestore,
   dialogLicenseRegistration,
   dialogOpenSourceNotices,
-  dialogRestore,
   dialogSetInstallationPath,
-  dialogUpgrade,
   general,
   installed,
   preferences,
   router,
   systemPreferences,
   updater,
-  user,
 });
 
 const configureStore = (initialState) => createStore(
