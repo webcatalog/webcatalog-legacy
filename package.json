@@ -1,7 +1,7 @@
 {
   "name": "WebCatalog",
   "description": "Turn Any Websites Into Real Desktop Apps",
-  "version": "40.3.0",
+  "version": "40.4.0",
   "engines": {
     "node": ">=14.0.0 <15.0.0"
   },
@@ -41,7 +41,7 @@
     "amplitude-js": "8.16.0",
     "auto-launch": "5.0.5",
     "axios": "0.25.0",
-    "babel-loader": "8.2.3",
+    "babel-loader": "8.1.0",
     "blueimp-md5": "2.19.0",
     "cheerio": "1.0.0-rc.10",
     "classnames": "2.3.1",
