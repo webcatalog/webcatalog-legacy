@@ -84,7 +84,7 @@ const DialogCatalogAppDetails = ({
   open,
   details,
 }) => {
-  const shareUrl = details && !details.err && details.url ? `https://webcatalog.io/webcatalog/apps/${details.id}/` : '';
+  const shareUrl = details && !details.err && details.url ? `https://webcatalog.io/webcatalog-classic/apps/${details.id}/` : '';
   const hostname = details ? extractHostname(details.url) : null;
 
   return (

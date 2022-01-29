@@ -86,7 +86,7 @@ const About = ({
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog-classic/?utm_source=webcatalog_app')}
         >
           Website
         </Button>
