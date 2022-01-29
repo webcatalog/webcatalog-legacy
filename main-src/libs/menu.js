@@ -52,7 +52,7 @@ const createMenu = () => {
       label: app.name,
       submenu: [
         {
-          label: 'About WebCatalog',
+          label: 'About WebCatalog Classic',
           click: () => sendToAllWindows('open-dialog-about'),
         },
         { type: 'separator' },
