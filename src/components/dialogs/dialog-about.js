@@ -77,7 +77,7 @@ const About = ({
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
         <img src={iconPng} alt="WebCatalog" className={classes.icon} />
-        <Typography variant="h6" className={classes.title}>WebCatalog</Typography>
+        <Typography variant="h6" className={classes.title}>WebCatalog Classic</Typography>
         <Typography
           variant="body2"
           className={classes.version}
@@ -86,7 +86,7 @@ const About = ({
         </Typography>
 
         <Button
-          onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/?utm_source=webcatalog_app')}
+          onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog-classic/?utm_source=webcatalog_app')}
         >
           Website
         </Button>
