@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 
 import SearchIcon from '@material-ui/icons/Search';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -19,7 +18,6 @@ import connectComponent from '../../../helpers/connect-component';
 
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
-import RestoreAppsCard from '../../shared/restore-apps-card';
 
 import DefinedAppBar from './defined-app-bar';
 import Toolbar from './toolbar';
@@ -180,9 +178,6 @@ const Installed = ({
         >
           Your installed apps on this machine will show up here.
         </Typography>
-        <Grid container justifyContent="center" spacing={1} className={classes.noMatchingResultOpts}>
-          <RestoreAppsCard />
-        </Grid>
       </EmptyState>
     );
   };
