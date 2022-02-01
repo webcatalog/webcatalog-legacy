@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.1.1.tgz#9274ec7460652f9c632c59addf24efb1684ef876"
   integrity sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==
 
-"@amplitude/types@^1.9.1":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.9.1.tgz#df614ac6d278c60c39bb49e05014cdcc7e7714e9"
-  integrity sha512-s10ewnlFjHjNWrUMVTPJ2YRj0eD5UoeL+d0HB01x2Ltae/jFgtHQBS/HGKYV5I+NyiaezjrrZImhAQ72Ww/+8g==
+"@amplitude/types@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.9.2.tgz#d664c70562317b189f4ba9b33681bad2105df101"
+  integrity sha512-s+Q/O8kNfocZiyGvVdtM5T4JGPwLRZ4Q26wtEF5xJhyCtJglGMe0ixe6u/6iW9s4JHIq+LlPlUu5095pVsdtNA==
 
 "@amplitude/ua-parser-js@0.7.26":
   version "0.7.26"
@@ -18,11 +18,11 @@
   integrity sha512-62/Rid6YQ7F2KT/5vTre41Y26ivrEoFC8lbrsJZqBKaiXMJWG0YpNv9RgxNSaZS2jPLVQgoB/FFeWxihOLfIcg==
 
 "@amplitude/utils@^1.0.5":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.9.1.tgz#6d127b1a6f0b62c49a932ef00ecd471e554e192f"
-  integrity sha512-OO2w0gfs5b/dMRKh+PHhtqvb43Uf05MMUWrT3xa62P89mBtmusLvWnWycGdBu750YsnYwX8dfeZpYZ/zLH5ttQ==
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.9.2.tgz#a9e1a71341f6301096bd71c2df7bcdefec3fdf31"
+  integrity sha512-hGOIoIjmZ0pq/3b2gBrr17TaEarlR+qzFGu5npm76+scd/51F0eNvjd0vgV6WbJT1cxhyH/5Z8kihGWOU3vS3Q==
   dependencies:
-    "@amplitude/types" "^1.9.1"
+    "@amplitude/types" "^1.9.2"
     tslib "^1.9.3"
 
 "@babel/code-frame@7.8.3":
@@ -2811,10 +2811,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amplitude-js@8.16.0:
-  version "8.16.0"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.16.0.tgz#7c4faf4dc16342c6f377d775d0a02c0db3f47cba"
-  integrity sha512-PtHuYphktZsCf2BRSbb0EMuClQjHP2kSTDz2QBy6cv18yRvqVs3I2MB386BfeOxgxR16J/OlfFVBWhv9CX2rYw==
+amplitude-js@8.16.1:
+  version "8.16.1"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.16.1.tgz#6c8c603237f861685e04c8669e562664749b5065"
+  integrity sha512-1X9xvxmWIK1DlVluuk2QXziYcgSiZE4d4DLhMzY9yUP+KauCbFy37lW4m3dixp6Y8AIGU+WUAfAsCLqXYlF0rw==
   dependencies:
     "@amplitude/ua-parser-js" "0.7.26"
     "@amplitude/utils" "^1.0.5"
@@ -3230,9 +3230,9 @@ aws4@^1.8.0:
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
 axe-core@^4.3.5:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
-  integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.0.tgz#f93be7f81017eb8bedeb1859cc8092cc918d2dc8"
+  integrity sha512-btWy2rze3NnxSSxb7LtNhPYYFrRoFBfjiGzmSc/5Hu47wApO2KNXjP/w7Nv2Uz/Fyr/pfEiwOkcXhDxu0jz5FA==
 
 axios@0.25.0:
   version "0.25.0"
@@ -4018,9 +4018,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001286:
-  version "1.0.30001303"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001303.tgz#9b168e4f43ccfc372b86f4bc5a551d9b909c95c9"
-  integrity sha512-/Mqc1oESndUNszJP0kx0UaQU9kEv9nNtJ7Kn8AdA0mNnH8eR1cj0kG+NbNuC1Wq/b21eA8prhKRA3bbkjONegQ==
+  version "1.0.30001304"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001304.tgz#38af55ed3fc8220cb13e35e6e7309c8c65a05559"
+  integrity sha512-bdsfZd6K6ap87AGqSHJP/s1V+U6Z5lyrcbBu3ovbCCf8cSYpwTtGrCBObMpJqwxfTbLW6YTIdbb1jEeTelcpYQ==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5724,9 +5724,9 @@ electron-settings@4.0.2:
     write-file-atomic "^3.0.3"
 
 electron-to-chromium@^1.3.378, electron-to-chromium@^1.4.17:
-  version "1.4.55"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.55.tgz#a7fa3b49b2c4cb0ae68505cf304a9666fdd8fd9f"
-  integrity sha512-AoCDEVElLY8mwe4TuDDkr1jxvSh/Ih5PFlEXCpmwFkq9JOXn4K58CScgBl+R1ghFW9cPJ7VeWo30nAHSRCe6rw==
+  version "1.4.58"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.58.tgz#cd980b08338210b591c25492857a518fe286b1d4"
+  integrity sha512-7LXwnKyqcEaMFVXOer+2JPfFs1D+ej7yRRrfZoIH1YlLQZ81OvBNwSCBBLtExVkoMQQgOWwO0FbZVge6U/8rhQ==
 
 electron-updater@4.6.1:
   version "4.6.1"
@@ -11993,10 +11993,10 @@ react-dom@16.14.0:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-dropzone@11.5.1:
-  version "11.5.1"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.5.1.tgz#f4d664437bf8af6acfccbf5040a9890c6780a49f"
-  integrity sha512-eNhttdq4ZDe3eKbXAe54Opt+sbtqmNK5NWTHf/l5d+1TdZqShJ8gMjBrya00qx5zkI//TYxRhu1d9pemTgaWwg==
+react-dropzone@11.5.3:
+  version "11.5.3"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.5.3.tgz#757d4980fcae839896a894e41d3e72df04981f86"
+  integrity sha512-68+T6sWW5L89qJnn3SD1aRazhuRBhTT9JOI1W8vI5YWsfegM4C7tlGbPH1AgEbmZY5s8E8L0QhX0e3VdAa0KWA==
   dependencies:
     attr-accept "^2.2.1"
     file-selector "^0.2.2"
