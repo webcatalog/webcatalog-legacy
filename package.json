@@ -1,5 +1,6 @@
 {
-  "name": "WebCatalogClassic",
+  "name": "webcatalog-classic",
+  "productName": "WebCatalog Classic",
   "description": "Turn Any Websites Into Real Desktop Apps",
   "version": "41.0.0-rc",
   "engines": {
