@@ -39,6 +39,13 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
+    # npm-14-bundled node-gyp (5.x) can't find  VS2022 used by GH Actions
+    # https://github.com/nodejs/node-gyp/issues/2520
+    - name: Upgrade node-gyp
+      run: |
+        npm install --global node-gyp@latest
+        npm prefix -g | % {npm config set node_gyp "$_\node_modules\node-gyp\bin\node-gyp.js"}
+      shell: powershell
     # https://github.com/mui-org/material-ui/issues/12432
     - run: yarn install --prefer-offline --network-timeout 600000 --ignore-platform
     - run: yarn lint
