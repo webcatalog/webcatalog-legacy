@@ -4,7 +4,7 @@
   "description": "Turn Any Websites Into Real Desktop Apps",
   "version": "41.0.0",
   "engines": {
-    "node": ">=14.0.0 <15.0.0"
+    "node": "16"
   },
   "main": "main-src/electron.js",
   "scripts": {
