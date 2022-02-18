@@ -3,7 +3,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 const { app, shell } = require('electron');
 const path = require('path');
-const { exec } = require('child_process');
 const fsExtra = require('fs-extra');
 
 const { getPreference } = require('../preferences');
@@ -13,7 +12,13 @@ const openApp = (id, name) => {
     const appPath = path.join(getPreference('installationPath').replace('~', app.getPath('home')), `${name}.app`);
     shell.openPath(appPath);
   } else if (process.platform === 'linux') {
-    exec(`gtk-launch webcatalog-${id}`);
+    // for unknown reason, we can't launch Linux Electron binary with child_process
+    // regardless of launching the binary directly or through gtk-launch
+    // exec(`gtk-launch webcatalog-${id}`);
+    // so we will show the binary file in file manager instead, so user
+    // can open the binary manually
+    const binPath = path.join(getPreference('installationPath').replace('~', app.getPath('home')), name, name);
+    shell.showItemInFolder(binPath);
   } else if (process.platform === 'win32') {
     const shortcutPath = path.join(getPreference('installationPath'), name, `${name}.lnk`);
     if (fsExtra.existsSync(shortcutPath)) {
