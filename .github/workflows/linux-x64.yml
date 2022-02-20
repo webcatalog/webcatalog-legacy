@@ -22,9 +22,19 @@ jobs:
       TEMPLATE_ARCH: x64
 
     steps:
+    # https://stackoverflow.com/a/67291623/5522263
+    - name: Determine Checkout Depth
+      uses: haya14busa/action-cond@v1
+      id: fetchDepth
+      with:
+        cond: startsWith(github.ref, 'refs/tags/')
+        if_true: '0'  # string value
+        if_false: '1' # string value
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 1
+        # fetch all history when building new release
+        # to properly create new Sentry version history
+        fetch-depth: ${{ steps.fetchDepth.outputs.value }}
         submodules: false
     - name: Install Snapcraft
       uses: samuelmeuli/action-snapcraft@v1
