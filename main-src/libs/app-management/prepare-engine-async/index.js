@@ -33,10 +33,10 @@ const getTagNameAsync = () => Promise.resolve()
           let stableVersion;
           let prereleaseVersion;
           const p = [
-            customizedFetch('https://webcatalog.io/webcatalog/juli/releases/latest.json')
+            customizedFetch('https://cdn-1.webcatalog.io/neutron/versions/stable.json')
               .then((res) => res.json())
               .then((data) => { stableVersion = data.version; }),
-            customizedFetch('https://webcatalog.io/webcatalog/juli/releases/prerelease.json')
+            customizedFetch('https://cdn-1.webcatalog.io/neutron/versions/beta.json')
               .then((res) => res.json())
               .then((data) => { prereleaseVersion = data.version; }),
           ];
@@ -51,7 +51,7 @@ const getTagNameAsync = () => Promise.resolve()
         .then((version) => `v${version}`);
     }
 
-    return customizedFetch('https://webcatalog.io/webcatalog/juli/releases/latest.json')
+    return customizedFetch('https://cdn-1.webcatalog.io/neutron/versions/stable.json')
       .then((res) => res.json())
       .then((data) => `v${data.version}`);
   });

@@ -64,10 +64,10 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
             let stableVersion;
             let prereleaseVersion;
             const p = [
-              window.fetch('https://webcatalog.io/webcatalog/juli/releases/latest.json')
+              window.fetch('https://cdn-1.webcatalog.io/neutron/versions/stable.json')
                 .then((res) => res.json())
                 .then((data) => { stableVersion = data.version; }),
-              window.fetch('https://webcatalog.io/webcatalog/juli/releases/prerelease.json')
+              window.fetch('https://cdn-1.webcatalog.io/neutron/versions/beta.json')
                 .then((res) => res.json())
                 .then((data) => { prereleaseVersion = data.version; }),
             ];
@@ -81,7 +81,7 @@ export const fetchLatestTemplateVersionAsync = () => (dispatch, getState) => {
           });
       }
 
-      return window.fetch('https://webcatalog.io/webcatalog/juli/releases/latest.json')
+      return window.fetch('https://cdn-1.webcatalog.io/neutron/versions/stable.json')
         .then((res) => res.json())
         .then((data) => data.version);
     })
