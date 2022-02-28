@@ -1,7 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect, useState, useRef, useCallback,
+} from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -83,9 +85,9 @@ const Installed = ({
     return () => {
       window.removeEventListener('resize', updateWindowSize);
     };
-  }, []);
+  }, [updateInnerHeight, updateInnerWidth]);
 
-  useEffect(() => () => {
+  useCallback(() => {
     if (gridRef.current) {
       onUpdateScrollOffset(gridRef.current.scrollTop);
     }

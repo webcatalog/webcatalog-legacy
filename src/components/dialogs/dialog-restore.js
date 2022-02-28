@@ -65,16 +65,16 @@ const DialogRestore = () => {
   const [customAppsIconData, updateCustomAppsIconData] = useState({});
   const [selectedAppDetails, setSelectedAppDetails] = useState([]);
   const [allAppsSelected, setAllAppSelected] = useState(false);
-  const resetDialogStates = () => {
+  const resetDialogStates = useCallback(() => {
     updateAppDetails([]);
     updateCustomAppsIconData({});
     setSelectedAppDetails([]);
     setAllAppSelected(false);
-  };
+  }, [updateAppDetails, updateCustomAppsIconData, setSelectedAppDetails, setAllAppSelected]);
 
   useEffect(() => {
     if (!open) resetDialogStates();
-  }, [open]);
+  }, [open, resetDialogStates]);
 
   const onClose = useCallback(() => dispatch(close()), [dispatch]);
   const onUploadAppDetailsZip = useCallback(async (assetPath) => {
