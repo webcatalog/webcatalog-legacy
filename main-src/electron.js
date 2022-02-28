@@ -12,6 +12,7 @@ const {
 } = require('electron');
 const fs = require('fs');
 const electronRemote = require('@electron/remote/main');
+const Sentry = require('@sentry/electron/main');
 
 // App renamed to "WebCatalog Classic"
 // but we still use "WebCatalog" as data dir name for backward compatibility
@@ -34,10 +35,18 @@ const {
   setPreference,
 } = require('./libs/preferences');
 
-// Activate the Sentry Electron SDK as early as possible in every process.
-if (process.env.NODE_ENV === 'production' && getPreference('sentry')) {
-  // eslint-disable-next-line global-require
-  require('./libs/sentry');
+const sentryEnabled = process.env.NODE_ENV === 'production' && getPreference('sentry');
+if (sentryEnabled) {
+  // https://github.com/getsentry/sentry-electron/blob/06c9874584f7734fe6cb8297c6455cf6356d29d4/MIGRATION.md
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: app.getVersion(),
+    autoSessionTracking: false,
+    // disable native crash reporting
+    // as it mostly reports Electron's bugs (upstream bugs)
+    integrations: (defaultIntegrations) => defaultIntegrations
+      .filter((i) => i.name !== Sentry.Integrations.SentryMinidump.Id),
+  });
 }
 
 const { createMenu } = require('./libs/menu');
@@ -91,6 +100,7 @@ if (!gotTheLock) {
     } = getPreferences();
 
     global.useSystemTitleBar = useSystemTitleBar;
+    global.sentryEnabled = sentryEnabled;
 
     nativeTheme.themeSource = themeSource;
 
