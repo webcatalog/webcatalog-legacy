@@ -27,7 +27,7 @@ jobs:
       uses: haya14busa/action-cond@v1
       id: fetchDepth
       with:
-        cond: startsWith(github.ref, 'refs/tags/')
+        cond: ${{ startsWith(github.ref, 'refs/tags/') }}
         if_true: '0'  # string value
         if_false: '1' # string value
     - uses: actions/checkout@v2
