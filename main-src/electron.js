@@ -39,7 +39,7 @@ const sentryEnabled = process.env.NODE_ENV === 'production' && getPreference('se
 if (sentryEnabled) {
   // https://github.com/getsentry/sentry-electron/blob/06c9874584f7734fe6cb8297c6455cf6356d29d4/MIGRATION.md
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: process.env.ELECTRON_APP_SENTRY_DSN,
     release: app.getVersion(),
     autoSessionTracking: false,
     // disable native crash reporting
