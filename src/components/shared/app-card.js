@@ -357,7 +357,13 @@ const AppCard = ({
               buttons: ['I Understand', 'Install Anyway'],
               cancelId: 0,
               defaultId: 0,
-            }).catch(console.log); // eslint-disable-line
+            })
+              .then(({ response }) => {
+                if (response === 1) {
+                  onInstallApp(id, name, url, icon, combinedOpts);
+                }
+              })
+              .catch(console.log); // eslint-disable-line
           }
         }}
       >
