@@ -54,10 +54,10 @@ const SubmitAppCard = ({ classes }) => (
     <Paper
       className={classes.card}
       elevation={0}
-      onClick={() => requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9')}
+      onClick={() => requestOpenInBrowser('https://webcatalog.io/webcatalog/apps/submit/')}
       onKeyDown={(e) => {
         if (e.key !== 'Enter') return;
-        requestOpenInBrowser('https://forms.gle/redZCVMwkuhvuDtb9');
+        requestOpenInBrowser('https://webcatalog.io/webcatalog/apps/submit/');
       }}
       role="link"
       tabIndex="0"
