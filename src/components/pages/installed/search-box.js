@@ -1,8 +1,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -12,11 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import { updateQuery } from '../../../state/installed/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   toolbarSearchContainer: {
     zIndex: 10,
     position: 'relative',
@@ -74,108 +73,80 @@ const styles = (theme) => ({
       display: 'none',
     },
   },
-});
+}));
 
-class SearchBox extends React.Component {
-  constructor(props) {
-    super(props);
+const SearchBox = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const query = useSelector((state) => state.installed.query);
 
-    this.handleFocusSearch = this.handleFocusSearch.bind(this);
-  }
+  const inputBoxRef = useRef();
 
-  componentDidMount() {
-    window.ipcRenderer.on('focus-search', this.handleFocusSearch);
+  useEffect(() => {
+    const handleFocusSearch = () => {
+      if (inputBoxRef.current) {
+        inputBoxRef.current.focus();
+        inputBoxRef.current.select();
+      }
+    };
+    window.ipcRenderer.on('focus-search', handleFocusSearch);
+    if (inputBoxRef.current) {
+      inputBoxRef.current.focus();
+    }
 
-    this.inputBox.focus();
-  }
+    return () => {
+      window.ipcRenderer.removeListener('focus-search', handleFocusSearch);
+    };
+  }, [inputBoxRef]);
 
-  componentWillUnmount() {
-    window.ipcRenderer.removeListener('focus-search', this.handleFocusSearch);
-  }
-
-  handleFocusSearch() {
-    this.inputBox.focus();
-    this.inputBox.select();
-  }
-
-  render() {
-    const {
-      classes,
-      onUpdateQuery,
-      query,
-    } = this.props;
-
-    const clearSearchAction = (
-      <>
-        {query.length > 0 && (
-          <Tooltip title="Clear search" placement="left">
-            <IconButton
-              color="inherit"
-              size="small"
-              aria-label="Clear"
-              onClick={() => onUpdateQuery('')}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-      </>
-    );
-    return (
-      <Paper elevation={0} className={classes.toolbarSearchContainer}>
-        <div className={classes.toolbarSectionSearch}>
-          <SearchIcon
-            className={classes.searchIcon}
-            fontSize="small"
-          />
-          <Typography
-            className={classes.searchBarText}
+  const clearSearchAction = (
+    <>
+      {query.length > 0 && (
+        <Tooltip title="Clear search" placement="left">
+          <IconButton
             color="inherit"
-            variant="subtitle1"
+            size="small"
+            aria-label="Clear"
+            onClick={() => dispatch(updateQuery(''))}
           >
-            <input
-              className={classes.input}
-              onChange={(e) => onUpdateQuery(e.target.value)}
-              onInput={(e) => onUpdateQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Escape') {
-                  e.target.blur();
-                  onUpdateQuery('');
-                }
-              }}
-              placeholder="Search installed apps & spaces..."
-              ref={(inputBox) => { this.inputBox = inputBox; }}
-              value={query}
-            />
-          </Typography>
-          {clearSearchAction}
-        </div>
-      </Paper>
-    );
-  }
-}
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+    </>
+  );
 
-SearchBox.defaultProps = {
-  query: '',
+  return (
+    <Paper elevation={0} className={classes.toolbarSearchContainer}>
+      <div className={classes.toolbarSectionSearch}>
+        <SearchIcon
+          className={classes.searchIcon}
+          fontSize="small"
+        />
+        <Typography
+          className={classes.searchBarText}
+          color="inherit"
+          variant="subtitle1"
+        >
+          <input
+            className={classes.input}
+            onChange={(e) => dispatch(updateQuery(e.target.value))}
+            onInput={(e) => dispatch(updateQuery(e.target.value))}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                e.target.blur();
+                dispatch(updateQuery(''));
+              }
+            }}
+            placeholder="Search installed apps & spaces..."
+            ref={inputBoxRef}
+            value={query}
+          />
+        </Typography>
+        {clearSearchAction}
+      </div>
+    </Paper>
+  );
 };
 
-SearchBox.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onUpdateQuery: PropTypes.func.isRequired,
-  query: PropTypes.string,
-};
-
-const mapStateToProps = (state) => ({
-  query: state.installed.query,
-});
-
-const actionCreators = {
-  updateQuery,
-};
-
-export default connectComponent(
-  SearchBox,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default SearchBox;

@@ -4,7 +4,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable max-len */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -20,7 +21,6 @@ import ReactMarkdown from 'react-markdown';
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
 import extractHostname from '../../helpers/extract-hostname';
-import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import generateUrlWithRef from '../../helpers/generate-url-with-ref';
 
@@ -33,7 +33,7 @@ import {
 import AppCard from '../shared/app-card';
 import LinkSharing from '../shared/link-sharing';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   dialogContent: {
     paddingBottom: theme.spacing(4),
   },
@@ -76,25 +76,25 @@ const styles = (theme) => ({
     marginLeft: '-0.8rem',
     cursor: 'pointer',
   },
-});
+}));
 
-const DialogCatalogAppDetails = ({
-  classes,
-  onClose,
-  open,
-  details,
-}) => {
+const DialogCatalogAppDetails = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const open = useSelector((state) => state.dialogCatalogAppDetails.open);
+  const details = useSelector((state) => state.dialogCatalogAppDetails.details);
+
   const shareUrl = details && !details.err && details.url ? `https://webcatalog.io/webcatalog/apps/${details.id}/` : '';
   const hostname = details ? extractHostname(details.url) : null;
 
   return (
     <Dialog
       className={classes.root}
-      onClose={onClose}
+      onClose={() => dispatch(close())}
       open={open}
       fullWidth
     >
-      <EnhancedDialogTitle onClose={onClose} />
+      <EnhancedDialogTitle onClose={() => dispatch(close())} />
       <DialogContent className={classes.dialogContent}>
         {details ? (
           <>
@@ -208,25 +208,4 @@ DialogCatalogAppDetails.defaultProps = {
   details: null,
 };
 
-DialogCatalogAppDetails.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  details: PropTypes.object,
-};
-
-const mapStateToProps = (state) => ({
-  open: state.dialogCatalogAppDetails.open,
-  details: state.dialogCatalogAppDetails.details,
-});
-
-const actionCreators = {
-  close,
-};
-
-export default connectComponent(
-  DialogCatalogAppDetails,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogCatalogAppDetails;

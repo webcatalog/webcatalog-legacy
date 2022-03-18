@@ -5,6 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,14 +16,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { requestShowAppMenu } from '../../senders';
 
-import connectComponent from '../../helpers/connect-component';
 import getStaticGlobal from '../../helpers/get-static-global';
 
 const LEFT_RIGHT_WIDTH = window.process.platform !== 'darwin' ? 160 : 100;
 const TOOLBAR_HEIGHT = 32;
 const BUTTON_WIDTH = 46;
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
     // leave space for resizing cursor
     // https://github.com/electron/electron/issues/3022
@@ -101,7 +102,7 @@ const styles = (theme) => ({
     borderRadius: 0,
     height: TOOLBAR_HEIGHT,
   },
-});
+}));
 
 const onDoubleClick = (e) => {
   // feature: double click on title bar to expand #656
@@ -139,9 +140,11 @@ const onDoubleClick = (e) => {
 const EnhancedAppBar = ({
   left,
   center,
-  classes,
-  isMaximized,
 }) => {
+  const classes = useStyles();
+
+  const isMaximized = useSelector((state) => state.general.isMaximized);
+
   const useSystemTitleBar = getStaticGlobal('useSystemTitleBar');
 
   const shouldShowMenuButton = window.process.platform === 'darwin'
@@ -257,17 +260,6 @@ EnhancedAppBar.defaultProps = {
 EnhancedAppBar.propTypes = {
   left: PropTypes.node,
   center: PropTypes.node,
-  classes: PropTypes.object.isRequired,
-  isMaximized: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  isMaximized: state.general.isMaximized,
-});
-
-export default connectComponent(
-  EnhancedAppBar,
-  mapStateToProps,
-  null,
-  styles,
-);
+export default EnhancedAppBar;

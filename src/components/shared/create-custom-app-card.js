@@ -3,17 +3,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import BrushIcon from '@material-ui/icons/Brush';
 
-import connectComponent from '../../helpers/connect-component';
-
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     width: 168,
     height: 150,
@@ -47,42 +47,36 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(2),
     fontWeight: 500,
   },
-});
+}));
 
-const CreateCustomAppCard = ({ classes, urlDisabled, onOpenDialogCreateCustomApp }) => (
-  <Grid item>
-    <Paper
-      className={classes.card}
-      elevation={0}
-      role="link"
-      tabIndex="0"
-      onClick={() => onOpenDialogCreateCustomApp({ urlDisabled })}
-    >
-      <BrushIcon className={classes.icon} />
-      <Typography variant="subtitle2" className={classes.desc}>
-        {urlDisabled ? 'Create Custom Space' : 'Create Custom App'}
-      </Typography>
-    </Paper>
-  </Grid>
-);
+const CreateCustomAppCard = ({ urlDisabled }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  return (
+    <Grid item>
+      <Paper
+        className={classes.card}
+        elevation={0}
+        role="link"
+        tabIndex="0"
+        onClick={() => dispatch(openDialogCreateCustomApp({ urlDisabled }))}
+      >
+        <BrushIcon className={classes.icon} />
+        <Typography variant="subtitle2" className={classes.desc}>
+          {urlDisabled ? 'Create Custom Space' : 'Create Custom App'}
+        </Typography>
+      </Paper>
+    </Grid>
+  );
+};
 
 CreateCustomAppCard.defaultProps = {
   urlDisabled: false,
 };
 
 CreateCustomAppCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
   urlDisabled: PropTypes.bool,
 };
 
-const actionCreators = {
-  openDialogCreateCustomApp,
-};
-
-export default connectComponent(
-  CreateCustomAppCard,
-  null,
-  actionCreators,
-  styles,
-);
+export default CreateCustomAppCard;

@@ -3,11 +3,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     alignItems: 'center',
     display: 'flex',
@@ -23,15 +23,14 @@ const styles = (theme) => ({
     height: 112,
     width: 112,
   },
-});
+}));
 
-const EmptyState = (props) => {
-  const {
-    children,
-    classes,
-    icon,
-    title,
-  } = props;
+const EmptyState = ({
+  children,
+  icon,
+  title,
+}) => {
+  const classes = useStyles();
 
   const Icon = icon;
 
@@ -72,9 +71,8 @@ EmptyState.propTypes = {
     PropTypes.element,
     PropTypes.string,
   ]),
-  classes: PropTypes.object.isRequired,
   icon: PropTypes.object.isRequired,
   title: PropTypes.string,
 };
 
-export default withStyles(styles, { name: 'EmptyState' })(EmptyState);
+export default EmptyState;

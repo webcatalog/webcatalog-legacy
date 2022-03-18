@@ -2,18 +2,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
-
-import connectComponent from '../../helpers/connect-component';
+import { useSelector } from 'react-redux';
 
 import amplitude from '../../amplitude';
 import { getInstalledAppCount } from '../../state/app-management/utils';
 
-const TelemetryManager = ({
-  installedAppCount,
-  registered,
-  telemetry,
-}) => {
+const TelemetryManager = () => {
+  const registered = useSelector((state) => state.preferences.registered);
+  const installedAppCount = useSelector((state) => {
+    if (state.appManagement.scanning) return -1;
+    return getInstalledAppCount(state);
+  });
+  const telemetry = useSelector((state) => state.preferences.telemetry);
+
   useEffect(() => {
     amplitude.getInstance().setOptOut(!telemetry);
   }, [telemetry]);
@@ -54,24 +55,4 @@ const TelemetryManager = ({
   return null;
 };
 
-TelemetryManager.defaultProps = {
-  telemetry: false,
-};
-
-TelemetryManager.propTypes = {
-  installedAppCount: PropTypes.number.isRequired,
-  registered: PropTypes.bool.isRequired,
-  telemetry: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => ({
-  registered: state.preferences.registered,
-  installedAppCount: state.appManagement.scanning ? -1 : getInstalledAppCount(state),
-  telemetry: state.preferences.telemetry,
-});
-
-export default connectComponent(
-  TelemetryManager,
-  mapStateToProps,
-  null,
-);
+export default TelemetryManager;

@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -10,15 +11,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from '@material-ui/core/IconButton';
-import { fade } from '@material-ui/core/styles';
-
-import connectComponent from '../../helpers/connect-component';
 
 import {
   requestOpenInBrowser,
 } from '../../senders';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   socialMediaContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -53,13 +51,14 @@ const styles = (theme) => ({
       },
     },
   },
-});
+}));
 
 const LinkSharing = ({
   className,
-  classes,
   url,
 }) => {
+  const classes = useStyles();
+
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     const timeout = copied ? setTimeout(() => setCopied(false), 500) : null;
@@ -139,14 +138,8 @@ LinkSharing.defaultProps = {
 };
 
 LinkSharing.propTypes = {
-  classes: PropTypes.object.isRequired,
   url: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
-export default connectComponent(
-  LinkSharing,
-  null,
-  null,
-  styles,
-);
+export default LinkSharing;

@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +18,6 @@ import WarningIcon from '@material-ui/icons/Warning';
 
 import HelpTooltip from './help-tooltip';
 
-import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 import getEngineName from '../../helpers/get-engine-name';
 import isWidevineSupported from '../../helpers/is-widevine-supported';
@@ -45,7 +46,7 @@ import { open as openDialogCatalogAppDetails } from '../../state/dialog-catalog-
 
 import InstallationProgress from './installation-progress';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     width: 168,
     height: 150,
@@ -126,33 +127,74 @@ const styles = (theme) => ({
     left: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
-});
+}));
+
+const getApp = (state, id) => state.appManagement.apps[id];
 
 const AppCard = ({
-  cancelable,
-  category,
-  classes,
-  engine,
-  icon,
-  iconThumbnail,
+  category: _category,
+  icon: _icon,
+  iconThumbnail: _iconThumbnail,
   id,
   inDetailsDialog,
-  isOutdated,
-  latestTemplateVersion,
-  name,
-  onInstallApp,
-  onOpenDialogCatalogAppDetails,
-  onOpenDialogCreateCustomApp,
-  onOpenDialogEditApp,
-  onUpdateApp,
-  opts,
+  name: _name,
   requireInstanceUrl,
   simple,
-  status,
-  url,
-  version,
+  url: _url,
   widevine,
 }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const latestTemplateVersion = useSelector((state) => state.general.latestTemplateVersion);
+  const isOutdated = useSelector((state) => isOutdatedApp(id, state));
+
+  const cancelable = useSelector((state) => {
+    const app = getApp(state, id);
+    return app ? Boolean(app.cancelable) : false;
+  });
+  const category = useSelector((state) => {
+    if (_category) return _category;
+    const app = getApp(state, id);
+    return app && app.opts ? app.category : undefined;
+  });
+  const engine = useSelector((state) => {
+    const app = getApp(state, id);
+    return app ? app.engine : null;
+  });
+  const icon = useSelector((state) => {
+    if (_icon) return _icon;
+    const app = getApp(state, id);
+    return app ? app.icon : null;
+  });
+  const iconThumbnail = useSelector((state) => {
+    if (_iconThumbnail) return _iconThumbnail;
+    const app = getApp(state, id);
+    return app ? app.icon128 : null;
+  });
+  const name = useSelector((state) => {
+    if (_name) return _name;
+    const app = getApp(state, id);
+    return app ? app.name : null;
+  });
+  const opts = useSelector((state) => {
+    const app = getApp(state, id);
+    return app && app.opts ? app.opts : undefined;
+  });
+  const status = useSelector((state) => {
+    const app = getApp(state, id);
+    return app ? app.status : null;
+  });
+  const url = useSelector((state) => {
+    if (_url) return _url;
+    const app = getApp(state, id);
+    return app ? app.url : null;
+  });
+  const version = useSelector((state) => {
+    const app = getApp(state, id);
+    return app ? app.version : null;
+  });
+
   const clickable = !inDetailsDialog;
   const buttonSize = inDetailsDialog ? 'large' : 'medium';
   const buttonVariant = inDetailsDialog ? 'contained' : 'text';
@@ -178,7 +220,7 @@ const AppCard = ({
       {
         label: 'Edit',
         visible: status === INSTALLED,
-        click: () => onOpenDialogEditApp({
+        click: () => dispatch(openDialogEditApp({
           engine,
           id,
           name,
@@ -186,16 +228,16 @@ const AppCard = ({
           urlDisabled: Boolean(!url),
           icon,
           opts: combinedOpts,
-        }),
+        })),
       },
       {
         label: 'Clone',
-        click: () => onOpenDialogCreateCustomApp({
+        click: () => dispatch(openDialogCreateCustomApp({
           name: `${name} 2`,
           url,
           urlDisabled: Boolean(!url),
           icon,
-        }),
+        })),
       },
       {
         type: 'separator',
@@ -213,7 +255,7 @@ const AppCard = ({
       {
         label: 'Reinstall (Repair)',
         visible: status === INSTALLED && !isOutdated,
-        click: () => onUpdateApp(id),
+        click: () => dispatch(updateApp(id)),
       },
       {
         label: 'Uninstall',
@@ -227,7 +269,7 @@ const AppCard = ({
       {
         label: 'View Details',
         visible: !inDetailsDialog,
-        click: () => onOpenDialogCatalogAppDetails(id),
+        click: () => dispatch(openDialogCatalogAppDetails(id)),
       },
       {
         type: 'separator',
@@ -279,7 +321,7 @@ const AppCard = ({
               disableElevation
               onClick={(e) => {
                 e.stopPropagation();
-                onUpdateApp(id);
+                dispatch(updateApp(id));
               }}
             >
               Update
@@ -338,19 +380,19 @@ const AppCard = ({
           // if the app requires instance URL
           // user has to configure the app URL before adding workspace
           if (requireInstanceUrl) {
-            onOpenDialogCreateCustomApp({
+            dispatch(openDialogCreateCustomApp({
               name,
               url,
               urlDisabled: Boolean(!url),
               icon,
-            });
+            }));
             return;
           }
 
           // inform users that
           // widevine is not supported on Linux (ARM64) & Windows (x64 + arm64)
           if (!widevine || isWidevineSupported()) {
-            onInstallApp(id, name, url, icon, combinedOpts);
+            dispatch(installApp(id, name, url, icon, combinedOpts));
           } else {
             window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
               message: `Due to technical limitations, ${name} app is not supported on this device.`,
@@ -360,7 +402,7 @@ const AppCard = ({
             })
               .then(({ response }) => {
                 if (response === 1) {
-                  onInstallApp(id, name, url, icon, combinedOpts);
+                  dispatch(installApp(id, name, url, icon, combinedOpts));
                 }
               })
               .catch(console.log); // eslint-disable-line
@@ -390,7 +432,7 @@ const AppCard = ({
             requestOpenApp(id, name);
             return;
           }
-          onOpenDialogCatalogAppDetails(id);
+          dispatch(openDialogCatalogAppDetails(id));
         } : null}
         onContextMenu={() => {
           showMenu();
@@ -468,77 +510,27 @@ const AppCard = ({
 
 AppCard.defaultProps = {
   category: undefined,
-  engine: null,
-  iconThumbnail: null,
+  icon: undefined,
+  iconThumbnail: undefined,
   inDetailsDialog: false,
-  latestTemplateVersion: null,
-  opts: {},
+  name: undefined,
   requireInstanceUrl: false,
   simple: false,
-  status: null,
-  url: null,
-  version: null,
+  url: undefined,
   widevine: false,
 };
 
 AppCard.propTypes = {
-  cancelable: PropTypes.bool.isRequired,
   category: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  engine: PropTypes.string,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   iconThumbnail: PropTypes.string,
   id: PropTypes.string.isRequired,
   inDetailsDialog: PropTypes.bool,
-  isOutdated: PropTypes.bool.isRequired,
-  latestTemplateVersion: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  onInstallApp: PropTypes.func.isRequired,
-  onOpenDialogCatalogAppDetails: PropTypes.func.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
-  onOpenDialogEditApp: PropTypes.func.isRequired,
-  onUpdateApp: PropTypes.func.isRequired,
-  opts: PropTypes.object,
   requireInstanceUrl: PropTypes.bool,
   simple: PropTypes.bool,
-  status: PropTypes.string,
+  name: PropTypes.string,
   url: PropTypes.string,
-  version: PropTypes.string,
   widevine: PropTypes.bool,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const app = state.appManagement.apps[ownProps.id];
-
-  return {
-    cancelable: Boolean(app ? app.cancelable : false),
-    category: ownProps.category || (app && app.opts ? app.opts.category : undefined),
-    engine: app ? app.engine : null,
-    icon: ownProps.icon || app.icon,
-    iconThumbnail: ownProps.iconThumbnail || (app ? app.icon128 : null),
-    isOutdated: isOutdatedApp(ownProps.id, state),
-    latestTemplateVersion: state.general.latestTemplateVersion,
-    name: ownProps.name || app.name,
-    opts: app && app.opts ? app.opts : undefined,
-    progressDesc: state.general.installationProgress.desc,
-    progressPercent: state.general.installationProgress.percent,
-    status: app ? app.status : null,
-    url: ownProps.url || (app ? app.url : null),
-    version: app ? app.version : null,
-  };
-};
-
-const actionCreators = {
-  openDialogCatalogAppDetails,
-  openDialogCreateCustomApp,
-  openDialogEditApp,
-  updateApp,
-  installApp,
-};
-
-export default connectComponent(
-  AppCard,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default AppCard;

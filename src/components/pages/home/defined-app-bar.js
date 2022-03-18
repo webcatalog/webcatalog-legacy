@@ -3,16 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import connectComponent from '../../../helpers/connect-component';
+import { makeStyles } from '@material-ui/core/styles';
 
 import SearchBox from './search-box';
 
 import EnhancedAppBar from '../../shared/enhanced-app-bar';
 import CreateButton from '../../shared/create-button';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   backButton: {
     marginLeft: theme.spacing(1),
   },
@@ -24,28 +22,21 @@ const styles = (theme) => ({
     maxWidth: 480,
     margin: '0 auto',
   },
-});
+}));
 
-const DefinedAppBar = ({
-  classes,
-}) => (
-  <EnhancedAppBar
-    center={(
-      <div className={classes.centerContainer}>
-        <SearchBox />
-        <CreateButton />
-      </div>
-    )}
-  />
-);
+const DefinedAppBar = () => {
+  const classes = useStyles();
 
-DefinedAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  return (
+    <EnhancedAppBar
+      center={(
+        <div className={classes.centerContainer}>
+          <SearchBox />
+          <CreateButton />
+        </div>
+      )}
+    />
+  );
 };
 
-export default connectComponent(
-  DefinedAppBar,
-  null,
-  null,
-  styles,
-);
+export default DefinedAppBar;

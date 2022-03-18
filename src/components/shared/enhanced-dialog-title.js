@@ -3,15 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
-import connectComponent from '../../helpers/connect-component';
-
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     margin: 0,
@@ -32,25 +31,28 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
     padding: theme.spacing(1),
   },
-});
+}));
 
 const EnhancedDialogTitle = ({
   children,
-  classes,
   disableTypography,
   onClose,
-}) => (
-  <MuiDialogTitle disableTypography className={classes.root}>
-    {disableTypography ? children : (
-      <Typography variant="subtitle1" className={classes.subtitle1}>{children}</Typography>
-    )}
-    {onClose ? (
-      <IconButton size="small" aria-label="Close" className={classes.closeButton} onClick={onClose}>
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    ) : null}
-  </MuiDialogTitle>
-);
+}) => {
+  const classes = useStyles();
+
+  return (
+    <MuiDialogTitle disableTypography className={classes.root}>
+      {disableTypography ? children : (
+        <Typography variant="subtitle1" className={classes.subtitle1}>{children}</Typography>
+      )}
+      {onClose ? (
+        <IconButton size="small" aria-label="Close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+};
 
 EnhancedDialogTitle.defaultProps = {
   children: null,
@@ -59,14 +61,8 @@ EnhancedDialogTitle.defaultProps = {
 
 EnhancedDialogTitle.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.object.isRequired,
   disableTypography: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
 };
 
-export default connectComponent(
-  EnhancedDialogTitle,
-  null,
-  null,
-  styles,
-);
+export default EnhancedDialogTitle;

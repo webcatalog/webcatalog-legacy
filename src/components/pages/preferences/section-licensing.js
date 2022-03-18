@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -14,19 +14,17 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { open as openDialogLicenseRegistration } from '../../../state/dialog-license-registration/actions';
 
-import connectComponent from '../../../helpers/connect-component';
+const SectionLicensing = () => {
+  const dispatch = useDispatch();
+  const registered = useSelector((state) => state.preferences.registered);
 
-const SectionLicensing = ({
-  registered,
-  onOpenDialogLicenseRegistration,
-}) => {
   let planName = 'Basic';
   if (registered) planName = 'Lifetime';
 
   const upgradeToLifetimeComponent = planName === 'Basic' && (
     <>
       <Divider />
-      <ListItem button onClick={onOpenDialogLicenseRegistration}>
+      <ListItem button onClick={() => dispatch(openDialogLicenseRegistration())}>
         <ListItemText
           primary="Upgrade to WebCatalog Lifetime"
         />
@@ -45,25 +43,4 @@ const SectionLicensing = ({
   );
 };
 
-SectionLicensing.defaultProps = {
-  registered: false,
-};
-
-SectionLicensing.propTypes = {
-  onOpenDialogLicenseRegistration: PropTypes.func.isRequired,
-  registered: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => ({
-  registered: state.preferences.registered,
-});
-
-const actionCreators = {
-  openDialogLicenseRegistration,
-};
-
-export default connectComponent(
-  SectionLicensing,
-  mapStateToProps,
-  actionCreators,
-);
+export default SectionLicensing;

@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 
 import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
 import {
@@ -12,8 +12,6 @@ import {
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Typography from '@material-ui/core/Typography';
-
-import connectComponent from '../../../helpers/connect-component';
 
 import Home from './home';
 
@@ -24,7 +22,7 @@ const connector = process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY
     endpointBase: process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_API_ENDPOINT,
   }) : null;
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   badConfigRoot: {
     height: '100%',
     display: 'flex',
@@ -32,11 +30,11 @@ const styles = () => ({
     overflow: 'hidden',
     justifyContent: 'center',
   },
-});
+}));
 
-const Container = ({
-  classes,
-}) => {
+const Container = () => {
+  const classes = useStyles();
+
   const scrollContainerRef = useRef(null);
 
   if (!connector) {
@@ -102,13 +100,4 @@ const Container = ({
   );
 };
 
-Container.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default connectComponent(
-  Container,
-  null,
-  null,
-  styles,
-);
+export default Container;

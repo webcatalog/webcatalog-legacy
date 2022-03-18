@@ -4,6 +4,8 @@
 import React, {
   useEffect, useState, useRef, useCallback,
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
 
@@ -16,8 +18,6 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 
 import { FixedSizeGrid } from 'react-window';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import AppCard from '../../shared/app-card';
 import EmptyState from '../../shared/empty-state';
 
@@ -26,7 +26,7 @@ import Toolbar from './toolbar';
 
 import { updateScrollOffset } from '../../../state/installed/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     width: '100%',
@@ -61,17 +61,20 @@ const styles = (theme) => ({
   noMatchingResultOpts: {
     marginTop: theme.spacing(4),
   },
-});
+}));
 
-const Installed = ({
-  activeQuery,
-  appIds,
-  classes,
-  isSearching,
-  onUpdateScrollOffset,
-  scanning,
-  scrollOffset,
-}) => {
+const Installed = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const activeQuery = useSelector((state) => state.installed.activeQuery);
+  const appIds = useSelector(
+    (state) => state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds,
+  );
+  const isSearching = useSelector((state) => state.installed.isSearching);
+  const scanning = useSelector((state) => state.appManagement.scanning);
+  const scrollOffset = useSelector((state) => state.installed.scrollOffset);
+
   const [innerHeight, updateInnerHeight] = useState(window.innerHeight);
   const [innerWidth, updateInnerWidth] = useState(window.innerWidth);
   const gridRef = useRef(null);
@@ -89,9 +92,9 @@ const Installed = ({
 
   useCallback(() => {
     if (gridRef.current) {
-      onUpdateScrollOffset(gridRef.current.scrollTop);
+      dispatch(updateScrollOffset(gridRef.current.scrollTop));
     }
-  }, [gridRef, onUpdateScrollOffset]);
+  }, [gridRef, dispatch]);
 
   const renderContent = () => {
     if (scanning || isSearching) {
@@ -196,36 +199,4 @@ const Installed = ({
   );
 };
 
-Installed.defaultProps = {
-  activeQuery: '',
-  isSearching: false,
-};
-
-Installed.propTypes = {
-  activeQuery: PropTypes.string,
-  appIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  classes: PropTypes.object.isRequired,
-  isSearching: PropTypes.bool,
-  onUpdateScrollOffset: PropTypes.func.isRequired,
-  scanning: PropTypes.bool.isRequired,
-  scrollOffset: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  activeQuery: state.installed.activeQuery,
-  appIds: state.installed.filteredSortedAppIds || state.appManagement.sortedAppIds,
-  isSearching: state.installed.isSearching,
-  scanning: state.appManagement.scanning,
-  scrollOffset: state.installed.scrollOffset,
-});
-
-const actionCreators = {
-  updateScrollOffset,
-};
-
-export default connectComponent(
-  Installed,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default Installed;

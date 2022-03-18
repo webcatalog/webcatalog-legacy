@@ -2,31 +2,30 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-
-import connectComponent from '../../helpers/connect-component';
 
 import { close } from '../../state/dialog-open-source-notices/actions';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   dialogContent: {
     minWidth: 320,
     whiteSpace: 'pre-line',
     paddingBottom: theme.spacing(2),
     overflowX: 'hidden',
   },
-});
+}));
 
-const DialogOpenSourceNotices = ({
-  classes,
-  onClose,
-  open,
-}) => {
+const DialogOpenSourceNotices = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const open = useSelector((state) => state.dialogOpenSourceNotices.open);
+
   const [content, setContent] = useState('');
   useEffect(() => {
     window.fetch('./open-source-notices.txt')
@@ -41,10 +40,10 @@ const DialogOpenSourceNotices = ({
   return (
     <Dialog
       className={classes.root}
-      onClose={onClose}
+      onClose={() => dispatch(close())}
       open={open}
     >
-      <EnhancedDialogTitle onClose={onClose}>
+      <EnhancedDialogTitle onClose={() => dispatch(close())}>
         Open Source Notices
       </EnhancedDialogTitle>
       <DialogContent className={classes.dialogContent}>
@@ -54,23 +53,4 @@ const DialogOpenSourceNotices = ({
   );
 };
 
-DialogOpenSourceNotices.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  open: state.dialogOpenSourceNotices.open,
-});
-
-const actionCreators = {
-  close,
-};
-
-export default connectComponent(
-  DialogOpenSourceNotices,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogOpenSourceNotices;
