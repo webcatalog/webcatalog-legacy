@@ -4,6 +4,7 @@
 import React, { useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { ipcRenderer } from 'electron';
 
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -89,13 +90,13 @@ const SearchBox = () => {
         inputBoxRef.current.select();
       }
     };
-    window.ipcRenderer.on('focus-search', handleFocusSearch);
+    ipcRenderer.on('focus-search', handleFocusSearch);
     if (inputBoxRef.current) {
       inputBoxRef.current.focus();
     }
 
     return () => {
-      window.ipcRenderer.removeListener('focus-search', handleFocusSearch);
+      ipcRenderer.removeListener('focus-search', handleFocusSearch);
     };
   }, [inputBoxRef]);
 

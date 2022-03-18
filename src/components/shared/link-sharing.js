@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { clipboard } from '@electron/remote';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
@@ -82,7 +83,7 @@ const LinkSharing = ({
               disableElevation
               disabled={copied}
               onClick={() => {
-                window.remote.clipboard.writeText(url);
+                clipboard.writeText(url);
                 setCopied(true);
               }}
             >

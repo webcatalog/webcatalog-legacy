@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { Menu, getCurrentWindow } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -114,9 +115,9 @@ const AppCard = ({
                 },
               },
             ];
-            const menu = window.remote.Menu.buildFromTemplate(template);
+            const menu = Menu.buildFromTemplate(template);
             menu.popup({
-              window: window.remote.getCurrentWindow(),
+              window: getCurrentWindow(),
             });
           }}
         >

@@ -6,6 +6,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
+import { shell } from '@electron/remote';
 
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -165,7 +166,7 @@ const DialogCatalogAppDetails = () => {
                               key={pathDetails.path}
                               className={classes.li}
                             >
-                              <Link onClick={() => window.remote.shell.showItemInFolder(pathDetails.path)}>
+                              <Link onClick={() => shell.showItemInFolder(pathDetails.path)}>
                                 {pathDetails.path}
                               </Link>
                             </li>

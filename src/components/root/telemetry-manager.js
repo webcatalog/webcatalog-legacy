@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { ipcRenderer } from 'electron';
 
 import amplitude from '../../amplitude';
 import { getInstalledAppCount } from '../../state/app-management/utils';
@@ -47,9 +48,9 @@ const TelemetryManager = () => {
     const logFocus = () => {
       amplitude.getInstance().logEvent('focus app');
     };
-    window.ipcRenderer.on('log-focus', logFocus);
+    ipcRenderer.on('log-focus', logFocus);
     return () => {
-      window.ipcRenderer.removeListener('log-focus', logFocus);
+      ipcRenderer.removeListener('log-focus', logFocus);
     };
   }, []);
   return null;

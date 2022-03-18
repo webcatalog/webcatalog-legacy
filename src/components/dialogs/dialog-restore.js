@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { useDropzone } from 'react-dropzone';
+import { ipcRenderer } from 'electron';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -157,7 +158,7 @@ const DialogRestore = () => {
     });
 
     onClose();
-    window.ipcRenderer.emit('enqueue-snackbar', null, 'Restore successfully.', 'success');
+    ipcRenderer.emit('enqueue-snackbar', null, 'Restore successfully.', 'success');
   }, [selectedAppDetails, customAppsIconData, appDetails, installedApps, onClose]);
 
   const { getRootProps, getInputProps } = useCallback(useDropzone(({

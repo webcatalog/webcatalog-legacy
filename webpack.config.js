@@ -71,7 +71,6 @@ const getPreloadScriptsConfig = () => {
       __dirname: false,
     },
     entry: {
-      'preload-main': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-main.js'),
       'preload-menubar': path.join(__dirname, 'main-src', 'libs', 'windows', 'preload-menubar.js'),
     },
     module: {
@@ -88,7 +87,7 @@ const getPreloadScriptsConfig = () => {
       path: path.join(__dirname, 'build'),
       filename: '[name].js',
     },
-    devtool: 'source-map',
+    devtool: false,
     plugins,
   };
 };

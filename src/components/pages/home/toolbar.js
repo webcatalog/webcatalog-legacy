@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Menu, getCurrentWindow } from '@electron/remote';
 
 import { WithSearch } from '@elastic/react-search-ui';
 
@@ -138,8 +139,8 @@ const Toolbar = () => {
                         && sortOption.sortDirection === sortDirection,
                     }));
 
-                    const menu = window.remote.Menu.buildFromTemplate(template);
-                    menu.popup(window.remote.getCurrentWindow());
+                    const menu = Menu.buildFromTemplate(template);
+                    menu.popup(getCurrentWindow());
                   }}
                 >
                   <SortIcon fontSize="small" />

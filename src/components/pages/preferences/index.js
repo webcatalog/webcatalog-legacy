@@ -5,6 +5,8 @@ import React, { useRef } from 'react';
 import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { app, dialog, getCurrentWindow } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -394,7 +396,7 @@ const Preferences = () => {
                     if (val == null) return;
 
                     if (appCount > 0) {
-                      window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                      dialog.showMessageBox(getCurrentWindow(), {
                         title: 'Uninstall all of WebCatalog apps first',
                         message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
                         buttons: ['OK'],
@@ -417,7 +419,7 @@ const Preferences = () => {
                 >
                   {window.process.platform === 'win32' && (
                     [
-                      (installationPath !== `${window.remote.app.getPath('home')}\\WebCatalog Apps`) && (
+                      (installationPath !== `${app.getPath('home')}\\WebCatalog Apps`) && (
                         <MenuItem dense key="installation-path-menu-item" value={null}>
                           {installationPath}
                         </MenuItem>
@@ -426,11 +428,11 @@ const Preferences = () => {
                         dense
                         key="default-installation-path-menu-item"
                         value={{
-                          installationPath: `${window.remote.app.getPath('home')}\\WebCatalog Apps`,
+                          installationPath: `${app.getPath('home')}\\WebCatalog Apps`,
                           requireAdmin: false,
                         }}
                       >
-                        {`${window.remote.app.getPath('home')}\\WebCatalog Apps`}
+                        {`${app.getPath('home')}\\WebCatalog Apps`}
                       </MenuItem>,
                     ]
                   )}
@@ -696,14 +698,14 @@ const Preferences = () => {
               <ListItem
                 button
                 onClick={() => {
-                  window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                  dialog.showMessageBox(getCurrentWindow(), {
                     type: 'question',
                     buttons: ['Reset Now', 'Cancel'],
                     message: 'Are you sure? All preferences will be restored to their original defaults. Browsing data won\'t be affected. This action cannot be undone.',
                     cancelId: 1,
                   }).then(({ response }) => {
                     if (response === 0) {
-                      window.ipcRenderer.once('set-preferences', () => {
+                      ipcRenderer.once('set-preferences', () => {
                         enqueueRequestRestartSnackbar();
                       });
                       requestResetPreferences();

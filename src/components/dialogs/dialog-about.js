@@ -4,6 +4,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { app } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -62,7 +63,7 @@ const About = () => {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.dialogAbout.open);
 
-  const appVersion = window.remote.app.getVersion();
+  const appVersion = app.getVersion();
 
   return (
     <Dialog

@@ -4,6 +4,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { Menu, getCurrentWindow } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -137,8 +138,8 @@ const Toolbar = () => {
                 click: () => requestSetPreference('sortInstalledAppBy', sortOption.val),
                 checked: sortOption.val === sortInstalledAppBy,
               }));
-              const menu = window.remote.Menu.buildFromTemplate(template);
-              menu.popup(window.remote.getCurrentWindow());
+              const menu = Menu.buildFromTemplate(template);
+              menu.popup(getCurrentWindow());
             }}
           >
             <SortIcon fontSize="small" />
