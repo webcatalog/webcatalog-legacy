@@ -4,7 +4,7 @@
 import React, { useRef } from 'react';
 import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';

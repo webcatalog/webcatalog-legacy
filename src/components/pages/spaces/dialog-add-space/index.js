@@ -4,14 +4,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {
-  makeStyles,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Typography,
-  IconButton,
-} from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+
 import CloseIcon from '@material-ui/icons/Close';
 
 import { close } from '../../../../state/dialog-add-space/actions';

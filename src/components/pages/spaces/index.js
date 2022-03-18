@@ -2,7 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
-import { makeStyles, Typography, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import DefinedAppBar from './defined-app-bar';
 import InstalledSpaces from './installed-spaces';

@@ -5,7 +5,7 @@ import React, {
   useEffect, useState, useRef, useCallback,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
 

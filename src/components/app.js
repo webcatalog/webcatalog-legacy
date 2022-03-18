@@ -4,7 +4,7 @@
 import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import TelemetryManager from './root/telemetry-manager';
 import Container from './root/container';

@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -11,7 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from '@material-ui/core/IconButton';
-import { fade } from '@material-ui/core/styles';
 
 import {
   requestOpenInBrowser,
