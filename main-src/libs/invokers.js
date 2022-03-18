@@ -5,6 +5,7 @@ const {
   ipcMain,
   app,
 } = require('electron');
+const machineId = require('node-machine-id');
 
 const getRelatedPaths = require('./app-management/get-related-paths');
 const { getPreference } = require('./preferences');
@@ -21,6 +22,8 @@ const loadInvokers = () => {
     });
     return Promise.resolve(relatedPaths);
   });
+
+  ipcMain.handle('get-machine-id', () => machineId.machineIdSync());
 };
 
 module.exports.load = loadInvokers;

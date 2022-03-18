@@ -4,6 +4,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { ipcRenderer } from 'electron';
 
 import {
   WithSearch,
@@ -90,13 +91,13 @@ const SearchBox = () => {
         inputBoxRef.current.select();
       }
     };
-    window.ipcRenderer.on('focus-search', handleFocusSearch);
+    ipcRenderer.on('focus-search', handleFocusSearch);
     if (inputBoxRef.current) {
       inputBoxRef.current.focus();
     }
 
     return () => {
-      window.ipcRenderer.removeListener('focus-search', handleFocusSearch);
+      ipcRenderer.removeListener('focus-search', handleFocusSearch);
     };
   }, [inputBoxRef]);
 

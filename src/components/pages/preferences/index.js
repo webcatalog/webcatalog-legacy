@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { app, dialog, getCurrentWindow } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -704,7 +705,7 @@ const Preferences = () => {
                     cancelId: 1,
                   }).then(({ response }) => {
                     if (response === 0) {
-                      window.ipcRenderer.once('set-preferences', () => {
+                      ipcRenderer.once('set-preferences', () => {
                         enqueueRequestRestartSnackbar();
                       });
                       requestResetPreferences();

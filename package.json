@@ -10,12 +10,12 @@
   "scripts": {
     "postinstall": "npx patch-package && electron-builder install-app-deps && yarn generate-open-source-notices",
     "generate-open-source-notices": "yarn licenses generate-disclaimer > public/open-source-notices.txt",
-    "build": "react-scripts build && webpack",
+    "build": "react-app-rewired build && webpack",
     "webpack": "webpack",
-    "eject": "react-scripts eject",
+    "eject": "react-app-rewired eject",
     "lint": "eslint ./main-src ./src ./dist.js --ext js",
     "lint-fix": "yarn lint --fix",
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env API_URL=http://localhost:3000/api electron .\" -k",
     "dist": "yarn build && cross-env NODE_ENV=production node dist.js",
     "dist-dev": "yarn build && cross-env NODE_ENV=production CSC_IDENTITY_AUTO_DISCOVERY=false node dist.js"
@@ -87,6 +87,7 @@
     "original-fs": "1.1.0",
     "prop-types": "15.8.1",
     "react": "16.14.0",
+    "react-app-rewired": "2.2.1",
     "react-dom": "16.14.0",
     "react-dropzone": "11.7.1",
     "react-markdown": "5.0.3",

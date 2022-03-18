@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import slugify from 'slugify';
 import { dialog, getCurrentWindow } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 import {
   DIALOG_CREATE_CUSTOM_APP_CLOSE,
   DIALOG_CREATE_CUSTOM_APP_DOWNLOADING_ICON_UPDATE,
@@ -39,10 +40,10 @@ export const open = (form) => ({
 export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => {
   try {
     const id = Date.now().toString();
-    window.ipcRenderer.once(id, (e, uurl) => {
+    ipcRenderer.once(id, (e, uurl) => {
       resolve(uurl);
     });
-    window.ipcRenderer.send('request-get-website-icon-url', id, url);
+    ipcRenderer.send('request-get-website-icon-url', id, url);
   } catch (err) {
     reject(err);
   }

@@ -209,7 +209,6 @@ const createAsync = () => new Promise((resolve) => {
       contextIsolation: false,
       nodeIntegration: true,
       webSecurity: process.env.NODE_ENV === 'production',
-      preload: path.join(__dirname, 'preload-main.js'),
     },
   };
   // winOpts.icon cannot be set to undefined
