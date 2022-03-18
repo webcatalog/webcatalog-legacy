@@ -172,6 +172,7 @@ const Preferences = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const allowPrerelease = useSelector((state) => state.preferences.allowPrerelease);
   const alwaysOnTop = useSelector((state) => state.preferences.alwaysOnTop);
   const appCount = useSelector((state) => Object.keys(state.appManagement.apps).length);
   const attachToMenubar = useSelector((state) => state.preferences.attachToMenubar);
@@ -527,7 +528,7 @@ const Preferences = () => {
                 </>
               )}
               <Divider />
-              <ListItem button onClick={onOpenDialogBackupRestore}>
+              <ListItem button onClick={() => dispatch(openDialogBackupRestore())}>
                 <ListItemText
                   primary="Backup and restore apps & spaces (experimental)"
                   secondary="This feature is under development and might contain bugs."

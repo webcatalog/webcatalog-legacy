@@ -19,6 +19,7 @@ import DialogRestore from './dialogs/dialog-restore';
 import DialogLicenseRegistration from './dialogs/dialog-license-registration';
 import DialogOpenSourceNotices from './dialogs/dialog-open-source-notices';
 import DialogSetInstallationPath from './dialogs/dialog-set-installation-path';
+import SnackbarTrigger from './root/snackbar-trigger';
 
 import {
   requestGetInstalledApps,

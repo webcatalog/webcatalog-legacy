@@ -270,10 +270,10 @@ const DialogCreateCustomApp = () => {
                 id="input-main-category"
                 labelId="input-main-category-label"
                 value={freedesktopMainCategory}
-                onChange={(event) => onUpdateForm({
+                onChange={(event) => dispatch(updateForm({
                   freedesktopMainCategory: event.target.value,
                   freedesktopAdditionalCategory: '',
-                })}
+                }))}
                 label="Type"
                 margin="dense"
               >

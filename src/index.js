@@ -11,7 +11,6 @@ import '@fontsource/roboto/500.css';
 import getStaticGlobal from './helpers/get-static-global';
 
 import './amplitude';
-import './firebase';
 
 import './index.css';
 

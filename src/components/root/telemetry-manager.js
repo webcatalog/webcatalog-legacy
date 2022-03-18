@@ -8,7 +8,7 @@ import amplitude from '../../amplitude';
 import { getInstalledAppCount } from '../../state/app-management/utils';
 
 const TelemetryManager = () => {
-  const currentPlan = useSelector((state) => getCurrentPlan(state));
+  const registered = useSelector((state) => state.preferences.registered);
   const installedAppCount = useSelector((state) => {
     if (state.appManagement.scanning) return -1;
     return getInstalledAppCount(state);
