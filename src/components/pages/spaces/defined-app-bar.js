@@ -3,53 +3,32 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
 
 import Typography from '@material-ui/core/Typography';
 
-import connectComponent from '../../../helpers/connect-component';
-
-import { fetchLatestTemplateVersionAsync } from '../../../state/general/actions';
-
 import EnhancedAppBar from '../../shared/enhanced-app-bar';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   title: {
     textAlign: 'center',
     color: 'inherit',
     fontWeight: 400,
   },
-});
+}));
 
-const DefinedAppBar = ({
-  classes,
-}) => (
-  <EnhancedAppBar
-    center={(
-      <Typography variant="body1" className={classes.title}>
-        Spaces
-      </Typography>
-    )}
-  />
-);
+const DefinedAppBar = () => {
+  const classes = useStyles();
 
-DefinedAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  return (
+    <EnhancedAppBar
+      center={(
+        <Typography variant="body1" className={classes.title}>
+          Spaces
+        </Typography>
+      )}
+    />
+  );
 };
 
-const actionCreators = {
-  fetchLatestTemplateVersionAsync,
-};
-
-const mapStateToProps = (state) => ({
-  activeQuery: state.installed.activeQuery,
-  fetchingLatestTemplateVersion: state.general.fetchingLatestTemplateVersion,
-  sortInstalledAppBy: state.preferences.sortInstalledAppBy,
-});
-
-export default connectComponent(
-  DefinedAppBar,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DefinedAppBar;

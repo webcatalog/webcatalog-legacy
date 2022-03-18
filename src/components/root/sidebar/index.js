@@ -3,8 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 
 import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
@@ -22,8 +23,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import SpaceIcon from '../../shared/space-icon';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import { changeRoute } from '../../../state/router/actions';
 import { getAppBadgeCount } from '../../../state/app-management/utils';
 
@@ -36,7 +35,7 @@ import {
 
 import UpgradeButton from './upgrade-button';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   sidebar: {
     width: 80,
     backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[800],
@@ -72,14 +71,15 @@ const styles = (theme) => ({
     minWidth: 'auto',
   },
   listItemTextPrimary: theme.typography.body2,
-});
+}));
 
-const Home = ({
-  appBadgeCount,
-  classes,
-  route,
-  onChangeRoute,
-}) => {
+const Home = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const route = useSelector((state) => state.router.route);
+  const appBadgeCount = useSelector((state) => getAppBadgeCount(state));
+
   const showTooltip = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const mainSections = {
@@ -138,13 +138,13 @@ const Home = ({
                 key={sectionKey}
                 onClick={() => {
                   if (sectionKey === 'all') {
-                    onChangeRoute(ROUTE_HOME);
+                    dispatch(changeRoute(ROUTE_HOME));
                   } else if (sectionKey === 'updates') {
-                    onChangeRoute(ROUTE_INSTALLED);
+                    dispatch(changeRoute(ROUTE_INSTALLED));
                   } else if (sectionKey === 'preferences') {
-                    onChangeRoute(ROUTE_PREFERENCES);
+                    dispatch(changeRoute(ROUTE_PREFERENCES));
                   } else if (sectionKey === 'spaces') {
-                    onChangeRoute(ROUTE_SPACES);
+                    dispatch(changeRoute(ROUTE_SPACES));
                   }
                 }}
                 title={text}
@@ -189,25 +189,4 @@ const Home = ({
   );
 };
 
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-  route: PropTypes.string.isRequired,
-  appBadgeCount: PropTypes.number.isRequired,
-  onChangeRoute: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  route: state.router.route,
-  appBadgeCount: getAppBadgeCount(state),
-});
-
-const actionCreators = {
-  changeRoute,
-};
-
-export default connectComponent(
-  Home,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default Home;

@@ -3,13 +3,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import connectComponent from '../../../helpers/connect-component';
 import AppCard from '../../shared/app-card';
 
 // only map app obj to each wrapper
 // to avoid re-rendering the whole list (apps changed very often)
-const AppCardWrapper = ({ isSpace, id }) => {
+const AppCardWrapper = ({ id }) => {
+  const isSpace = useSelector((state) => state.appManagement.apps[id]
+  && !state.appManagement.apps[id].url);
+
   if (!isSpace) return null;
   return (
     <AppCard
@@ -20,40 +23,22 @@ const AppCardWrapper = ({ isSpace, id }) => {
 };
 
 AppCardWrapper.propTypes = {
-  isSpace: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
 };
 
-const LinkedAppCardWrapper = connectComponent(
-  AppCardWrapper,
-  (state, ownProps) => ({
-    isSpace: state.appManagement.apps[ownProps.id]
-      && !state.appManagement.apps[ownProps.id].url,
-  }),
-);
+const InstalledSpaces = () => {
+  const sortedAppIds = useSelector((state) => state.appManagement.sortedAppIds);
 
-const InstalledSpaces = ({ sortedAppIds }) => (
-  <>
-    {sortedAppIds.map((appId) => (
-      <LinkedAppCardWrapper
-        key={appId}
-        id={appId}
-      />
-    ))}
-  </>
-);
-
-InstalledSpaces.propTypes = {
-  sortedAppIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  return (
+    <>
+      {sortedAppIds.map((appId) => (
+        <AppCardWrapper
+          key={appId}
+          id={appId}
+        />
+      ))}
+    </>
+  );
 };
 
-const mapStateToProps = (state) => ({
-  sortedAppIds: state.appManagement.sortedAppIds,
-});
-
-export default connectComponent(
-  InstalledSpaces,
-  mapStateToProps,
-  null,
-  null,
-);
+export default InstalledSpaces;

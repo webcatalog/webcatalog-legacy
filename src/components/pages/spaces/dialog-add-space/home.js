@@ -2,7 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 import AppSearchAPIConnector from '@elastic/search-ui-app-search-connector';
 import { SearchProvider, WithSearch } from '@elastic/react-search-ui';
@@ -10,13 +11,11 @@ import '@elastic/react-search-ui-views/lib/styles/styles.css';
 
 import Typography from '@material-ui/core/Typography';
 
-import connectComponent from '../../../../helpers/connect-component';
-
 import AppCard from './app-card';
 import NoConnection from './no-connection';
 import CreateCustomSpaceCard from './create-custom-space-card';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     zIndex: 1,
   },
@@ -53,7 +52,7 @@ const styles = (theme) => ({
     left: 5,
     zIndex: 2,
   },
-});
+}));
 
 const connector = process.env.REACT_APP_ELASTIC_CLOUD_APP_SEARCH_SEARCH_KEY
   ? new AppSearchAPIConnector({
@@ -66,7 +65,10 @@ const filters = [
   { field: 'type', values: ['Multisite'], type: 'all' },
 ];
 
-const Home = ({ classes, installedAppIds }) => {
+const Home = () => {
+  const classes = useStyles();
+  const installedAppIds = useSelector((state) => state.appManagement.sortedAppIds);
+
   const scrollContainerRef = useRef(null);
 
   if (!connector) {
@@ -192,20 +194,4 @@ const Home = ({ classes, installedAppIds }) => {
   );
 };
 
-Home.defaultProps = {};
-
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-  installedAppIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  installedAppIds: state.appManagement.sortedAppIds,
-});
-
-export default connectComponent(
-  Home,
-  mapStateToProps,
-  null,
-  styles,
-);
+export default Home;

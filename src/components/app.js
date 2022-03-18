@@ -2,11 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
-import connectComponent from '../helpers/connect-component';
+import { useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core';
 
-import SnackbarTrigger from './root/snackbar-trigger';
 import TelemetryManager from './root/telemetry-manager';
 import Container from './root/container';
 
@@ -28,7 +27,7 @@ import {
 
 import { fetchLatestTemplateVersionAsync } from '../state/general/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -45,24 +44,24 @@ const styles = (theme) => ({
     // substract 22px of FakeTitleBar
     marginTop: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 42,
   },
-});
+}));
 
-const App = ({
-  classes,
-  onFetchLatestTemplateVersionAsync,
-}) => {
+const App = () => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
   useEffect(() => {
     requestCheckForUpdates(true); // isSilent = true
     requestGetInstalledApps();
 
-    onFetchLatestTemplateVersionAsync();
+    dispatch(fetchLatestTemplateVersionAsync());
     const updaterTimer = setTimeout(() => {
-      onFetchLatestTemplateVersionAsync();
+      dispatch(fetchLatestTemplateVersionAsync());
     }, 15 * 60 * 1000); // recheck every 15 minutes
     return () => {
       clearTimeout(updaterTimer);
     };
-  }, [onFetchLatestTemplateVersionAsync]);
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -87,22 +86,4 @@ const App = ({
   );
 };
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onFetchLatestTemplateVersionAsync: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  isFullScreen: state.general.isFullScreen,
-});
-
-const actionCreators = {
-  fetchLatestTemplateVersionAsync,
-};
-
-export default connectComponent(
-  App,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default App;

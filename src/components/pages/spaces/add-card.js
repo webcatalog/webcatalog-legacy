@@ -1,19 +1,18 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import PropTypes from 'prop-types';
 import React from 'react';
+import { makeStyles } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import { open as openDialogAddSpace } from '../../../state/dialog-add-space/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     width: 168,
     height: 150,
@@ -47,37 +46,28 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(2),
     fontWeight: 500,
   },
-});
+}));
 
-const AddCard = ({ classes, onOpenDialogAddSpace }) => (
-  <Grid item>
-    <Paper
-      className={classes.card}
-      elevation={0}
-      role="link"
-      tabIndex="0"
-      onClick={() => onOpenDialogAddSpace()}
-    >
-      <AddIcon className={classes.icon} />
-      <Typography variant="subtitle2" className={classes.desc}>
-        Add
-      </Typography>
-    </Paper>
-  </Grid>
-);
+const AddCard = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-AddCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onOpenDialogAddSpace: PropTypes.func.isRequired,
+  return (
+    <Grid item>
+      <Paper
+        className={classes.card}
+        elevation={0}
+        role="link"
+        tabIndex="0"
+        onClick={() => dispatch(openDialogAddSpace())}
+      >
+        <AddIcon className={classes.icon} />
+        <Typography variant="subtitle2" className={classes.desc}>
+          Add
+        </Typography>
+      </Paper>
+    </Grid>
+  );
 };
 
-const actionCreators = {
-  openDialogAddSpace,
-};
-
-export default connectComponent(
-  AddCard,
-  null,
-  actionCreators,
-  styles,
-);
+export default AddCard;

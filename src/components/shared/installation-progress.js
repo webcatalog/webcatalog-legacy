@@ -3,13 +3,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import connectComponent from '../../helpers/connect-component';
-
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     height: 28,
@@ -37,61 +37,47 @@ const styles = (theme) => ({
   tooltip: {
     maxWidth: 400,
   },
-});
+}));
 
 const AppCard = ({
-  classes,
   defaultDesc,
-  progressDesc,
-  progressPercent,
-}) => (
-  <div className={classes.root}>
-    <Tooltip
-      title={progressDesc || defaultDesc}
-      aria-label={progressDesc || defaultDesc}
-      placement="right"
-      classes={{
-        tooltip: classes.tooltip,
-      }}
-    >
+}) => {
+  const classes = useStyles();
+
+  const progressPercent = useSelector((state) => state.general.installationProgress.percent);
+  const progressDesc = useSelector((state) => state.general.installationProgress.desc);
+
+  return (
+    <div className={classes.root}>
+      <Tooltip
+        title={progressDesc || defaultDesc}
+        aria-label={progressDesc || defaultDesc}
+        placement="right"
+        classes={{
+          tooltip: classes.tooltip,
+        }}
+      >
+        <CircularProgress
+          variant="determinate"
+          value={progressPercent}
+          className={classes.top}
+          size={28}
+          thickness={4}
+        />
+      </Tooltip>
       <CircularProgress
         variant="determinate"
-        value={progressPercent}
-        className={classes.top}
+        value={100}
+        className={classes.bottom}
         size={28}
         thickness={4}
       />
-    </Tooltip>
-    <CircularProgress
-      variant="determinate"
-      value={100}
-      className={classes.bottom}
-      size={28}
-      thickness={4}
-    />
-  </div>
-);
-
-AppCard.defaultProps = {
-  progressDesc: null,
-  progressPercent: 0,
+    </div>
+  );
 };
 
 AppCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  progressDesc: PropTypes.string,
-  progressPercent: PropTypes.number,
   defaultDesc: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  progressPercent: state.general.installationProgress.percent,
-  progressDesc: state.general.installationProgress.desc,
-});
-
-export default connectComponent(
-  AppCard,
-  mapStateToProps,
-  null,
-  styles,
-);
+export default AppCard;

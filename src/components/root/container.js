@@ -3,11 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
-
-import connectComponent from '../../helpers/connect-component';
 
 import {
   ROUTE_HOME,
@@ -23,7 +22,7 @@ import Spaces from '../pages/spaces';
 
 import Sidebar from './sidebar';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -58,35 +57,23 @@ const styles = (theme) => ({
     overflow: 'hidden',
     flex: 1,
   },
-});
+}));
 
-const Container = ({
-  classes,
-  route,
-}) => (
-  <div className={classes.root}>
-    <Sidebar />
-    <Grid container className={classes.container}>
-      {route === ROUTE_INSTALLED && <Installed />}
-      {route === ROUTE_SPACES && <Spaces />}
-      {route === ROUTE_PREFERENCES && <Preferences />}
-      {route === ROUTE_HOME && <Home />}
-    </Grid>
-  </div>
-);
+const Container = () => {
+  const route = useSelector((state) => state.router.route);
+  const classes = useStyles();
 
-Container.propTypes = {
-  classes: PropTypes.object.isRequired,
-  route: PropTypes.string.isRequired,
+  return (
+    <div className={classes.root}>
+      <Sidebar />
+      <Grid container className={classes.container}>
+        {route === ROUTE_INSTALLED && <Installed />}
+        {route === ROUTE_SPACES && <Spaces />}
+        {route === ROUTE_PREFERENCES && <Preferences />}
+        {route === ROUTE_HOME && <Home />}
+      </Grid>
+    </div>
+  );
 };
 
-const mapStateToProps = (state) => ({
-  route: state.router.route,
-});
-
-export default connectComponent(
-  Container,
-  mapStateToProps,
-  null,
-  styles,
-);
+export default Container;

@@ -2,8 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core';
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -27,8 +28,6 @@ import UpdateIcon from '@material-ui/icons/Update';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import { getInstallingAppsAsList } from '../../../state/app-management/utils';
 
 import { open as openDialogAbout } from '../../../state/dialog-about/actions';
@@ -50,7 +49,7 @@ import {
 import DefinedAppBar from './defined-app-bar';
 import SectionLicensing from './section-licensing';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -128,7 +127,7 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(1.5),
   },
-});
+}));
 
 const getFileManagerName = () => {
   if (window.process.platform === 'darwin') return 'Finder';
@@ -169,32 +168,29 @@ const getUpdaterDesc = (status, info) => {
   return null;
 };
 
-const Preferences = ({
-  allowPrerelease,
-  alwaysOnTop,
-  appCount,
-  attachToMenubar,
-  classes,
-  createDesktopShortcut,
-  createStartMenuShortcut,
-  defaultHome,
-  installationPath,
-  installingAppCount,
-  onOpenDialogAbout,
-  onOpenDialogOpenSourceNotices,
-  onOpenDialogSetInstallationPath,
-  onOpenDialogBackupRestore,
-  openAtLogin,
-  requireAdmin,
-  sentry,
-  telemetry,
-  themeSource,
-  trayIcon,
-  updaterInfo,
-  updaterStatus,
-  useHardwareAcceleration,
-  useSystemTitleBar,
-}) => {
+const Preferences = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const alwaysOnTop = useSelector((state) => state.preferences.alwaysOnTop);
+  const appCount = useSelector((state) => Object.keys(state.appManagement.apps).length);
+  const attachToMenubar = useSelector((state) => state.preferences.attachToMenubar);
+  const createDesktopShortcut = useSelector((state) => state.preferences.createDesktopShortcut);
+  const createStartMenuShortcut = useSelector((state) => state.preferences.createStartMenuShortcut);
+  const defaultHome = useSelector((state) => state.preferences.defaultHome);
+  const installationPath = useSelector((state) => state.preferences.installationPath);
+  const installingAppCount = useSelector((state) => getInstallingAppsAsList(state).length);
+  const openAtLogin = useSelector((state) => state.systemPreferences.openAtLogin);
+  const requireAdmin = useSelector((state) => state.preferences.requireAdmin);
+  const sentry = useSelector((state) => state.preferences.sentry);
+  const telemetry = useSelector((state) => state.preferences.telemetry);
+  const themeSource = useSelector((state) => state.preferences.themeSource);
+  const trayIcon = useSelector((state) => state.preferences.trayIcon);
+  const updaterInfo = useSelector((state) => state.updater.info);
+  const updaterStatus = useSelector((state) => state.updater.status);
+  const useHardwareAcceleration = useSelector((state) => state.preferences.useHardwareAcceleration);
+  const useSystemTitleBar = useSelector((state) => state.preferences.useSystemTitleBar);
+
   const sections = {
     licensing: {
       text: 'Licensing',
@@ -485,7 +481,7 @@ const Preferences = ({
                       </MenuItem>,
                     ]
                   )}
-                  <MenuItem dense onClick={onOpenDialogSetInstallationPath}>
+                  <MenuItem dense onClick={() => dispatch(openDialogSetInstallationPath())}>
                     Custom
                   </MenuItem>
                 </Select>
@@ -725,7 +721,7 @@ const Preferences = ({
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <List disablePadding dense>
-              <ListItem button onClick={onOpenDialogAbout}>
+              <ListItem button onClick={() => dispatch(openDialogAbout())}>
                 <ListItemText primary="About" />
                 <ChevronRightIcon color="action" />
               </ListItem>
@@ -740,7 +736,7 @@ const Preferences = ({
                 <ChevronRightIcon color="action" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={onOpenDialogOpenSourceNotices}>
+              <ListItem button onClick={() => dispatch(openDialogOpenSourceNotices())}>
                 <ListItemText primary="Open Source Notices" />
                 <ChevronRightIcon color="action" />
               </ListItem>
@@ -772,71 +768,4 @@ const Preferences = ({
   );
 };
 
-Preferences.defaultProps = {
-  updaterInfo: null,
-  updaterStatus: null,
-};
-
-Preferences.propTypes = {
-  allowPrerelease: PropTypes.bool.isRequired,
-  alwaysOnTop: PropTypes.bool.isRequired,
-  appCount: PropTypes.number.isRequired,
-  attachToMenubar: PropTypes.bool.isRequired,
-  classes: PropTypes.object.isRequired,
-  createDesktopShortcut: PropTypes.bool.isRequired,
-  createStartMenuShortcut: PropTypes.bool.isRequired,
-  defaultHome: PropTypes.string.isRequired,
-  installationPath: PropTypes.string.isRequired,
-  installingAppCount: PropTypes.number.isRequired,
-  onOpenDialogAbout: PropTypes.func.isRequired,
-  onOpenDialogOpenSourceNotices: PropTypes.func.isRequired,
-  onOpenDialogSetInstallationPath: PropTypes.func.isRequired,
-  onOpenDialogBackupRestore: PropTypes.func.isRequired,
-  openAtLogin: PropTypes.oneOf(['yes', 'yes-hidden', 'no']).isRequired,
-  requireAdmin: PropTypes.bool.isRequired,
-  sentry: PropTypes.bool.isRequired,
-  telemetry: PropTypes.bool.isRequired,
-  themeSource: PropTypes.string.isRequired,
-  trayIcon: PropTypes.bool.isRequired,
-  updaterInfo: PropTypes.object,
-  updaterStatus: PropTypes.string,
-  useHardwareAcceleration: PropTypes.bool.isRequired,
-  useSystemTitleBar: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  allowPrerelease: state.preferences.allowPrerelease,
-  alwaysOnTop: state.preferences.alwaysOnTop,
-  appCount: Object.keys(state.appManagement.apps).length,
-  attachToMenubar: state.preferences.attachToMenubar,
-  createDesktopShortcut: state.preferences.createDesktopShortcut,
-  createStartMenuShortcut: state.preferences.createStartMenuShortcut,
-  defaultHome: state.preferences.defaultHome,
-  installationPath: state.preferences.installationPath,
-  installingAppCount: getInstallingAppsAsList(state).length,
-  openAtLogin: state.systemPreferences.openAtLogin,
-  registered: state.preferences.registered,
-  requireAdmin: state.preferences.requireAdmin,
-  sentry: state.preferences.sentry,
-  telemetry: state.preferences.telemetry,
-  themeSource: state.preferences.themeSource,
-  trayIcon: state.preferences.trayIcon,
-  updaterInfo: state.updater.info,
-  updaterStatus: state.updater.status,
-  useHardwareAcceleration: state.preferences.useHardwareAcceleration,
-  useSystemTitleBar: state.preferences.useSystemTitleBar,
-});
-
-const actionCreators = {
-  openDialogAbout,
-  openDialogOpenSourceNotices,
-  openDialogSetInstallationPath,
-  openDialogBackupRestore,
-};
-
-export default connectComponent(
-  Preferences,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default Preferences;

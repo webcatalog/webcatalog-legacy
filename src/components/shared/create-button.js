@@ -3,53 +3,40 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable no-constant-condition */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import AddIcon from '@material-ui/icons/Add';
 
-import connectComponent from '../../helpers/connect-component';
-
 import { open as openDialogCreateCustomApp } from '../../state/dialog-create-custom-app/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   button: {
     marginLeft: theme.spacing(1),
     WebkitAppRegion: 'no-drag',
   },
-});
+}));
 
-const CreateButton = ({
-  classes,
-  onOpenDialogCreateCustomApp,
-}) => (
-  <Tooltip title="Create Custom App...">
-    <IconButton
-      size="small"
-      color="inherit"
-      aria-label="Create Custom App..."
-      className={classes.button}
-      onClick={() => onOpenDialogCreateCustomApp()}
-    >
-      <AddIcon fontSize="small" />
-    </IconButton>
-  </Tooltip>
-);
+const CreateButton = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-CreateButton.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
+  return (
+    <Tooltip title="Create Custom App...">
+      <IconButton
+        size="small"
+        color="inherit"
+        aria-label="Create Custom App..."
+        className={classes.button}
+        onClick={() => dispatch(openDialogCreateCustomApp())}
+      >
+        <AddIcon fontSize="small" />
+      </IconButton>
+    </Tooltip>
+  );
 };
 
-const actionCreators = {
-  openDialogCreateCustomApp,
-};
-
-export default connectComponent(
-  CreateButton,
-  null,
-  actionCreators,
-  styles,
-);
+export default CreateButton;

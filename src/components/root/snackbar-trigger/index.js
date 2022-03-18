@@ -1,26 +1,26 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
+import { makeStyles } from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
 
 import { SnackbarProvider } from 'notistack';
 
-import connectComponent from '../../../helpers/connect-component';
-
 import Inner from './inner';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   notistackContainerRoot: {
     // substract 22px of FakeTitleBar
     marginTop: window.process.platform === 'darwin' && window.mode !== 'menubar' ? 64 : 42,
   },
-});
+}));
 
-const SnackbarTrigger = ({ classes }) => {
-  const notistackRef = React.createRef();
+const SnackbarTrigger = () => {
+  const classes = useStyles();
+
+  const notistackRef = useRef();
   const onClickDismiss = (key) => () => {
     notistackRef.current.closeSnackbar(key);
   };
@@ -50,13 +50,4 @@ const SnackbarTrigger = ({ classes }) => {
   );
 };
 
-SnackbarTrigger.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default connectComponent(
-  SnackbarTrigger,
-  null,
-  null,
-  styles,
-);
+export default SnackbarTrigger;

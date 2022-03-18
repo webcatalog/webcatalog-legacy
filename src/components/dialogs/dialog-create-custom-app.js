@@ -3,7 +3,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -23,7 +24,6 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 
 import freedesktopMainCategories from '../../constants/freedesktop-main-categories';
@@ -45,7 +45,7 @@ import defaultIcon from '../../assets/default-icon.png';
 
 import EnhancedDialogTitle from '../shared/enhanced-dialog-title';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -86,29 +86,31 @@ const styles = (theme) => ({
   link: {
     cursor: 'pointer',
   },
-});
+}));
 
-const DialogCreateCustomApp = (props) => {
-  const {
-    applyIconTemplate,
-    classes,
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    internetIcon,
-    name,
-    nameError,
-    onClose,
-    onCreate,
-    onGetIconFromInternet,
-    onGetIconFromAppSearch,
-    onUpdateForm,
-    open,
-    url,
-    urlDisabled,
-    urlError,
-  } = props;
+const DialogCreateCustomApp = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.dialogCreateCustomApp.open);
+  const downloadingIcon = useSelector((state) => state.dialogCreateCustomApp.downloadingIcon);
+
+  const applyIconTemplate = useSelector(
+    (state) => state.dialogCreateCustomApp.form.applyIconTemplate,
+  );
+  const icon = useSelector((state) => state.dialogCreateCustomApp.form.icon);
+  const internetIcon = useSelector((state) => state.dialogCreateCustomApp.form.internetIcon);
+  const name = useSelector((state) => state.dialogCreateCustomApp.form.name);
+  const nameError = useSelector((state) => state.dialogCreateCustomApp.form.nameError);
+  const url = useSelector((state) => state.dialogCreateCustomApp.form.url);
+  const urlDisabled = useSelector((state) => state.dialogCreateCustomApp.form.urlDisabled);
+  const urlError = useSelector((state) => state.dialogCreateCustomApp.form.urlError);
+  const freedesktopAdditionalCategory = useSelector(
+    (state) => state.dialogCreateCustomApp.form.freedesktopAdditionalCategory,
+  );
+  const freedesktopMainCategory = useSelector(
+    (state) => state.dialogCreateCustomApp.form.freedesktopMainCategory,
+  );
 
   let iconPath = defaultIcon;
   if (icon) {
@@ -122,10 +124,10 @@ const DialogCreateCustomApp = (props) => {
     <Dialog
       fullWidth
       maxWidth="sm"
-      onClose={onClose}
+      onClose={() => dispatch(close())}
       open={open}
     >
-      <EnhancedDialogTitle onClose={onClose}>
+      <EnhancedDialogTitle onClose={() => dispatch(close())}>
         {urlDisabled ? 'Create Custom Space' : 'Create Custom App'}
       </EnhancedDialogTitle>
       <DialogContent>
@@ -135,7 +137,7 @@ const DialogCreateCustomApp = (props) => {
           label="Name"
           helperText={nameError}
           margin="dense"
-          onChange={(e) => onUpdateForm({ name: e.target.value })}
+          onChange={(e) => dispatch(updateForm({ name: e.target.value }))}
           value={name}
           error={Boolean(nameError)}
           variant="outlined"
@@ -169,7 +171,7 @@ const DialogCreateCustomApp = (props) => {
             label="URL"
             helperText={urlError}
             margin="dense"
-            onChange={(e) => onUpdateForm({ url: e.target.value })}
+            onChange={(e) => dispatch(updateForm({ url: e.target.value }))}
             value={urlDisabled ? 'No URL specified.' : url}
             disabled={urlDisabled}
             error={Boolean(urlError)}
@@ -201,7 +203,7 @@ const DialogCreateCustomApp = (props) => {
                 })
                   .then(({ canceled, filePaths }) => {
                     if (!canceled && filePaths && filePaths.length > 0) {
-                      onUpdateForm({ icon: filePaths[0] });
+                      dispatch(updateForm({ icon: filePaths[0] }));
                     }
                   })
                   .catch(console.log); // eslint-disable-line
@@ -218,7 +220,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-              onClick={() => onGetIconFromInternet()}
+              onClick={() => dispatch(getIconFromInternet())}
             >
               {downloadingIcon ? 'Downloading...' : 'Download Icon from URL'}
             </Button>
@@ -228,7 +230,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-              onClick={() => onGetIconFromAppSearch()}
+              onClick={() => dispatch(getIconFromAppSearch())}
             >
               {downloadingIcon ? 'Downloading...' : 'Download Icon from WebCatalog'}
             </Button>
@@ -238,7 +240,7 @@ const DialogCreateCustomApp = (props) => {
               size="small"
               className={classes.buttonBot}
               disabled={!(icon || internetIcon) || downloadingIcon}
-              onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
+              onClick={() => dispatch(updateForm({ icon: null, internetIcon: null }))}
             >
               Reset to Default
             </Button>
@@ -248,7 +250,7 @@ const DialogCreateCustomApp = (props) => {
                 control={(
                   <Checkbox
                     checked={applyIconTemplate}
-                    onChange={(e) => onUpdateForm({ applyIconTemplate: e.target.checked })}
+                    onChange={(e) => dispatch(updateForm({ applyIconTemplate: e.target.checked }))}
                     name="applyIconTemplate"
                     color="primary"
                   />
@@ -287,9 +289,9 @@ const DialogCreateCustomApp = (props) => {
                 id="input-additional-category"
                 labelId="input-additional-category-label"
                 value={freedesktopAdditionalCategory === '' ? '_' : freedesktopAdditionalCategory}
-                onChange={(event) => onUpdateForm({
+                onChange={(event) => dispatch(updateForm({
                   freedesktopAdditionalCategory: event.target.value === '_' ? '' : event.target.value,
-                })}
+                }))}
                 label="Type"
                 margin="dense"
               >
@@ -319,13 +321,13 @@ const DialogCreateCustomApp = (props) => {
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <Button
-          onClick={onClose}
+          onClick={() => dispatch(close())}
         >
           Cancel
         </Button>
         <Button
           color="primary"
-          onClick={onCreate}
+          onClick={() => dispatch(create())}
         >
           Install
         </Button>
@@ -334,84 +336,4 @@ const DialogCreateCustomApp = (props) => {
   );
 };
 
-DialogCreateCustomApp.defaultProps = {
-  applyIconTemplate: false,
-  freedesktopAdditionalCategory: '',
-  freedesktopMainCategory: 'Network',
-  icon: null,
-  internetIcon: null,
-  name: '',
-  nameError: null,
-  url: '',
-  urlError: null,
-};
-
-DialogCreateCustomApp.propTypes = {
-  applyIconTemplate: PropTypes.bool,
-  classes: PropTypes.object.isRequired,
-  downloadingIcon: PropTypes.bool.isRequired,
-  freedesktopAdditionalCategory: PropTypes.string,
-  freedesktopMainCategory: PropTypes.string,
-  icon: PropTypes.string,
-  internetIcon: PropTypes.string,
-  name: PropTypes.string,
-  nameError: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onGetIconFromAppSearch: PropTypes.func.isRequired,
-  onGetIconFromInternet: PropTypes.func.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  url: PropTypes.string,
-  urlDisabled: PropTypes.bool.isRequired,
-  urlError: PropTypes.string,
-};
-
-const mapStateToProps = (state) => {
-  const {
-    downloadingIcon,
-    open,
-    form: {
-      applyIconTemplate,
-      freedesktopAdditionalCategory,
-      freedesktopMainCategory,
-      icon,
-      internetIcon,
-      name,
-      nameError,
-      url,
-      urlDisabled,
-      urlError,
-    },
-  } = state.dialogCreateCustomApp;
-
-  return {
-    applyIconTemplate,
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    internetIcon,
-    name,
-    nameError,
-    open,
-    url,
-    urlDisabled,
-    urlError,
-  };
-};
-
-const actionCreators = {
-  close,
-  create,
-  getIconFromInternet,
-  getIconFromAppSearch,
-  updateForm,
-};
-
-export default connectComponent(
-  DialogCreateCustomApp,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogCreateCustomApp;

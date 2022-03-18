@@ -3,8 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { makeStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -25,7 +26,6 @@ import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
-import connectComponent from '../../helpers/connect-component';
 import isUrl from '../../helpers/is-url';
 
 import {
@@ -49,7 +49,7 @@ import {
   requestOpenInBrowser,
 } from '../../senders';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: theme.spacing(1),
   },
@@ -95,32 +95,30 @@ const styles = (theme) => ({
   link: {
     cursor: 'pointer',
   },
-});
+}));
 
-const DialogEditApp = (props) => {
-  const {
-    applyIconTemplate,
-    classes,
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    id,
-    internetIcon,
-    name,
-    onClose,
-    onGetIconFromAppSearch,
-    onGetIconFromInternet,
-    onOpenDialogCreateCustomApp,
-    onSave,
-    onUpdateForm,
-    onUpdateFormOpts,
-    open,
-    savable,
-    url,
-    urlDisabled,
-    urlError,
-  } = props;
+const DialogEditApp = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.dialogEditApp.open);
+  const downloadingIcon = useSelector((state) => state.dialogCreateCustomApp.downloadingIcon);
+  const savable = useSelector((state) => state.dialogEditApp.savable);
+
+  const applyIconTemplate = useSelector((state) => state.dialogEditApp.form.applyIconTemplate);
+  const icon = useSelector((state) => state.dialogEditApp.form.icon);
+  const id = useSelector((state) => state.dialogEditApp.form.id);
+  const internetIcon = useSelector((state) => state.dialogEditApp.form.internetIcon);
+  const name = useSelector((state) => state.dialogEditApp.form.name);
+  const url = useSelector((state) => state.dialogEditApp.form.url);
+  const urlDisabled = useSelector((state) => state.dialogEditApp.form.urlDisabled);
+  const urlError = useSelector((state) => state.dialogEditApp.form.urlError);
+  const freedesktopAdditionalCategory = useSelector(
+    (state) => (state.dialogEditApp.form.opts || {}).freedesktopAdditionalCategory,
+  );
+  const freedesktopMainCategory = useSelector(
+    (state) => (state.dialogEditApp.form.opts || {}).freedesktopMainCategory,
+  );
 
   let iconPath = defaultIcon;
   if (icon) {
@@ -134,10 +132,10 @@ const DialogEditApp = (props) => {
     <Dialog
       fullWidth
       maxWidth="sm"
-      onClose={onClose}
+      onClose={() => dispatch(close())}
       open={open}
     >
-      <EnhancedDialogTitle onClose={onClose}>
+      <EnhancedDialogTitle onClose={() => dispatch(close())}>
         {`Edit "${name}"`}
       </EnhancedDialogTitle>
       <DialogContent>
@@ -147,7 +145,7 @@ const DialogEditApp = (props) => {
           label="Name"
           helperText={`This cannot be changed. To customize the name, clone "${name}".`}
           margin="normal"
-          onChange={(e) => onUpdateForm({ name: e.target.value })}
+          onChange={(e) => dispatch(updateForm({ name: e.target.value }))}
           value={name}
           disabled
         />
@@ -158,7 +156,7 @@ const DialogEditApp = (props) => {
             label="URL"
             helperText={urlError}
             margin="normal"
-            onChange={(e) => onUpdateForm({ url: e.target.value })}
+            onChange={(e) => dispatch(updateForm({ url: e.target.value }))}
             value={url}
             error={Boolean(urlError)}
           />
@@ -175,7 +173,7 @@ const DialogEditApp = (props) => {
               </div>
             )}
           </Grid>
-          {!id.startsWith('custom-') ? (
+          {!id || !id.startsWith('custom-') ? (
             <Grid item xs={12} sm="auto">
               <Typography
                 variant="body2"
@@ -199,7 +197,7 @@ const DialogEditApp = (props) => {
                   })
                     .then(({ canceled, filePaths }) => {
                       if (!canceled && filePaths && filePaths.length > 0) {
-                        onUpdateForm({ icon: filePaths[0] });
+                        dispatch(updateForm({ icon: filePaths[0] }));
                       }
                     })
                     .catch(console.log); // eslint-disable-line
@@ -218,7 +216,7 @@ const DialogEditApp = (props) => {
                 size="small"
                 className={classes.buttonBot}
                 disabled={Boolean(!url || urlError || downloadingIcon)}
-                onClick={() => onGetIconFromInternet()}
+                onClick={() => dispatch(getIconFromInternet())}
               >
                 {downloadingIcon ? 'Downloading...' : 'Download Icon from URL'}
               </Button>
@@ -228,7 +226,7 @@ const DialogEditApp = (props) => {
                 size="small"
                 className={classes.buttonBot}
                 disabled={Boolean(!url || urlError || urlDisabled || downloadingIcon)}
-                onClick={() => onGetIconFromAppSearch()}
+                onClick={() => dispatch(getIconFromAppSearch())}
               >
                 {downloadingIcon ? 'Downloading...' : 'Download Icon from WebCatalog'}
               </Button>
@@ -238,7 +236,7 @@ const DialogEditApp = (props) => {
                 size="small"
                 className={classes.buttonBot}
                 disabled={!(icon || internetIcon) || downloadingIcon}
-                onClick={() => onUpdateForm({ icon: null, internetIcon: null })}
+                onClick={() => dispatch(updateForm({ icon: null, internetIcon: null }))}
               >
                 Reset to Default
               </Button>
@@ -248,7 +246,9 @@ const DialogEditApp = (props) => {
                   control={(
                     <Checkbox
                       checked={applyIconTemplate}
-                      onChange={(e) => onUpdateForm({ applyIconTemplate: e.target.checked })}
+                      onChange={(e) => dispatch(updateForm({
+                        applyIconTemplate: e.target.checked,
+                      }))}
                       name="applyIconTemplate"
                       color="primary"
                     />
@@ -269,10 +269,10 @@ const DialogEditApp = (props) => {
                 id="input-main-category"
                 labelId="input-main-category-label"
                 value={freedesktopMainCategory}
-                onChange={(event) => onUpdateFormOpts({
+                onChange={(event) => dispatch(updateFormOpts({
                   freedesktopMainCategory: event.target.value,
                   freedesktopAdditionalCategory: '',
-                })}
+                }))}
                 label="Type"
                 margin="dense"
               >
@@ -288,9 +288,9 @@ const DialogEditApp = (props) => {
                 id="input-additional-category"
                 labelId="input-additional-category-label"
                 value={freedesktopAdditionalCategory === '' ? '_' : freedesktopAdditionalCategory}
-                onChange={(event) => onUpdateFormOpts({
+                onChange={(event) => dispatch(updateFormOpts({
                   freedesktopAdditionalCategory: event.target.value === '_' ? '' : event.target.value,
-                })}
+                }))}
                 label="Type"
                 margin="dense"
               >
@@ -322,13 +322,13 @@ const DialogEditApp = (props) => {
         <div className={classes.dialogActionsLeft}>
           <Button
             onClick={() => {
-              onClose();
-              onOpenDialogCreateCustomApp({
+              dispatch(close());
+              dispatch(openDialogCreateCustomApp({
                 name: `${name} 2`,
                 url,
                 urlDisabled: Boolean(!url),
                 icon,
-              });
+              }));
             }}
           >
             Clone
@@ -336,14 +336,14 @@ const DialogEditApp = (props) => {
         </div>
         <div>
           <Button
-            onClick={onClose}
+            onClick={() => dispatch(close())}
           >
             Cancel
           </Button>
           <Tooltip title="This action'll also update this app to the latest version">
             <Button
               color="primary"
-              onClick={onSave}
+              onClick={() => dispatch(save())}
               disabled={!savable}
             >
               Save
@@ -355,99 +355,4 @@ const DialogEditApp = (props) => {
   );
 };
 
-DialogEditApp.defaultProps = {
-  applyIconTemplate: false,
-  freedesktopAdditionalCategory: '',
-  freedesktopMainCategory: 'Network',
-  icon: null,
-  id: '',
-  internetIcon: null,
-  name: '',
-  savable: false,
-  url: '',
-  urlDisabled: false,
-  urlError: null,
-};
-
-DialogEditApp.propTypes = {
-  applyIconTemplate: PropTypes.bool,
-  classes: PropTypes.object.isRequired,
-  downloadingIcon: PropTypes.bool.isRequired,
-  freedesktopAdditionalCategory: PropTypes.string,
-  freedesktopMainCategory: PropTypes.string,
-  icon: PropTypes.string,
-  id: PropTypes.string,
-  internetIcon: PropTypes.string,
-  name: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  onGetIconFromAppSearch: PropTypes.func.isRequired,
-  onGetIconFromInternet: PropTypes.func.isRequired,
-  onOpenDialogCreateCustomApp: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  onUpdateFormOpts: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  savable: PropTypes.bool,
-  url: PropTypes.string,
-  urlDisabled: PropTypes.bool,
-  urlError: PropTypes.string,
-};
-
-const mapStateToProps = (state) => {
-  const {
-    downloadingIcon,
-    open,
-    savable,
-    form: {
-      applyIconTemplate,
-      icon,
-      id,
-      internetIcon,
-      name,
-      nameError,
-      opts,
-      url,
-      urlDisabled,
-      urlError,
-    },
-  } = state.dialogEditApp;
-
-  const {
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-  } = opts || {};
-
-  return {
-    applyIconTemplate,
-    downloadingIcon,
-    freedesktopAdditionalCategory,
-    freedesktopMainCategory,
-    icon,
-    id,
-    internetIcon,
-    name,
-    nameError,
-    open,
-    savable,
-    url,
-    urlDisabled,
-    urlError,
-  };
-};
-
-const actionCreators = {
-  close,
-  save,
-  getIconFromInternet,
-  getIconFromAppSearch,
-  updateForm,
-  updateFormOpts,
-  openDialogCreateCustomApp,
-};
-
-export default connectComponent(
-  DialogEditApp,
-  mapStateToProps,
-  actionCreators,
-  styles,
-);
+export default DialogEditApp;

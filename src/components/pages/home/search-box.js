@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core';
 
 import {
   WithSearch,
@@ -18,9 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import connectComponent from '../../../helpers/connect-component';
-
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   toolbarSearchContainer: {
     zIndex: 10,
     position: 'relative',
@@ -78,101 +76,86 @@ const styles = (theme) => ({
       display: 'none',
     },
   },
-});
+}));
 
-class SearchBox extends React.Component {
-  constructor(props) {
-    super(props);
+const SearchBox = () => {
+  const classes = useStyles();
 
-    this.handleFocusSearch = this.handleFocusSearch.bind(this);
-  }
+  const inputBoxRef = useRef();
 
-  componentDidMount() {
-    window.ipcRenderer.on('focus-search', this.handleFocusSearch);
+  useEffect(() => {
+    const handleFocusSearch = () => {
+      if (inputBoxRef.current) {
+        inputBoxRef.current.focus();
+        inputBoxRef.current.select();
+      }
+    };
+    window.ipcRenderer.on('focus-search', handleFocusSearch);
+    if (inputBoxRef.current) {
+      inputBoxRef.current.focus();
+    }
 
-    this.inputBox.focus();
-  }
+    return () => {
+      window.ipcRenderer.removeListener('focus-search', handleFocusSearch);
+    };
+  }, [inputBoxRef]);
 
-  componentWillUnmount() {
-    window.ipcRenderer.removeListener('focus-search', this.handleFocusSearch);
-  }
-
-  handleFocusSearch() {
-    this.inputBox.focus();
-    this.inputBox.select();
-  }
-
-  render() {
-    const {
-      classes,
-    } = this.props;
-
-    return (
-      <Paper elevation={0} className={classes.toolbarSearchContainer}>
-        <div className={classes.toolbarSectionSearch}>
-          <SearchIcon
-            className={classes.searchIcon}
-            fontSize="small"
-          />
-          <Typography
-            className={classes.searchBarText}
-            color="inherit"
-            variant="subtitle1"
-          >
-            <AppSearchSearchBox
-              searchAsYouType
-              debounceLength={300}
-              inputView={({ getAutocomplete, getInputProps }) => (
-                <>
-                  <div className="sui-search-box__wrapper">
-                    <input
-                      {...getInputProps({
-                        className: classes.input,
-                        placeholder: 'Search apps in catalog...',
-                        // App Search API can only handle up to 128 chars
-                        maxLength: 128,
-                        ref: (inputBox) => { this.inputBox = inputBox; },
-                      })}
-                    />
-                    {getAutocomplete()}
-                  </div>
-                </>
-              )}
-            />
-          </Typography>
-          <WithSearch
-            mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
-          >
-            {({ searchTerm, setSearchTerm }) => (
+  return (
+    <Paper elevation={0} className={classes.toolbarSearchContainer}>
+      <div className={classes.toolbarSectionSearch}>
+        <SearchIcon
+          className={classes.searchIcon}
+          fontSize="small"
+        />
+        <Typography
+          className={classes.searchBarText}
+          color="inherit"
+          variant="subtitle1"
+        >
+          <AppSearchSearchBox
+            searchAsYouType
+            debounceLength={300}
+            inputView={({ getAutocomplete, getInputProps }) => (
               <>
-                {searchTerm.length > 0 && (
-                  <Tooltip title="Clear search" placement="left">
-                    <IconButton
-                      color="inherit"
-                      size="small"
-                      aria-label="Clear search"
-                      onClick={() => setSearchTerm('', { refresh: true, debounce: 0 })}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                )}
+                <div className="sui-search-box__wrapper">
+                  <input
+                    {...getInputProps({
+                      className: classes.input,
+                      placeholder: 'Search apps in catalog...',
+                      // App Search API can only handle up to 128 chars
+                      maxLength: 128,
+                      ref: inputBoxRef,
+                    })}
+                  />
+                  {getAutocomplete()}
+                </div>
               </>
             )}
-          </WithSearch>
-        </div>
-      </Paper>
-    );
-  }
-}
-
-SearchBox.propTypes = {
-  classes: PropTypes.object.isRequired,
+          />
+        </Typography>
+        <WithSearch
+          mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+        >
+          {({ searchTerm, setSearchTerm }) => (
+            <>
+              {searchTerm.length > 0 && (
+                <Tooltip title="Clear search" placement="left">
+                  <IconButton
+                    color="inherit"
+                    size="small"
+                    aria-label="Clear search"
+                    onClick={() => setSearchTerm('', { refresh: true, debounce: 0 })}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </>
+          )}
+        </WithSearch>
+      </div>
+    </Paper>
+  );
 };
 
-export default connectComponent(
-  SearchBox,
-  null,
-  null,
-  styles,
-);
+export default SearchBox;
