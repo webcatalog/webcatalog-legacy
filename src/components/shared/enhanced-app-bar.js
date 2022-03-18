@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
+import { systemPreferences, getCurrentWindow } from '@electron/remote';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -115,17 +116,17 @@ const onDoubleClick = (e) => {
 
   // User can choose title bar behavior from macOS System Preferences > Dock & Menu Bar
   const systemPref = window.process.platform === 'darwin'
-    ? window.remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
+    ? systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
     : 'Maximize';
 
   switch (systemPref) {
     case 'Minimize': {
-      const win = window.remote.getCurrentWindow();
+      const win = getCurrentWindow();
       win.minimize();
       break;
     }
     case 'Maximize': {
-      const win = window.remote.getCurrentWindow();
+      const win = getCurrentWindow();
       if (win.isMaximized()) {
         win.unmaximize();
       } else {
@@ -192,7 +193,7 @@ const EnhancedAppBar = ({
                 tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                 onClick={(e) => {
                   e.stopPropagation();
-                  const browserWindow = window.remote.getCurrentWindow();
+                  const browserWindow = getCurrentWindow();
                   if (window.mode === 'menubar') {
                     browserWindow.hide();
                   } else {
@@ -210,7 +211,7 @@ const EnhancedAppBar = ({
                   tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                   onClick={(e) => {
                     e.stopPropagation();
-                    const browserWindow = window.remote.getCurrentWindow();
+                    const browserWindow = getCurrentWindow();
                     if (browserWindow.isMaximized()) {
                       browserWindow.unmaximize();
                     } else {
@@ -235,7 +236,7 @@ const EnhancedAppBar = ({
                   tabIndex="-1" // normally, windows buttons is not navigable by keyboard
                   onClick={(e) => {
                     e.stopPropagation();
-                    const browserWindow = window.remote.getCurrentWindow();
+                    const browserWindow = getCurrentWindow();
                     browserWindow.close();
                   }}
                 >

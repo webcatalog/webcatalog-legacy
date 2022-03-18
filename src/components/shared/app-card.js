@@ -6,6 +6,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { dialog, getCurrentWindow, Menu } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -292,8 +293,8 @@ const AppCard = ({
     // https://github.com/electron/electron/issues/3494#issuecomment-455822039
     ].filter((item) => item.visible !== false);
 
-    const menu = window.remote.Menu.buildFromTemplate(template);
-    menu.popup(window.remote.getCurrentWindow());
+    const menu = Menu.buildFromTemplate(template);
+    menu.popup(getCurrentWindow());
   };
 
   const renderActionsElement = () => {
@@ -394,7 +395,7 @@ const AppCard = ({
           if (!widevine || isWidevineSupported()) {
             dispatch(installApp(id, name, url, icon, combinedOpts));
           } else {
-            window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+            dialog.showMessageBox(getCurrentWindow(), {
               message: `Due to technical limitations, ${name} app is not supported on this device.`,
               buttons: ['I Understand', 'Install Anyway'],
               cancelId: 0,

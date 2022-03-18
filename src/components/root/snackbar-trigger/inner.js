@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import React, { useEffect, useCallback } from 'react';
+import { dialog, getCurrentWindow } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 
@@ -40,7 +41,7 @@ const SnackbarTriggerInner = () => {
                 <Button
                   color="inherit"
                   onClick={() => {
-                    window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+                    dialog.showMessageBox(getCurrentWindow(), {
                       message: actionData.text,
                     }).catch(console.log); // eslint-disable-line
                   }}

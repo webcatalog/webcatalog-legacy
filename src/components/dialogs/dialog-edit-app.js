@@ -6,6 +6,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
+import { dialog } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -189,7 +190,7 @@ const DialogEditApp = () => {
                 variant="outlined"
                 size="small"
                 onClick={() => {
-                  window.remote.dialog.showOpenDialog({
+                  dialog.showOpenDialog({
                     filters: [
                       { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'tif', 'bmp', 'dib'] },
                     ],

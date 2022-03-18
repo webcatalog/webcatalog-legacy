@@ -6,11 +6,13 @@
 // most of global values are static, unchanged
 // so we don't need to keep getting update from remote
 // https://github.com/electron/electron/issues/1258
+import { getGlobal } from '@electron/remote';
+
 const cached = {};
 
 const getStaticGlobal = (key) => {
   if (!cached[key]) {
-    cached[key] = window.remote.getGlobal(key);
+    cached[key] = getGlobal(key);
   }
 
   return cached[key];

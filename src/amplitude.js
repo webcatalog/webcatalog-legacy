@@ -3,9 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import amplitude from 'amplitude-js';
 import { v5 as uuidv5 } from 'uuid';
+import { app } from '@electron/remote';
 
 amplitude.getInstance().init(process.env.REACT_APP_AMPLITUDE_API_KEY);
-amplitude.getInstance().setVersionName(window.remote.app.getVersion());
+amplitude.getInstance().setVersionName(app.getVersion());
 // opt out by default
 // we sync this with user pref in TelemetryManager
 amplitude.getInstance().setOptOut(true);

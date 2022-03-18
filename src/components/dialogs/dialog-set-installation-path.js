@@ -4,6 +4,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
+import { dialog, getCurrentWindow } from '@electron/remote';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -71,7 +72,7 @@ const DialogSetInstallationPath = () => {
               <InputAdornment position="end">
                 <Button
                   onClick={() => {
-                    window.remote.dialog.showOpenDialog(window.remote.getCurrentWindow(), {
+                    dialog.showOpenDialog(getCurrentWindow(), {
                       properties: ['openDirectory'],
                     })
                       .then(({ canceled, filePaths }) => {

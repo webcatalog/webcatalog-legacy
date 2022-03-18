@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+import { dialog, getCurrentWindow } from '@electron/remote';
 import {
   DIALOG_SET_INSTALLATION_PATH_CLOSE,
   DIALOG_SET_INSTALLATION_PATH_FORM_UPDATE,
@@ -42,7 +43,7 @@ export const save = () => (dispatch, getState) => {
   const appCount = Object.keys(state.appManagement.apps).length;
 
   if (appCount > 0) {
-    window.remote.dialog.showMessageBox(window.remote.getCurrentWindow(), {
+    dialog.showMessageBox(getCurrentWindow(), {
       title: 'Uninstall all of WebCatalog apps first',
       message: 'You need to uninstall all of your WebCatalog apps before changing this preference.',
       buttons: ['OK'],
