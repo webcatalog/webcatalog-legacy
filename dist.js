@@ -151,6 +151,16 @@ const opts = {
       category: 'Utility',
       packageCategory: 'utils',
     },
+    publish: [
+      {
+        provider: 's3',
+        channel: 'latest',
+        bucket: 'cdn-2.webcatalog.io',
+        region: 'us-east-2',
+        path: '/webcatalog',
+      },
+      'github',
+    ],
     afterSign: (context) => {
       // Only notarize app when forced in pull requests or when releasing using tag
       const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
