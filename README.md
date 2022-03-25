@@ -1,5 +1,11 @@
 # WebCatalog [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](LICENSE)
 
+## Archived
+This repository is archived. To help us better improve the product and protect our intellectual assets, WebCatalog app's development has been moved to a closed source code base.
+
+Neutron, the engine that powers WebCatalog remains open source: https://github.com/webcatalog/neutron
+
+## Introduction
 |macOS|
 |---|
 |[![macOS](https://github.com/webcatalog/webcatalog-app/workflows/macOS/badge.svg)](https://github.com/webcatalog/webcatalog-app/actions?query=workflow:%22macOS%22)|
