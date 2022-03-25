@@ -2,7 +2,7 @@
   "name": "webcatalog",
   "productName": "WebCatalog",
   "description": "Turn Any Websites Into Real Desktop Apps",
-  "version": "41.3.0",
+  "version": "41.3.1",
   "engines": {
     "node": "16"
   },
