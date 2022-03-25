@@ -58,14 +58,14 @@ const createAsync = () => new Promise((resolve) => {
 
     const trayContextMenu = Menu.buildFromTemplate([
       {
-        label: 'Open WebCatalog CLassiC',
+        label: 'Open WebCatalog',
         click: () => get().show(),
       },
       {
         type: 'separator',
       },
       {
-        label: 'About WebCatalog Classic',
+        label: 'About WebCatalog',
         click: () => {
           sendToAllWindows('open-dialog-about');
           get().show();

@@ -32,7 +32,7 @@ autoUpdater.on('update-available', (info) => {
     })
       .then(({ response }) => {
         if (response === 1) {
-          shell.openExternal('https://webcatalog.io/webcatalog-classic/changelog/?utm_source=webcatalog_app');
+          shell.openExternal('https://webcatalog.io/webcatalog/changelog/?utm_source=webcatalog_app');
         }
       })
       .catch(console.log); // eslint-disable-line
@@ -124,7 +124,7 @@ autoUpdater.on('update-downloaded', (info) => {
   dialog.showMessageBox(dialogOpts)
     .then(({ response }) => {
       if (response === 2) {
-        shell.openExternal('https://webcatalog.io/webcatalog-classic/changelog/?utm_source=webcatalog_app');
+        shell.openExternal('https://webcatalog.io/webcatalog/changelog/?utm_source=webcatalog_app');
       } else if (response === 0) {
         // Fix autoUpdater.quitAndInstall() does not quit immediately
         // https://github.com/electron/electron/issues/3583

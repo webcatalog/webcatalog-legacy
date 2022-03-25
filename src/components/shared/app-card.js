@@ -278,7 +278,7 @@ const AppCard = ({
       {
         label: 'What\'s New',
         visible: engine === 'electron',
-        click: () => requestOpenInBrowser('https://webcatalog.io/webcatalog-classic/changelog/neutron/?utm_source=webcatalog_app'),
+        click: () => requestOpenInBrowser('https://webcatalog.io/webcatalog/changelog/neutron/?utm_source=webcatalog_app'),
       },
       !engine || engine === 'electron' ? {
         label: `Version ${version}${isOutdated ? ` (Latest: ${latestTemplateVersion})` : ''}`,
@@ -468,7 +468,7 @@ const AppCard = ({
               classes={{ root: classes.topLeft }}
               onClick={(e) => {
                 e.stopPropagation();
-                requestOpenInBrowser('https://webcatalog.io/webcatalog-classic/spaces/');
+                requestOpenInBrowser('https://webcatalog.io/webcatalog/spaces/');
               }}
             >
               <SpaceIcon fontSize="small" />

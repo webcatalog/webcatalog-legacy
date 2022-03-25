@@ -14,11 +14,6 @@ const fs = require('fs');
 const electronRemote = require('@electron/remote/main');
 const Sentry = require('@sentry/electron/main');
 
-// App renamed to "WebCatalog Classic"
-// but we still use "WebCatalog" as data dir name for backward compatibility
-const legacyUserDataPath = path.join(app.getPath('appData'), 'WebCatalog');
-app.setPath('userData', legacyUserDataPath);
-
 const settings = require('electron-settings');
 
 settings.configure({

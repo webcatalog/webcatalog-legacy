@@ -104,7 +104,7 @@ const opts = {
   targets,
   config: {
     appId: 'com.webcatalog.jordan',
-    productName: 'WebCatalog Classic',
+    productName: 'WebCatalog',
     asar: true,
     asarUnpack: [
       'default-app-icons/**/*',
