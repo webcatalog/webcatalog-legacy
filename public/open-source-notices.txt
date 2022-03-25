@@ -1032,6 +1032,31 @@ SOFTWARE.
 
 -----
 
+The following software may be included in this product: @electron/remote. A copy of the source code may be downloaded from https://github.com/electron/remote. This software contains the following license and notice below:
+
+Copyright (c) 2019-2022 Electron contributors
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
 The following software may be included in this product: @emotion/babel-utils, @emotion/hash, @emotion/memoize, @emotion/serialize, @emotion/stylis, @emotion/unitless, @emotion/utils, babel-plugin-emotion, create-emotion, emotion. A copy of the source code may be downloaded from https://github.com/emotion-js/emotion/tree/master/next-packages/babel-utils (@emotion/babel-utils), https://github.com/emotion-js/emotion/tree/master/next-packages/hash (@emotion/hash), https://github.com/emotion-js/emotion/tree/master/next-packages/memoize (@emotion/memoize), https://github.com/emotion-js/emotion/tree/master/next-packages/serialize (@emotion/serialize), https://github.com/emotion-js/emotion/tree/master/next-packages/stylis (@emotion/stylis), https://github.com/emotion-js/emotion/tree/master/next-packages/unitless (@emotion/unitless), https://github.com/emotion-js/emotion/tree/master/next-packages/serialize (@emotion/utils), https://github.com/emotion-js/emotion/tree/master/packages/babel-plugin-emotion (babel-plugin-emotion), https://github.com/emotion-js/emotion/tree/master/packages/create-emotion (create-emotion), https://github.com/emotion-js/emotion/tree/master/packages/emotion (emotion). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -3913,7 +3938,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: array-equal, destroy, ee-first, mime-db. A copy of the source code may be downloaded from https://github.com/component/array-equal.git (array-equal), https://github.com/stream-utils/destroy.git (destroy), https://github.com/jonathanong/ee-first.git (ee-first), https://github.com/jshttp/mime-db.git (mime-db). This software contains the following license and notice below:
+The following software may be included in this product: array-equal, destroy, ee-first. A copy of the source code may be downloaded from https://github.com/component/array-equal.git (array-equal), https://github.com/stream-utils/destroy.git (destroy), https://github.com/jonathanong/ee-first.git (ee-first). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
@@ -10246,11 +10271,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: es5-ext, ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext.git (es5-ext), https://github.com/medikoo/es5-ext#ext (ext). This software contains the following license and notice below:
+The following software may be included in this product: es5-ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext.git. This software contains the following license and notice below:
 
 ISC License
 
-Copyright (c) 2011-2019, Mariusz Nowak, @medikoo, medikoo.com
+Copyright (c) 2011-2022, Mariusz Nowak, @medikoo, medikoo.com
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -11093,6 +11118,26 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext#ext. This software contains the following license and notice below:
+
+ISC License
+
+Copyright (c) 2011-2019, Mariusz Nowak, @medikoo, medikoo.com
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
@@ -13463,7 +13508,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: image-q. A copy of the source code may be downloaded from https://github.com/igor-bezkrovny/image-quantization. This software contains the following license and notice below:
+The following software may be included in this product: image-q. A copy of the source code may be downloaded from https://github.com/ibezkrovnyi/image-quantization. This software contains the following license and notice below:
 
 # image-quantization (https://github.com/igor-bezkrovny/image-quantization)
 
@@ -17119,27 +17164,21 @@ SOFTWARE.
 
 The following software may be included in this product: next-tick. A copy of the source code may be downloaded from git://github.com/medikoo/next-tick.git. This software contains the following license and notice below:
 
-The MIT License
+ISC License
 
-Copyright (C) 2012-2016 Mariusz Nowak 
+Copyright (c) 2012-2020, Mariusz Nowak, @medikoo, medikoo.com
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
