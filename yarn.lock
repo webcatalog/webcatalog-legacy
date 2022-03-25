@@ -1278,23 +1278,22 @@
   dependencies:
     object-hash "^1.3.0"
 
-"@elastic/react-search-ui-views@1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui-views/-/react-search-ui-views-1.10.1.tgz#e2c5e72af3afe2436547e0a06dedaae4b3e6ee15"
-  integrity sha512-k79Bk6BB8CpmK1Izm8VmU1H5eaTPbwQrqRgubI//sw0hqBVwmG9XTrT2X7R0AEPfw+xEji4hNBK2TvM9iV9CTQ==
+"@elastic/react-search-ui-views@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui-views/-/react-search-ui-views-1.9.0.tgz#fa10f4f598828a3dae726e34213e937b80a72aca"
+  integrity sha512-QvQKNfEktfRRsyE167A9bzOGqN23qNIKwudpNQzpDdoIh4oQl21sMyfwHMatyCw2Xk4hBkam2xtoSiiN9/unRg==
   dependencies:
-    "@elastic/search-ui" "1.10.1"
     downshift "^3.2.10"
     rc-pagination "^1.20.1"
     react-select "^2.4.4"
 
-"@elastic/react-search-ui@1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui/-/react-search-ui-1.10.1.tgz#9f05da696cc5178fab1b2a229accf7e864c15a96"
-  integrity sha512-454/1AnodOnZrCAO7f/L+pNu59zowotwlaw/JBEBPVeWumat+D30kR///hBhUSxqwGqYFZWNdaDn+4/thPAOfQ==
+"@elastic/react-search-ui@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui/-/react-search-ui-1.9.0.tgz#772e16724e2575a34f3cd28f188090ccf29dc2dd"
+  integrity sha512-OBk5j3uWDwA1XTb6TcG0e91sCWh5OMTF3MHCBgOtCL7VEfkmiLH+uYtecWUL+tBwn6SgHektD5xANdiGBKVT+A==
   dependencies:
-    "@elastic/react-search-ui-views" "1.10.1"
-    "@elastic/search-ui" "1.10.1"
+    "@elastic/react-search-ui-views" "1.9.0"
+    "@elastic/search-ui" "1.9.0"
 
 "@elastic/search-ui-app-search-connector@1.10.1":
   version "1.10.1"
@@ -1308,6 +1307,16 @@
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@elastic/search-ui/-/search-ui-1.10.1.tgz#67cfc734ae531dfdbad1316772f7d323505d3630"
   integrity sha512-VHP06ztBcLJrgeCK7zEI/xCSHRCSGz2e/IyRN/e/xfFc1a/bHGss3UpmeeL8/+bfO5KKPqlozVfoQQJazGFuHA==
+  dependencies:
+    date-fns "^1.30.1"
+    deep-equal "^1.0.1"
+    history "^4.9.0"
+    qs "^6.7.0"
+
+"@elastic/search-ui@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@elastic/search-ui/-/search-ui-1.9.0.tgz#ec4c5e0ccfd36ddb10330cb837a8607ac9d9bbfa"
+  integrity sha512-Ha7Y0cjduEcGOxCFkXVJRzdh3kEWNfIyT4vy+mPponR3my0JaHivJj16wg4H3MFbZuBY9Mstqp00zOwQrsCwhQ==
   dependencies:
     date-fns "^1.30.1"
     deep-equal "^1.0.1"
