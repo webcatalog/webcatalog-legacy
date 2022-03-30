@@ -153,6 +153,12 @@ const opts = {
     },
     publish: [
       {
+        provider: 'generic',
+        channel: 'latest',
+        url: 'https://cdn-2.webcatalog.io/webcatalog',
+        useMultipleRangeRequest: true,
+      },
+      {
         provider: 's3',
         channel: 'latest',
         bucket: 'cdn-2.webcatalog.io',
