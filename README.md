@@ -3,8 +3,6 @@
 ## Archived
 This repository is archived. To help us better improve the product and protect our intellectual assets, WebCatalog app's development has been moved to a closed source code base.
 
-Neutron, the engine that powers WebCatalog remains open source: https://github.com/webcatalog/neutron
-
 ## Introduction
 |macOS|
 |---|
@@ -34,7 +32,7 @@ On the other hand, **the source code is freely available** for use, modification
 ---
 
 ## Development
-This repository only contains the source code of the WebCatalog app. If you'd like to contribute to [Neutron](https://docs.webcatalog.io/article/23-what-is-neutron), the core that powers the apps created with WebCatalog, check out <https://github.com/webcatalog/webcatalog-engine>.
+This repository only contains the source code of the WebCatalog app. For the source code of the core that powers the apps created with WebCatalog, check out <https://github.com/webcatalog/neutron>.
 
 For the app to be fully functional, set these environment variables:
 ```
