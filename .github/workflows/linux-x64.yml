@@ -58,6 +58,7 @@ jobs:
     # https://github.com/mui-org/material-ui/issues/12432
     - run: yarn install --prefer-offline --network-timeout 600000 --ignore-platform
     - run: yarn lint
+    - run: node env.js
     - name: Get tag name
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/tags/')
